@@ -15,9 +15,17 @@ flake8-annotations = "^2.9.0"
 flake8-tidy-imports = "^4.6.0"
 pep8-naming = "^0.12.1"
 black = "^22.3.0"
+isort = "^5.10.1"
 
 [tool.black]
 line-length = 119
+
+[tool.isort]
+profile = "black"
+line_length = 119
+order_by_type = false
+case_sensitive = true
+skip = [".venv", ".git", ".cache"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
