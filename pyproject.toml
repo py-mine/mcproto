@@ -17,6 +17,7 @@ pep8-naming = "^0.12.1"
 black = "^22.3.0"
 isort = "^5.10.1"
 pyright = "^1.1.239"
+pre-commit = "^2.18.1"
 
 [tool.black]
 line-length = 119
