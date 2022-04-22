@@ -6,7 +6,7 @@ authors = ["ItsDrike <itsdrike@protonmail.com>"]
 license = "MPL-2.0"
 
 [tool.poetry.dependencies]
-python = ">=3.7,<4"
+python = ">=3.8,<4"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
@@ -16,6 +16,7 @@ flake8-tidy-imports = "^4.6.0"
 pep8-naming = "^0.12.1"
 black = "^22.3.0"
 isort = "^5.10.1"
+pyright = "^1.1.239"
 
 [tool.black]
 line-length = 119
