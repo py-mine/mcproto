@@ -12,10 +12,21 @@ class Buffer(BaseWriter, BaseReader, bytearray):
         self.extend(data)
 
     def read(self, length: int) -> bytearray:
+        end = self.pos + length
+
+        if end > len(self):
+            data = self[self.pos : len(self)]
+            bytes_read = len(self) - self.pos
+            self.pos = len(self)
+            raise IOError(
+                "Requested to read more data than available."
+                f" Read {bytes_read} bytes: {data}, out of {length} requested bytes."
+            )
+
         try:
-            return self[self.pos : self.pos + length]
+            return self[self.pos : end]
         finally:
-            self.pos += length
+            self.pos = end
 
     def clear(self) -> None:
         """Clear out all of the stored data and reset position."""
