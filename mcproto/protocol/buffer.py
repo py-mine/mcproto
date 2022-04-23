@@ -53,3 +53,9 @@ class Buffer(BaseWriter, BaseReader, bytearray):
     def reset(self) -> None:
         """Reset the position in the buffer."""
         self.pos = 0
+
+    def flush(self) -> bytearray:
+        """Read all of the remaining data in the buffer and clear it out."""
+        data = self[self.pos : len(self)]
+        self.clear()
+        return data
