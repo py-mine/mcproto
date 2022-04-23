@@ -37,10 +37,18 @@ class Buffer(BaseWriter, BaseReader, bytearray):
         finally:
             self.pos = end
 
-    def clear(self) -> None:
-        """Clear out all of the stored data and reset position."""
-        super().clear()
-        self.reset()
+    def clear(self, only_already_read: bool = False) -> None:
+        """
+        Clear out the stored data and reset position.
+
+        If `only_already_read` is True, only clear out the data which was already read, and reset the position.
+        This is mostly useful to avoid keeping large chunks of data in memory for no reason.
+        """
+        if only_already_read:
+            del self[:self.pos]
+        else:
+            super().clear()
+        self.pos = 0
 
     def reset(self) -> None:
         """Reset the position in the buffer."""
