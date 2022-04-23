@@ -9,6 +9,7 @@ class Buffer(BaseWriter, BaseReader, bytearray):
         self.pos = 0
 
     def write(self, data: bytes) -> None:
+        """Write new data into the buffer."""
         self.extend(data)
 
     def read(self, length: int) -> bytearray:
