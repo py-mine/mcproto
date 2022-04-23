@@ -12,6 +12,15 @@ class Buffer(BaseWriter, BaseReader, bytearray):
         self.extend(data)
 
     def read(self, length: int) -> bytearray:
+        """Read data stored in the buffer.
+
+        Reading data doesn't remove that data, rather that data is treated as already read, and
+        next read will start from the first unread byte. If freeing the data is necessary, check the clear function.
+
+        Trying to read more data than is available will raise an IOError, however it will deplete the remaining data
+        and the partial data that was read will be a part of the error message. This behavior is here to emulate a
+        connection read.
+        """
         end = self.pos + length
 
         if end > len(self):
