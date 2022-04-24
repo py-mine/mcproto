@@ -28,8 +28,8 @@ def _enforce_range(*, typ: str, byte_size: Optional[int], signed: bool) -> Calla
     since there's no point in enforcing infinite range.
     """
     if byte_size is None:
-        if signed is False:
-            raise ValueError("Enforcing infinite byte-size with unsigned type doesn't make sense (infinite range).")
+        if signed is True:
+            raise ValueError("Enforcing infinite byte-size for signed type doesn't make sense (includes all numbers).")
         value_max = float("inf")
         value_min = 0
     else:
