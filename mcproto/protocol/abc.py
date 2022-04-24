@@ -1,11 +1,55 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from ctypes import c_uint32 as unsigned_int32
 from ctypes import c_uint64 as unsigned_int64
 from ctypes import c_int32 as signed_int32
 from ctypes import c_int64 as signed_int64
 import struct
-from typing import Any, Optional
+from typing import Any, Callable, Optional, TYPE_CHECKING, TypeVar, cast
+from functools import wraps
 from itertools import count
+
+if TYPE_CHECKING:
+    from typing_extensions import ParamSpec
+
+    P = ParamSpec("P")
+
+R = TypeVar("R")
+
+
+def _enforce_range(*, typ: str, byte_size: Optional[int], signed: bool) -> Callable:
+    """Decorator enforcing proper int value range, based on the number of bytes.
+
+    If a value is outside of the automatically determined allowed range, a ValueError will be raised,
+    showing the given `typ` along with the allowed range info.
+
+    If the byte_size is None, infinite max size is assumed. Note that this is only possible with unsigned types,
+    since there's no point in enforcing infinite range.
+    """
+    if byte_size is None:
+        if signed is False:
+            raise ValueError("Enforcing infinite byte-size with unsigned type doesn't make sense (infinite range).")
+        value_max = float("inf")
+        value_min = 0
+    else:
+        if signed:
+            value_max = (1 << (byte_size * 8 - 1)) - 1
+            value_min = -1 << (byte_size * 8 - 1)
+        else:
+            value_max = 1 << (byte_size * 8)
+            value_min = 0
+
+    def wrapper(func: Callable[P, R]) -> Callable[P, R]:
+        @wraps(func)
+        def inner(*args: P.args, **kwargs: P.kwargs) -> R:
+            value = cast(int, args[1])
+            if value > value_max or value < value_min:
+                raise ValueError(f"{typ} must be within {value_min} and {value_max}, got {value}.")
+            return func(*args, **kwargs)
+        return inner
+
+    return wrapper
 
 
 class BaseWriter(ABC):
@@ -29,6 +73,7 @@ class BaseWriter(ABC):
         True is encoded as 0x01, while False is 0x00, both have a size of just 1 byte."""
         self._write_packed("?", value)
 
+    @_enforce_range(typ="Byte (8-bit signed int)", byte_size=1, signed=True)
     def write_byte(self, value: int) -> None:
         """Write a single signed 8-bit integer.
 
@@ -37,21 +82,17 @@ class BaseWriter(ABC):
 
         Number is written in two's complement format.
         """
-        if value < -128 or value > 127:
-            raise ValueError("Byte must be within -128 and 127")
-
         self._write_packed("b", value)
 
+    @_enforce_range(typ="Unsigned byte (8-bit unsigned int)", byte_size=1, signed=False)
     def write_ubyte(self, value: int) -> None:
         """Write a single unsigned 8-bit integer.
 
         Unsigned 8-bit integers must be within range of 0 and 255. Going outside this range will raise a ValueError.
         """
-        if value < 0 or value > 255:
-            raise ValueError("Byte must be within -128 and 127")
-
         self._write_packed("B", value)
 
+    @_enforce_range(typ="Short (16-bit signed int)", byte_size=2, signed=True)
     def write_short(self, value: int) -> None:
         """Write a signed 16-bit integer.
 
@@ -60,22 +101,18 @@ class BaseWriter(ABC):
 
         Number is written in two's complement format.
         """
-        if value < -3268 or value > 32767:
-            raise ValueError("Short (16-bit signed int) must be within -32768 and 32767")
-
         self._write_packed("h", value)
 
+    @_enforce_range(typ="Unsigned short (16-bit unsigned int)", byte_size=2, signed=False)
     def write_ushort(self, value: int) -> None:
         """Write an unsigned 16-bit integer.
 
         Unsigned 16-bit integers must be within the range of 0 and 2**16-1 (65535). Going outside this range will raise
         ValueError.
         """
-        if value < 0 or value > 65535:
-            raise ValueError("Unsigned short (16-bit unsigned int) must be within 0 and 65535")
-
         self._write_packed("H", value)
 
+    @_enforce_range(typ="Int (32-bit signed int)", byte_size=4, signed=True)
     def write_int(self, value: int) -> None:
         """Write a signed 32-bit integer.
 
@@ -83,23 +120,19 @@ class BaseWriter(ABC):
         raise ValueError.
 
         Number is written in two's complement format.
-        """
-        if value < -(2 ** 31) or value > 2 ** 31 - 1:
-            raise ValueError("Signed 32-bit integer must be within -2**31 and 2**31-1")
-
+    """
         self._write_packed("i", value)
 
+    @_enforce_range(typ="Unsigned int (32-bit unsigned int)", byte_size=4, signed=False)
     def write_uint(self, value: int) -> None:
         """Write an unsigned 32-bit integer.
 
         Unsigned 32-bit integers must be within the range of 0 and 2**32-1. Going outside this range will raise
         ValueError.
         """
-        if value < 0 or value > 2 ** 32 - 1:
-            raise ValueError("Unsigned 32-bit integer must be within 0 and 2**32-1")
-
         self._write_packed("I", value)
 
+    @_enforce_range(typ="Long (64-bit signed int)", byte_size=8, signed=True)
     def write_long(self, value: int) -> None:
         """Write a signed 64-bit integer.
 
@@ -108,20 +141,15 @@ class BaseWriter(ABC):
 
         Number is written in two's complement format.
         """
-        if value < -(2 ** 31) or value > 2 ** 31 - 1:
-            raise ValueError("Signed 64-bit integer must be within -2**31 and 2**31-1")
-
         self._write_packed("q", value)
 
+    @_enforce_range(typ="Long (64-bit unsigned int)", byte_size=8, signed=False)
     def write_ulong(self, value: int) -> None:
         """Write an unsigned 64-bit integer.
 
         Unsigned 64-bit integers must be within the range of 0 and 2**32-1. Going outside this range will raise
         ValueError.
         """
-        if value < 0 or value > 2 ** 32 - 1:
-            raise ValueError("Unsigned 64-bit integer must be within 0 and 2**32-1")
-
         self._write_packed("Q", value)
 
     def write_float(self, value: float) -> None:
@@ -152,12 +180,11 @@ class BaseWriter(ABC):
         Will keep writing bytes until the value is depleted (fully sent). If `max_size` is specified, writing will be
         limited up to max_size bytes, and trying to write bigger values will rase a ValueError.
         """
-        if max_size:
-            value_max = (1 << (max_size * 8 - 1)) - 1
-            value_min = -1 << (max_size * 8 - 1)
-
-            if value < value_min or value > value_max:
-                raise ValueError(f"{max_size}-byte varnum, must be within {value_min} and {value_max}")
+        # We can't use _enforce_range as decorator directly, because our byte_size varies
+        # instead run it manually from here as a check function
+        _wrapper = _enforce_range(typ=f"{max_size}-byte unsigned varnum", byte_size=max_size, signed=False)
+        _check_f = _wrapper(lambda self, value: None)
+        _check_f(self, value)
 
         iter_ = range(max_size) if max_size else count()
         remaining = value
@@ -168,6 +195,7 @@ class BaseWriter(ABC):
             self.write_ubyte(remaining & 0x7F | 0x80)
             remaining >>= 7
 
+    @_enforce_range(typ="Varnum (variable length 32-bit signed int)", byte_size=4, signed=True)
     def write_varint(self, value: int) -> None:
         """Write a 32-bit signed integer in a variable length format.
 
@@ -177,6 +205,7 @@ class BaseWriter(ABC):
         unsigned_form = unsigned_int32(value).value
         self._write_varnum(unsigned_form, max_size=5)
 
+    @_enforce_range(typ="Varlong (variable length 64-bit signed int)", byte_size=8, signed=True)
     def write_varlong(self, value: int) -> None:
         """Write a 64-bit signed integer in variable length format
 
