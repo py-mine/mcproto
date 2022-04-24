@@ -2,7 +2,7 @@ from mcproto.protocol.abc import BaseWriter, BaseReader
 
 
 class Buffer(BaseWriter, BaseReader, bytearray):
-    __slots__ = ("pos")
+    __slots__ = ("pos",)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
