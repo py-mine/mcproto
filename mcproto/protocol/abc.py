@@ -159,7 +159,7 @@ class BaseWriter(ABC):
 
         Checks for proper range requirement along with decimal precisions is NOT handled directly, and unlike most
         other write operations, will not result in a ValueError, instead packing will fail  and sturct.error will be
-        reaised. This is because it's quite difficult to actually check all conversion cases, and it's simple to just
+        raised. This is because it's quite difficult to actually check all conversion cases, and it's simple to just
         fail on packing.
         """
         self._write_packed("f", value)
@@ -169,7 +169,7 @@ class BaseWriter(ABC):
 
         Checks for proper range requirement along with decimal precisions is NOT handled directly, and unlike most
         other write operations, will not result in a ValueError, instead packing will fail  and sturct.error will be
-        reaised. This is because it's quite difficult to actually check all conversion cases, and it's simple to just
+        raised. This is because it's quite difficult to actually check all conversion cases, and it's simple to just
         fail on packing.
         """
         self._write_packed("d", value)
@@ -197,7 +197,7 @@ class BaseWriter(ABC):
             self.write_ubyte(remaining & 0x7F | 0x80)
             remaining >>= 7
 
-    @_enforce_range(typ="Varnum (variable length 32-bit signed int)", byte_size=4, signed=True)
+    @_enforce_range(typ="Varint (variable length 32-bit signed int)", byte_size=4, signed=True)
     def write_varint(self, value: int) -> None:
         """Write a 32-bit signed integer in a variable length format.
 
