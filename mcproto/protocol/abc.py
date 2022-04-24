@@ -37,7 +37,7 @@ def _enforce_range(*, typ: str, byte_size: Optional[int], signed: bool) -> Calla
             value_max = (1 << (byte_size * 8 - 1)) - 1
             value_min = -1 << (byte_size * 8 - 1)
         else:
-            value_max = 1 << (byte_size * 8)
+            value_max = (1 << (byte_size * 8)) - 1
             value_min = 0
 
     def wrapper(func: Callable[P, R]) -> Callable[P, R]:
