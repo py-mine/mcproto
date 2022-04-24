@@ -246,15 +246,6 @@ class BaseWriter(ABC):
         unsigned_form = unsigned_int64(value).value
         self._write_varnum(unsigned_form, max_size=8)
 
-    def write_bytearray(self, value: bytearray) -> None:
-        """Read a sequence of zero or more bytes, prefixed with varint of it's size (total bytes).
-
-        Will write n bytes, depending on the amount of bytes in bytearray + up to 5 bytes from the prefix varint,
-        holding this size (n). This means maximum of 2**31-1 + 5 bytes can be written.
-        """
-        self.write_varint(len(value))
-        self.write(value)
-
     def write_utf(self, value: str) -> None:
         """Write a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
 
@@ -448,15 +439,6 @@ class BaseReader(ABC):
         """
         unsigned = self._read_varnum(8)
         return signed_int64(unsigned).value
-
-    def read_bytearray(self) -> bytearray:
-        """Read a sequence of zero or more bytes, prefixed with varint of it's size (total bytes).
-
-        Will read n bytes, depending on the prefix varint (amount of bytes to read) + up to 5 bytes from the prefix
-        varint itself, holding this size (n). This means maximum of 2**31-1 + 5 bytes can be read (and written).
-        """
-        length = self.read_varint()
-        return self.read(length)
 
     def read_utf(self) -> str:
         """Read a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
