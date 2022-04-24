@@ -189,6 +189,10 @@ class BaseWriter(ABC):
         limited up to integer values of max_size bytes, and trying to write bigger values will rase a ValueError. Note
         that limiting to max_size of 4 (32-bit int) doesn't imply at most 4 bytes will be sent, and will in fact take 5
         bytes at most, due to the variable encoding overhead.
+
+        Varnums use 7 least significant bits of each sent byte to encode the value, and the most significant bit to
+        indicate whether there is another byte after it. The least significant group is written first, followed by each
+        of the more significant groups, making varints little-endian, however in groups of 7 bits, not 8.
         """
         # We can't use _enforce_range as decorator directly, because our byte_size varies
         # instead run it manually from here as a check function
@@ -369,6 +373,10 @@ class BaseReader(ABC):
         limited up to integer values of max_size bytes, and trying to read bigger values will rase an IOError. Note
         that limiting to max_size of 4 (32-bit int) doesn't imply at most 4 bytes will be sent, and will in fact take 5
         bytes at most, due to the variable encoding overhead.
+
+        Varnums use 7 least significant bits of each sent byte to encode the value, and the most significant bit to
+        indicate whether there is another byte after it. The least significant group is written first, followed by each
+        of the more significant groups, making varints little-endian, however in groups of 7 bits, not 8.
         """
         result = 0
         for i in count():
