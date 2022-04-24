@@ -434,7 +434,7 @@ class BaseReader(ABC):
     def read_varint(self) -> int:
         """Read a 32-bit signed integer in a variable length format.
 
-        Will read 1 to to 5 bytes, depending on the number, getting a corresponding 32-bit signed int values between
+        Will read 1 to to 5 bytes, depending on the number, getting a corresponding 32-bit signed int value between
         -2**31 and 2**31-1.
         """
         unsigned = self._read_varnum(5)
@@ -443,7 +443,7 @@ class BaseReader(ABC):
     def read_varlong(self) -> int:
         """Read a 64-bit signed integer in variable length format
 
-        Will read 1 to 10 bytes, depending on the number, getting corresponding 64-bit signed int values between
+        Will read 1 to 10 bytes, depending on the number, getting corresponding 64-bit signed int value between
         -2**63 and 2**63-1.
         """
         unsigned = self._read_varnum(10)
