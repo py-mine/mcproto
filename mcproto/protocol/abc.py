@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 
     P = ParamSpec("P")
 
+T = TypeVar("T")
 R = TypeVar("R")
 
 
@@ -271,6 +272,22 @@ class BaseWriter(ABC):
         data = bytearray(value, "utf-8")
         self.write_bytearray(data)
 
+    def write_optional(self, writer: Callable[[T], R], value: Optional[T] = None) -> Optional[R]:
+        """Writes bool determining is value is present, if it is, also writes the value with writer function.
+
+        When the `value` is None, a bool of False will be written and function will end. Otherwise, if `value` isn't
+        None, True will be written, followed by calling the `writer` function wchich will be passed the `value` as the
+        only argument. This function is expected to properly write the value into this buffer/connection.
+
+        Will return None if the `value` was None, or the value returned by the `writer` function.
+        """
+        if value is None:
+            self.write_bool(False)
+            return
+
+        self.write_bool(True)
+        return writer(value)
+
 
 class BaseReader(ABC):
     """Base class holding read buffer/connection interactions."""
@@ -454,3 +471,16 @@ class BaseReader(ABC):
         """
         bytes = self.read_bytearray()
         return bytes.decode("utf-8")
+
+    def read_optional(self, reader: Callable[[], R]) -> Optional[R]:
+        """Reads bool determining is value is present, if it is, also reads the value with reader function.
+
+        When False is read, the function will not read anything and end. Otherwise, if True is read, the `reader`
+        function will be called, which is expected to properly read the value from this buffer/connection.
+
+        Will return None if the False was encountered, or the value returned by the `reader` function.
+        """
+        if not self.read_bool():
+            return
+
+        return reader()
