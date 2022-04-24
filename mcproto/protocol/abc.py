@@ -186,21 +186,28 @@ class BaseWriter(ABC):
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
         Will keep writing bytes until the value is depleted (fully sent). If `max_size` is specified, writing will be
-        limited up to max_size bytes, and trying to write bigger values will rase a ValueError.
+        limited up to integer values of max_size bytes, and trying to write bigger values will rase a ValueError. Note
+        that limiting to max_size of 4 (32-bit int) doesn't imply at most 4 bytes will be sent, and will in fact take 5
+        bytes at most, due to the variable encoding overhead.
         """
         # We can't use _enforce_range as decorator directly, because our byte_size varies
         # instead run it manually from here as a check function
-        _wrapper = _enforce_range(typ=f"{max_size}-byte unsigned varnum", byte_size=max_size, signed=False)
+        _wrapper = _enforce_range(
+            typ=f"{max_size if max_size else 'unlimited'}-byte unsigned varnum",
+            byte_size=max_size if max_size else None,
+            signed=False,
+        )
         _check_f = _wrapper(lambda self, value: None)
         _check_f(self, value)
 
-        iter_ = range(max_size) if max_size else count()
         remaining = value
-        for _ in iter_:
-            if remaining & ~0x7F == 0:
+        while True:
+            if remaining & ~0x7F == 0:  # final byte
                 self.write_ubyte(remaining)
                 return
+            # Write only 7 least significant bits with the first bit being 1, marking there will be another byte
             self.write_ubyte(remaining & 0x7F | 0x80)
+            # Subtract the value we've already sent (7 least significant bits)
             remaining >>= 7
 
     @_enforce_range(typ="Varint (variable length 32-bit signed int)", byte_size=4, signed=True)
@@ -211,7 +218,7 @@ class BaseWriter(ABC):
         Going outside this range will raise ValueError.
         """
         unsigned_form = unsigned_int32(value).value
-        self._write_varnum(unsigned_form, max_size=5)
+        self._write_varnum(unsigned_form, max_size=4)
 
     @_enforce_range(typ="Varlong (variable length 64-bit signed int)", byte_size=8, signed=True)
     def write_varlong(self, value: int) -> None:
@@ -221,7 +228,7 @@ class BaseWriter(ABC):
         Going over this range will raise ValueError.
         """
         unsigned_form = unsigned_int64(value).value
-        self._write_varnum(unsigned_form, max_size=10)
+        self._write_varnum(unsigned_form, max_size=8)
 
     def write_bytearray(self, value: bytearray) -> None:
         """Read a sequence of zero or more bytes, prefixed with varint of it's size (total bytes).
@@ -356,17 +363,28 @@ class BaseReader(ABC):
     def _read_varnum(self, max_size: Optional[int] = None) -> int:
         """Read an arbitrarily big unsigned integer in a variable length format.
 
-        Will keep reading bytes until the varnum ends, or if `max_size` is specified, reading will stop after max_size
-        bytes, and raise IOError if the varnum didn't end before this size.
+        This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
+
+        Will keep reading bytes until the value is depleted (fully sent). If `max_size` is specified, reading will be
+        limited up to integer values of max_size bytes, and trying to read bigger values will rase an IOError. Note
+        that limiting to max_size of 4 (32-bit int) doesn't imply at most 4 bytes will be sent, and will in fact take 5
+        bytes at most, due to the variable encoding overhead.
         """
         result = 0
-        iter_ = range(max_size) if max_size else count()
-        for i in iter_:
+        for i in count():
             byte = self.read_ubyte()
+            # Read 7 least significant value bits in this byte, and shift them appropriately to be in the right place
             result |= (byte & 0x7F) << (7 * i)
+            # If the most significant bit is 0, we should stop reading
             if not byte & 0x80:
                 return result
-        raise IOError(f"Received varint was longer than {max_size} bytes.")
+
+            # Ensure that the position didn't go over the maximum read size
+            if max_size and (7 * i) >= (max_size * 8):
+                raise IOError(f"Received varint was longer than {max_size}-byte int.")
+
+        # This is here to meet type-checkers for int return type, but this code will never actually be reached
+        raise Exception("Unreachable")
 
     def read_varint(self) -> int:
         """Read a 32-bit signed integer in a variable length format.
