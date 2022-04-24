@@ -389,7 +389,7 @@ class BaseReader(ABC):
 
             # Ensure that the position didn't go over the maximum read size
             if max_size and (7 * i) >= (max_size * 8):
-                raise IOError(f"Received varint was longer than {max_size}-byte int.")
+                raise IOError(f"Received varint was outside the range of {max_size}-byte ({max_size * 8}-bit) int.")
 
         # This is here to meet type-checkers for int return type, but this code will never actually be reached
         raise Exception("Unreachable")
