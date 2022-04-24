@@ -1,14 +1,14 @@
 from __future__ import annotations
 
+import struct
 from abc import ABC, abstractmethod
-from ctypes import c_uint32 as unsigned_int32
-from ctypes import c_uint64 as unsigned_int64
 from ctypes import c_int32 as signed_int32
 from ctypes import c_int64 as signed_int64
-import struct
-from typing import Any, Callable, Optional, TYPE_CHECKING, TypeVar, cast
+from ctypes import c_uint32 as unsigned_int32
+from ctypes import c_uint64 as unsigned_int64
 from functools import wraps
 from itertools import count
+from typing import Any, Callable, Optional, TYPE_CHECKING, TypeVar, cast
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec
