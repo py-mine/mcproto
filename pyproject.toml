@@ -22,6 +22,7 @@ pytest = "^7.1.2"
 
 [tool.black]
 line-length = 119
+extend-exclude = "^/.cache"
 
 [tool.isort]
 profile = "black"
