@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import struct
 from abc import ABC, abstractmethod
+from ctypes import c_int16 as signed_int16
 from ctypes import c_int32 as signed_int32
 from ctypes import c_int64 as signed_int64
+from ctypes import c_uint16 as unsigned_int16
 from ctypes import c_uint32 as unsigned_int32
 from ctypes import c_uint64 as unsigned_int64
 from functools import wraps
@@ -214,6 +216,15 @@ class BaseWriter(ABC):
             # Subtract the value we've already sent (7 least significant bits)
             remaining >>= 7
 
+    @_enforce_range(typ="Varshort (variable length 16-bit signed int)", byte_size=2, signed=True)
+    def write_varshort(self, value: int) -> None:
+        """Write a 16-bit signed integer in a variable length format.
+
+        Signed 16-bit integer varnums will never get over 3 bytes, and must be within the range of -2**15 and 2**15-1.
+        """
+        unsigned_form = unsigned_int16(value).value
+        self._write_varnum(unsigned_form, max_size=2)
+
     @_enforce_range(typ="Varint (variable length 32-bit signed int)", byte_size=4, signed=True)
     def write_varint(self, value: int) -> None:
         """Write a 32-bit signed integer in a variable length format.
@@ -393,6 +404,15 @@ class BaseReader(ABC):
 
         # This is here to meet type-checkers for int return type, but this code will never actually be reached
         raise Exception("Unreachable")
+
+    def read_varshort(self) -> int:
+        """Read a 16-bit signed integer in a variable length format.
+
+        Will read 1 to 3 bytes, depending on the number, getting a corresponding 16-bit signed int value between -2**15
+        and 2**15-1
+        """
+        unsigned = self._read_varnum(2)
+        return signed_int16(unsigned).value
 
     def read_varint(self) -> int:
         """Read a 32-bit signed integer in a variable length format.
