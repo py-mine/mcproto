@@ -1,4 +1,4 @@
-from mcproto.protocol.abc import BaseWriter, BaseReader
+from mcproto.protocol.abc import BaseReader, BaseWriter
 
 
 class Buffer(BaseWriter, BaseReader, bytearray):
@@ -46,7 +46,7 @@ class Buffer(BaseWriter, BaseReader, bytearray):
         This is mostly useful to avoid keeping large chunks of data in memory for no reason.
         """
         if only_already_read:
-            del self[:self.pos]
+            del self[: self.pos]
         else:
             super().clear()
         self.pos = 0

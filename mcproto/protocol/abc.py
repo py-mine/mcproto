@@ -47,6 +47,7 @@ def _enforce_range(*, typ: str, byte_size: Optional[int], signed: bool) -> Calla
             if value > value_max or value < value_min:
                 raise ValueError(f"{typ} must be within {value_min} and {value_max}, got {value}.")
             return func(*args, **kwargs)
+
         return inner
 
     return wrapper
@@ -54,6 +55,7 @@ def _enforce_range(*, typ: str, byte_size: Optional[int], signed: bool) -> Calla
 
 class BaseWriter(ABC):
     """Base class holding write buffer/connection interactions."""
+
     __slots__ = ()
 
     @abstractmethod
@@ -120,7 +122,7 @@ class BaseWriter(ABC):
         raise ValueError.
 
         Number is written in two's complement format.
-    """
+        """
         self._write_packed("i", value)
 
     @_enforce_range(typ="Unsigned int (32-bit unsigned int)", byte_size=4, signed=False)
@@ -244,13 +246,14 @@ class BaseWriter(ABC):
 
 class BaseReader(ABC):
     """Base class holding read buffer/connection interactions."""
+
     __slots__ = ()
 
     @abstractmethod
     def read(self, length: int) -> bytearray:
         ...
 
-    def _read_unpacked(self, fmt: str) -> Any:
+    def _read_unpacked(self, fmt: str) -> Any:  # noqa: ANN401
         """Read bytes and unpack them into given struct format in big-endian mode.
 
 
