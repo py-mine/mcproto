@@ -183,7 +183,7 @@ class BaseWriter(ABC):
         """
         self._write_packed("d", value)
 
-    def _write_varnum(self, value: int, max_size: Optional[int] = None) -> None:
+    def _write_varnum(self, value: int, *, max_size: Optional[int] = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -383,7 +383,7 @@ class BaseReader(ABC):
         """
         return self._read_unpacked("d")
 
-    def _read_varnum(self, max_size: Optional[int] = None) -> int:
+    def _read_varnum(self, *, max_size: Optional[int] = None) -> int:
         """Read an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -423,7 +423,7 @@ class BaseReader(ABC):
         Will read 1 to 3 bytes, depending on the number, getting a corresponding 16-bit signed int value between -2**15
         and 2**15-1
         """
-        unsigned = self._read_varnum(2)
+        unsigned = self._read_varnum(max_size=2)
         return signed_int16(unsigned).value
 
     def read_varint(self) -> int:
@@ -432,7 +432,7 @@ class BaseReader(ABC):
         Will read 1 to to 5 bytes, depending on the number, getting a corresponding 32-bit signed int value between
         -2**31 and 2**31-1.
         """
-        unsigned = self._read_varnum(4)
+        unsigned = self._read_varnum(max_size=4)
         return signed_int32(unsigned).value
 
     def read_varlong(self) -> int:
@@ -441,7 +441,7 @@ class BaseReader(ABC):
         Will read 1 to 10 bytes, depending on the number, getting corresponding 64-bit signed int value between
         -2**63 and 2**63-1.
         """
-        unsigned = self._read_varnum(8)
+        unsigned = self._read_varnum(max_size=8)
         return signed_int64(unsigned).value
 
     def read_utf(self) -> str:
