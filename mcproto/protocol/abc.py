@@ -397,18 +397,23 @@ class BaseReader(ABC):
         indicate whether there is another byte after it. The least significant group is written first, followed by each
         of the more significant groups, making varints little-endian, however in groups of 7 bits, not 8.
         """
+        value_max = (1 << (max_size * 8)) - 1 if max_size else None
         result = 0
         for i in count():
             byte = self.read_ubyte()
             # Read 7 least significant value bits in this byte, and shift them appropriately to be in the right place
+            # then simply add them (OR) as additional 7 most significant bits in our result
             result |= (byte & 0x7F) << (7 * i)
+
+            # Ensure that we stop reading and raise an error if the size gets over the maximum
+            # (if the current amount of bits is higher than allowed size in bits)
+            if value_max and result > value_max:
+                max_size = cast(int, max_size)
+                raise IOError(f"Received varint was outside the range of {max_size}-byte ({max_size * 8}-bit) int.")
+
             # If the most significant bit is 0, we should stop reading
             if not byte & 0x80:
                 return result
-
-            # Ensure that the position didn't go over the maximum read size
-            if max_size and (7 * i) >= (max_size * 8):
-                raise IOError(f"Received varint was outside the range of {max_size}-byte ({max_size * 8}-bit) int.")
 
         # This is here to meet type-checkers for int return type, but this code will never actually be reached
         raise Exception("Unreachable")
