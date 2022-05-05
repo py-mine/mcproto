@@ -413,10 +413,9 @@ class BaseReader(ABC):
 
             # If the most significant bit is 0, we should stop reading
             if not byte & 0x80:
-                return result
+                break
 
-        # This is here to meet type-checkers for int return type, but this code will never actually be reached
-        raise Exception("Unreachable")
+        return result
 
     def read_varshort(self) -> int:
         """Read a 16-bit signed integer in a variable length format.
