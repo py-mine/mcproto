@@ -1,10 +1,10 @@
 import inspect
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import Mock, patch
 
 import pytest
 
 from mcproto.protocol.abc import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
-from tests.helpers import SynchronizedMixin
+from tests.helpers import SynchronizedMixin, const_coro
 
 # region: Helper classes/functions
 
@@ -392,7 +392,8 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
     )
     def test_write_varint(self, varint_value, expected_varnum_call):
         """Writing varint should call _write_varnum with proper values."""
-        mock_f = AsyncMock()
+        mock_f = Mock()
+        mock_f.side_effect = const_coro(None)
         with patch("mcproto.protocol.abc.BaseAsyncWriter._write_varnum", mock_f):
             self.writer.write_varint(varint_value)
 
@@ -401,7 +402,8 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
     @pytest.mark.parametrize("value", (-2147483649, 2147483648, 10**20, -(10**20)))
     def test_write_varint_out_of_range(self, value):
         """Writing varint outside of signed 32-bit int range should raise ValueError on it's own."""
-        mock_f = AsyncMock()
+        mock_f = Mock()
+        mock_f.side_effect = const_coro(None)
         with patch("mcproto.protocol.abc.BaseAsyncWriter._write_varnum", mock_f):
             with pytest.raises(ValueError):
                 self.writer.write_varint(value)
@@ -463,9 +465,8 @@ class TestBaseAsyncReader(TestBaseSyncReader):
     )
     def test_read_varint(self, varnum_return_value, expected_varint_value):
         """Reading varint should convert result from _read_varnum into signed value."""
-        # We need to support both sync and async calls here, so patch and mock both
-        mock_f = AsyncMock()
-        mock_f.return_value = varnum_return_value
+        mock_f = Mock()
+        mock_f.side_effect = const_coro(varnum_return_value)
         with patch("mcproto.protocol.abc.BaseAsyncReader._read_varnum", mock_f):
             assert self.reader.read_varint() == expected_varint_value
 
