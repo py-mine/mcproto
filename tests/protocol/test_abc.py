@@ -94,7 +94,7 @@ def _from_two_complement(number: int, bytes: int) -> int:
 
 
 class TestBaseSyncWriter:
-    """Tests for individual write methods implemented in BaseWriter."""
+    """Tests for individual write methods implemented in BaseSyncWriter."""
 
     @classmethod
     def setup_class(cls):
@@ -222,7 +222,7 @@ class TestBaseSyncWriter:
 
 
 class TestBaseSyncReader:
-    """Tests for individual write methods implemented in BaseWriter."""
+    """Tests for individual write methods implemented in BaseSyncReader."""
 
     @classmethod
     def setup_class(cls):
@@ -349,6 +349,8 @@ class TestBaseSyncReader:
 
 
 class TestBaseAsyncWriter(TestBaseSyncWriter):
+    """Tests for individual write methods implemented in BaseAsyncWriter."""
+
     @classmethod
     def setup_class(cls):
         cls.writer = WrappedAsyncWriter()
@@ -418,6 +420,8 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
 
 
 class TestBaseAsyncReader(TestBaseSyncReader):
+    """Tests for individual write methods implemented in BaseAsyncReader."""
+
     @classmethod
     def setup_class(cls):
         cls.reader = WrappedAsyncReader(bytearray())
