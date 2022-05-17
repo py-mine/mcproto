@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 from functools import wraps
 from typing import Callable, Optional, TYPE_CHECKING, TypeVar, cast
 
@@ -47,6 +48,26 @@ def enforce_range(*, typ: str, byte_size: Optional[int], signed: bool) -> Callab
                 raise ValueError(f"{typ} must be within {value_min_s} and {value_max_s}, got {value}.")
             return func(*args, **kwargs)
 
+        @wraps(func)
+        async def async_inner(*args: P.args, **kwargs: P.kwargs) -> R:
+            value = cast(int, args[1])
+            if value > value_max or value < value_min:
+                raise ValueError(f"{typ} must be within {value_min_s} and {value_max_s}, got {value}.")
+            return await func(*args, **kwargs)  # type: ignore
+
+        # We technically don't need async version of inner here, and instead just call the function,
+        # even if it's async, since it will simply produce a coroutine which can be then awaited by the user.
+        #
+        # However doing this can produce some unexpected behavior for the user, such as the decorated function
+        # now becoming synchronous, and only returning a coroutine object, instead of actually being asynchronous.
+        # This usually doesn't matter, since these act the same, however it does mean that for example using
+        # `inspect.iscoroutinefunction` would produce False, even though the wrapped function still does return
+        # a coroutine, because the `inner` function it now became is actually synchronous.
+        #
+        # Our tests currently rely on this inspect function working properly, even for decorated methods,
+        # which requires us to do this properly and use both sync and async `inner` alternatives.
+        if inspect.iscoroutinefunction(func):
+            return async_inner  # type: ignore
         return inner
 
     return wrapper

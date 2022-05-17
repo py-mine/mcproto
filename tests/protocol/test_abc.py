@@ -1,8 +1,12 @@
+import inspect
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from mcproto.protocol.abc import BaseSyncReader, BaseSyncWriter
+from mcproto.protocol.abc import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
+from tests.helpers import SynchronizedMixin
+
+# region: Helper classes/functions
 
 
 class SyncWriter(BaseSyncWriter):
@@ -27,6 +31,54 @@ class SyncReader(BaseSyncReader):
         return data
 
 
+class AsyncWriter(BaseAsyncWriter):
+    """Testable concrete implementation of BaseAsyncWriter ABC."""
+
+    def __init__(self):
+        self.data = bytearray()
+
+    async def write(self, data: bytearray) -> None:
+        # There's no actual need for this function to be asynchronous,
+        # it is purely here for testing this behavior, where this synchronous
+        # buffer-like implementation is sufficient, but it could include async
+        # calls in real usage
+        self.data.extend(data)
+
+
+class AsyncReader(BaseAsyncReader):
+    """Testable concrete implementation of BaseAsyncReader ABC."""
+
+    def __init__(self, data: bytearray):
+        self.data = data
+
+    async def read(self, length: int) -> bytearray:
+        # There's no actual need for this function to be asynchronous,
+        # it is purely here for testing this behavior, where this synchronous
+        # buffer-like implementation is sufficient, but it could include async
+        # calls in real usage
+        data = self.data[:length]
+        del self.data[:length]
+        return data
+
+
+class WrappedAsyncReader(SynchronizedMixin):
+    """Wrapped synchronous implementation of asynchronous AsyncReader class."""
+
+    _WRAPPED_ATTRIBUTE = "_reader"
+
+    def __init__(self, data: bytearray):
+        self._reader = AsyncReader(data)
+
+
+class WrappedAsyncWriter(SynchronizedMixin):
+    """Wrapped synchronous implementation of asynchronous AsyncWriter class."""
+
+    _WRAPPED_ATTRIBUTE = "_writer"
+
+    def __init__(self):
+        self._writer = AsyncWriter()
+
+
 def _to_two_complement(number: int, bytes: int) -> int:
     """Helper function to convert a number into two's complement format."""
     return number + 2 ** (bytes * 8)
@@ -35,6 +87,9 @@ def _to_two_complement(number: int, bytes: int) -> int:
 def _from_two_complement(number: int, bytes: int) -> int:
     """Helper function to get the real value from int in two's complement format."""
     return number - 2 ** (bytes * 8) + 1
+
+
+# endregion
 
 
 class TestBaseSyncWriter:
@@ -286,3 +341,133 @@ class TestBaseSyncReader:
         """Reading UTF string results in correct values."""
         self.reader.data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
+
+
+class TestBaseAsyncWriter(TestBaseSyncWriter):
+    @classmethod
+    def setup_class(cls):
+        cls.writer = WrappedAsyncWriter()
+
+    @pytest.mark.parametrize(
+        "async_function_name",
+        (
+            "write",
+            "write_bool",
+            "write_byte",
+            "write_ubyte",
+            "write_short",
+            "write_ushort",
+            "write_int",
+            "write_uint",
+            "write_long",
+            "write_ulong",
+            "write_float",
+            "write_double",
+            "_write_varnum",
+            "write_varshort",
+            "write_varint",
+            "write_varlong",
+            "write_utf",
+            "write_optional",
+        ),
+    )
+    def test_methods_are_async(self, async_function_name):
+        """Because of the nature of this test class, we should ensure that all wrapped functions are actually async.
+
+        This is because we're wrapping all of the async functions and converting them into synchronous ones, however
+        if they already were synchronous for some reason and shouldn't have been, we wouldn't detect it.
+        """
+        expected_async_func = getattr(self.writer._writer, async_function_name)
+        assert inspect.iscoroutinefunction(expected_async_func)
+
+    # Overwrite some test methods with patches, since they were design to patch
+    # synchronous function, and the path to patch is pointing to the synchronous ABC class.
+
+    @pytest.mark.parametrize(
+        "varint_value,expected_varnum_call",
+        (
+            (0, 0),
+            (120, 120),
+            (2147483647, 2147483647),
+            (-1, _to_two_complement(-1, 4)),
+            (-2147483648, _to_two_complement(-2147483648, 4)),
+        ),
+    )
+    def test_write_varint(self, varint_value, expected_varnum_call):
+        """Writing varint should call _write_varnum with proper values."""
+        mock_f = AsyncMock()
+        with patch("mcproto.protocol.abc.BaseAsyncWriter._write_varnum", mock_f):
+            self.writer.write_varint(varint_value)
+
+        mock_f.assert_called_once_with(expected_varnum_call, max_size=4)
+
+    @pytest.mark.parametrize("value", (-2147483649, 2147483648, 10**20, -(10**20)))
+    def test_write_varint_out_of_range(self, value):
+        """Writing varint outside of signed 32-bit int range should raise ValueError on it's own."""
+        mock_f = AsyncMock()
+        with patch("mcproto.protocol.abc.BaseAsyncWriter._write_varnum", mock_f):
+            with pytest.raises(ValueError):
+                self.writer.write_varint(value)
+        # Range limitation should come from write_varint, not _write_varnum
+        mock_f.assert_not_called()
+
+
+class TestBaseAsyncReader(TestBaseSyncReader):
+    @classmethod
+    def setup_class(cls):
+        cls.reader = WrappedAsyncReader(bytearray())
+
+    @pytest.mark.parametrize(
+        "async_function_name",
+        (
+            "read",
+            "read_bool",
+            "read_byte",
+            "read_ubyte",
+            "read_short",
+            "read_ushort",
+            "read_int",
+            "read_uint",
+            "read_long",
+            "read_ulong",
+            "read_float",
+            "read_double",
+            "_read_varnum",
+            "read_varshort",
+            "read_varint",
+            "read_varlong",
+            "read_utf",
+            "read_optional",
+        ),
+    )
+    def test_methods_are_async(self, async_function_name):
+        """Because of the nature of this test class, we should ensure that all wrapped functions are actually async.
+
+        This is because we're wrapping all of the async functions and converting them into synchronous ones, however
+        if they already were synchronous for some reason and shouldn't have been, we wouldn't detect it.
+        """
+        expected_async_func = getattr(self.reader._reader, async_function_name)
+        assert inspect.iscoroutinefunction(expected_async_func)
+
+    # Overwrite some test methods with patches, since they were design to patch
+    # synchronous function, and the path to patch is pointing to the synchronous ABC class.
+
+    @pytest.mark.parametrize(
+        "varnum_return_value,expected_varint_value",
+        (
+            (0, 0),
+            (120, 120),
+            (2147483647, 2147483647),
+            (_to_two_complement(-1, 4), -1),
+            (_to_two_complement(-2147483648, 4), -2147483648),
+        ),
+    )
+    def test_read_varint(self, varnum_return_value, expected_varint_value):
+        """Reading varint should convert result from _read_varnum into signed value."""
+        # We need to support both sync and async calls here, so patch and mock both
+        mock_f = AsyncMock()
+        mock_f.return_value = varnum_return_value
+        with patch("mcproto.protocol.abc.BaseAsyncReader._read_varnum", mock_f):
+            assert self.reader.read_varint() == expected_varint_value
+
+        mock_f.assert_called_once_with(max_size=4)
