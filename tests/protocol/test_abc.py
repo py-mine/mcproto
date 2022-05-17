@@ -313,22 +313,12 @@ class TestBaseSyncReader:
     )
     def test_read_varint(self, varnum_return_value, expected_varint_value):
         """Reading varint should convert result from _read_varnum into signed value."""
-        # We need to support both sync and async calls here, so patch and mock both
         mock_f = Mock()
         mock_f.return_value = varnum_return_value
-        async_mock_f = AsyncMock()
-        async_mock_f.return_value = varnum_return_value
         with patch("mcproto.protocol.abc.BaseSyncReader._read_varnum", mock_f):
-            with patch("mcproto.protocol.abc.BaseAsyncReader._read_varnum", async_mock_f):
-                assert self.reader.read_varint() == expected_varint_value
+            assert self.reader.read_varint() == expected_varint_value
 
-        try:
-            mock_f.assert_called_once_with(max_size=4)
-        except AssertionError as exc:
-            try:
-                async_mock_f.assert_called_once_with(max_size=4)
-            except TypeError:
-                raise exc
+        mock_f.assert_called_once_with(max_size=4)
 
     @pytest.mark.parametrize(
         "read_bytes,expected_string",
