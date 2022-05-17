@@ -8,58 +8,13 @@ from ctypes import c_int64 as signed_int64
 from ctypes import c_uint16 as unsigned_int16
 from ctypes import c_uint32 as unsigned_int32
 from ctypes import c_uint64 as unsigned_int64
-from functools import wraps
 from itertools import count
-from typing import Any, Callable, Optional, TYPE_CHECKING, TypeVar, cast
+from typing import Any, Callable, Optional, TypeVar, cast
 
-if TYPE_CHECKING:
-    from typing_extensions import ParamSpec
-
-    P = ParamSpec("P")
+from mcproto.protocol.utils import enforce_range
 
 T = TypeVar("T")
 R = TypeVar("R")
-
-
-def _enforce_range(*, typ: str, byte_size: Optional[int], signed: bool) -> Callable:
-    """Decorator enforcing proper int value range, based on the number of bytes.
-
-    If a value is outside of the automatically determined allowed range, a ValueError will be raised,
-    showing the given `typ` along with the allowed range info.
-
-    If the byte_size is None, infinite max size is assumed. Note that this is only possible with unsigned types,
-    since there's no point in enforcing infinite range.
-    """
-    if byte_size is None:
-        if signed is True:
-            raise ValueError("Enforcing infinite byte-size for signed type doesn't make sense (includes all numbers).")
-        value_max = float("inf")
-        value_max_s = "infinity"
-        value_min = 0
-        value_min_s = "0"
-    else:
-        if signed:
-            value_max = (1 << (byte_size * 8 - 1)) - 1
-            value_max_s = f"{value_max} (2**{byte_size * 8 - 1} - 1)"
-            value_min = -1 << (byte_size * 8 - 1)
-            value_min_s = f"{value_min} (-2**{byte_size * 8 - 1})"
-        else:
-            value_max = (1 << (byte_size * 8)) - 1
-            value_max_s = f"{value_max} (2**{byte_size * 8} - 1)"
-            value_min = 0
-            value_min_s = "0"
-
-    def wrapper(func: Callable[P, R]) -> Callable[P, R]:
-        @wraps(func)
-        def inner(*args: P.args, **kwargs: P.kwargs) -> R:
-            value = cast(int, args[1])
-            if value > value_max or value < value_min:
-                raise ValueError(f"{typ} must be within {value_min_s} and {value_max_s}, got {value}.")
-            return func(*args, **kwargs)
-
-        return inner
-
-    return wrapper
 
 
 class BaseWriter(ABC):
@@ -84,7 +39,7 @@ class BaseWriter(ABC):
         True is encoded as 0x01, while False is 0x00, both have a size of just 1 byte."""
         self._write_packed("?", value)
 
-    @_enforce_range(typ="Byte (8-bit signed int)", byte_size=1, signed=True)
+    @enforce_range(typ="Byte (8-bit signed int)", byte_size=1, signed=True)
     def write_byte(self, value: int) -> None:
         """Write a single signed 8-bit integer.
 
@@ -95,7 +50,7 @@ class BaseWriter(ABC):
         """
         self._write_packed("b", value)
 
-    @_enforce_range(typ="Unsigned byte (8-bit unsigned int)", byte_size=1, signed=False)
+    @enforce_range(typ="Unsigned byte (8-bit unsigned int)", byte_size=1, signed=False)
     def write_ubyte(self, value: int) -> None:
         """Write a single unsigned 8-bit integer.
 
@@ -103,7 +58,7 @@ class BaseWriter(ABC):
         """
         self._write_packed("B", value)
 
-    @_enforce_range(typ="Short (16-bit signed int)", byte_size=2, signed=True)
+    @enforce_range(typ="Short (16-bit signed int)", byte_size=2, signed=True)
     def write_short(self, value: int) -> None:
         """Write a signed 16-bit integer.
 
@@ -114,7 +69,7 @@ class BaseWriter(ABC):
         """
         self._write_packed("h", value)
 
-    @_enforce_range(typ="Unsigned short (16-bit unsigned int)", byte_size=2, signed=False)
+    @enforce_range(typ="Unsigned short (16-bit unsigned int)", byte_size=2, signed=False)
     def write_ushort(self, value: int) -> None:
         """Write an unsigned 16-bit integer.
 
@@ -123,7 +78,7 @@ class BaseWriter(ABC):
         """
         self._write_packed("H", value)
 
-    @_enforce_range(typ="Int (32-bit signed int)", byte_size=4, signed=True)
+    @enforce_range(typ="Int (32-bit signed int)", byte_size=4, signed=True)
     def write_int(self, value: int) -> None:
         """Write a signed 32-bit integer.
 
@@ -134,7 +89,7 @@ class BaseWriter(ABC):
         """
         self._write_packed("i", value)
 
-    @_enforce_range(typ="Unsigned int (32-bit unsigned int)", byte_size=4, signed=False)
+    @enforce_range(typ="Unsigned int (32-bit unsigned int)", byte_size=4, signed=False)
     def write_uint(self, value: int) -> None:
         """Write an unsigned 32-bit integer.
 
@@ -143,7 +98,7 @@ class BaseWriter(ABC):
         """
         self._write_packed("I", value)
 
-    @_enforce_range(typ="Long (64-bit signed int)", byte_size=8, signed=True)
+    @enforce_range(typ="Long (64-bit signed int)", byte_size=8, signed=True)
     def write_long(self, value: int) -> None:
         """Write a signed 64-bit integer.
 
@@ -154,7 +109,7 @@ class BaseWriter(ABC):
         """
         self._write_packed("q", value)
 
-    @_enforce_range(typ="Long (64-bit unsigned int)", byte_size=8, signed=False)
+    @enforce_range(typ="Long (64-bit unsigned int)", byte_size=8, signed=False)
     def write_ulong(self, value: int) -> None:
         """Write an unsigned 64-bit integer.
 
@@ -197,9 +152,9 @@ class BaseWriter(ABC):
         indicate whether there is another byte after it. The least significant group is written first, followed by each
         of the more significant groups, making varints little-endian, however in groups of 7 bits, not 8.
         """
-        # We can't use _enforce_range as decorator directly, because our byte_size varies
+        # We can't use enforce_range as decorator directly, because our byte_size varies
         # instead run it manually from here as a check function
-        _wrapper = _enforce_range(
+        _wrapper = enforce_range(
             typ=f"{max_size if max_size else 'unlimited'}-byte unsigned varnum",
             byte_size=max_size if max_size else None,
             signed=False,
@@ -217,7 +172,7 @@ class BaseWriter(ABC):
             # Subtract the value we've already sent (7 least significant bits)
             remaining >>= 7
 
-    @_enforce_range(typ="Varshort (variable length 16-bit signed int)", byte_size=2, signed=True)
+    @enforce_range(typ="Varshort (variable length 16-bit signed int)", byte_size=2, signed=True)
     def write_varshort(self, value: int) -> None:
         """Write a 16-bit signed integer in a variable length format.
 
@@ -226,7 +181,7 @@ class BaseWriter(ABC):
         unsigned_form = unsigned_int16(value).value
         self._write_varnum(unsigned_form, max_size=2)
 
-    @_enforce_range(typ="Varint (variable length 32-bit signed int)", byte_size=4, signed=True)
+    @enforce_range(typ="Varint (variable length 32-bit signed int)", byte_size=4, signed=True)
     def write_varint(self, value: int) -> None:
         """Write a 32-bit signed integer in a variable length format.
 
@@ -236,8 +191,8 @@ class BaseWriter(ABC):
         unsigned_form = unsigned_int32(value).value
         self._write_varnum(unsigned_form, max_size=4)
 
-    @_enforce_range(typ="Varlong (variable length 64-bit signed int)", byte_size=8, signed=True)
-    def write_varlong(self, value: int) -> None:
+    @enforce_range(typ="Varlong (variable length 64-bit signed int)", byte_size=8, signed=True)
+    async def write_varlong(self, value: int) -> None:
         """Write a 64-bit signed integer in variable length format
 
         Signed 64-bit integer varnums will never get over 10 bytes, and must be within the range of -2**63 and 2**63-1.
