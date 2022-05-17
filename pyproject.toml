@@ -37,7 +37,7 @@ skip = [".venv", ".git", ".cache"]
 precommit = "pre-commit run install"
 lint = "pre-commit run --all-files"
 test = "pytest --cov=mcproto --cov-fail-under=75  --cov-report=term --cov-report=html tests --failed-first"
-retest = "pytest --cov=mcproto --cov-fail-under=75 --cov-report=term --cov-report=html tests --last-failed"
+retest = "pytest --cov=mcproto --cov-report=term --cov-report=html tests --last-failed"
 test-nocov = "pytest --no-cov tests --failed-first"
 
 [build-system]
