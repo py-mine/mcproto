@@ -1,7 +1,7 @@
-from mcproto.protocol.abc import BaseReader, BaseWriter
+from mcproto.protocol.abc import BaseSyncReader, BaseSyncWriter
 
 
-class Buffer(BaseWriter, BaseReader, bytearray):
+class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
     __slots__ = ("pos",)
 
     def __init__(self, *args, **kwargs):
