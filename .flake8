@@ -10,3 +10,4 @@ ignore=
     ANN101, # self param annotation
     ANN102, # cls param annotation
     ANN204, # return type annotation for special methods
+per-file-ignores=tests/*:ANN
