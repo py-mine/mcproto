@@ -9,6 +9,10 @@ venv/
 env/
 ENV/
 
+# Pytest coverage reports
+.coverage
+htmlcov/
+
 # Editor generated files
 .idea/
 .vscode/
