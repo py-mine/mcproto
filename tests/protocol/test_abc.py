@@ -90,6 +90,7 @@ def _from_two_complement(number: int, bytes: int) -> int:
 
 
 # endregion
+# region: Synchronous test classes
 
 
 class TestBaseSyncWriter:
@@ -343,6 +344,10 @@ class TestBaseSyncReader:
         assert self.reader.read_utf() == expected_string
 
 
+# endregion
+# region: Asynchronous test classes
+
+
 class TestBaseAsyncWriter(TestBaseSyncWriter):
     @classmethod
     def setup_class(cls):
@@ -471,3 +476,6 @@ class TestBaseAsyncReader(TestBaseSyncReader):
             assert self.reader.read_varint() == expected_varint_value
 
         mock_f.assert_called_once_with(max_size=4)
+
+
+# endregion
