@@ -220,6 +220,21 @@ class TestBaseSyncWriter:
         self.writer.write_utf(string)
         assert self.writer.data == bytearray(expected_bytes)
 
+    def test_write_optional_true(self):
+        """Writing non-None value should write True and run the writer function."""
+        mock_v = Mock()
+        mock_f = Mock()
+        self.writer.write_optional(mock_f, mock_v)
+        mock_f.assert_called_once_with(mock_v)
+        assert self.writer.data == bytearray([1])
+
+    def test_write_optional_false(self):
+        """Writing None value should write False and skip running the writer function."""
+        mock_f = Mock()
+        self.writer.write_optional(mock_f, None)
+        mock_f.assert_not_called()
+        assert self.writer.data == bytearray([0])
+
 
 class TestBaseSyncReader:
     """Tests for individual write methods implemented in BaseSyncReader."""
@@ -333,6 +348,20 @@ class TestBaseSyncReader:
         self.reader.data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
 
+    def test_read_optional_true(self):
+        """Reading optional should run reader function when first bool is True."""
+        mock_f = Mock()
+        self.reader.data = bytearray([1])
+        self.reader.read_optional(mock_f)
+        mock_f.assert_called_once_with()
+
+    def test_read_optional_false(self):
+        """Reading optional should not run reader function when first bool is False."""
+        mock_f = Mock()
+        self.reader.data = bytearray([0])
+        self.reader.read_optional(mock_f)
+        mock_f.assert_not_called()
+
 
 # endregion
 # region: Asynchronous test classes
@@ -379,6 +408,8 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
 
     # Overwrite some test methods with patches, since they were design to patch
     # synchronous function, and the path to patch is pointing to the synchronous ABC class.
+    # Also overwrite methods which needs specific async implementations for Mocks,
+    # to prevent TypeErrors on trying to await non-awaitable objects.
 
     @pytest.mark.parametrize(
         "varint_value,expected_varnum_call",
@@ -409,6 +440,15 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
                 self.writer.write_varint(value)
         # Range limitation should come from write_varint, not _write_varnum
         mock_f.assert_not_called()
+
+    def test_write_optional_true(self):
+        """Writing non-None value should write True and run the writer function."""
+        mock_v = Mock()
+        mock_f = Mock()
+        mock_f.side_effect = const_coro(None)
+        self.writer.write_optional(mock_f, mock_v)
+        mock_f.assert_called_once_with(mock_v)
+        assert self.writer.data == bytearray([1])
 
 
 class TestBaseAsyncReader(TestBaseSyncReader):
@@ -452,6 +492,8 @@ class TestBaseAsyncReader(TestBaseSyncReader):
 
     # Overwrite some test methods with patches, since they were design to patch
     # synchronous function, and the path to patch is pointing to the synchronous ABC class.
+    # Also overwrite methods which needs specific async implementations for Mocks,
+    # to prevent TypeErrors on trying to await non-awaitable objects.
 
     @pytest.mark.parametrize(
         "varnum_return_value,expected_varint_value",
@@ -471,6 +513,14 @@ class TestBaseAsyncReader(TestBaseSyncReader):
             assert self.reader.read_varint() == expected_varint_value
 
         mock_f.assert_called_once_with(max_size=4)
+
+    def test_read_optional_true(self):
+        """Reading optional should run reader function when first bool is True."""
+        mock_f = Mock()
+        mock_f.side_effect = const_coro(None)
+        self.reader.data = bytearray([1])
+        self.reader.read_optional(mock_f)
+        mock_f.assert_called_once_with()
 
 
 # endregion
