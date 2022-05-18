@@ -12,23 +12,6 @@ if TYPE_CHECKING:
 T = TypeVar("T")
 
 
-def const_coro(value: T) -> Callable[..., Awaitable[T]]:
-    """This is a helper function, which returns an asynchronous function returning given constant value.
-
-    This is needed because in python 3.7, Mock.return_value didn't properly cover
-    async functions, which means we need to do Mock.side_effect = some_coro. This
-    function just makes it easy to quickly construct these coroutines.
-
-    This function can be removed once support for 3.7 is dropped, in favor of 3.8+
-    unittest.mock.AsyncMock class, which supports __await__ directly.
-    """
-
-    async def inner(*a, **kw) -> T:
-        return value
-
-    return inner
-
-
 def synchronize(f: Callable[P, Awaitable[T]]) -> Callable[P, T]:
     """This is a helper function, which takes an asynchronous function, and returns a synchronous alternative.
 
