@@ -96,6 +96,18 @@ def _from_two_complement(number: int, bytes: int) -> int:
 class TestBaseSyncWriter:
     """Tests for individual write methods implemented in BaseSyncWriter."""
 
+    @pytest.fixture
+    def method_mock(self):
+        """Obtain the mock class for an arbitrary method of the SyncWriter class.
+
+        This is used to obtain the proper mock class, that supports mocking given type of
+        functions sync/async depending on the current reader class.
+        """
+        if isinstance(self.writer, SyncWriter):
+            return Mock
+        else:
+            return AsyncMock
+
     @classmethod
     def setup_class(cls):
         cls.writer = SyncWriter()
@@ -189,21 +201,23 @@ class TestBaseSyncWriter:
             (-2147483648, _to_two_complement(-2147483648, 4)),
         ),
     )
-    def test_write_varint(self, varint_value, expected_varnum_call):
+    def test_write_varint(self, varint_value, expected_varnum_call, method_mock):
         """Writing varint should call _write_varnum with proper values."""
-        mock_f = Mock()
+        mock_f = method_mock()
+
         with patch("mcproto.protocol.abc.BaseSyncWriter._write_varnum", mock_f):
             self.writer.write_varint(varint_value)
 
         mock_f.assert_called_once_with(expected_varnum_call, max_size=4)
 
     @pytest.mark.parametrize("value", (-2147483649, 2147483648, 10**20, -(10**20)))
-    def test_write_varint_out_of_range(self, value):
+    def test_write_varint_out_of_range(self, value, method_mock):
         """Writing varint outside of signed 32-bit int range should raise ValueError on it's own."""
-        mock_f = Mock()
+        mock_f = method_mock()
         with patch("mcproto.protocol.abc.BaseSyncWriter._write_varnum", mock_f):
             with pytest.raises(ValueError):
                 self.writer.write_varint(value)
+
         # Range limitation should come from write_varint, not _write_varnum
         mock_f.assert_not_called()
 
@@ -220,17 +234,17 @@ class TestBaseSyncWriter:
         self.writer.write_utf(string)
         assert self.writer.data == bytearray(expected_bytes)
 
-    def test_write_optional_true(self):
+    def test_write_optional_true(self, method_mock):
         """Writing non-None value should write True and run the writer function."""
         mock_v = Mock()
-        mock_f = Mock()
+        mock_f = method_mock()
         self.writer.write_optional(mock_f, mock_v)
         mock_f.assert_called_once_with(mock_v)
         assert self.writer.data == bytearray([1])
 
-    def test_write_optional_false(self):
+    def test_write_optional_false(self, method_mock):
         """Writing None value should write False and skip running the writer function."""
-        mock_f = Mock()
+        mock_f = method_mock()
         self.writer.write_optional(mock_f, None)
         mock_f.assert_not_called()
         assert self.writer.data == bytearray([0])
@@ -238,6 +252,18 @@ class TestBaseSyncWriter:
 
 class TestBaseSyncReader:
     """Tests for individual write methods implemented in BaseSyncReader."""
+
+    @pytest.fixture
+    def method_mock(self):
+        """Obtain the mock class for an arbitrary method of the reader class.
+
+        This is used to obtain the proper mock class, that supports mocking given type of
+        functions sync/async depending on the current reader class.
+        """
+        if isinstance(self.reader, SyncReader):
+            return Mock
+        else:
+            return AsyncMock
 
     @classmethod
     def setup_class(cls):
@@ -326,9 +352,9 @@ class TestBaseSyncReader:
             (_to_two_complement(-2147483648, 4), -2147483648),
         ),
     )
-    def test_read_varint(self, varnum_return_value, expected_varint_value):
+    def test_read_varint(self, varnum_return_value, expected_varint_value, method_mock):
         """Reading varint should convert result from _read_varnum into signed value."""
-        mock_f = Mock()
+        mock_f = method_mock()
         mock_f.return_value = varnum_return_value
         with patch("mcproto.protocol.abc.BaseSyncReader._read_varnum", mock_f):
             assert self.reader.read_varint() == expected_varint_value
@@ -348,16 +374,16 @@ class TestBaseSyncReader:
         self.reader.data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
 
-    def test_read_optional_true(self):
+    def test_read_optional_true(self, method_mock):
         """Reading optional should run reader function when first bool is True."""
-        mock_f = Mock()
+        mock_f = method_mock()
         self.reader.data = bytearray([1])
         self.reader.read_optional(mock_f)
         mock_f.assert_called_once_with()
 
-    def test_read_optional_false(self):
+    def test_read_optional_false(self, method_mock):
         """Reading optional should not run reader function when first bool is False."""
-        mock_f = Mock()
+        mock_f = method_mock()
         self.reader.data = bytearray([0])
         self.reader.read_optional(mock_f)
         mock_f.assert_not_called()
@@ -408,8 +434,6 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
 
     # Overwrite some test methods with patches, since they were design to patch
     # synchronous function, and the path to patch is pointing to the synchronous ABC class.
-    # Also overwrite methods which needs specific async implementations for Mocks,
-    # to prevent TypeErrors on trying to await non-awaitable objects.
 
     @pytest.mark.parametrize(
         "varint_value,expected_varnum_call",
@@ -421,29 +445,21 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
             (-2147483648, _to_two_complement(-2147483648, 4)),
         ),
     )
-    def test_write_varint(self, varint_value, expected_varnum_call):
+    def test_write_varint(self, varint_value, expected_varnum_call, method_mock):
         """Writing varint should call _write_varnum with proper values."""
-        mock_f = AsyncMock()
+        mock_f = method_mock()
         with patch("mcproto.protocol.abc.BaseAsyncWriter._write_varnum", mock_f):
             self.writer.write_varint(varint_value)
 
         mock_f.assert_called_once_with(expected_varnum_call, max_size=4)
 
     @pytest.mark.parametrize("value", (-2147483649, 2147483648, 10**20, -(10**20)))
-    def test_write_varint_out_of_range(self, value):
+    def test_write_varint_out_of_range(self, value, method_mock):
         """Writing varint outside of signed 32-bit int range should raise ValueError on it's own."""
-        mock_f = AsyncMock()
+        mock_f = method_mock()
         with patch("mcproto.protocol.abc.BaseAsyncWriter._write_varnum", mock_f):
             with pytest.raises(ValueError):
                 self.writer.write_varint(value)
-
-    def test_write_optional_true(self):
-        """Writing non-None value should write True and run the writer function."""
-        mock_v = Mock()
-        mock_f = AsyncMock()
-        self.writer.write_optional(mock_f, mock_v)
-        mock_f.assert_called_once_with(mock_v)
-        assert self.writer.data == bytearray([1])
 
 
 class TestBaseAsyncReader(TestBaseSyncReader):
@@ -487,8 +503,6 @@ class TestBaseAsyncReader(TestBaseSyncReader):
 
     # Overwrite some test methods with patches, since they were design to patch
     # synchronous function, and the path to patch is pointing to the synchronous ABC class.
-    # Also overwrite methods which needs specific async implementations for Mocks,
-    # to prevent TypeErrors on trying to await non-awaitable objects.
 
     @pytest.mark.parametrize(
         "varnum_return_value,expected_varint_value",
@@ -500,21 +514,14 @@ class TestBaseAsyncReader(TestBaseSyncReader):
             (_to_two_complement(-2147483648, 4), -2147483648),
         ),
     )
-    def test_read_varint(self, varnum_return_value, expected_varint_value):
+    def test_read_varint(self, varnum_return_value, expected_varint_value, method_mock):
         """Reading varint should convert result from _read_varnum into signed value."""
-        mock_f = AsyncMock()
+        mock_f = method_mock()
         mock_f.return_value = varnum_return_value
         with patch("mcproto.protocol.abc.BaseAsyncReader._read_varnum", mock_f):
             assert self.reader.read_varint() == expected_varint_value
 
         mock_f.assert_called_once_with(max_size=4)
-
-    def test_read_optional_true(self):
-        """Reading optional should run reader function when first bool is True."""
-        mock_f = AsyncMock()
-        self.reader.data = bytearray([1])
-        self.reader.read_optional(mock_f)
-        mock_f.assert_called_once_with()
 
 
 # endregion
