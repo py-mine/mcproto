@@ -101,7 +101,7 @@ class TestBaseSyncWriter:
         """Obtain the mock class for an arbitrary method of the SyncWriter class.
 
         This is used to obtain the proper mock class, that supports mocking given type of
-        functions sync/async depending on the current reader class.
+        functions sync/async depending on the current writer class.
         """
         if isinstance(self.writer, SyncWriter):
             return Mock
