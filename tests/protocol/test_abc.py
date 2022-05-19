@@ -1,5 +1,5 @@
 import inspect
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import AsyncMock, Mock
 
 import pytest
 
@@ -213,22 +213,21 @@ class TestBaseSyncWriter:
             (-2147483648, _to_two_complement(-2147483648, 4)),
         ),
     )
-    def test_write_varint(self, varint_value, expected_varnum_call, method_mock, class_qualpath):
+    def test_write_varint(self, varint_value, expected_varnum_call, method_mock, class_qualpath, monkeypatch):
         """Writing varint should call _write_varnum with proper values."""
         mock_f = method_mock()
-
-        with patch(f"{class_qualpath}._write_varnum", mock_f):
-            self.writer.write_varint(varint_value)
+        monkeypatch.setattr(f"{class_qualpath}._write_varnum", mock_f)
+        self.writer.write_varint(varint_value)
 
         mock_f.assert_called_once_with(expected_varnum_call, max_size=4)
 
     @pytest.mark.parametrize("value", (-2147483649, 2147483648, 10**20, -(10**20)))
-    def test_write_varint_out_of_range(self, value, method_mock, class_qualpath):
+    def test_write_varint_out_of_range(self, value, method_mock, class_qualpath, monkeypatch):
         """Writing varint outside of signed 32-bit int range should raise ValueError on it's own."""
         mock_f = method_mock()
-        with patch(f"{class_qualpath}._write_varnum", mock_f):
-            with pytest.raises(ValueError):
-                self.writer.write_varint(value)
+        monkeypatch.setattr(f"{class_qualpath}._write_varnum", mock_f)
+        with pytest.raises(ValueError):
+            self.writer.write_varint(value)
 
         # Range limitation should come from write_varint, not _write_varnum
         mock_f.assert_not_called()
@@ -376,12 +375,12 @@ class TestBaseSyncReader:
             (_to_two_complement(-2147483648, 4), -2147483648),
         ),
     )
-    def test_read_varint(self, varnum_return_value, expected_varint_value, method_mock, class_qualpath):
+    def test_read_varint(self, varnum_return_value, expected_varint_value, method_mock, class_qualpath, monkeypatch):
         """Reading varint should convert result from _read_varnum into signed value."""
         mock_f = method_mock()
         mock_f.return_value = varnum_return_value
-        with patch(f"{class_qualpath}._read_varnum", mock_f):
-            assert self.reader.read_varint() == expected_varint_value
+        monkeypatch.setattr(f"{class_qualpath}._read_varnum", mock_f)
+        assert self.reader.read_varint() == expected_varint_value
 
         mock_f.assert_called_once_with(max_size=4)
 
