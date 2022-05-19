@@ -1,5 +1,5 @@
 import inspect
-from typing import Optional
+from typing import Optional, Union
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -192,32 +192,36 @@ class TestBaseSyncWriter:
 
     @pytest.fixture
     def method_mock(self):
-        """Obtain the mock class for an arbitrary method of the SyncWriter class.
-
-        This is used to obtain the proper mock class, that supports mocking given type of
-        functions sync/async depending on the current writer class.
-        """
+        """Returns the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.writer, SyncWriter):
             return Mock
-        else:
-            return AsyncMock
+        return AsyncMock
 
     @pytest.fixture
-    def class_qualpath(self):
-        """Obtain the qualified path to the writer class.
+    def autopatch(self, monkeypatch):
+        """Returns a simple function, supporting patching both sync/async writer functions with appropriate mocks.
 
-        This is used to obtain the proper qualified import path for the writer class object,
-        to support patching for both sync/async depending on current writer claas.
+        This returned function takes in the name of the function to patch, and returns the mock object.
+        This mock object will either be Mock, or AsyncMock instance, depending on whether we're in async or sync mode.
         """
         if isinstance(self.writer, SyncWriter):
-            return "mcproto.protocol.abc.BaseSyncWriter"
+            patch_path = "mcproto.protocol.abc.BaseSyncWriter"
+            mock_type = Mock
         else:
-            return "mcproto.protocol.abc.BaseAsyncWriter"
+            patch_path = "mcproto.protocol.abc.BaseAsyncWriter"
+            mock_type = AsyncMock
+
+        def autopatch(function_name: str) -> Union[Mock, AsyncMock]:
+            mock_f = mock_type()
+            monkeypatch.setattr(f"{patch_path}.{function_name}", mock_f)
+            return mock_f
+
+        return autopatch
 
     @pytest.fixture
-    def write_mock(self, method_mock, monkeypatch):
+    def write_mock(self, monkeypatch):
         """Monkeypatch the write function with a mock which is returned."""
-        if method_mock is Mock:
+        if isinstance(self.writer, SyncWriter):
             mock_f = WriteFunctionMock()
         else:
             mock_f = WriteFunctionAsyncMock()
@@ -315,19 +319,17 @@ class TestBaseSyncWriter:
             (-2147483648, _to_two_complement(-2147483648, 4)),
         ),
     )
-    def test_write_varint(self, varint_value, expected_varnum_call, method_mock, class_qualpath, monkeypatch):
+    def test_write_varint(self, varint_value, expected_varnum_call, autopatch):
         """Writing varint should call _write_varnum with proper values."""
-        mock_f = method_mock()
-        monkeypatch.setattr(f"{class_qualpath}._write_varnum", mock_f)
+        mock_f = autopatch("_write_varnum")
         self.writer.write_varint(varint_value)
 
         mock_f.assert_called_once_with(expected_varnum_call, max_size=4)
 
     @pytest.mark.parametrize("value", (-2147483649, 2147483648, 10**20, -(10**20)))
-    def test_write_varint_out_of_range(self, value, method_mock, class_qualpath, monkeypatch):
+    def test_write_varint_out_of_range(self, value, autopatch):
         """Writing varint outside of signed 32-bit int range should raise ValueError on it's own."""
-        mock_f = method_mock()
-        monkeypatch.setattr(f"{class_qualpath}._write_varnum", mock_f)
+        mock_f = autopatch("_write_varnum")
         with pytest.raises(ValueError):
             self.writer.write_varint(value)
 
@@ -368,32 +370,36 @@ class TestBaseSyncReader:
 
     @pytest.fixture
     def method_mock(self):
-        """Obtain the mock class for an arbitrary method of the reader class.
-
-        This is used to obtain the proper mock class, that supports mocking given type of
-        functions sync/async depending on the current reader class.
-        """
+        """Returns the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.reader, SyncReader):
             return Mock
-        else:
-            return AsyncMock
+        return AsyncMock
 
     @pytest.fixture
-    def class_qualpath(self):
-        """Obtain the qualified path to the reader class.
+    def autopatch(self, monkeypatch):
+        """Returns a simple function, supporting patching both sync/async reader functions with appropriate mocks.
 
-        This is used to obtain the proper qualified import path for the writer class object,
-        to support patching for both sync/async depending on current reader claas.
+        This returned function takes in the name of the function to patch, and returns the mock object.
+        This mock object will either be Mock, or AsyncMock instance, depending on whether we're in async or sync mode.
         """
         if isinstance(self.reader, SyncReader):
-            return "mcproto.protocol.abc.BaseSyncReader"
+            patch_path = "mcproto.protocol.abc.BaseSyncReader"
+            mock_type = Mock
         else:
-            return "mcproto.protocol.abc.BaseAsyncReader"
+            patch_path = "mcproto.protocol.abc.BaseAsyncReader"
+            mock_type = AsyncMock
+
+        def autopatch(function_name: str) -> Union[Mock, AsyncMock]:
+            mock_f = mock_type()
+            monkeypatch.setattr(f"{patch_path}.{function_name}", mock_f)
+            return mock_f
+
+        return autopatch
 
     @pytest.fixture
     def read_mock(self, method_mock, monkeypatch):
         """Monkeypatch the write function with a mock which is returned."""
-        if method_mock is Mock:
+        if isinstance(self.reader, SyncReader):
             mock_f = ReadFunctionMock()
         else:
             mock_f = ReadFunctionAsyncMock()
@@ -487,11 +493,10 @@ class TestBaseSyncReader:
             (_to_two_complement(-2147483648, 4), -2147483648),
         ),
     )
-    def test_read_varint(self, varnum_return_value, expected_varint_value, method_mock, class_qualpath, monkeypatch):
+    def test_read_varint(self, varnum_return_value, expected_varint_value, autopatch):
         """Reading varint should convert result from _read_varnum into signed value."""
-        mock_f = method_mock()
+        mock_f = autopatch("_read_varnum")
         mock_f.return_value = varnum_return_value
-        monkeypatch.setattr(f"{class_qualpath}._read_varnum", mock_f)
         assert self.reader.read_varint() == expected_varint_value
 
         mock_f.assert_called_once_with(max_size=4)
