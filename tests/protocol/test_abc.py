@@ -1,5 +1,5 @@
 import inspect
-from typing import Optional, Union
+from typing import List, Optional, Union
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -191,14 +191,14 @@ class TestBaseSyncWriter:
     """Tests for individual write methods implemented in BaseSyncWriter."""
 
     @pytest.fixture
-    def method_mock(self):
+    def method_mock(self) -> Union[Mock, AsyncMock]:
         """Returns the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.writer, SyncWriter):
             return Mock
         return AsyncMock
 
     @pytest.fixture
-    def autopatch(self, monkeypatch):
+    def autopatch(self, monkeypatch: pytest.MonkeyPatch):
         """Returns a simple function, supporting patching both sync/async writer functions with appropriate mocks.
 
         This returned function takes in the name of the function to patch, and returns the mock object.
@@ -219,7 +219,7 @@ class TestBaseSyncWriter:
         return autopatch
 
     @pytest.fixture
-    def write_mock(self, monkeypatch):
+    def write_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the write function with a mock which is returned."""
         if isinstance(self.writer, SyncWriter):
             mock_f = WriteFunctionMock()
@@ -289,7 +289,7 @@ class TestBaseSyncWriter:
             (2147483647, [255, 255, 255, 255, 7]),
         ),
     )
-    def test__write_varnum(self, number, expected_bytes, write_mock: WriteFunctionMock):
+    def test__write_varnum(self, number: int, expected_bytes: List[int], write_mock: WriteFunctionMock):
         """Writing varnums results in correct bytes."""
         self.writer._write_varnum(number)
         write_mock.assert_has_data(bytearray(expected_bytes))
@@ -319,7 +319,7 @@ class TestBaseSyncWriter:
             (-2147483648, _to_two_complement(-2147483648, 4)),
         ),
     )
-    def test_write_varint(self, varint_value, expected_varnum_call, autopatch):
+    def test_write_varint(self, varint_value: int, expected_varnum_call: int, autopatch):
         """Writing varint should call _write_varnum with proper values."""
         mock_f = autopatch("_write_varnum")
         self.writer.write_varint(varint_value)
@@ -327,7 +327,7 @@ class TestBaseSyncWriter:
         mock_f.assert_called_once_with(expected_varnum_call, max_size=4)
 
     @pytest.mark.parametrize("value", (-2147483649, 2147483648, 10**20, -(10**20)))
-    def test_write_varint_out_of_range(self, value, autopatch):
+    def test_write_varint_out_of_range(self, value: int, autopatch):
         """Writing varint outside of signed 32-bit int range should raise ValueError on it's own."""
         mock_f = autopatch("_write_varnum")
         with pytest.raises(ValueError):
@@ -344,12 +344,12 @@ class TestBaseSyncWriter:
             ("", [0]),
         ),
     )
-    def test_write_utf(self, string, expected_bytes, write_mock: WriteFunctionMock):
+    def test_write_utf(self, string: str, expected_bytes: List[int], write_mock: WriteFunctionMock):
         """Writing UTF string results in correct bytes."""
         self.writer.write_utf(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
-    def test_write_optional_true(self, method_mock, write_mock: WriteFunctionMock):
+    def test_write_optional_true(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
         """Writing non-None value should write True and run the writer function."""
         mock_v = Mock()
         mock_f = method_mock()
@@ -357,7 +357,7 @@ class TestBaseSyncWriter:
         mock_f.assert_called_once_with(mock_v)
         write_mock.assert_has_data(bytearray([1]))
 
-    def test_write_optional_false(self, method_mock, write_mock: WriteFunctionMock):
+    def test_write_optional_false(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
         """Writing None value should write False and skip running the writer function."""
         mock_f = method_mock()
         self.writer.write_optional(mock_f, None)
@@ -369,14 +369,14 @@ class TestBaseSyncReader:
     """Tests for individual write methods implemented in BaseSyncReader."""
 
     @pytest.fixture
-    def method_mock(self):
+    def method_mock(self) -> Union[Mock, AsyncMock]:
         """Returns the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.reader, SyncReader):
             return Mock
         return AsyncMock
 
     @pytest.fixture
-    def autopatch(self, monkeypatch):
+    def autopatch(self, monkeypatch: pytest.MonkeyPatch):
         """Returns a simple function, supporting patching both sync/async reader functions with appropriate mocks.
 
         This returned function takes in the name of the function to patch, and returns the mock object.
@@ -397,7 +397,7 @@ class TestBaseSyncReader:
         return autopatch
 
     @pytest.fixture
-    def read_mock(self, method_mock, monkeypatch):
+    def read_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the write function with a mock which is returned."""
         if isinstance(self.reader, SyncReader):
             mock_f = ReadFunctionMock()
@@ -421,7 +421,7 @@ class TestBaseSyncReader:
             ([0], 0),
         ),
     )
-    def test_read_ubyte(self, read_bytes, expected_value, read_mock: ReadFunctionMock):
+    def test_read_ubyte(self, read_bytes: List[int], expected_value: int, read_mock: ReadFunctionMock):
         """Reading byte int should return an integer in a single unsigned byte."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_ubyte() == expected_value
@@ -435,7 +435,7 @@ class TestBaseSyncReader:
             ([127], 127),
         ),
     )
-    def test_read_byte(self, read_bytes, expected_value, read_mock: ReadFunctionMock):
+    def test_read_byte(self, read_bytes: List[int], expected_value: int, read_mock: ReadFunctionMock):
         """Negative number bytes should be read from two's complement format."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_byte() == expected_value
@@ -467,7 +467,7 @@ class TestBaseSyncReader:
             ([255, 255, 255, 255, 7], 2147483647),
         ),
     )
-    def test__read_varnum(self, read_bytes, expected_value, read_mock: ReadFunctionMock):
+    def test__read_varnum(self, read_bytes: List[int], expected_value: int, read_mock: ReadFunctionMock):
         """Reading varnums bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader._read_varnum() == expected_value
@@ -493,7 +493,7 @@ class TestBaseSyncReader:
             (_to_two_complement(-2147483648, 4), -2147483648),
         ),
     )
-    def test_read_varint(self, varnum_return_value, expected_varint_value, autopatch):
+    def test_read_varint(self, varnum_return_value: int, expected_varint_value: int, autopatch):
         """Reading varint should convert result from _read_varnum into signed value."""
         mock_f = autopatch("_read_varnum")
         mock_f.return_value = varnum_return_value
@@ -509,19 +509,19 @@ class TestBaseSyncReader:
             ([0], ""),
         ),
     )
-    def test_read_utf(self, read_bytes, expected_string, read_mock: ReadFunctionMock):
+    def test_read_utf(self, read_bytes: List[int], expected_string: str, read_mock: ReadFunctionMock):
         """Reading UTF string results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
 
-    def test_read_optional_true(self, method_mock, read_mock: ReadFunctionMock):
+    def test_read_optional_true(self, method_mock: Union[Mock, AsyncMock], read_mock: ReadFunctionMock):
         """Reading optional should run reader function when first bool is True."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([1])
         self.reader.read_optional(mock_f)
         mock_f.assert_called_once_with()
 
-    def test_read_optional_false(self, method_mock, read_mock: ReadFunctionMock):
+    def test_read_optional_false(self, method_mock: Union[Mock, AsyncMock], read_mock: ReadFunctionMock):
         """Reading optional should not run reader function when first bool is False."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([0])
@@ -563,7 +563,7 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
             "write_optional",
         ),
     )
-    def test_methods_are_async(self, async_function_name):
+    def test_methods_are_async(self, async_function_name: str):
         """Because of the nature of this test class, we should ensure that all wrapped functions are actually async.
 
         This is because we're wrapping all of the async functions and converting them into synchronous ones, however
@@ -603,7 +603,7 @@ class TestBaseAsyncReader(TestBaseSyncReader):
             "read_optional",
         ),
     )
-    def test_methods_are_async(self, async_function_name):
+    def test_methods_are_async(self, async_function_name: str):
         """Because of the nature of this test class, we should ensure that all wrapped functions are actually async.
 
         This is because we're wrapping all of the async functions and converting them into synchronous ones, however
