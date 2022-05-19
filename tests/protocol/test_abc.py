@@ -1,4 +1,5 @@
 import inspect
+from typing import Optional
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -9,56 +10,149 @@ from tests.helpers import SynchronizedMixin
 # region: Helper classes/functions
 
 
-class SyncWriter(BaseSyncWriter):
-    """Testable concrete implementation of BaseSyncWriter ABC."""
+class WriteFunctionMock(Mock):
+    def __init__(self, *a, **kw):
+        super().__init__(*a, **kw)
+        self.combined_data = bytearray()
 
-    def __init__(self):
-        self.data = bytearray()
+    def __call__(self, data: bytearray) -> None:
+        """Override mock's __call__ to extend our combined_data bytearray.
+
+        This allows us to keep track of exactly what data was written by the mocked write function
+        in total, rather than only having tools like assert_called_with, which don't combine the
+        data of each call.
+        """
+        self.combined_data.extend(data)
+        return super().__call__(data)
+
+    def assert_has_data(self, data: bytearray, ensure_called: bool = True):
+        """Ensure that the total data to write by the mocked function matches expected data."""
+        if ensure_called:
+            self.assert_called()
+
+        if self.combined_data != data:
+            raise AssertionError(f"Write function mock expected data {data!r}, but was {self.call_data!r}")
+
+
+class WriteFunctionAsyncMock(WriteFunctionMock, AsyncMock):
+    ...
+
+
+class ReadFunctionMock(Mock):
+    def __init__(self, *a, combined_data: Optional[bytearray] = None, **kw):
+        super().__init__(*a, **kw)
+        if combined_data is None:
+            combined_data = bytearray()
+        self.combined_data = combined_data
+
+    def __call__(self, length: int) -> bytearray:
+        """Override mock's __call__ to make it return part of our combined_data bytearray.
+
+        This allows us to define the combined data we want the mocked read function to be
+        returning, and have each call only take requested part (length) of that data.
+        """
+        self.return_value = self.combined_data[:length]
+        del self.combined_data[:length]
+        return super().__call__(length)
+
+    def assert_read_everything(self):
+        """Ensure that the passed combined_data was fully read and depleted by one, or more calls."""
+        if len(self.combined_data) != 0:
+            raise AssertionError(
+                f"Read function didn't deplete all of it's data, remaining data: {self.combined_data!r}"
+            )
+
+
+class ReadFunctionAsyncMock(ReadFunctionMock, AsyncMock):
+    ...
+
+
+class SyncWriter(BaseSyncWriter):
+    """Initializable concrete implementation of BaseSyncWriter ABC."""
 
     def write(self, data: bytearray) -> None:
-        self.data.extend(data)
+        """Concrete implementation of abstract write method.
+
+        Since classes using abc.ABC can't be initialized if they have any abstract methods
+        which weren't overridden with a concrete implementation, this is a fake implementation,
+        without any actual logic, purely to allow the initialization of this class.
+
+        This method is expected to be mocked using WriteFunctionMock if it's expected to get called
+        during testing. If this method gets called without being mocked, it will raise NotImplementedError.
+        """
+        raise NotImplementedError(
+            "This concrete override of abstract write method isn't intended for actual use!\n"
+            " - If you're writing a new test, did you forget to mock it?\n"
+            " - If you're seeing this in an existing test, this method got called without the test expecting it,"
+            " this probably means you changed something in the code leading to this call, but you haven't updated"
+            " the tests to mock this function."
+        )
 
 
 class SyncReader(BaseSyncReader):
     """Testable concrete implementation of BaseSyncReader ABC."""
 
-    def __init__(self, data: bytearray):
-        self.data = data
-
     def read(self, length: int) -> bytearray:
-        data = self.data[:length]
-        del self.data[:length]
-        return data
+        """Concrete implementation of abstract read method.
+
+        Since classes using abc.ABC can't be initialized if they have any abstract methods
+        which weren't overridden with a concrete implementation, this is a fake implementation,
+        without any actual logic, purely to allow the initialization of this class.
+
+        This method is expected to be mocked using ReadFunctionMock if it's expected to get called
+        during testing. If this method gets called without being mocked, it will raise NotImplementedError.
+        """
+        raise NotImplementedError(
+            "This concrete override of abstract read method isn't intended for actual use!\n"
+            " - If you're writing a new test, did you forget to mock it?\n"
+            " - If you're seeing this in an existing test, this method got called without the test expecting it,"
+            " this probably means you changed something in the code leading to this call, but you haven't updated"
+            " the tests to mock this function."
+        )
 
 
 class AsyncWriter(BaseAsyncWriter):
-    """Testable concrete implementation of BaseAsyncWriter ABC."""
-
-    def __init__(self):
-        self.data = bytearray()
+    """Initializable concrete implementation of BaseAsyncWriter ABC."""
 
     async def write(self, data: bytearray) -> None:
-        # There's no actual need for this function to be asynchronous,
-        # it is purely here for testing this behavior, where this synchronous
-        # buffer-like implementation is sufficient, but it could include async
-        # calls in real usage
-        self.data.extend(data)
+        """Concrete implementation of abstract write method.
+
+        Since classes using abc.ABC can't be initialized if they have any abstract methods
+        which weren't overridden with a concrete implementation, this is a fake implementation,
+        without any actual logic, purely to allow the initialization of this class.
+
+        This method is expected to be mocked using WriteFunctionAsyncMock if it's expected to get called
+        during testing. If this method gets called without being mocked, it will raise NotImplementedError.
+        """
+        raise NotImplementedError(
+            "This concrete override of abstract write method isn't intended for actual use!\n"
+            " - If you're writing a new test, did you forget to mock it?\n"
+            " - If you're seeing this in an existing test, this method got called without the test expecting it,"
+            " this probably means you changed something in the code leading to this call, but you haven't updated"
+            " the tests to mock this function."
+        )
 
 
 class AsyncReader(BaseAsyncReader):
     """Testable concrete implementation of BaseAsyncReader ABC."""
 
-    def __init__(self, data: bytearray):
-        self.data = data
-
     async def read(self, length: int) -> bytearray:
-        # There's no actual need for this function to be asynchronous,
-        # it is purely here for testing this behavior, where this synchronous
-        # buffer-like implementation is sufficient, but it could include async
-        # calls in real usage
-        data = self.data[:length]
-        del self.data[:length]
-        return data
+        """Concrete implementation of abstract read method.
+
+        Since classes using abc.ABC can't be initialized if they have any abstract methods
+        which weren't overridden with a concrete implementation, this is a fake implementation,
+        without any actual logic, purely to allow the initialization of this class.
+
+        This method is expected to be mocked using ReadFunctionAsyncMock if it's expected to get called
+        during testing. If this method gets called without being mocked, it will raise NotImplementedError.
+        """
+        raise NotImplementedError(
+            "This concrete override of abstract read method isn't intended for actual use!\n"
+            " - If you're writing a new test, did you forget to mock it?\n"
+            " - If you're seeing this in an existing test, this method got called without the test expecting it,"
+            " this probably means you changed something in the code leading to this call, but you haven't updated"
+            " the tests to mock this function."
+        )
 
 
 class WrappedAsyncReader(SynchronizedMixin):
@@ -66,8 +160,8 @@ class WrappedAsyncReader(SynchronizedMixin):
 
     _WRAPPED_ATTRIBUTE = "_reader"
 
-    def __init__(self, data: bytearray):
-        self._reader = AsyncReader(data)
+    def __init__(self):
+        self._reader = AsyncReader()
 
 
 class WrappedAsyncWriter(SynchronizedMixin):
@@ -120,22 +214,30 @@ class TestBaseSyncWriter:
         else:
             return "mcproto.protocol.abc.BaseAsyncWriter"
 
+    @pytest.fixture
+    def write_mock(self, method_mock, monkeypatch):
+        """Monkeypatch the write function with a mock which is returned."""
+        if method_mock is Mock:
+            mock_f = WriteFunctionMock()
+        else:
+            mock_f = WriteFunctionAsyncMock()
+
+        monkeypatch.setattr(self.writer.__class__, "write", mock_f)
+        return mock_f
+
     @classmethod
     def setup_class(cls):
         cls.writer = SyncWriter()
 
-    def setup_method(self):
-        self.writer.data.clear()
-
-    def test_write_byte(self):
+    def test_write_byte(self, write_mock: WriteFunctionMock):
         """Writing byte int should store an integer in a single byte."""
         self.writer.write_byte(15)
-        assert self.writer.data == bytearray([15])
+        write_mock.assert_has_data(bytearray([15]))
 
-    def test_write_byte_negative(self):
+    def test_write_byte_negative(self, write_mock: WriteFunctionMock):
         """Negative number bytes should be stored in two's complement format."""
         self.writer.write_byte(-20)
-        assert self.writer.data == bytearray([_to_two_complement(-20, 1)])
+        write_mock.assert_has_data(bytearray([_to_two_complement(-20, 1)]))
 
     def test_write_byte_out_of_range(self):
         """Signed bytes should only allow writes from -128 to 127."""
@@ -144,10 +246,10 @@ class TestBaseSyncWriter:
         with pytest.raises(ValueError):
             self.writer.write_byte(128)
 
-    def test_write_ubyte(self):
+    def test_write_ubyte(self, write_mock: WriteFunctionMock):
         """Writing unsigned byte int should store an integer in a single byte."""
         self.writer.write_byte(80)
-        assert self.writer.data == bytearray([80])
+        write_mock.assert_has_data(bytearray([80]))
 
     def test_write_ubyte_out_of_range(self):
         """Unsigned bytes should only allow writes from 0 to 255."""
@@ -183,20 +285,20 @@ class TestBaseSyncWriter:
             (2147483647, [255, 255, 255, 255, 7]),
         ),
     )
-    def test__write_varnum(self, number, expected_bytes):
+    def test__write_varnum(self, number, expected_bytes, write_mock: WriteFunctionMock):
         """Writing varnums results in correct bytes."""
         self.writer._write_varnum(number)
-        assert self.writer.data == bytearray(expected_bytes)
+        write_mock.assert_has_data(bytearray(expected_bytes))
 
     def test__write_varnum_out_of_range(self):
         """Varnums without max size should only work with positive integers."""
         with pytest.raises(ValueError):
             self.writer._write_varnum(-1)
 
-    def test__write_varnum_max_size(self):
+    def test__write_varnum_max_size(self, write_mock: WriteFunctionMock):
         """Varnums should be limitable to n max bytes and work with values in range."""
         self.writer._write_varnum(2**16 - 1, max_size=2)
-        assert self.writer.data == bytearray([255, 255, 3])
+        write_mock.assert_has_data(bytearray([255, 255, 3]))
 
     def test__write_varnum_max_size_out_of_range(self):
         """Varnums limited to n max bytes should raise ValueErrors for numbers out of this range."""
@@ -240,25 +342,25 @@ class TestBaseSyncWriter:
             ("", [0]),
         ),
     )
-    def test_write_utf(self, string, expected_bytes):
+    def test_write_utf(self, string, expected_bytes, write_mock: WriteFunctionMock):
         """Writing UTF string results in correct bytes."""
         self.writer.write_utf(string)
-        assert self.writer.data == bytearray(expected_bytes)
+        write_mock.assert_has_data(bytearray(expected_bytes))
 
-    def test_write_optional_true(self, method_mock):
+    def test_write_optional_true(self, method_mock, write_mock: WriteFunctionMock):
         """Writing non-None value should write True and run the writer function."""
         mock_v = Mock()
         mock_f = method_mock()
         self.writer.write_optional(mock_f, mock_v)
         mock_f.assert_called_once_with(mock_v)
-        assert self.writer.data == bytearray([1])
+        write_mock.assert_has_data(bytearray([1]))
 
-    def test_write_optional_false(self, method_mock):
+    def test_write_optional_false(self, method_mock, write_mock: WriteFunctionMock):
         """Writing None value should write False and skip running the writer function."""
         mock_f = method_mock()
         self.writer.write_optional(mock_f, None)
         mock_f.assert_not_called()
-        assert self.writer.data == bytearray([0])
+        write_mock.assert_has_data(bytearray([0]))
 
 
 class TestBaseSyncReader:
@@ -288,12 +390,22 @@ class TestBaseSyncReader:
         else:
             return "mcproto.protocol.abc.BaseAsyncReader"
 
+    @pytest.fixture
+    def read_mock(self, method_mock, monkeypatch):
+        """Monkeypatch the write function with a mock which is returned."""
+        if method_mock is Mock:
+            mock_f = ReadFunctionMock()
+        else:
+            mock_f = ReadFunctionAsyncMock()
+        monkeypatch.setattr(self.reader.__class__, "read", mock_f)
+        yield mock_f
+        # Run this assertion after the test, to ensure that all specified data
+        # to be read, actually was read
+        mock_f.assert_read_everything()
+
     @classmethod
     def setup_class(cls):
-        cls.reader = SyncReader(bytearray())
-
-    def setup_method(self):
-        self.reader.data.clear()
+        cls.reader = SyncReader()
 
     @pytest.mark.parametrize(
         "read_bytes,expected_value",
@@ -303,9 +415,9 @@ class TestBaseSyncReader:
             ([0], 0),
         ),
     )
-    def test_read_ubyte(self, read_bytes, expected_value):
+    def test_read_ubyte(self, read_bytes, expected_value, read_mock: ReadFunctionMock):
         """Reading byte int should return an integer in a single unsigned byte."""
-        self.reader.data = bytearray(read_bytes)
+        read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_ubyte() == expected_value
 
     @pytest.mark.parametrize(
@@ -317,9 +429,9 @@ class TestBaseSyncReader:
             ([127], 127),
         ),
     )
-    def test_read_byte(self, read_bytes, expected_value):
+    def test_read_byte(self, read_bytes, expected_value, read_mock: ReadFunctionMock):
         """Negative number bytes should be read from two's complement format."""
-        self.reader.data = bytearray(read_bytes)
+        read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_byte() == expected_value
 
     # We skip over many similar single type write functions, these are mostly just wrappers around struct.pack,
@@ -349,19 +461,19 @@ class TestBaseSyncReader:
             ([255, 255, 255, 255, 7], 2147483647),
         ),
     )
-    def test__read_varnum(self, read_bytes, expected_value):
+    def test__read_varnum(self, read_bytes, expected_value, read_mock: ReadFunctionMock):
         """Reading varnums bytes results in correct values."""
-        self.reader.data = bytearray(read_bytes)
+        read_mock.combined_data = bytearray(read_bytes)
         assert self.reader._read_varnum() == expected_value
 
-    def test__read_varnum_max_size(self):
+    def test__read_varnum_max_size(self, read_mock: ReadFunctionMock):
         """Varnum reading should be limitable to n max bytes and work with values in range."""
-        self.reader.data = bytearray([255, 255, 3])
+        read_mock.combined_data = bytearray([255, 255, 3])
         assert self.reader._read_varnum(max_size=2) == 2**16 - 1
 
-    def test__read_varnum_max_size_out_of_range(self):
+    def test__read_varnum_max_size_out_of_range(self, read_mock: ReadFunctionMock):
         """Varnum reading limited to n max bytes should raise an IOError for numbers out of this range."""
-        self.reader.data = bytearray([128, 128, 4])
+        read_mock.combined_data = bytearray([128, 128, 4])
         with pytest.raises(IOError):
             self.reader._read_varnum(max_size=2)
 
@@ -392,22 +504,22 @@ class TestBaseSyncReader:
             ([0], ""),
         ),
     )
-    def test_read_utf(self, read_bytes, expected_string):
+    def test_read_utf(self, read_bytes, expected_string, read_mock: ReadFunctionMock):
         """Reading UTF string results in correct values."""
-        self.reader.data = bytearray(read_bytes)
+        read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
 
-    def test_read_optional_true(self, method_mock):
+    def test_read_optional_true(self, method_mock, read_mock: ReadFunctionMock):
         """Reading optional should run reader function when first bool is True."""
         mock_f = method_mock()
-        self.reader.data = bytearray([1])
+        read_mock.combined_data = bytearray([1])
         self.reader.read_optional(mock_f)
         mock_f.assert_called_once_with()
 
-    def test_read_optional_false(self, method_mock):
+    def test_read_optional_false(self, method_mock, read_mock: ReadFunctionMock):
         """Reading optional should not run reader function when first bool is False."""
         mock_f = method_mock()
-        self.reader.data = bytearray([0])
+        read_mock.combined_data = bytearray([0])
         self.reader.read_optional(mock_f)
         mock_f.assert_not_called()
 
@@ -461,7 +573,7 @@ class TestBaseAsyncReader(TestBaseSyncReader):
 
     @classmethod
     def setup_class(cls):
-        cls.reader = WrappedAsyncReader(bytearray())
+        cls.reader = WrappedAsyncReader()
 
     @pytest.mark.parametrize(
         "async_function_name",
