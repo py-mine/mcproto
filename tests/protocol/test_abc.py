@@ -1,4 +1,5 @@
 import inspect
+from abc import ABC, abstractmethod
 from typing import List, Optional, Union
 from unittest.mock import AsyncMock, Mock
 
@@ -184,11 +185,19 @@ def _from_two_complement(number: int, bytes: int) -> int:
 
 
 # endregion
-# region: Synchronous test classes
+# region: Abstract test classes
 
 
-class TestBaseSyncWriter:
-    """Tests for individual write methods implemented in BaseSyncWriter."""
+class WriterTests(ABC):
+    """This class holds tests for both sync and async versions of writer."""
+
+    writer: Union[BaseSyncWriter, BaseAsyncWriter]
+
+    @classmethod
+    @abstractmethod
+    def setup_class(cls):
+        """Initialize writer instance to be tested."""
+        ...
 
     @pytest.fixture
     def method_mock(self) -> Union[Mock, AsyncMock]:
@@ -228,10 +237,6 @@ class TestBaseSyncWriter:
 
         monkeypatch.setattr(self.writer.__class__, "write", mock_f)
         return mock_f
-
-    @classmethod
-    def setup_class(cls):
-        cls.writer = SyncWriter()
 
     def test_write_byte(self, write_mock: WriteFunctionMock):
         """Writing byte int should store an integer in a single byte."""
@@ -365,8 +370,16 @@ class TestBaseSyncWriter:
         write_mock.assert_has_data(bytearray([0]))
 
 
-class TestBaseSyncReader:
-    """Tests for individual write methods implemented in BaseSyncReader."""
+class ReaderTests(ABC):
+    """This class holds tests for both sync and async versions of reader."""
+
+    reader: Union[BaseSyncReader, BaseAsyncReader]
+
+    @classmethod
+    @abstractmethod
+    def setup_class(cls):
+        """Initialize reader instance to be tested."""
+        ...
 
     @pytest.fixture
     def method_mock(self) -> Union[Mock, AsyncMock]:
@@ -408,10 +421,6 @@ class TestBaseSyncReader:
         # Run this assertion after the test, to ensure that all specified data
         # to be read, actually was read
         mock_f.assert_read_everything()
-
-    @classmethod
-    def setup_class(cls):
-        cls.reader = SyncReader()
 
     @pytest.mark.parametrize(
         "read_bytes,expected_value",
@@ -530,11 +539,31 @@ class TestBaseSyncReader:
 
 
 # endregion
-# region: Asynchronous test classes
+# region: Concrete test classes
 
 
-class TestBaseAsyncWriter(TestBaseSyncWriter):
+class TestBaseSyncWriter(WriterTests):
+    """Tests for individual write methods implemented in BaseSyncWriter."""
+
+    @classmethod
+    def setup_class(cls):
+        """Initialize writer instance to be tested."""
+        cls.writer = SyncWriter()
+
+
+class TestBaseSyncReader(ReaderTests):
+    """Tests for individual write methods implemented in BaseSyncReader."""
+
+    @classmethod
+    def setup_class(cls):
+        """Initialize reader instance to be tested."""
+        cls.reader = SyncReader()
+
+
+class TestBaseAsyncWriter(WriterTests):
     """Tests for individual write methods implemented in BaseAsyncWriter."""
+
+    writer: WrappedAsyncWriter
 
     @classmethod
     def setup_class(cls):
@@ -573,8 +602,10 @@ class TestBaseAsyncWriter(TestBaseSyncWriter):
         assert inspect.iscoroutinefunction(expected_async_func)
 
 
-class TestBaseAsyncReader(TestBaseSyncReader):
+class TestBaseAsyncReader(ReaderTests):
     """Tests for individual write methods implemented in BaseAsyncReader."""
+
+    reader: WrappedAsyncReader
 
     @classmethod
     def setup_class(cls):
