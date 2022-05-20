@@ -202,7 +202,7 @@ class WriterTests(ABC):
     @pytest.fixture
     def method_mock(self) -> Union[Mock, AsyncMock]:
         """Returns the appropriate type of mock, supporting both sync and async modes."""
-        if isinstance(self.writer, SyncWriter):
+        if isinstance(self.writer, BaseSyncWriter):
             return Mock
         return AsyncMock
 
@@ -230,7 +230,7 @@ class WriterTests(ABC):
     @pytest.fixture
     def write_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the write function with a mock which is returned."""
-        if isinstance(self.writer, SyncWriter):
+        if isinstance(self.writer, BaseSyncWriter):
             mock_f = WriteFunctionMock()
         else:
             mock_f = WriteFunctionAsyncMock()
@@ -384,7 +384,7 @@ class ReaderTests(ABC):
     @pytest.fixture
     def method_mock(self) -> Union[Mock, AsyncMock]:
         """Returns the appropriate type of mock, supporting both sync and async modes."""
-        if isinstance(self.reader, SyncReader):
+        if isinstance(self.reader, BaseSyncReader):
             return Mock
         return AsyncMock
 
