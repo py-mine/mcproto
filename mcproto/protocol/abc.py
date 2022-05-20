@@ -237,6 +237,11 @@ class BaseAsyncWriter(ABC):
         await self.write_bool(True)
         return await writer(value)
 
+    async def write_bytearray(self, data: bytearray) -> None:
+        """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
+        await self.write_varint(len(data))
+        await self.write(data)
+
 
 class BaseSyncWriter(ABC):
     """Base class holding synchronous write buffer/connection interactions."""
@@ -455,6 +460,11 @@ class BaseSyncWriter(ABC):
         self.write_bool(True)
         return writer(value)
 
+    def write_bytearray(self, data: bytearray) -> None:
+        """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
+        self.write_varint(len(data))
+        self.write(data)
+
 
 # endregion
 # region: Reader classes
@@ -654,6 +664,11 @@ class BaseAsyncReader(ABC):
 
         return await reader()
 
+    async def read_bytearray(self) -> bytearray:
+        """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
+        length = await self.read_varint()
+        return await self.read(length)
+
 
 class BaseSyncReader(ABC):
     """Base class holding synchronous read buffer/connection interactions."""
@@ -846,6 +861,11 @@ class BaseSyncReader(ABC):
             return
 
         return reader()
+
+    def read_bytearray(self) -> bytearray:
+        """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
+        length = self.read_varint()
+        return self.read(length)
 
 
 # endregion

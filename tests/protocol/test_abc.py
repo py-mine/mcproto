@@ -101,8 +101,9 @@ class WriterTests(ABC):
             self.writer.write_ubyte(-1)
 
     # We skip over many similar single type write functions, these are mostly just wrappers around struct.pack,
-    # and testing each function would get very repetetive with little benefit, considering struct library itself can be
-    # trusted. Specifically, these left out functions are:
+    # which we can trust will work, or functions only relying on other internal methods, which were already tested
+    # and are hence trusted too. Testing each of these functions would get very repetetive with little to no benefit.
+    # Specifically, these functions are:
     # - write_bool
     # - write_short, write_ushort
     # - write_int, write_uint
@@ -111,6 +112,7 @@ class WriterTests(ABC):
     # - write_double
     # - write_varshort
     # - write_varlong
+    # - write_bytearray
 
     @pytest.mark.parametrize(
         "number,expected_bytes",
@@ -283,8 +285,9 @@ class ReaderTests(ABC):
         assert self.reader.read_byte() == expected_value
 
     # We skip over many similar single type write functions, these are mostly just wrappers around struct.pack,
-    # and testing each function would get very repetetive with little benefit, considering struct library itself can be
-    # trusted. Specifically, these left out functions are:
+    # which we can trust will work, or functions only relying on other internal methods, which were already tested
+    # and are hence trusted too. Testing each of these functions would get very repetetive with little to no benefit.
+    # Specifically, these functions are:
     # - read_bool
     # - read_short, read_ushort
     # - read_int, read_uint
@@ -293,6 +296,7 @@ class ReaderTests(ABC):
     # - read_double
     # - read_varshort
     # - read_varlong
+    # - read_bytearray
 
     @pytest.mark.parametrize(
         "read_bytes,expected_value",
@@ -423,6 +427,7 @@ class TestBaseAsyncWriter(WriterTests):
             "write_varlong",
             "write_utf",
             "write_optional",
+            "write_bytearray",
         ),
     )
     def test_methods_are_async(self, async_function_name: str):
@@ -465,6 +470,7 @@ class TestBaseAsyncReader(ReaderTests):
             "read_varlong",
             "read_utf",
             "read_optional",
+            "read_bytearray",
         ),
     )
     def test_methods_are_async(self, async_function_name: str):
