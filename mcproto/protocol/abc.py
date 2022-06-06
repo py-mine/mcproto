@@ -646,9 +646,7 @@ class BaseAsyncReader(ABC):
         of the ASCII characters only take up 1 byte).
         """
         length = await self.read_varshort()
-        print(length)
         bytes = await self.read(length)
-        print(bytes)
         return bytes.decode("utf-8")
 
     async def read_optional(self, reader: Callable[[], Awaitable[R]]) -> Optional[R]:
