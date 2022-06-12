@@ -6,18 +6,129 @@ from unittest.mock import AsyncMock, Mock
 import pytest
 
 from mcproto.protocol.abc import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
+from tests.helpers import SynchronizedMixin
 from tests.protocol.helpers import (
     ReadFunctionAsyncMock,
     ReadFunctionMock,
-    SyncReader,
-    SyncWriter,
-    WrappedAsyncReader,
-    WrappedAsyncWriter,
     WriteFunctionAsyncMock,
     WriteFunctionMock,
     to_two_complement,
 )
 
+# region: Initializable concrete implementations of ABC clases.
+
+
+class SyncWriter(BaseSyncWriter):
+    """Initializable concrete implementation of BaseSyncWriter ABC."""
+
+    def write(self, data: bytearray) -> None:
+        """Concrete implementation of abstract write method.
+
+        Since classes using abc.ABC can't be initialized if they have any abstract methods
+        which weren't overridden with a concrete implementation, this is a fake implementation,
+        without any actual logic, purely to allow the initialization of this class.
+
+        This method is expected to be mocked using WriteFunctionMock if it's expected to get called
+        during testing. If this method gets called without being mocked, it will raise NotImplementedError.
+        """
+        raise NotImplementedError(
+            "This concrete override of abstract write method isn't intended for actual use!\n"
+            " - If you're writing a new test, did you forget to mock it?\n"
+            " - If you're seeing this in an existing test, this method got called without the test expecting it,"
+            " this probably means you changed something in the code leading to this call, but you haven't updated"
+            " the tests to mock this function."
+        )
+
+
+class SyncReader(BaseSyncReader):
+    """Testable concrete implementation of BaseSyncReader ABC."""
+
+    def read(self, length: int) -> bytearray:
+        """Concrete implementation of abstract read method.
+
+        Since classes using abc.ABC can't be initialized if they have any abstract methods
+        which weren't overridden with a concrete implementation, this is a fake implementation,
+        without any actual logic, purely to allow the initialization of this class.
+
+        This method is expected to be mocked using ReadFunctionMock if it's expected to get called
+        during testing. If this method gets called without being mocked, it will raise NotImplementedError.
+        """
+        raise NotImplementedError(
+            "This concrete override of abstract read method isn't intended for actual use!\n"
+            " - If you're writing a new test, did you forget to mock it?\n"
+            " - If you're seeing this in an existing test, this method got called without the test expecting it,"
+            " this probably means you changed something in the code leading to this call, but you haven't updated"
+            " the tests to mock this function."
+        )
+
+
+class AsyncWriter(BaseAsyncWriter):
+    """Initializable concrete implementation of BaseAsyncWriter ABC."""
+
+    async def write(self, data: bytearray) -> None:
+        """Concrete implementation of abstract write method.
+
+        Since classes using abc.ABC can't be initialized if they have any abstract methods
+        which weren't overridden with a concrete implementation, this is a fake implementation,
+        without any actual logic, purely to allow the initialization of this class.
+
+        This method is expected to be mocked using WriteFunctionAsyncMock if it's expected to get called
+        during testing. If this method gets called without being mocked, it will raise NotImplementedError.
+        """
+        raise NotImplementedError(
+            "This concrete override of abstract write method isn't intended for actual use!\n"
+            " - If you're writing a new test, did you forget to mock it?\n"
+            " - If you're seeing this in an existing test, this method got called without the test expecting it,"
+            " this probably means you changed something in the code leading to this call, but you haven't updated"
+            " the tests to mock this function."
+        )
+
+
+class AsyncReader(BaseAsyncReader):
+    """Testable concrete implementation of BaseAsyncReader ABC."""
+
+    async def read(self, length: int) -> bytearray:
+        """Concrete implementation of abstract read method.
+
+        Since classes using abc.ABC can't be initialized if they have any abstract methods
+        which weren't overridden with a concrete implementation, this is a fake implementation,
+        without any actual logic, purely to allow the initialization of this class.
+
+        This method is expected to be mocked using ReadFunctionAsyncMock if it's expected to get called
+        during testing. If this method gets called without being mocked, it will raise NotImplementedError.
+        """
+        raise NotImplementedError(
+            "This concrete override of abstract read method isn't intended for actual use!\n"
+            " - If you're writing a new test, did you forget to mock it?\n"
+            " - If you're seeing this in an existing test, this method got called without the test expecting it,"
+            " this probably means you changed something in the code leading to this call, but you haven't updated"
+            " the tests to mock this function."
+        )
+
+
+# endregion
+# region: Synchronized classes
+
+
+class WrappedAsyncReader(SynchronizedMixin):
+    """Wrapped synchronous implementation of asynchronous AsyncReader class."""
+
+    _WRAPPED_ATTRIBUTE = "_reader"
+
+    def __init__(self):
+        self._reader = AsyncReader()
+
+
+class WrappedAsyncWriter(SynchronizedMixin):
+    """Wrapped synchronous implementation of asynchronous AsyncWriter class."""
+
+    _WRAPPED_ATTRIBUTE = "_writer"
+
+    def __init__(self):
+        self._writer = AsyncWriter()
+
+
+# endregion
 # region: Abstract test classes
 
 
