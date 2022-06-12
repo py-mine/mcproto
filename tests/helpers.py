@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import inspect
-from typing import Any, Awaitable, Callable, TYPE_CHECKING, TypeVar
+from typing import Any, Callable, Coroutine, TYPE_CHECKING, TypeVar
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec
@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 T = TypeVar("T")
 
 
-def synchronize(f: Callable[P, Awaitable[T]]) -> Callable[P, T]:
+def synchronize(f: Callable[P, Coroutine[Any, Any, T]]) -> Callable[P, T]:
     """This is a helper function, which takes an asynchronous function, and returns a synchronous alternative.
 
     This is needed because we sometimes want to test asynchronous behavior in a synchronous test function,
