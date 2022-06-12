@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import socket
-from typing import TYPE_CHECKING, Tuple, TypeVar
+from typing import Generic, TYPE_CHECKING, Tuple, TypeVar
 
 from mcproto.protocol.abc import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 
@@ -12,10 +12,13 @@ if TYPE_CHECKING:
     P = ParamSpec("P")
 
 R = TypeVar("R")
+T_SOCK = TypeVar("T_SOCK", bound=socket.socket)
+T_STREAMREADER = TypeVar("T_STREAMREADER", bound=asyncio.StreamReader)
+T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
 
 
-class TCPSyncConnection(BaseSyncReader, BaseSyncWriter):
-    def __init__(self, socket: socket.socket):
+class TCPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
+    def __init__(self, socket: T_SOCK):
         self.socket = socket
 
     @classmethod
@@ -46,8 +49,8 @@ class TCPSyncConnection(BaseSyncReader, BaseSyncWriter):
         self.socket.close()
 
 
-class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter):
-    def __init__(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter, timeout: float):
+class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADER, T_STREAMWRITER]):
+    def __init__(self, reader: T_STREAMREADER, writer: T_STREAMWRITER, timeout: float):
         self.reader = reader
         self.writer = writer
         self.timeout = timeout
