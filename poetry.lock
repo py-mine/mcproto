@@ -155,6 +155,17 @@ flake8 = ">=3.0.0"
 dev = ["coverage", "hypothesis", "hypothesmith (>=0.2)", "pre-commit"]
 
 [[package]]
+name = "flake8-future-annotations"
+version = "0.0.5"
+description = "Verifies python 3.7+ files use from __future__ import annotations"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+flake8 = "*"
+
+[[package]]
 name = "flake8-polyfill"
 version = "1.0.2"
 description = "Polyfill package for Flake8 plugins"
@@ -498,7 +509,7 @@ testing = ["coverage (>=4)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", 
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4"
-content-hash = "f253c26f0229b1f848fb3d73cfe315b23bbdf51b5f2a39ac70ebbe8b88a12ce4"
+content-hash = "b0960e7b2740da0a6542005b576749e161bedfb644732b05555b075d90bb00fe"
 
 [metadata.files]
 asyncio-dgram = [
@@ -612,6 +623,10 @@ flake8-annotations = [
 flake8-bugbear = [
     {file = "flake8-bugbear-22.4.25.tar.gz", hash = "sha256:f7c080563fca75ee6b205d06b181ecba22b802babb96b0b084cc7743d6908a55"},
     {file = "flake8_bugbear-22.4.25-py3-none-any.whl", hash = "sha256:ec374101cddf65bd7a96d393847d74e58d3b98669dbf9768344c39b6290e8bd6"},
+]
+flake8-future-annotations = [
+    {file = "flake8-future-annotations-0.0.5.tar.gz", hash = "sha256:da84011070c0d0f623a9c12bd738bea58bc65a3bf5eec20637020069310f8d84"},
+    {file = "flake8_future_annotations-0.0.5-py3-none-any.whl", hash = "sha256:28fc9ae9e5ece5c211b810d856d984f33c0290933f24ae570731a0751c4917c6"},
 ]
 flake8-polyfill = [
     {file = "flake8-polyfill-1.0.2.tar.gz", hash = "sha256:e44b087597f6da52ec6393a709e7108b2905317d0c0b744cdca6208e670d8eda"},
