@@ -232,7 +232,7 @@ class BaseAsyncWriter(ABC):
         """
         if value is None:
             await self.write_bool(False)
-            return
+            return None
 
         await self.write_bool(True)
         return await writer(value)
@@ -455,7 +455,7 @@ class BaseSyncWriter(ABC):
         """
         if value is None:
             self.write_bool(False)
-            return
+            return None
 
         self.write_bool(True)
         return writer(value)
@@ -658,7 +658,7 @@ class BaseAsyncReader(ABC):
         Will return None if the False was encountered, or the value returned by the `reader` function.
         """
         if not await self.read_bool():
-            return
+            return None
 
         return await reader()
 
@@ -856,7 +856,7 @@ class BaseSyncReader(ABC):
         Will return None if the False was encountered, or the value returned by the `reader` function.
         """
         if not self.read_bool():
-            return
+            return None
 
         return reader()
 
