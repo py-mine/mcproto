@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import asyncio
 import socket
-from typing import Generic, TYPE_CHECKING, Tuple, TypeVar
+from typing import Generic, Optional, TYPE_CHECKING, Tuple, TypeVar
+
+import asyncio_dgram
 
 from mcproto.protocol.abc import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 
@@ -15,6 +17,7 @@ R = TypeVar("R")
 T_SOCK = TypeVar("T_SOCK", bound=socket.socket)
 T_STREAMREADER = TypeVar("T_STREAMREADER", bound=asyncio.StreamReader)
 T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
+T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.DatagramClient)
 
 
 class TCPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
@@ -81,3 +84,55 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADE
 
     def close(self) -> None:
         self.writer.close()
+
+
+class UDPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
+    BUFFER_SIZE = 65535
+
+    def __init__(self, socket: T_SOCK, address: Tuple[str, int]):
+        self.socket = socket
+        self.address = address
+
+    @classmethod
+    def make_client(cls, address: Tuple[str, int], timeout: float) -> Self:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.settimeout(timeout)
+        return cls(sock, address)
+
+    def read(self, length: Optional[int] = None) -> bytearray:
+        result = bytearray()
+        while len(result) == 0:
+            received_data, server_addr = self.socket.recvfrom(self.BUFFER_SIZE)
+            result.extend(received_data)
+        return result
+
+    def write(self, data: bytes) -> None:
+        self.socket.sendto(data, self.address)
+
+    def close(self) -> None:
+        self.socket.close()
+
+
+class UDPAsyncConnection(BaseAsyncReader, BaseSyncWriter, Generic[T_DATAGRAM_CLIENT]):
+    def __init__(self, stream: T_DATAGRAM_CLIENT, timeout: float):
+        self.stream = stream
+        self.timeout = timeout
+
+    @classmethod
+    async def make_client(cls, address: Tuple[str, int], timeout: float) -> Self:
+        conn = asyncio_dgram.connect(address)
+        stream = await asyncio.wait_for(conn, timeout=timeout)
+        return cls(stream, timeout)
+
+    async def read(self, length: Optional[int] = None) -> bytearray:
+        result = bytearray()
+        while len(result) == 0:
+            received_data, server_addr = await asyncio.wait_for(self.stream.recv(), timeout=self.timeout)
+            result.extend(received_data)
+        return result
+
+    async def write(self, data: bytes) -> None:
+        await self.stream.send(data)
+
+    def close(self) -> None:
+        self.stream.close()
