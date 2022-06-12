@@ -246,7 +246,7 @@ class ReaderTests(ABC):
 
     @pytest.fixture
     def read_mock(self, monkeypatch: pytest.MonkeyPatch):
-        """Monkeypatch the write function with a mock which is returned."""
+        """Monkeypatch the read function with a mock which is returned."""
         if isinstance(self.reader, SyncReader):
             mock_f = ReadFunctionMock()
         else:
