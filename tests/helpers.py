@@ -64,7 +64,7 @@ class SynchronizedMixin:
 
         return super().__getattribute__(__name)
 
-    def __setattr__(self, __name: str, __value: Any) -> None:
+    def __setattr__(self, __name: str, __value: object) -> None:
         try:
             wrapped = getattr(self, self._WRAPPED_ATTRIBUTE)
         except AttributeError:
