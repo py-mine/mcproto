@@ -113,7 +113,7 @@ class UDPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
         self.socket.close()
 
 
-class UDPAsyncConnection(BaseAsyncReader, BaseSyncWriter, Generic[T_DATAGRAM_CLIENT]):
+class UDPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_DATAGRAM_CLIENT]):
     def __init__(self, stream: T_DATAGRAM_CLIENT, timeout: float):
         self.stream = stream
         self.timeout = timeout
