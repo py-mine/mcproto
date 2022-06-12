@@ -50,7 +50,7 @@ class SynchronizedMixin:
 
     _WRAPPED_ATTRIBUTE: str
 
-    def __getattribute__(self, __name: str) -> Any:
+    def __getattribute__(self, __name: str) -> Any:  # noqa: ANN401
         if __name == "_WRAPPED_ATTRIBUTE" or __name == self._WRAPPED_ATTRIBUTE:
             return super().__getattribute__(__name)
 
