@@ -20,7 +20,7 @@ class WriteFunctionMock(Mock):
         self.combined_data.extend(data)
         return super().__call__(data)
 
-    def assert_has_data(self, data: bytearray, ensure_called: bool = True):
+    def assert_has_data(self, data: bytearray, ensure_called: bool = True) -> None:
         """Ensure that the total data to write by the mocked function matches expected data."""
         if ensure_called:
             self.assert_called()
@@ -50,7 +50,7 @@ class ReadFunctionMock(Mock):
         del self.combined_data[:length]
         return super().__call__(length)
 
-    def assert_read_everything(self):
+    def assert_read_everything(self) -> None:
         """Ensure that the passed combined_data was fully read and depleted by one, or more calls."""
         if len(self.combined_data) != 0:
             raise AssertionError(
