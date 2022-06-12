@@ -76,5 +76,8 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADE
 
         return result
 
+    async def write(self, data: bytes) -> None:
+        self.writer.write(data)
+
     def close(self) -> None:
         self.writer.close()
