@@ -17,7 +17,7 @@ R = TypeVar("R")
 T_SOCK = TypeVar("T_SOCK", bound=socket.socket)
 T_STREAMREADER = TypeVar("T_STREAMREADER", bound=asyncio.StreamReader)
 T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
-T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.DatagramClient)
+T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.DatagramClient)
 
 
 class TCPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
