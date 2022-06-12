@@ -39,7 +39,7 @@ class TCPSyncConnection(BaseSyncReader, BaseSyncWriter):
     def write(self, data: bytes) -> None:
         self.socket.send(data)
 
-    def __del__(self):
+    def close(self) -> None:
         self.socket.close()
 
 
@@ -75,5 +75,6 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter):
 
         return result
 
-    def __del__(self):
+    def close(self) -> None:
         self.writer.close()
+        self._connected = False
