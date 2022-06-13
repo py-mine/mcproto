@@ -317,6 +317,12 @@ class WriterTests(ABC):
         mock_f.assert_not_called()
         write_mock.assert_has_data(bytearray([0]))
 
+    def test_write_bytearray(self, write_mock: WriteFunctionMock):
+        """Writing bytearray should write the bytes in it, prefixed by a size varint."""
+        data = bytearray("hello", "utf-8")
+        self.writer.write_bytearray(data)
+        write_mock.assert_has_data(bytearray([5, *data]))
+
 
 class ReaderTests(ABC):
     """This class holds tests for both sync and async versions of reader."""
@@ -486,6 +492,14 @@ class ReaderTests(ABC):
         read_mock.combined_data = bytearray([0])
         self.reader.read_optional(mock_f)
         mock_f.assert_not_called()
+
+    def test_write_bytearray(self, read_mock: ReadFunctionMock):
+        """Reading bytearray should read a size varint prefix, and n following bytes."""
+        data = bytearray("hello", "utf-8")
+        read_mock.combined_data = bytearray([5, *data])
+        out = self.reader.read_bytearray()
+
+        assert out == data
 
 
 # endregion
