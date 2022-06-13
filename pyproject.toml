@@ -56,8 +56,10 @@ extend-exclude = "^/.cache"
 [tool.isort]
 profile = "black"
 line_length = 119
+atomic = true
 order_by_type = false
 case_sensitive = true
+combine_as_imports = true
 skip = [".venv", ".git", ".cache"]
 
 [tool.pytest.ini_options]
