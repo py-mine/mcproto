@@ -4,8 +4,8 @@ set -euo pipefail
 poetry install
 poetry run task lint
 poetry run task test
-pip install poetry-dynamic-versioning
-poetry-dynamic-versioning
+poetry run pip install poetry-dynamic-versioning
+poetry run poetry-dynamic-versioning
 
 rm -rf dist/
 poetry build
