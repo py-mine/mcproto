@@ -2,24 +2,38 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
+.mypy_cache/
 
 # Virtual environments
 .venv/
+.tox/
 venv/
 env/
 ENV/
 
+# Python packaging files
+dist/
+
 # Pytest coverage reports
-.coverage
 htmlcov/
+.coverage*
+coverage.xml
+
+# Pyenv local version information
+.python-version
 
 # Editor generated files
 .idea/
 .vscode/
 .spyproject/
-
-# Backup files
-*.bak
+.spyderproject/
+.replit
 
 # Auto-generated folder attributes for MacOS
 .DS_STORE
+
+# Environmental, backup and personal files
+*.env
+*.bak
+TODO
