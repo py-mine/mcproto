@@ -81,6 +81,7 @@ retest-nocov = "pytest -v --no-cov --last-failed"
 [tool.poetry-dynamic-versioning]
 enable = true
 bump = true
+vcs = "git"
 style = "pep440"
 
 [build-system]
