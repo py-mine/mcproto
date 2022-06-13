@@ -40,7 +40,7 @@ jobs:
         id: python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.10.4'
+          python-version: '3.10.5'
 
       # Cache python dependencies so that unless we change them,
       # we won't need to reinstall them with each workflow run.
