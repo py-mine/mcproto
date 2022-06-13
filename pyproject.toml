@@ -32,6 +32,7 @@ python = ">=3.8,<4"
 asyncio-dgram = "^2.1.2"
 
 [tool.poetry.dev-dependencies]
+poetry-dynamic-versioning = "^0.17.1"
 flake8 = "^4.0.1"
 flake8-bugbear = "^22.3.23"
 flake8-annotations = "^2.9.0"
@@ -47,7 +48,6 @@ pytest = "^7.1.2"
 pytest-asyncio = "^0.18.3"
 pytest-cov = "^3.0.0"
 taskipy = "^1.10.2"
-poetry-dynamic-versioning = {version = "^0.17.1", optional = true}
 
 [tool.black]
 line-length = 119
