@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import inspect
 import warnings
+from collections.abc import Callable, Iterable
 from functools import wraps
-from typing import Callable, Iterable, Optional, TYPE_CHECKING, Type, TypeVar, Union, cast, overload
+from typing import Optional, TYPE_CHECKING, TypeVar, Union, cast, overload
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec, Protocol
@@ -20,7 +21,7 @@ R2 = TypeVar("R2")
 
 class DeprecatedReturn(Protocol):
     @overload
-    def __call__(self, __x: Type[T]) -> Type[T]:
+    def __call__(self, __x: type[T]) -> type[T]:
         ...
 
     @overload
@@ -43,7 +44,7 @@ def deprecated(
 
 @overload
 def deprecated(
-    obj: Type[T],
+    obj: type[T],
     *,
     display_name: Optional[str] = None,
     replacement: Optional[str] = None,
@@ -51,7 +52,7 @@ def deprecated(
     date: Optional[str] = None,
     msg: Optional[str] = None,
     methods: Iterable[str],
-) -> Type[T]:
+) -> type[T]:
     ...
 
 
@@ -70,7 +71,7 @@ def deprecated(
 
 
 def deprecated(
-    obj: Optional[Union[Callable, Type[object]]] = None,
+    obj: Optional[Union[Callable, type[object]]] = None,
     *,
     display_name: Optional[str] = None,
     replacement: Optional[str] = None,
@@ -97,10 +98,10 @@ def deprecated(
         ...
 
     @overload
-    def decorate(obj: Type[T]) -> Type[T]:
+    def decorate(obj: type[T]) -> type[T]:
         ...
 
-    def decorate(obj: Union[Callable[P, R], Type[T]]) -> Union[Callable[P, R], Type[T]]:
+    def decorate(obj: Union[Callable[P, R], type[T]]) -> Union[Callable[P, R], type[T]]:
         # Construct and send the warning message
         name = getattr(obj, "__qualname__", obj.__name__) if display_name is None else display_name
         warn_message = f"'{name}' is deprecated and is expected to be removed"
@@ -118,7 +119,7 @@ def deprecated(
 
         # If we're deprecating class, deprecate it's methods and return the class
         if inspect.isclass(obj):
-            obj = cast(Type[T], obj)
+            obj = cast(type[T], obj)
 
             if methods is None:
                 raise ValueError("When deprecating a class, you need to specify 'methods' which will get the notice")

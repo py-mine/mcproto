@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import asyncio
 import inspect
-from typing import Any, Callable, Coroutine, TYPE_CHECKING, TypeVar
+from collections.abc import Callable, Coroutine
+from typing import Any, TYPE_CHECKING, TypeVar
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec

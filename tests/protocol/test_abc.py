@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import inspect
 from abc import ABC, abstractmethod
-from typing import List, Union
+from typing import Union
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -242,7 +242,7 @@ class WriterTests(ABC):
             (2147483647, [255, 255, 255, 255, 7]),
         ),
     )
-    def test__write_varnum(self, number: int, expected_bytes: List[int], write_mock: WriteFunctionMock):
+    def test__write_varnum(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
         """Writing varnums results in correct bytes."""
         self.writer._write_varnum(number)
         write_mock.assert_has_data(bytearray(expected_bytes))
@@ -297,7 +297,7 @@ class WriterTests(ABC):
             ("", [0]),
         ),
     )
-    def test_write_utf(self, string: str, expected_bytes: List[int], write_mock: WriteFunctionMock):
+    def test_write_utf(self, string: str, expected_bytes: list[int], write_mock: WriteFunctionMock):
         """Writing UTF string results in correct bytes."""
         self.writer.write_utf(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
@@ -378,7 +378,7 @@ class ReaderTests(ABC):
             ([0], 0),
         ),
     )
-    def test_read_ubyte(self, read_bytes: List[int], expected_value: int, read_mock: ReadFunctionMock):
+    def test_read_ubyte(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
         """Reading byte int should return an integer in a single unsigned byte."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_ubyte() == expected_value
@@ -392,7 +392,7 @@ class ReaderTests(ABC):
             ([127], 127),
         ),
     )
-    def test_read_byte(self, read_bytes: List[int], expected_value: int, read_mock: ReadFunctionMock):
+    def test_read_byte(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
         """Negative number bytes should be read from two's complement format."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_byte() == expected_value
@@ -426,7 +426,7 @@ class ReaderTests(ABC):
             ([255, 255, 255, 255, 7], 2147483647),
         ),
     )
-    def test__read_varnum(self, read_bytes: List[int], expected_value: int, read_mock: ReadFunctionMock):
+    def test__read_varnum(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
         """Reading varnums bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader._read_varnum() == expected_value
@@ -468,7 +468,7 @@ class ReaderTests(ABC):
             ([0], ""),
         ),
     )
-    def test_read_utf(self, read_bytes: List[int], expected_string: str, read_mock: ReadFunctionMock):
+    def test_read_utf(self, read_bytes: list[int], expected_string: str, read_mock: ReadFunctionMock):
         """Reading UTF string results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string

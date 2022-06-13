@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import struct
 from abc import ABC, abstractmethod
+from collections.abc import Awaitable, Callable
 from ctypes import c_int16 as signed_int16
 from ctypes import c_int32 as signed_int32
 from ctypes import c_int64 as signed_int64
@@ -9,7 +10,7 @@ from ctypes import c_uint16 as unsigned_int16
 from ctypes import c_uint32 as unsigned_int32
 from ctypes import c_uint64 as unsigned_int64
 from itertools import count
-from typing import Any, Awaitable, Callable, Optional, TypeVar, cast
+from typing import Any, Optional, TypeVar, cast
 
 from mcproto.protocol.utils import enforce_range
 

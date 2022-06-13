@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import socket
-from typing import Generic, Optional, TYPE_CHECKING, Tuple, TypeVar
+from typing import Generic, Optional, TYPE_CHECKING, TypeVar
 
 import asyncio_dgram
 
@@ -25,7 +25,7 @@ class TCPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
         self.socket = socket
 
     @classmethod
-    def make_client(cls, address: Tuple[str, int], timeout: float) -> Self:
+    def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         sock = socket.create_connection(address, timeout=timeout)
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         return cls(sock)
@@ -59,7 +59,7 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADE
         self.timeout = timeout
 
     @classmethod
-    async def make_client(cls, address: Tuple[str, int], timeout: float) -> Self:
+    async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         conn = asyncio.open_connection(address[0], address[1])
         reader, writer = await asyncio.wait_for(conn, timeout=timeout)
         return cls(reader, writer, timeout)
@@ -89,12 +89,12 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADE
 class UDPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
     BUFFER_SIZE = 65535
 
-    def __init__(self, socket: T_SOCK, address: Tuple[str, int]):
+    def __init__(self, socket: T_SOCK, address: tuple[str, int]):
         self.socket = socket
         self.address = address
 
     @classmethod
-    def make_client(cls, address: Tuple[str, int], timeout: float) -> Self:
+    def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(timeout)
         return cls(sock, address)
@@ -119,7 +119,7 @@ class UDPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_DATAGRAM_CL
         self.timeout = timeout
 
     @classmethod
-    async def make_client(cls, address: Tuple[str, int], timeout: float) -> Self:
+    async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         conn = asyncio_dgram.connect(address)
         stream = await asyncio.wait_for(conn, timeout=timeout)
         return cls(stream, timeout)

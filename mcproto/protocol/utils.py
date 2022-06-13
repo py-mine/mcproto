@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import inspect
+from collections.abc import Callable
 from functools import wraps
-from typing import Callable, Optional, TYPE_CHECKING, TypeVar, cast
+from typing import Optional, TYPE_CHECKING, TypeVar, cast
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec
