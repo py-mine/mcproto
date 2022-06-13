@@ -1,9 +1,31 @@
 [tool.poetry]
 name = "mcproto"
-version = "0.0.1a1"
+version = "0.0.1a2"
 description = "Library providing easy interactions with minecraft sevrers"
 authors = ["ItsDrike <itsdrike@protonmail.com>"]
-license = "MPL-2.0"
+license = "LGPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/ItsDrike/mcproto"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Games/Entertainment",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Networking",
+    "Typing :: Typed",
+]
+packages = [
+    { include = "mcproto" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4"
