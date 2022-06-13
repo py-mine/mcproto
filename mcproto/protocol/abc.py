@@ -28,7 +28,7 @@ class BaseAsyncWriter(ABC):
 
     @abstractmethod
     async def write(self, data: bytes) -> None:
-        ...
+        ...  # pragma: nocover
 
     async def _write_packed(self, fmt: str, *value: object) -> None:
         """Write a value of given struct format in big-endian mode.
@@ -251,7 +251,7 @@ class BaseSyncWriter(ABC):
 
     @abstractmethod
     def write(self, data: bytes) -> None:
-        ...
+        ...  # pragma: nocover
 
     def _write_packed(self, fmt: str, *value: object) -> None:
         """Write a value of given struct format in big-endian mode.
@@ -478,7 +478,7 @@ class BaseAsyncReader(ABC):
 
     @abstractmethod
     async def read(self, length: int) -> bytearray:
-        ...
+        ...  # pragma: nocover
 
     async def _read_unpacked(self, fmt: str) -> Any:  # noqa: ANN401
         """Read bytes and unpack them into given struct format in big-endian mode.
@@ -676,7 +676,7 @@ class BaseSyncReader(ABC):
 
     @abstractmethod
     def read(self, length: int) -> bytearray:
-        ...
+        ...  # pragma: nocover
 
     def _read_unpacked(self, fmt: str) -> Any:  # noqa: ANN401
         """Read bytes and unpack them into given struct format in big-endian mode.
