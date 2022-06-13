@@ -61,7 +61,10 @@ case_sensitive = true
 skip = [".venv", ".git", ".cache"]
 
 [tool.pytest.ini_options]
+minversion = "6.0"
 asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--strict-markers --cov=mcproto --cov-branch --cov-report=term-missing --cov-report html --no-cov-on-fail --cov-fail-under=75"
 
 [tool.taskipy.tasks]
 precommit = "pre-commit run install"
@@ -70,9 +73,10 @@ black = "black ."
 isort = "isort ."
 pyright = "pyright ."
 flake8 = "flake8 ."
-test = "pytest --cov=mcproto --cov-fail-under=75  --cov-report=term --cov-report=html tests --failed-first"
-retest = "pytest --cov=mcproto --cov-report=term --cov-report=html tests --last-failed"
-test-nocov = "pytest --no-cov tests --failed-first"
+test = "pytest -v --failed-first"
+retest = "pytest -v --last-failed"
+test-nocov = "pytest -v --no-cov --failed-first"
+retest-nocov = "pytest -v --no-cov --last-failed"
 
 [tool.poetry-dynamic-versioning]
 enable = true
