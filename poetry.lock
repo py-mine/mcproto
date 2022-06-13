@@ -107,7 +107,7 @@ name = "dunamai"
 version = "1.12.0"
 description = "Dynamic version generation"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.5,<4.0"
 
 [package.dependencies]
@@ -244,7 +244,7 @@ name = "jinja2"
 version = "3.1.2"
 description = "A very fast and expressive template engine."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -258,7 +258,7 @@ name = "markupsafe"
 version = "2.1.1"
 description = "Safely add untrusted strings to HTML/XML markup."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [[package]]
@@ -353,7 +353,7 @@ name = "poetry-dynamic-versioning"
 version = "0.17.1"
 description = "Plugin for Poetry to enable dynamic versioning based on VCS tags"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.5,<4.0"
 
 [package.dependencies]
@@ -539,7 +539,7 @@ name = "tomlkit"
 version = "0.11.0"
 description = "Style preserving TOML library"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6,<4.0"
 
 [[package]]
@@ -571,7 +571,7 @@ testing = ["coverage (>=4)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", 
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4"
-content-hash = "ffc3a154679db1da1a1b5f3b40d28205ccd1a5b1cef8ff358a14bcf6a6be6924"
+content-hash = "33384632f70ebee660fec11fea963d407fdec12018db700210bb1fe5e8a7e62d"
 
 [metadata.files]
 asyncio-dgram = [

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mcproto"
-version = "0.0.0"  # Versioning handled by poetry-dynamic-versioning
+version = "0.0.1a4.dev11+b8fa5cf"  # Versioning handled by poetry-dynamic-versioning
 description = "Library providing easy interactions with minecraft sevrers"
 authors = ["ItsDrike <itsdrike@protonmail.com>"]
 license = "LGPL-3.0-or-later"
@@ -32,7 +32,7 @@ python = ">=3.8,<4"
 asyncio-dgram = "^2.1.2"
 
 [tool.poetry.dev-dependencies]
-poetry-dynamic-versioning = "^0.17.1"
+poetry-dynamic-versioning = {version = "^0.17.1", optional = true}
 flake8 = "^4.0.1"
 flake8-bugbear = "^22.3.23"
 flake8-annotations = "^2.9.0"
