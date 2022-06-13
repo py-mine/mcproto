@@ -65,7 +65,7 @@ jobs:
       # The key is a composite of multiple values, which when changed
       # the cache won't be restored in order to make updating possible
       - name: Python dependency caching
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: python_cache
         with:
           path: ${{ env.PYTHONUSERBASE }}

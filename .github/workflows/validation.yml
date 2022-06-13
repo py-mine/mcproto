@@ -38,7 +38,7 @@ jobs:
 
       - name: Python setup
         id: python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10.5'
 
@@ -47,7 +47,7 @@ jobs:
       # The key is a composite of multiple values, which when changed
       # the cache won't be restored in order to make updating possible
       - name: Python dependency caching
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: python_cache
         with:
           path: ${{ env.PYTHONUSERBASE }}
@@ -66,7 +66,7 @@ jobs:
       # The key is a composite of multiple values, which when changed
       # the cache won't be restored in order to make updating possible
       - name: Pre-commit Environment Caching
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.PRE_COMMIT_HOME }}
           key: "precommit-0-${{ runner.os }}-${{ env.PRE_COMMIT_HOME }}-\
