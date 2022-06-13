@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mcproto"
-version = "0.0.1a2"
+version = "0.0.0"  # Versioning handled by poetry-dynamic-versioning
 description = "Library providing easy interactions with minecraft sevrers"
 authors = ["ItsDrike <itsdrike@protonmail.com>"]
 license = "LGPL-3.0-or-later"
@@ -47,6 +47,7 @@ pytest = "^7.1.2"
 pytest-asyncio = "^0.18.3"
 pytest-cov = "^3.0.0"
 taskipy = "^1.10.2"
+poetry-dynamic-versioning = {version = "^0.17.1", optional = true}
 
 [tool.black]
 line-length = 119
@@ -73,6 +74,11 @@ test = "pytest --cov=mcproto --cov-fail-under=75  --cov-report=term --cov-report
 retest = "pytest --cov=mcproto --cov-report=term --cov-report=html tests --last-failed"
 test-nocov = "pytest --no-cov tests --failed-first"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+bump = true
+style = "pep440"
+
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry.core.masonry.api"
