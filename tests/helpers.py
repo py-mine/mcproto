@@ -52,6 +52,12 @@ class SynchronizedMixin:
     _WRAPPED_ATTRIBUTE: str
 
     def __getattribute__(self, __name: str) -> Any:  # noqa: ANN401
+        """Return attributes of the wrapped object, if the attribute is a coroutine, synchronize it.
+
+        The only exception to this behavior is getting the wrapped attribute parameter, or attribute named as the
+        content of the wrapped parameter. All other attribute access will be delegated to the wrapped attribute.
+        If the wrapped object doesn't have given attribute, this will however still fallback to lookup on this class.
+        """
         if __name == "_WRAPPED_ATTRIBUTE" or __name == self._WRAPPED_ATTRIBUTE:
             return super().__getattribute__(__name)
 
@@ -66,6 +72,12 @@ class SynchronizedMixin:
         return super().__getattribute__(__name)
 
     def __setattr__(self, __name: str, __value: object) -> None:
+        """Allow for changing attributes of the wrapped object.
+
+        - If wrapped object isn't yet set, fall back to setattr of this class.
+        - If wrapped object doesn't already have attribute we want to set, also fallback to this class.
+        - Otherwise, if the wrapped object does have the attribute we want to set, run setattr on it to update it.
+        """
         try:
             wrapped = getattr(self, self._WRAPPED_ATTRIBUTE)
         except AttributeError:
