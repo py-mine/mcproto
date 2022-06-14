@@ -8,10 +8,11 @@ from unittest.mock import MagicMock
 import pytest
 
 from mcproto.protocol.connection import TCPAsyncConnection, TCPSyncConnection
+from tests.helpers import UnpropagatingMockMixin
 from tests.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMock, WriteFunctionMock
 
 
-class MockSocket(MagicMock):
+class MockSocket(UnpropagatingMockMixin, MagicMock):
     spec_set = socket.socket
 
     def __init__(self, *args, read_data: Optional[bytearray] = None, **kwargs) -> None:
@@ -20,7 +21,7 @@ class MockSocket(MagicMock):
         self.send = WriteFunctionMock()
 
 
-class MockStreamWriter(MagicMock):
+class MockStreamWriter(UnpropagatingMockMixin, MagicMock):
     spec_set = asyncio.StreamWriter
 
     def __init__(self, *args, **kwargs):
@@ -28,7 +29,7 @@ class MockStreamWriter(MagicMock):
         self.write = WriteFunctionMock()
 
 
-class MockStreamReader(MagicMock):
+class MockStreamReader(UnpropagatingMockMixin, MagicMock):
     spec_set = asyncio.StreamReader
 
     def __init__(self, *args, read_data: Optional[bytearray] = None, **kwargs) -> None:
