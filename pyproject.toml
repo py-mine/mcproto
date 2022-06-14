@@ -35,6 +35,7 @@ asyncio-dgram = "^2.1.2"
 poetry-dynamic-versioning = {version = "^0.17.1", optional = true}
 flake8 = "^4.0.1"
 flake8-bugbear = "^22.3.23"
+flake8-simplify = "^0.19.2"
 flake8-annotations = "^2.9.0"
 flake8-tidy-imports = "^4.6.0"
 flake8-future-annotations = "^0.0.5"
