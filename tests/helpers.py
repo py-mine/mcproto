@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import inspect
+import unittest.mock
 from collections.abc import Callable, Coroutine
 from typing import Any, TYPE_CHECKING, TypeVar
 
@@ -87,3 +88,46 @@ class SynchronizedMixin:
                 return setattr(wrapped, __name, __value)
 
         return super().__setattr__(__name, __value)
+
+
+class UnpropagatingMockMixin:
+    """
+    This class is here to provide common functionality for our mock classes.
+
+    By default, mock objects propagate themselves by returning a new instance of the same
+    custom mock class when accessing new attributes of given mock class. This makes sense
+    for simple mocks without any additional restrictions, however when dealing with limited
+    mocks to some `spec_set`, it doesn't make sense to propagate those same set restrictions,
+    since we generally don't have methods of some class be of the same class.
+    """
+
+    spec_set = None
+    # Since this is a mixin class, we can access some attributes defined in mock classes safely
+    # define the types of these variables here, for code's type analysis
+    _mock_sealed: bool
+    _extract_mock_name: Callable[[], str]
+
+    def _get_child_mock(self, **kwargs) -> unittest.mock.Mock:
+        """
+        Method override which generates pure `unittest.mock.Mock` instances instead of instances of the same class.
+
+        By default, this method creates a new mock instance of the same original class (self.__class__) for newly
+        accessed attributes. However this doesn't make sense for mocks limited to some spec_set, since we don't
+        expect the available attributes to hold instances of the same class, hence we shouldn't be returning
+        limited mocks only to attributes of the spec_set object.
+        """
+
+        # Mocks can be sealed, in which case we wouldn't want to allow propagation of any kind
+        # and rather raise an AttributeError, informing that given attr isn't accessible
+        if self._mock_sealed:
+            mock_name = self._extract_mock_name()
+            if "name" in kwargs:
+                obj_name = f"{mock_name}.{kwargs['name']}"
+            else:
+                obj_name = f"{mock_name}()"
+
+            raise AttributeError(f"Can't access {obj_name}, mock is sealed.")
+
+        # Propagate any other children as simple `unittest.mock.Mock` instances
+        # rather than `self.__class__` instances
+        return unittest.mock.Mock(**kwargs)
