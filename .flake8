@@ -1,6 +1,7 @@
 [flake8]
 max-line-length=119
 extend-ignore=E203
+extend-select=B902,B904
 application-import-names=mcproto
 ban-relative-imports=true
 exclude=.venv,.git,.cache
