@@ -33,6 +33,9 @@ coverage.xml
 # Auto-generated folder attributes for MacOS
 .DS_STORE
 
+# Local gitignore (symlinked to .git/info/exclude)
+.gitignore_local
+
 # Environmental, backup and personal files
 *.env
 *.bak
