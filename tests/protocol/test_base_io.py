@@ -306,14 +306,14 @@ class WriterTests(ABC):
         """Writing non-None value should write True and run the writer function."""
         mock_v = Mock()
         mock_f = method_mock()
-        self.writer.write_optional(mock_f, mock_v)
+        self.writer.write_optional(mock_v, mock_f)
         mock_f.assert_called_once_with(mock_v)
         write_mock.assert_has_data(bytearray([1]))
 
     def test_write_optional_false(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
         """Writing None value should write False and skip running the writer function."""
         mock_f = method_mock()
-        self.writer.write_optional(mock_f, None)
+        self.writer.write_optional(None, mock_f)
         mock_f.assert_not_called()
         write_mock.assert_has_data(bytearray([0]))
 

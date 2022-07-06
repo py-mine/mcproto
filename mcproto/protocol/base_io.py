@@ -224,7 +224,7 @@ class BaseAsyncWriter(ABC):
         await self.write_varshort(len(data))
         await self.write(data)
 
-    async def write_optional(self, writer: Callable[[T], Awaitable[R]], value: Optional[T] = None) -> Optional[R]:
+    async def write_optional(self, value: Optional[T], writer: Callable[[T], Awaitable[R]]) -> Optional[R]:
         """Writes bool determining is value is present, if it is, also writes the value with writer function.
 
         When the `value` is None, a bool of False will be written and function will end. Otherwise, if `value` isn't
@@ -447,7 +447,7 @@ class BaseSyncWriter(ABC):
         self.write_varshort(len(data))
         self.write(data)
 
-    def write_optional(self, writer: Callable[[T], R], value: Optional[T] = None) -> Optional[R]:
+    def write_optional(self, value: Optional[T], writer: Callable[[T], R]) -> Optional[R]:
         """Writes bool determining is value is present, if it is, also writes the value with writer function.
 
         When the `value` is None, a bool of False will be written and function will end. Otherwise, if `value` isn't
