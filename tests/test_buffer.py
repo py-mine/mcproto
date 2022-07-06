@@ -1,6 +1,6 @@
 import pytest
 
-from mcproto.protocol.buffer import Buffer
+from mcproto.buffer import Buffer
 
 
 def test_write():

@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from mcproto.protocol.connection import TCPAsyncConnection, TCPSyncConnection
+from mcproto.connection import TCPAsyncConnection, TCPSyncConnection
 from tests.helpers import UnpropagatingMockMixin
 from tests.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMock, WriteFunctionMock
 
