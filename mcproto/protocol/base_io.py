@@ -39,14 +39,14 @@ class BaseAsyncWriter(ABC):
         """
         await self.write(struct.pack(">" + fmt, *value))
 
-    async def write_bool(self, value: bool) -> None:
+    async def write_bool(self, value: bool, /) -> None:
         """Write a boolean True/False value.
 
         True is encoded as 0x01, while False is 0x00, both have a size of just 1 byte."""
         await self._write_packed("?", value)
 
     @enforce_range(typ="Byte (8-bit signed int)", byte_size=1, signed=True)
-    async def write_byte(self, value: int) -> None:
+    async def write_byte(self, value: int, /) -> None:
         """Write a single signed 8-bit integer.
 
         Signed 8-bit integers must be within the range of -128 and 127. Going outside this range will raise a
@@ -57,7 +57,7 @@ class BaseAsyncWriter(ABC):
         await self._write_packed("b", value)
 
     @enforce_range(typ="Unsigned byte (8-bit unsigned int)", byte_size=1, signed=False)
-    async def write_ubyte(self, value: int) -> None:
+    async def write_ubyte(self, value: int, /) -> None:
         """Write a single unsigned 8-bit integer.
 
         Unsigned 8-bit integers must be within range of 0 and 255. Going outside this range will raise a ValueError.
@@ -65,7 +65,7 @@ class BaseAsyncWriter(ABC):
         await self._write_packed("B", value)
 
     @enforce_range(typ="Short (16-bit signed int)", byte_size=2, signed=True)
-    async def write_short(self, value: int) -> None:
+    async def write_short(self, value: int, /) -> None:
         """Write a signed 16-bit integer.
 
         Signed 16-bit integers must be within the range of -2**15 (-32768) and 2**15-1 (32767). Going outside this
@@ -76,7 +76,7 @@ class BaseAsyncWriter(ABC):
         await self._write_packed("h", value)
 
     @enforce_range(typ="Unsigned short (16-bit unsigned int)", byte_size=2, signed=False)
-    async def write_ushort(self, value: int) -> None:
+    async def write_ushort(self, value: int, /) -> None:
         """Write an unsigned 16-bit integer.
 
         Unsigned 16-bit integers must be within the range of 0 and 2**16-1 (65535). Going outside this range will raise
@@ -85,7 +85,7 @@ class BaseAsyncWriter(ABC):
         await self._write_packed("H", value)
 
     @enforce_range(typ="Int (32-bit signed int)", byte_size=4, signed=True)
-    async def write_int(self, value: int) -> None:
+    async def write_int(self, value: int, /) -> None:
         """Write a signed 32-bit integer.
 
         Signed 32-bit integers must be within the range of -2**31 and 2**31-1. Going outside this range will
@@ -96,7 +96,7 @@ class BaseAsyncWriter(ABC):
         await self._write_packed("i", value)
 
     @enforce_range(typ="Unsigned int (32-bit unsigned int)", byte_size=4, signed=False)
-    async def write_uint(self, value: int) -> None:
+    async def write_uint(self, value: int, /) -> None:
         """Write an unsigned 32-bit integer.
 
         Unsigned 32-bit integers must be within the range of 0 and 2**32-1. Going outside this range will raise
@@ -105,7 +105,7 @@ class BaseAsyncWriter(ABC):
         await self._write_packed("I", value)
 
     @enforce_range(typ="Long (64-bit signed int)", byte_size=8, signed=True)
-    async def write_long(self, value: int) -> None:
+    async def write_long(self, value: int, /) -> None:
         """Write a signed 64-bit integer.
 
         Signed 64-bit integers must be within the range of -2**31 and 2**31-1. Going outside this range will raise
@@ -116,7 +116,7 @@ class BaseAsyncWriter(ABC):
         await self._write_packed("q", value)
 
     @enforce_range(typ="Long (64-bit unsigned int)", byte_size=8, signed=False)
-    async def write_ulong(self, value: int) -> None:
+    async def write_ulong(self, value: int, /) -> None:
         """Write an unsigned 64-bit integer.
 
         Unsigned 64-bit integers must be within the range of 0 and 2**32-1. Going outside this range will raise
@@ -124,7 +124,7 @@ class BaseAsyncWriter(ABC):
         """
         await self._write_packed("Q", value)
 
-    async def write_float(self, value: float) -> None:
+    async def write_float(self, value: float, /) -> None:
         """Write a single precision 32-bit IEEE 754 floating point number.
 
         Checks for proper range requirement along with decimal precisions is NOT handled directly, and unlike most
@@ -134,7 +134,7 @@ class BaseAsyncWriter(ABC):
         """
         await self._write_packed("f", value)
 
-    async def write_double(self, value: float) -> None:
+    async def write_double(self, value: float, /) -> None:
         """Write a double precision 64-bit IEEE 754 floating point number.
 
         Checks for proper range requirement along with decimal precisions is NOT handled directly, and unlike most
@@ -144,7 +144,7 @@ class BaseAsyncWriter(ABC):
         """
         await self._write_packed("d", value)
 
-    async def _write_varnum(self, value: int, *, max_size: Optional[int] = None) -> None:
+    async def _write_varnum(self, value: int, /, *, max_size: Optional[int] = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -179,7 +179,7 @@ class BaseAsyncWriter(ABC):
             remaining >>= 7
 
     @enforce_range(typ="Varshort (variable length 16-bit signed int)", byte_size=2, signed=True)
-    async def write_varshort(self, value: int) -> None:
+    async def write_varshort(self, value: int, /) -> None:
         """Write a 16-bit signed integer in a variable length format.
 
         Signed 16-bit integer varnums will never get over 3 bytes, and must be within the range of -2**15 and 2**15-1.
@@ -188,7 +188,7 @@ class BaseAsyncWriter(ABC):
         await self._write_varnum(unsigned_form, max_size=2)
 
     @enforce_range(typ="Varint (variable length 32-bit signed int)", byte_size=4, signed=True)
-    async def write_varint(self, value: int) -> None:
+    async def write_varint(self, value: int, /) -> None:
         """Write a 32-bit signed integer in a variable length format.
 
         Signed 32-bit integer varnums will never get over 5 bytes, and must be within the range of -2**31 and 2**31-1.
@@ -198,7 +198,7 @@ class BaseAsyncWriter(ABC):
         await self._write_varnum(unsigned_form, max_size=4)
 
     @enforce_range(typ="Varlong (variable length 64-bit signed int)", byte_size=8, signed=True)
-    async def write_varlong(self, value: int) -> None:
+    async def write_varlong(self, value: int, /) -> None:
         """Write a 64-bit signed integer in variable length format
 
         Signed 64-bit integer varnums will never get over 10 bytes, and must be within the range of -2**63 and 2**63-1.
@@ -207,7 +207,7 @@ class BaseAsyncWriter(ABC):
         unsigned_form = unsigned_int64(value).value
         await self._write_varnum(unsigned_form, max_size=8)
 
-    async def write_utf(self, value: str) -> None:
+    async def write_utf(self, value: str, /) -> None:
         """Write a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
 
         Will write n bytes, depending on the amount of bytes in the string + up to 3 bytes from prefix varshort,
@@ -224,7 +224,7 @@ class BaseAsyncWriter(ABC):
         await self.write_varshort(len(data))
         await self.write(data)
 
-    async def write_optional(self, value: Optional[T], writer: Callable[[T], Awaitable[R]]) -> Optional[R]:
+    async def write_optional(self, value: Optional[T], /, writer: Callable[[T], Awaitable[R]]) -> Optional[R]:
         """Writes bool determining is value is present, if it is, also writes the value with writer function.
 
         When the `value` is None, a bool of False will be written and function will end. Otherwise, if `value` isn't
@@ -240,7 +240,7 @@ class BaseAsyncWriter(ABC):
         await self.write_bool(True)
         return await writer(value)
 
-    async def write_bytearray(self, value: bytearray) -> None:
+    async def write_bytearray(self, value: bytearray, /) -> None:
         """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
         await self.write_varint(len(value))
         await self.write(value)
@@ -262,14 +262,14 @@ class BaseSyncWriter(ABC):
         """
         self.write(struct.pack(">" + fmt, *value))
 
-    def write_bool(self, value: bool) -> None:
+    def write_bool(self, value: bool, /) -> None:
         """Write a boolean True/False value.
 
         True is encoded as 0x01, while False is 0x00, both have a size of just 1 byte."""
         self._write_packed("?", value)
 
     @enforce_range(typ="Byte (8-bit signed int)", byte_size=1, signed=True)
-    def write_byte(self, value: int) -> None:
+    def write_byte(self, value: int, /) -> None:
         """Write a single signed 8-bit integer.
 
         Signed 8-bit integers must be within the range of -128 and 127. Going outside this range will raise a
@@ -280,7 +280,7 @@ class BaseSyncWriter(ABC):
         self._write_packed("b", value)
 
     @enforce_range(typ="Unsigned byte (8-bit unsigned int)", byte_size=1, signed=False)
-    def write_ubyte(self, value: int) -> None:
+    def write_ubyte(self, value: int, /) -> None:
         """Write a single unsigned 8-bit integer.
 
         Unsigned 8-bit integers must be within range of 0 and 255. Going outside this range will raise a ValueError.
@@ -288,7 +288,7 @@ class BaseSyncWriter(ABC):
         self._write_packed("B", value)
 
     @enforce_range(typ="Short (16-bit signed int)", byte_size=2, signed=True)
-    def write_short(self, value: int) -> None:
+    def write_short(self, value: int, /) -> None:
         """Write a signed 16-bit integer.
 
         Signed 16-bit integers must be within the range of -2**15 (-32768) and 2**15-1 (32767). Going outside this
@@ -299,7 +299,7 @@ class BaseSyncWriter(ABC):
         self._write_packed("h", value)
 
     @enforce_range(typ="Unsigned short (16-bit unsigned int)", byte_size=2, signed=False)
-    def write_ushort(self, value: int) -> None:
+    def write_ushort(self, value: int, /) -> None:
         """Write an unsigned 16-bit integer.
 
         Unsigned 16-bit integers must be within the range of 0 and 2**16-1 (65535). Going outside this range will raise
@@ -308,7 +308,7 @@ class BaseSyncWriter(ABC):
         self._write_packed("H", value)
 
     @enforce_range(typ="Int (32-bit signed int)", byte_size=4, signed=True)
-    def write_int(self, value: int) -> None:
+    def write_int(self, value: int, /) -> None:
         """Write a signed 32-bit integer.
 
         Signed 32-bit integers must be within the range of -2**31 and 2**31-1. Going outside this range will
@@ -319,7 +319,7 @@ class BaseSyncWriter(ABC):
         self._write_packed("i", value)
 
     @enforce_range(typ="Unsigned int (32-bit unsigned int)", byte_size=4, signed=False)
-    def write_uint(self, value: int) -> None:
+    def write_uint(self, value: int, /) -> None:
         """Write an unsigned 32-bit integer.
 
         Unsigned 32-bit integers must be within the range of 0 and 2**32-1. Going outside this range will raise
@@ -328,7 +328,7 @@ class BaseSyncWriter(ABC):
         self._write_packed("I", value)
 
     @enforce_range(typ="Long (64-bit signed int)", byte_size=8, signed=True)
-    def write_long(self, value: int) -> None:
+    def write_long(self, value: int, /) -> None:
         """Write a signed 64-bit integer.
 
         Signed 64-bit integers must be within the range of -2**31 and 2**31-1. Going outside this range will raise
@@ -339,7 +339,7 @@ class BaseSyncWriter(ABC):
         self._write_packed("q", value)
 
     @enforce_range(typ="Long (64-bit unsigned int)", byte_size=8, signed=False)
-    def write_ulong(self, value: int) -> None:
+    def write_ulong(self, value: int, /) -> None:
         """Write an unsigned 64-bit integer.
 
         Unsigned 64-bit integers must be within the range of 0 and 2**32-1. Going outside this range will raise
@@ -347,7 +347,7 @@ class BaseSyncWriter(ABC):
         """
         self._write_packed("Q", value)
 
-    def write_float(self, value: float) -> None:
+    def write_float(self, value: float, /) -> None:
         """Write a single precision 32-bit IEEE 754 floating point number.
 
         Checks for proper range requirement along with decimal precisions is NOT handled directly, and unlike most
@@ -357,7 +357,7 @@ class BaseSyncWriter(ABC):
         """
         self._write_packed("f", value)
 
-    def write_double(self, value: float) -> None:
+    def write_double(self, value: float, /) -> None:
         """Write a double precision 64-bit IEEE 754 floating point number.
 
         Checks for proper range requirement along with decimal precisions is NOT handled directly, and unlike most
@@ -367,7 +367,7 @@ class BaseSyncWriter(ABC):
         """
         self._write_packed("d", value)
 
-    def _write_varnum(self, value: int, *, max_size: Optional[int] = None) -> None:
+    def _write_varnum(self, value: int, /, *, max_size: Optional[int] = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -402,7 +402,7 @@ class BaseSyncWriter(ABC):
             remaining >>= 7
 
     @enforce_range(typ="Varshort (variable length 16-bit signed int)", byte_size=2, signed=True)
-    def write_varshort(self, value: int) -> None:
+    def write_varshort(self, value: int, /) -> None:
         """Write a 16-bit signed integer in a variable length format.
 
         Signed 16-bit integer varnums will never get over 3 bytes, and must be within the range of -2**15 and 2**15-1.
@@ -411,7 +411,7 @@ class BaseSyncWriter(ABC):
         self._write_varnum(unsigned_form, max_size=2)
 
     @enforce_range(typ="Varint (variable length 32-bit signed int)", byte_size=4, signed=True)
-    def write_varint(self, value: int) -> None:
+    def write_varint(self, value: int, /) -> None:
         """Write a 32-bit signed integer in a variable length format.
 
         Signed 32-bit integer varnums will never get over 5 bytes, and must be within the range of -2**31 and 2**31-1.
@@ -421,7 +421,7 @@ class BaseSyncWriter(ABC):
         self._write_varnum(unsigned_form, max_size=4)
 
     @enforce_range(typ="Varlong (variable length 64-bit signed int)", byte_size=8, signed=True)
-    async def write_varlong(self, value: int) -> None:
+    async def write_varlong(self, value: int, /) -> None:
         """Write a 64-bit signed integer in variable length format
 
         Signed 64-bit integer varnums will never get over 10 bytes, and must be within the range of -2**63 and 2**63-1.
@@ -430,7 +430,7 @@ class BaseSyncWriter(ABC):
         unsigned_form = unsigned_int64(value).value
         self._write_varnum(unsigned_form, max_size=8)
 
-    def write_utf(self, value: str) -> None:
+    def write_utf(self, value: str, /) -> None:
         """Write a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
 
         Will write n bytes, depending on the amount of bytes in the string + up to 3 bytes from prefix varshort,
@@ -447,7 +447,7 @@ class BaseSyncWriter(ABC):
         self.write_varshort(len(data))
         self.write(data)
 
-    def write_optional(self, value: Optional[T], writer: Callable[[T], R]) -> Optional[R]:
+    def write_optional(self, value: Optional[T], /, writer: Callable[[T], R]) -> Optional[R]:
         """Writes bool determining is value is present, if it is, also writes the value with writer function.
 
         When the `value` is None, a bool of False will be written and function will end. Otherwise, if `value` isn't
@@ -463,7 +463,7 @@ class BaseSyncWriter(ABC):
         self.write_bool(True)
         return writer(value)
 
-    def write_bytearray(self, value: bytearray) -> None:
+    def write_bytearray(self, value: bytearray, /) -> None:
         """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
         self.write_varint(len(value))
         self.write(value)
