@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from mcproto.protocol.abc import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
+from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 from tests.helpers import SynchronizedMixin
 from tests.protocol.helpers import (
     ReadFunctionAsyncMock,
@@ -160,10 +160,10 @@ class WriterTests(ABC):
         This mock object will either be Mock, or AsyncMock instance, depending on whether we're in async or sync mode.
         """
         if isinstance(self.writer, SyncWriter):
-            patch_path = "mcproto.protocol.abc.BaseSyncWriter"
+            patch_path = "mcproto.protocol.base_io.BaseSyncWriter"
             mock_type = Mock
         else:
-            patch_path = "mcproto.protocol.abc.BaseAsyncWriter"
+            patch_path = "mcproto.protocol.base_io.BaseAsyncWriter"
             mock_type = AsyncMock
 
         def autopatch(function_name: str) -> Union[Mock, AsyncMock]:
@@ -350,10 +350,10 @@ class ReaderTests(ABC):
         This mock object will either be Mock, or AsyncMock instance, depending on whether we're in async or sync mode.
         """
         if isinstance(self.reader, SyncReader):
-            patch_path = "mcproto.protocol.abc.BaseSyncReader"
+            patch_path = "mcproto.protocol.base_io.BaseSyncReader"
             mock_type = Mock
         else:
-            patch_path = "mcproto.protocol.abc.BaseAsyncReader"
+            patch_path = "mcproto.protocol.base_io.BaseAsyncReader"
             mock_type = AsyncMock
 
         def autopatch(function_name: str) -> Union[Mock, AsyncMock]:

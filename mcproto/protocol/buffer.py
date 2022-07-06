@@ -1,4 +1,4 @@
-from mcproto.protocol.abc import BaseSyncReader, BaseSyncWriter
+from mcproto.protocol.base_io import BaseSyncReader, BaseSyncWriter
 
 
 class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
