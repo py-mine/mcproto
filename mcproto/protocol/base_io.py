@@ -240,10 +240,10 @@ class BaseAsyncWriter(ABC):
         await self.write_bool(True)
         return await writer(value)
 
-    async def write_bytearray(self, data: bytearray) -> None:
+    async def write_bytearray(self, value: bytearray) -> None:
         """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
-        await self.write_varint(len(data))
-        await self.write(data)
+        await self.write_varint(len(value))
+        await self.write(value)
 
 
 class BaseSyncWriter(ABC):
@@ -463,10 +463,10 @@ class BaseSyncWriter(ABC):
         self.write_bool(True)
         return writer(value)
 
-    def write_bytearray(self, data: bytearray) -> None:
+    def write_bytearray(self, value: bytearray) -> None:
         """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
-        self.write_varint(len(data))
-        self.write(data)
+        self.write_varint(len(value))
+        self.write(value)
 
 
 # endregion
