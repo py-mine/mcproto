@@ -70,7 +70,7 @@ testpaths = ["tests"]
 addopts = "--strict-markers --cov=mcproto --cov-branch --cov-report=term-missing --cov-report html --no-cov-on-fail --cov-fail-under=75"
 
 [tool.taskipy.tasks]
-precommit = "pre-commit run install"
+precommit = "pre-commit install"
 lint = "pre-commit run --all-files"
 black = "black ."
 isort = "isort ."
