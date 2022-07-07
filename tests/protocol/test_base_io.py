@@ -8,14 +8,9 @@ from unittest.mock import AsyncMock, Mock
 import pytest
 
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
+from mcproto.protocol.utils import to_twos_complement
 from tests.helpers import SynchronizedMixin
-from tests.protocol.helpers import (
-    ReadFunctionAsyncMock,
-    ReadFunctionMock,
-    WriteFunctionAsyncMock,
-    WriteFunctionMock,
-    to_two_complement,
-)
+from tests.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMock, WriteFunctionAsyncMock, WriteFunctionMock
 
 # region: Initializable concrete implementations of ABC clases.
 
@@ -192,7 +187,7 @@ class WriterTests(ABC):
     def test_write_byte_negative(self, write_mock: WriteFunctionMock):
         """Negative number bytes should be stored in two's complement format."""
         self.writer.write_byte(-20)
-        write_mock.assert_has_data(bytearray([to_two_complement(-20, 1)]))
+        write_mock.assert_has_data(bytearray([to_twos_complement(-20, 1 * 8)]))
 
     def test_write_byte_out_of_range(self):
         """Signed bytes should only allow writes from -128 to 127."""
@@ -268,8 +263,8 @@ class WriterTests(ABC):
             (0, 0),
             (120, 120),
             (2147483647, 2147483647),
-            (-1, to_two_complement(-1, 4)),
-            (-2147483648, to_two_complement(-2147483648, 4)),
+            (-1, to_twos_complement(-1, 4 * 8)),
+            (-2147483648, to_twos_complement(-2147483648, 4 * 8)),
         ),
     )
     def test_write_varint(self, varint_value: int, expected_varnum_call: int, autopatch):
@@ -392,8 +387,8 @@ class ReaderTests(ABC):
     @pytest.mark.parametrize(
         "read_bytes,expected_value",
         (
-            ([to_two_complement(-20, 1)], -20),
-            ([to_two_complement(-128, 1)], -128),
+            ([to_twos_complement(-20, 1 * 8)], -20),
+            ([to_twos_complement(-128, 1 * 8)], -128),
             ([20], 20),
             ([127], 127),
         ),
@@ -454,8 +449,8 @@ class ReaderTests(ABC):
             (0, 0),
             (120, 120),
             (2147483647, 2147483647),
-            (to_two_complement(-1, 4), -1),
-            (to_two_complement(-2147483648, 4), -2147483648),
+            (to_twos_complement(-1, 4 * 8), -1),
+            (to_twos_complement(-2147483648, 4 * 8), -2147483648),
         ),
     )
     def test_read_varint(self, varnum_return_value: int, expected_varint_value: int, autopatch):

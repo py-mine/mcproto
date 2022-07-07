@@ -59,13 +59,3 @@ class ReadFunctionMock(Mock):
 
 class ReadFunctionAsyncMock(ReadFunctionMock, AsyncMock):
     ...
-
-
-def to_two_complement(number: int, bytes: int) -> int:
-    """Helper function to convert a number into two's complement format."""
-    return number + 2 ** (bytes * 8)
-
-
-def from_two_complement(number: int, bytes: int) -> int:
-    """Helper function to get the real value from int in two's complement format."""
-    return number - 2 ** (bytes * 8) + 1
