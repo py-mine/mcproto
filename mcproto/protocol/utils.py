@@ -13,6 +13,19 @@ if TYPE_CHECKING:
 R = TypeVar("R")
 
 
+def to_twos_complement(num: int, bits: int) -> int:
+    """Convert a given number into twos complement format of given amount of bits."""
+    return num + (1 << bits) if num < 0 else num
+
+
+def from_twos_complement(num: int, bits: int) -> int:
+    """Convert a given number from twos complement format of given amount of bits."""
+    if num & (1 << (bits - 1)) != 0:
+        num -= 1 << bits
+
+    return num
+
+
 def enforce_range(*, typ: str, byte_size: Optional[int], signed: bool) -> Callable:
     """Decorator enforcing proper int value range, based on the number of bytes.
 
