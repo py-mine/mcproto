@@ -13,6 +13,14 @@ if TYPE_CHECKING:
 
 T = TypeVar("T")
 
+__all__ = [
+    "ReadInstruction",
+    "ReadCapable",
+    "WriteCapable",
+    "ReadWriteCapable",
+    "BASIC_READ_INSTRUCTIONS",
+]
+
 
 @dataclass
 class ReadInstruction(Generic[T]):

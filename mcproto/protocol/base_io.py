@@ -19,6 +19,13 @@ from mcproto.protocol.utils import enforce_range
 T = TypeVar("T")
 R = TypeVar("R")
 
+__all__ = [
+    "BaseAsyncReader",
+    "BaseAsyncWriter",
+    "BaseSyncReader",
+    "BaseSyncWriter",
+]
+
 
 # region: Writer classes
 
