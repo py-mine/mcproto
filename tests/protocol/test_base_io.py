@@ -1,13 +1,19 @@
 from __future__ import annotations
 
-import inspect
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Any, Union
 from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
+from mcproto.protocol.base_io import (
+    BaseAsyncReader,
+    BaseAsyncWriter,
+    BaseSyncReader,
+    BaseSyncWriter,
+    INT_FORMATS_TYPE,
+    StructFormat,
+)
 from mcproto.protocol.utils import to_twos_complement
 from tests.helpers import SynchronizedMixin
 from tests.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMock, WriteFunctionAsyncMock, WriteFunctionMock
@@ -179,48 +185,41 @@ class WriterTests(ABC):
         monkeypatch.setattr(self.writer.__class__, "write", mock_f)
         return mock_f
 
-    def test_write_byte(self, write_mock: WriteFunctionMock):
-        """Writing byte int should store an integer in a single byte."""
-        self.writer.write_byte(15)
-        write_mock.assert_has_data(bytearray([15]))
+    @pytest.mark.parametrize(
+        "format,value,expected_bytes",
+        (
+            (StructFormat.UBYTE, 0, [0]),
+            (StructFormat.UBYTE, 15, [15]),
+            (StructFormat.UBYTE, 255, [255]),
+            (StructFormat.BYTE, 0, [0]),
+            (StructFormat.BYTE, 15, [15]),
+            (StructFormat.BYTE, 127, [127]),
+            (StructFormat.BYTE, -20, [to_twos_complement(-20, bits=8)]),
+            (StructFormat.BYTE, -128, [to_twos_complement(-128, bits=8)]),
+        ),
+    )
+    def test_write_value(
+        self, format: INT_FORMATS_TYPE, value: Any, expected_bytes: list[int], write_mock: WriteFunctionMock
+    ):
+        self.writer.write_value(format, value)
+        write_mock.assert_has_data(bytearray(expected_bytes))
 
-    def test_write_byte_negative(self, write_mock: WriteFunctionMock):
-        """Negative number bytes should be stored in two's complement format."""
-        self.writer.write_byte(-20)
-        write_mock.assert_has_data(bytearray([to_twos_complement(-20, 1 * 8)]))
-
-    def test_write_byte_out_of_range(self):
-        """Signed bytes should only allow writes from -128 to 127."""
-        with pytest.raises(ValueError):
-            self.writer.write_byte(-129)
-        with pytest.raises(ValueError):
-            self.writer.write_byte(128)
-
-    def test_write_ubyte(self, write_mock: WriteFunctionMock):
-        """Writing unsigned byte int should store an integer in a single byte."""
-        self.writer.write_byte(80)
-        write_mock.assert_has_data(bytearray([80]))
-
-    def test_write_ubyte_out_of_range(self):
-        """Unsigned bytes should only allow writes from 0 to 255."""
-        with pytest.raises(ValueError):
-            self.writer.write_ubyte(256)
-        with pytest.raises(ValueError):
-            self.writer.write_ubyte(-1)
-
-    # We skip over many similar single type write functions, these are mostly just wrappers around struct.pack,
-    # which we can trust will work, or functions only relying on other internal methods, which were already tested
-    # and are hence trusted too. Testing each of these functions would get very repetetive with little to no benefit.
-    # Specifically, these functions are:
-    # - write_bool
-    # - write_short, write_ushort
-    # - write_int, write_uint
-    # - write_long, write_ulong
-    # - write_float
-    # - write_double
-    # - write_varshort
-    # - write_varlong
-    # - write_bytearray
+    @pytest.mark.parametrize(
+        "format,value",
+        (
+            (StructFormat.UBYTE, -1),
+            (StructFormat.UBYTE, 256),
+            (StructFormat.BYTE, -129),
+            (StructFormat.BYTE, 128),
+        ),
+    )
+    def test_write_value_out_of_range(
+        self,
+        format: INT_FORMATS_TYPE,
+        value: Any,
+    ):
+        with pytest.raises(Exception):
+            self.writer.write_value(format, value)
 
     @pytest.mark.parametrize(
         "number,expected_bytes",
@@ -237,28 +236,27 @@ class WriterTests(ABC):
             (2147483647, [255, 255, 255, 255, 7]),
         ),
     )
-    def test__write_varnum(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
-        """Writing varnums results in correct bytes."""
-        self.writer._write_varnum(number)
+    def test_write_varuint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
+        """Writing varuints results in correct bytes."""
+        self.writer.write_varuint(number, max_bits=32)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
-    def test__write_varnum_out_of_range(self):
-        """Varnums without max size should only work with positive integers."""
+    @pytest.mark.parametrize(
+        "write_value,max_bits",
+        (
+            (-1, 128),
+            (-1, 1),
+            (2**16, 16),
+            (2**32, 32),
+        ),
+    )
+    def test_write_varuint_out_of_range(self, write_value: int, max_bits: int):
+        """Varuints without should only work on positive integers up to n max_bits."""
         with pytest.raises(ValueError):
-            self.writer._write_varnum(-1)
-
-    def test__write_varnum_max_size(self, write_mock: WriteFunctionMock):
-        """Varnums should be limitable to n max bytes and work with values in range."""
-        self.writer._write_varnum(2**16 - 1, max_size=2)
-        write_mock.assert_has_data(bytearray([255, 255, 3]))
-
-    def test__write_varnum_max_size_out_of_range(self):
-        """Varnums limited to n max bytes should raise ValueErrors for numbers out of this range."""
-        with pytest.raises(ValueError):
-            self.writer._write_varnum(2**16, max_size=2)
+            self.writer.write_varuint(write_value, max_bits=max_bits)
 
     @pytest.mark.parametrize(
-        "varint_value,expected_varnum_call",
+        "varint_value,expected_varuint_call",
         (
             (0, 0),
             (120, 120),
@@ -267,21 +265,29 @@ class WriterTests(ABC):
             (-2147483648, to_twos_complement(-2147483648, 4 * 8)),
         ),
     )
-    def test_write_varint(self, varint_value: int, expected_varnum_call: int, autopatch):
-        """Writing varint should call _write_varnum with proper values."""
-        mock_f = autopatch("_write_varnum")
-        self.writer.write_varint(varint_value)
+    def test_write_varint(self, varint_value: int, expected_varuint_call: int, autopatch):
+        """Writing varint should call write_varuint with proper values."""
+        mock_f = autopatch("write_varuint")
+        self.writer.write_varint(varint_value, max_bits=32)
 
-        mock_f.assert_called_once_with(expected_varnum_call, max_size=4)
+        mock_f.assert_called_once_with(expected_varuint_call, max_bits=32)
 
-    @pytest.mark.parametrize("value", (-2147483649, 2147483648, 10**20, -(10**20)))
-    def test_write_varint_out_of_range(self, value: int, autopatch):
-        """Writing varint outside of signed 32-bit int range should raise ValueError on it's own."""
-        mock_f = autopatch("_write_varnum")
+    @pytest.mark.parametrize(
+        "value,max_bits",
+        (
+            (-2147483649, 32),
+            (2147483648, 32),
+            (10**20, 32),
+            (-(10**20), 32),
+        ),
+    )
+    def test_write_varint_out_of_range(self, value: int, max_bits: int, autopatch):
+        """Writing varint outside of signed max_bits int range should raise ValueError on it's own."""
+        mock_f = autopatch("write_varuint")
         with pytest.raises(ValueError):
-            self.writer.write_varint(value)
+            self.writer.write_varint(value, max_bits=max_bits)
 
-        # Range limitation should come from write_varint, not _write_varnum
+        # Range limitation should come from write_varint, not write_varuint
         mock_f.assert_not_called()
 
     @pytest.mark.parametrize(
@@ -311,12 +317,6 @@ class WriterTests(ABC):
         self.writer.write_optional(None, mock_f)
         mock_f.assert_not_called()
         write_mock.assert_has_data(bytearray([0]))
-
-    def test_write_bytearray(self, write_mock: WriteFunctionMock):
-        """Writing bytearray should write the bytes in it, prefixed by a size varint."""
-        data = bytearray("hello", "utf-8")
-        self.writer.write_bytearray(data)
-        write_mock.assert_has_data(bytearray([5, *data]))
 
 
 class ReaderTests(ABC):
@@ -372,45 +372,23 @@ class ReaderTests(ABC):
         mock_f.assert_read_everything()
 
     @pytest.mark.parametrize(
-        "read_bytes,expected_value",
+        "format,read_bytes,expected_value",
         (
-            ([10], 10),
-            ([255], 255),
-            ([0], 0),
+            (StructFormat.UBYTE, [0], 0),
+            (StructFormat.UBYTE, [10], 10),
+            (StructFormat.UBYTE, [255], 255),
+            (StructFormat.BYTE, [0], 0),
+            (StructFormat.BYTE, [20], 20),
+            (StructFormat.BYTE, [127], 127),
+            (StructFormat.BYTE, [to_twos_complement(-20, bits=8)], -20),
+            (StructFormat.BYTE, [to_twos_complement(-128, bits=8)], -128),
         ),
     )
-    def test_read_ubyte(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
-        """Reading byte int should return an integer in a single unsigned byte."""
+    def test_read_value(
+        self, format: INT_FORMATS_TYPE, read_bytes: list[int], expected_value: Any, read_mock: ReadFunctionMock
+    ):
         read_mock.combined_data = bytearray(read_bytes)
-        assert self.reader.read_ubyte() == expected_value
-
-    @pytest.mark.parametrize(
-        "read_bytes,expected_value",
-        (
-            ([to_twos_complement(-20, 1 * 8)], -20),
-            ([to_twos_complement(-128, 1 * 8)], -128),
-            ([20], 20),
-            ([127], 127),
-        ),
-    )
-    def test_read_byte(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
-        """Negative number bytes should be read from two's complement format."""
-        read_mock.combined_data = bytearray(read_bytes)
-        assert self.reader.read_byte() == expected_value
-
-    # We skip over many similar single type write functions, these are mostly just wrappers around struct.pack,
-    # which we can trust will work, or functions only relying on other internal methods, which were already tested
-    # and are hence trusted too. Testing each of these functions would get very repetetive with little to no benefit.
-    # Specifically, these functions are:
-    # - read_bool
-    # - read_short, read_ushort
-    # - read_int, read_uint
-    # - read_long, read_ulong
-    # - read_float
-    # - read_double
-    # - read_varshort
-    # - read_varlong
-    # - read_bytearray
+        assert self.reader.read_value(format) == expected_value
 
     @pytest.mark.parametrize(
         "read_bytes,expected_value",
@@ -427,24 +405,26 @@ class ReaderTests(ABC):
             ([255, 255, 255, 255, 7], 2147483647),
         ),
     )
-    def test__read_varnum(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
-        """Reading varnums bytes results in correct values."""
+    def test_read_varuint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
+        """Reading varuint bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
-        assert self.reader._read_varnum() == expected_value
-
-    def test__read_varnum_max_size(self, read_mock: ReadFunctionMock):
-        """Varnum reading should be limitable to n max bytes and work with values in range."""
-        read_mock.combined_data = bytearray([255, 255, 3])
-        assert self.reader._read_varnum(max_size=2) == 2**16 - 1
-
-    def test__read_varnum_max_size_out_of_range(self, read_mock: ReadFunctionMock):
-        """Varnum reading limited to n max bytes should raise an IOError for numbers out of this range."""
-        read_mock.combined_data = bytearray([128, 128, 4])
-        with pytest.raises(IOError):
-            self.reader._read_varnum(max_size=2)
+        assert self.reader.read_varint(max_bits=32) == expected_value
 
     @pytest.mark.parametrize(
-        "varnum_return_value,expected_varint_value",
+        "read_bytes,max_bits",
+        (
+            ([128, 128, 4], 16),
+            ([128, 128, 128, 128, 16], 32),
+        ),
+    )
+    def test_read_varuint_out_of_range(self, read_bytes: list[int], max_bits: int, read_mock: ReadFunctionMock):
+        """Varuint reading limited to n max bits should raise an IOError for numbers out of this range."""
+        read_mock.combined_data = bytearray(read_bytes)
+        with pytest.raises(IOError):
+            self.reader.read_varuint(max_bits=max_bits)
+
+    @pytest.mark.parametrize(
+        "varuint_return_value,expected_varint_value",
         (
             (0, 0),
             (120, 120),
@@ -453,13 +433,13 @@ class ReaderTests(ABC):
             (to_twos_complement(-2147483648, 4 * 8), -2147483648),
         ),
     )
-    def test_read_varint(self, varnum_return_value: int, expected_varint_value: int, autopatch):
-        """Reading varint should convert result from _read_varnum into signed value."""
-        mock_f = autopatch("_read_varnum")
-        mock_f.return_value = varnum_return_value
-        assert self.reader.read_varint() == expected_varint_value
+    def test_read_varint(self, varuint_return_value: int, expected_varint_value: int, autopatch):
+        """Reading varint should convert result from read_varuint into signed value."""
+        mock_f = autopatch("read_varuint")
+        mock_f.return_value = varuint_return_value
+        assert self.reader.read_varint(max_bits=32) == expected_varint_value
 
-        mock_f.assert_called_once_with(max_size=4)
+        mock_f.assert_called_once_with(max_bits=32)
 
     @pytest.mark.parametrize(
         "read_bytes,expected_string",
@@ -487,14 +467,6 @@ class ReaderTests(ABC):
         read_mock.combined_data = bytearray([0])
         self.reader.read_optional(mock_f)
         mock_f.assert_not_called()
-
-    def test_write_bytearray(self, read_mock: ReadFunctionMock):
-        """Reading bytearray should read a size varint prefix, and n following bytes."""
-        data = bytearray("hello", "utf-8")
-        read_mock.combined_data = bytearray([5, *data])
-        out = self.reader.read_bytearray()
-
-        assert out == data
 
 
 # endregion
@@ -528,39 +500,6 @@ class TestBaseAsyncWriter(WriterTests):
     def setup_class(cls):
         cls.writer = WrappedAsyncWriter()
 
-    @pytest.mark.parametrize(
-        "async_function_name",
-        (
-            "write",
-            "write_bool",
-            "write_byte",
-            "write_ubyte",
-            "write_short",
-            "write_ushort",
-            "write_int",
-            "write_uint",
-            "write_long",
-            "write_ulong",
-            "write_float",
-            "write_double",
-            "_write_varnum",
-            "write_varshort",
-            "write_varint",
-            "write_varlong",
-            "write_utf",
-            "write_optional",
-            "write_bytearray",
-        ),
-    )
-    def test_methods_are_async(self, async_function_name: str):
-        """Because of the nature of this test class, we should ensure that all wrapped functions are actually async.
-
-        This is because we're wrapping all of the async functions and converting them into synchronous ones, however
-        if they already were synchronous for some reason and shouldn't have been, we wouldn't detect it.
-        """
-        expected_async_func = getattr(self.writer._writer, async_function_name)
-        assert inspect.iscoroutinefunction(expected_async_func)
-
 
 class TestBaseAsyncReader(ReaderTests):
     """Tests for individual write methods implemented in BaseAsyncReader."""
@@ -570,39 +509,6 @@ class TestBaseAsyncReader(ReaderTests):
     @classmethod
     def setup_class(cls):
         cls.reader = WrappedAsyncReader()
-
-    @pytest.mark.parametrize(
-        "async_function_name",
-        (
-            "read",
-            "read_bool",
-            "read_byte",
-            "read_ubyte",
-            "read_short",
-            "read_ushort",
-            "read_int",
-            "read_uint",
-            "read_long",
-            "read_ulong",
-            "read_float",
-            "read_double",
-            "_read_varnum",
-            "read_varshort",
-            "read_varint",
-            "read_varlong",
-            "read_utf",
-            "read_optional",
-            "read_bytearray",
-        ),
-    )
-    def test_methods_are_async(self, async_function_name: str):
-        """Because of the nature of this test class, we should ensure that all wrapped functions are actually async.
-
-        This is because we're wrapping all of the async functions and converting them into synchronous ones, however
-        if they already were synchronous for some reason and shouldn't have been, we wouldn't detect it.
-        """
-        expected_async_func = getattr(self.reader._reader, async_function_name)
-        assert inspect.iscoroutinefunction(expected_async_func)
 
 
 # endregion

@@ -4,21 +4,29 @@ from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable, Sequence
 from dataclasses import dataclass
 from functools import partial
-from typing import ClassVar, Generic, TYPE_CHECKING, TypeVar
+from typing import ClassVar, Generic, Literal, TYPE_CHECKING, TypeVar, cast, overload
 
-from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
+from mcproto.protocol.base_io import (
+    BaseAsyncReader,
+    BaseAsyncWriter,
+    BaseSyncReader,
+    BaseSyncWriter,
+    FLOAT_FORMATS_TYPE,
+    INT_FORMATS_TYPE,
+    StructFormat,
+)
 
 if TYPE_CHECKING:
     from typing_extensions import Self
 
 T = TypeVar("T")
+R = TypeVar("R")
 
 __all__ = [
     "ReadInstruction",
     "ReadCapable",
     "WriteCapable",
     "ReadWriteCapable",
-    "BASIC_READ_INSTRUCTIONS",
 ]
 
 
@@ -36,31 +44,76 @@ class ReadInstruction(Generic[T]):
     async_func: Callable[[BaseAsyncReader], Awaitable[T]]
 
     @classmethod
-    def n_bytes(cls, n: int) -> Self:
+    def n_bytes(cls, n: int) -> ReadInstruction[bytearray]:
         """Produce a read instruction for reading n bytes."""
         sync_f = partial(BaseSyncReader.read, length=n)
         async_f = partial(BaseAsyncReader.read, length=n)
-        return cls(sync_f, async_f)
+        obj = cls(sync_f, async_f)
+        return cast(ReadInstruction[bytearray], obj)
 
+    @overload
+    @classmethod
+    def value(cls, fmt: INT_FORMATS_TYPE) -> ReadInstruction[int]:
+        ...
 
-BASIC_READ_INSTRUCTIONS: dict[str, ReadInstruction] = {
-    "BOOL": ReadInstruction(BaseSyncReader.read_bool, BaseAsyncReader.read_bool),
-    "BYTE": ReadInstruction(BaseSyncReader.read_byte, BaseAsyncReader.read_byte),
-    "UBYTE": ReadInstruction(BaseSyncReader.read_ubyte, BaseAsyncReader.read_ubyte),
-    "SHORT": ReadInstruction(BaseSyncReader.read_short, BaseAsyncReader.read_short),
-    "USHORT": ReadInstruction(BaseSyncReader.read_ushort, BaseAsyncReader.read_ushort),
-    "INT": ReadInstruction(BaseSyncReader.read_int, BaseAsyncReader.read_int),
-    "UINT": ReadInstruction(BaseSyncReader.read_uint, BaseAsyncReader.read_uint),
-    "LONG": ReadInstruction(BaseSyncReader.read_long, BaseAsyncReader.read_long),
-    "ULONG": ReadInstruction(BaseSyncReader.read_ulong, BaseAsyncReader.read_ulong),
-    "FLOAT": ReadInstruction(BaseSyncReader.read_float, BaseAsyncReader.read_float),
-    "DOUBLE": ReadInstruction(BaseSyncReader.read_double, BaseAsyncReader.read_double),
-    "VARSHORT": ReadInstruction(BaseSyncReader.read_varshort, BaseAsyncReader.read_varshort),
-    "VARINT": ReadInstruction(BaseSyncReader.read_varint, BaseAsyncReader.read_varint),
-    "VARLONG": ReadInstruction(BaseSyncReader.read_varlong, BaseAsyncReader.read_varlong),
-    "UTF": ReadInstruction(BaseSyncReader.read_utf, BaseAsyncReader.read_utf),
-    "BYTEARRAY": ReadInstruction(BaseSyncReader.read_bytearray, BaseAsyncReader.read_bytearray),
-}
+    @overload
+    @classmethod
+    def value(cls, fmt: FLOAT_FORMATS_TYPE) -> ReadInstruction[float]:
+        ...
+
+    @overload
+    @classmethod
+    def value(cls, fmt: Literal[StructFormat.BOOL]) -> ReadInstruction[bool]:
+        ...
+
+    @overload
+    @classmethod
+    def value(cls, fmt: Literal[StructFormat.CHAR]) -> ReadInstruction[str]:
+        ...
+
+    @classmethod
+    def value(cls, fmt: StructFormat) -> ReadInstruction:
+        """Produce a read instruction for reading value of given format."""
+        sync_f = partial(BaseSyncReader.read_value, fmt)
+        async_f = partial(BaseAsyncReader.read_value, fmt)
+        obj = cls(sync_f, async_f)
+        return obj
+
+    @classmethod
+    def varint(cls, max_bits: int) -> ReadInstruction[int]:
+        """Produce a read instruction for reading max_bits sized varint."""
+        sync_f = partial(BaseSyncReader.read_varint, max_bits=max_bits)
+        async_f = partial(BaseAsyncReader.read_varint, max_bits=max_bits)
+        obj = cls(sync_f, async_f)
+        return cast(ReadInstruction[int], obj)
+
+    @classmethod
+    def utf(cls) -> ReadInstruction[str]:
+        """Produce a read instruction for reading UTF-8 encoded string."""
+        sync_f = BaseSyncReader.read_utf
+        async_f = BaseAsyncReader.read_utf
+        obj = cls(sync_f, async_f)
+        return cast(ReadInstruction[str], obj)
+
+    def compound(self, instr_factory: Callable[[T], ReadInstruction[R]]) -> ReadInstruction[R]:
+        """Generate a new instruction which relies on the result from this instruction.
+
+        This function expects a instruction factory function, which returns a new ReadInstruction based on
+        the input argument passed into it. This input arguments will be forwarded from the current instruction's
+        reader function return.
+        """
+
+        def new_sync_func(reader: BaseSyncReader) -> R:
+            intermediate = self.sync_func(reader)
+            new_instr = instr_factory(intermediate)
+            return new_instr.sync_func(reader)
+
+        async def new_async_func(reader: BaseAsyncReader) -> R:
+            intermediate = await self.async_func(reader)
+            new_instr = instr_factory(intermediate)
+            return await new_instr.async_func(reader)
+
+        return ReadInstruction(new_sync_func, new_async_func)
 
 
 class WriteCapable(ABC):
