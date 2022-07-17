@@ -37,7 +37,7 @@ class MockStreamReader(UnpropagatingMockMixin, MagicMock):
         self.read = ReadFunctionAsyncMock(combined_data=read_data)
 
 
-class TestTCPSycnConnection:
+class TestTCPSyncConnection:
     def make_connection(self, read_data: Optional[bytearray] = None) -> TCPSyncConnection[MockSocket]:
         if read_data is not None:
             read_data = read_data.copy()
@@ -69,7 +69,7 @@ class TestTCPSycnConnection:
         conn.socket.send.assert_has_data(data)
 
 
-class TestTCPAsycnConnection:
+class TestTCPAsyncConnection:
     def make_connection(
         self,
         read_data: Optional[bytearray] = None,
