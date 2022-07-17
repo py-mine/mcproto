@@ -77,7 +77,7 @@ class BaseAsyncWriter(ABC):
 
     @abstractmethod
     async def write(self, data: bytes) -> None:
-        ...  # pragma: nocover
+        ...
 
     @overload
     async def write_value(self, fmt: INT_FORMATS_TYPE, value: int) -> None:
@@ -176,7 +176,7 @@ class BaseSyncWriter(ABC):
 
     @abstractmethod
     def write(self, data: bytes) -> None:
-        ...  # pragma: nocover
+        ...
 
     @overload
     def write_value(self, fmt: INT_FORMATS_TYPE, value: int) -> None:
@@ -279,7 +279,7 @@ class BaseAsyncReader(ABC):
 
     @abstractmethod
     async def read(self, length: int) -> bytearray:
-        ...  # pragma: nocover
+        ...
 
     @overload
     async def read_value(self, fmt: INT_FORMATS_TYPE) -> int:
@@ -386,7 +386,7 @@ class BaseSyncReader(ABC):
 
     @abstractmethod
     def read(self, length: int) -> bytearray:
-        ...  # pragma: nocover
+        ...
 
     @overload
     def read_value(self, fmt: INT_FORMATS_TYPE) -> int:

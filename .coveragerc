@@ -1,5 +1,9 @@
 [report]
 exclude_lines =
-    pragma: nocover
+    pragma: no cover
     if TYPE_CHECKING:
-    @abstractmethod
+    @(abc\.)?abstractmethod
+    def __repr__
+    class .*\bProtocol\):
+    raise NotImplementedError
+    ^\s\.\.\.\s$
