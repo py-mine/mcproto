@@ -156,14 +156,15 @@ class BaseAsyncWriter(ABC):
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
-        Will keep writing bytes until the value is depleted (fully sent). If `max_size` is specified, writing will be
-        limited up to integer values of max_size bytes, and trying to write bigger values will rase a ValueError. Note
-        that limiting to max_size of 4 (32-bit int) doesn't imply at most 4 bytes will be sent, and will in fact take 5
-        bytes at most, due to the variable encoding overhead.
+        If `max_size` is specified, writing will be limited up to integer values of max_size bytes, and trying to write
+        bigger values will raise a ValueError. Note that limiting to max_size of 4 (32-bit int) doesn't imply at most 4
+        bytes will be sent, and will in fact take 5 bytes at most, due to the variable encoding overhead. Otherwise, if
+        there isn't any size limit set, this will keep sending bytes until the value is depleted (fully sent).
 
-        Varnums use 7 least significant bits of each sent byte to encode the value, and the most significant bit to
-        indicate whether there is another byte after it. The least significant group is written first, followed by each
-        of the more significant groups, making varints little-endian, however in groups of 7 bits, not 8.
+        Varnums send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
+        flag bit. If this continuation bit is set (1), it indicates that there will be another varnum byte sent after
+        this one. The least significant group is written first, followed by each of the more significant groups, making
+        varnums little-endian, however in groups of 7 bits, not 8.
         """
         # We can't use enforce_range as decorator directly, because our byte_size varies
         # instead run it manually from here as a check function
@@ -379,14 +380,15 @@ class BaseSyncWriter(ABC):
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
-        Will keep writing bytes until the value is depleted (fully sent). If `max_size` is specified, writing will be
-        limited up to integer values of max_size bytes, and trying to write bigger values will rase a ValueError. Note
-        that limiting to max_size of 4 (32-bit int) doesn't imply at most 4 bytes will be sent, and will in fact take 5
-        bytes at most, due to the variable encoding overhead.
+        If `max_size` is specified, writing will be limited up to integer values of max_size bytes, and trying to write
+        bigger values will raise a ValueError. Note that limiting to max_size of 4 (32-bit int) doesn't imply at most 4
+        bytes will be sent, and will in fact take 5 bytes at most, due to the variable encoding overhead. Otherwise, if
+        there isn't any size limit set, this will keep sending bytes until the value is depleted (fully sent).
 
-        Varnums use 7 least significant bits of each sent byte to encode the value, and the most significant bit to
-        indicate whether there is another byte after it. The least significant group is written first, followed by each
-        of the more significant groups, making varints little-endian, however in groups of 7 bits, not 8.
+        Varnums send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
+        flag bit. If this continuation bit is set (1), it indicates that there will be another varnum byte sent after
+        this one. The least significant group is written first, followed by each of the more significant groups, making
+        varnums little-endian, however in groups of 7 bits, not 8.
         """
         # We can't use enforce_range as decorator directly, because our byte_size varies
         # instead run it manually from here as a check function
@@ -588,14 +590,16 @@ class BaseAsyncReader(ABC):
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
-        Will keep reading bytes until the value is depleted (fully sent). If `max_size` is specified, reading will be
-        limited up to integer values of max_size bytes, and trying to read bigger values will rase an IOError. Note
-        that limiting to max_size of 4 (32-bit int) doesn't imply at most 4 bytes will be sent, and will in fact take 5
-        bytes at most, due to the variable encoding overhead.
+        If `max_size` is specified, reading will be limited up to integer values of max_size bytes, and trying to read
+        bigger values will raise an IOError. Note that limiting to max_size of 4 (32-bit int) doesn't imply at most 4
+        bytes will be received, and will in fact take 5 bytes at most, due to the variable encoding overhead.
+        Otherwise, if there isn't any size limit set, this will keep reading bytes until the value is depleted (fully
+        received).
 
-        Varnums use 7 least significant bits of each sent byte to encode the value, and the most significant bit to
-        indicate whether there is another byte after it. The least significant group is written first, followed by each
-        of the more significant groups, making varints little-endian, however in groups of 7 bits, not 8.
+        Varnums send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
+        flag bit. If this continuation bit is set (1), it indicates that there will be another varnum byte sent after
+        this one. The least significant group is written first, followed by each of the more significant groups, making
+        varnums little-endian, however in groups of 7 bits, not 8.
         """
         value_max = (1 << (max_size * 8)) - 1 if max_size else None
         result = 0
@@ -786,14 +790,16 @@ class BaseSyncReader(ABC):
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
-        Will keep reading bytes until the value is depleted (fully sent). If `max_size` is specified, reading will be
-        limited up to integer values of max_size bytes, and trying to read bigger values will rase an IOError. Note
-        that limiting to max_size of 4 (32-bit int) doesn't imply at most 4 bytes will be sent, and will in fact take 5
-        bytes at most, due to the variable encoding overhead.
+        If `max_size` is specified, reading will be limited up to integer values of max_size bytes, and trying to read
+        bigger values will raise an IOError. Note that limiting to max_size of 4 (32-bit int) doesn't imply at most 4
+        bytes will be received, and will in fact take 5 bytes at most, due to the variable encoding overhead.
+        Otherwise, if there isn't any size limit set, this will keep reading bytes until the value is depleted (fully
+        received).
 
-        Varnums use 7 least significant bits of each sent byte to encode the value, and the most significant bit to
-        indicate whether there is another byte after it. The least significant group is written first, followed by each
-        of the more significant groups, making varints little-endian, however in groups of 7 bits, not 8.
+        Varnums send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
+        flag bit. If this continuation bit is set (1), it indicates that there will be another varnum byte sent after
+        this one. The least significant group is written first, followed by each of the more significant groups, making
+        varnums little-endian, however in groups of 7 bits, not 8.
         """
         value_max = (1 << (max_size * 8)) - 1 if max_size else None
         result = 0
