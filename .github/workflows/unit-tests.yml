@@ -57,7 +57,6 @@ jobs:
         run: |
           dir="$(dirname $(python3 -m site --user-site))\\Scripts"
           echo "$dir" >> $GITHUB_PATH
-          cat "$GITHUB_PATH"
         shell: bash
 
       # Cache python dependencies so that unless we change them,
