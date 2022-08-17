@@ -135,6 +135,12 @@ class BaseAsyncWriter(ABC):
         val = to_twos_complement(value, bits=max_bits)
         await self.write_varuint(val, max_bits=max_bits)
 
+    async def write_ascii(self, value: str) -> None:
+        """Write ISO-8859-1 encoded string, with NULL (0x00) at the end to indicate string end."""
+        data = bytearray(value, "ISO-8859-1")
+        await self.write(data)
+        await self.write(bytearray.fromhex("00"))
+
     async def write_utf(self, value: str, /) -> None:
         """Write a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
 
@@ -233,6 +239,12 @@ class BaseSyncWriter(ABC):
         """
         val = to_twos_complement(value, bits=max_bits)
         self.write_varuint(val, max_bits=max_bits)
+
+    def write_ascii(self, value: str) -> None:
+        """Write ISO-8859-1 encoded string, with NULL (0x00) at the end to indicate string end."""
+        data = bytearray(value, "ISO-8859-1")
+        self.write(data)
+        self.write(bytearray.fromhex("00"))
 
     def write_utf(self, value: str, /) -> None:
         """Write a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
@@ -350,6 +362,15 @@ class BaseAsyncReader(ABC):
         val = from_twos_complement(unsigned_num, bits=max_bits)
         return val
 
+    async def read_ascii(self) -> str:
+        """Read ISO-8859-1 encoded string, until we encounter NULL (0x00) at the end indicating string end."""
+        # Keep reading bytes until we find NULL
+        result = bytearray()
+        while len(result) == 0 or result[-1] != 0:
+            byte = await self.read(1)
+            result.extend(byte)
+        return result[:-1].decode("ISO-8859-1")
+
     async def read_utf(self) -> str:
         """Read a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
 
@@ -456,6 +477,15 @@ class BaseSyncReader(ABC):
         unsigned_num = self.read_varuint(max_bits=max_bits)
         val = from_twos_complement(unsigned_num, bits=max_bits)
         return val
+
+    def read_ascii(self) -> str:
+        """Read ISO-8859-1 encoded string, until we encounter NULL (0x00) at the end indicating string end."""
+        # Keep reading bytes until we find NULL
+        result = bytearray()
+        while len(result) == 0 or result[-1] != 0:
+            byte = self.read(1)
+            result.extend(byte)
+        return result[:-1].decode("ISO-8859-1")
 
     def read_utf(self) -> str:
         """Read a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).

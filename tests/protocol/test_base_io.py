@@ -293,6 +293,19 @@ class WriterTests(ABC):
     @pytest.mark.parametrize(
         "string,expected_bytes",
         (
+            ("test", list(map(ord, "test")) + [0]),
+            ("a" * 100, list(map(ord, "a" * 100)) + [0]),
+            ("", [0]),
+        ),
+    )
+    def test_write_ascii(self, string: str, expected_bytes: list[int], write_mock: WriteFunctionMock):
+        """Writing ASCII string results in correct bytes."""
+        self.writer.write_ascii(string)
+        write_mock.assert_has_data(bytearray(expected_bytes))
+
+    @pytest.mark.parametrize(
+        "string,expected_bytes",
+        (
             ("test", [len("test")] + list(map(ord, "test"))),
             ("a" * 100, [len("a" * 100)] + list(map(ord, "a" * 100))),
             ("", [0]),
@@ -440,6 +453,19 @@ class ReaderTests(ABC):
         assert self.reader.read_varint(max_bits=32) == expected_varint_value
 
         mock_f.assert_called_once_with(max_bits=32)
+
+    @pytest.mark.parametrize(
+        "read_bytes,expected_string",
+        (
+            (list(map(ord, "test")) + [0], "test"),
+            (list(map(ord, "a" * 100)) + [0], "a" * 100),
+            ([0], ""),
+        ),
+    )
+    def test_read_ascii(self, read_bytes: list[int], expected_string: str, read_mock: ReadFunctionMock):
+        """Reading ASCII string results in correct bytes."""
+        read_mock.combined_data = bytearray(read_bytes)
+        assert self.reader.read_ascii() == expected_string
 
     @pytest.mark.parametrize(
         "read_bytes,expected_string",
