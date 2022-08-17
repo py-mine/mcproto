@@ -309,6 +309,7 @@ class WriterTests(ABC):
             ("test", [len("test")] + list(map(ord, "test"))),
             ("a" * 100, [len("a" * 100)] + list(map(ord, "a" * 100))),
             ("", [0]),
+            ("नमस्ते", [18] + [int(x) for x in "नमस्ते".encode("utf-8")]),
         ),
     )
     def test_write_utf(self, string: str, expected_bytes: list[int], write_mock: WriteFunctionMock):
@@ -473,6 +474,7 @@ class ReaderTests(ABC):
             ([len("test")] + list(map(ord, "test")), "test"),
             ([len("a" * 100)] + list(map(ord, "a" * 100)), "a" * 100),
             ([0], ""),
+            ([18] + [int(x) for x in "नमस्ते".encode("utf-8")], "नमस्ते"),
         ),
     )
     def test_read_utf(self, read_bytes: list[int], expected_string: str, read_mock: ReadFunctionMock):
