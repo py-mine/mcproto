@@ -12,18 +12,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  # Make sure pip caches dependencies and installs as user
-  PIP_NO_CACHE_DIR: false
-  PIP_USER: 1
-
-  # Make sure poetry won't use virtual environments
-  POETRY_VIRTUALENVS_CREATE: false
-
-  # Specify paths here, so we know what to cache
-  POETRY_CACHE_DIR: ${{ github.workspace }}/.cache/py-user-base
-  PYTHONUSERBASE: ${{ github.workspace }}/.cache/py-user-base
-
 jobs:
   unit-tests:
     runs-on: ${{ matrix.platform }}
@@ -37,48 +25,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        id: python
-        uses: actions/setup-python@v3
+      - name: Install Python Dependencies
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.3.1
         with:
-          python-version: ${{ matrix.python-version }}
+          dev: false
+          python_version: "${{ matrix.python-version }}"
 
-      - name: Add custom PYTHONUSERBASE to PATH (linux)
-        if: runner.os != 'Windows'
-        run: echo '${{ env.PYTHONUSERBASE }}/bin/' >> $GITHUB_PATH
-
-      # Windows is an absolute piece of crap, for some reason, instead of using /bin
-      # dir in the userbase path, it creates additional folder named differently in each version
-      # in which it makes Scripts/ folder (i.e. USERBASE/Python37/Scripts). To handle this
-      # we're using python's site module which can output it's own path, getting the dirname
-      # and adding /Scripts as a suffix which is then added to the path.
-      - name: Add custom PYTHONUSERBASE to PATH (windows)
-        if: runner.os == 'Windows'
-        run: |
-          dir="$(dirname $(python3 -m site --user-site))\\Scripts"
-          echo "$dir" >> $GITHUB_PATH
-        shell: bash
-
-      # Cache python dependencies so that unless we change them,
-      # we won't need to reinstall them with each workflow run.
-      # The key is a composite of multiple values, which when changed
-      # the cache won't be restored in order to make updating possible
-      - name: Python dependency caching
-        uses: actions/cache@v3
-        id: python_cache
-        with:
-          path: ${{ env.PYTHONUSERBASE }}
-          key: "python-0-${{ runner.os }}-${{ env.PYTHONUSERBASE }}-\
-                ${{ steps.python.outputs.python-version }}-\
-                ${{ hashFiles('./pyproject.toml', './poetry.lock') }}"
-
-      # In case the dependencies weren't restored, install them
-      - name: Install dependencies using poetry
-        if: steps.python_cache.outputs.cache-hit != 'true'
-        run: |
-          pip install poetry
-          poetry install
-
-      # Run the unit-tests using pytest
       - name: Run pytest
         run: poetry run task test
