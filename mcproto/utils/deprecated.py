@@ -4,7 +4,7 @@ import inspect
 import warnings
 from collections.abc import Callable, Iterable
 from functools import wraps
-from typing import Optional, TYPE_CHECKING, TypeVar, Union, cast, overload
+from typing import Any, Optional, TYPE_CHECKING, TypeVar, Union, cast, overload
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec, Protocol
@@ -71,7 +71,7 @@ def deprecated(
 
 
 def deprecated(
-    obj: Optional[Union[Callable, type[object]]] = None,
+    obj: Any = None,  # noqa: ANN401
     *,
     display_name: Optional[str] = None,
     replacement: Optional[str] = None,
