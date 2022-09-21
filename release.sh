@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-poetry install
+poetry install --with release
 poetry run task lint
 poetry run task test
-poetry run pip install poetry-dynamic-versioning
 poetry run poetry-dynamic-versioning
 
 rm -rf dist/

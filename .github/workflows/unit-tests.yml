@@ -28,8 +28,9 @@ jobs:
       - name: Install Python Dependencies
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.3.1
         with:
-          dev: false
+          dev: true
           python_version: "${{ matrix.python-version }}"
+          install_args: "--without lint"
 
       - name: Run pytest
         run: poetry run task test

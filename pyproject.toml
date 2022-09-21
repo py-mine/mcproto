@@ -1,54 +1,61 @@
 [tool.poetry]
 name = "mcproto"
-version = "0.0.1a4.dev11+b8fa5cf"  # Versioning handled by poetry-dynamic-versioning
+version = "0.0.1a4.dev11+b8fa5cf" # Versioning handled by poetry-dynamic-versioning
 description = "Library providing easy interactions with minecraft sevrers"
 authors = ["ItsDrike <itsdrike@protonmail.com>"]
 license = "LGPL-3.0-or-later"
 readme = "README.md"
 repository = "https://github.com/ItsDrike/mcproto"
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
-    "Natural Language :: English",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Topic :: Games/Entertainment",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: System :: Networking",
-    "Typing :: Typed",
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Games/Entertainment",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: System :: Networking",
+  "Typing :: Typed",
 ]
-packages = [
-    { include = "mcproto" },
-]
+packages = [{ include = "mcproto" }]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4"
 asyncio-dgram = "^2.1.2"
 
-[tool.poetry.dev-dependencies]
-poetry-dynamic-versioning = {version = "^0.17.1", optional = true}
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^2.18.1"
+taskipy = "^1.10.2"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.1.2"
+pytest-asyncio = "^0.18.3"
+pytest-cov = "^3.0.0"
+
+[tool.poetry.group.lint.dependencies]
 flake8 = "^4.0.1"
 flake8-bugbear = "^22.3.23"
 flake8-simplify = "^0.19.2"
 flake8-annotations = "^2.9.0"
 flake8-tidy-imports = "^4.6.0"
 flake8-future-annotations = "^0.0.5"
-flake8-pep585 = {version = "^0.1.5", python = ">=3.9"}
+flake8-pep585 = { version = "^0.1.5", python = ">=3.9" }
 pep8-naming = "^0.12.1"
 black = "^22.3.0"
 isort = "^5.10.1"
 pyright = "^1.1.239"
-pre-commit = "^2.18.1"
-pytest = "^7.1.2"
-pytest-asyncio = "^0.18.3"
-pytest-cov = "^3.0.0"
-taskipy = "^1.10.2"
+
+[tool.poetry.group.release]
+optional = true
+
+[tool.poetry.group.release.dependencies]
+poetry-dynamic-versioning = "^0.17.1"
 
 [tool.black]
 line-length = 119
