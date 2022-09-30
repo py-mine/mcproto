@@ -99,7 +99,7 @@ class BaseAsyncWriter(ABC):
         """Write a value of given struct format in big-endian mode."""
         await self.write(struct.pack(">" + fmt.value, value))
 
-    async def write_varuint(self, value: int, /, *, max_bits: int) -> None:
+    async def write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -113,7 +113,7 @@ class BaseAsyncWriter(ABC):
         this one. The least significant group is written first, followed by each of the more significant groups, making
         varints little-endian, however in groups of 7 bits, not 8.
         """
-        value_max = (1 << (max_bits)) - 1
+        value_max = (1 << (max_bits)) - 1 if max_bits is not None else float("inf")
         if value < 0 or value > value_max:
             raise ValueError(f"Tried to write varint outside of the range of {max_bits}-bit int.")
 
@@ -211,7 +211,7 @@ class BaseSyncWriter(ABC):
         """Write a value of given struct format in big-endian mode."""
         self.write(struct.pack(">" + fmt.value, value))
 
-    def write_varuint(self, value: int, /, *, max_bits: int) -> None:
+    def write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -225,7 +225,7 @@ class BaseSyncWriter(ABC):
         this one. The least significant group is written first, followed by each of the more significant groups, making
         varints little-endian, however in groups of 7 bits, not 8.
         """
-        value_max = (1 << (max_bits)) - 1
+        value_max = (1 << (max_bits)) - 1 if max_bits is not None else float("inf")
         if value < 0 or value > value_max:
             raise ValueError(f"Tried to write varint outside of the range of {max_bits}-bit int.")
 
@@ -333,7 +333,7 @@ class BaseAsyncReader(ABC):
         unpacked = struct.unpack(">" + fmt.value, data)
         return unpacked[0]
 
-    async def read_varuint(self, *, max_bits: int) -> int:
+    async def read_varuint(self, *, max_bits: Optional[int] = None) -> int:
         """Read an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -347,7 +347,7 @@ class BaseAsyncReader(ABC):
         this one. The least significant group is written first, followed by each of the more significant groups, making
         varints little-endian, however in groups of 7 bits, not 8.
         """
-        value_max = (1 << (max_bits)) - 1
+        value_max = (1 << (max_bits)) - 1 if max_bits is not None else float("inf")
 
         result = 0
         for i in count():
@@ -463,7 +463,7 @@ class BaseSyncReader(ABC):
         unpacked = struct.unpack(">" + fmt.value, data)
         return unpacked[0]
 
-    def read_varuint(self, *, max_bits: int) -> int:
+    def read_varuint(self, *, max_bits: Optional[int] = None) -> int:
         """Read an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -477,7 +477,7 @@ class BaseSyncReader(ABC):
         this one. The least significant group is written first, followed by each of the more significant groups, making
         varints little-endian, however in groups of 7 bits, not 8.
         """
-        value_max = (1 << (max_bits)) - 1
+        value_max = (1 << (max_bits)) - 1 if max_bits is not None else float("inf")
 
         result = 0
         for i in count():
