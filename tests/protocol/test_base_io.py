@@ -238,7 +238,7 @@ class WriterTests(ABC):
     )
     def test_write_varuint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
         """Writing varuints results in correct bytes."""
-        self.writer.write_varuint(number, max_bits=32)
+        self.writer._write_varuint(number)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.parametrize(
@@ -253,42 +253,7 @@ class WriterTests(ABC):
     def test_write_varuint_out_of_range(self, write_value: int, max_bits: int):
         """Varuints without should only work on positive integers up to n max_bits."""
         with pytest.raises(ValueError):
-            self.writer.write_varuint(write_value, max_bits=max_bits)
-
-    @pytest.mark.parametrize(
-        "varint_value,expected_varuint_call",
-        (
-            (0, 0),
-            (120, 120),
-            (2147483647, 2147483647),
-            (-1, to_twos_complement(-1, 4 * 8)),
-            (-2147483648, to_twos_complement(-2147483648, 4 * 8)),
-        ),
-    )
-    def test_write_varint(self, varint_value: int, expected_varuint_call: int, autopatch):
-        """Writing varint should call write_varuint with proper values."""
-        mock_f = autopatch("write_varuint")
-        self.writer.write_varint(varint_value, max_bits=32)
-
-        mock_f.assert_called_once_with(expected_varuint_call, max_bits=32)
-
-    @pytest.mark.parametrize(
-        "value,max_bits",
-        (
-            (-2147483649, 32),
-            (2147483648, 32),
-            (10**20, 32),
-            (-(10**20), 32),
-        ),
-    )
-    def test_write_varint_out_of_range(self, value: int, max_bits: int, autopatch):
-        """Writing varint outside of signed max_bits int range should raise ValueError on it's own."""
-        mock_f = autopatch("write_varuint")
-        with pytest.raises(ValueError):
-            self.writer.write_varint(value, max_bits=max_bits)
-
-        # Range limitation should come from write_varint, not write_varuint
-        mock_f.assert_not_called()
+            self.writer._write_varuint(write_value, max_bits=max_bits)
 
     @pytest.mark.parametrize(
         "string,expected_bytes",
@@ -422,7 +387,7 @@ class ReaderTests(ABC):
     def test_read_varuint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
         """Reading varuint bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
-        assert self.reader.read_varint(max_bits=32) == expected_value
+        assert self.reader._read_varuint() == expected_value
 
     @pytest.mark.parametrize(
         "read_bytes,max_bits",
@@ -435,25 +400,7 @@ class ReaderTests(ABC):
         """Varuint reading limited to n max bits should raise an IOError for numbers out of this range."""
         read_mock.combined_data = bytearray(read_bytes)
         with pytest.raises(IOError):
-            self.reader.read_varuint(max_bits=max_bits)
-
-    @pytest.mark.parametrize(
-        "varuint_return_value,expected_varint_value",
-        (
-            (0, 0),
-            (120, 120),
-            (2147483647, 2147483647),
-            (to_twos_complement(-1, 4 * 8), -1),
-            (to_twos_complement(-2147483648, 4 * 8), -2147483648),
-        ),
-    )
-    def test_read_varint(self, varuint_return_value: int, expected_varint_value: int, autopatch):
-        """Reading varint should convert result from read_varuint into signed value."""
-        mock_f = autopatch("read_varuint")
-        mock_f.return_value = varuint_return_value
-        assert self.reader.read_varint(max_bits=32) == expected_varint_value
-
-        mock_f.assert_called_once_with(max_bits=32)
+            self.reader._read_varuint(max_bits=max_bits)
 
     @pytest.mark.parametrize(
         "read_bytes,expected_string",

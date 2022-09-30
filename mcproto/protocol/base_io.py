@@ -99,7 +99,7 @@ class BaseAsyncWriter(ABC):
         """Write a value of given struct format in big-endian mode."""
         await self.write(struct.pack(">" + fmt.value, value))
 
-    async def write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
+    async def _write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -127,17 +127,25 @@ class BaseAsyncWriter(ABC):
             # Subtract the value we've already sent (7 least significant bits)
             remaining >>= 7
 
-    async def write_varint(self, value: int, /, *, max_bits: int) -> None:
-        """Write an arbitrarily big signed integer in a variable length format.
+    async def write_varint(self, value: int, /) -> None:
+        """Write a 32-bit signed integer in a variable length format.
 
-        For more information about varints check `write_varuint` docstring.
+        For more information about variable length format check `_write_varuint` docstring.
         """
-        val = to_twos_complement(value, bits=max_bits)
-        await self.write_varuint(val, max_bits=max_bits)
+        val = to_twos_complement(value, bits=32)
+        await self._write_varuint(val, max_bits=32)
 
-    async def write_bytearray(self, data: bytes, /, *, max_varint_bits: int = 32) -> None:
+    async def write_varlong(self, value: int, /) -> None:
+        """Write a 64-bit signed integer in a variable length format.
+
+        For more information about variable length format check `_write_varuint` docstring.
+        """
+        val = to_twos_complement(value, bits=64)
+        await self._write_varuint(val, max_bits=64)
+
+    async def write_bytearray(self, data: bytes, /) -> None:
         """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
-        await self.write_varint(len(data), max_bits=max_varint_bits)
+        await self.write_varint(len(data))
         await self.write(data)
 
     async def write_ascii(self, value: str, /) -> None:
@@ -162,7 +170,7 @@ class BaseAsyncWriter(ABC):
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
 
         data = bytearray(value, "utf-8")
-        await self.write_varint(len(data), max_bits=32)
+        await self.write_varint(len(data))
         await self.write(data)
 
     async def write_optional(self, value: Optional[T], /, writer: Callable[[T], Awaitable[R]]) -> Optional[R]:
@@ -211,7 +219,7 @@ class BaseSyncWriter(ABC):
         """Write a value of given struct format in big-endian mode."""
         self.write(struct.pack(">" + fmt.value, value))
 
-    def write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
+    def _write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -239,17 +247,25 @@ class BaseSyncWriter(ABC):
             # Subtract the value we've already sent (7 least significant bits)
             remaining >>= 7
 
-    def write_varint(self, value: int, /, *, max_bits: int) -> None:
-        """Write an arbitrarily big signed integer in a variable length format.
+    def write_varint(self, value: int, /) -> None:
+        """Write a 32-bit signed integer in a variable length format.
 
-        For more information about varints check `write_varuint` docstring.
+        For more information about variable length format check `_write_varuint` docstring.
         """
-        val = to_twos_complement(value, bits=max_bits)
-        self.write_varuint(val, max_bits=max_bits)
+        val = to_twos_complement(value, bits=32)
+        self._write_varuint(val, max_bits=32)
 
-    def write_bytearray(self, data: bytes, /, *, max_varint_bits: int = 32) -> None:
+    def write_varlong(self, value: int, /) -> None:
+        """Write a 64-bit signed integer in a variable length format.
+
+        For more information about variable length format check `_write_varuint` docstring.
+        """
+        val = to_twos_complement(value, bits=64)
+        self._write_varuint(val, max_bits=64)
+
+    def write_bytearray(self, data: bytes, /) -> None:
         """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
-        self.write_varint(len(data), max_bits=max_varint_bits)
+        self.write_varint(len(data))
         self.write(data)
 
     def write_ascii(self, value: str, /) -> None:
@@ -274,7 +290,7 @@ class BaseSyncWriter(ABC):
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
 
         data = bytearray(value, "utf-8")
-        self.write_varint(len(data), max_bits=32)
+        self.write_varint(len(data))
         self.write(data)
 
     def write_optional(self, value: Optional[T], /, writer: Callable[[T], R]) -> Optional[R]:
@@ -333,7 +349,7 @@ class BaseAsyncReader(ABC):
         unpacked = struct.unpack(">" + fmt.value, data)
         return unpacked[0]
 
-    async def read_varuint(self, *, max_bits: Optional[int] = None) -> int:
+    async def _read_varuint(self, *, max_bits: Optional[int] = None) -> int:
         """Read an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -367,18 +383,27 @@ class BaseAsyncReader(ABC):
 
         return result
 
-    async def read_varint(self, *, max_bits: int) -> int:
-        """Read an arbitrarily big signed integer in a variable length format.
+    async def read_varint(self) -> int:
+        """Read a 32-bit signed integer in a variable length format.
 
-        For more information about varints check `read_varuint` docstring.
+        For more information about variable length format check `_read_varuint` docstring.
         """
-        unsigned_num = await self.read_varuint(max_bits=max_bits)
-        val = from_twos_complement(unsigned_num, bits=max_bits)
+        unsigned_num = await self._read_varuint(max_bits=32)
+        val = from_twos_complement(unsigned_num, bits=32)
         return val
 
-    async def read_bytearray(self, /, *, max_varint_bits: int = 32) -> bytearray:
+    async def read_varlong(self) -> int:
+        """Read a 64-bit signed integer in a variable length format.
+
+        For more information about variable length format check `_read_varuint` docstring.
+        """
+        unsigned_num = await self._read_varuint(max_bits=64)
+        val = from_twos_complement(unsigned_num, bits=64)
+        return val
+
+    async def read_bytearray(self, /) -> bytearray:
         """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
-        length = await self.read_varint(max_bits=max_varint_bits)
+        length = await self.read_varint()
         return await self.read(length)
 
     async def read_ascii(self) -> str:
@@ -402,7 +427,7 @@ class BaseAsyncReader(ABC):
 
         If the given string is longer than this, IOError will be raised.
         """
-        length = await self.read_varint(max_bits=32)
+        length = await self.read_varint()
         if length > 131068:
             raise IOError(f"Maximum read limit for utf strings is 131068 bytes, got {length}.")
 
@@ -463,7 +488,7 @@ class BaseSyncReader(ABC):
         unpacked = struct.unpack(">" + fmt.value, data)
         return unpacked[0]
 
-    def read_varuint(self, *, max_bits: Optional[int] = None) -> int:
+    def _read_varuint(self, *, max_bits: Optional[int] = None) -> int:
         """Read an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -497,18 +522,27 @@ class BaseSyncReader(ABC):
 
         return result
 
-    def read_varint(self, *, max_bits: int) -> int:
-        """Read an arbitrarily big signed integer in a variable length format.
+    def read_varint(self) -> int:
+        """Read a 32-bit signed integer in a variable length format.
 
-        For more information about varints check `read_varuint` docstring.
+        For more information about variable length format check `_read_varuint` docstring.
         """
-        unsigned_num = self.read_varuint(max_bits=max_bits)
-        val = from_twos_complement(unsigned_num, bits=max_bits)
+        unsigned_num = self._read_varuint(max_bits=32)
+        val = from_twos_complement(unsigned_num, bits=32)
         return val
 
-    def read_bytearray(self, /, *, max_varint_bits: int = 32) -> bytearray:
+    def read_varlong(self) -> int:
+        """Read a 64-bit signed integer in a variable length format.
+
+        For more information about variable length format check `_read_varuint` docstring.
+        """
+        unsigned_num = self._read_varuint(max_bits=64)
+        val = from_twos_complement(unsigned_num, bits=64)
+        return val
+
+    def read_bytearray(self) -> bytearray:
         """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
-        length = self.read_varint(max_bits=max_varint_bits)
+        length = self.read_varint()
         return self.read(length)
 
     def read_ascii(self) -> str:
@@ -532,7 +566,7 @@ class BaseSyncReader(ABC):
 
         If the given string is longer than this, IOError will be raised.
         """
-        length = self.read_varint(max_bits=32)
+        length = self.read_varint()
         if length > 131068:
             raise IOError(f"Maximum read limit for utf strings is 131068 bytes, got {length}.")
 
