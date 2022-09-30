@@ -140,7 +140,7 @@ class BaseAsyncWriter(ABC):
         await self.write_varint(len(data), max_bits=max_varint_bits)
         await self.write(data)
 
-    async def write_ascii(self, value: str) -> None:
+    async def write_ascii(self, value: str, /) -> None:
         """Write ISO-8859-1 encoded string, with NULL (0x00) at the end to indicate string end."""
         data = bytearray(value, "ISO-8859-1")
         await self.write(data)
@@ -252,7 +252,7 @@ class BaseSyncWriter(ABC):
         self.write_varint(len(data), max_bits=max_varint_bits)
         self.write(data)
 
-    def write_ascii(self, value: str) -> None:
+    def write_ascii(self, value: str, /) -> None:
         """Write ISO-8859-1 encoded string, with NULL (0x00) at the end to indicate string end."""
         data = bytearray(value, "ISO-8859-1")
         self.write(data)
