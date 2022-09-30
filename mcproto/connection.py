@@ -26,11 +26,17 @@ class TCPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
 
     @classmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
+        """Construct a client connection to given address."""
         sock = socket.create_connection(address, timeout=timeout)
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         return cls(sock)
 
     def read(self, length: int) -> bytearray:
+        """Receive data sent through the connection.
+
+        `length` controls how many bytes we want to receive. If the requested amount
+        of bytes isn't available to be received, IOError will be raised.
+        """
         result = bytearray()
         while len(result) < length:
             new = self.socket.recv(length - len(result))
@@ -46,9 +52,11 @@ class TCPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
         return result
 
     def write(self, data: bytes) -> None:
+        """Send given data over the connection."""
         self.socket.send(data)
 
     def close(self) -> None:
+        """Close the connection (it cannot be used after this)."""
         self.socket.close()
 
 
@@ -60,11 +68,17 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADE
 
     @classmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
+        """Construct a client connection to given address."""
         conn = asyncio.open_connection(address[0], address[1])
         reader, writer = await asyncio.wait_for(conn, timeout=timeout)
         return cls(reader, writer, timeout)
 
     async def read(self, length: int) -> bytearray:
+        """Receive data sent through the connection.
+
+        `length` controls how many bytes we want to receive. If the requested amount
+        of bytes isn't available to be received, IOError will be raised.
+        """
         result = bytearray()
         while len(result) < length:
             new = await asyncio.wait_for(self.reader.read(length - len(result)), timeout=self.timeout)
@@ -80,10 +94,17 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADE
         return result
 
     async def write(self, data: bytes) -> None:
+        """Send given data over the connection."""
         self.writer.write(data)
 
     def close(self) -> None:
+        """Close the connection (it cannot be used after this)."""
         self.writer.close()
+
+    @property
+    def socket(self) -> socket.socket:
+        """Obtain the underlying socket behind the asyncio transport."""
+        return self.writer.transport._sock  # type: ignore
 
 
 class UDPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
@@ -95,11 +116,16 @@ class UDPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
 
     @classmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
+        """Construct a client connection to given address."""
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(timeout)
         return cls(sock, address)
 
     def read(self, length: Optional[int] = None) -> bytearray:
+        """Receive data sent through the connection.
+
+        For UDP connections, `length` parameter is ignored and not required.
+        """
         result = bytearray()
         while len(result) == 0:
             received_data, server_addr = self.socket.recvfrom(self.BUFFER_SIZE)
@@ -107,9 +133,11 @@ class UDPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
         return result
 
     def write(self, data: bytes) -> None:
+        """Send given data over the connection."""
         self.socket.sendto(data, self.address)
 
     def close(self) -> None:
+        """Close the connection (it cannot be used after this)."""
         self.socket.close()
 
 
@@ -120,11 +148,16 @@ class UDPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_DATAGRAM_CL
 
     @classmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
+        """Construct a client connection to given address."""
         conn = asyncio_dgram.connect(address)
         stream = await asyncio.wait_for(conn, timeout=timeout)
         return cls(stream, timeout)
 
     async def read(self, length: Optional[int] = None) -> bytearray:
+        """Receive data sent through the connection.
+
+        For UDP connections, `length` parameter is ignored and not required.
+        """
         result = bytearray()
         while len(result) == 0:
             received_data, server_addr = await asyncio.wait_for(self.stream.recv(), timeout=self.timeout)
@@ -132,7 +165,9 @@ class UDPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_DATAGRAM_CL
         return result
 
     async def write(self, data: bytes) -> None:
+        """Send given data over the connection."""
         await self.stream.send(data)
 
     def close(self) -> None:
+        """Close the connection (it cannot be used after this)."""
         self.stream.close()
