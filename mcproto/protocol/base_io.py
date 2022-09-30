@@ -76,26 +76,26 @@ class BaseAsyncWriter(ABC):
     __slots__ = ()
 
     @abstractmethod
-    async def write(self, data: bytes) -> None:
+    async def write(self, data: bytes, /) -> None:
         ...
 
     @overload
-    async def write_value(self, fmt: INT_FORMATS_TYPE, value: int) -> None:
+    async def write_value(self, fmt: INT_FORMATS_TYPE, value: int, /) -> None:
         ...
 
     @overload
-    async def write_value(self, fmt: FLOAT_FORMATS_TYPE, value: float) -> None:
+    async def write_value(self, fmt: FLOAT_FORMATS_TYPE, value: float, /) -> None:
         ...
 
     @overload
-    async def write_value(self, fmt: Literal[StructFormat.BOOL], value: bool) -> None:
+    async def write_value(self, fmt: Literal[StructFormat.BOOL], value: bool, /) -> None:
         ...
 
     @overload
-    async def write_value(self, fmt: Literal[StructFormat.CHAR], value: str) -> None:
+    async def write_value(self, fmt: Literal[StructFormat.CHAR], value: str, /) -> None:
         ...
 
-    async def write_value(self, fmt: StructFormat, value: object) -> None:
+    async def write_value(self, fmt: StructFormat, value: object, /) -> None:
         """Write a value of given struct format in big-endian mode."""
         await self.write(struct.pack(">" + fmt.value, value))
 
@@ -188,26 +188,26 @@ class BaseSyncWriter(ABC):
     __slots__ = ()
 
     @abstractmethod
-    def write(self, data: bytes) -> None:
+    def write(self, data: bytes, /) -> None:
         ...
 
     @overload
-    def write_value(self, fmt: INT_FORMATS_TYPE, value: int) -> None:
+    def write_value(self, fmt: INT_FORMATS_TYPE, value: int, /) -> None:
         ...
 
     @overload
-    def write_value(self, fmt: FLOAT_FORMATS_TYPE, value: float) -> None:
+    def write_value(self, fmt: FLOAT_FORMATS_TYPE, value: float, /) -> None:
         ...
 
     @overload
-    def write_value(self, fmt: Literal[StructFormat.BOOL], value: bool) -> None:
+    def write_value(self, fmt: Literal[StructFormat.BOOL], value: bool, /) -> None:
         ...
 
     @overload
-    def write_value(self, fmt: Literal[StructFormat.CHAR], value: str) -> None:
+    def write_value(self, fmt: Literal[StructFormat.CHAR], value: str, /) -> None:
         ...
 
-    def write_value(self, fmt: StructFormat, value: object) -> None:
+    def write_value(self, fmt: StructFormat, value: object, /) -> None:
         """Write a value of given struct format in big-endian mode."""
         self.write(struct.pack(">" + fmt.value, value))
 
@@ -304,26 +304,26 @@ class BaseAsyncReader(ABC):
     __slots__ = ()
 
     @abstractmethod
-    async def read(self, length: int) -> bytearray:
+    async def read(self, length: int, /) -> bytearray:
         ...
 
     @overload
-    async def read_value(self, fmt: INT_FORMATS_TYPE) -> int:
+    async def read_value(self, fmt: INT_FORMATS_TYPE, /) -> int:
         ...
 
     @overload
-    async def read_value(self, fmt: FLOAT_FORMATS_TYPE) -> float:
+    async def read_value(self, fmt: FLOAT_FORMATS_TYPE, /) -> float:
         ...
 
     @overload
-    async def read_value(self, fmt: Literal[StructFormat.BOOL]) -> bool:
+    async def read_value(self, fmt: Literal[StructFormat.BOOL], /) -> bool:
         ...
 
     @overload
-    async def read_value(self, fmt: Literal[StructFormat.CHAR]) -> str:
+    async def read_value(self, fmt: Literal[StructFormat.CHAR], /) -> str:
         ...
 
-    async def read_value(self, fmt: StructFormat) -> object:
+    async def read_value(self, fmt: StructFormat, /) -> object:
         """Read a value into given struct format in big-endian mode.
 
         The amount of bytes to read will be determined based on the struct format automatically.
@@ -434,26 +434,26 @@ class BaseSyncReader(ABC):
     __slots__ = ()
 
     @abstractmethod
-    def read(self, length: int) -> bytearray:
+    def read(self, length: int, /) -> bytearray:
         ...
 
     @overload
-    def read_value(self, fmt: INT_FORMATS_TYPE) -> int:
+    def read_value(self, fmt: INT_FORMATS_TYPE, /) -> int:
         ...
 
     @overload
-    def read_value(self, fmt: FLOAT_FORMATS_TYPE) -> float:
+    def read_value(self, fmt: FLOAT_FORMATS_TYPE, /) -> float:
         ...
 
     @overload
-    def read_value(self, fmt: Literal[StructFormat.BOOL]) -> bool:
+    def read_value(self, fmt: Literal[StructFormat.BOOL], /) -> bool:
         ...
 
     @overload
-    def read_value(self, fmt: Literal[StructFormat.CHAR]) -> str:
+    def read_value(self, fmt: Literal[StructFormat.CHAR], /) -> str:
         ...
 
-    def read_value(self, fmt: StructFormat) -> object:
+    def read_value(self, fmt: StructFormat, /) -> object:
         """Read a value into given struct format in big-endian mode.
 
         The amount of bytes to read will be determined based on the struct format automatically.
