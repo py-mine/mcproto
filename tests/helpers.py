@@ -46,7 +46,7 @@ class SynchronizedMixin:
     `synchronize` decorator, otherwise it will be returned without any modifications.
 
     This is useful when we need to quickly create a synchronous alternative to a class holding async methods.
-    However it isn't useful in production, since will cause typing issues (attributes will be accesssible, but
+    However it isn't useful in production, since will cause typing issues (attributes will be accessible, but
     type checkers won't know that they exist here, because of the dynamic nature of this implementation).
     """
 
@@ -102,8 +102,9 @@ class UnpropagatingMockMixin:
     """
 
     spec_set = None
+
     # Since this is a mixin class, we can access some attributes defined in mock classes safely
-    # define the types of these variables here, for code's type analysis
+    # define the types of these variables here, for proper static type analysis
     _mock_sealed: bool
     _extract_mock_name: Callable[[], str]
 
