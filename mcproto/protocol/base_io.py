@@ -135,6 +135,11 @@ class BaseAsyncWriter(ABC):
         val = to_twos_complement(value, bits=max_bits)
         await self.write_varuint(val, max_bits=max_bits)
 
+    async def write_bytearray(self, data: bytes, /, *, max_varint_bits: int = 32) -> None:
+        """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
+        await self.write_varint(len(data), max_bits=max_varint_bits)
+        await self.write(data)
+
     async def write_ascii(self, value: str) -> None:
         """Write ISO-8859-1 encoded string, with NULL (0x00) at the end to indicate string end."""
         data = bytearray(value, "ISO-8859-1")
@@ -239,6 +244,11 @@ class BaseSyncWriter(ABC):
         """
         val = to_twos_complement(value, bits=max_bits)
         self.write_varuint(val, max_bits=max_bits)
+
+    def write_bytearray(self, data: bytes, /, *, max_varint_bits: int = 32) -> None:
+        """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
+        self.write_varint(len(data), max_bits=max_varint_bits)
+        self.write(data)
 
     def write_ascii(self, value: str) -> None:
         """Write ISO-8859-1 encoded string, with NULL (0x00) at the end to indicate string end."""
@@ -362,6 +372,11 @@ class BaseAsyncReader(ABC):
         val = from_twos_complement(unsigned_num, bits=max_bits)
         return val
 
+    async def read_bytearray(self, /, *, max_varint_bits: int = 32) -> bytearray:
+        """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
+        length = await self.read_varint(max_bits=max_varint_bits)
+        return await self.read(length)
+
     async def read_ascii(self) -> str:
         """Read ISO-8859-1 encoded string, until we encounter NULL (0x00) at the end indicating string end."""
         # Keep reading bytes until we find NULL
@@ -477,6 +492,11 @@ class BaseSyncReader(ABC):
         unsigned_num = self.read_varuint(max_bits=max_bits)
         val = from_twos_complement(unsigned_num, bits=max_bits)
         return val
+
+    def read_bytearray(self, /, *, max_varint_bits: int = 32) -> bytearray:
+        """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
+        length = self.read_varint(max_bits=max_varint_bits)
+        return self.read(length)
 
     def read_ascii(self) -> str:
         """Read ISO-8859-1 encoded string, until we encounter NULL (0x00) at the end indicating string end."""
