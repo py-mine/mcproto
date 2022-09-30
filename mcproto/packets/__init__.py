@@ -6,6 +6,13 @@ from mcproto.buffer import Buffer
 from mcproto.packets.abc import Packet
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 
+__all__ = [
+    "async_read_packet",
+    "async_write_packet",
+    "sync_read_packet",
+    "sync_write_packet",
+]
+
 # Construct a packet map, holding a mapping of packet ids to the packet classes with that ID
 # TODO: Consider walking all of the modules in this directory and getting all of the packet
 # classes automatically.
