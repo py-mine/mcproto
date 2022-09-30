@@ -74,3 +74,13 @@ def test_flush():
     data = buf.flush()
     assert data == b"Foobar"
     assert buf == bytearray()
+
+
+def test_remainig():
+    """Buffer should report correct amount of remaining bytes to be read."""
+    buf = Buffer(b"012345")  # 6 bytes to be read
+    assert buf.remaining == 6
+    buf.read(2)
+    assert buf.remaining == 4
+    buf.clear()
+    assert buf.remaining == 0
