@@ -109,9 +109,9 @@ class BaseAsyncWriter(ABC):
         in this case it would actually take at most 5 bytes, due to the variable encoding overhead.
 
         Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
-        flag bit. If this continuation bit is set (1), it indicates that there will be another varnum byte sent after
+        flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
         this one. The least significant group is written first, followed by each of the more significant groups, making
-        varnums little-endian, however in groups of 7 bits, not 8.
+        varints little-endian, however in groups of 7 bits, not 8.
         """
         value_max = (1 << (max_bits)) - 1
         if value < 0 or value > value_max:
@@ -221,9 +221,9 @@ class BaseSyncWriter(ABC):
         in this case it would actually take at most 5 bytes, due to the variable encoding overhead.
 
         Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
-        flag bit. If this continuation bit is set (1), it indicates that there will be another varnum byte sent after
+        flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
         this one. The least significant group is written first, followed by each of the more significant groups, making
-        varnums little-endian, however in groups of 7 bits, not 8.
+        varints little-endian, however in groups of 7 bits, not 8.
         """
         value_max = (1 << (max_bits)) - 1
         if value < 0 or value > value_max:
@@ -343,9 +343,9 @@ class BaseAsyncReader(ABC):
         in this case it would actually read at most 5 bytes, due to the variable encoding overhead.
 
         Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
-        flag bit. If this continuation bit is set (1), it indicates that there will be another varnum byte sent after
+        flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
         this one. The least significant group is written first, followed by each of the more significant groups, making
-        varnums little-endian, however in groups of 7 bits, not 8.
+        varints little-endian, however in groups of 7 bits, not 8.
         """
         value_max = (1 << (max_bits)) - 1
 
@@ -473,9 +473,9 @@ class BaseSyncReader(ABC):
         in this case it would actually read at most 5 bytes, due to the variable encoding overhead.
 
         Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
-        flag bit. If this continuation bit is set (1), it indicates that there will be another varnum byte sent after
+        flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
         this one. The least significant group is written first, followed by each of the more significant groups, making
-        varnums little-endian, however in groups of 7 bits, not 8.
+        varints little-endian, however in groups of 7 bits, not 8.
         """
         value_max = (1 << (max_bits)) - 1
 
