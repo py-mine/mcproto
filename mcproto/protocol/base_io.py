@@ -147,20 +147,22 @@ class BaseAsyncWriter(ABC):
         await self.write(bytearray.fromhex("00"))
 
     async def write_utf(self, value: str, /) -> None:
-        """Write a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
+        """Write a UTF-8 encoded string, prefixed with a varint of it's size (in bytes).
 
-        Will write n bytes, depending on the amount of bytes in the string + up to 3 bytes from prefix varshort,
-        holding this size (n). This means a maximum of 2**31-1 + 5 bytes can be written.
+        The maximum amount of UTF-8 characters is limited to 32767.
 
         Individual UTF-8 characters can take up to 4 bytes, however most of the common ones take up less. Assuming the
-        worst case of 4 bytes per every character, at most 8192 characters can be written, however this number
-        will usually be much bigger (up to 4x) since it's unlikely each character would actually take up 4 bytes. (All
-        of the ASCII characters only take up 1 byte).
+        worst case of 4 bytes per every character, at most 131068 data bytes will be written + 3 additional bytes from
+        the varint encoding overhead. Note that the limit of 32767 characters holds, even if we're writing shorter
+        characters, and we wouldn't cross the 131068 bytes data limit.
 
-        If the given string is longer than this, ValueError will be raised for trying to write an invalid varshort.
+        If the given string is longer than this, ValueError will be raised.
         """
+        if len(value) > 32767:
+            raise ValueError("Maximum character limit for writing strings is 32767 characters.")
+
         data = bytearray(value, "utf-8")
-        await self.write_varint(len(data), max_bits=16)
+        await self.write_varint(len(data), max_bits=32)
         await self.write(data)
 
     async def write_optional(self, value: Optional[T], /, writer: Callable[[T], Awaitable[R]]) -> Optional[R]:
@@ -257,20 +259,22 @@ class BaseSyncWriter(ABC):
         self.write(bytearray.fromhex("00"))
 
     def write_utf(self, value: str, /) -> None:
-        """Write a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
+        """Write a UTF-8 encoded string, prefixed with a varint of it's size (in bytes).
 
-        Will write n bytes, depending on the amount of bytes in the string + up to 3 bytes from prefix varshort,
-        holding this size (n). This means a maximum of 2**31-1 + 5 bytes can be written.
+        The maximum amount of UTF-8 characters is limited to 32767.
 
         Individual UTF-8 characters can take up to 4 bytes, however most of the common ones take up less. Assuming the
-        worst case of 4 bytes per every character, at most 8192 characters can be written, however this number
-        will usually be much bigger (up to 4x) since it's unlikely each character would actually take up 4 bytes. (All
-        of the ASCII characters only take up 1 byte).
+        worst case of 4 bytes per every character, at most 131068 data bytes will be written + 3 additional bytes from
+        the varint encoding overhead. Note that the limit of 32767 characters holds, even if we're writing shorter
+        characters, and we wouldn't cross the 131068 bytes data limit.
 
-        If the given string is longer than this, ValueError will be raised for trying to write an invalid varshort.
+        If the given string is longer than this, ValueError will be raised.
         """
+        if len(value) > 32767:
+            raise ValueError("Maximum character limit for writing strings is 32767 characters.")
+
         data = bytearray(value, "utf-8")
-        self.write_varint(len(data), max_bits=16)
+        self.write_varint(len(data), max_bits=32)
         self.write(data)
 
     def write_optional(self, value: Optional[T], /, writer: Callable[[T], R]) -> Optional[R]:
@@ -387,19 +391,28 @@ class BaseAsyncReader(ABC):
         return result[:-1].decode("ISO-8859-1")
 
     async def read_utf(self) -> str:
-        """Read a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
+        """Read a UTF-8 encoded string, prefixed with a varint of it's size (in bytes).
 
-        Will read n bytes, depending on the prefix varint (amount of bytes in the string) + up to 3 bytes from prefix
-        varshort itself, holding this size (n). This means a maximum of 2**15-1 + 3 bytes can be read (and written).
+        The maximum amount of UTF-8 characters is limited to 32767.
 
         Individual UTF-8 characters can take up to 4 bytes, however most of the common ones take up less. Assuming the
-        worst case of 4 bytes per every character, at most 8192 characters can be written, however this number
-        will usually be much bigger (up to 4x) since it's unlikely each character would actually take up 4 bytes. (All
-        of the ASCII characters only take up 1 byte).
+        worst case of 4 bytes per every character, at most 131068 data bytes will be read + 3 additional bytes from
+        the varint encoding overhead. Note that the while the limit of 32767 characters is enforced, this check only
+        happens after the data was already read.
+
+        If the given string is longer than this, IOError will be raised.
         """
-        length = await self.read_varint(max_bits=16)
-        bytes = await self.read(length)
-        return bytes.decode("utf-8")
+        length = await self.read_varint(max_bits=32)
+        if length > 131068:
+            raise IOError(f"Maximum read limit for utf strings is 131068 bytes, got {length}.")
+
+        data = await self.read(length)
+        chars = data.decode("utf-8")
+
+        if len(chars) > 32767:
+            raise IOError(f"Maximum read limit for utf strings is 32767 characters, got {len(chars)}.")
+
+        return chars
 
     async def read_optional(self, reader: Callable[[], Awaitable[R]]) -> Optional[R]:
         """Reads bool determining is value is present, if it is, also reads the value with reader function.
@@ -508,19 +521,28 @@ class BaseSyncReader(ABC):
         return result[:-1].decode("ISO-8859-1")
 
     def read_utf(self) -> str:
-        """Read a UTF-8 encoded string, prefixed with a varshort of it's size (in bytes).
+        """Read a UTF-8 encoded string, prefixed with a varint of it's size (in bytes).
 
-        Will read n bytes, depending on the prefix varint (amount of bytes in the string) + up to 3 bytes from prefix
-        varshort itself, holding this size (n). This means a maximum of 2**15-1 + 3 bytes can be read (and written).
+        The maximum amount of UTF-8 characters is limited to 32767.
 
         Individual UTF-8 characters can take up to 4 bytes, however most of the common ones take up less. Assuming the
-        worst case of 4 bytes per every character, at most 8192 characters can be written, however this number
-        will usually be much bigger (up to 4x) since it's unlikely each character would actually take up 4 bytes. (All
-        of the ASCII characters only take up 1 byte).
+        worst case of 4 bytes per every character, at most 131068 data bytes will be read + 3 additional bytes from
+        the varint encoding overhead. Note that the while the limit of 32767 characters is enforced, this check only
+        happens after the data was already read.
+
+        If the given string is longer than this, IOError will be raised.
         """
-        length = self.read_varint(max_bits=16)
-        bytes = self.read(length)
-        return bytes.decode("utf-8")
+        length = self.read_varint(max_bits=32)
+        if length > 131068:
+            raise IOError(f"Maximum read limit for utf strings is 131068 bytes, got {length}.")
+
+        data = self.read(length)
+        chars = data.decode("utf-8")
+
+        if len(chars) > 32767:
+            raise IOError(f"Maximum read limit for utf strings is 32767 characters, got {len(chars)}.")
+
+        return chars
 
     def read_optional(self, reader: Callable[[], R]) -> Optional[R]:
         """Reads bool determining is value is present, if it is, also reads the value with reader function.
