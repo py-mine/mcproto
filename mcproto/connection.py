@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import socket
+from abc import ABC, abstractmethod
 from typing import Generic, Optional, TYPE_CHECKING, TypeVar
 
 import asyncio_dgram
@@ -20,8 +21,65 @@ T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
 T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.DatagramClient)
 
 
-class TCPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
+class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
+    def __init__(self):
+        self.closed = False
+
+    @classmethod
+    @abstractmethod
+    def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
+        """Construct a client connection to given address."""
+        raise NotImplementedError()
+
+    @abstractmethod
+    def _close(self) -> None:
+        raise NotImplementedError()
+
+    def close(self) -> None:
+        """Close the connection (it cannot be used after this)."""
+        self._close()
+        self.closed = True
+
+    def __enter__(self) -> Self:
+        if self.closed:
+            raise IOError("Connection already closed.")
+        return self
+
+    def __exit__(self, *a, **kw) -> None:
+        self.close()
+
+
+class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
+    def __init__(self):
+        self.closed = False
+
+    @classmethod
+    @abstractmethod
+    async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
+        """Construct a client connection to given address."""
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def _close(self) -> None:
+        raise NotImplementedError()
+
+    async def close(self) -> None:
+        """Close the connection (it cannot be used after this)."""
+        await self._close()
+        self.closed = True
+
+    async def __aenter__(self) -> Self:
+        if self.closed:
+            raise IOError("Connection already closed.")
+        return self
+
+    async def __aexit__(self, *a, **kw) -> None:
+        await self.close()
+
+
+class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
     def __init__(self, socket: T_SOCK):
+        super().__init__()
         self.socket = socket
 
     @classmethod
@@ -55,13 +113,14 @@ class TCPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
         """Send given data over the connection."""
         self.socket.send(data)
 
-    def close(self) -> None:
+    def _close(self) -> None:
         """Close the connection (it cannot be used after this)."""
         self.socket.close()
 
 
-class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADER, T_STREAMWRITER]):
+class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER]):
     def __init__(self, reader: T_STREAMREADER, writer: T_STREAMWRITER, timeout: float):
+        super().__init__()
         self.reader = reader
         self.writer = writer
         self.timeout = timeout
@@ -97,7 +156,7 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADE
         """Send given data over the connection."""
         self.writer.write(data)
 
-    def close(self) -> None:
+    async def _close(self) -> None:
         """Close the connection (it cannot be used after this)."""
         self.writer.close()
 
@@ -107,10 +166,11 @@ class TCPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_STREAMREADE
         return self.writer.transport._sock  # type: ignore
 
 
-class UDPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
+class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
     BUFFER_SIZE = 65535
 
     def __init__(self, socket: T_SOCK, address: tuple[str, int]):
+        super().__init__()
         self.socket = socket
         self.address = address
 
@@ -136,13 +196,14 @@ class UDPSyncConnection(BaseSyncReader, BaseSyncWriter, Generic[T_SOCK]):
         """Send given data over the connection."""
         self.socket.sendto(data, self.address)
 
-    def close(self) -> None:
+    def _close(self) -> None:
         """Close the connection (it cannot be used after this)."""
         self.socket.close()
 
 
-class UDPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_DATAGRAM_CLIENT]):
+class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
     def __init__(self, stream: T_DATAGRAM_CLIENT, timeout: float):
+        super().__init__()
         self.stream = stream
         self.timeout = timeout
 
@@ -168,6 +229,6 @@ class UDPAsyncConnection(BaseAsyncReader, BaseAsyncWriter, Generic[T_DATAGRAM_CL
         """Send given data over the connection."""
         await self.stream.send(data)
 
-    def close(self) -> None:
+    async def _close(self) -> None:
         """Close the connection (it cannot be used after this)."""
         self.stream.close()
