@@ -27,7 +27,7 @@ class Packet(ABC):
         if not hasattr(cls, "PACKET_ID"):
             raise TypeError(f"Can't instantiate abstract {cls.__name__} class without defining PACKET_ID classvar.")
 
-        return super().__new__(cls, *a, **kw)
+        return super().__new__(cls)
 
     @abstractmethod
     def serialize(self) -> Buffer:
