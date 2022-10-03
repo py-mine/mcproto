@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from enum import IntEnum
 from typing import ClassVar, TYPE_CHECKING
 
 from mcproto.buffer import Buffer
@@ -9,23 +10,34 @@ if TYPE_CHECKING:
     from typing_extensions import Self
 
 
+class GameState(IntEnum):
+    HANDSHAKING = 0
+    STATUS = 1
+    LOGIN = 2
+    PLAY = 3
+
+
 class Packet(ABC):
     """Base class for all packets"""
 
     __slots__ = ()
 
     PACKET_ID: ClassVar[int]
+    GAME_STATE: ClassVar[GameState]
 
     def __new__(cls: type[Self], *a, **kw) -> Self:
-        """Enforce PAKCET_ID being set for each instance of concrete packet classes.
+        """Enforce required parameters being set for each instance of concrete packet classes.
 
-        This performs a similar check to what ABCs do, as it ensures that PACKET_ID
-        class variable was defined on the class before allowing initialization. Note
-        that this does not prevent creating subclasses without PACKET_ID defined, it
-        just prevents creating class instances without it.
+        This performs a similar check to what ABCs do, as it ensures that some required
+        class variables were defined on the class before allowing initialization. Note
+        that this does not prevent creating subclasses without these defined, it just
+        prevents the creation of new instances on classes without it.
         """
+        _err_msg = f"Can't instantiate abstract {cls.__name__} class without defining " + "{!r} classvar"
         if not hasattr(cls, "PACKET_ID"):
-            raise TypeError(f"Can't instantiate abstract {cls.__name__} class without defining PACKET_ID classvar.")
+            raise TypeError(_err_msg.format("PACKET_ID"))
+        if not hasattr(cls, "GAME_STATE"):
+            raise TypeError(_err_msg.format("GAME_STATE"))
 
         return super().__new__(cls)
 
