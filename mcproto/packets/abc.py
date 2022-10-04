@@ -51,3 +51,11 @@ class Packet(ABC):
     def deserialize(cls, buf: Buffer, /) -> Self:
         """Construct the packet from it's received byte representation."""
         raise NotImplementedError
+
+
+class ServerBoundPacket(Packet):
+    """Packet bound to a server (Client -> Server)."""
+
+
+class ClientBoundPacket(Packet):
+    """Packet bound to a client (Server -> Client)."""
