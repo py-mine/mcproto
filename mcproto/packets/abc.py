@@ -48,6 +48,6 @@ class Packet(ABC):
 
     @classmethod
     @abstractmethod
-    def deserialize(cls, data: Buffer) -> Self:
+    def deserialize(cls, buf: Buffer, /) -> Self:
         """Construct the packet from it's received byte representation."""
         raise NotImplementedError
