@@ -59,15 +59,15 @@ def _serialize_packet(packet: Packet, *, compressed: bool = False) -> Buffer:
         return packet_buf
 
 
-def _deserialize_packet(data: Buffer, *, compressed: bool = False) -> Packet:
+def _deserialize_packet(buf: Buffer, *, compressed: bool = False) -> Packet:
     """Deserialize the packet id and it's internal data."""
     if compressed:
-        data.read_varint()  # We don't need this uncompressed length
-        compressd_packet_data = data.read(data.remaining)
-        data = Buffer(gzip.decompress(compressd_packet_data))
+        buf.read_varint()  # We don't need this uncompressed length
+        compressd_packet_data = buf.read(buf.remaining)
+        buf = Buffer(gzip.decompress(compressd_packet_data))
 
-    packet_id = data.read_varint()
-    packet_data = data.read(data.remaining)
+    packet_id = buf.read_varint()
+    packet_data = buf.read(buf.remaining)
 
     return PACKET_MAP[packet_id].deserialize(Buffer(packet_data))
 
