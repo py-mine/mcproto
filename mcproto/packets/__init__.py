@@ -72,25 +72,25 @@ def _deserialize_packet(data: Buffer, *, compressed: bool = False) -> Packet:
     return PACKET_MAP[packet_id].deserialize(Buffer(packet_data))
 
 
-def sync_write_packet(writer: BaseSyncWriter, packet: Packet, compressed: bool = False) -> None:
+def sync_write_packet(writer: BaseSyncWriter, packet: Packet, *, compressed: bool = False) -> None:
     """Write given packet."""
     data_buf = _serialize_packet(packet, compressed=compressed)
     writer.write_bytearray(data_buf)
 
 
-async def async_write_packet(writer: BaseAsyncWriter, packet: Packet, compressed: bool = False) -> None:
+async def async_write_packet(writer: BaseAsyncWriter, packet: Packet, *, compressed: bool = False) -> None:
     """Write given packet."""
     data_buf = _serialize_packet(packet, compressed=compressed)
     await writer.write_bytearray(data_buf)
 
 
-def sync_read_packet(reader: BaseSyncReader, compressed: bool = False) -> Packet:
+def sync_read_packet(reader: BaseSyncReader, *, compressed: bool = False) -> Packet:
     """Read a packet."""
     data_buf = Buffer(reader.read_bytearray())
     return _deserialize_packet(data_buf, compressed=compressed)
 
 
-async def async_read_packet(reader: BaseAsyncReader, compressed: bool = False) -> Packet:
+async def async_read_packet(reader: BaseAsyncReader, *, compressed: bool = False) -> Packet:
     """Read a packet."""
     data_buf = Buffer(await reader.read_bytearray())
     return _deserialize_packet(data_buf, compressed=compressed)
