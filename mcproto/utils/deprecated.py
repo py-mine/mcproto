@@ -18,6 +18,8 @@ T = TypeVar("T")
 R = TypeVar("R")
 R2 = TypeVar("R2")
 
+__all__ = ["deprecated"]
+
 
 class DeprecatedReturn(Protocol):
     @overload

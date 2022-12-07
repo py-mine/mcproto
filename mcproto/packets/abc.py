@@ -10,6 +10,14 @@ if TYPE_CHECKING:
     from typing_extensions import Self
 
 
+__all__ = [
+    "GameState",
+    "Packet",
+    "ServerBoundPacket",
+    "ClientBoundPacket",
+]
+
+
 class GameState(IntEnum):
     HANDSHAKING = 0
     STATUS = 1

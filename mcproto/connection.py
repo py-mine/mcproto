@@ -20,6 +20,15 @@ T_STREAMREADER = TypeVar("T_STREAMREADER", bound=asyncio.StreamReader)
 T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
 T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.DatagramClient)
 
+__all__ = [
+    "AsyncConnection",
+    "SyncConnection",
+    "TCPAsyncConnection",
+    "TCPSyncConnection",
+    "UDPAsyncConnection",
+    "UDPSyncConnection",
+]
+
 
 class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     def __init__(self):
