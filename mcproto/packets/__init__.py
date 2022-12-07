@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 import gzip
+from collections.abc import Mapping
+from typing import TypeVar
 
 from mcproto.buffer import Buffer
 from mcproto.packets.abc import Packet
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
+
+T_Packet = TypeVar("T_Packet", bound=Packet)
 
 __all__ = [
     "async_read_packet",
@@ -12,17 +16,6 @@ __all__ = [
     "sync_read_packet",
     "sync_write_packet",
 ]
-
-# Construct a packet map, holding a mapping of packet ids to the packet classes with that ID
-# TODO: Consider walking all of the modules in this directory and getting all of the packet
-# classes automatically.
-
-_PACKETS: list[type[Packet]] = []
-PACKET_MAP: dict[int, type[Packet]] = {}
-
-for packet_cls in _PACKETS:
-    PACKET_MAP[packet_cls.PACKET_ID] = packet_cls
-
 
 # PACKET FORMAT:
 # | Field name  | Field type    | Notes                                 |
@@ -59,7 +52,9 @@ def _serialize_packet(packet: Packet, *, compressed: bool = False) -> Buffer:
         return packet_buf
 
 
-def _deserialize_packet(buf: Buffer, *, compressed: bool = False) -> Packet:
+def _deserialize_packet(
+    buf: Buffer, *, packet_map: Mapping[int, type[T_Packet]], compressed: bool = False
+) -> T_Packet:
     """Deserialize the packet id and it's internal data."""
     if compressed:
         buf.read_varint()  # We don't need this uncompressed length
@@ -69,7 +64,7 @@ def _deserialize_packet(buf: Buffer, *, compressed: bool = False) -> Packet:
     packet_id = buf.read_varint()
     packet_data = buf.read(buf.remaining)
 
-    return PACKET_MAP[packet_id].deserialize(Buffer(packet_data))
+    return packet_map[packet_id].deserialize(Buffer(packet_data))
 
 
 def sync_write_packet(writer: BaseSyncWriter, packet: Packet, *, compressed: bool = False) -> None:
@@ -84,13 +79,23 @@ async def async_write_packet(writer: BaseAsyncWriter, packet: Packet, *, compres
     await writer.write_bytearray(data_buf)
 
 
-def sync_read_packet(reader: BaseSyncReader, *, compressed: bool = False) -> Packet:
+def sync_read_packet(
+    reader: BaseSyncReader,
+    *,
+    packet_map: Mapping[int, type[T_Packet]],
+    compressed: bool = False,
+) -> T_Packet:
     """Read a packet."""
     data_buf = Buffer(reader.read_bytearray())
-    return _deserialize_packet(data_buf, compressed=compressed)
+    return _deserialize_packet(data_buf, packet_map=packet_map, compressed=compressed)
 
 
-async def async_read_packet(reader: BaseAsyncReader, *, compressed: bool = False) -> Packet:
+async def async_read_packet(
+    reader: BaseAsyncReader,
+    *,
+    packet_map: Mapping[int, type[T_Packet]],
+    compressed: bool = False,
+) -> T_Packet:
     """Read a packet."""
     data_buf = Buffer(await reader.read_bytearray())
-    return _deserialize_packet(data_buf, compressed=compressed)
+    return _deserialize_packet(data_buf, packet_map=packet_map, compressed=compressed)
