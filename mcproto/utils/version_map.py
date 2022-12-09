@@ -49,9 +49,14 @@ class VersionMap(ABC, RequiredParamsABCMixin, Generic[K, V]):
     # dynamic this class is. (Could require making this class generic over a literal int, being
     # the version).
 
-    _REQUIRED_CLASS_VARS: ClassVar[Sequence[str]] = ["SUPPORTED_VERSIONS", "_SEARCH_DIR_QUALNAME"]
+    _REQUIRED_CLASS_VARS: ClassVar[Sequence[str]] = [
+        "SUPPORTED_VERSIONS",
+        "_SEARCH_DIR_QUALNAME",
+        "COMPATIBLE_FALLBACK_VERSIONS",
+    ]
 
     SUPPORTED_VERSIONS: ClassVar[set[int]]
+    COMPATIBLE_FALLBACK_VERSIONS: ClassVar[set[int]]
     _SEARCH_DIR_QUALNAME: ClassVar[str]
 
     __slots__ = ("_version_map",)
@@ -198,9 +203,13 @@ class VersionMap(ABC, RequiredParamsABCMixin, Generic[K, V]):
     def _get_supported_protocol_version(self, protocol_version: int) -> int:
         """Given a protocol version, return closest older supported version, or the version itself.
 
-        If given protocol version is one of supported versions, this function will simply return it.
-        However if it isn't closest supported older version will be picked instead, producing a
-        UserWarning, as this might cause issues.
+        - If given protocol version is one of supported versions, this function will simply return it.
+        - Otherwise, search for the closest older version to the requested version
+            - If there is no older version in the supported version, ValueError is raised
+            - If the requested version is in COMPATIBLE_FALLBACK_VERSIONS, this fallback will be
+              considered safe, and no errors/warnings will be produced.
+            - Otherwise, the closest version will still be returned, but a UserWarning will be emitted
+              mentioning that this fallback occurred and that the version might not be fully compatible.
         """
 
         if protocol_version in self.SUPPORTED_VERSIONS:
@@ -217,11 +226,12 @@ class VersionMap(ABC, RequiredParamsABCMixin, Generic[K, V]):
             ) from exc
 
         # Since using an older/lesser version to the one that was requested is a fallback behavior and
-        # could easily cause issues, emit a warning here.
-        warnings.warn(
-            f"Falling back to older protocol version {protocol_version_closest}, "
-            "as the requested version ({protocol_version}) isn't supported.",
-            category=UserWarning,
-        )
+        # could easily cause issues, emit a warning here, unless the version was explicitly marked compatible.
+        if protocol_version not in self.COMPATIBLE_FALLBACK_VERSIONS:
+            warnings.warn(
+                f"Falling back to older protocol version {protocol_version_closest}, "
+                f"as the requested version ({protocol_version}) isn't supported.",
+                category=UserWarning,
+            )
 
         return protocol_version_closest

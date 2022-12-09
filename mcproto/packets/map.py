@@ -14,6 +14,7 @@ __all__ = ["PacketMap"]
 
 class PacketMap(VersionMap[tuple[PacketDirection, GameState, int], type[Packet]]):
     SUPPORTED_VERSIONS: ClassVar[set[int]] = {757}
+    COMPATIBLE_FALLBACK_VERSIONS: ClassVar[set[int]] = set()
     _SEARCH_DIR_QUALNAME: ClassVar[str] = "mcproto.packets"
 
     __slots__ = tuple()
