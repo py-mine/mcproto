@@ -6,7 +6,7 @@ Applies to:
       Copyright (C) 2022 Chris Lovering <chris.lovering.95@gmail.com>
       Copyright (C) 2022 mbaruh <mbaruh@hotmail.com>
       All rights reserved.
-        - mcproto/packets/map.py: portions of _walk_packets function
+        - mcproto/utils/version_map.py: portions of VersionMap._walk_submodules function
 ---------------------------------------------------------------------------------------------------
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

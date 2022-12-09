@@ -6,6 +6,7 @@ from typing import TypeVar
 
 from mcproto.buffer import Buffer
 from mcproto.packets.abc import Packet
+from mcproto.packets.map import PacketMap
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 
 T_Packet = TypeVar("T_Packet", bound=Packet)
@@ -27,6 +28,8 @@ __all__ = [
 
 # Since the read functions here require PACKET_MAP, we can't move these functions
 # directly into BaseWriter/BaseReader classes, as that would be a circular import
+
+PACKET_MAP = PacketMap()
 
 
 def _serialize_packet(packet: Packet, *, compressed: bool = False) -> Buffer:

@@ -1,207 +1,94 @@
 from __future__ import annotations
 
-import importlib
-import pkgutil
-from collections.abc import Callable, Iterable, Iterator, Mapping
-from itertools import chain
-from types import ModuleType
-from typing import Literal, NoReturn, Optional, TYPE_CHECKING, TypeVar, overload
+from collections.abc import Mapping
+from typing import Any, ClassVar, Literal, TYPE_CHECKING, overload
 
 from mcproto.packets.abc import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
+from mcproto.utils.version_map import VersionMap, WalkableModuleData
 
 if TYPE_CHECKING:
-    from typing_extensions import ParamSpec
+    from typing_extensions import TypeGuard
 
-    P = ParamSpec("P")
-    R = TypeVar("R")
+__all__ = ["PacketMap"]
 
-    # Typing-time signature fix for functools.cache, not propagating the function parameters
-    # https://github.com/python/mypy/issues/5107
-    def cache(__user_function: Callable[P, R], /) -> Callable[P, R]:
+
+class PacketMap(VersionMap[tuple[PacketDirection, GameState, int], type[Packet]]):
+    SUPPORTED_VERSIONS: ClassVar[set[int]] = {757}
+    _SEARCH_DIR_QUALNAME: ClassVar[str] = "mcproto.packets"
+
+    __slots__ = tuple()
+
+    @overload
+    def make_id_map(
+        self,
+        protocol_version: int,
+        direction: Literal[PacketDirection.CLIENTBOUND],
+        game_state: GameState,
+    ) -> dict[int, type[ClientBoundPacket]]:
         ...
 
-else:
-    from functools import cache
-
-__all__ = [
-    "StatePacketMap",
-    "get_full_packet_map",
-    "get_packet_map",
-]
-
-
-# Fully qualified name to the package with the versioned packet implementations
-# (This package should contain packages like 'v757', which then contain their corresponding
-# modules with the packet classes.)
-PACKETS_DIR_QUALNAME = "mcproto.packets"
-
-
-class StatePacketMap:
-    """Grouping of packets belonging to a single game state (like HANDSHAKING/LOGIN).
-
-    :param GameState game_state: The game state this packet map is for
-    :param Optional[dict[int, type[ServerBoundPacket]]] server_bound: Mapping of packet id to server-bound packets.
-        If no value is given (or None is passed explicitly), a new empty dict will be made.
-    :param Optional[dict[int, type[ClientBoundPacket]]] client_bound: Mapping of packet id to client-bound packets.
-        If no value is given (or None is passed explicitly), a new empty dict will be made.
-    """
-
-    __slots__ = ("server_bound", "client_bound", "game_state")
-
-    def __init__(
+    @overload
+    def make_id_map(
         self,
+        protocol_version: int,
+        direction: Literal[PacketDirection.SERVERBOUND],
         game_state: GameState,
-        server_bound: Optional[dict[int, type[ServerBoundPacket]]] = None,
-        client_bound: Optional[dict[int, type[ClientBoundPacket]]] = None,
-    ):
-        if server_bound is None:
-            server_bound = {}
-        if client_bound is None:
-            client_bound = {}
+    ) -> dict[int, type[ClientBoundPacket]]:
+        ...
 
-        for packet in chain(server_bound.values(), client_bound.values()):
-            if not packet.GAME_STATE == game_state:
-                raise ValueError(
-                    f"Got invalid packet ({packet.__qualname__}), mismatched game state"
-                    f" (expected: {game_state.name}, packet has: {packet.GAME_STATE.name})"
-                )
+    def make_id_map(
+        self,
+        protocol_version: int,
+        direction: PacketDirection,
+        game_state: GameState,
+    ) -> Mapping[int, type[Packet]]:
+        """Construct a dictionary mapping (packet ID -> packet class) for values matching given attributes."""
+        res = {}
+        for (k_direction, k_game_state, k_packet_id), v in self.make_version_map(protocol_version).items():
+            if k_direction is direction and k_game_state is game_state:
+                res[k_packet_id] = v
+        return res
 
-        self.game_state = game_state
-        self.server_bound = server_bound
-        self.client_bound = client_bound
+    def _check_obj(
+        self,
+        obj: Any,  # noqa: ANN401
+        module_data: WalkableModuleData,
+        protocol_version: int,
+    ) -> TypeGuard[type[Packet]]:
+        """Determine whether a member object should be considered as a valid component for given protocol version.
 
-    def register(self, packet: type[Packet]) -> None:
-        """Register a new packet to this state packet map."""
-        if packet.GAME_STATE is not self.game_state:
-            raise ValueError(
-                f"Invalid packet ({packet.__qualname__}), mismatched game state"
-                f" (expected: {self.game_state.name}, packet has: {packet.GAME_STATE.name})"
-            )
+        This method will be called for each potential member object (found when walking over all members of
+        __all__ from all submodules of the package for given protocol version).
 
-        if issubclass(packet, ServerBoundPacket):
-            if packet.PACKET_ID in self.server_bound:
-                raise ValueError(
-                    f"Server-bound packet with this id ({packet.PACKET_ID}) is already registered"
-                    f" (registered class: {self.server_bound[packet.PACKET_ID].__qualname__})!"
-                )
-            self.server_bound[packet.PACKET_ID] = packet
+        This function shouldn't include any checks on whether an object is already registered in the version map
+        (key collisions), these are handled during the collection in load_version, all this function is responsible
+        for is checking whether this object is a valid component, components with conflicting keys are still
+        considered valid here, as they're handled elsewhere.
 
-        # We use another if here, as some packet classes may be both server and client bound
-        if issubclass(packet, ClientBoundPacket):
-            if packet.PACKET_ID in self.client_bound:
-                raise ValueError(
-                    f"Client-bound packet with this id ({packet.PACKET_ID}) is already registered"
-                    f" (registered class: {self.client_bound[packet.PACKET_ID].__qualname__})!"
-                )
-            self.client_bound[packet.PACKET_ID] = packet
+        Although if there is some additional data that needs to be unique for a component to be valid, which wouldn't
+        be caught as a key collision, this function can raise a ValueError.
+        """
+        return issubclass(obj, Packet)
 
-        # Sanity check
-        if not issubclass(packet, (ClientBoundPacket, ServerBoundPacket)):
-            raise TypeError(f"Invalid packet class ({packet}), expected ServerBoundPacket or ClientBoundPacket.")
+    @classmethod
+    def _make_obtain_key(
+        cls,
+        obj: type[Packet],
+        module_data: WalkableModuleData,
+        protocol_version: int,
+    ) -> tuple[PacketDirection, GameState, int]:
+        """Construct a unique obtain key for given object under given protocol version.
 
-    def __repr__(self) -> str:
-        server_bound_s = ", ".join(f"{id_}: {packet.__qualname__}" for id_, packet in self.server_bound.items())
-        client_bound_s = ", ".join(f"{id_}: {packet.__qualname__}" for id_, packet in self.client_bound.items())
-        return f"<{self.__class__.__name__}(server_bound=[{server_bound_s}], client_bound=[{client_bound_s}])>"
+        Note: While the protocol version might be beneficial to know when constructing
+        the obtain key, it shouldn't be used directly as a part of the key, as the items
+        will already be split by their protocol versions, and this version will be known
+        at obtaining time.
+        """
+        if issubclass(obj, ClientBoundPacket):
+            direction = PacketDirection.CLIENTBOUND
+        elif issubclass(obj, ServerBoundPacket):
+            direction = PacketDirection.SERVERBOUND
+        else:
+            raise ValueError("Invalid packet class: Neither server-bound not client-bound.")
 
-
-def _walk_packets(module: ModuleType) -> Iterator[type[Packet]]:
-    """Return all packet classes found from given module.
-
-    Note that this only searches classes mentioned in __all__, rather than actually going
-    over every variable defined in these modules. This is done to prevent returning the same
-    packet more than once and to avoid needlessly checking too many variables.
-
-    This does however mean that defining __all__ is now a requirement for the modules with
-    the packet implementations, as otherwise the packet classes won't get picked up here.
-    """
-    # TODO: Create a README.md file in mcproto.packets, mentioning how our packets work
-    # and also mention this __all__ requirement there.
-
-    def on_error(name: str) -> NoReturn:
-        raise ImportError(name=name)
-
-    for module_info in pkgutil.walk_packages(module.__path__, f"{module.__name__}.", onerror=on_error):
-        imported = importlib.import_module(module_info.name)
-
-        if not hasattr(imported, "__all__"):
-            continue
-        member_names = imported.__all__
-
-        if not isinstance(member_names, Iterable):
-            raise TypeError(f"Module {module_info.name!r}'s __all__ isn't defined as an iterable.")
-
-        for member_name in member_names:
-            try:
-                member = getattr(imported, member_name)
-            except AttributeError as exc:
-                raise TypeError(f"Member {member_name!r} of {module_info.name!r} module isn't defined.") from exc
-
-            if not issubclass(member, Packet):
-                continue
-
-            yield member
-
-
-# Holding the packet maps in memory in cache is ok as they're relatively small, and
-# it's a much better option than recomputing it every time, as we need to call it with
-# each read/write packet.
-@cache
-def get_full_packet_map(protocol_version: int) -> dict[GameState, StatePacketMap]:
-    """Load all of the packet classes and build a packet map for given protocol version."""
-    module_name = f"mcproto.packets.v{protocol_version}"
-
-    try:
-        module = importlib.import_module(str(module_name))
-    except ModuleNotFoundError as exc:
-        raise ValueError(f"Passed protocol version ({protocol_version}) isn't supported.") from exc
-
-    packet_map: dict[GameState, StatePacketMap] = {}
-    for packet in _walk_packets(module):
-        state_map = packet_map.setdefault(packet.GAME_STATE, StatePacketMap(packet.GAME_STATE))
-        try:
-            state_map.register(packet)
-        except ValueError as exc:
-            raise ValueError(
-                f"Failed to register {packet.GAME_STATE.name.lower()} state packet with id {packet.PACKET_ID}"
-                f" ({packet.__qualname__}). Error: {exc}"
-            ) from exc
-
-    return packet_map
-
-
-@overload
-def get_packet_map(
-    *,
-    protocol_version: int,
-    game_state: GameState,
-    direction: Literal[PacketDirection.SERVERBOUND],
-) -> Mapping[int, type[ServerBoundPacket]]:
-    ...
-
-
-@overload
-def get_packet_map(
-    *,
-    protocol_version: int,
-    game_state: GameState,
-    direction: Literal[PacketDirection.CLIENTBOUND],
-) -> Mapping[int, type[ClientBoundPacket]]:
-    ...
-
-
-def get_packet_map(
-    *,
-    protocol_version: int,
-    game_state: GameState,
-    direction: PacketDirection,
-) -> Mapping[int, type[Packet]]:
-    full_map = get_full_packet_map(protocol_version)
-    state_map = full_map[game_state]
-
-    if direction is PacketDirection.SERVERBOUND:
-        return state_map.server_bound
-    elif direction is PacketDirection.CLIENTBOUND:
-        return state_map.client_bound
-    else:
-        raise ValueError("Invalid direction")
+        return direction, obj.GAME_STATE, obj.PACKET_ID
