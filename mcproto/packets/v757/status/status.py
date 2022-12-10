@@ -9,6 +9,8 @@ from mcproto.packets.abc import ClientBoundPacket, GameState, ServerBoundPacket
 if TYPE_CHECKING:
     from typing_extensions import Self
 
+__all__ = ["StatusRequest", "StatusResponse"]
+
 
 class StatusRequest(ServerBoundPacket):
     """Request from the client to get information on the server. (Client -> Server)"""
