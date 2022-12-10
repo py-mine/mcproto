@@ -145,3 +145,196 @@ def start():
     # Just some boilerplate code that can run our asynchronous main function
     asyncio.run(main())
 ```
+
+### Using packet classes for communication
+
+#### Obtaining the packet map
+
+The first thing you'll need to understand about packet classes in mcproto is that they're versioned depending on the
+protocol version you're using. As we've already seen with minecraft packets, they're following a certain format, and
+for given packet direction and game state, the packet numbers are unique.
+
+This is how we can detect what packet is being received, but because of the different versions that the library can
+support, we will need to use a packet map, that will contain all of the mappings for given protocol version, from
+which, knowing the state and direction, we can get a dictionary with packet IDs as keys, and the individual packet
+classes as values.
+
+This dictionary is crucial to receiving packets, as it's the only thing that tells us which packet class should be
+used, once we receive a packet and learn about the packet id. Otherwise we wouldn't know what to do with the data we
+obtained.
+
+The first game state we'll be in, before doing anything will always be the handshaking state, so let's see how we could
+generate this dictionary for this state, for all of the receiving (client bound) packets.
+
+```python
+from mcproto.packets import PACKET_MAP
+from mcproto.packets.abc import PacketDirection, GameState
+
+handshaking_packet_map = PACKET_MAP.make_id_map(
+    protocol_version=757,
+    direction=PacketDirection.CLIENTBOUND,
+    game_state=GameState.HANDSHAKING
+)
+
+print(handshaking_packet_map)  # {}
+```
+
+Notice that the packet map is actually empty, and this is simply because there (currently) aren't any client bound
+packets a server can send out for the handshaking game state. Let's see the status gamestate instead:
+
+```python
+status_packet_map = PACKET_MAP.make_id_map(
+    protocol_version=757,
+    direction=PacketDirection.CLIENTBOUND,
+    game_state=GameState.STATUS,
+)
+
+print(status_packet_map)  # Will print:
+# {1: mcproto.packets.v757.status.ping.PingPong, 0: mcproto.packets.v757.status.status.StatusResponse}
+```
+
+Cool! These are all of the packets, with their IDs that the server can send in STATUS game state.
+
+#### Creating our own packets
+
+
+Now, we could create a similar packet map for sending out the packets, and just use it to construct our packets,
+however this is not the recommended approach, as it's kind of hard to remember all of the packet IDs, and (at least
+currently) it means not having any typing information about what packet class will we get. For that reason, it's
+recommended to import packets that we want to send out manually, like so:
+
+```python
+from mcproto.packets.v757.handshaking.handshake import Handshake, NextState
+
+my_handshake = Handshake(
+    protocol_version=47,  # Once again, we use a really old protocol version so we can get status from older servers
+    server_address="mc.hypixel.net",
+    server_port=25565,
+    next_state=NextState.STATUS,
+)
+```
+
+That's it! We've now constructed a full handshake packet with all of the data it should contain. You might remember
+from the example above, that we originally had to look at the protocol specification, find the handshake packet and
+construct it's data as a Buffer with all of these variables.
+
+With these packet classes, you can simply follow your editor's function hints to see what this packet requires, pass it
+in and the data will be constructed for you from these attributes, once we'll be to sending it.
+
+For completion, let's also construct the status request packet that we were sending to instruct the server to send us
+back the status response packet.
+
+```python
+from mcproto.packets.v757.status.status import StatusRequest
+
+my_status_request = StatusRequest()
+```
+
+This one was even easier, as the status request packet alone doesn't contain any special data, it's just a request to
+the server to send us some data back.
+
+#### Sending packets
+
+To actually send out a packet to the server, we'll need to create a connection, and use the custom functions
+responsible for sending packets out. Let's see it:
+
+```python
+from mcproto.packets import async_write_packet
+from mcproto.connection import TCPAsyncConnection
+
+async def main():
+    ip = "mc.hypixel.net"
+    port = 25565
+
+    async with (await TCPAsyncConnection.make_client((ip, port), 2)) as connection:
+        await async_write_packet(connection, my_handshake)  
+        # my_handshake is a packet we've created in the example before
+```
+
+How quick was that? Now compare this to the manual version.
+
+#### Receiving packets
+
+Alright, we might now know how to send a packet, but how do we receive one? Let's see:
+
+```python
+from mcproto.packets import PACKET_MAP
+
+# Let's prepare the packet map we'll be using, say we're already in the STATUS game state now
+STATUS_PACKET_MAP = PACKET_MAP.make_id_map(
+    protocol_version=757,
+    direction=PacketDirection.CLIENTBOUND,
+    game_state=GameState.STATUS
+)
+
+# Let's say we already have a connection at this moment, after all, how else would
+# we've gotten into the STATUS game state.
+# Also, let's do something different, let's say we have a synchronous connection
+from mcproto.connection import TCPSyncConnection
+conn: TCPSyncConnection
+
+# With a synchronous connection, comes synchronous reader, so instead of using async_read_packet, we'll use
+# sync_read_packet here
+from mcproto.packets import sync_read_packet
+
+packet = sync_read_packet(conn, STATUS_PACKET_MAP)
+
+# Cool! We've got back a packet, but what packet is it? Let's import the packet classes it could be and check against
+# them
+from mcproto.packets.v757.status.status import StatusResponse
+from mcproto.packets.v757.status.ping import PingPong
+
+if isinstance(packet, StatusResponse):
+    ...
+elif isinstance(packet, PingPong):
+    ...
+else:
+    raise Exception("Impossible, there aren't any other client bound packets in the STATUS game state")
+```
+
+#### Requesting status
+
+Now let's actually do something meaningful, and replicate the entire example from the manual version using packets,
+let's see just how much simpler it will be:
+
+```python
+from mcproto.connection import TCPAsyncConnection
+from mcproto.packets import async_write_packet, async_read_packet, PACKET_MAP
+from mcproto.packets.abc import PacketDirection, GameState
+from mcproto.packets.v757.handshaking.handshake import Handshake, NextState
+from mcproto.packets.v757.status.status import StatusRequest, StatusResponse
+
+STATUS_PACKET_MAP = PACKET_MAP.make_id_map(
+    protocol_version=757,
+    direction=PacketDirection.CLIENTBOUND,
+    game_state=GameState.STATUS
+)
+
+
+async def get_status(ip: str, port: int) -> dict:
+    handshake_packet = Handshake(
+        protocol_version=47,  # Once again, we use a really old protocol version so we can get status from older servers
+        server_address=ip,
+        server_port=port,
+        next_state=NextState.STATUS,
+    )
+    status_req_packet = StatusRequest()
+
+    async with (await TCPAsyncConnection.make_client((ip, port), 2)) as connection:
+        # We start out at HANDSHAKING game state
+        await async_write_packet(connection, handshake_packet)  
+        # After sending the handshake, we told the server to now move us into the STATUS game state
+        await async_write_packet(connection, status_req_packet)  
+        # Since we're still in STATUS game state, when reading packets, we use the status packet map
+        packet = await async_read_packet(connection, STATUS_PACKET_MAP)
+
+    # Now that we've got back the packet, we no longer need the connection, we won't be sending anything else
+    # Let's just make sure it really is the packet we expected
+    if not isinstance(packet, StatusResponse):
+        raise ValueError(f"We've got an unexpected packet back: {packet!r}")
+
+    # Now that we know we're dealing with a status response, let's get out it's data, and return in
+    return packet.data
+```
+
+Well, that wasn't so hard, was it?
