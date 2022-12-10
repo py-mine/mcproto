@@ -7,9 +7,9 @@ allowed mcproto to exist in the first place.
 
 - **wiki.vg** (<https://wiki.vg>): An absolutely amazing community driven wiki that documents how the minecraft protocol is
   structured and the changes that occur between the protocol versions.
-- **PyMine-Net**: The project that was the main inspiration to this project, being a separation of the mincraft networking
-  tooling used in PyMine-Server, which is an attempt at implementing a fully working mincraft server purely in python.
-  However, this project seems to no longer be worked on at the moment.
+- **PyMine-Net**: The project that was the main inspiration to this project, being a separation of the minecraft
+  networking tooling used in PyMine-Server, which is an attempt at implementing a fully working minecraft server purely
+  in python. However, this project seems to no longer be worked on at the moment.
 - **Mcstatus**: A library that allows for easy fetching of status/query data from minecraft servers, including parsers and
   structures that meaningfully represent the obtained data, but also the logic on how it's actually obtained, some of
   which this project took heavy inspiration from.
