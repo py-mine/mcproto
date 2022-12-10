@@ -9,7 +9,7 @@ allowed mcproto to exist in the first place.
   structured and the changes that occur between the protocol versions.
 - **PyMine-Net**: The project that was the main inspiration to this project, being a separation of the minecraft
   networking tooling used in PyMine-Server, which is an attempt at implementing a fully working minecraft server purely
-  in python. However, this project seems to no longer be worked on at the moment.
+  in python. However, this project is no longer maintained, and so mcproto was created to be it's replacement.
 - **Mcstatus**: A library that allows for easy fetching of status/query data from minecraft servers, including parsers and
   structures that meaningfully represent the obtained data, but also the logic on how it's actually obtained, some of
   which this project took heavy inspiration from.
