@@ -5,9 +5,12 @@ from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable
 from enum import Enum
 from itertools import count
-from typing import Literal, Optional, TypeAlias, TypeVar, Union, overload
+from typing import Literal, Optional, TYPE_CHECKING, TypeVar, Union, overload
 
 from mcproto.protocol.utils import from_twos_complement, to_twos_complement
+
+if TYPE_CHECKING:
+    from typing_extensions import TypeAlias
 
 T = TypeVar("T")
 R = TypeVar("R")
