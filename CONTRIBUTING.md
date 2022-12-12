@@ -32,7 +32,7 @@ rules can often make your life much easier, make debugging quicker and keep the 
    added, they must have a compatible license with our projects.
 5. **Use draft pull requests if you aren't done yet.** If your PR isn't ready to be reviewed yet, mark it as draft.
    This is further described in [this section](#work-in-progress-prs)
-6. **Follow our [Code of Conduct](./CODE_OF_CONDUCT.md).**
+6. **Follow our [Code of Conduct](./CODE-OF-CONDUCT.md).**
 
 ## Making Great Commits
 
