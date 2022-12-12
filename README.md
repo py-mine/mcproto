@@ -124,8 +124,8 @@ async def status(conn: TCPAsyncConnection, ip: str, port: int = 25565) -> dict:
     # https://wiki.vg/Protocol#Status_Response
     # Aha, so not only are packet ids unique between game states, they're also unique between the
     # direction a server bound packet (sent by client, with server as the destination) can have an
-    # id of 0, while a client bound packet (sent by server, with client as the destination) can have
-    # the same id, and mean something else.
+    # id of 0, while a client bound packet (sent by server, with client as the destination) can
+    # have the same id, and mean something else.
 
     # Alright then, so we know what we got is a status response packet, let's read the wiki a bit
     # further and see what data it actually contains, and see how we can get it out. Hmmm, it
