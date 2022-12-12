@@ -39,27 +39,32 @@ from mcproto.protocol.base_io import StructFormat
 
 async def handshake(conn: TCPAsyncConnection, ip: str, port: int = 25565) -> None:
     # As a simple example, let's request status info from a server.
-    # (this is what you see in the multiplayer server list, i.e. the server's motd, icon, info about how many players
-    # are connected, etc.)
+    # (this is what you see in the multiplayer server list, i.e. the server's motd, icon, info
+    # about how many players are connected, etc.)
 
-    # To do this, we first need to understand how are minecraft packets composed, and take a look at the specific
-    # packets that we're interested in. Thankfully, there's an amazing community made wiki that documents all of this!
-    # You can find it at https://wiki.vg/
+    # To do this, we first need to understand how are minecraft packets composed, and take a look
+    # at the specific packets that we're interested in. Thankfully, there's an amazing community
+    # made wiki that documents all of this! You can find it at https://wiki.vg/
 
     # Alright then, let's take a look at the (uncompressed) packet format specification:
     # https://wiki.vg/Protocol#Packet_format
     # From the wiki, we can see that a packet is composed of 3 fields:
-    # Packet length (in bytes), sent as a variable length integer (combined length of the 2 fields below)
-    # Packet ID, also sent as varint (each packet has it's own unique number, that we use to find out which packet it is)
-    # Data, specific to the individual packet
+    # - Packet length (in bytes), sent as a variable length integer
+    #       combined length of the 2 fields below
+    # - Packet ID, also sent as varint
+    #       each packet has a unique number, that we use to find out which packet it is
+    # - Data, specific to the individual packet
+    #       every packet can hold different kind of data, this will be shown in the packet's
+    #       specification (you can find these in wiki.vg)
 
-    # Ok then, with this knowledge, let's establish a connection with our server by sending it a handhshake, and
-    # obtain the status data from it.
+    # Ok then, with this knowledge, let's establish a connection with our server, and request
+    # status. To do this, we fist need to send a handshake packet. Let's do it:
 
-    # First, let's take a look at the Handshake packet:
+    # Let's take a look at what data the Handshake packet should contain:
     # https://wiki.vg/Protocol#Handshake
     handshake = Buffer()
-    handshake.write_varint(47)  # Protocol version (using something really old so that it works with almost any server)
+    # We use 47 for the protocol version, as it's quite old, and will work with almost any server
+    handshake.write_varint(47)
     handshake.write_utf(ip)
     handshake.write_value(StructFormat.USHORT, port)
     handshake.write_varint(1)  # Intention to query status
@@ -79,19 +84,20 @@ async def handshake(conn: TCPAsyncConnection, ip: str, port: int = 25565) -> Non
 
 async def status(conn: TCPAsyncConnection, ip: str, port: int = 25565) -> dict:
     # This function will be called right after a handshake
-    # Sending this packet told the server recognize our connection, and since we've specified the intention
-    # to query status, it then moved us to STATUS game state.
+    # Sending this packet told the server recognize our connection, and since we've specified
+    # the intention to query status, it then moved us to STATUS game state.
 
-    # Different game states have different packets that we can send out, for example there is a game state
-    # for login, that we're put into while joining the server, and from it, we tell the server our username
-    # player UUID, etc.
+    # Different game states have different packets that we can send out, for example there is a
+    # game state for login, that we're put into while joining the server, and from it, we tell
+    # the server our username player UUID, etc.
 
-    # The packet IDs are unique to each game state, so since we're now in status state, a packet with ID of
-    # 0 is no longer the handshake packet, but rather the status request packet (precisely what we need).
+    # The packet IDs are unique to each game state, so since we're now in status state, a packet
+    # with ID of 0 is no longer the handshake packet, but rather the status request packet
+    # (precisely what we need).
     # https://wiki.vg/Protocol#Status_Request
 
-    # The status request packet is empty, and doesn't contain any data, it just instructs the server to send
-    # us back a status response packet. Let's send it!
+    # The status request packet is empty, and doesn't contain any data, it just instructs the
+    # server to send us back a status response packet. Let's send it!
     packet = Buffer()
     packet.write_varint(0)  # Status request packet ID
 
@@ -111,21 +117,23 @@ async def status(conn: TCPAsyncConnection, ip: str, port: int = 25565) -> dict:
     # Let's see it then, what packet did we get?
     print(packet_id)  # 0
 
-    # Interesting, this packet has an ID of 0, but wasn't that the status request packet? We wanted a response tho.
-    # Well, actually, if we take a look at the status response packet at the wiki, it really has an ID of 0:
+    # Interesting, this packet has an ID of 0, but wasn't that the status request packet? We wanted
+    # a response tho. Well, actually, if we take a look at the status response packet at the wiki,
+    # it really has an ID of 0:
     # https://wiki.vg/Protocol#Status_Response
-    # Aha, so not only are packet ids unique between game states, they're also unique between the direction
-    # a server bound packet (sent by client, with server as the destination) can have an id of 0, while a
-    # client bound packet (sent by server, with client as the destination) can have the same id, and mean something
-    # else.
+    # Aha, so not only are packet ids unique between game states, they're also unique between the
+    # direction a server bound packet (sent by client, with server as the destination) can have an
+    # id of 0, while a client bound packet (sent by server, with client as the destination) can have
+    # the same id, and mean something else.
 
-    # Alright then, so we know what we got is a status response packet, let's read the wiki a bit further and see what
-    # data it actually contains, and see how we can get it out.
-    # Hmmm, it contains a UTF-8 encoded string that represents JSON data, ok, so let's get that string, it's still in
-    # our buffer.
+    # Alright then, so we know what we got is a status response packet, let's read the wiki a bit
+    # further and see what data it actually contains, and see how we can get it out. Hmmm, it
+    # contains a UTF-8 encoded string that represents JSON data, ok, so let's get that string, it's
+    # still in our buffer.
     received_string = response.read_utf()
 
-    # Now, let's just use the json module, convert the string into some json object (in this case, a dict)
+    # Now, let's just use the json module, convert the string into some json object (in this case,
+    # a dict)
     data = json.loads(received_string)
     return data
 
@@ -212,7 +220,8 @@ recommended to import packets that we want to send out manually, like so:
 from mcproto.packets.v757.handshaking.handshake import Handshake, NextState
 
 my_handshake = Handshake(
-    protocol_version=47,  # Once again, we use a really old protocol version so we can get status from older servers
+    # Once again, we use an old protocol version so that even older servers will work
+    protocol_version=47,
     server_address="mc.hypixel.net",
     server_port=25565,
     next_state=NextState.STATUS,
@@ -278,14 +287,14 @@ STATUS_PACKET_MAP = PACKET_MAP.make_id_map(
 from mcproto.connection import TCPSyncConnection
 conn: TCPSyncConnection
 
-# With a synchronous connection, comes synchronous reader, so instead of using async_read_packet, we'll use
-# sync_read_packet here
+# With a synchronous connection, comes synchronous reader, so instead of using async_read_packet,
+# we'll use sync_read_packet here
 from mcproto.packets import sync_read_packet
 
 packet = sync_read_packet(conn, STATUS_PACKET_MAP)
 
-# Cool! We've got back a packet, but what packet is it? Let's import the packet classes it could be and check against
-# them
+# Cool! We've got back a packet, but what packet is it? Let's import the packet classes it could
+# be and check against them
 from mcproto.packets.v757.status.status import StatusResponse
 from mcproto.packets.v757.status.ping import PingPong
 
@@ -294,7 +303,7 @@ if isinstance(packet, StatusResponse):
 elif isinstance(packet, PingPong):
     ...
 else:
-    raise Exception("Impossible, there aren't any other client bound packets in the STATUS game state")
+    raise Exception("Impossible, there aren't other client bound packets in the STATUS game state")
 ```
 
 #### Requesting status
@@ -318,7 +327,7 @@ STATUS_PACKET_MAP = PACKET_MAP.make_id_map(
 
 async def get_status(ip: str, port: int) -> dict:
     handshake_packet = Handshake(
-        protocol_version=47,  # Once again, we use a really old protocol version so we can get status from older servers
+        protocol_version=47,
         server_address=ip,
         server_port=port,
         next_state=NextState.STATUS,
@@ -330,11 +339,11 @@ async def get_status(ip: str, port: int) -> dict:
         await async_write_packet(connection, handshake_packet)  
         # After sending the handshake, we told the server to now move us into the STATUS game state
         await async_write_packet(connection, status_req_packet)  
-        # Since we're still in STATUS game state, when reading packets, we use the status packet map
+        # Since we're still in STATUS game state, we use the status packet map when reading
         packet = await async_read_packet(connection, STATUS_PACKET_MAP)
 
-    # Now that we've got back the packet, we no longer need the connection, we won't be sending anything else
-    # Let's just make sure it really is the packet we expected
+    # Now that we've got back the packet, we no longer need the connection, we won't be sending
+    # anything else. Let's just make sure it really is the packet we expected
     if not isinstance(packet, StatusResponse):
         raise ValueError(f"We've got an unexpected packet back: {packet!r}")
 
