@@ -2,8 +2,6 @@ name: Publish to PyPI / GitHub
 
 on:
   push:
-    branches:
-      - main
     tags:
       - "v*"
 
