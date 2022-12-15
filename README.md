@@ -14,6 +14,26 @@ real-world playable server).
 Currently, the library is very limited and doesn't yet have any documentation, so while contributions are welcome, fair
 warning that there is a lot to comprehend in the code-base and it may be challenging to understand it all.
 
+## Installation
+
+Mcproto is available on [PyPI](https://pypi.org/project/mcproto/), and can be installed trivially with:
+
+```bash
+python3 -m pip install mcproto
+```
+
+That said, as mcproto is still in development, and the PyPI version will likely go out of date quite soon, also, the
+PyPI releases are currently still in pre-release stage, and there may be bugs that were already fixed. For that reason,
+it might be a better idea to install mcproto through git, to get the most recent version, which you can do like this:
+
+```bash
+python3 -m pip install 'mcproto @ git+https://github.com/ItsDrike/mcproto@main'
+```
+
+Alternatively, if you want to poke around with mcproto's code, you can always include mcproto as a full [git
+submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) to your project, or just git clone it directly and play
+around with it from REPL.
+
 ## Examples
 
 Since there is no documentation, to satisfy some curious minds that really want to use this library even in this
