@@ -1,0 +1,78 @@
+name: Bug report
+description: Found a bug? Let us know so we can fix it!
+labels: ["type: bug"]
+
+body:
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the bug. This can also be a code snippet. Steps to reproduce the bug. This can also be a code snippet.
+      value: |
+        1.
+        2.
+        3.
+        4.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: Expected result
+      description: What should have happened if the bug wasn't there?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-result
+    attributes:
+      label: Actual result
+      description: What happened exactly? If you have a traceback, please provide all of it.
+    validations:
+      required: true
+
+  - type: input
+    id: library-version
+    attributes:
+      label: Library version
+      description: mcproto version used when this bug was encountered. (Find out with `pip show mcproto` command)
+      placeholder: 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      description: Version of python interpreter you're using. (Find out with `python -V` or `py -V`)
+      placeholder: 3.11.1
+    validations:
+      required: true
+
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+      description: Operating system used when this bug was encountered.
+      placeholder: |
+        Arch Linux (kernel: 6.0.12-arch1-1)
+        Ubuntu Linux 22.10 (Kinetic Kudu)
+        Windows 11
+
+  - type: textarea
+    id: further-info
+    attributes:
+      label: Further info
+      description: Any further info or images go here.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Make sure to tick all the following boxes.
+      options:
+        - label: I have searched the issue tracker and have made sure it's not a duplicate. If it is a follow up of another issue, I have specified it.
+          required: true
+        - label: I have made sure to remove ANY sensitive information (passwords, credentials, personal details, etc.).
+          required: true
