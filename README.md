@@ -5,6 +5,7 @@
 [![current PyPI version](https://img.shields.io/pypi/v/mcproto.svg)](https://pypi.org/project/mcproto/)
 [![Validation](https://github.com/ItsDrike/mcproto/actions/workflows/validation.yml/badge.svg)](https://github.com/ItsDrike/mcproto/actions/workflows/validation.yml)
 [![Unit tests](https://github.com/ItsDrike/mcproto/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/ItsDrike/mcproto/actions/workflows/unit-tests.yml)
+[![Docs](https://img.shields.io/readthedocs/mcproto?label=Docs)](https://mcproto.readthedocs.io/)
 
 This is a heavily Work-In-Progress library, which attempts to be a full wrapper around the minecraft protocol, allowing
 for simple interactions with minecraft servers, and perhaps even for use as a base to a full minecraft server
