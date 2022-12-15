@@ -38,11 +38,11 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     @abstractmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         """Construct a client connection to given address."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @abstractmethod
     def _close(self) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def close(self) -> None:
         """Close the connection (it cannot be used after this)."""
@@ -66,11 +66,11 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
     @abstractmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         """Construct a client connection to given address."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @abstractmethod
     async def _close(self) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     async def close(self) -> None:
         """Close the connection (it cannot be used after this)."""
