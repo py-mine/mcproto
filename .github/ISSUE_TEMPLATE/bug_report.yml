@@ -55,10 +55,7 @@ body:
     attributes:
       label: Operating system
       description: Operating system used when this bug was encountered.
-      placeholder: |
-        Arch Linux (kernel: 6.0.12-arch1-1)
-        Ubuntu Linux 22.10 (Kinetic Kudu)
-        Windows 11
+      placeholder: Windows 11 / Linux - Ubuntu 22.10 / MacOS / ...
 
   - type: textarea
     id: further-info
