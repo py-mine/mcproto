@@ -1,144 +1,106 @@
 from __future__ import annotations
 
-import inspect
 import warnings
-from collections.abc import Callable, Iterable
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Optional, TYPE_CHECKING, TypeVar, Union, cast, overload
+from typing import Optional, TYPE_CHECKING, TypeVar
+
+import importlib_metadata
+
+from mcproto.utils.version import SemanticVersion
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec, Protocol
 
     P = ParamSpec("P")
-    P2 = ParamSpec("P2")
 else:
     Protocol = object
 
-T = TypeVar("T")
 R = TypeVar("R")
-R2 = TypeVar("R2")
 
-__all__ = ["deprecated"]
+__all__ = ["deprecated", "deprecation_warn"]
 
 
-class DeprecatedReturn(Protocol):
-    @overload
-    def __call__(self, __x: type[T]) -> type[T]:
-        ...
+def deprecation_warn(
+    *,
+    obj_name: str,
+    removal_version: str,
+    replacement: Optional[str] = None,
+    extra_msg: Optional[str] = None,
+    stack_level: int = 3,
+) -> None:
+    """Produce an appropriate deprecation warning given the parameters.
 
-    @overload
+    If the currently installed project version is already past the specified deprecation version,
+    a DeprecationWarning will be raised as a full exception. Otherwise it will just get emitted
+    as a warning.
+
+    The deprecation message used will be constructed based on the input parameters.
+    """
+    rem_version = SemanticVersion.from_string(removal_version)
+
+    try:
+        _project_version = importlib_metadata.version(__package__)
+    except importlib_metadata.PackageNotFoundError:
+        # v0.0.0 will never mark things as already deprecated (removal_version will always be newer)
+        project_version = SemanticVersion((0, 0, 0))
+    else:
+        project_version = SemanticVersion.from_string(_project_version)
+
+    already_deprecated = project_version >= rem_version
+
+    msg = f"{obj_name!r}"
+    if already_deprecated:
+        msg += f" is passed its removal version ({removal_version})"
+    else:
+        msg += f" is deprecated and scheduled for removal in {removal_version}"
+
+    if replacement is not None:
+        msg += f", use '{replacement}' instead"
+
+    msg += "."
+    if extra_msg is not None:
+        msg += f" ({extra_msg})"
+
+    if already_deprecated:
+        raise DeprecationWarning(msg)
+
+    warnings.warn(msg, category=DeprecationWarning, stacklevel=stack_level)
+
+
+class DecoratorFunction(Protocol):
     def __call__(self, __x: Callable[P, R]) -> Callable[P, R]:
         ...
 
 
-@overload
 def deprecated(
-    obj: Callable[P, R],
-    *,
+    removal_version: str,
     display_name: Optional[str] = None,
     replacement: Optional[str] = None,
-    version: Optional[str] = None,
-    date: Optional[str] = None,
-    msg: Optional[str] = None,
-) -> Callable[P, R]:
-    ...
+    extra_msg: Optional[str] = None,
+) -> DecoratorFunction:
+    """Mark an object as deprecated.
 
+    Decorator version of ``deprecation_warn`` function.
 
-@overload
-def deprecated(
-    obj: type[T],
-    *,
-    display_name: Optional[str] = None,
-    replacement: Optional[str] = None,
-    version: Optional[str] = None,
-    date: Optional[str] = None,
-    msg: Optional[str] = None,
-    methods: Iterable[str],
-) -> type[T]:
-    ...
+    By default, the display name will be obtained from the decorated object (__qualname__), if this is not
+    desired, you can specify the `display_name` attribute to override it.
+    """
 
+    def inner(func: Callable[P, R]) -> Callable[P, R]:
+        obj_name = getattr(func, "__qualname__", func.__name__) if display_name is None else display_name
 
-@overload
-def deprecated(
-    obj: None = None,
-    *,
-    display_name: Optional[str] = None,
-    replacement: Optional[str] = None,
-    version: Optional[str] = None,
-    date: Optional[str] = None,
-    msg: Optional[str] = None,
-    methods: Optional[Iterable[str]] = None,
-) -> DeprecatedReturn:
-    ...
-
-
-def deprecated(
-    obj: Any = None,  # noqa: ANN401
-    *,
-    display_name: Optional[str] = None,
-    replacement: Optional[str] = None,
-    version: Optional[str] = None,
-    date: Optional[str] = None,
-    msg: Optional[str] = None,
-    methods: Optional[Iterable[str]] = None,
-) -> Callable:
-    if date is not None and version is not None:
-        raise ValueError("Expected removal timeframe can either be a date, or a version, not both.")
-
-    def decorate_func(func: Callable[P2, R2], warn_message: str) -> Callable[P2, R2]:
         @wraps(func)
-        def wrapper(*args: P2.args, **kwargs: P2.kwargs) -> R2:
-            warnings.warn(warn_message, category=DeprecationWarning, stacklevel=2)
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            deprecation_warn(
+                obj_name=obj_name,
+                removal_version=removal_version,
+                replacement=replacement,
+                extra_msg=extra_msg,
+                stack_level=3,
+            )
             return func(*args, **kwargs)
 
         return wrapper
 
-    @overload
-    def decorate(obj: Callable[P, R]) -> Callable[P, R]:
-        ...
-
-    @overload
-    def decorate(obj: type[T]) -> type[T]:
-        ...
-
-    def decorate(obj: Union[Callable[P, R], type[T]]) -> Union[Callable[P, R], type[T]]:
-        # Construct and send the warning message
-        name = getattr(obj, "__qualname__", obj.__name__) if display_name is None else display_name
-        warn_message = f"'{name}' is deprecated and is expected to be removed"
-        if version is not None:
-            warn_message += f" in {version}"
-        elif date is not None:
-            warn_message += f" on {date}"
-        else:
-            warn_message += " eventually"
-        if replacement is not None:
-            warn_message += f", use '{replacement}' instead"
-        warn_message += "."
-        if msg is not None:
-            warn_message += f" ({msg})"
-
-        # If we're deprecating class, deprecate it's methods and return the class
-        if inspect.isclass(obj):
-            obj = cast(type[T], obj)
-
-            if methods is None:
-                raise ValueError("When deprecating a class, you need to specify 'methods' which will get the notice")
-
-            for method in methods:
-                new_func = decorate_func(getattr(obj, method), warn_message)
-                setattr(obj, method, new_func)
-
-            return obj
-
-        # Regular function deprecation
-        obj = cast(Callable[P, R], obj)
-        if methods is not None:
-            raise ValueError("Methods can only be specified when decorating a class, not a function")
-        return decorate_func(obj, warn_message)
-
-    # In case the decorator was used like @deprecated, instead of @deprecated()
-    # we got the object already, pass it over to the local decorate function
-    # This can happen since all of the arguments are optional and can be omitted
-    if obj:
-        return decorate(obj)
-    return decorate
+    return inner

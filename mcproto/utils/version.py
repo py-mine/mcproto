@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from itertools import zip_longest
-from typing import Any, Optional
+from typing import Any, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = ["SemanticVersion"]
 
@@ -18,6 +22,7 @@ _SEMVER_REGEX = re.compile(
 _NUMBER_RE = re.compile("[0-9]+")
 
 
+@dataclass
 class SemanticVersion:
     """Comparable representation of versions.
 
@@ -25,10 +30,12 @@ class SemanticVersion:
     """
 
     version: tuple[int, int, int]
-    prerelease: Optional[tuple[str, ...]]
-    build_metadata: Optional[tuple[str, ...]]
+    prerelease: Optional[tuple[str, ...]] = None
+    build_metadata: Optional[tuple[str, ...]] = None
 
-    def __init__(self, string_version: str):
+    @classmethod
+    def from_string(cls, string_version: str) -> Self:
+        """Build a semantic version instance from a string being the entire version tag."""
         match = _SEMVER_REGEX.match(string_version)
         if not match:
             raise ValueError(f"Invalid version: {string_version!r} (not a semantic version)")
@@ -37,9 +44,11 @@ class SemanticVersion:
             "major", "minor", "patch", "prerelease", "buildmetadata"
         )
 
-        self.version = int(major), int(minor), int(patch)
-        self.prerelease = tuple(prerelease.split(".")) if prerelease else None
-        self.build_metadata = tuple(build_metadata.split(".")) if build_metadata else None
+        version = int(major), int(minor), int(patch)
+        prerelease = tuple(prerelease.split(".")) if prerelease else None
+        build_metadata = tuple(build_metadata.split(".")) if build_metadata else None
+
+        return cls(version, prerelease, build_metadata)
 
     @property
     def major(self) -> int:
