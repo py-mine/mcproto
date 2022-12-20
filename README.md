@@ -27,7 +27,7 @@ PyPI releases are currently still in pre-release stage, and there may be bugs th
 it might be a better idea to install mcproto through git, to get the most recent version, which you can do like this:
 
 ```bash
-python3 -m pip install 'mcproto @ git+https://github.com/ItsDrike/mcproto@main'
+python3 -m pip install 'mcproto @ git+https://github.com/py-mine/mcproto@main'
 ```
 
 Alternatively, if you want to poke around with mcproto's code, you can always include mcproto as a full [git
