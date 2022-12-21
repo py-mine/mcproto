@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+import importlib.metadata
 import warnings
 from collections.abc import Callable
 from functools import wraps
 from typing import Optional, TYPE_CHECKING, TypeVar, Union
-
-import importlib_metadata
 
 from mcproto.utils.version import SemanticVersion
 
@@ -41,8 +40,8 @@ def deprecation_warn(
         removal_version = SemanticVersion.from_string(removal_version)
 
     try:
-        _project_version = importlib_metadata.version(__package__)
-    except importlib_metadata.PackageNotFoundError:
+        _project_version = importlib.metadata.version(__package__)
+    except importlib.metadata.PackageNotFoundError:
         # v0.0.0 will never mark things as already deprecated (removal_version will always be newer)
         project_version = SemanticVersion((0, 0, 0))
     else:
