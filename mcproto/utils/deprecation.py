@@ -3,7 +3,7 @@ from __future__ import annotations
 import warnings
 from collections.abc import Callable
 from functools import wraps
-from typing import Optional, TYPE_CHECKING, TypeVar
+from typing import Optional, TYPE_CHECKING, TypeVar, Union
 
 import importlib_metadata
 
@@ -24,7 +24,7 @@ __all__ = ["deprecated", "deprecation_warn"]
 def deprecation_warn(
     *,
     obj_name: str,
-    removal_version: str,
+    removal_version: Union[str, SemanticVersion],
     replacement: Optional[str] = None,
     extra_msg: Optional[str] = None,
     stack_level: int = 3,
@@ -37,7 +37,8 @@ def deprecation_warn(
 
     The deprecation message used will be constructed based on the input parameters.
     """
-    rem_version = SemanticVersion.from_string(removal_version)
+    if isinstance(removal_version, str):
+        removal_version = SemanticVersion.from_string(removal_version)
 
     try:
         _project_version = importlib_metadata.version(__package__)
@@ -47,7 +48,7 @@ def deprecation_warn(
     else:
         project_version = SemanticVersion.from_string(_project_version)
 
-    already_deprecated = project_version >= rem_version
+    already_deprecated = project_version >= removal_version
 
     msg = f"{obj_name!r}"
     if already_deprecated:
@@ -74,7 +75,7 @@ class DecoratorFunction(Protocol):
 
 
 def deprecated(
-    removal_version: str,
+    removal_version: Union[str, SemanticVersion],
     display_name: Optional[str] = None,
     replacement: Optional[str] = None,
     extra_msg: Optional[str] = None,
