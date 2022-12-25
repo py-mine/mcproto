@@ -11,7 +11,7 @@ from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncR
 
 T_Packet = TypeVar("T_Packet", bound=Packet)
 
-__all__ = ["async_read_packet", "async_write_packet", "sync_read_packet", "sync_write_packet"]
+__all__ = ["async_read_packet", "async_write_packet", "sync_read_packet", "sync_write_packet", "PACKET_MAP"]
 
 # PACKET FORMAT:
 # | Field name  | Field type    | Notes                                 |
