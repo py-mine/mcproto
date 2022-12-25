@@ -56,7 +56,7 @@ def _serialize_packet(packet: Packet, *, compressed: bool = False) -> Buffer:
 
 
 def _deserialize_packet(
-    buf: Buffer, *, packet_map: Mapping[int, type[T_Packet]], compressed: bool = False
+    buf: Buffer, packet_map: Mapping[int, type[T_Packet]], *, compressed: bool = False
 ) -> T_Packet:
     """Deserialize the packet id and it's internal data."""
     if compressed:
@@ -84,21 +84,21 @@ async def async_write_packet(writer: BaseAsyncWriter, packet: Packet, *, compres
 
 def sync_read_packet(
     reader: BaseSyncReader,
-    *,
     packet_map: Mapping[int, type[T_Packet]],
+    *,
     compressed: bool = False,
 ) -> T_Packet:
     """Read a packet."""
     data_buf = Buffer(reader.read_bytearray())
-    return _deserialize_packet(data_buf, packet_map=packet_map, compressed=compressed)
+    return _deserialize_packet(data_buf, packet_map, compressed=compressed)
 
 
 async def async_read_packet(
     reader: BaseAsyncReader,
-    *,
     packet_map: Mapping[int, type[T_Packet]],
+    *,
     compressed: bool = False,
 ) -> T_Packet:
     """Read a packet."""
     data_buf = Buffer(await reader.read_bytearray())
-    return _deserialize_packet(data_buf, packet_map=packet_map, compressed=compressed)
+    return _deserialize_packet(data_buf, packet_map, compressed=compressed)
