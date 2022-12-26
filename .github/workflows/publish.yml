@@ -18,7 +18,7 @@ jobs:
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
         with:
           python_version: "3.11"
-          install_args: "--with release"
+          install_args: "--with release-ci"
 
       - name: Set version with dynamic versioning
         run: poetry run poetry-dynamic-versioning

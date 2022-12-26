@@ -52,11 +52,14 @@ black = "^22.3.0"
 isort = "^5.10.1"
 pyright = "^1.1.239"
 
-[tool.poetry.group.release]
+[tool.poetry.group.release.dependencies]
+towncrier = "^22.12.0"
+
+[tool.poetry.group.release-ci]
 optional = true
 
-[tool.poetry.group.release.dependencies]
-poetry-dynamic-versioning = "^0.17.1"
+[tool.poetry.group.release-ci.dependencies]
+poetry-dynamic-versioning = "^0.21.3"
 
 [tool.black]
 line-length = 119
@@ -76,6 +79,22 @@ minversion = "6.0"
 asyncio_mode = "auto"
 testpaths = ["tests"]
 addopts = "--strict-markers --cov=mcproto --cov-branch --cov-report=term-missing --cov-report html --no-cov-on-fail --cov-fail-under=20"
+
+[tool.towncrier]
+package = "mcproto"
+package_dir = "mcproto"
+directory = "changes"
+template = "changes/.template.rst"
+filename = "CHANGELOG.md"
+issue_format = "[#{issue}](https://github.com/py-mine/mcproto/issues/{issue})"
+underlines = [2, 3]  # We use this for heading levels (see template file)
+type = [
+    { name = "Breaking Changes",            directory = "breaking",      showcontent = true },
+    { name = "Deprecation",                 directory = "deprecation",   showcontent = true },
+    { name = "Features",                    directory = "feature",       showcontent = true },
+    { name = "Bugfixes",                    directory = "bugfix",        showcontent = true },
+    { name = "Documentation Improvements",  directory = "documentation", showcontent = true },
+]
 
 [tool.taskipy.tasks]
 precommit = "pre-commit install"
