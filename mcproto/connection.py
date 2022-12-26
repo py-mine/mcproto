@@ -38,11 +38,11 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     @abstractmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         """Construct a client connection to given address."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @abstractmethod
     def _close(self) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def close(self) -> None:
         """Close the connection (it cannot be used after this)."""
@@ -66,11 +66,11 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
     @abstractmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         """Construct a client connection to given address."""
-        raise NotImplementedError()
+        raise NotImplementedError
 
     @abstractmethod
     async def _close(self) -> None:
-        raise NotImplementedError()
+        raise NotImplementedError
 
     async def close(self) -> None:
         """Close the connection (it cannot be used after this)."""
@@ -108,8 +108,10 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
         while len(result) < length:
             new = self.socket.recv(length - len(result))
             if len(new) == 0:
+                # No information at all
                 if len(result) == 0:
                     raise IOError("Server did not respond with any information.")
+                # Only sent a few bytes, but we requested more
                 raise IOError(
                     f"Server stopped responding (got {len(result)} bytes, but expected {length} bytes)."
                     f" Partial obtained data: {result!r}"
@@ -151,8 +153,10 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
         while len(result) < length:
             new = await asyncio.wait_for(self.reader.read(length - len(result)), timeout=self.timeout)
             if len(new) == 0:
+                # No information at all
                 if len(result) == 0:
                     raise IOError("Server did not respond with any information.")
+                # Only sent a few bytes, but we requested more
                 raise IOError(
                     f"Server stopped responding (got {len(result)} bytes, but expected {length} bytes)."
                     f" Partial obtained data: {result!r}"

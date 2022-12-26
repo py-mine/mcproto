@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import errno
 import socket
 from typing import Optional
 from unittest.mock import MagicMock
@@ -17,8 +18,22 @@ class MockSocket(UnpropagatingMockMixin, MagicMock):
 
     def __init__(self, *args, read_data: Optional[bytearray] = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.recv = ReadFunctionMock(combined_data=read_data)
-        self.send = WriteFunctionMock()
+        self._recv = ReadFunctionMock(combined_data=read_data)
+        self._send = WriteFunctionMock()
+        self._closed = False
+
+    def send(self, data: bytearray) -> None:
+        if self._closed:
+            raise OSError(errno.EBADF, "Bad file descriptor")
+        return self._send(data)
+
+    def recv(self, length: int) -> bytearray:
+        if self._closed:
+            raise OSError(errno.EBADF, "Bad file descriptor")
+        return self._recv(length)
+
+    def close(self) -> None:
+        self._closed = True
 
 
 class MockStreamWriter(UnpropagatingMockMixin, MagicMock):
@@ -26,7 +41,16 @@ class MockStreamWriter(UnpropagatingMockMixin, MagicMock):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.write = WriteFunctionMock()
+        self._write = WriteFunctionMock()
+        self._closed = False
+
+    def write(self, data: bytearray) -> None:
+        if self._closed:
+            raise OSError(errno.EBADF, "Bad file descriptor")
+        return self._write(data)
+
+    def close(self) -> None:
+        self._closed = True
 
 
 class MockStreamReader(UnpropagatingMockMixin, MagicMock):
@@ -34,7 +58,10 @@ class MockStreamReader(UnpropagatingMockMixin, MagicMock):
 
     def __init__(self, *args, read_data: Optional[bytearray] = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.read = ReadFunctionAsyncMock(combined_data=read_data)
+        self._read = ReadFunctionAsyncMock(combined_data=read_data)
+
+    def read(self, length: int) -> bytearray:
+        return self._read(length)
 
 
 class TestTCPSyncConnection:
@@ -50,8 +77,8 @@ class TestTCPSyncConnection:
 
         out = conn.read(5)
 
-        conn.socket.recv.assert_read_everything()
         assert out == data
+        conn.socket._recv.assert_read_everything()
 
     def test_read_more_data_than_sent(self):
         data = bytearray("test", "utf-8")
@@ -66,7 +93,27 @@ class TestTCPSyncConnection:
 
         conn.write(data)
 
-        conn.socket.send.assert_has_data(data)
+        conn.socket._send.assert_has_data(data)
+
+    def test_socket_close(self):
+        conn = self.make_connection()
+
+        conn.close()
+        assert conn.socket._closed is True
+
+    def test_socket_close_contextmanager(self):
+        conn = self.make_connection()
+
+        with conn as _:
+            pass
+
+        # Internal socket gets closed once context manager is exited
+        assert conn.socket._closed is True
+
+        # Can't reopen closed connection
+        with pytest.raises(OSError):  # noqa: SIM117
+            with conn as _:
+                pass
 
 
 class TestTCPAsyncConnection:
@@ -85,8 +132,8 @@ class TestTCPAsyncConnection:
 
         out = await conn.read(5)
 
-        conn.reader.read.assert_read_everything()
         assert out == data
+        conn.reader._read.assert_read_everything()
 
     async def test_read_more_data_than_sent(self):
         data = bytearray("test", "utf-8")
@@ -101,4 +148,24 @@ class TestTCPAsyncConnection:
 
         await conn.write(data)
 
-        conn.writer.write.assert_has_data(data)
+        conn.writer._write.assert_has_data(data)
+
+    async def test_socket_close(self):
+        conn = self.make_connection()
+
+        await conn.close()
+        assert conn.writer._closed is True
+
+    async def test_socket_close_contextmanager(self):
+        conn = self.make_connection()
+
+        async with conn as _:
+            pass
+
+        # Internal writer gets closed once context manager is exited
+        assert conn.writer._closed is True
+
+        # Can't reopen closed connection
+        with pytest.raises(OSError):
+            async with conn as _:
+                pass

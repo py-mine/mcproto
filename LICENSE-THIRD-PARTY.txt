@@ -7,6 +7,11 @@ Applies to:
       Copyright (C) 2022 mbaruh <mbaruh@hotmail.com>
       All rights reserved.
         - mcproto/utils/version_map.py: portions of VersionMap._walk_submodules function
+    - Copyright (c) 2020 Nekokatt
+      Copyright (c) 2021-present davfsa
+      All rights reserved.
+        - .github/ISSUE_TEMPLATE/bug_report.yml: Template heavily inspired by original
+        - .github/ISSUE_TEMPLATE/feature_request.yml: Template heavily inspired by original
 ---------------------------------------------------------------------------------------------------
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

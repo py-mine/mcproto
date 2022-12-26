@@ -22,12 +22,14 @@ Mcproto is available on [PyPI](https://pypi.org/project/mcproto/), and can be in
 python3 -m pip install mcproto
 ```
 
-That said, as mcproto is still in development, and the PyPI version will likely go out of date quite soon, also, the
-PyPI releases are currently still in pre-release stage, and there may be bugs that were already fixed. For that reason,
-it might be a better idea to install mcproto through git, to get the most recent version, which you can do like this:
+That said, as mcproto is still in development, the PyPI version will likely go out of date quite soon. This means that
+it may lack some already implemented features, or contain already fixed bugs. For that reason, you can also consider
+installing mcproto through git, to get the most recent version. But know that while this will mean you'll be getting
+all of the new features, this version is much more likely to contain bugs than the one on PyPI, so make your decision
+wisely. To install the latest version from git, you can use the command below:
 
 ```bash
-python3 -m pip install 'mcproto @ git+https://github.com/ItsDrike/mcproto@main'
+python3 -m pip install 'mcproto @ git+https://github.com/py-mine/mcproto@main'
 ```
 
 Alternatively, if you want to poke around with mcproto's code, you can always include mcproto as a full [git

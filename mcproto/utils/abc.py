@@ -53,7 +53,7 @@ class RequiredParamsABCMixin:
             if req_no_mro_attr not in vars(cls):
                 emsg = _err_msg.format(req_no_mro_attr) + " explicitly"
                 if hasattr(cls, req_no_mro_attr):
-                    emsg += f"({req_no_mro_attr} found in a subclass, but not explicitly in {cls.__name__})"
+                    emsg += f" ({req_no_mro_attr} found in a subclass, but not explicitly in {cls.__name__})"
                 raise TypeError(emsg)
 
         return super().__new__(cls)
