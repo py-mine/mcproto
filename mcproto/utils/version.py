@@ -149,3 +149,12 @@ class SemanticVersion:
 
         # All pre-release fields are equal
         return False
+
+    def __gt__(self, other: Any) -> bool:  # noqa: ANN401
+        return other.__lt__(self)
+
+    def __ge__(self, other: Any) -> bool:  # noqa: ANN401
+        return self.__gt__(other) or self.__eq__(other)
+
+    def __le__(self, other: Any) -> bool:  # noqa: ANN401
+        return self.__lt__(other) or self.__eq__(other)
