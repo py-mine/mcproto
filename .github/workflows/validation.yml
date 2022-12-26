@@ -24,6 +24,7 @@ jobs:
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
         with:
           python_version: "3.11"
+          install_args: "--without release"
 
       - name: Run pre-commit hooks
         run: SKIP=black,isort,flake8,pyright pre-commit run --all-files

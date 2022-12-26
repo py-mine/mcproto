@@ -403,6 +403,16 @@ Present tense defines that the work being done is now, in the present, rather th
 **Use:** "Build a player object."
 **Don't use:** "Built a player object." or "Will build a player object."
 
+## Changelog
+
+It is important for the users to know what has changed in between the release versions, for that reason, we keep
+a changelog, which is handled by a library called `towncrier`. Information about how this changelog works in detail is
+described in it's own file at: [`./changes/README.md`](./changes/README.md).
+
+Do make sure to read this file, as we generally require a changelog fragment file to be added with each pull request.
+A PR without this file will NOT be accepted (unless there is a reason not to include a changelog - like for minor
+fixes, or other exceptions).
+
 ## Unit-Tests
 
 To ensure that our project will work correctly with any new changes made to it, we use automated unit-tests which test

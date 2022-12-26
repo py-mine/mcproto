@@ -30,7 +30,7 @@ jobs:
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
         with:
           python_version: "${{ matrix.python-version }}"
-          install_args: "--without lint"
+          install_args: "--without lint --without release"
 
       - name: Run pytest
         run: poetry run task test
