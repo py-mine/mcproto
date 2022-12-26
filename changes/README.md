@@ -12,7 +12,9 @@ Possible types are:
 - `feature`: Signifying a new feature.
 - `bugfix`: Signifying a bugfix.
 - `documentation`: Signifying a documentation improvement.
-- `breaking`: Signifying a deprecation or other breaking change of some part of the project's public API.
+- `breaking`: Signifying a breaking change of some part of the project's public API. (Such as a removal after
+  deprecation, but also for removals without deprecation, if necessary.)
+- `deprecation`: Signifying a newly deprecated feature.
 
 For changes that do not fall under any of the above cases, please specify the lack of the changelog in the pull request
 description, so that a maintainer can skip the job that checks for presence of this fragment file.
