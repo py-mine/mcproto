@@ -80,6 +80,22 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 addopts = "--strict-markers --cov=mcproto --cov-branch --cov-report=term-missing --cov-report html --no-cov-on-fail --cov-fail-under=20"
 
+[tool.towncrier]
+package = "mcproto"
+package_dir = "mcproto"
+directory = "changes"
+template = "changes/.template.rst"
+filename = "CHANGELOG.md"
+issue_format = "[#{issue}](https://github.com/py-mine/mcproto/issues/{issue})"
+underlines = [2, 3]  # We use this for heading levels (see template file)
+type = [
+    { name = "Breaking Changes",            directory = "breaking",      showcontent = true },
+    { name = "Deprecation",                 directory = "deprecation",   showcontent = true },
+    { name = "Features",                    directory = "feature",       showcontent = true },
+    { name = "Bugfixes",                    directory = "bugfix",        showcontent = true },
+    { name = "Documentation Improvements",  directory = "documentation", showcontent = true },
+]
+
 [tool.taskipy.tasks]
 precommit = "pre-commit install"
 lint = "pre-commit run --all-files"
