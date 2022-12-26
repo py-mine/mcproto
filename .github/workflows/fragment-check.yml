@@ -23,11 +23,22 @@ jobs:
           # needs a non-shallow clone.
           fetch-depth: 0
 
-      - name: Install Python Dependencies
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
+      - name: Regular setup python
+        uses: actions/setup-python@v4
         with:
-          python_version: "3.11"
-          install_args: "--no-root --only release"
+          python-version: 3.11
+
+      - name: Install poetry
+        run: |
+          pip install poetry
+
+      - name: Install dependencies using poetry
+        run: poetry install --no-root --only release
+
+      - name: Add poetry environment to path
+        run: |
+          echo "$(python -m poetry env info --path)/bin" >> $GITHUB_PATH
+          python -m poetry -V
 
       - name: Check if changelog fragment was added
         run: |
