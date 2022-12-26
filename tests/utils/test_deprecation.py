@@ -21,8 +21,11 @@ def test_deprecation_warn_produces_warning(monkeypatch: pytest.MonkeyPatch):
 
 def test_deprecation_decorator(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setattr(importlib.metadata, "version", lambda pkg: "1.0.0")
-    func = lambda x: x  # noqa: E731
-    func = deprecated(removal_version="1.0.1")(func)
+
+    @deprecated(removal_version="1.0.1")
+    def func(x):
+        return x
+
     with warnings.catch_warnings(record=True) as w:
         assert func(5) == 5
         assert issubclass(w[-1].category, DeprecationWarning)
