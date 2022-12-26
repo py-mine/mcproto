@@ -27,7 +27,7 @@ jobs:
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
         with:
           python_version: "3.11"
-          install_args: "--without lint --without test"
+          install_args: "--no-root --only release"
 
       - name: Check if changelog fragment was added
         run: |
