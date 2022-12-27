@@ -80,6 +80,22 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 addopts = "--strict-markers --cov=mcproto --cov-branch --cov-report=term-missing --cov-report html --no-cov-on-fail --cov-fail-under=20"
 
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+sort = "cover"
+exclude_lines = [
+    "\\#\\s*pragma: no cover\\s",
+    "^\\s*if (typing\\.)?TYPE_CHECKING:\\s",
+    "^\\s*@(abc\\.)?abstractmethod\\s",
+    "^\\s*@(typing\\.)?overload\\s",
+    "^\\s*def __repr__\\(",
+    "^\\s*class .*\\bProtocol\\):\\s",
+    "^\\s*raise NotImplementedError\\s",
+    "^\\s*\\.\\.\\.\\s",
+]
+
 [tool.towncrier]
 package = "mcproto"
 package_dir = "mcproto"
