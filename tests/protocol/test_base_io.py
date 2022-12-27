@@ -146,14 +146,14 @@ class WriterTests(ABC):
         """Initialize writer instance to be tested."""
         ...
 
-    @pytest.fixture
+    @pytest.fixture()
     def method_mock(self) -> Union[Mock, AsyncMock]:
         """Returns the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.writer, BaseSyncWriter):
             return Mock
         return AsyncMock
 
-    @pytest.fixture
+    @pytest.fixture()
     def autopatch(self, monkeypatch: pytest.MonkeyPatch):
         """Returns a simple function, supporting patching both sync/async writer functions with appropriate mocks.
 
@@ -174,7 +174,7 @@ class WriterTests(ABC):
 
         return autopatch
 
-    @pytest.fixture
+    @pytest.fixture()
     def write_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the write function with a mock which is returned."""
         if isinstance(self.writer, BaseSyncWriter):
@@ -186,8 +186,8 @@ class WriterTests(ABC):
         return mock_f
 
     @pytest.mark.parametrize(
-        "format,value,expected_bytes",
-        (
+        ("format", "value", "expected_bytes"),
+        [
             (StructFormat.UBYTE, 0, [0]),
             (StructFormat.UBYTE, 15, [15]),
             (StructFormat.UBYTE, 255, [255]),
@@ -196,7 +196,7 @@ class WriterTests(ABC):
             (StructFormat.BYTE, 127, [127]),
             (StructFormat.BYTE, -20, [to_twos_complement(-20, bits=8)]),
             (StructFormat.BYTE, -128, [to_twos_complement(-128, bits=8)]),
-        ),
+        ],
     )
     def test_write_value(
         self, fmt: INT_FORMATS_TYPE, value: Any, expected_bytes: list[int], write_mock: WriteFunctionMock
@@ -205,13 +205,13 @@ class WriterTests(ABC):
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.parametrize(
-        "format,value",
-        (
+        ("format", "value"),
+        [
             (StructFormat.UBYTE, -1),
             (StructFormat.UBYTE, 256),
             (StructFormat.BYTE, -129),
             (StructFormat.BYTE, 128),
-        ),
+        ],
     )
     def test_write_value_out_of_range(
         self,
@@ -222,8 +222,8 @@ class WriterTests(ABC):
             self.writer.write_value(fmt, value)
 
     @pytest.mark.parametrize(
-        "number,expected_bytes",
-        (
+        ("number", "expected_bytes"),
+        [
             (0, [0]),
             (1, [1]),
             (2, [2]),
@@ -234,7 +234,7 @@ class WriterTests(ABC):
             (255, [255, 1]),
             (1000000, [192, 132, 61]),
             (2147483647, [255, 255, 255, 255, 7]),
-        ),
+        ],
     )
     def test_write_varuint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
         """Writing varuints results in correct bytes."""
@@ -242,13 +242,13 @@ class WriterTests(ABC):
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.parametrize(
-        "write_value,max_bits",
-        (
+        ("write_value", "max_bits"),
+        [
             (-1, 128),
             (-1, 1),
             (2**16, 16),
             (2**32, 32),
-        ),
+        ],
     )
     def test_write_varuint_out_of_range(self, write_value: int, max_bits: int):
         """Varuints without should only work on positive integers up to n max_bits."""
@@ -256,12 +256,12 @@ class WriterTests(ABC):
             self.writer._write_varuint(write_value, max_bits=max_bits)
 
     @pytest.mark.parametrize(
-        "string,expected_bytes",
-        (
+        ("string", "expected_bytes"),
+        [
             ("test", list(map(ord, "test")) + [0]),
             ("a" * 100, list(map(ord, "a" * 100)) + [0]),
             ("", [0]),
-        ),
+        ],
     )
     def test_write_ascii(self, string: str, expected_bytes: list[int], write_mock: WriteFunctionMock):
         """Writing ASCII string results in correct bytes."""
@@ -269,13 +269,13 @@ class WriterTests(ABC):
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.parametrize(
-        "string,expected_bytes",
-        (
+        ("string", "expected_bytes"),
+        [
             ("test", [len("test")] + list(map(ord, "test"))),
             ("a" * 100, [len("a" * 100)] + list(map(ord, "a" * 100))),
             ("", [0]),
             ("नमस्ते", [18] + [int(x) for x in "नमस्ते".encode("utf-8")]),
-        ),
+        ],
     )
     def test_write_utf(self, string: str, expected_bytes: list[int], write_mock: WriteFunctionMock):
         """Writing UTF string results in correct bytes."""
@@ -309,14 +309,14 @@ class ReaderTests(ABC):
         """Initialize reader instance to be tested."""
         ...
 
-    @pytest.fixture
+    @pytest.fixture()
     def method_mock(self) -> Union[Mock, AsyncMock]:
         """Returns the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.reader, BaseSyncReader):
             return Mock
         return AsyncMock
 
-    @pytest.fixture
+    @pytest.fixture()
     def autopatch(self, monkeypatch: pytest.MonkeyPatch):
         """Returns a simple function, supporting patching both sync/async reader functions with appropriate mocks.
 
@@ -337,7 +337,7 @@ class ReaderTests(ABC):
 
         return autopatch
 
-    @pytest.fixture
+    @pytest.fixture()
     def read_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the read function with a mock which is returned."""
         if isinstance(self.reader, SyncReader):
@@ -351,8 +351,8 @@ class ReaderTests(ABC):
         mock_f.assert_read_everything()
 
     @pytest.mark.parametrize(
-        "format,read_bytes,expected_value",
-        (
+        ("format", "read_bytes", "expected_value"),
+        [
             (StructFormat.UBYTE, [0], 0),
             (StructFormat.UBYTE, [10], 10),
             (StructFormat.UBYTE, [255], 255),
@@ -361,7 +361,7 @@ class ReaderTests(ABC):
             (StructFormat.BYTE, [127], 127),
             (StructFormat.BYTE, [to_twos_complement(-20, bits=8)], -20),
             (StructFormat.BYTE, [to_twos_complement(-128, bits=8)], -128),
-        ),
+        ],
     )
     def test_read_value(
         self, fmt: INT_FORMATS_TYPE, read_bytes: list[int], expected_value: Any, read_mock: ReadFunctionMock
@@ -370,8 +370,8 @@ class ReaderTests(ABC):
         assert self.reader.read_value(fmt) == expected_value
 
     @pytest.mark.parametrize(
-        "read_bytes,expected_value",
-        (
+        ("read_bytes", "expected_value"),
+        [
             ([0], 0),
             ([1], 1),
             ([2], 2),
@@ -382,7 +382,7 @@ class ReaderTests(ABC):
             ([255, 1], 255),
             ([192, 132, 61], 1000000),
             ([255, 255, 255, 255, 7], 2147483647),
-        ),
+        ],
     )
     def test_read_varuint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
         """Reading varuint bytes results in correct values."""
@@ -390,11 +390,11 @@ class ReaderTests(ABC):
         assert self.reader._read_varuint() == expected_value
 
     @pytest.mark.parametrize(
-        "read_bytes,max_bits",
-        (
+        ("read_bytes", "max_bits"),
+        [
             ([128, 128, 4], 16),
             ([128, 128, 128, 128, 16], 32),
-        ),
+        ],
     )
     def test_read_varuint_out_of_range(self, read_bytes: list[int], max_bits: int, read_mock: ReadFunctionMock):
         """Varuint reading limited to n max bits should raise an IOError for numbers out of this range."""
@@ -403,12 +403,12 @@ class ReaderTests(ABC):
             self.reader._read_varuint(max_bits=max_bits)
 
     @pytest.mark.parametrize(
-        "read_bytes,expected_string",
-        (
+        ("read_bytes", "expected_string"),
+        [
             (list(map(ord, "test")) + [0], "test"),
             (list(map(ord, "a" * 100)) + [0], "a" * 100),
             ([0], ""),
-        ),
+        ],
     )
     def test_read_ascii(self, read_bytes: list[int], expected_string: str, read_mock: ReadFunctionMock):
         """Reading ASCII string results in correct bytes."""
@@ -416,13 +416,13 @@ class ReaderTests(ABC):
         assert self.reader.read_ascii() == expected_string
 
     @pytest.mark.parametrize(
-        "read_bytes,expected_string",
-        (
+        ("read_bytes", "expected_string"),
+        [
             ([len("test")] + list(map(ord, "test")), "test"),
             ([len("a" * 100)] + list(map(ord, "a" * 100)), "a" * 100),
             ([0], ""),
             ([18] + [int(x) for x in "नमस्ते".encode("utf-8")], "नमस्ते"),
-        ),
+        ],
     )
     def test_read_utf(self, read_bytes: list[int], expected_string: str, read_mock: ReadFunctionMock):
         """Reading UTF string results in correct values."""

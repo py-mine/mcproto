@@ -57,6 +57,7 @@ isort = "^5.10.1"
 pyright = "^1.1.239"
 flake8-print = "^5.0.0"
 flake8-printf-formatting = "^1.1.2"
+flake8-pytest-style = "^1.6.0"
 
 [tool.poetry.group.release.dependencies]
 towncrier = "^22.12.0"
