@@ -11,4 +11,5 @@ ignore=
     ANN102, # cls param annotation
     ANN204, # return type annotation for special methods
     PT011, # pytest.raises without match is too broad
-per-file-ignores=test_*.py:ANN
+per-file-ignores=
+    tests/*:                    DALL000,ANN
