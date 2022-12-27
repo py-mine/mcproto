@@ -419,6 +419,69 @@ To ensure that our project will work correctly with any new changes made to it, 
 the individual functions in our code with some sample inputs for correct outputs. Unit-testing is explained in better
 detail in it's own file at [`./tests/README.md`](./tests/README.md).
 
+## Deprecations
+
+The removal or rename of anything that is a part of the public API must go through a deprecation process. This will
+ensure that users won't be surprised when we eventually remove some features, and their code won't end up broken after
+an update. Instead, a deprecated call should produce a warning about the deprecation, where the user is informed at
+which version will the accessed object be removed. Until then, the object must have the same old behavior and shouldn't
+break existing code-bases.
+
+The project already contains some internal utilities that can help up mark something as deprecated easily, here's a few
+quick examples of these utilities in practice:
+
+```python
+# Old version:
+class Car:
+    def __init__(self, engine_power: int, engine_type: str, fuel_tank_size: int):
+        self.engine_power = engine_power
+        self.engine_type = engine_type
+        self.fuel_tank_size = fuel_tank_size
+
+# New version, with deprecations preventing old code from breaking:
+from mcproto.utils.deprecation import deprecated
+
+class Car:
+    def __init__(self, engine: Engine, fuel_tank_size: int):
+        self.engine = engine
+        self.fuel_tank_size = fuel_tank_size
+
+    @deprecated(removal_version="2.0.0", replacement="engine.power")
+    @property
+    def engine_power(self) -> int:
+        return self.engine.power
+
+    @deprecated(removal_version="2.0.0", replacement="engine.type")
+    @property
+    def engine_power(self) -> int:
+        return self.engine.type
+```
+
+```python
+# Old version:
+def print_value(value: str, add_version: bool) -> None:
+    txt = "The value "
+    if add_version:
+        txt += f"for version {PROJECT_VERSION} "
+    txt += f"is: {value}"
+    print(txt)
+
+# New version, with deprecation
+from mcproto.utils.deprecation import deprecation_warn
+
+def print_value(value: str, add_version: bool = False) -> None:
+    txt = "The value "
+    if add_version:
+        deprecation_warn(obj_name="add_version argument", removal_version="4.0.0")
+        txt += f"for version {PROJECT_VERSION} "
+    txt += f"is: {value}"
+    print(txt)
+
+# New version, after version 4.0.0 (with deprecations removed):
+def print_value(value: str) -> None:
+    print(f"The value is: {value}")
+```
+
 ## Changes to this Arrangement
 
 We tried to design our specifications in a really easy and comprehensive way so that they're understandable to
