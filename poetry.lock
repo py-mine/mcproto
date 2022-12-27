@@ -470,6 +470,22 @@ domdf-python-tools = ">=2.6.0"
 flake8 = ">=3.7"
 
 [[package]]
+name = "flake8-functions"
+version = "0.0.7"
+description = "A flake8 extension that checks functions"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "flake8_functions-0.0.7-py3-none-any.whl", hash = "sha256:f2f75545c2b0df9eeba0ad316e2ac38c101676970b4441300fc07af3226a44f6"},
+    {file = "flake8_functions-0.0.7.tar.gz", hash = "sha256:40584b05d57e5ab185545bcfa08aa0edca52b04646d0df266e2b1667d6437184"},
+]
+
+[package.dependencies]
+mr-proper = "*"
+setuptools = "*"
+
+[[package]]
 name = "flake8-future-annotations"
 version = "0.0.5"
 description = "Verifies python 3.7+ files use from __future__ import annotations"
@@ -841,6 +857,23 @@ files = [
     {file = "mistletoe-0.9.0-py3-none-any.whl", hash = "sha256:11316e2fe0be422a8248293ad0efbee9ad0c6f3683b2f45bc6b989ea17a68c74"},
     {file = "mistletoe-0.9.0.tar.gz", hash = "sha256:3cb96d78226d08f0d3bf09efcaf330d23902492006e18b2c06558e8b86bf7faf"},
 ]
+
+[[package]]
+name = "mr-proper"
+version = "0.0.7"
+description = "Static Python code analyzer, that tries to check if functions in code are pure or not and why."
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "mr_proper-0.0.7-py3-none-any.whl", hash = "sha256:74a1b60240c46f10ba518707ef72811a01e5c270da0a78b5dd2dd923d99fdb14"},
+    {file = "mr_proper-0.0.7.tar.gz", hash = "sha256:03b517b19e617537f711ce418b125e5f2efd82ec881539cdee83195c78c14a02"},
+]
+
+[package.dependencies]
+click = ">=7.1.2"
+setuptools = "*"
+stdlib-list = ">=0.5.0"
 
 [[package]]
 name = "mslex"
@@ -1269,6 +1302,21 @@ files = [
 ]
 
 [[package]]
+name = "stdlib-list"
+version = "0.8.0"
+description = "A list of Python Standard Libraries (2.6-7, 3.2-9)."
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "stdlib-list-0.8.0.tar.gz", hash = "sha256:a1e503719720d71e2ed70ed809b385c60cd3fb555ba7ec046b96360d30b16d9f"},
+    {file = "stdlib_list-0.8.0-py3-none-any.whl", hash = "sha256:2ae0712a55b68f3fbbc9e58d6fa1b646a062188f49745b495f94d3310a9fdd3e"},
+]
+
+[package.extras]
+develop = ["sphinx"]
+
+[[package]]
 name = "taskipy"
 version = "1.10.3"
 description = "tasks runner for python projects"
@@ -1397,4 +1445,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4"
-content-hash = "875eb4391bde9eac1a75485cb964dfb8a148a98e69974d3f8468e01428040bb5"
+content-hash = "4f3b9c8033e1f5c9be8ad033f772d4026b1d6d0c81ed01888b15bbd16a765233"
