@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from mcproto.packets.abc import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
 from mcproto.packets.interactions import (
     PACKET_MAP,

@@ -7,6 +7,8 @@ max-line-length = 119
 ban-relative-imports = true
 # flake8-functions
 max-function-length = 130
+# flake8-future-annotations
+force-future-annotations = true
 
 # Black has conflicting logic here
 # E203: Whitespace before ':'

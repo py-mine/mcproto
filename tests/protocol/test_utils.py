@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 
 from mcproto.protocol.utils import from_twos_complement, to_twos_complement

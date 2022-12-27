@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from mcproto.protocol.base_io import BaseSyncReader, BaseSyncWriter
 
 __all__ = ["Buffer"]
