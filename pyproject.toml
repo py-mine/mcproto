@@ -93,6 +93,7 @@ exclude_lines = [
     "^\\s*def __repr__\\(",
     "^\\s*class .*\\bProtocol\\):\\s",
     "^\\s*raise NotImplementedError\\s",
+    "^\\s*return NotImplemented\\s",
     "^\\s*\\.\\.\\.\\s",
 ]
 
