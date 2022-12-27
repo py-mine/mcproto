@@ -3,7 +3,6 @@ max-line-length=119
 extend-ignore=E203
 extend-select=B902,B904
 ban-relative-imports=true
-exclude=.venv,.git,.cache
 ignore=
     ANN002, # *args annotation
     ANN003, # **kwargs annotation

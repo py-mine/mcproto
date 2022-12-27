@@ -73,7 +73,6 @@ poetry-dynamic-versioning = "^0.21.3"
 
 [tool.black]
 line-length = 119
-extend-exclude = "^/.cache"
 
 [tool.isort]
 profile = "black"
@@ -82,7 +81,6 @@ atomic = true
 order_by_type = false
 case_sensitive = true
 combine_as_imports = true
-skip = [".venv", ".git", ".cache"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
