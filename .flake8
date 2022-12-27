@@ -3,6 +3,7 @@ show_source = false
 statistics = false
 
 max-line-length = 119
+max-complexity = 20
 # flake8-tidy-imports
 ban-relative-imports = true
 # flake8-functions
