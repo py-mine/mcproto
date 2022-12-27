@@ -18,8 +18,8 @@ class VersionTuple(NamedTuple):
 
 
 @pytest.mark.parametrize(
-    "version_string,version_result",
-    (
+    ("version_string", "version_result"),
+    [
         ("0.0.1", VersionTuple(0, 0, 1, None, None)),
         ("1.0.0", VersionTuple(1, 0, 0, None, None)),
         ("2.8.6", VersionTuple(2, 8, 6, None, None)),
@@ -28,7 +28,7 @@ class VersionTuple(NamedTuple):
         ("1.0.0+001", VersionTuple(1, 0, 0, None, ("001",))),
         ("1.0.0+exp.sha.51182", VersionTuple(1, 0, 0, None, ("exp", "sha", "51182"))),
         ("1.0.0-alpha.2+sha.ab511", VersionTuple(1, 0, 0, ("alpha", "2"), ("sha", "ab511"))),
-    ),
+    ],
 )
 def test_version_parsing(version_string: str, version_result: VersionTuple):
     ver = SemanticVersion.from_string(version_string)
@@ -40,8 +40,8 @@ def test_version_parsing(version_string: str, version_result: VersionTuple):
 
 
 @pytest.mark.parametrize(
-    "version_string",
-    ("v1.0.1", "abc", "hello there", "I'm invalid!"),
+    ("version_string"),
+    ["v1.0.1", "abc", "hello there", "I'm invalid!"],
 )
 def test_invalid_version_parsing(version_string: str):
     with pytest.raises(ValueError):
@@ -49,8 +49,8 @@ def test_invalid_version_parsing(version_string: str):
 
 
 @pytest.mark.parametrize(
-    "version1,version2,operator",
-    (
+    ("version1", "version2", "operator"),
+    [
         # Major, Minor, Patch precedenced
         ("1.0.0", "2.0.0", op.lt),
         ("2.0.0", "2.1.0", op.lt),
@@ -83,7 +83,7 @@ def test_invalid_version_parsing(version_string: str):
         ("1.2.1", "1.2.1", op.eq),
         ("2.0.1-alpha.1", "2.0.1-alpha.1", op.eq),
         ("2.1.1-a.b.10.c", "2.1.1-a.b.10.c", op.eq),
-    ),
+    ],
 )
 def test_version_comparison(version1: str, version2: str, operator: Callable[[object, object], bool]):
     ver1 = SemanticVersion.from_string(version1)
