@@ -356,6 +356,21 @@ flake8 = "*"
 setuptools = "*"
 
 [[package]]
+name = "flake8-mutable"
+version = "1.2.0"
+description = "mutable defaults flake8 extension"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "flake8-mutable-1.2.0.tar.gz", hash = "sha256:ee9b77111b867d845177bbc289d87d541445ffcc6029a0c5c65865b42b18c6a6"},
+    {file = "flake8_mutable-1.2.0-py2-none-any.whl", hash = "sha256:38fd9dadcbcda6550a916197bc40ed76908119dabb37fbcca30873666c31d2d5"},
+]
+
+[package.dependencies]
+flake8 = "*"
+
+[[package]]
 name = "flake8-pep585"
 version = "0.1.5.1"
 description = "flake8 plugin to enforce new-style type hints (PEP 585)"
@@ -1065,4 +1080,4 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4"
-content-hash = "8f944bdae1f6268163ea41def7fa95e9e206a27168c8b06e86fdb8f597f70ad2"
+content-hash = "1c07ee022ebf852f8c2f76bc7bc5522d93707a4f9ac1e9b2ea72e1792d5d4495"
