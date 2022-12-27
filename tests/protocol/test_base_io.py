@@ -186,7 +186,7 @@ class WriterTests(ABC):
         return mock_f
 
     @pytest.mark.parametrize(
-        ("format", "value", "expected_bytes"),
+        ("fmt", "value", "expected_bytes"),
         [
             (StructFormat.UBYTE, 0, [0]),
             (StructFormat.UBYTE, 15, [15]),
@@ -205,7 +205,7 @@ class WriterTests(ABC):
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.parametrize(
-        ("format", "value"),
+        ("fmt", "value"),
         [
             (StructFormat.UBYTE, -1),
             (StructFormat.UBYTE, 256),
@@ -351,7 +351,7 @@ class ReaderTests(ABC):
         mock_f.assert_read_everything()
 
     @pytest.mark.parametrize(
-        ("format", "read_bytes", "expected_value"),
+        ("fmt", "read_bytes", "expected_value"),
         [
             (StructFormat.UBYTE, [0], 0),
             (StructFormat.UBYTE, [10], 10),
