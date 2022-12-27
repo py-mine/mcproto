@@ -17,7 +17,7 @@ class PacketMap(VersionMap["tuple[PacketDirection, GameState, int]", "type[Packe
     COMPATIBLE_FALLBACK_VERSIONS: ClassVar[set[int]] = set()
     _SEARCH_DIR_QUALNAME: ClassVar[str] = "mcproto.packets"
 
-    __slots__ = tuple()
+    __slots__ = ()
 
     @overload
     def make_id_map(
