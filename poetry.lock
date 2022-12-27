@@ -432,6 +432,21 @@ flake8 = ">=3.0"
 pycodestyle = "*"
 
 [[package]]
+name = "flake8-printf-formatting"
+version = "1.1.2"
+description = "flake8 plugin which forbids printf-style string formatting"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "flake8-printf-formatting-1.1.2.tar.gz", hash = "sha256:0f9e1308ac290356e4b271d4f26adfc3f9165680a7b6c221503b0f3e155a2784"},
+    {file = "flake8_printf_formatting-1.1.2-py2.py3-none-any.whl", hash = "sha256:d908ffabdf08581043a50572744fd60563d82386630b0335445894120089d2df"},
+]
+
+[package.dependencies]
+flake8 = "*"
+
+[[package]]
 name = "flake8-simplify"
 version = "0.19.3"
 description = "flake8 plugin which checks for code that can be simplified"
@@ -1114,4 +1129,4 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4"
-content-hash = "43a522753e1bd85d2dd4029c77f6149a3e77c7be821d7f4ee13d5b356fa06042"
+content-hash = "958047cf226081615a86ac523e28364a810fb12da7b741dcfc37b9f4591065ef"
