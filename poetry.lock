@@ -416,6 +416,22 @@ files = [
 flake8 = "*"
 
 [[package]]
+name = "flake8-print"
+version = "5.0.0"
+description = "print statement checker plugin for flake8"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "flake8-print-5.0.0.tar.gz", hash = "sha256:76915a2a389cc1c0879636c219eb909c38501d3a43cc8dae542081c9ba48bdf9"},
+    {file = "flake8_print-5.0.0-py3-none-any.whl", hash = "sha256:84a1a6ea10d7056b804221ac5e62b1cee1aefc897ce16f2e5c42d3046068f5d8"},
+]
+
+[package.dependencies]
+flake8 = ">=3.0"
+pycodestyle = "*"
+
+[[package]]
 name = "flake8-simplify"
 version = "0.19.3"
 description = "flake8 plugin which checks for code that can be simplified"
@@ -1098,4 +1114,4 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4"
-content-hash = "21e32ece11493e1ba250120cda2a1201c00435d912e81c5630fb574ef90371c5"
+content-hash = "43a522753e1bd85d2dd4029c77f6149a3e77c7be821d7f4ee13d5b356fa06042"
