@@ -13,8 +13,6 @@ updates:
       - "area: dependencies"
       - "priority: 3 - low"
       - "type: enhancement"
-    pull-request-branch-name:
-      separator: "-"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -25,5 +23,3 @@ updates:
       - "area: CI"
       - "priority: 3 - low"
       - "type: enhancement"
-    pull-request-branch-name:
-      separator: "-"
