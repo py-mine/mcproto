@@ -34,3 +34,19 @@ jobs:
 
       - name: Run pytest
         run: poetry run task test
+
+  tests-done:
+    needs: [unit-tests]
+    if: always() && !cancelled()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set status based on required jobs
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              exit 1
+            fi
+          done
