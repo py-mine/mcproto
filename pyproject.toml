@@ -105,6 +105,13 @@ exclude_lines = [
     "^\\s*\\.\\.\\.\\s",
 ]
 
+[tool.coverage.run]
+relative_files = true
+parallel = true
+branch = true
+timid = false
+source = ["mcproto"]
+
 [tool.towncrier]
 package = "mcproto"
 package_dir = "mcproto"
