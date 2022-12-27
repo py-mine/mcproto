@@ -199,7 +199,11 @@ class WriterTests(ABC):
         ],
     )
     def test_write_value(
-        self, fmt: INT_FORMATS_TYPE, value: Any, expected_bytes: list[int], write_mock: WriteFunctionMock
+        self,
+        fmt: INT_FORMATS_TYPE,
+        value: Any,  # noqa: ANN401
+        expected_bytes: list[int],
+        write_mock: WriteFunctionMock,
     ):
         self.writer.write_value(fmt, value)
         write_mock.assert_has_data(bytearray(expected_bytes))
@@ -216,7 +220,7 @@ class WriterTests(ABC):
     def test_write_value_out_of_range(
         self,
         fmt: INT_FORMATS_TYPE,
-        value: Any,
+        value: Any,  # noqa: ANN401
     ):
         with pytest.raises(Exception):
             self.writer.write_value(fmt, value)
@@ -364,7 +368,11 @@ class ReaderTests(ABC):
         ],
     )
     def test_read_value(
-        self, fmt: INT_FORMATS_TYPE, read_bytes: list[int], expected_value: Any, read_mock: ReadFunctionMock
+        self,
+        fmt: INT_FORMATS_TYPE,
+        read_bytes: list[int],
+        expected_value: Any,  # noqa: ANN401
+        read_mock: ReadFunctionMock,
     ):
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_value(fmt) == expected_value

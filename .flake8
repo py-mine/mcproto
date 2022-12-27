@@ -19,9 +19,11 @@ extend-ignore=E203
 # Enable the following errors everywhere in the project
 # B902: Invalid first argument used for method. Use `self` for instance methods, and `cls` for class methods
 # B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None`
+# ANN401: Dynamically typed expressions (typing.Any) are disallowed
 extend-select=
     B902,
     B904,
+    ANN401,
 
 # Ignore the following errors everywhere in the project
 # ANN002: Missing type annotation for *args
