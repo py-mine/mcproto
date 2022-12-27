@@ -86,12 +86,14 @@ combine_as_imports = true
 minversion = "6.0"
 asyncio_mode = "auto"
 testpaths = ["tests"]
-addopts = "--strict-markers --cov=mcproto --cov-branch --cov-report=term-missing --cov-report html --no-cov-on-fail --cov-fail-under=20"
+addopts = "--strict-markers --cov --no-cov-on-fail"
 
 [tool.coverage.report]
 precision = 2
+fail_under = 20
 show_missing = true
 skip_covered = false
+skip_empty = false
 sort = "cover"
 exclude_lines = [
     "\\#\\s*pragma: no cover\\s",
