@@ -104,6 +104,7 @@ directory = "changes"
 template = "changes/.template.rst"
 filename = "CHANGELOG.md"
 issue_format = "[#{issue}](https://github.com/py-mine/mcproto/issues/{issue})"
+orphan_prefix = "+"   # Use '+' instead of number for fragments not connected to any PR
 underlines = [2, 3]  # We use this for heading levels (see template file)
 type = [
     { name = "Breaking Changes",            directory = "breaking",      showcontent = true },
