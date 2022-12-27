@@ -49,6 +49,7 @@ flake8-annotations = "^2.9.0"
 flake8-tidy-imports = "^4.6.0"
 flake8-future-annotations = "^0.0.5"
 flake8-mutable = "^1.2.0"
+flake8-pep3101 = "^2.0.0"
 flake8-pep585 = { version = "^0.1.5", python = ">=3.9" }
 pep8-naming = "^0.12.1"
 black = "^22.3.0"

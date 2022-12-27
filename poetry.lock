@@ -371,6 +371,24 @@ files = [
 flake8 = "*"
 
 [[package]]
+name = "flake8-pep3101"
+version = "2.0.0"
+description = "Checks for old string formatting."
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "flake8-pep3101-2.0.0.tar.gz", hash = "sha256:ae2ee1758734a473ca971b4bf9ff09c961b6099916db91fdb6b9718328dfcacb"},
+    {file = "flake8_pep3101-2.0.0-py3-none-any.whl", hash = "sha256:1d818e1f53c6d26e875714f2f041ec15fbb23c17e2268dbbb024e9c3383541cd"},
+]
+
+[package.dependencies]
+flake8 = "*"
+
+[package.extras]
+test = ["pytest"]
+
+[[package]]
 name = "flake8-pep585"
 version = "0.1.5.1"
 description = "flake8 plugin to enforce new-style type hints (PEP 585)"
@@ -1080,4 +1098,4 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4"
-content-hash = "1c07ee022ebf852f8c2f76bc7bc5522d93707a4f9ac1e9b2ea72e1792d5d4495"
+content-hash = "21e32ece11493e1ba250120cda2a1201c00435d912e81c5630fb574ef90371c5"
