@@ -98,13 +98,13 @@ class UnpropagatingMockMixin:
     custom mock class when accessing new attributes of given mock class. This makes sense
     for simple mocks without any additional restrictions, however when dealing with limited
     mocks to some `spec_set`, it doesn't make sense to propagate those same set restrictions,
-    since we generally don't have methods of some class be of the same class.
+    since we generally don't have attributes/methods of some class be/return the same class.
     """
 
     spec_set = None
 
-    # Since this is a mixin class, we can access some attributes defined in mock classes safely
-    # define the types of these variables here, for proper static type analysis
+    # Since this is a mixin class, we can access some attributes defined in mock classes safely.
+    # Define the types of these variables here, for proper static type analysis.
     _mock_sealed: bool
     _extract_mock_name: Callable[[], str]
 
