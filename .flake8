@@ -2,6 +2,7 @@
 count = false
 show_source = false
 statistics = false
+exclude=.venv
 
 max-line-length = 119
 max-complexity = 20
