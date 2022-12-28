@@ -47,7 +47,7 @@ jobs:
           pip install poetry
 
       - name: Install dependencies using poetry
-        if: steps.python_cache.outputs.cache-hit == "true"
+        if: ${{ steps.python_cache.outputs.cache-hit }} == "true"
         shell: bash
         run: python -m poetry install --without lint --without release
 
