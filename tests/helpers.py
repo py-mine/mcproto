@@ -137,3 +137,18 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
         # Propagate any other children as simple `unittest.mock.Mock` instances
         # rather than `self.__class__` instances
         return self.child_mock_type(**kwargs)
+
+
+class CustomMockMixin(UnpropagatingMockMixin):
+    """Provides common functionality for our custom mock types.
+
+    - Stops propagation of same spec_set restricted mock in child mocks (see ``UnpropagatingMockMixin`` for more info)
+    - Allows using the `spec_set` attribute as class attribute
+    """
+
+    spec_set = None
+
+    def __init__(self, **kwargs):
+        if "spec_set" in kwargs:
+            self.spec_set = kwargs.pop("spec_set")
+        super().__init__(spec_set=self.spec_set, **kwargs)  # type: ignore # Mixin class, this __init__ is valid
