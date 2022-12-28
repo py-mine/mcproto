@@ -9,12 +9,15 @@ a short description of what that PR changes.
 These fragment files use the following format: `{pull_request_number}.{type}.md`,
 
 Possible types are:
-- `feature`: Signifying a new feature.
-- `bugfix`: Signifying a bugfix.
-- `documentation`: Signifying a documentation improvement.
-- `breaking`: Signifying a breaking change of some part of the project's public API. (Such as a removal after
-  deprecation, but also for removals without deprecation, if necessary.)
-- `deprecation`: Signifying a newly deprecated feature.
+- `feature`: New feature that affects the public API.
+- `bugfix`: A bugfix, which was affecting the public API.
+- `documentation`: Change to the documentation, or updates to public facing docstrings
+- `breaking`: Signifying a breaking change of some part of the project's public API, which could cause issues for
+  end-users updating to this version. (Includes deprecation removals.)
+- `deprecation`: Signifying a newly deprecated feature, scheduled for eventual removal.
+- `internal` Fully internal change that doesn't affect the public API, but is significant enough to be mentioned,
+  likely because it affects project contributors. (Such as a new linter rule, change in code style, significant change
+  in internal API, ...)
 
 For changes that do not fall under any of the above cases, please specify the lack of the changelog in the pull request
 description, so that a maintainer can skip the job that checks for presence of this fragment file.

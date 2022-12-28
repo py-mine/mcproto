@@ -129,6 +129,7 @@ type = [
     { name = "Features",                    directory = "feature",       showcontent = true },
     { name = "Bugfixes",                    directory = "bugfix",        showcontent = true },
     { name = "Documentation Improvements",  directory = "documentation", showcontent = true },
+    { name = "Internal Changes",            directory = "internal",      showcontent = true },
 ]
 
 [tool.taskipy.tasks]
