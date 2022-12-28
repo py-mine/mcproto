@@ -14,11 +14,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Python Dependencies
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
+      - name: Setup python
+        uses: actions/setup-python@v4
+        id: python_setup
         with:
-          python_version: "3.11"
-          install_args: "--with release-ci"
+          python-version: 3.11
+
+      - name: Python Dependency Caching
+        uses: actions/cache@v3
+        id: python_cache
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: "python-${{ runner.os }}-v1-${{ steps.python_setup.outputs.python-version }}-${{ hashFiles('pyproject.toml', 'poetry.lock') }}"
+
+      - name: Install poetry
+        shell: bash
+        run: |
+          pip install poetry
+
+      - name: Install dependencies using poetry
+        if: steps.python_cache.outputs.cache-hit == "true"
+        shell: bash
+        run: python -m poetry install --only release-ci
+
+      - name: Add poetry environment to path
+        run: |
+          echo "$(python -m poetry env info --path)/bin" >> $GITHUB_PATH
+          python -m poetry -V
 
       - name: Set version with dynamic versioning
         run: poetry run poetry-dynamic-versioning
