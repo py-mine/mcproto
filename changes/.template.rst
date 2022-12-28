@@ -11,7 +11,12 @@
 
 {% if definitions[category]['showcontent'] %}
 {% for text, values in sections[section][category].items() %}
-- {{ text }} ({{ values|join(', ') }})
+{% set version = values|join(",") %}
+{% if version %}
+- {{ version }}: {{ text }}
+{% else %}
+- {{ text }}
+{% endif %}
 {% endfor %}
 
 {% else %}

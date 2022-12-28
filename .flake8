@@ -1,13 +1,53 @@
 [flake8]
-max-line-length=119
+count = false
+show_source = false
+statistics = false
+exclude=.venv
+
+max-line-length = 119
+max-complexity = 20
+# flake8-tidy-imports
+ban-relative-imports = true
+# flake8-functions
+max-function-length = 130
+# flake8-future-annotations
+force-future-annotations = true
+
+# Black has conflicting logic here
+# E203: Whitespace before ':'
 extend-ignore=E203
-extend-select=B902,B904
-ban-relative-imports=true
-exclude=.venv,.git,.cache
+
+# Enable the following errors everywhere in the project
+# B902: Invalid first argument used for method. Use `self` for instance methods, and `cls` for class methods
+# B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None`
+# ANN401: Dynamically typed expressions (typing.Any) are disallowed
+extend-select=
+    B902,
+    B904,
+    ANN401,
+
+# Ignore the following errors everywhere in the project
+# ANN002: Missing type annotation for *args
+# ANN003: Missing type annotation for **kwargs
+# ANN101: Missing type annotation for self in method
+# ANN102: Missing type annotation for cls in classmethod
+# ANN204: Missing return type annotation for special method
+# PT011: pytest.raises without match parameter is too broad
+# CFQ002: Function has too many arguments.
+# CFQ004: Function has too many returns.
 ignore=
-    ANN002, # *args annotation
-    ANN003, # **kwargs annotation
-    ANN101, # self param annotation
-    ANN102, # cls param annotation
-    ANN204, # return type annotation for special methods
-per-file-ignores=test_*.py:ANN
+    ANN002,
+    ANN003,
+    ANN101,
+    ANN102,
+    ANN204,
+    PT011,
+    CFQ002,
+    CFQ004,
+
+# Ignore the following errors in specific files
+# DALL000: Module lacks __all__.
+# S101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+# ANN: All flake8-annotations errors
+per-file-ignores=
+    tests/*:                    DALL000,S101,ANN

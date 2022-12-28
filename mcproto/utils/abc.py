@@ -9,6 +9,8 @@ from mcproto.buffer import Buffer
 if TYPE_CHECKING:
     from typing_extensions import Self
 
+__all__ = ["RequiredParamsABCMixin", "Serializable"]
+
 
 class RequiredParamsABCMixin:
     """Mixin class to ABCs that require certain attributes to be set in order to allow initialization.

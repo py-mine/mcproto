@@ -1,0 +1,20 @@
+# If a PR changes a file that has a code owner specified, this code owner
+# is automatically requested a review from
+
+# GitHub CI
+.github/dependabot.yml      @ItsDrike
+.github/workflows/**        @ItsDrike
+
+# Meta (config files for the repo itself)
+.github/CODEOWNERS          @ItsDrike
+.github/ISSUE_TEMPLATE/**   @ItsDrike
+
+# Project's README/documents
+README.md                   @ItsDrike
+CODE-OF-CONDUCT.md          @ItsDrike
+CONTRIBUTING.md             @ItsDrike
+ATTRIBUTION.md              @ItsDrike
+LICENSE.txt                 @ItsDrike
+LICENSE-THIRD-PARTY.txt     @ItsDrike
+tests/README.md             @ItsDrike
+changes/README.md           @ItsDrike
