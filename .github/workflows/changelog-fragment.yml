@@ -24,7 +24,7 @@ jobs:
           # needs a non-shallow clone.
           fetch-depth: 0
 
-      - name: Regular setup python
+      - name: Setup python
         uses: actions/setup-python@v4
         id: python_setup
         with:
