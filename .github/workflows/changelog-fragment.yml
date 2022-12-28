@@ -26,14 +26,25 @@ jobs:
 
       - name: Regular setup python
         uses: actions/setup-python@v4
+        id: python_setup
         with:
           python-version: 3.11
+
+      - name: Python Dependency Caching
+        uses: actions/cache@v3
+        id: python_cache
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: "python-${{ runner.os }}-v1-${{ steps.python_setup.outputs.python-version }}-${{ hashFiles('pyproject.toml', 'poetry.lock') }}"
 
       - name: Install poetry
         run: |
           pip install poetry
 
       - name: Install dependencies using poetry
+        if: steps.python_cache.outputs.cache-hit == "true"
         run: poetry install --no-root --only release
 
       - name: Add poetry environment to path
