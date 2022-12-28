@@ -51,3 +51,5 @@ ignore=
 # ANN: All flake8-annotations errors
 per-file-ignores=
     tests/*:                    DALL000,S101,ANN
+
+# vi: ft=config
