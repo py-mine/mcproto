@@ -39,7 +39,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pre-commit
-          key: "precommit-${{ runner.os }}-v1-${{ steps.python_setup.outputs.python-version }-${{ hashFiles('.pre-commit-config.yaml') }}"
+          key: "precommit-${{ runner.os }}-v1-${{ steps.python_setup.outputs.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}"
 
       - name: Install poetry
         shell: bash
