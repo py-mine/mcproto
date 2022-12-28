@@ -4,7 +4,7 @@ import asyncio
 import inspect
 import unittest.mock
 from collections.abc import Callable, Coroutine
-from typing import Any, TYPE_CHECKING, TypeVar
+from typing import Any, Generic, TYPE_CHECKING, TypeVar
 
 if TYPE_CHECKING:
     from typing_extensions import ParamSpec
@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     P = ParamSpec("P")
 
 T = TypeVar("T")
+T_Mock = TypeVar("T_Mock", bound=unittest.mock.Mock)
 
 
 def synchronize(f: Callable[P, Coroutine[Any, Any, T]]) -> Callable[P, T]:
@@ -90,7 +91,7 @@ class SynchronizedMixin:
         return super().__setattr__(__name, __value)
 
 
-class UnpropagatingMockMixin:
+class UnpropagatingMockMixin(Generic[T_Mock]):
     """
     This class is here to provide common functionality for our mock classes.
 
@@ -99,18 +100,22 @@ class UnpropagatingMockMixin:
     for simple mocks without any additional restrictions, however when dealing with limited
     mocks to some `spec_set`, it doesn't make sense to propagate those same set restrictions,
     since we generally don't have attributes/methods of some class be/return the same class.
+
+    This mixin class stops this propagation, and instead returns instances of `unittest.mock.MagicMock`
+    for as the child mocks. If needed, this type can be overridden using the `child_mock_type`
+    class variable.
     """
 
-    spec_set = None
+    child_mock_type: T_Mock = unittest.mock.MagicMock
 
     # Since this is a mixin class, we can access some attributes defined in mock classes safely.
     # Define the types of these variables here, for proper static type analysis.
     _mock_sealed: bool
     _extract_mock_name: Callable[[], str]
 
-    def _get_child_mock(self, **kwargs) -> unittest.mock.Mock:
+    def _get_child_mock(self, **kwargs) -> T_Mock:
         """
-        Method override which generates pure `unittest.mock.Mock` instances instead of instances of the same class.
+        Method override which generates `child_mock_type` instances instead of instances of the same class.
 
         By default, this method creates a new mock instance of the same original class (self.__class__) for newly
         accessed attributes. However this doesn't make sense for mocks limited to some spec_set, since we don't
@@ -131,4 +136,4 @@ class UnpropagatingMockMixin:
 
         # Propagate any other children as simple `unittest.mock.Mock` instances
         # rather than `self.__class__` instances
-        return unittest.mock.Mock(**kwargs)
+        return self.child_mock_type(**kwargs)
