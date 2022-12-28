@@ -47,6 +47,7 @@ ignore=
 
 # Ignore the following errors in specific files
 # DALL000: Module lacks __all__.
+# S101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
 # ANN: All flake8-annotations errors
 per-file-ignores=
-    tests/*:                    DALL000,ANN
+    tests/*:                    DALL000,S101,ANN
