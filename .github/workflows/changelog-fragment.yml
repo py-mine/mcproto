@@ -40,12 +40,14 @@ jobs:
           key: "python-${{ runner.os }}-v1-${{ steps.python_setup.outputs.python-version }}-${{ hashFiles('pyproject.toml', 'poetry.lock') }}"
 
       - name: Install poetry
+        shell: bash
         run: |
           pip install poetry
 
       - name: Install dependencies using poetry
         if: steps.python_cache.outputs.cache-hit == "true"
-        run: poetry install --no-root --only release
+        shell: bash
+        run: python -m poetry install --no-root --only release
 
       - name: Add poetry environment to path
         run: |
