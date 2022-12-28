@@ -1,4 +1,4 @@
-name: Fragments check
+name: Changelog Fragment present
 
 on:
   pull_request:
