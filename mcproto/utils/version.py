@@ -29,6 +29,8 @@ class SemanticVersion:
     Relies on Semantic Versioning specification (see <https://semver.org/>).
     """
 
+    __slots__ = ("version", "prerelease", "build_metadata")
+
     version: tuple[int, int, int]
     prerelease: Optional[tuple[str, ...]] = None
     build_metadata: Optional[tuple[str, ...]] = None

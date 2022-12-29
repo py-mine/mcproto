@@ -141,6 +141,7 @@ require-subclass = true
 exclude-modules = '''
 (
   ^test  # ignore any tests
+  |^mcproto\.utils\.version # Dataclasses cause false-positives; See: https://github.com/ariebovenberg/slotscheck/issues/129
 )
 '''
 
