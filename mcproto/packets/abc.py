@@ -30,7 +30,7 @@ class PacketDirection(IntEnum):
 class Packet(Serializable, RequiredParamsABCMixin):
     """Base class for all packets"""
 
-    _REQUIRRED_CLASS_VARS: ClassVar[Sequence[str]] = ["PACKET_ID", "GAME_STATE"]
+    _REQUIRED_CLASS_VARS: ClassVar[Sequence[str]] = ["PACKET_ID", "GAME_STATE"]
     _REQUIRED_CLASS_VARS_NO_MRO: ClassVar[Sequence[str]] = ["__slots__"]
 
     __slots__ = ()

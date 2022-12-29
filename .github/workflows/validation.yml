@@ -24,6 +24,7 @@ jobs:
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
         with:
           python_version: "3.11"
+          install_args: "--without release"
 
       - name: Run pre-commit hooks
         run: SKIP=black,isort,flake8,pyright pre-commit run --all-files
@@ -34,8 +35,8 @@ jobs:
       - name: Run isort import formatter check
         run: isort --check --diff .
 
-      - name: Run pyright type checker
-        run: pyright .
-
       - name: Run flake8 linter
         run: flake8 .
+
+      - name: Run pyright type checker
+        run: pyright .

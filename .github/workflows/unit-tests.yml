@@ -17,6 +17,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     strategy:
+      fail-fast: false  # Allows for matrix sub-jobs to fail without cancelling the rest
       matrix:
         platform: [ubuntu-latest, windows-latest]
         python-version: ["3.8", "3.11"]
@@ -29,7 +30,23 @@ jobs:
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
         with:
           python_version: "${{ matrix.python-version }}"
-          install_args: "--without lint"
+          install_args: "--without lint --without release"
 
       - name: Run pytest
         run: poetry run task test
+
+  tests-done:
+    needs: [unit-tests]
+    if: always() && !cancelled()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set status based on required jobs
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              exit 1
+            fi
+          done

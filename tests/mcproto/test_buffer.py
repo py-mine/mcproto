@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 
 from mcproto.buffer import Buffer

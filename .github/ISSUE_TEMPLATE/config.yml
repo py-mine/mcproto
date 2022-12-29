@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Discord server
+    url: https://discord.gg/C2wX7zduxC
+    about: Ideal way to ask questions, contact the maintainers, stay up to date with updates, and getting to know other developers.
+  - name: Discussions
+    url: https://github.com/py-mine/mcproto/discussions
+    about: A perfect place to ask questions and get help with issues you are having.

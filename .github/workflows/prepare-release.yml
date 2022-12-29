@@ -1,0 +1,65 @@
+name: Prepare Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The version to prepare the release for"
+        required: true
+
+jobs:
+  prepare-release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+
+      # Make the github application be the comitter
+      # (see: https://stackoverflow.com/a/74071223 on how to obtain the comitter email)
+      - name: Setup git config
+        run: |
+          git config --global user.name "py-mine-ci-bot"
+          git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
+
+      - name: Install Python Dependencies
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
+        with:
+          python_version: "3.11"
+          install_args: "--without lint --without test"
+
+      - name: Checkout new branch
+        run: git checkout -b "prepare-release-${{ github.event.inputs.version }}"
+
+      - name: Run towncrier
+        run: towncrier build --yes --version "${{ github.event.inputs.version }}"
+
+      - name: Commit changes
+        run: git commit -am "Prepare for release of version ${{ github.event.inputs.version }}"
+
+      - name: Push changes
+        run: git push origin "prepare-release-${{ github.event.inputs.version }}"
+
+      - name: Create pull request
+        uses: repo-sync/pull-request@v2
+        with:
+          # We need to use a bot token to be able to trigger workflows that listen to pull_request calls
+          github_token: ${{ steps.generate_token.outputs.token }}
+          source_branch: prepare-release-${{ github.event.inputs.version }}
+          destination_branch: main
+          pr_assignee: ${{ github.event.sender.login }}
+          pr_title: Prepare for release of ${{ github.event.inputs.version }}
+          pr_label: "area: dependencies,type: release"
+          pr_body: |
+            Release preparation triggered by @${{ github.event.sender.login }}.
+            Once the pull request is merged, you can trigger a PyPI release by creating a GitHub release for \`${{ github.event.inputs.version }}\` in the repository.
