@@ -142,6 +142,7 @@ exclude-modules = '''
 (
   ^test  # ignore any tests
   |^mcproto\.utils\.version # Dataclasses cause false-positives; See: https://github.com/ariebovenberg/slotscheck/issues/129
+  |^mcproto\.utils\.deprecation # Protocol classes don't need __slots__; See: https://github.com/ariebovenberg/slotscheck/issues/130
 )
 '''
 
