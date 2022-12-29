@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import json
-from typing import Any, ClassVar, TYPE_CHECKING
+from typing import Any, ClassVar
+
+from typing_extensions import Self
 
 from mcproto.buffer import Buffer
 from mcproto.packets.abc import ClientBoundPacket, GameState, ServerBoundPacket
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
 
 __all__ = ["StatusRequest", "StatusResponse"]
 

@@ -29,6 +29,7 @@ packages = [{ include = "mcproto" }]
 [tool.poetry.dependencies]
 python = ">=3.8.1,<4"
 asyncio-dgram = "^2.1.2"
+typing-extensions = "^4.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^2.18.1"

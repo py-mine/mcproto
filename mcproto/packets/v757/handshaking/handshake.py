@@ -1,15 +1,13 @@
 from __future__ import annotations
 
 from enum import IntEnum
-from typing import ClassVar, TYPE_CHECKING, Union
+from typing import ClassVar, Union
+
+from typing_extensions import Self
 
 from mcproto.buffer import Buffer
 from mcproto.packets.abc import GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
-
 
 __all__ = [
     "NextState",

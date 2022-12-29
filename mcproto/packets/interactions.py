@@ -9,9 +9,9 @@ from mcproto.packets.abc import Packet
 from mcproto.packets.map import PacketMap
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 
-T_Packet = TypeVar("T_Packet", bound=Packet)
-
 __all__ = ["async_read_packet", "async_write_packet", "sync_read_packet", "sync_write_packet", "PACKET_MAP"]
+
+T_Packet = TypeVar("T_Packet", bound=Packet)
 
 # PACKET FORMAT:
 # | Field name  | Field type    | Notes                                 |

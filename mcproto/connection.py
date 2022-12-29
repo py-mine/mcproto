@@ -3,22 +3,12 @@ from __future__ import annotations
 import asyncio
 import socket
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TYPE_CHECKING, TypeVar
+from typing import Generic, Optional, TypeVar
 
 import asyncio_dgram
+from typing_extensions import ParamSpec, Self
 
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
-
-if TYPE_CHECKING:
-    from typing_extensions import ParamSpec, Self
-
-    P = ParamSpec("P")
-
-R = TypeVar("R")
-T_SOCK = TypeVar("T_SOCK", bound=socket.socket)
-T_STREAMREADER = TypeVar("T_STREAMREADER", bound=asyncio.StreamReader)
-T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
-T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.DatagramClient)
 
 __all__ = [
     "AsyncConnection",
@@ -28,6 +18,13 @@ __all__ = [
     "UDPAsyncConnection",
     "UDPSyncConnection",
 ]
+
+P = ParamSpec("P")
+R = TypeVar("R")
+T_SOCK = TypeVar("T_SOCK", bound=socket.socket)
+T_STREAMREADER = TypeVar("T_STREAMREADER", bound=asyncio.StreamReader)
+T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
+T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.DatagramClient)
 
 
 class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):

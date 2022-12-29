@@ -3,10 +3,9 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from itertools import zip_longest
-from typing import Any, Optional, TYPE_CHECKING
+from typing import Any, Optional
 
-if TYPE_CHECKING:
-    from typing_extensions import Self
+from typing_extensions import Self
 
 __all__ = ["SemanticVersion"]
 

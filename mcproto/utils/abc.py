@@ -2,12 +2,11 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import ClassVar, TYPE_CHECKING
+from typing import ClassVar
+
+from typing_extensions import Self
 
 from mcproto.buffer import Buffer
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
 
 __all__ = ["RequiredParamsABCMixin", "Serializable"]
 

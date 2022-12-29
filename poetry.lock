@@ -1456,7 +1456,7 @@ dev = ["furo", "packaging", "sphinx (>=5)", "twisted"]
 name = "typing-extensions"
 version = "4.4.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1504,4 +1504,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "08eb540e752f964f01c8ddc623246396f8222ff516617d5f752ddb9df4275513"
+content-hash = "1242b1dc76ae09243775b0c6703fca3f8d0b30bc7f7ae623d0f05773ff61b0f2"
