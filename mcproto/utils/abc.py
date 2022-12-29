@@ -32,6 +32,8 @@ class RequiredParamsABCMixin:
     and if _REQUIRED_CLASS_VARS_NO_MRO isn't set, no such check will be performed.
     """
 
+    __slots__ = ()
+
     _REQUIRRED_CLASS_VARS: ClassVar[Sequence[str]]
     _REQUIRED_CLASS_VARS_NO_MRO: ClassVar[Sequence[str]]
 
@@ -63,6 +65,8 @@ class RequiredParamsABCMixin:
 
 class Serializable(ABC):
     """Base class for any type that should be (de)serializable into/from given buffer data."""
+
+    __slots__ = ()
 
     @abstractmethod
     def serialize(self) -> Buffer:
