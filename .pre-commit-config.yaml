@@ -46,6 +46,15 @@ repos:
 
   - repo: local
     hooks:
+      - id: codespell
+        name: CodeSpell
+        description: Run code spell checker
+        entry: poetry run codespell
+        language: system
+
+
+  - repo: local
+    hooks:
       - id: pyright
         name: Pyright
         description: Run pyright type checker
