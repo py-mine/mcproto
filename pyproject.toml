@@ -141,7 +141,7 @@ require-subclass = true
 exclude-modules = '''
 (
   ^test  # ignore any tests
-  |^mcproto\.utils\.version # Dataclasses cause false-positives; See: https://github.com/ariebovenberg/slotscheck/issues/129
+  |^mcproto\.utils\.version # Dataclasses below python 3.10 don't support __slots__ due to default value fields being treated as classvars.
   |^mcproto\.utils\.deprecation # Protocol classes don't need __slots__; See: https://github.com/ariebovenberg/slotscheck/issues/130
 )
 '''
