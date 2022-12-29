@@ -31,6 +31,8 @@ __all__ = [
 
 
 class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
+    __slots__ = ("closed",)
+
     def __init__(self):
         self.closed = False
 
@@ -59,6 +61,8 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
 
 
 class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
+    __slots__ = ("closed",)
+
     def __init__(self):
         self.closed = False
 
@@ -87,6 +91,8 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
 
 
 class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
+    __slots__ = ("socket",)
+
     def __init__(self, socket: T_SOCK):
         super().__init__()
         self.socket = socket
@@ -130,6 +136,8 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
 
 class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER]):
+    __slots__ = ("reader", "writer", "timeout")
+
     def __init__(self, reader: T_STREAMREADER, writer: T_STREAMWRITER, timeout: float):
         super().__init__()
         self.reader = reader
@@ -180,6 +188,8 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 
 
 class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
+    __slots__ = ("socket", "address")
+
     BUFFER_SIZE = 65535
 
     def __init__(self, socket: T_SOCK, address: tuple[str, int]):
@@ -215,6 +225,8 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
 
 class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
+    __slots__ = ("stream", "timeout")
+
     def __init__(self, stream: T_DATAGRAM_CLIENT, timeout: float):
         super().__init__()
         self.stream = stream
