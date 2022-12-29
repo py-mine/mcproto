@@ -181,6 +181,23 @@ files = [
 click = "*"
 
 [[package]]
+name = "codespell"
+version = "2.2.2"
+description = "Codespell"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "codespell-2.2.2-py3-none-any.whl", hash = "sha256:87dfcd9bdc9b3cb8b067b37f0af22044d7a84e28174adfc8eaa203056b7f9ecc"},
+    {file = "codespell-2.2.2.tar.gz", hash = "sha256:c4d00c02b5a2a55661f00d5b4b3b5a710fa803ced9a9d7e45438268b099c319c"},
+]
+
+[package.extras]
+dev = ["check-manifest", "flake8", "pytest", "pytest-cov", "pytest-dependency", "tomli"]
+hard-encoding-detection = ["chardet"]
+toml = ["tomli"]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -1487,4 +1504,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "2c17706acd15b04ba552a427bff732d35417eb38befdec71ced6b412946a3e01"
+content-hash = "d902af9acf618afef153b274cd6f18e862ed52759a94ea12619f3699d1591b09"
