@@ -18,6 +18,7 @@ class MockSocket(CustomMockMixin, MagicMock):
 
     def __init__(self, *args, read_data: Optional[bytearray] = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.mock_add_spec(["_recv", "_send", "_closed"])
         self._recv = ReadFunctionMock(combined_data=read_data)
         self._send = WriteFunctionMock()
         self._closed = False
@@ -41,6 +42,7 @@ class MockStreamWriter(CustomMockMixin, MagicMock):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.mock_add_spec(["_white", "_closed"])
         self._write = WriteFunctionMock()
         self._closed = False
 
@@ -58,6 +60,7 @@ class MockStreamReader(CustomMockMixin, MagicMock):
 
     def __init__(self, *args, read_data: Optional[bytearray] = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.mock_add_spec(["_read"])
         self._read = ReadFunctionAsyncMock(combined_data=read_data)
 
     def read(self, length: int) -> bytearray:
