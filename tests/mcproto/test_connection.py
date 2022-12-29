@@ -10,7 +10,7 @@ import pytest
 
 from mcproto.connection import TCPAsyncConnection, TCPSyncConnection
 from tests.helpers import CustomMockMixin
-from tests.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMock, WriteFunctionMock
+from tests.mcproto.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMock, WriteFunctionMock
 
 
 class MockSocket(CustomMockMixin, MagicMock):

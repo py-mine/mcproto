@@ -16,7 +16,12 @@ from mcproto.protocol.base_io import (
 )
 from mcproto.protocol.utils import to_twos_complement
 from tests.helpers import SynchronizedMixin
-from tests.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMock, WriteFunctionAsyncMock, WriteFunctionMock
+from tests.mcproto.protocol.helpers import (
+    ReadFunctionAsyncMock,
+    ReadFunctionMock,
+    WriteFunctionAsyncMock,
+    WriteFunctionMock,
+)
 
 # region: Initializable concrete implementations of ABC classes.
 
