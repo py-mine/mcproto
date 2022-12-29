@@ -53,7 +53,6 @@ repos:
         language: python
         require_serial: true
         types: [python]
-        exclude: "^(?!mcproto/)"
 
   - repo: local
     hooks:

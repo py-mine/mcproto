@@ -138,6 +138,11 @@ type = [
 strict-imports = true
 require-superclass = true
 require-subclass = true
+exclude-modules = '''
+(
+  ^test  # ignore any tests
+)
+'''
 
 [tool.taskipy.tasks]
 precommit = "pre-commit install"
