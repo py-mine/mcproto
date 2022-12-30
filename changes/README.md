@@ -31,6 +31,16 @@ is simple enough, you can even use the `-c`/`--content` flag and specify it dire
 12.feature.md -c "Add dinosaurs!"`, or if you're used to terminal editors, there's also the `--edit` flag, which opens
 the file with your `$EDITOR`.
 
+## Preview changelog
+
+To preview the latest changelog, run `towncrier build --draft --version [version number]`. (For version number, you can
+pretty much enter anything as this is just for a draft version. For true builds, this would be the next version number,
+so for example, if the current version is 1.0.2, next one will be one either 1.0.3, or 1.1.0, or 2.0.0. But for drafts,
+you can also just enter something like `next` for the version, as it's just for your own private preview.)
+
+To make this a bit easier, there is a taskipy task running the command above, so you can just use `poetry run task
+changelog-preview` to see the changelog, if you don't like remembering new commands.
+
 ## Multiple fragments in single PR
 
 If necessary, multiple fragment files can be created per pull-request, with different change types, if the PR covers
@@ -44,15 +54,7 @@ distinct changelog fragments like this is a good sign that your PR is probably t
 multiple PRs. Making huge PRs that address several unrelated topics at once are generally a bad practice, and should be
 avoided.
 
-## Preview changelog
-
-To preview the latest changelog, run `towncrier build --draft --version [version number]`. (For version number, you can
-pretty much enter anything as this is just for a draft version. For true builds, this would be the next version number,
-so for example, if the current version is 1.0.2, next one will be one either 1.0.3, or 1.1.0, or 2.0.0. But for drafts,
-you can also just enter something like `next` for the version, as it's just for your own private preview.)
-
-To make this a bit easier, there is a taskipy task running the command above, so you can just use `poetry run task
-changelog-preview` to see the changelog, if you don't like remembering new commands.
+## Footnotes
 
 For more info, check out the [documentation](https://towncrier.readthedocs.io/en/latest/tutorial.html) for the
 `towncrier` project.
