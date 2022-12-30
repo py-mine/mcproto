@@ -26,10 +26,11 @@ description, so that a maintainer can skip the job that checks for presence of t
 
 While you absolutely can simply create these files manually, it's a much better idea to use the `towncrier` library,
 which can create the file for you in the proper place. With it, you can simply run `towncrier create
-{pull_request}.{type}.md` after creating the pull request, edit the created file and commit the changes. If the change
-is simple enough, you can even use the `-c`/`--content` flag and specify it directly, like: `towncrier create
-12.feature.md -c "Add dinosaurs!"`, or if you're used to terminal editors, there's also the `--edit` flag, which opens
-the file with your `$EDITOR`.
+{pull_request}.{type}.md` after creating the pull request, edit the created file and commit the changes.
+
+If the change is simple enough, you can even use the `-c`/`--content` flag and specify it directly, like: `towncrier
+create 12.feature.md -c "Add dinosaurs!"`, or if you're used to terminal editors, there's also the `--edit` flag, which
+opens the file with your `$EDITOR`.
 
 ## Preview changelog
 
@@ -49,10 +50,11 @@ multiple areas (for example a PR that both introduces a feature, and changes the
 Additionally, if a single PR is addressing multiple unrelated topics in the same category, and needs to make multiple
 distinct changelog entries, you can do so by adding an optional counter value to the fragment file name, which needs to
 be an integer, for example: `25.internal.1.md` and `25.internal.2.md`. This counter value will not be shown in the
-final changelog and is merely here for separation of the individual fragments. That said, if you end up making multiple
-distinct changelog fragments like this is a good sign that your PR is probably too big, and you should split it up into
-multiple PRs. Making huge PRs that address several unrelated topics at once are generally a bad practice, and should be
-avoided.
+final changelog and is merely here for separation of the individual fragments.
+
+That said, if you end up making multiple distinct changelog fragments like this is a good sign that your PR is probably
+too big, and you should split it up into multiple PRs. Making huge PRs that address several unrelated topics at once
+are generally a bad practice, and should be avoided.
 
 ## Footnotes
 
