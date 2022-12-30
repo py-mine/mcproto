@@ -62,4 +62,4 @@ jobs:
           pr_label: "area: dependencies,type: release"
           pr_body: |
             Release preparation triggered by @${{ github.event.sender.login }}.
-            Once the pull request is merged, you can trigger a PyPI release by creating a GitHub release for \`${{ github.event.inputs.version }}\` in the repository.
+            Once the pull request is merged, you can trigger a PyPI release by pushing a \`v${{ github.event.inputs.version }}\` git tag in the repository.
