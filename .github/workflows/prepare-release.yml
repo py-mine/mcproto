@@ -25,8 +25,8 @@ jobs:
         with:
           token: ${{ steps.generate_token.outputs.token }}
 
-      # Make the github application be the comitter
-      # (see: https://stackoverflow.com/a/74071223 on how to obtain the comitter email)
+      # Make the github application be the committer
+      # (see: https://stackoverflow.com/a/74071223 on how to obtain the committer email)
       - name: Setup git config
         run: |
           git config --global user.name "py-mine-ci-bot"

@@ -65,7 +65,7 @@ Methods of marking PR as a draft:
 1. When creating it
 
    ![image](https://user-images.githubusercontent.com/20902250/94499351-bc736e80-01fc-11eb-8e99-a7863dd1428a.png)
-2. After it was crated
+2. After it was created
 
    ![image](https://user-images.githubusercontent.com/20902250/94499276-8930df80-01fc-11eb-9292-7f0c6101b995.png)
 
