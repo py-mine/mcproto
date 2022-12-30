@@ -11,7 +11,7 @@ These fragment files use the following format: `{pull_request_number}.{type}.md`
 Possible types are:
 - `feature`: New feature that affects the public API.
 - `bugfix`: A bugfix, which was affecting the public API.
-- `documentation`: Change to the documentation, or updates to public facing docstrings
+- `docs`: Change to the documentation, or updates to public facing docstrings
 - `breaking`: Signifying a breaking change of some part of the project's public API, which could cause issues for
   end-users updating to this version. (Includes deprecation removals.)
 - `deprecation`: Signifying a newly deprecated feature, scheduled for eventual removal.
