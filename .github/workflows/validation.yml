@@ -57,7 +57,7 @@ jobs:
           python -m poetry -V
 
       - name: Run pre-commit hooks
-        run: SKIP=black,isort,flake8,slotscheck,pyright pre-commit run --all-files
+        run: SKIP=black,isort,flake8,slotscheck,codespell,pyright pre-commit run --all-files
 
       - name: Run black formatter check
         run: black --check --diff .
@@ -67,6 +67,9 @@ jobs:
 
       - name: Run flake8 linter
         run: flake8 .
+
+      - name: Run codespell linter
+        run: codespell .
 
       - name: Run slotscheck
         run: slotscheck -m mcproto

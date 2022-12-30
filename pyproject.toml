@@ -24,6 +24,7 @@ classifiers = [
   "Topic :: System :: Networking",
   "Typing :: Typed",
 ]
+include = ["CHANGELOG.md"]
 packages = [{ include = "mcproto" }]
 
 [tool.poetry.dependencies]
@@ -63,6 +64,7 @@ pep8-naming = "^0.12.1"
 black = "^22.3.0"
 isort = "^5.10.1"
 pyright = "^1.1.239"
+codespell = {extras = ["tomli"], version = "^2.2.2"}
 slotscheck = "^0.16.1"
 
 [tool.poetry.group.release.dependencies]
@@ -84,6 +86,10 @@ atomic = true
 order_by_type = false
 case_sensitive = true
 combine_as_imports = true
+
+[tool.codespell]
+skip = "./.venv/*,./htmlcov/*,./.git,./.mypy_cache/*,./.pytest_cache/*"
+ignore-words-list = "ned"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -131,7 +137,7 @@ type = [
     { name = "Deprecation",                 directory = "deprecation",   showcontent = true },
     { name = "Features",                    directory = "feature",       showcontent = true },
     { name = "Bugfixes",                    directory = "bugfix",        showcontent = true },
-    { name = "Documentation Improvements",  directory = "documentation", showcontent = true },
+    { name = "Documentation Improvements",  directory = "docs",          showcontent = true },
     { name = "Internal Changes",            directory = "internal",      showcontent = true },
 ]
 
@@ -153,6 +159,7 @@ black = "black ."
 isort = "isort ."
 pyright = "pyright ."
 flake8 = "flake8 ."
+codespell = "codespell ."
 slotscheck = "slotscheck -m mcproto"
 test = "pytest -v --failed-first"
 retest = "pytest -v --last-failed"

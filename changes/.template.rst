@@ -1,4 +1,4 @@
-## {{ versiondata.version }} ({{ versiondata.date }})
+## Version {{ versiondata.version }} ({{ versiondata.date }})
 {% for section, _ in sections.items() %}
 {% set anchor = "#" * underlines[0] %}{% if section %}{{ anchor }} {{section}}
 {% set anchor = "#" * underlines[1] %}
