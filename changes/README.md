@@ -72,5 +72,5 @@ for being too big, and you'll be required to split it up.
 
 ## Footnotes
 
-For more info, check out the [documentation](https://towncrier.readthedocs.io/en/latest/tutorial.html) for the
-`towncrier` project.
+- See <https://keepachangelog.com> for more info about why and how to properly maintain a changelog
+- For more info about `towncrier`, check out it's [documentation](https://towncrier.readthedocs.io/en/latest/tutorial.html)
