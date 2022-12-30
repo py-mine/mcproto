@@ -24,6 +24,7 @@ classifiers = [
   "Topic :: System :: Networking",
   "Typing :: Typed",
 ]
+include = ["CHANGELOG.md"]
 packages = [{ include = "mcproto" }]
 
 [tool.poetry.dependencies]
