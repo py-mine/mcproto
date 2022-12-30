@@ -45,16 +45,30 @@ changelog-preview` to see the changelog, if you don't like remembering new comma
 ## Multiple fragments in single PR
 
 If necessary, multiple fragment files can be created per pull-request, with different change types, if the PR covers
-multiple areas (for example a PR that both introduces a feature, and changes the documentation).
+multiple areas. For example for PR #13 that both introduces a feature, and changes the documentation, can add
+2 fragment files: `13.feature.md` and `13.docs.md`.
 
 Additionally, if a single PR is addressing multiple unrelated topics in the same category, and needs to make multiple
-distinct changelog entries, you can do so by adding an optional counter value to the fragment file name, which needs to
-be an integer, for example: `25.internal.1.md` and `25.internal.2.md`. This counter value will not be shown in the
-final changelog and is merely here for separation of the individual fragments.
+distinct changelog entries, an optional counter value can be added at the end of the file name (needs to be an
+integer). So for example PR #25 which makes 2 distinct internal changes can add these fragment files:
+`25.internal.1.md` and `25.internal.2.md`. (The numbers in this counter position will not be shown in the final
+changelog and are merely here for separation of the individual fragments.)
 
-That said, if you end up making multiple distinct changelog fragments like this is a good sign that your PR is probably
-too big, and you should split it up into multiple PRs. Making huge PRs that address several unrelated topics at once
-are generally a bad practice, and should be avoided.
+However if the changes are related to some bigger overarching goal, you can also just use a single fragment file with
+the following format:
+
+```markdown
+Update changelog
+- Rename `documentation` category to shorter: `docs`
+- Add `internal` category for changes unrelated to public API, but potentially relevant to contributors
+- Add github workflow enforcing presence of a new changelog fragment file for each PR
+    - For insignificant PRs which don't require any changelog entry, a maintainer can add `skip-fragment-check` label.
+```
+
+That said, if you end up making multiple distinct changelog fragments like this, it's a sign that your PR is probably
+too big, and you should split it up into multiple PRs instead. Making huge PRs that address several unrelated topics at
+once is generally a bad practice, and should be avoided. If you go overboard, your PR might even end up getting closed
+for being too big, and you'll be required to split it up.
 
 ## Footnotes
 
