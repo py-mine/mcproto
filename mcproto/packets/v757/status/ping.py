@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-from typing import ClassVar, TYPE_CHECKING
+from typing import ClassVar
+
+from typing_extensions import Self
 
 from mcproto.buffer import Buffer
 from mcproto.packets.abc import ClientBoundPacket, GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
-
 
 __all__ = ["PingPong"]
 

@@ -5,15 +5,11 @@ from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable
 from enum import Enum
 from itertools import count
-from typing import Literal, Optional, TYPE_CHECKING, TypeVar, Union, overload
+from typing import Literal, Optional, TypeVar, Union, overload
+
+from typing_extensions import TypeAlias
 
 from mcproto.protocol.utils import from_twos_complement, to_twos_complement
-
-if TYPE_CHECKING:
-    from typing_extensions import TypeAlias
-
-T = TypeVar("T")
-R = TypeVar("R")
 
 __all__ = [
     "BaseAsyncReader",
@@ -24,6 +20,9 @@ __all__ = [
     "INT_FORMATS_TYPE",
     "FLOAT_FORMATS_TYPE",
 ]
+
+T = TypeVar("T")
+R = TypeVar("R")
 
 
 # region: Format types

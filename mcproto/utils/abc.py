@@ -2,12 +2,11 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import ClassVar, TYPE_CHECKING
+from typing import ClassVar
+
+from typing_extensions import Self
 
 from mcproto.buffer import Buffer
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
 
 __all__ = ["RequiredParamsABCMixin", "Serializable"]
 
@@ -31,6 +30,8 @@ class RequiredParamsABCMixin:
     __slots__, otherwise a __dict__ will automatically be made for it. However this is entirely optional,
     and if _REQUIRED_CLASS_VARS_NO_MRO isn't set, no such check will be performed.
     """
+
+    __slots__ = ()
 
     _REQUIRRED_CLASS_VARS: ClassVar[Sequence[str]]
     _REQUIRED_CLASS_VARS_NO_MRO: ClassVar[Sequence[str]]
@@ -63,6 +64,8 @@ class RequiredParamsABCMixin:
 
 class Serializable(ABC):
     """Base class for any type that should be (de)serializable into/from given buffer data."""
+
+    __slots__ = ()
 
     @abstractmethod
     def serialize(self) -> Buffer:

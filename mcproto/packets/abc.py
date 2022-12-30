@@ -42,6 +42,10 @@ class Packet(Serializable, RequiredParamsABCMixin):
 class ServerBoundPacket(Packet):
     """Packet bound to a server (Client -> Server)."""
 
+    __slots__ = ()
+
 
 class ClientBoundPacket(Packet):
     """Packet bound to a client (Server -> Client)."""
+
+    __slots__ = ()

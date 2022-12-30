@@ -6,17 +6,16 @@ import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Hashable, Iterator, Sequence
 from types import ModuleType
-from typing import Any, ClassVar, Generic, NamedTuple, NoReturn, TYPE_CHECKING, TypeVar
+from typing import Any, ClassVar, Generic, NamedTuple, NoReturn, TypeVar
+
+from typing_extensions import TypeGuard
 
 from mcproto.utils.abc import RequiredParamsABCMixin
 
-if TYPE_CHECKING:
-    from typing_extensions import TypeGuard
+__all__ = ["VersionMap", "WalkableModuleData"]
 
 K = TypeVar("K", bound=Hashable)
 V = TypeVar("V")
-
-__all__ = ["VersionMap", "WalkableModuleData"]
 
 
 class WalkableModuleData(NamedTuple):
