@@ -3,22 +3,12 @@ from __future__ import annotations
 import asyncio
 import socket
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TYPE_CHECKING, TypeVar
+from typing import Generic, Optional, TypeVar
 
 import asyncio_dgram
+from typing_extensions import ParamSpec, Self
 
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
-
-if TYPE_CHECKING:
-    from typing_extensions import ParamSpec, Self
-
-    P = ParamSpec("P")
-
-R = TypeVar("R")
-T_SOCK = TypeVar("T_SOCK", bound=socket.socket)
-T_STREAMREADER = TypeVar("T_STREAMREADER", bound=asyncio.StreamReader)
-T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
-T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.DatagramClient)
 
 __all__ = [
     "AsyncConnection",
@@ -29,8 +19,17 @@ __all__ = [
     "UDPSyncConnection",
 ]
 
+P = ParamSpec("P")
+R = TypeVar("R")
+T_SOCK = TypeVar("T_SOCK", bound=socket.socket)
+T_STREAMREADER = TypeVar("T_STREAMREADER", bound=asyncio.StreamReader)
+T_STREAMWRITER = TypeVar("T_STREAMWRITER", bound=asyncio.StreamWriter)
+T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.DatagramClient)
+
 
 class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
+    __slots__ = ("closed",)
+
     def __init__(self):
         self.closed = False
 
@@ -59,6 +58,8 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
 
 
 class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
+    __slots__ = ("closed",)
+
     def __init__(self):
         self.closed = False
 
@@ -87,6 +88,8 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
 
 
 class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
+    __slots__ = ("socket",)
+
     def __init__(self, socket: T_SOCK):
         super().__init__()
         self.socket = socket
@@ -130,6 +133,8 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
 
 class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER]):
+    __slots__ = ("reader", "writer", "timeout")
+
     def __init__(self, reader: T_STREAMREADER, writer: T_STREAMWRITER, timeout: float):
         super().__init__()
         self.reader = reader
@@ -180,6 +185,8 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 
 
 class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
+    __slots__ = ("socket", "address")
+
     BUFFER_SIZE = 65535
 
     def __init__(self, socket: T_SOCK, address: tuple[str, int]):
@@ -215,6 +222,8 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
 
 class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
+    __slots__ = ("stream", "timeout")
+
     def __init__(self, stream: T_DATAGRAM_CLIENT, timeout: float):
         super().__init__()
         self.stream = stream

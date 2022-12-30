@@ -32,6 +32,14 @@ the file with your `$EDITOR`.
 If necessary, multiple fragment files can be created per pull-request, with different change types, if the PR covers
 multiple areas (for example a PR that both introduces a feature, and changes the documentation).
 
+Additionally, if a single PR is addressing multiple unrelated topics in the same category, and needs to make multiple
+distinct changelog entries, you can do so by adding an optional counter value to the fragment file name, which needs to
+be an integer, for example: `25.internal.1.md` and `25.internal.2.md`. This counter value will not be shown in the
+final changelog and is merely here for separation of the individual fragments. That said, if you end up making multiple
+distinct changelog fragments like this is a good sign that your PR is probably too big, and you should split it up into
+multiple PRs. Making huge PRs that address several unrelated topics at once are generally a bad practice, and should be
+avoided.
+
 To preview the latest changelog, run `towncrier build --draft --version [version number]`. (For version number, you can
 pretty much enter anything as this is just for a draft version. For true builds, this would be the next version number,
 so for example, if the current version is 1.0.2, next one will be one either 1.0.3, or 1.1.0, or 2.0.0. But for drafts,

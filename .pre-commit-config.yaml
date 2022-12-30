@@ -55,6 +55,16 @@ repos:
 
   - repo: local
     hooks:
+      - id: slotscheck
+        name: Slotscheck
+        description: "Slotscheck: Ensure your __slots__ are working properly"
+        entry: poetry run slotscheck -v
+        language: python
+        require_serial: true
+        types: [python]
+
+  - repo: local
+    hooks:
       - id: pyright
         name: Pyright
         description: Run pyright type checker

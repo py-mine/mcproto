@@ -4,14 +4,12 @@ import asyncio
 import inspect
 import unittest.mock
 from collections.abc import Callable, Coroutine
-from typing import Any, Generic, TYPE_CHECKING, TypeVar
+from typing import Any, Generic, TypeVar
 
-if TYPE_CHECKING:
-    from typing_extensions import ParamSpec
-
-    P = ParamSpec("P")
+from typing_extensions import ParamSpec
 
 T = TypeVar("T")
+P = ParamSpec("P")
 T_Mock = TypeVar("T_Mock", bound=unittest.mock.Mock)
 
 
