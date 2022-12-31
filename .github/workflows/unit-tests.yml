@@ -26,37 +26,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup python
-        uses: actions/setup-python@v4
-        id: python_setup
+      - name: Setup poetry
+        uses: ItsDrike/setup-poetry@v1
         with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Python Dependency Caching
-        uses: actions/cache@v3
-        id: python_cache
-        with:
-          path: |
-            ~/.cache/pypoetry
-            ~/.cache/pip
-          key: "python-${{ runner.os }}-v1-${{ steps.python_setup.outputs.python-version }}-${{ hashFiles('pyproject.toml', 'poetry.lock') }}"
-
-      - name: Install poetry
-        shell: bash
-        run: |
-          pip install poetry
-
-      - name: Install dependencies using poetry
-        if: ${{ steps.python_cache.outputs.cache-hit }} == "true"
-        shell: bash
-        run: python -m poetry install --without lint --without release
-
-      - name: Add poetry environment to path
-        run: |
-          echo "$(python -m poetry env info --path)/bin" >> $GITHUB_PATH
-          python -m poetry -V
+          python-version: 3.11
+          poetry-version: 1.3.1
+          install-args: "--without lint --without release"
 
       - name: Run pytest
+        shell: bash
         run: poetry run task test
 
   tests-done:
