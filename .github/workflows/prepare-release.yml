@@ -32,11 +32,12 @@ jobs:
           git config --global user.name "py-mine-ci-bot"
           git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
 
-      - name: Install Python Dependencies
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
+      - name: Setup poetry
+        uses: ItsDrike/setup-poetry@v1
         with:
-          python_version: "3.11"
-          install_args: "--without lint --without test"
+          python-version: 3.11
+          poetry-version: 1.3.1
+          install-args: "--no-root --only release"
 
       - name: Checkout new branch
         run: git checkout -b "prepare-release-${{ github.event.inputs.version }}"

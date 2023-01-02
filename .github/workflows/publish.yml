@@ -21,11 +21,12 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
 
-      - name: Install Python Dependencies
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
+      - name: Setup poetry
+        uses: ItsDrike/setup-poetry@v1
         with:
-          python_version: "3.11"
-          install_args: "--with release-ci"
+          python-version: 3.11
+          poetry-version: 1.3.1
+          install-args: "--only release-ci"
 
       - name: Set version with dynamic versioning
         run: poetry run poetry-dynamic-versioning
