@@ -47,7 +47,55 @@ jobs:
 
       - name: Run pytest
         shell: bash
-        run: poetry run task test
+        run: |
+          poetry run task test
+
+          python .github/scripts/normalize_coverage.py
+          mv .coverage .coverage.${{ matrix.platform }}.${{ matrix.python-version }}
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: .coverage.${{ matrix.platform }}.${{ matrix.python-version }}
+          retention-days: 1
+          if-no-files-found: error
+
+  upload-coverage:
+    needs: [unit-tests]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup poetry
+        id: poetry_setup
+        uses: ItsDrike/setup-poetry@v1
+        with:
+          python-version: 3.11
+          poetry-version: 1.3.1
+          install-args: "--no-root --only test"
+
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage
+
+      # Combine all of the coverage files (for each os, python version - from matrix)
+      # into a single coverage file (.coverage), and produce a final (combined) coverage report.
+      - name: Combine coverage
+        run: |
+          coverage combine
+          coverage xml
+          coverage report
+
+      - name: Upload coverage to codeclimate
+        uses: paambaati/codeclimate-action@v3.2.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TEST_REPORTER_ID }}
+        with:
+          coverageLocations: .coverage.xml:coverage.py
 
   tests-done:
     needs: [unit-tests]
