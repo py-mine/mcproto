@@ -84,40 +84,26 @@ class SemanticVersion:
         if self.prerelease is None:
             return other.prerelease is None
 
-        # This version is a prerelease (above), but other version isn't
+        # This version is a prerelease (we know from above check), but other version isn't
         if other.prerelease is None:
             return False
 
         # Both versions are pre-releases, only succeed if they're matching
         return self.prerelease == other.prerelease
 
-    def __lt__(self, other: Any) -> bool:  # noqa: ANN401
-        if not isinstance(other, SemanticVersion):
-            return NotImplemented
+    @staticmethod
+    def _lt_prerelease(prerelease1: tuple[str, ...], prerelease2: tuple[str, ...]) -> bool:
+        """Perform a less than comparison on pre-release versions (prerelease1 < prerelease2).
 
-        # First compare general versions
-        if self.version < other.version:
-            return True
-        if self.version > other.version:
-            return False
-
-        # Versions are equal, compare prerelease status
-
-        # This is a full release, meaning other can never be bigger/older/more recent
-        # at most, it is the same, which still fails the check
-        if self.prerelease is None:
-            return False
-
-        # We know this is a prerelease (from above), so if other is a full release,
-        # it is bigger/older/more recent, success
-        if other.prerelease is None:
-            return True
-
-        # We know both versions are prereleases. Compare each pre-release identifier
-        # from left to right, until a difference is found
-        for self_id, other_id in zip_longest(self.prerelease, other.prerelease, fillvalue=None):
-            # - A larger set of pre-release fields has higher precedence than a smaller set
-            # (if all the preceding identifiers are equal)
+        This check is based on the semantic version rules:
+            - A larger set of pre-release fields has higher precedence (if all preceding identifiers are equal)
+            - Identifiers consisting of only digits are compared numerically.
+            - Identifiers containing letters or hyphens are compared lexically in ASCII order.
+            - Numeric identifiers have lower precedence than non-numeric ones.
+        """
+        # Compare each pre-release identifier from left to right, until a difference is found
+        for self_id, other_id in zip_longest(prerelease1, prerelease2, fillvalue=None):
+            # - A larger set of pre-release fields has higher precedence (if all preceding identifiers are equal)
 
             # other has higher precedence, as it has more fields
             if self_id is None:
@@ -131,23 +117,48 @@ class SemanticVersion:
             if _NUMBER_RE.match(other_id):
                 other_id = int(other_id)
 
-            # - Identifiers consisting of only difits are compared numerically.
+            # - Identifiers consisting of only digits are compared numerically.
             if isinstance(self_id, int) and isinstance(other_id, int):
                 if self_id == other_id:
                     continue
                 return self_id < other_id
 
-            # - Identifiers with letters or hyphens are compared lexically in ASCII order.
+            # - Identifiers containing letters or hyphens are compared lexically in ASCII order.
             if isinstance(self_id, str) and isinstance(other_id, str):
                 if self_id == other_id:
                     continue
                 return self_id < other_id
 
-            # - Numeric identifiers always have lower precedence than non-numeric identifiers.
+            # - Numeric identifiers have lower precedence than non-numeric ones.
             return isinstance(other_id, str)
 
         # All pre-release fields are equal
         return False
+
+    def __lt__(self, other: Any) -> bool:  # noqa: ANN401
+        if not isinstance(other, SemanticVersion):
+            return NotImplemented
+
+        # First compare general versions
+        if self.version < other.version:
+            return True
+        if self.version > other.version:
+            return False
+
+        # Versions are equal, compare prerelease status
+
+        # If self is a full release, other is either before self (if it's a prerelease), or it's equal
+        # in either case, the less than check fails.
+        if self.prerelease is None:
+            return False
+
+        # We know this is a prerelease (from above check), so if other is a full release,
+        # we know it came before self, passing the less than check.
+        if other.prerelease is None:
+            return True
+
+        # Compare the individual prereleases
+        return self._lt_prerelease(self.prerelease, other.prerelease)
 
     def __gt__(self, other: Any) -> bool:  # noqa: ANN401
         return other.__lt__(self)
