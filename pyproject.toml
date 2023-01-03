@@ -148,7 +148,8 @@ require-subclass = true
 exclude-modules = '''
 (
   ^test  # ignore any tests
-  |^mcproto\.utils\.version # Dataclasses below python 3.10 don't support __slots__ due to default value fields being treated as classvars.
+  |^.github/scripts  # Ignore any CI scripts
+  |^mcproto\.utils\.version  # Dataclasses below python 3.10 don't support __slots__ due to default value fields being treated as classvars.
 )
 '''
 
