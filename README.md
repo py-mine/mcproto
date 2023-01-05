@@ -3,6 +3,7 @@
 [![discord chat](https://img.shields.io/discord/936788458939224094.svg?logo=Discord)](https://discord.gg/C2wX7zduxC)
 ![supported python versions](https://img.shields.io/pypi/pyversions/mcproto.svg)
 [![current PyPI version](https://img.shields.io/pypi/v/mcproto.svg)](https://pypi.org/project/mcproto/)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/9464f1037f07a795de35/test_coverage)](https://codeclimate.com/github/py-mine/mcproto/test_coverage)
 [![Validation](https://github.com/ItsDrike/mcproto/actions/workflows/validation.yml/badge.svg)](https://github.com/ItsDrike/mcproto/actions/workflows/validation.yml)
 [![Unit tests](https://github.com/ItsDrike/mcproto/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/ItsDrike/mcproto/actions/workflows/unit-tests.yml)
 
