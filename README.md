@@ -103,7 +103,7 @@ async def handshake(conn: TCPAsyncConnection, ip: str, port: int = 25565) -> Non
 
     # And now, it's time to send it!
     await conn.write_varint(len(packet))  # First field (size of packet id + data)
-    await conn.write(packet)  # Second + Third fileds (packet id + data)
+    await conn.write(packet)  # Second + Third fields (packet id + data)
 
 
 async def status(conn: TCPAsyncConnection, ip: str, port: int = 25565) -> dict:

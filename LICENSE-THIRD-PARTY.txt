@@ -14,6 +14,7 @@ Applies to:
         - .github/ISSUE_TEMPLATE/feature_request.yml: Template heavily inspired by original
         - .github/workflows/fragment-check.yml: Entire file
         - .github/workflows/prepare-release.yml: Workflow heavily inspired by original
+        - .github/scripts/normalize_coverage.py: Entire file
 ---------------------------------------------------------------------------------------------------
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

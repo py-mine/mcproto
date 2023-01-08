@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, ClassVar, Literal, TYPE_CHECKING, overload
+from typing import Any, ClassVar, Literal, overload
+
+from typing_extensions import TypeGuard
 
 from mcproto.packets.abc import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
 from mcproto.utils.version_map import VersionMap, WalkableModuleData
-
-if TYPE_CHECKING:
-    from typing_extensions import TypeGuard
 
 __all__ = ["PacketMap"]
 

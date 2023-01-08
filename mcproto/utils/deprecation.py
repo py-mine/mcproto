@@ -4,20 +4,16 @@ import importlib.metadata
 import warnings
 from collections.abc import Callable
 from functools import wraps
-from typing import Optional, TYPE_CHECKING, TypeVar, Union
+from typing import Optional, TypeVar, Union
+
+from typing_extensions import ParamSpec, Protocol
 
 from mcproto.utils.version import SemanticVersion
 
-if TYPE_CHECKING:
-    from typing_extensions import ParamSpec, Protocol
-
-    P = ParamSpec("P")
-else:
-    Protocol = object
+__all__ = ["deprecated", "deprecation_warn"]
 
 R = TypeVar("R")
-
-__all__ = ["deprecated", "deprecation_warn"]
+P = ParamSpec("P")
 
 
 def deprecation_warn(

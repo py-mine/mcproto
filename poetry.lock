@@ -181,6 +181,23 @@ files = [
 click = "*"
 
 [[package]]
+name = "codespell"
+version = "2.2.2"
+description = "Codespell"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "codespell-2.2.2-py3-none-any.whl", hash = "sha256:87dfcd9bdc9b3cb8b067b37f0af22044d7a84e28174adfc8eaa203056b7f9ecc"},
+    {file = "codespell-2.2.2.tar.gz", hash = "sha256:c4d00c02b5a2a55661f00d5b4b3b5a710fa803ced9a9d7e45438268b099c319c"},
+]
+
+[package.extras]
+dev = ["check-manifest", "flake8", "pytest", "pytest-cov", "pytest-dependency", "tomli"]
+hard-encoding-detection = ["chardet"]
+toml = ["tomli"]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -1329,6 +1346,23 @@ files = [
 ]
 
 [[package]]
+name = "slotscheck"
+version = "0.16.2"
+description = "Ensure your __slots__ are working properly."
+category = "dev"
+optional = false
+python-versions = ">=3.7,<4"
+files = [
+    {file = "slotscheck-0.16.2-py3-none-any.whl", hash = "sha256:e1e06183e381048dd83ce96e97a262464c8df26ccba987a89b4f79c78e002760"},
+    {file = "slotscheck-0.16.2.tar.gz", hash = "sha256:92d33a6dc3125830b77460471c15c9b99224c8c6368813ea128dca299f4e55fa"},
+]
+
+[package.dependencies]
+click = ">=8.0,<9.0"
+tomli = ">=0.2.6,<3.0.0"
+typing-extensions = {version = ">=4.1,<5", markers = "python_version < \"3.10\""}
+
+[[package]]
 name = "smmap"
 version = "5.0.0"
 description = "A pure Python implementation of a sliding window memory map manager"
@@ -1439,7 +1473,7 @@ dev = ["furo", "packaging", "sphinx (>=5)", "twisted"]
 name = "typing-extensions"
 version = "4.4.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1487,4 +1521,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "2c17706acd15b04ba552a427bff732d35417eb38befdec71ced6b412946a3e01"
+content-hash = "2c84da920fa272e07e2f2cbc060f312c00f17174cae4509fb7990daf517235d5"

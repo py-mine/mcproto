@@ -1,0 +1,37 @@
+version: "2"
+
+checks:
+  # As a library that handles networking and packets at a relatively low level, the usual
+  # code complexity requirements are pretty hard to fulfill.
+  #
+  # The cognitive complexity of many of functions handling lower level network
+  # interactions can be quite high, and even some relatively short functions can end up
+  # being marked as too complex, due to the logic they contain (such as bit manipulation)
+  # Splitting these functions up would often actually end up decreasing the internal code
+  # readability, and also a drop in performance due to function call overhead.
+  #
+  # For that reason, many of the checks are either disabled or have their threshold set
+  # quite high.
+
+  argument-count:
+    enabled: false
+
+  file-lines:
+    enabled: false
+
+  method-complexity:
+    config:
+      threshold: 8 # (default: 5)
+
+  method-count:
+    enabled: false
+
+  method-lines:
+    enabled: false
+
+  return-statements:
+    enabled: false
+
+exclude_patterns:
+  - "tests/**"
+  - ".github/**"

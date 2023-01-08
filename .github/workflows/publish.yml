@@ -14,11 +14,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Python Dependencies
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
         with:
-          python_version: "3.11"
-          install_args: "--with release-ci"
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Setup poetry
+        uses: ItsDrike/setup-poetry@v1
+        with:
+          python-version: 3.11
+          poetry-version: 1.3.1
+          install-args: "--only release-ci"
 
       - name: Set version with dynamic versioning
         run: poetry run poetry-dynamic-versioning
@@ -31,11 +39,23 @@ jobs:
         run: |
           [[ "$(poetry version --short)" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || echo prerelease=true >> $GITHUB_OUTPUT
 
+      # Get content of the changelog for the latest release, so that we can use it as the body for a GitHub tag
+      - name: Obtain latest changelog
+        id: changelog
+        uses: mathiasvr/command-output@v1
+        with:
+          # Our CHANGELOG.md uses `---` separators between each published version. The command below
+          # obtains all content until that separator, leaving us with just the content for the latest version.
+          # We then remove first 2 lines, being level 2 header with version and date, and a blank line under it,
+          # and also the last 2 lines, being the separator itself, and a blank line above it.
+          run: awk '1;/---/{exit}' CHANGELOG.md | tail -n +3 | head -n -2
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/*"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
+          body: ${{ steps.changelog.outputs.stdout }}
           draft: false
           prerelease: steps.check-version.outputs.prerelease == 'true'
 
