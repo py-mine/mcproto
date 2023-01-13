@@ -23,9 +23,9 @@ _NUMBER_RE = re.compile("[0-9]+")
 
 @dataclass
 class SemanticVersion:
-    """Comparable representation of versions.
+    """Comparable representation of semantic project versions.
 
-    Relies on Semantic Versioning specification (see <https://semver.org/>).
+    .. seealso:: `Semantic Versioning specification. <https://semver.org>`_
     """
 
     version: tuple[int, int, int]
@@ -34,7 +34,7 @@ class SemanticVersion:
 
     @classmethod
     def from_string(cls, string_version: str) -> Self:
-        """Build a semantic version instance from a string being the entire version tag."""
+        """Build an instance from the semantic version passed as a string"""
         match = _SEMVER_REGEX.match(string_version)
         if not match:
             raise ValueError(f"Invalid version: {string_version!r} (not a semantic version)")
@@ -51,14 +51,17 @@ class SemanticVersion:
 
     @property
     def major(self) -> int:
+        """Major version number of the semantic version."""
         return self.version[0]
 
     @property
     def minor(self) -> int:
+        """Minor version number of the semantic version."""
         return self.version[1]
 
     @property
     def patch(self) -> int:
+        """Patch version number of the semantic version."""
         return self.version[2]
 
     def __str__(self) -> str:
@@ -93,7 +96,7 @@ class SemanticVersion:
 
     @staticmethod
     def _lt_prerelease(prerelease1: tuple[str, ...], prerelease2: tuple[str, ...]) -> bool:
-        """Perform a less than comparison on pre-release versions (prerelease1 < prerelease2).
+        """Perform a less than comparison on pre-release versions (``prerelease1`` < ``prerelease2``).
 
         This check is based on the semantic version rules:
             - A larger set of pre-release fields has higher precedence (if all preceding identifiers are equal)

@@ -66,13 +66,13 @@ def _deserialize_packet(
 
 
 def sync_write_packet(writer: BaseSyncWriter, packet: Packet, *, compressed: bool = False) -> None:
-    """Write given packet."""
+    """Write given ``packet``."""
     data_buf = _serialize_packet(packet, compressed=compressed)
     writer.write_bytearray(data_buf)
 
 
 async def async_write_packet(writer: BaseAsyncWriter, packet: Packet, *, compressed: bool = False) -> None:
-    """Write given packet."""
+    """Write given ``packet``."""
     data_buf = _serialize_packet(packet, compressed=compressed)
     await writer.write_bytearray(data_buf)
 

@@ -21,13 +21,7 @@ class NextState(IntEnum):
 
 
 class Handshake(ServerBoundPacket):
-    """Initializes connection between server and client. (Client -> Server)
-
-    :param int protocol_version: Protocol version number to be used.
-    :param str server_address: The host/address the client is connecting to.
-    :param int server_port: The port the client is connecting to.
-    :param Union[NextState, int] next_state: The next state for the server to move into.
-    """
+    """Initializes connection between server and client. (Client -> Server)"""
 
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.HANDSHAKING
@@ -42,6 +36,12 @@ class Handshake(ServerBoundPacket):
         server_port: int,
         next_state: Union[NextState, int],
     ):
+        """
+        :param protocol_version: Protocol version number to be used.
+        :param server_address: The host/address the client is connecting to.
+        :param server_port: The port the client is connecting to.
+        :param next_state: The next state for the server to move into.
+        """
         if isinstance(next_state, int):
             rev_lookup = {x.value: x for x in NextState.__members__.values()}
             try:

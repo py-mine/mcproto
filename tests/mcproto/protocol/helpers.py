@@ -10,17 +10,17 @@ class WriteFunctionMock(Mock):
         self.combined_data = bytearray()
 
     def __call__(self, data: bytearray) -> None:
-        """Override mock's __call__ to extend our combined_data bytearray.
+        """Override mock's ``__call__`` to extend our :attr:`.combined_data` bytearray.
 
         This allows us to keep track of exactly what data was written by the mocked write function
-        in total, rather than only having tools like assert_called_with, which don't combine the
-        data of each call.
+        in total, rather than only having tools like :meth:`.assert_called_with`, which might let us
+        get the data from individual calls, but not the combined data, which is what we'll need.
         """
         self.combined_data.extend(data)
         return super().__call__(data)
 
     def assert_has_data(self, data: bytearray, ensure_called: bool = True) -> None:
-        """Ensure that the total data to write by the mocked function matches expected data."""
+        """Ensure that the combined write data by the mocked function matches expected ``data``."""
         if ensure_called:
             self.assert_called()
 
@@ -40,17 +40,22 @@ class ReadFunctionMock(Mock):
         self.combined_data = combined_data
 
     def __call__(self, length: int) -> bytearray:
-        """Override mock's __call__ to make it return part of our combined_data bytearray.
+        """Override mock's __call__ to make it return part of our :attr:`.combined_data` bytearray.
 
-        This allows us to define the combined data we want the mocked read function to be
-        returning, and have each call only take requested part (length) of that data.
+        This allows us to make the return value always be the next requested part (length) of
+        the :attr:`.combined_data`. It would be difficult to replicate this with regular mocks,
+        because some functions can end up making multiple read calls, and each time the result
+        needs to be different (the next part).
         """
         self.return_value = self.combined_data[:length]
         del self.combined_data[:length]
         return super().__call__(length)
 
-    def assert_read_everything(self) -> None:
-        """Ensure that the passed combined_data was fully read and depleted by one, or more calls."""
+    def assert_read_everything(self, ensure_called: bool = True) -> None:
+        """Ensure that the passed :attr:`.combined_data` was fully read and depleted."""
+        if ensure_called:
+            self.assert_called()
+
         if len(self.combined_data) != 0:
             raise AssertionError(
                 f"Read function didn't deplete all of it's data, remaining data: {self.combined_data!r}"

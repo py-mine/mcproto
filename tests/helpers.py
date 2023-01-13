@@ -29,20 +29,20 @@ def synchronize(f: Callable[P, Coroutine[Any, Any, T]]) -> Callable[P, T]:
 
 
 class SynchronizedMixin:
-    """Class responsible for automatically synchronizing asynchronous functions in wrapped attribute.
+    """Class acting as another wrapped object, with all async methods synchronized.
 
-    This class needs `_WRAPPED_ATTRIBUTE` class variable to be set as the name of the internally held
-    attribute, with some asynchronous functions in it, which we should be wrapping around.
+    This class needs :attr:`._WRAPPED_ATTRIBUTE` class variable to be set as the name of the internally
+    held attribute, holding the object we'll be wrapping around.
 
-    Classes inheriting from this mixin class will first look up attributes stored in the wrapped version,
-    and only if the wrapped object doesn't contain this attribute, the lookup will fall back to internal
-    attributes. (i.e. if the object held under wrapped attribute name had `foo` method, and so does the
-    child class of this mixin, accessing `foo` will return `foo` method held by the wrapped object, not
-    the one held by this class.) The only exceptions to this is looking up the `_WRAPPED_ATTRIBUTE` class
-    variable, and looking up the attribute stored under this variable.
+    Child classes of this mixin will have their lookup logic changed, to instead perform a lookup
+    on the wrapped attribute. Only if that lookup fails, we fallback to this class, meaning if both
+    the wrapped attribute and this class have some attribute defined, the attribute from the wrapped
+    object is returned. The only exceptions to this are lookup of the ``_WRAPPED_ATTRIBUTE`` variable,
+    and of the attribute name stored under the ``_WRAPPED_ATTRIBUTE`` (the wrapped object).
 
-    If the attribute held by the wrapped object is an asynchronous function, it will be wrapped with the
-    `synchronize` decorator, otherwise it will be returned without any modifications.
+    If the attribute held by the wrapped object is an asynchronous function, instead of returning it
+    directly, the :func:`.synchronize` function will be called, returning a wrapped synchronous
+    alternative for the requested async function.
 
     This is useful when we need to quickly create a synchronous alternative to a class holding async methods.
     However it isn't useful in production, since will cause typing issues (attributes will be accessible, but
@@ -52,11 +52,12 @@ class SynchronizedMixin:
     _WRAPPED_ATTRIBUTE: str
 
     def __getattribute__(self, __name: str) -> Any:  # noqa: ANN401
-        """Return attributes of the wrapped object, if the attribute is a coroutine, synchronize it.
+        """Return attributes of the wrapped object, if the attribute is a coroutine function, synchronize it.
 
-        The only exception to this behavior is getting the wrapped attribute parameter, or attribute named as the
-        content of the wrapped parameter. All other attribute access will be delegated to the wrapped attribute.
-        If the wrapped object doesn't have given attribute, this will however still fallback to lookup on this class.
+        The only exception to this behavior is getting the :attr:`._WRAPPED_ATTRIBUTE` variable itself, or the
+        attribute named as the content of the ``_WRAPPED_ATTRIBUTE`` variable. All other attribute access will
+        be delegated to the wrapped attribute. If the wrapped object doesn't have given attribute, the lookup
+        will fallback to regular lookup for variables belonging to this class.
         """
         if __name == "_WRAPPED_ATTRIBUTE" or __name == self._WRAPPED_ATTRIBUTE:
             return super().__getattribute__(__name)
@@ -74,9 +75,9 @@ class SynchronizedMixin:
     def __setattr__(self, __name: str, __value: object) -> None:
         """Allow for changing attributes of the wrapped object.
 
-        - If wrapped object isn't yet set, fall back to setattr of this class.
-        - If wrapped object doesn't already have attribute we want to set, also fallback to this class.
-        - Otherwise, if the wrapped object does have the attribute we want to set, run setattr on it to update it.
+        * If wrapped object isn't yet set, fall back to :meth:`~object.__setattr__` of this class.
+        * If wrapped object doesn't already contain the attribute we want to set, also fallback to this class.
+        * Otherwise, run ``__setattr__`` on it to update it.
         """
         try:
             wrapped = getattr(self, self._WRAPPED_ATTRIBUTE)
@@ -90,18 +91,31 @@ class SynchronizedMixin:
 
 
 class UnpropagatingMockMixin(Generic[T_Mock]):
-    """
-    This class is here to provide common functionality for our mock classes.
+    """This class is here to provide common functionality for our :class:`~unittest.mock.Mock` classes.
 
-    By default, mock objects propagate themselves by returning a new instance of the same
-    custom mock class when accessing new attributes of given mock class. This makes sense
-    for simple mocks without any additional restrictions, however when dealing with limited
-    mocks to some `spec_set`, it doesn't make sense to propagate those same set restrictions,
-    since we generally don't have attributes/methods of some class be/return the same class.
+    By default, mock objects propagate themselves by returning a new instance of the same mock
+    class, with same initialization attributes. THis is done whenever we're accessing new
+    attributes that mock class.
 
-    This mixin class stops this propagation, and instead returns instances of `unittest.mock.MagicMock`
-    for as the child mocks. If needed, this type can be overridden using the `child_mock_type`
-    class variable.
+    This propagation makes sense for simple mocks without any additional restrictions, however when
+    dealing with limited mocks to some ``spec_set``, it doesn't usually make sense to propagate
+    those same ``spec_set`` restrictions, since we generally don't have attributes/methods of a
+    class be of/return the same class.
+
+    This mixin class stops this propagation, and instead returns instances of specified mock class,
+    defined in :attr:`.child_mock_type` class variable, which is by default set to
+    :class:`~unittest.mock.MagicMock`, as it can safely represent most objects.
+
+    .. note:
+        This propagation handling will only be done for the mock classes that inherited from this
+        mixin class. That means if the :attr:`.child_mock_type` is one of the regular mock classes,
+        and the mock is propagated, a regular mock class is returned as that new attribute. This
+        regular class then won't have the same overrides, and will therefore propagate itself, like
+        any other mock class would.
+
+        If you wish to counteract this, you can set the :attr:`.child_mock_type` to a mock class
+        that also inherits from this mixin class, perhaps to your class itself, overriding any
+        propagation recursively.
     """
 
     child_mock_type: T_Mock = unittest.mock.MagicMock
@@ -112,13 +126,11 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
     _extract_mock_name: Callable[[], str]
 
     def _get_child_mock(self, **kwargs) -> T_Mock:
-        """
-        Method override which generates `child_mock_type` instances instead of instances of the same class.
+        """Method override which makes :attr:`.child_mock_type`` instances instead of instances of the same class.
 
-        By default, this method creates a new mock instance of the same original class (self.__class__) for newly
-        accessed attributes. However this doesn't make sense for mocks limited to some spec_set, since we don't
-        expect the available attributes to hold instances of the same class, hence we shouldn't be returning
-        limited mocks only to attributes of the spec_set object.
+        By default, this method creates a new mock instance of the same original class, and passes
+        over the same initialization arguments. This overrides that behavior to instead create an
+        instance of :attr:`.child_mock_type` class.
         """
 
         # Mocks can be sealed, in which case we wouldn't want to allow propagation of any kind
@@ -140,8 +152,9 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
 class CustomMockMixin(UnpropagatingMockMixin):
     """Provides common functionality for our custom mock types.
 
-    - Stops propagation of same spec_set restricted mock in child mocks (see ``UnpropagatingMockMixin`` for more info)
-    - Allows using the `spec_set` attribute as class attribute
+    * Stops propagation of same ``spec_set`` restricted mock in child mocks
+      (see :class:`.UnpropagatingMockMixin` for more info)
+    * Allows using the ``spec_set`` attribute as class attribute
     """
 
     spec_set = None
