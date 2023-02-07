@@ -1,4 +1,7 @@
-.. mdinclude:: ../CONTRIBUTING.md
+Contributing Guidelines
+=======================
+
+.. mdinclude:: ../../CONTRIBUTING.md
 
 ..
     TODO: Rewrite CONTRIBUTING.md here directly, rather than including it

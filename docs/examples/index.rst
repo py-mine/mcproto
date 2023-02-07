@@ -5,8 +5,8 @@ Here are some examples of using the project in practice.
 
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Examples
+    :maxdepth: 1
+    :caption: Examples
 
     status.rst
 

@@ -1,4 +1,7 @@
-.. mdinclude:: ../CODE-OF-CONDUCT.md
+Code of Conduct
+===============
+
+.. mdinclude:: ../../CODE-OF-CONDUCT.md
 
 ..
     TODO: Rewrite the code of conduct here directly, rather than including it

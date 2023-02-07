@@ -4,8 +4,8 @@ Content
 -------
 
 .. toctree::
-	:maxdepth: 1
-	:caption: Pages
+    :maxdepth: 1
+    :caption: Pages
 
     pages/installation.rst
     examples/index.rst
@@ -14,8 +14,8 @@ Content
     pages/code-of-conduct.rst
 
 .. toctree::
-	:maxdepth: 1
-	:caption: API Documentation
+    :maxdepth: 1
+    :caption: API Documentation
 
     api/basic.rst
     api/internal.rst
