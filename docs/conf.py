@@ -92,6 +92,7 @@ autodoc_default_options = {
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "furo"
+html_favicon = "https://i.imgur.com/nPCcxts.png"
 
 # -- Extension configuration -------------------------------------------------
 
