@@ -94,6 +94,9 @@ autodoc_default_options = {
 html_theme = "furo"
 html_favicon = "https://i.imgur.com/nPCcxts.png"
 
+html_static_path = ["_static"]
+html_css_files = ["extra.css"]
+
 # -- Extension configuration -------------------------------------------------
 
 # Third-party projects documentation references:
