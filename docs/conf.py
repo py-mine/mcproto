@@ -44,6 +44,8 @@ extensions = [
     "sphinx.ext.intersphinx",
     # Used to include .md files:
     "m2r2",
+    # Copyable codeblocks
+    "sphinx_copybutton",
 ]
 
 autoclass_content = "both"
