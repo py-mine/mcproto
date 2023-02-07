@@ -1,8 +1,11 @@
 Contributing Guidelines
 =======================
 
-.. mdinclude:: ../../CONTRIBUTING.md
-
 ..
     TODO: Rewrite CONTRIBUTING.md here directly, rather than including it
     like this, and just include a link to the docs in CONTRIBUTING.md
+
+    Temporarily using ``.. mdinclude:: ../../CONTRIBUTING.md`` doesn't work,
+    as it contains multiple references to same URLs,  and while m2r2 has
+    --anonymous-references option, it doesn't seem like it's possible to use it
+    with .. mdinclude
