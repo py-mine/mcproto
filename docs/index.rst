@@ -1,19 +1,28 @@
-.. mcproto documentation master file, created by
-   sphinx-quickstart on Tue Feb  7 08:31:36 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. mdinclude:: ../README.md
 
-Welcome to mcproto's documentation!
-===================================
+Content
+-------
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+	:maxdepth: 1
+	:caption: Pages
 
+    pages/installation.rst
+	examples/index.rst
+    pages/faq.rst
+	pages/contributing.rst
+    pages/code-of-conduct.rst
+
+.. toctree::
+	:maxdepth: 1
+	:caption: API Documentation
+
+    api/basic.rst
+    api/internal.rst
 
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
