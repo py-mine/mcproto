@@ -39,3 +39,6 @@
 - Add support for specifying what child mock type to propagate in `UnpropagatingMockMixin` class (for unit-tests).
 
 ---
+
+*The changelog was added during development of 0.2.0, so nothing prior is documented here. Try checking the GitHub
+releases, or git commit history directly.*
