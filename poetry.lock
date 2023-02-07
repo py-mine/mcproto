@@ -1874,6 +1874,22 @@ lint = ["docutils-stubs", "flake8", "mypy"]
 test = ["pytest"]
 
 [[package]]
+name = "sphinxcontrib-towncrier"
+version = "0.3.2a0"
+description = "An RST directive for injecting a Towncrier-generated changelog draft containing fragments for the unreleased (next) project version"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "sphinxcontrib-towncrier-0.3.2a0.tar.gz", hash = "sha256:7cf18ac9c13533fffdb794dab278c6ad845f8c85bfa56942eba077d543885fa6"},
+    {file = "sphinxcontrib_towncrier-0.3.2a0-py3-none-any.whl", hash = "sha256:74fc27a24231b56f1e4820a5dcb121a8c69aa6b6a0d2367c61144b9673ebf73a"},
+]
+
+[package.dependencies]
+sphinx = "*"
+towncrier = ">=19.2"
+
+[[package]]
 name = "stdlib-list"
 version = "0.8.0"
 description = "A list of Python Standard Libraries (2.6-7, 3.2-9)."
@@ -2037,4 +2053,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "d9bae919694e1f588ee434f0de2a377b14e6eb0a57e3288425452504646a916c"
+content-hash = "bd23029ba591f4e20b74aba426d253e91ccc61b7b4a29a0dd68fa66a1811b5d3"

@@ -10,6 +10,7 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import sys
 from datetime import date
+from pathlib import Path
 
 from packaging.version import parse as parse_version
 
@@ -46,6 +47,8 @@ extensions = [
     "m2r2",
     # Copyable codeblocks
     "sphinx_copybutton",
+    # Towncrier changelog
+    "sphinxcontrib.towncrier.ext",
 ]
 
 autoclass_content = "both"
@@ -107,6 +110,11 @@ intersphinx_mapping = {
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+# Towncrier
+towncrier_draft_autoversion_mode = "draft"
+towncrier_draft_include_empty = True
+towncrier_draft_working_directory = Path(__file__).parents[1].resolve()
 
 
 # -- Other options -----------------------------------------------------------
