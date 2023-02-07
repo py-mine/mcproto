@@ -77,6 +77,10 @@ optional = true
 [tool.poetry.group.release-ci.dependencies]
 poetry-dynamic-versioning = "^0.21.3"
 
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^6.1.3"
+
 [tool.black]
 line-length = 119
 
