@@ -4,14 +4,13 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.11"
-  jobs:
-    post_create_environment:
-      - pip install poetry
-      - poetry config virtualenvs.create false
-    post_install:
-      - poetry install --only main,docs
-    pre_build:
-      - poetry run poetry-dynamic-versioning
+  commands:
+    - pip install poetry
+    - poetry config virtualenvs.create false
+    - poetry install --only main,docs
+    - poetry run poetry-dynamic-versioning
+    - poetry run sphinx-build -b dirhtml -d ./docs/_build/doctrees -W -E -T --keep-going ./docs ./_readthedocs/html
+
 
 sphinx:
   builder: dirhtml
