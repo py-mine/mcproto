@@ -8,9 +8,9 @@ Content
 	:caption: Pages
 
     pages/installation.rst
-	examples/index.rst
+    examples/index.rst
     pages/faq.rst
-	pages/contributing.rst
+    pages/contributing.rst
     pages/code-of-conduct.rst
 
 .. toctree::
