@@ -29,7 +29,11 @@ R = TypeVar("R")
 
 
 class StructFormat(str, Enum):
-    """All possible write/read struct types."""
+    """All possible write/read struct types.
+
+    .. seealso:
+        :module:`struct` module documentation.
+    """
 
     BOOL = "?"
     CHAR = "c"
@@ -98,7 +102,7 @@ class BaseAsyncWriter(ABC):
         ...
 
     async def write_value(self, fmt: StructFormat, value: object, /) -> None:
-        """Write a value of given struct format in big-endian mode."""
+        """Write a given ``value`` as given struct format (``fmt``) in big-endian mode."""
         await self.write(struct.pack(">" + fmt.value, value))
 
     async def _write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
@@ -106,9 +110,9 @@ class BaseAsyncWriter(ABC):
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
-        Writing will be limited up to integer values of `max_bits` bits, and trying to write bigger values will rase a
-        ValueError. Note that setting `max_bits` to for example 32 bits doesn't mean that at most 4 bytes will be sent,
-        in this case it would actually take at most 5 bytes, due to the variable encoding overhead.
+        Writing will be limited up to integer values of ``max_bits`` bits, and trying to write bigger values will rase
+        a :exc:`ValueError`. Note that setting ``max_bits`` to for example 32 bits doesn't mean that at most 4 bytes
+        will be sent, in this case it would actually take at most 5 bytes, due to the variable encoding overhead.
 
         Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
         flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
@@ -132,7 +136,7 @@ class BaseAsyncWriter(ABC):
     async def write_varint(self, value: int, /) -> None:
         """Write a 32-bit signed integer in a variable length format.
 
-        For more information about variable length format check `_write_varuint` docstring.
+        For more information about variable length format check :meth:`._write_varuint`.
         """
         val = to_twos_complement(value, bits=32)
         await self._write_varuint(val, max_bits=32)
@@ -140,7 +144,7 @@ class BaseAsyncWriter(ABC):
     async def write_varlong(self, value: int, /) -> None:
         """Write a 64-bit signed integer in a variable length format.
 
-        For more information about variable length format check `_write_varuint` docstring.
+        For more information about variable length format check :meth:`._write_varuint`.
         """
         val = to_twos_complement(value, bits=64)
         await self._write_varuint(val, max_bits=64)
@@ -163,10 +167,10 @@ class BaseAsyncWriter(ABC):
 
         Individual UTF-8 characters can take up to 4 bytes, however most of the common ones take up less. Assuming the
         worst case of 4 bytes per every character, at most 131068 data bytes will be written + 3 additional bytes from
-        the varint encoding overhead. Note that the limit of 32767 characters holds, even if we're writing shorter
-        characters, and we wouldn't cross the 131068 bytes data limit.
+        the varint encoding overhead.
 
-        If the given string is longer than this, ValueError will be raised.
+        :raises ValueError:
+            If the given string ``value`` has more characters than the allowed maximum (32767).
         """
         if len(value) > 32767:
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
@@ -176,13 +180,11 @@ class BaseAsyncWriter(ABC):
         await self.write(data)
 
     async def write_optional(self, value: Optional[T], /, writer: Callable[[T], Awaitable[R]]) -> Optional[R]:
-        """Writes bool determining is value is present, if it is, also writes the value with writer function.
+        """Writes a bool showing if a ``value`` is present, if so, also writes this value with ``writer`` function.
 
-        When the `value` is None, a bool of False will be written and function will end. Otherwise, if `value` isn't
-        None, True will be written, followed by calling the `writer` function wchich will be passed the `value` as the
-        only argument. This function is expected to properly write the value into this buffer/connection.
-
-        Will return None if the `value` was None, or the value returned by the `writer` function.
+        * When ``value`` is ``None``, a bool of ``False`` will be written, and ``None`` is returned.
+        * When ``value`` is not ``None``, a bool of ``True`` is written, after which the ``writer`` function is called,
+          and the return value is forwarded.
         """
         if value is None:
             await self.write_value(StructFormat.BOOL, False)
@@ -218,7 +220,7 @@ class BaseSyncWriter(ABC):
         ...
 
     def write_value(self, fmt: StructFormat, value: object, /) -> None:
-        """Write a value of given struct format in big-endian mode."""
+        """Write a given ``value`` as given struct format (``fmt``) in big-endian mode."""
         self.write(struct.pack(">" + fmt.value, value))
 
     def _write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
@@ -226,9 +228,9 @@ class BaseSyncWriter(ABC):
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
-        Writing will be limited up to integer values of `max_bits` bits, and trying to write bigger values will rase a
-        ValueError. Note that setting `max_bits` to for example 32 bits doesn't mean that at most 4 bytes will be sent,
-        in this case it would actually take at most 5 bytes, due to the variable encoding overhead.
+        Writing will be limited up to integer values of ``max_bits`` bits, and trying to write bigger values will rase
+        a :exc:`ValueError`. Note that setting ``max_bits`` to for example 32 bits doesn't mean that at most 4 bytes
+        will be sent, in this case it would actually take at most 5 bytes, due to the variable encoding overhead.
 
         Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
         flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
@@ -252,7 +254,7 @@ class BaseSyncWriter(ABC):
     def write_varint(self, value: int, /) -> None:
         """Write a 32-bit signed integer in a variable length format.
 
-        For more information about variable length format check `_write_varuint` docstring.
+        For more information about variable length format check :meth:`._write_varuint`.
         """
         val = to_twos_complement(value, bits=32)
         self._write_varuint(val, max_bits=32)
@@ -260,7 +262,7 @@ class BaseSyncWriter(ABC):
     def write_varlong(self, value: int, /) -> None:
         """Write a 64-bit signed integer in a variable length format.
 
-        For more information about variable length format check `_write_varuint` docstring.
+        For more information about variable length format check :meth:`._write_varuint` docstring.
         """
         val = to_twos_complement(value, bits=64)
         self._write_varuint(val, max_bits=64)
@@ -283,10 +285,10 @@ class BaseSyncWriter(ABC):
 
         Individual UTF-8 characters can take up to 4 bytes, however most of the common ones take up less. Assuming the
         worst case of 4 bytes per every character, at most 131068 data bytes will be written + 3 additional bytes from
-        the varint encoding overhead. Note that the limit of 32767 characters holds, even if we're writing shorter
-        characters, and we wouldn't cross the 131068 bytes data limit.
+        the varint encoding overhead.
 
-        If the given string is longer than this, ValueError will be raised.
+        :raises ValueError:
+            If the given string ``value`` has more characters than the allowed maximum (32767).
         """
         if len(value) > 32767:
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
@@ -296,13 +298,11 @@ class BaseSyncWriter(ABC):
         self.write(data)
 
     def write_optional(self, value: Optional[T], /, writer: Callable[[T], R]) -> Optional[R]:
-        """Writes bool determining is value is present, if it is, also writes the value with writer function.
+        """Writes a bool showing if a ``value`` is present, if so, also writes this value with ``writer`` function.
 
-        When the `value` is None, a bool of False will be written and function will end. Otherwise, if `value` isn't
-        None, True will be written, followed by calling the `writer` function wchich will be passed the `value` as the
-        only argument. This function is expected to properly write the value into this buffer/connection.
-
-        Will return None if the `value` was None, or the value returned by the `writer` function.
+        * When ``value`` is ``None``, a bool of ``False`` will be written, and ``None`` is returned.
+        * When ``value`` is not ``None``, a bool of ``True`` is written, after which the ``writer`` function is called,
+          and the return value is forwarded.
         """
         if value is None:
             self.write_value(StructFormat.BOOL, False)
@@ -342,7 +342,7 @@ class BaseAsyncReader(ABC):
         ...
 
     async def read_value(self, fmt: StructFormat, /) -> object:
-        """Read a value into given struct format in big-endian mode.
+        """Read a value as given struct format (``fmt``) in big-endian mode.
 
         The amount of bytes to read will be determined based on the struct format automatically.
         """
@@ -356,9 +356,9 @@ class BaseAsyncReader(ABC):
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
-        Reading will be limited up to integer values of `max_bits` bits, and trying to read bigger values will rase an
-        IOError. Note that setting `max_bits` to for example 32 bits doesn't mean that at most 4 bytes will be read,
-        in this case it would actually read at most 5 bytes, due to the variable encoding overhead.
+        Reading will be limited up to integer values of ``max_bits`` bits, and trying to read bigger values will rase
+        an :exc:`IOError`. Note that setting ``max_bits`` to for example 32 bits doesn't mean that at most 4 bytes
+        will be read, in this case we would actually read at most 5 bytes, due to the variable encoding overhead.
 
         Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
         flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
@@ -388,7 +388,7 @@ class BaseAsyncReader(ABC):
     async def read_varint(self) -> int:
         """Read a 32-bit signed integer in a variable length format.
 
-        For more information about variable length format check `_read_varuint` docstring.
+        For more information about variable length format check :meth:`._read_varuint`.
         """
         unsigned_num = await self._read_varuint(max_bits=32)
         val = from_twos_complement(unsigned_num, bits=32)
@@ -397,7 +397,7 @@ class BaseAsyncReader(ABC):
     async def read_varlong(self) -> int:
         """Read a 64-bit signed integer in a variable length format.
 
-        For more information about variable length format check `_read_varuint` docstring.
+        For more information about variable length format check :meth:`._read_varuint`.
         """
         unsigned_num = await self._read_varuint(max_bits=64)
         val = from_twos_complement(unsigned_num, bits=64)
@@ -424,10 +424,15 @@ class BaseAsyncReader(ABC):
 
         Individual UTF-8 characters can take up to 4 bytes, however most of the common ones take up less. Assuming the
         worst case of 4 bytes per every character, at most 131068 data bytes will be read + 3 additional bytes from
-        the varint encoding overhead. Note that the while the limit of 32767 characters is enforced, this check only
-        happens after the data was already read.
+        the varint encoding overhead.
 
-        If the given string is longer than this, IOError will be raised.
+        :raises IOError:
+            * If the prefix varint is bigger than the maximum (131068) bytes, the string will not be read at all,
+              and :exc:`IOError` will be raised immediately.
+            * If the received string has more than the maximum amount of characters (32767). Note that in this case,
+              the string will still get read in it's entirety, since it fits into the maximum bytes limit (131068),
+              which was simply read at once. This limitation is here only to replicate the behavior of minecraft's
+              implementation.
         """
         length = await self.read_varint()
         if length > 131068:
@@ -442,12 +447,10 @@ class BaseAsyncReader(ABC):
         return chars
 
     async def read_optional(self, reader: Callable[[], Awaitable[R]]) -> Optional[R]:
-        """Reads bool determining is value is present, if it is, also reads the value with reader function.
+        """Reads a bool showing if a value is present, if so, also reads this value with ``reader`` function.
 
-        When False is read, the function will not read anything and end. Otherwise, if True is read, the `reader`
-        function will be called, which is expected to properly read the value from this buffer/connection.
-
-        Will return None if the False was encountered, or the value returned by the `reader` function.
+        * When ``False`` is read, the function will not read anything and ``None`` is returned.
+        * When ``True`` is read, the ``reader`` function is called, and it's return value is forwarded.
         """
         if not await self.read_value(StructFormat.BOOL):
             return None
@@ -495,9 +498,9 @@ class BaseSyncReader(ABC):
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
 
-        Reading will be limited up to integer values of `max_bits` bits, and trying to read bigger values will rase an
-        IOError. Note that setting `max_bits` to for example 32 bits doesn't mean that at most 4 bytes will be read,
-        in this case it would actually read at most 5 bytes, due to the variable encoding overhead.
+        Reading will be limited up to integer values of ``max_bits`` bits, and trying to read bigger values will rase
+        an :exc:`IOError`. Note that setting ``max_bits`` to for example 32 bits doesn't mean that at most 4 bytes
+        will be read, in this case we would actually read at most 5 bytes, due to the variable encoding overhead.
 
         Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
         flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
@@ -527,7 +530,7 @@ class BaseSyncReader(ABC):
     def read_varint(self) -> int:
         """Read a 32-bit signed integer in a variable length format.
 
-        For more information about variable length format check `_read_varuint` docstring.
+        For more information about variable length format check :meth:`._read_varuint`.
         """
         unsigned_num = self._read_varuint(max_bits=32)
         val = from_twos_complement(unsigned_num, bits=32)
@@ -536,7 +539,7 @@ class BaseSyncReader(ABC):
     def read_varlong(self) -> int:
         """Read a 64-bit signed integer in a variable length format.
 
-        For more information about variable length format check `_read_varuint` docstring.
+        For more information about variable length format check :meth:`._read_varuint`.
         """
         unsigned_num = self._read_varuint(max_bits=64)
         val = from_twos_complement(unsigned_num, bits=64)
@@ -563,10 +566,15 @@ class BaseSyncReader(ABC):
 
         Individual UTF-8 characters can take up to 4 bytes, however most of the common ones take up less. Assuming the
         worst case of 4 bytes per every character, at most 131068 data bytes will be read + 3 additional bytes from
-        the varint encoding overhead. Note that the while the limit of 32767 characters is enforced, this check only
-        happens after the data was already read.
+        the varint encoding overhead.
 
-        If the given string is longer than this, IOError will be raised.
+        :raises IOError:
+            * If the prefix varint is bigger than the maximum (131068) bytes, the string will not be read at all,
+              and :exc:`IOError` will be raised immediately.
+            * If the received string has more than the maximum amount of characters (32767). Note that in this case,
+              the string will still get read in it's entirety, since it fits into the maximum bytes limit (131068),
+              which was simply read at once. This limitation is here only to replicate the behavior of minecraft's
+              implementation.
         """
         length = self.read_varint()
         if length > 131068:
@@ -581,12 +589,10 @@ class BaseSyncReader(ABC):
         return chars
 
     def read_optional(self, reader: Callable[[], R]) -> Optional[R]:
-        """Reads bool determining is value is present, if it is, also reads the value with reader function.
+        """Reads a bool showing if a value is present, if so, also reads this value with ``reader`` function.
 
-        When False is read, the function will not read anything and end. Otherwise, if True is read, the `reader`
-        function will be called, which is expected to properly read the value from this buffer/connection.
-
-        Will return None if the False was encountered, or the value returned by the `reader` function.
+        * When ``False`` is read, the function will not read anything and ``None`` is returned.
+        * When ``True`` is read, the ``reader`` function is called, and it's return value is forwarded.
         """
         if not self.read_value(StructFormat.BOOL):
             return None

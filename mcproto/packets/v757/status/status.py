@@ -28,10 +28,7 @@ class StatusRequest(ServerBoundPacket):
 
 
 class StatusResponse(ClientBoundPacket):
-    """Response from the server to requesting client with status data information. (Server -> Client)
-
-    :param dict[str, Any] data: JSON response data sent back to the client.
-    """
+    """Response from the server to requesting client with status data information. (Server -> Client)"""
 
     __slots__ = ("data",)
 
@@ -39,6 +36,9 @@ class StatusResponse(ClientBoundPacket):
     GAME_STATE: ClassVar[GameState] = GameState.STATUS
 
     def __init__(self, data: dict[str, Any]):
+        """
+        :param data: JSON response data sent back to the client.
+        """
         self.data = data
 
     def serialize(self) -> Buffer:

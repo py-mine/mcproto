@@ -10,16 +10,16 @@ updates:
     schedule:
       interval: "daily"
     labels:
-      - "area: dependencies"
-      - "priority: 3 - low"
-      - "type: enhancement"
+      - "a: dependencies"
+      - "p: 3 - low"
+      - "t: enhancement"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
     labels:
-      - "area: dependencies"
-      - "area: CI"
-      - "priority: 3 - low"
-      - "type: enhancement"
+      - "a: dependencies"
+      - "a: CI"
+      - "p: 3 - low"
+      - "t: enhancement"

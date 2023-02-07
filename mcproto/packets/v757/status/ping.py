@@ -12,10 +12,7 @@ __all__ = ["PingPong"]
 
 
 class PingPong(ClientBoundPacket, ServerBoundPacket):
-    """Ping request/Pong response (Server <-> Client).
-
-    :param int payload: Random number to test out the connection (ideally a long one).
-    """
+    """Ping request/Pong response (Server <-> Client)."""
 
     __slots__ = ("payload",)
 
@@ -23,6 +20,11 @@ class PingPong(ClientBoundPacket, ServerBoundPacket):
     GAME_STATE: ClassVar[GameState] = GameState.STATUS
 
     def __init__(self, payload: int):
+        """
+        :param payload:
+            Random number to test out the connection. Ideally, this number should be quite big,
+            however it does need to fit within the limit of a signed long long (-2 ** 63 to 2 ** 63 - 1).
+        """
         self.payload = payload
 
     def serialize(self) -> Buffer:

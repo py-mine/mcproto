@@ -57,16 +57,18 @@ class PacketMap(VersionMap["tuple[PacketDirection, GameState, int]", "type[Packe
     ) -> TypeGuard[type[Packet]]:
         """Determine whether a member object should be considered as a valid component for given protocol version.
 
-        This method will be called for each potential member object (found when walking over all members of
-        __all__ from all submodules of the package for given protocol version).
+        When versioned components are obtained, all of the members listed in any module's ``__all__`` are
+        considered. This function serves as a filter, identifying whether a potential member object should be
+        considered as one of the versioned components.
 
-        This function shouldn't include any checks on whether an object is already registered in the version map
-        (key collisions), these are handled during the collection in load_version, all this function is responsible
-        for is checking whether this object is a valid component, components with conflicting keys are still
-        considered valid here, as they're handled elsewhere.
+        .. note:
+            This function shouldn't include any checks on whether an object is already registered in the version
+            map (key collisions), these are handled during the collection in :meth:`.load_version`, all this
+            function is responsible for is checking whether this object is a valid component, components with
+            conflicting keys are still considered valid here, as they're handled elsewhere.
 
-        Although if there is some additional data that needs to be unique for a component to be valid, which wouldn't
-        be caught as a key collision, this function can raise a ValueError.
+            However if there is some additional data that needs to be unique for a component to be valid, which
+            wouldn't be caught as a key collision, this function can raise a :exc:`ValueError`.
         """
         return issubclass(obj, Packet)
 
@@ -77,12 +79,13 @@ class PacketMap(VersionMap["tuple[PacketDirection, GameState, int]", "type[Packe
         module_data: WalkableModuleData,
         protocol_version: int,
     ) -> tuple[PacketDirection, GameState, int]:
-        """Construct a unique obtain key for given object under given protocol version.
+        """Construct a unique obtain key for given versioned component (``obj``) under given ``protocol_version``.
 
-        Note: While the protocol version might be beneficial to know when constructing
-        the obtain key, it shouldn't be used directly as a part of the key, as the items
-        will already be split by their protocol versions, and this version will be known
-        at obtaining time.
+        .. note:
+            While the protocol version might be beneficial to know when constructing
+            the obtain key, it shouldn't be used directly as a part of the key, as the items
+            will already be split by their protocol versions, and this version will be known
+            at obtaining time.
         """
         if issubclass(obj, ClientBoundPacket):
             direction = PacketDirection.CLIENTBOUND

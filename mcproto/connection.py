@@ -28,6 +28,8 @@ T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.Datagra
 
 
 class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
+    """Base class for all classes handling synchronous connections."""
+
     __slots__ = ("closed",)
 
     def __init__(self):
@@ -36,11 +38,19 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     @classmethod
     @abstractmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection to given address."""
+        """Construct a client connection (Client -> Server) to given server ``address``.
+
+        :param address: Address of the server to connection to.
+        :param timeout:
+            Amount of seconds to wait for the connection to be established.
+            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
+            This timeout is then also used for any further data receiving.
+        """
         raise NotImplementedError
 
     @abstractmethod
     def _close(self) -> None:
+        """Close the underlying connection."""
         raise NotImplementedError
 
     def close(self) -> None:
@@ -58,6 +68,8 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
 
 
 class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
+    """Base class for all classes handling asynchronous connections."""
+
     __slots__ = ("closed",)
 
     def __init__(self):
@@ -66,11 +78,19 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
     @classmethod
     @abstractmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection to given address."""
+        """Construct a client connection (Client -> Server) to given server ``address``.
+
+        :param address: Address of the server to connection to.
+        :param timeout:
+            Amount of seconds to wait for the connection to be established.
+            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
+            This timeout is then also used for any further data receiving.
+        """
         raise NotImplementedError
 
     @abstractmethod
     async def _close(self) -> None:
+        """Close the underlying connection."""
         raise NotImplementedError
 
     async def close(self) -> None:
@@ -88,6 +108,8 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
 
 
 class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
+    """Synchronous connection using a TCP :class:`~socket.socket`."""
+
     __slots__ = ("socket",)
 
     def __init__(self, socket: T_SOCK):
@@ -96,7 +118,14 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
     @classmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection to given address."""
+        """Construct a client connection (Client -> Server) to given server ``address``.
+
+        :param address: Address of the server to connection to.
+        :param timeout:
+            Amount of seconds to wait for the connection to be established.
+            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
+            This timeout is then also used for any further data receiving.
+        """
         sock = socket.create_connection(address, timeout=timeout)
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         return cls(sock)
@@ -104,8 +133,10 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
     def read(self, length: int) -> bytearray:
         """Receive data sent through the connection.
 
-        `length` controls how many bytes we want to receive. If the requested amount
-        of bytes isn't available to be received, IOError will be raised.
+        :param length:
+            Amount of bytes to be received. If the requested amount can't be received
+            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
+            will be raised.
         """
         result = bytearray()
         while len(result) < length:
@@ -124,15 +155,17 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
         return result
 
     def write(self, data: bytes) -> None:
-        """Send given data over the connection."""
+        """Send given ``data`` over the connection."""
         self.socket.send(data)
 
     def _close(self) -> None:
-        """Close the connection (it cannot be used after this)."""
+        """Close the underlying connection."""
         self.socket.close()
 
 
 class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER]):
+    """Asynchronous TCP connection using :class:`~asyncio.StreamWriter` and :class:`~asyncio.StreamReader`."""
+
     __slots__ = ("reader", "writer", "timeout")
 
     def __init__(self, reader: T_STREAMREADER, writer: T_STREAMWRITER, timeout: float):
@@ -143,7 +176,14 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 
     @classmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection to given address."""
+        """Construct a client connection (Client -> Server) to given server ``address``.
+
+        :param address: Address of the server to connection to.
+        :param timeout:
+            Amount of seconds to wait for the connection to be established.
+            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
+            This timeout is then also used for any further data receiving.
+        """
         conn = asyncio.open_connection(address[0], address[1])
         reader, writer = await asyncio.wait_for(conn, timeout=timeout)
         return cls(reader, writer, timeout)
@@ -151,8 +191,10 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
     async def read(self, length: int) -> bytearray:
         """Receive data sent through the connection.
 
-        `length` controls how many bytes we want to receive. If the requested amount
-        of bytes isn't available to be received, IOError will be raised.
+        :param length:
+            Amount of bytes to be received. If the requested amount can't be received
+            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
+            will be raised.
         """
         result = bytearray()
         while len(result) < length:
@@ -171,20 +213,22 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
         return result
 
     async def write(self, data: bytes) -> None:
-        """Send given data over the connection."""
+        """Send given ``data`` over the connection."""
         self.writer.write(data)
 
     async def _close(self) -> None:
-        """Close the connection (it cannot be used after this)."""
+        """Close the underlying connection."""
         self.writer.close()
 
     @property
     def socket(self) -> socket.socket:
-        """Obtain the underlying socket behind the asyncio transport."""
+        """Obtain the underlying socket behind the :class:`~asyncio.Transport`."""
         return self.writer.transport._sock  # type: ignore
 
 
 class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
+    """Synchronous connection using a UDP :class:`~socket.socket`."""
+
     __slots__ = ("socket", "address")
 
     BUFFER_SIZE = 65535
@@ -196,7 +240,14 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
     @classmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection to given address."""
+        """Construct a client connection (Client -> Server) to given server ``address``.
+
+        :param address: Address of the server to connection to.
+        :param timeout:
+            Amount of seconds to wait for the connection to be established.
+            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
+            This timeout is then also used for any further data receiving.
+        """
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(timeout)
         return cls(sock, address)
@@ -204,7 +255,12 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
     def read(self, length: Optional[int] = None) -> bytearray:
         """Receive data sent through the connection.
 
-        For UDP connections, `length` parameter is ignored and not required.
+        :param length:
+            For UDP connections, ``length`` parameter is ignored and not required.
+            Instead, UDP connections always read exactly :attr:`.BUFFER_SIZE` bytes.
+
+            If the requested amount can't be received (server didn't send that much
+            data/server didn't send any data), an :exc:`IOError` will be raised.
         """
         result = bytearray()
         while len(result) == 0:
@@ -213,15 +269,17 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
         return result
 
     def write(self, data: bytes) -> None:
-        """Send given data over the connection."""
+        """Send given ``data`` over the connection."""
         self.socket.sendto(data, self.address)
 
     def _close(self) -> None:
-        """Close the connection (it cannot be used after this)."""
+        """Close the underlying connection."""
         self.socket.close()
 
 
 class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
+    """Asynchronous UDP connection using :class:`~asyncio_dgram.DatagramClient`."""
+
     __slots__ = ("stream", "timeout")
 
     def __init__(self, stream: T_DATAGRAM_CLIENT, timeout: float):
@@ -231,7 +289,14 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
 
     @classmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection to given address."""
+        """Construct a client connection (Client -> Server) to given server ``address``.
+
+        :param address: Address of the server to connection to.
+        :param timeout:
+            Amount of seconds to wait for the connection to be established.
+            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
+            This timeout is then also used for any further data receiving.
+        """
         conn = asyncio_dgram.connect(address)
         stream = await asyncio.wait_for(conn, timeout=timeout)
         return cls(stream, timeout)
@@ -239,7 +304,11 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
     async def read(self, length: Optional[int] = None) -> bytearray:
         """Receive data sent through the connection.
 
-        For UDP connections, `length` parameter is ignored and not required.
+        :param length:
+            For UDP connections, ``length`` parameter is ignored and not required.
+
+            If the requested amount can't be received (server didn't send that much
+            data/server didn't send any data), an :exc:`IOError` will be raised.
         """
         result = bytearray()
         while len(result) == 0:
@@ -248,9 +317,9 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
         return result
 
     async def write(self, data: bytes) -> None:
-        """Send given data over the connection."""
+        """Send given ``data`` over the connection."""
         await self.stream.send(data)
 
     async def _close(self) -> None:
-        """Close the connection (it cannot be used after this)."""
+        """Close the underlying connection."""
         self.stream.close()

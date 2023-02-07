@@ -1,7 +1,6 @@
 name: Changelog Fragment present
 
 on:
-  workflow_dispatch:
   pull_request:
     types: [labeled, unlabeled, opened, reopened, synchronize]
     branches:
