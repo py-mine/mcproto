@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: 3.11
           poetry-version: 1.3.1
-          install-args: "--without release"
+          install-args: "--without release --with docs"
 
       - name: Pre-commit Environment Caching
         uses: actions/cache@v3
