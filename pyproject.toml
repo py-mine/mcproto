@@ -86,7 +86,13 @@ tomli = { version = "^2.0.1", python = "<3.11" }
 m2r2 = "^0.3.3.post2"
 packaging = "^23.0"
 sphinx-autodoc-typehints = "^1.22"
+
+[tool.poetry.group.docs-ci]
+optional = true
+
+[tool.poetry.group.docs-ci.dependencies]
 poetry-dynamic-versioning = "^0.21.3"
+taskipy = "^1.10.2"
 
 [tool.black]
 line-length = 119

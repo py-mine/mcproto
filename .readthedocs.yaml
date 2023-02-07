@@ -7,9 +7,11 @@ build:
   commands:
     - pip install poetry
     - poetry config virtualenvs.create false
-    - poetry install --only main,docs
+    - poetry install --only main,docs,docs-ci
     - poetry run poetry-dynamic-versioning
-    - poetry run sphinx-build -b dirhtml -d ./docs/_build/doctrees -W -E -T --keep-going ./docs ./_readthedocs/html
+    - poetry run task docs
+    - mkdir ./_readthedocs
+    - mv ./docs/_build/html ./_readthedocs
 
 
 sphinx:
