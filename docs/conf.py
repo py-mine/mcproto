@@ -114,6 +114,13 @@ todo_include_todos = True
 # Enable multiple references to the same URL for m2r2
 m2r_anonymous_references = True
 
+# Changelog contains a lot of duplicate labels, since every subheading holds a category
+# and these repeat a lot. Currently, m2r2 doesn't handle this properly, and so these
+# labels end up duplicated. See: https://github.com/CrossNox/m2r2/issues/59
+suppress_warnings = [
+    "autosectionlabel.pages/changelog",
+]
+
 # Towncrier
 towncrier_draft_autoversion_mode = "draft"
 towncrier_draft_include_empty = True
