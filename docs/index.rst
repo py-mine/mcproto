@@ -10,6 +10,7 @@ Content
     pages/installation.rst
     examples/index.rst
     pages/faq.rst
+    pages/changelog.rst
     pages/contributing.rst
     pages/code-of-conduct.rst
 

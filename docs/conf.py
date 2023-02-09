@@ -10,6 +10,7 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import sys
 from datetime import date
+from pathlib import Path
 
 from packaging.version import parse as parse_version
 
@@ -46,6 +47,8 @@ extensions = [
     "m2r2",
     # Copyable codeblocks
     "sphinx_copybutton",
+    # Towncrier changelog
+    "sphinxcontrib.towncrier.ext",
 ]
 
 autoclass_content = "both"
@@ -108,6 +111,21 @@ intersphinx_mapping = {
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
+# Enable multiple references to the same URL for m2r2
+m2r_anonymous_references = True
+
+# Changelog contains a lot of duplicate labels, since every subheading holds a category
+# and these repeat a lot. Currently, m2r2 doesn't handle this properly, and so these
+# labels end up duplicated. See: https://github.com/CrossNox/m2r2/issues/59
+suppress_warnings = [
+    "autosectionlabel.pages/changelog",
+]
+
+# Towncrier
+towncrier_draft_autoversion_mode = "draft"
+towncrier_draft_include_empty = True
+towncrier_draft_working_directory = Path(__file__).parents[1].resolve()
+
 
 # -- Other options -----------------------------------------------------------
 
@@ -128,4 +146,39 @@ def mock_autodoc() -> None:
     autodoc.ClassDocumenter = MockedClassDocumenter
 
 
+def override_towncrier_draft_format() -> None:
+    """Monkeypatch sphinxcontrib.towncrier.ext to first convert the draft text from md to rst.
+
+    We can use ``m2r2`` for this, as it's an already installed extension with goal
+    of including markdown documents into rst documents, so we simply run it's converter
+    somewhere within sphinxcontrib.towncrier.ext and include this conversion.
+
+    Additionally, the current changelog format always starts the version with "Version {}",
+    this doesn't look well with the version set to "Unreleased changes", so this function
+    also removes this "Version " prefix.
+    """
+    import m2r2
+    import sphinxcontrib.towncrier.ext
+    from docutils import statemachine
+    from sphinx.util.nodes import nodes
+
+    orig_f = sphinxcontrib.towncrier.ext._nodes_from_document_markup_source
+
+    def override_f(
+        state: statemachine.State,
+        markup_source: str,
+    ) -> list[nodes.Node]:
+        markup_source = markup_source.replace("## Version Unreleased changes", "## Unreleased changes")
+        markup_source = markup_source.rstrip(" \n").removesuffix("---").rstrip(" \n")
+        markup_source = m2r2.M2R()(markup_source)
+
+        with open("foo.rst", "w") as f:
+            f.write(markup_source)
+
+        return orig_f(state, markup_source)
+
+    sphinxcontrib.towncrier.ext._nodes_from_document_markup_source = override_f
+
+
 mock_autodoc()
+override_towncrier_draft_format()

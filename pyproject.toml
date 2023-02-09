@@ -88,6 +88,7 @@ packaging = "^23.0"
 sphinx-autodoc-typehints = "^1.22"
 sphinx-copybutton = "^0.5.1"
 furo = ">=2022.12.7"
+sphinxcontrib-towncrier = "^0.3.2a0"
 
 [tool.poetry.group.docs-ci]
 optional = true
