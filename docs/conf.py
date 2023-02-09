@@ -119,6 +119,8 @@ m2r_anonymous_references = True
 # labels end up duplicated. See: https://github.com/CrossNox/m2r2/issues/59
 suppress_warnings = [
     "autosectionlabel.pages/changelog",
+    "autosectionlabel.pages/code-of-conduct",
+    "autosectionlabel.pages/contributing",
 ]
 
 # Towncrier
