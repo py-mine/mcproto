@@ -111,6 +111,9 @@ intersphinx_mapping = {
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
+# Enable multiple references to the same URL for m2r2
+m2r_anonymous_references = True
+
 # Towncrier
 towncrier_draft_autoversion_mode = "draft"
 towncrier_draft_include_empty = True
