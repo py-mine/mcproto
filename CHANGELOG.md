@@ -3,8 +3,8 @@
 ### Features
 
 - [#14](https://github.com/py-mine/mcproto/issues/14): Add `__slots__` to most classes in the project
-      - All connection classes are now slotted
-      - Classes in `mcproto.utils.abc` are now slotted
+  - All connection classes are now slotted
+  - Classes in `mcproto.utils.abc` are now slotted
 - Separate packet interaction functions into `mcproto.packets.interactions`, (though they're reexported in
   `mcproto.packets`, so no breaking changes)
 
