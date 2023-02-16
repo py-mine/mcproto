@@ -126,15 +126,15 @@ skip_covered = false
 skip_empty = false
 sort = "cover"
 exclude_lines = [
-    "\\#\\s*pragma: no cover\\s",
-    "^\\s*if (typing\\.)?TYPE_CHECKING:\\s",
-    "^\\s*@(abc\\.)?abstractmethod\\s",
-    "^\\s*@(typing\\.)?overload\\s",
+    "\\#\\s*pragma: no cover",
+    "^\\s*if (typing\\.)?TYPE_CHECKING:",
+    "^\\s*@(abc\\.)?abstractmethod",
+    "^\\s*@(typing\\.)?overload",
     "^\\s*def __repr__\\(",
-    "^\\s*class .*\\bProtocol\\):\\s",
-    "^\\s*raise NotImplementedError\\s",
-    "^\\s*return NotImplemented\\s",
-    "^\\s*\\.\\.\\.\\s",
+    "^\\s*class .*\\bProtocol\\):",
+    "^\\s*raise NotImplementedError",
+    "^\\s*return NotImplemented",
+    "^\\s*\\.\\.\\.",
 ]
 
 [tool.coverage.run]
