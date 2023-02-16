@@ -6,9 +6,8 @@ from collections.abc import Callable
 from functools import wraps
 from typing import Optional, TypeVar, Union
 
+from semantic_version import Version
 from typing_extensions import ParamSpec, Protocol
-
-from mcproto.utils.version import SemanticVersion
 
 __all__ = ["deprecated", "deprecation_warn"]
 
@@ -19,7 +18,7 @@ P = ParamSpec("P")
 def deprecation_warn(
     *,
     obj_name: str,
-    removal_version: Union[str, SemanticVersion],
+    removal_version: Union[str, Version],
     replacement: Optional[str] = None,
     extra_msg: Optional[str] = None,
     stack_level: int = 3,
@@ -40,15 +39,15 @@ def deprecation_warn(
     :param stack_level: Stack level at which the warning is emitted.
     """
     if isinstance(removal_version, str):
-        removal_version = SemanticVersion.from_string(removal_version)
+        removal_version = Version(removal_version)
 
     try:
         _project_version = importlib.metadata.version(__package__)
     except importlib.metadata.PackageNotFoundError:
         # v0.0.0 will never mark things as already deprecated (removal_version will always be newer)
-        project_version = SemanticVersion((0, 0, 0))
+        project_version = Version(major=0, minor=0, patch=0)
     else:
-        project_version = SemanticVersion.from_string(_project_version)
+        project_version = Version(_project_version)
 
     already_deprecated = project_version >= removal_version
 
@@ -77,7 +76,7 @@ class DecoratorFunction(Protocol):
 
 
 def deprecated(
-    removal_version: Union[str, SemanticVersion],
+    removal_version: Union[str, Version],
     display_name: Optional[str] = None,
     replacement: Optional[str] = None,
     extra_msg: Optional[str] = None,
