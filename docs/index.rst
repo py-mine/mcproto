@@ -11,6 +11,7 @@ Content
     examples/index.rst
     pages/faq.rst
     pages/changelog.rst
+    pages/version_guarantees.rst
     pages/contributing.rst
     pages/code-of-conduct.rst
 

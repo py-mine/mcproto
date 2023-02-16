@@ -16,6 +16,9 @@ Applies to:
         - .github/workflows/prepare-release.yml: Workflow heavily inspired by original
         - .github/scripts/normalize_coverage.py: Entire file
         - docs/_static/extra.css: Entire file
+    - Copyright (c) 2015-present Rapptz
+      All rights reserved.
+        - docs/pages/version_guarantees.rst: Entire file
 ---------------------------------------------------------------------------------------------------
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
