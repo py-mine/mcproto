@@ -279,6 +279,29 @@ class WriterTests(ABC):
             self.writer._write_varuint(write_value, max_bits=max_bits)
 
     @pytest.mark.parametrize(
+        ("number", "expected_bytes"),
+        [(127, [127]), (16384, [128, 128, 1]), (-128, [128, 255, 255, 255, 15]), (-16383, [129, 128, 255, 255, 15])],
+    )
+    def test_write_varint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
+        """Writing varints results in correct bytes."""
+        self.writer.write_varint(number)
+        write_mock.assert_has_data(bytearray(expected_bytes))
+
+    @pytest.mark.parametrize(
+        ("number", "expected_bytes"),
+        [
+            (127, [127]),
+            (16384, [128, 128, 1]),
+            (-128, [128, 255, 255, 255, 255, 255, 255, 255, 255, 1]),
+            (-16383, [129, 128, 255, 255, 255, 255, 255, 255, 255, 1]),
+        ],
+    )
+    def test_write_varlong(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
+        """Writing varlongs results in correct bytes."""
+        self.writer.write_varlong(number)
+        write_mock.assert_has_data(bytearray(expected_bytes))
+
+    @pytest.mark.parametrize(
         ("string", "expected_bytes"),
         [
             ("test", list(map(ord, "test")) + [0]),
