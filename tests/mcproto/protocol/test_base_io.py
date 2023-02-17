@@ -302,6 +302,20 @@ class WriterTests(ABC):
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.parametrize(
+        ("data", "expected_bytes"),
+        [
+            (b"", [0]),
+            (b"\x01", [1, 1]),
+            (b"hello\0world", [11, 104, 101, 108, 108, 111, 0, 119, 111, 114, 108, 100]),
+            (b"\x01\x02\x03four\x05", [8, 1, 2, 3, 102, 111, 117, 114, 5]),
+        ],
+    )
+    def test_write_bytearray(self, data: bytes, expected_bytes: list[int], write_mock: WriteFunctionMock):
+        """Writing ASCII string results in correct bytes."""
+        self.writer.write_bytearray(data)
+        write_mock.assert_has_data(bytearray(expected_bytes))
+
+    @pytest.mark.parametrize(
         ("string", "expected_bytes"),
         [
             ("test", list(map(ord, "test")) + [0]),
