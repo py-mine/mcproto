@@ -342,6 +342,12 @@ class WriterTests(ABC):
         self.writer.write_utf(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
+    @pytest.mark.parametrize(("string"), ["a" * (32768)])
+    def test_write_utf_limit(self, string: str, write_mock: WriteFunctionMock):
+        """Writing UTF string results in correct bytes."""
+        with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
+            self.writer.write_utf(string)
+
     def test_write_optional_true(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
         """Writing non-None value should write True and run the writer function."""
         mock_v = Mock()
