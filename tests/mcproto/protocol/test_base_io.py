@@ -473,6 +473,29 @@ class ReaderTests(ABC):
             self.reader._read_varuint(max_bits=max_bits)
 
     @pytest.mark.parametrize(
+        ("read_bytes", "expected_value"),
+        [([127], 127), ([128, 128, 1], 16384), ([128, 255, 255, 255, 15], -128), ([129, 128, 255, 255, 15], -16383)],
+    )
+    def test_read_varint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
+        """Reading varuint bytes results in correct values."""
+        read_mock.combined_data = bytearray(read_bytes)
+        assert self.reader.read_varint() == expected_value
+
+    @pytest.mark.parametrize(
+        ("read_bytes", "expected_value"),
+        [
+            ([127], 127),
+            ([128, 128, 1], 16384),
+            ([128, 255, 255, 255, 255, 255, 255, 255, 255, 1], -128),
+            ([129, 128, 255, 255, 255, 255, 255, 255, 255, 1], -16383),
+        ],
+    )
+    def test_read_varlong(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
+        """Reading varuint bytes results in correct values."""
+        read_mock.combined_data = bytearray(read_bytes)
+        assert self.reader.read_varlong() == expected_value
+
+    @pytest.mark.parametrize(
         ("read_bytes", "expected_string"),
         [
             (list(map(ord, "test")) + [0], "test"),
