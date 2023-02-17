@@ -496,6 +496,20 @@ class ReaderTests(ABC):
         assert self.reader.read_varlong() == expected_value
 
     @pytest.mark.parametrize(
+        ("read_bytes", "expected_bytes"),
+        [
+            ([0], b""),
+            ([1, 1], b"\x01"),
+            ([11, 104, 101, 108, 108, 111, 0, 119, 111, 114, 108, 100], b"hello\0world"),
+            ([8, 1, 2, 3, 102, 111, 117, 114, 5], b"\x01\x02\x03four\x05"),
+        ],
+    )
+    def test_read_bytearray(self, read_bytes: list[int], expected_bytes: bytes, read_mock: ReadFunctionMock):
+        """Reading ASCII string results in correct bytes."""
+        read_mock.combined_data = bytearray(read_bytes)
+        assert self.reader.read_bytearray() == expected_bytes
+
+    @pytest.mark.parametrize(
         ("read_bytes", "expected_string"),
         [
             (list(map(ord, "test")) + [0], "test"),
