@@ -344,7 +344,7 @@ class WriterTests(ABC):
 
     @pytest.mark.parametrize(("string"), ["a" * (32768)])
     def test_write_utf_limit(self, string: str, write_mock: WriteFunctionMock):
-        """Writing UTF string results in correct bytes."""
+        """Writing a UTF string too big should raise a ValueError."""
         with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
             self.writer.write_utf(string)
 
