@@ -343,12 +343,12 @@ class WriterTests(ABC):
         self.writer.write_utf(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
-    @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
     @pytest.mark.parametrize(("string"), ["a" * (32768)])
+    @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
     def test_write_utf_limit(self, string: str, write_mock: WriteFunctionMock):
         """Writing a UTF string too big should raise a ValueError."""
         with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
-            self.writer.write_utf(string)
+            self.writer.write_utf("a" * (32768))
 
     def test_write_optional_true(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
         """Writing non-None value should write True and run the writer function."""
@@ -538,7 +538,6 @@ class ReaderTests(ABC):
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
 
-    @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
     @pytest.mark.parametrize(
         ("read_bytes"),
         [
@@ -546,6 +545,7 @@ class ReaderTests(ABC):
             [128, 128, 2] + list(map(ord, "a" * (32768))),
         ],
     )
+    @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
     def test_read_utf_limit(self, read_bytes: list[int], read_mock: ReadFunctionMock):
         """Reading a UTF string too big raises an IOError."""
         read_mock.combined_data = bytearray(read_bytes)
