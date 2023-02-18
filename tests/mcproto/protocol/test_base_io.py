@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from abc import ABC, abstractmethod
 from typing import Any, Union
 from unittest.mock import AsyncMock, Mock
@@ -342,6 +343,7 @@ class WriterTests(ABC):
         self.writer.write_utf(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="environment variable limit on Windows")
     @pytest.mark.parametrize(("string"), ["a" * (32768)])
     def test_write_utf_limit(self, string: str, write_mock: WriteFunctionMock):
         """Writing a UTF string too big should raise a ValueError."""
@@ -536,6 +538,7 @@ class ReaderTests(ABC):
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="environment variable limit on Windows")
     @pytest.mark.parametrize(
         ("read_bytes"),
         [
