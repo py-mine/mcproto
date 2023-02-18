@@ -172,7 +172,8 @@ class BaseAsyncWriter(ABC):
         :raises ValueError:
             If the given string ``value`` has more characters than the allowed maximum (32767).
         """
-        if len(value) > 32767:
+        if len(value) > 32767:  # pragma: no cover
+            # This cannot be tested on Windows, due to environment variable limits.
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
 
         data = bytearray(value, "utf-8")
@@ -290,7 +291,8 @@ class BaseSyncWriter(ABC):
         :raises ValueError:
             If the given string ``value`` has more characters than the allowed maximum (32767).
         """
-        if len(value) > 32767:
+        if len(value) > 32767:  # pragma: no cover
+            # This cannot be tested on Windows, due to environment variable limits.
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
 
         data = bytearray(value, "utf-8")
@@ -435,13 +437,15 @@ class BaseAsyncReader(ABC):
               implementation.
         """
         length = await self.read_varint()
-        if length > 131068:
+        if length > 131068:  # pragma: no cover
+            # This cannot be tested on Windows, due to environment variable limits.
             raise IOError(f"Maximum read limit for utf strings is 131068 bytes, got {length}.")
 
         data = await self.read(length)
         chars = data.decode("utf-8")
 
-        if len(chars) > 32767:
+        if len(chars) > 32767:  # pragma: no cover
+            # This cannot be tested on Windows, due to environment variable limits.
             raise IOError(f"Maximum read limit for utf strings is 32767 characters, got {len(chars)}.")
 
         return chars
@@ -577,13 +581,15 @@ class BaseSyncReader(ABC):
               implementation.
         """
         length = self.read_varint()
-        if length > 131068:
+        if length > 131068:  # pragma: no cover
+            # This cannot be tested on Windows, due to environment variable limits.
             raise IOError(f"Maximum read limit for utf strings is 131068 bytes, got {length}.")
 
         data = self.read(length)
         chars = data.decode("utf-8")
 
-        if len(chars) > 32767:
+        if len(chars) > 32767:  # pragma: no cover
+            # This cannot be tested on Windows, due to environment variable limits.
             raise IOError(f"Maximum read limit for utf strings is 32767 characters, got {len(chars)}.")
 
         return chars

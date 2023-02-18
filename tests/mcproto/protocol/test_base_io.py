@@ -342,12 +342,6 @@ class WriterTests(ABC):
         self.writer.write_utf(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
-    @pytest.mark.parametrize(("string"), ["a" * (32768)])
-    def test_write_utf_limit(self, string: str, write_mock: WriteFunctionMock):
-        """Writing a UTF string too big should raise a ValueError."""
-        with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
-            self.writer.write_utf(string)
-
     def test_write_optional_true(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
         """Writing non-None value should write True and run the writer function."""
         mock_v = Mock()
@@ -535,19 +529,6 @@ class ReaderTests(ABC):
         """Reading UTF string results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
-
-    @pytest.mark.parametrize(
-        ("read_bytes"),
-        [
-            [253, 255, 7],
-            [128, 128, 2] + list(map(ord, "a" * (32768))),
-        ],
-    )
-    def test_read_utf_limit(self, read_bytes: list[int], read_mock: ReadFunctionMock):
-        """Reading a UTF string too big raises an IOError."""
-        read_mock.combined_data = bytearray(read_bytes)
-        with pytest.raises(IOError):
-            self.reader.read_utf()
 
     def test_read_optional_true(self, method_mock: Union[Mock, AsyncMock], read_mock: ReadFunctionMock):
         """Reading optional should run reader function when first bool is True."""
