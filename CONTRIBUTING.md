@@ -21,7 +21,8 @@ rules can often make your life much easier, make debugging quicker and keep the 
    create a PR. This can help you save a lot of time in case we'd decide that the feature doesn't adhere to our vision
    of the project's future, or isn't something which we would be willing/able to maintain. Even though we won't
    actively enforce this rule, and for some small obvious features, or bug-fixes making an issue may be an overkill,
-   but for bigger changes, an issue can save you a lot of time implementing something which may not even get accepted.
+   for bigger changes, an issue can save you a lot of time implementing something which may not even be wanted in the
+   project, and therefore won't get accepted.
 4. **Don't open a pull request if you aren't assigned to the issue.** If you want to work on some existing GitHub
    issue, it is always better to ask a maintainer to assign you to this issue. If there's already someone assigned to
    an issue, consider offering to collaborate with that person, rather than ignoring his work and doing it on your own.
