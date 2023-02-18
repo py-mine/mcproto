@@ -5,7 +5,7 @@ from typing import Any, ClassVar, Literal, overload
 
 from typing_extensions import TypeGuard
 
-from mcproto.packets.abc import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
+from mcproto.packets.packet import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
 from mcproto.utils.version_map import VersionMap, WalkableModuleData
 
 __all__ = ["PacketMap"]

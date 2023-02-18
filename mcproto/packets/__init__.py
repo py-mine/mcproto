@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from mcproto.packets.abc import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
 from mcproto.packets.interactions import (
     PACKET_MAP,
     async_read_packet,
@@ -9,6 +8,7 @@ from mcproto.packets.interactions import (
     sync_write_packet,
 )
 from mcproto.packets.map import PacketMap
+from mcproto.packets.packet import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
 
 __all__ = [
     "ClientBoundPacket",
