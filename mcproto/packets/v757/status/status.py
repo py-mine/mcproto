@@ -19,11 +19,11 @@ class StatusRequest(ServerBoundPacket):
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.STATUS
 
-    def serialize(self) -> Buffer:
+    def serialize(self) -> Buffer:  # pragma: no cover, nothing to test here.
         return Buffer()
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def deserialize(cls, buf: Buffer, /) -> Self:  # pragma: no cover, nothing to test here.
         return cls()
 
 
