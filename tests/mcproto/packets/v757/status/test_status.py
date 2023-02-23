@@ -29,11 +29,13 @@ from mcproto.packets.v757.status.status import StatusResponse
 )
 def test_serialize(data: dict[str, Any], expected_bytes: bytes):
     expected_buffer = Buffer(expected_bytes)
-    expected_buffer.read_varint()  # Clear the JSON length data.
+    # Clear the length before the actual JSON data. JSON strings are encoded using UTF (StatusResponse uses
+    # `write_utf`), so `write_utf` writes the length of the string as a varint before writing the string itself.
+    expected_buffer.read_varint()
     expected_bytes = expected_buffer.flush()
 
     buffer = StatusResponse(data=data).serialize()
-    buffer.read_varint()  # Clear the JSON length data.
+    buffer.read_varint()  # Ditto
     out = buffer.flush()
 
     assert json.loads(out) == json.loads(expected_bytes)
