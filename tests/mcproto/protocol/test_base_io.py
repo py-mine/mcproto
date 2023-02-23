@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import platform
 from abc import ABC, abstractmethod
 from typing import Any, Union
 from unittest.mock import AsyncMock, Mock
@@ -279,6 +280,43 @@ class WriterTests(ABC):
             self.writer._write_varuint(write_value, max_bits=max_bits)
 
     @pytest.mark.parametrize(
+        ("number", "expected_bytes"),
+        [(127, [127]), (16384, [128, 128, 1]), (-128, [128, 255, 255, 255, 15]), (-16383, [129, 128, 255, 255, 15])],
+    )
+    def test_write_varint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
+        """Writing varints results in correct bytes."""
+        self.writer.write_varint(number)
+        write_mock.assert_has_data(bytearray(expected_bytes))
+
+    @pytest.mark.parametrize(
+        ("number", "expected_bytes"),
+        [
+            (127, [127]),
+            (16384, [128, 128, 1]),
+            (-128, [128, 255, 255, 255, 255, 255, 255, 255, 255, 1]),
+            (-16383, [129, 128, 255, 255, 255, 255, 255, 255, 255, 1]),
+        ],
+    )
+    def test_write_varlong(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
+        """Writing varlongs results in correct bytes."""
+        self.writer.write_varlong(number)
+        write_mock.assert_has_data(bytearray(expected_bytes))
+
+    @pytest.mark.parametrize(
+        ("data", "expected_bytes"),
+        [
+            (b"", [0]),
+            (b"\x01", [1, 1]),
+            (b"hello\0world", [11, 104, 101, 108, 108, 111, 0, 119, 111, 114, 108, 100]),
+            (b"\x01\x02\x03four\x05", [8, 1, 2, 3, 102, 111, 117, 114, 5]),
+        ],
+    )
+    def test_write_bytearray(self, data: bytes, expected_bytes: list[int], write_mock: WriteFunctionMock):
+        """Writing ASCII string results in correct bytes."""
+        self.writer.write_bytearray(data)
+        write_mock.assert_has_data(bytearray(expected_bytes))
+
+    @pytest.mark.parametrize(
         ("string", "expected_bytes"),
         [
             ("test", list(map(ord, "test")) + [0]),
@@ -304,6 +342,12 @@ class WriterTests(ABC):
         """Writing UTF string results in correct bytes."""
         self.writer.write_utf(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
+
+    @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
+    def test_write_utf_limit(self, write_mock: WriteFunctionMock):
+        """Writing a UTF string too big should raise a ValueError."""
+        with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
+            self.writer.write_utf("a" * (32768))
 
     def test_write_optional_true(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
         """Writing non-None value should write True and run the writer function."""
@@ -430,6 +474,43 @@ class ReaderTests(ABC):
             self.reader._read_varuint(max_bits=max_bits)
 
     @pytest.mark.parametrize(
+        ("read_bytes", "expected_value"),
+        [([127], 127), ([128, 128, 1], 16384), ([128, 255, 255, 255, 15], -128), ([129, 128, 255, 255, 15], -16383)],
+    )
+    def test_read_varint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
+        """Reading varuint bytes results in correct values."""
+        read_mock.combined_data = bytearray(read_bytes)
+        assert self.reader.read_varint() == expected_value
+
+    @pytest.mark.parametrize(
+        ("read_bytes", "expected_value"),
+        [
+            ([127], 127),
+            ([128, 128, 1], 16384),
+            ([128, 255, 255, 255, 255, 255, 255, 255, 255, 1], -128),
+            ([129, 128, 255, 255, 255, 255, 255, 255, 255, 1], -16383),
+        ],
+    )
+    def test_read_varlong(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
+        """Reading varuint bytes results in correct values."""
+        read_mock.combined_data = bytearray(read_bytes)
+        assert self.reader.read_varlong() == expected_value
+
+    @pytest.mark.parametrize(
+        ("read_bytes", "expected_bytes"),
+        [
+            ([0], b""),
+            ([1, 1], b"\x01"),
+            ([11, 104, 101, 108, 108, 111, 0, 119, 111, 114, 108, 100], b"hello\0world"),
+            ([8, 1, 2, 3, 102, 111, 117, 114, 5], b"\x01\x02\x03four\x05"),
+        ],
+    )
+    def test_read_bytearray(self, read_bytes: list[int], expected_bytes: bytes, read_mock: ReadFunctionMock):
+        """Reading ASCII string results in correct bytes."""
+        read_mock.combined_data = bytearray(read_bytes)
+        assert self.reader.read_bytearray() == expected_bytes
+
+    @pytest.mark.parametrize(
         ("read_bytes", "expected_string"),
         [
             (list(map(ord, "test")) + [0], "test"),
@@ -455,6 +536,23 @@ class ReaderTests(ABC):
         """Reading UTF string results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
+
+    @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
+    @pytest.mark.parametrize(
+        ("read_bytes"),
+        [
+            [253, 255, 7],
+            [128, 128, 2] + list(map(ord, "a" * (32768))),
+        ],
+        # Temporary workaround.
+        # https://github.com/pytest-dev/pytest/issues/6881#issuecomment-596381626
+        ids=["a", "b"],
+    )
+    def test_read_utf_limit(self, read_bytes: list[int], read_mock: ReadFunctionMock):
+        """Reading a UTF string too big raises an IOError."""
+        read_mock.combined_data = bytearray(read_bytes)
+        with pytest.raises(IOError):
+            self.reader.read_utf()
 
     def test_read_optional_true(self, method_mock: Union[Mock, AsyncMock], read_mock: ReadFunctionMock):
         """Reading optional should run reader function when first bool is True."""
