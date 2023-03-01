@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import IntEnum
-from typing import ClassVar, Union
+from typing import ClassVar, Union, final
 
 from typing_extensions import Self
 
@@ -20,6 +20,7 @@ class NextState(IntEnum):
     LOGIN = 2
 
 
+@final
 class Handshake(ServerBoundPacket):
     """Initializes connection between server and client. (Client -> Server)"""
 
