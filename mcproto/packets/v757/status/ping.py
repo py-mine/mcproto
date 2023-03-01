@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import ClassVar, final
 
 from typing_extensions import Self
 
@@ -11,6 +11,7 @@ from mcproto.protocol.base_io import StructFormat
 __all__ = ["PingPong"]
 
 
+@final
 class PingPong(ClientBoundPacket, ServerBoundPacket):
     """Ping request/Pong response (Server <-> Client)."""
 
