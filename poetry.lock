@@ -735,14 +735,14 @@ setuptools = "*"
 
 [[package]]
 name = "flake8-future-annotations"
-version = "0.0.5"
+version = "1.1.0"
 description = "Verifies python 3.7+ files use from __future__ import annotations"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "flake8-future-annotations-0.0.5.tar.gz", hash = "sha256:da84011070c0d0f623a9c12bd738bea58bc65a3bf5eec20637020069310f8d84"},
-    {file = "flake8_future_annotations-0.0.5-py3-none-any.whl", hash = "sha256:28fc9ae9e5ece5c211b810d856d984f33c0290933f24ae570731a0751c4917c6"},
+    {file = "flake8-future-annotations-1.1.0.tar.gz", hash = "sha256:df416bd2b9e1eda7ea639a5fd2a083dabb942ffe49d197f836df380d0dcf6608"},
+    {file = "flake8_future_annotations-1.1.0-py3-none-any.whl", hash = "sha256:555f16f51ae24ab4d0683b1ce8d0f59d36259c3a7e776bd5642f58c78ce7d3ab"},
 ]
 
 [package.dependencies]
@@ -2083,4 +2083,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "2080c98a5a5f56eb2ca0213c71e8a02ae580c1a83bf4e6f00f910d62a5604781"
+content-hash = "54f06684bd03c5cf14de846a535c2890f02265b697a9fb4e31c0acdc4cb608ae"
