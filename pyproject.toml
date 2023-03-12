@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "mcproto"
 version = "0.0.1a4.dev11+b8fa5cf" # Versioning handled by poetry-dynamic-versioning
-description = "Library providing easy interactions with minecraft sevrers"
+description = "Library providing easy interactions with minecraft servers"
 authors = ["ItsDrike <itsdrike@protonmail.com>"]
 license = "LGPL-3.0-or-later"
 readme = "README.md"
