@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import uuid
 from typing import ClassVar, Optional, final
 
 from typing_extensions import Self
@@ -8,6 +7,7 @@ from typing_extensions import Self
 from mcproto.buffer import Buffer
 from mcproto.packets.abc import ClientBoundPacket, GameState, ServerBoundPacket
 from mcproto.types.v757.chat import ChatMessage
+from mcproto.types.v757.uuid import UUID
 
 __all__ = [
     "LoginStart",
@@ -119,7 +119,7 @@ class LoginSuccess(ClientBoundPacket):
     PACKET_ID: ClassVar[int] = 0x02
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    def __init__(self, uuid: uuid.UUID, username: str):
+    def __init__(self, uuid: UUID, username: str):
         """
         :param uuid: The UUID of the connecting player/client.
         :param username: The username of the connecting player/client.
@@ -129,15 +129,15 @@ class LoginSuccess(ClientBoundPacket):
 
     def serialize(self) -> Buffer:
         buf = Buffer()
-        buf.write(self.uuid.bytes)
+        buf.extend(self.uuid.serialize())
         buf.write_utf(self.username)
         return buf
 
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
-        uuid_ = uuid.UUID(bytes=bytes(buf.read(16)))
+        uuid = UUID.deserialize(buf)
         username = buf.read_utf()
-        return cls(uuid_, username)
+        return cls(uuid, username)
 
 
 @final
