@@ -36,15 +36,18 @@ class ChatMessage(MCType):
     __slots__ = ("raw",)
 
     def __init__(self, raw: RawChatMessage):
-        if isinstance(raw, list):
-            raw = RawChatMessageDict(extra=raw)
-        elif isinstance(raw, str):
-            raw = RawChatMessageDict(text=raw)
+        self.raw = raw
 
-        if isinstance(raw, dict):
-            self.raw = raw
+    def as_dict(self) -> RawChatMessageDict:
+        """Convert received ``raw`` into a stadard :class:`dict` form."""
+        if isinstance(self.raw, list):
+            return RawChatMessageDict(extra=self.raw)
+        elif isinstance(self.raw, str):
+            return RawChatMessageDict(text=self.raw)
+        elif isinstance(self.raw, dict):
+            return self.raw
         else:
-            raise TypeError(f"Expected list, string or dict, got {raw.__class__!r} ({raw!r}), report this!")
+            raise TypeError(f"Found unexpected type ({self.raw.__class__!r}) ({self.raw!r}) in `raw` attribute")
 
     def serialize(self) -> Buffer:
         txt = json.dumps(self.raw)
