@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 from mcproto.buffer import Buffer
-from mcproto.types.v757.chat import ChatMessage, RawChatMessage
+from mcproto.types.v757.chat import ChatMessage, RawChatMessage, RawChatMessageDict
 
 
 @pytest.mark.parametrize(
@@ -48,3 +48,25 @@ def test_serialize(data: RawChatMessage, expected_bytes: list[int]):
 def test_deserialize(input_bytes: list[int], data: RawChatMessage):
     chat = ChatMessage.deserialize(Buffer(input_bytes))
     assert chat.raw == data
+
+
+@pytest.mark.parametrize(
+    ("raw", "expected_dict"),
+    [
+        (
+            {"text": "A Minecraft Server"},
+            {"text": "A Minecraft Server"},
+        ),
+        (
+            "A Minecraft Server",
+            {"text": "A Minecraft Server"},
+        ),
+        (
+            [{"text": "hello", "bold": True}, {"text": "there"}],
+            {"extra": [{"text": "hello", "bold": True}, {"text": "there"}]},
+        ),
+    ],
+)
+def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
+    chat = ChatMessage(raw)
+    assert chat.as_dict() == expected_dict

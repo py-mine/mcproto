@@ -46,7 +46,7 @@ class ChatMessage(MCType):
             return RawChatMessageDict(text=self.raw)
         elif isinstance(self.raw, dict):
             return self.raw
-        else:
+        else:  # pragma: no cover
             raise TypeError(f"Found unexpected type ({self.raw.__class__!r}) ({self.raw!r}) in `raw` attribute")
 
     def serialize(self) -> Buffer:
