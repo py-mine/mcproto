@@ -747,14 +747,14 @@ setuptools = "*"
 
 [[package]]
 name = "flake8-noqa"
-version = "1.3.0"
+version = "1.3.1"
 description = "Flake8 noqa comment validation"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "flake8-noqa-1.3.0.tar.gz", hash = "sha256:da613a371370373283c446da8067ff9d6a9b5c4e5b1f49ed6a32f7fa653c1f51"},
-    {file = "flake8_noqa-1.3.0-py3-none-any.whl", hash = "sha256:64a3c5febf382e1b3d517fb0b7adb0090246112b39fd65e8607bbb0e785f94f0"},
+    {file = "flake8-noqa-1.3.1.tar.gz", hash = "sha256:284972bd197ad43d9714a0e579925950c946f1816e65ee87f9fbb4b212a128cb"},
+    {file = "flake8_noqa-1.3.1-py3-none-any.whl", hash = "sha256:2b495c28dd4ee449c36d28fee3ad23759a59d77626b4e0550e6cabf57577d851"},
 ]
 
 [package.dependencies]
@@ -2063,4 +2063,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "04590aa642b620876e569d2abf5e3c124dea1da32f643e832984e6ede4cb71a2"
+content-hash = "cec5686c5d029694eebf00c4f0cf54108287019e91ae07f54fb974fc37e0f661"
