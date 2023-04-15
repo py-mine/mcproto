@@ -295,6 +295,7 @@ class VersionMap(ABC, RequiredParamsABCMixin, Generic[K, V]):
                 f"Falling back to older protocol version {protocol_version_closest}, "
                 f"as the requested version ({protocol_version}) isn't supported.",
                 category=UserWarning,
+                stacklevel=3,
             )
 
         return protocol_version_closest
