@@ -110,7 +110,7 @@ case_sensitive = true
 combine_as_imports = true
 
 [tool.codespell]
-skip = "./.venv/*,./htmlcov/*,./.git,./.mypy_cache/*,./.pytest_cache/*"
+skip = "./.venv/*,./htmlcov/*,./.git,./.mypy_cache/*,./.pytest_cache/*,./poetry.lock"
 ignore-words-list = "ned"
 
 [tool.pytest.ini_options]
