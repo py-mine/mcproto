@@ -87,7 +87,7 @@ tomli = { version = "^2.0.1", python = "<3.11" }
 m2r2 = "^0.3.3.post2"
 packaging = "^23.0"
 sphinx-autodoc-typehints = "^1.22"
-sphinx-copybutton = "^0.5.1"
+sphinx-copybutton = "^0.5.2"
 furo = ">=2022.12.7"
 sphinxcontrib-towncrier = "^0.3.2a0"
 
