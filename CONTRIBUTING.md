@@ -49,6 +49,7 @@ described in [this category](#linting-and-precommit).
 
 We've compiled a few resources on making good commits:
 
+- <https://itsdrike.com/posts/great-commits/>
 - <https://chris.beams.io/posts/git-commit/>
 - <https://dhwthompson.com/2019/my-favourite-git-commit>
 - <https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message>
