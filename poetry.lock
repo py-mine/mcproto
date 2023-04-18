@@ -716,14 +716,14 @@ flake8 = ">=3.7"
 
 [[package]]
 name = "flake8-functions"
-version = "0.0.7"
+version = "0.0.8"
 description = "A flake8 extension that checks functions"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "flake8_functions-0.0.7-py3-none-any.whl", hash = "sha256:f2f75545c2b0df9eeba0ad316e2ac38c101676970b4441300fc07af3226a44f6"},
-    {file = "flake8_functions-0.0.7.tar.gz", hash = "sha256:40584b05d57e5ab185545bcfa08aa0edca52b04646d0df266e2b1667d6437184"},
+    {file = "flake8_functions-0.0.8-py3-none-any.whl", hash = "sha256:e1a88aa634d1aff6973f8c9dd64f30ab2beaac661e52eea96929ccc7ee7f64df"},
+    {file = "flake8_functions-0.0.8.tar.gz", hash = "sha256:5446626673a9faecbf389fb411b90bdc87b002c387b72dc097b208e7a58f2a1c"},
 ]
 
 [package.dependencies]
@@ -2064,4 +2064,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "92429ddde65110ce5e2d26bc275cf8f1369255da2e44dc8f1bfd9d0308e62190"
+content-hash = "af8d5d852c8f5ee9502c495d4936518eb3dd326abf03175612ff624ff641c5d7"
