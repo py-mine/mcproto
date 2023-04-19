@@ -36,7 +36,7 @@ semantic-version = "^2.10.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = ">=2.18.1,<4.0.0"
-taskipy = "^1.10.2"
+taskipy = "^1.10.4"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.1.2"
@@ -96,7 +96,7 @@ optional = true
 
 [tool.poetry.group.docs-ci.dependencies]
 poetry-dynamic-versioning = "^0.21.3"
-taskipy = "^1.10.2"
+taskipy = "^1.10.4"
 
 [tool.black]
 line-length = 119
