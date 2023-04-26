@@ -39,7 +39,7 @@ pre-commit = ">=2.18.1,<4.0.0"
 taskipy = "^1.10.4"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.1.2"
+pytest = "^7.3.1"
 pytest-asyncio = "^0.20.3"
 pytest-cov = ">=3,<5"
 
