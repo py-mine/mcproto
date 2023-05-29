@@ -70,3 +70,22 @@ def test_deserialize(input_bytes: list[int], data: RawChatMessage):
 def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
     chat = ChatMessage(raw)
     assert chat.as_dict() == expected_dict
+
+
+@pytest.mark.parametrize(
+    ("raw1", "raw2", "expected_result"),
+    [
+        (
+            {"text": "A Minecraft Server"},
+            {"text": "A Minecraft Server"},
+            True,
+        ),
+        (
+            {"text": "Not a Minecraft Server"},
+            {"text": "A Minecraft Server"},
+            False,
+        ),
+    ]
+)
+def test_equality(raw1: RawChatMessage, raw2: RawChatMessage, expected_result: bool):
+    assert (ChatMessage(raw1) == ChatMessage(raw2)) is expected_result

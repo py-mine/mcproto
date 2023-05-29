@@ -49,6 +49,18 @@ class ChatMessage(MCType):
         else:  # pragma: no cover
             raise TypeError(f"Found unexpected type ({self.raw.__class__!r}) ({self.raw!r}) in `raw` attribute")
 
+    def __eq__(self, other: Self) -> bool:
+        """Check equality between two chat messages.
+
+        ..warning: This is purely using the `raw` field, which means it's possible that
+        a chat message that appears the same, but was representing in a different way
+        will fail this equality check.
+        """
+        if not isinstance(other, ChatMessage):
+            return NotImplemented
+
+        return self.raw == other.raw
+
     def serialize(self) -> Buffer:
         txt = json.dumps(self.raw)
         buf = Buffer()
