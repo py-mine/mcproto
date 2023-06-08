@@ -36,6 +36,9 @@ class MockSocket(CustomMockMixin, MagicMock):
     def close(self) -> None:
         self._closed = True
 
+    def shutdown(self, __how: int, /) -> None:
+        pass
+
 
 class MockStreamWriter(CustomMockMixin, MagicMock):
     spec_set = asyncio.StreamWriter
