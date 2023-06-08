@@ -58,7 +58,7 @@ repos:
         name: Slotscheck
         description: "Slotscheck: Ensure your __slots__ are working properly"
         entry: poetry run slotscheck -m mcproto
-        language: python
+        language: system
         pass_filenames: false # running slotscheck for single files doesn't respect ignored files, run for entire project
         types: [python]
 
