@@ -186,66 +186,51 @@ def start():
 
 ### Using packet classes for communication
 
+The first thing you'll need to understand about packet classes in mcproto is that they're generally going to support
+the latest minecraft version, and while any the versions are usually mostly compatible, mcproto does NOT guarantee
+support for any older protocol versions.
+
 #### Obtaining the packet map
 
-The first thing you'll need to understand about packet classes in mcproto is that they're versioned depending on the
-protocol version you're using. As we've already seen with minecraft packets, they're following a certain format, and
-for given packet direction and game state, the packet numbers are unique.
+As we've already seen in the example before, packets follow certain format, and every packet has it's associated ID
+number, direction (client->server or server->client), and game state (status/handshaking/login/play). The packet IDs
+are unique to given direction and game state combination.
 
-This is how we can detect what packet is being received, but because of the different versions that the library can
-support, we will need to use a packet map, that will contain all of the mappings for given protocol version, from
-which, knowing the state and direction, we can get a dictionary with packet IDs as keys, and the individual packet
-classes as values.
+For example in clientbound direction (packets sent from server to the client), when in the status game state, there
+will always be unique ID numbers for the different packets. In this case, there would actually only be 2 packets here:
+The Ping response packet, which has an ID of 1, and the Status response packet, with an ID of 0.
 
-This dictionary is crucial to receiving packets, as it's the only thing that tells us which packet class should be
-used, once we receive a packet and learn about the packet id. Otherwise we wouldn't know what to do with the data we
-obtained.
-
-The first game state we'll be in, before doing anything will always be the handshaking state, so let's see how we could
-generate this dictionary for this state, for all of the receiving (client bound) packets.
+To receive a packet, we therefore need to know both the game state, and the direction, as only then are we able to
+figure out what the type of packet it is. In mcproto, packet receiving therefore requires a "packet map", which is a
+mapping (dictionary) of packet id -> packet class. In the future, all you'll need will be to know the direction and
+game state, and the packet map will be obtained based on that, however right now, mcproto doesn't yet support that,
+which means you'll need to define and pass over these packet maps yourself. Here's the packet map for that status
+state, with clientbound direction:
 
 ```python
-from mcproto.packets import PACKET_MAP
-from mcproto.packets.packet import PacketDirection, GameState
+from mcproto.packets.status.status import StatusResponse
+from mcproto.packets.status.ping import PingPong
 
-handshaking_packet_map = PACKET_MAP.make_id_map(
-    protocol_version=757,
-    direction=PacketDirection.CLIENTBOUND,
-    game_state=GameState.HANDSHAKING
-)
-
-print(handshaking_packet_map)  # {}
+STATUS_CLIENTBOUND_MAP = {
+    PingPong.PACKET_ID: PingPong,
+    StatusResponse.PAKCET_ID: StatusResponse,
+}
 ```
 
-Notice that the packet map is actually empty, and this is simply because there (currently) aren't any client bound
-packets a server can send out for the handshaking game state. Let's see the status gamestate instead:
+The first game state we'll be in, before doing anything will always be the handshaking state. However this state
+actually only contains server bound packets, so the client-bound packet map for it would be an empty dict.
+
+#### Building our own packets
+
+Our first packet will always have to be a Handshake, this is the only packet in the entire handshaking state, and it's
+a "gateway", after which we get moved to a different state, specifically, either to STATUS (to obtain information about
+the server, such as motd, amount of players, or other details you'd see in the multiplayer screen in your MC client).
 
 ```python
-status_packet_map = PACKET_MAP.make_id_map(
-    protocol_version=757,
-    direction=PacketDirection.CLIENTBOUND,
-    game_state=GameState.STATUS,
-)
-
-print(status_packet_map)  # Will print:
-# {1: mcproto.packets.v757.status.ping.PingPong, 0: mcproto.packets.v757.status.status.StatusResponse}
-```
-
-Cool! These are all of the packets, with their IDs that the server can send in STATUS game state.
-
-#### Creating our own packets
-
-
-Now, we could create a similar packet map for sending out the packets, and just use it to construct our packets,
-however this is not the recommended approach, as it's kind of hard to remember all of the packet IDs, and (at least
-currently) it means not having any typing information about what packet class will we get. For that reason, it's
-recommended to import packets that we want to send out manually, like so:
-
-```python
-from mcproto.packets.v757.handshaking.handshake import Handshake, NextState
+from mcproto.packets.handshaking.handshake import Handshake, NextState
 
 my_handshake = Handshake(
-    # Once again, we use an old protocol version so that even older servers will work
+    # Once again, we use an old protocol version so that even older servers will respond
     protocol_version=47,
     server_address="mc.hypixel.net",
     server_port=25565,
@@ -257,14 +242,14 @@ That's it! We've now constructed a full handshake packet with all of the data it
 from the example above, that we originally had to look at the protocol specification, find the handshake packet and
 construct it's data as a Buffer with all of these variables.
 
-With these packet classes, you can simply follow your editor's function hints to see what this packet requires, pass it
-in and the data will be constructed for you from these attributes, once we'll be to sending it.
+With these packet classes, you can simply follow your editor's autocompletion to see what this packet requires, pass it
+in and the data will be constructed for you from these attributes, without constantly cross-checking with the wiki.
 
 For completion, let's also construct the status request packet that we were sending to instruct the server to send us
 back the status response packet.
 
 ```python
-from mcproto.packets.v757.status.status import StatusRequest
+from mcproto.packets.status.status import StatusRequest
 
 my_status_request = StatusRequest()
 ```
@@ -286,29 +271,20 @@ async def main():
     port = 25565
 
     async with (await TCPAsyncConnection.make_client((ip, port), 2)) as connection:
-        await async_write_packet(connection, my_handshake)  
+        await async_write_packet(connection, my_handshake)
         # my_handshake is a packet we've created in the example before
 ```
 
-How quick was that? Now compare this to the manual version.
+Much easier than the manual version, isn't it?
 
 #### Receiving packets
 
 Alright, we might now know how to send a packet, but how do we receive one? Let's see:
 
 ```python
-from mcproto.packets import PACKET_MAP
-
-# Let's prepare the packet map we'll be using, say we're already in the STATUS game state now
-STATUS_PACKET_MAP = PACKET_MAP.make_id_map(
-    protocol_version=757,
-    direction=PacketDirection.CLIENTBOUND,
-    game_state=GameState.STATUS
-)
-
 # Let's say we already have a connection at this moment, after all, how else would
 # we've gotten into the STATUS game state.
-# Also, let's do something different, let's say we have a synchronous connection
+# Also, let's do something different, let's say we have a synchronous connection, just for fun
 from mcproto.connection import TCPSyncConnection
 conn: TCPSyncConnection
 
@@ -316,12 +292,13 @@ conn: TCPSyncConnection
 # we'll use sync_read_packet here
 from mcproto.packets import sync_read_packet
 
-packet = sync_read_packet(conn, STATUS_PACKET_MAP)
+# But remember? To read a packet, we'll need to have that packet map, telling us which IDs represent
+# which actual packet types. Let's pass in the one we've constructed before
+packet = sync_read_packet(conn, STATUS_CLIENTBOUND_MAP)
 
-# Cool! We've got back a packet, but what packet is it? Let's import the packet classes it could
-# be and check against them
-from mcproto.packets.v757.status.status import StatusResponse
-from mcproto.packets.v757.status.ping import PingPong
+# Cool! We've got back a packet, let's see what kind of packet we got back
+from mcproto.packets.status.status import StatusResponse
+from mcproto.packets.status.ping import PingPong
 
 if isinstance(packet, StatusResponse):
     ...
@@ -333,21 +310,21 @@ else:
 
 #### Requesting status
 
-Now let's actually do something meaningful, and replicate the entire example from the manual version using packets,
-let's see just how much simpler it will be:
+Alright, so let's actually try to put all of this knowledge together, and create something meaningful. Let's replicate
+the status obtaining logic from the manual example, but with these new packet classes:
 
 ```python
 from mcproto.connection import TCPAsyncConnection
-from mcproto.packets import async_write_packet, async_read_packet, PACKET_MAP
+from mcproto.packets import async_write_packet, async_read_packet
 from mcproto.packets.packet import PacketDirection, GameState
-from mcproto.packets.v757.handshaking.handshake import Handshake, NextState
-from mcproto.packets.v757.status.status import StatusRequest, StatusResponse
+from mcproto.packets.handshaking.handshake import Handshake, NextState
+from mcproto.packets.status.status import StatusRequest, StatusResponse
+from mcproto.packets.status.ping import PingPong
 
-STATUS_PACKET_MAP = PACKET_MAP.make_id_map(
-    protocol_version=757,
-    direction=PacketDirection.CLIENTBOUND,
-    game_state=GameState.STATUS
-)
+STATUS_CLIENTBOUND_MAP = {
+    PingPong.PACKET_ID: PingPong,
+    StatusResponse.PAKCET_ID: StatusResponse,
+}
 
 
 async def get_status(ip: str, port: int) -> dict:
@@ -361,18 +338,20 @@ async def get_status(ip: str, port: int) -> dict:
 
     async with (await TCPAsyncConnection.make_client((ip, port), 2)) as connection:
         # We start out at HANDSHAKING game state
-        await async_write_packet(connection, handshake_packet)  
+        await async_write_packet(connection, handshake_packet)
         # After sending the handshake, we told the server to now move us into the STATUS game state
-        await async_write_packet(connection, status_req_packet)  
+        await async_write_packet(connection, status_req_packet)
         # Since we're still in STATUS game state, we use the status packet map when reading
-        packet = await async_read_packet(connection, STATUS_PACKET_MAP)
+        packet = await async_read_packet(connection, STATUS_CLIENTBOUND_MAP)
 
     # Now that we've got back the packet, we no longer need the connection, we won't be sending
-    # anything else. Let's just make sure it really is the packet we expected
+    # anything else, so let's get out of the context manager.
+
+    # Now, we should always first make sure it really is the packet we expected
     if not isinstance(packet, StatusResponse):
         raise ValueError(f"We've got an unexpected packet back: {packet!r}")
 
-    # Now that we know we're dealing with a status response, let's get out it's data, and return in
+    # Since we know we really are dealing with a status response, let's get out it's data, and return it
     return packet.data
 ```
 

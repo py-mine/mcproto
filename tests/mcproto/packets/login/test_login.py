@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 
 from mcproto.buffer import Buffer
-from mcproto.packets.v757.login.login import (
+from mcproto.packets.login.login import (
     LoginDisconnect,
     LoginEncryptionRequest,
     LoginEncryptionResponse,
@@ -15,8 +15,8 @@ from mcproto.packets.v757.login.login import (
     LoginStart,
     LoginSuccess,
 )
-from mcproto.types.v757.chat import ChatMessage
-from mcproto.types.v757.uuid import UUID
+from mcproto.types.chat import ChatMessage
+from mcproto.types.uuid import UUID
 
 
 class TestLoginStart:

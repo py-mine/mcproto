@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 from mcproto.buffer import Buffer
-from mcproto.types.v757.chat import ChatMessage, RawChatMessage, RawChatMessageDict
+from mcproto.types.chat import ChatMessage, RawChatMessage, RawChatMessageDict
 
 
 @pytest.mark.parametrize(
