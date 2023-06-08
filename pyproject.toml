@@ -108,10 +108,6 @@ order_by_type = false
 case_sensitive = true
 combine_as_imports = true
 
-[tool.codespell]
-skip = "./.venv/*,./htmlcov/*,./.git,./.mypy_cache/*,./.pytest_cache/*,./poetry.lock"
-ignore-words-list = "ned"
-
 [tool.pytest.ini_options]
 minversion = "6.0"
 asyncio_mode = "auto"
@@ -180,7 +176,6 @@ black = "black ."
 isort = "isort ."
 pyright = "pyright ."
 flake8 = "flake8 ."
-codespell = "codespell ."
 slotscheck = "slotscheck -m mcproto"
 test = "pytest -v --failed-first"
 retest = "pytest -v --last-failed"
