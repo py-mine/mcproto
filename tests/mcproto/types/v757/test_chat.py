@@ -85,7 +85,7 @@ def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
             {"text": "A Minecraft Server"},
             False,
         ),
-    ]
+    ],
 )
 def test_equality(raw1: RawChatMessage, raw2: RawChatMessage, expected_result: bool):
     assert (ChatMessage(raw1) == ChatMessage(raw2)) is expected_result
