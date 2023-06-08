@@ -645,14 +645,14 @@ flake8 = ">=5.0.0"
 
 [[package]]
 name = "flake8-bugbear"
-version = "23.3.23"
+version = "23.6.5"
 description = "A plugin for flake8 finding likely bugs and design problems in your program. Contains warnings that don't belong in pyflakes and pycodestyle."
 category = "dev"
 optional = false
 python-versions = ">=3.8.1"
 files = [
-    {file = "flake8-bugbear-23.3.23.tar.gz", hash = "sha256:ea565bdb87b96b56dc499edd6cc3ba7f695373d902a5f56c989b74fad7c7719d"},
-    {file = "flake8_bugbear-23.3.23-py3-none-any.whl", hash = "sha256:8a218d13abd6904800970381057ce8e72cde8eea743240c4ef3ede4dd0bc9cfb"},
+    {file = "flake8-bugbear-23.6.5.tar.gz", hash = "sha256:8631e1071c9d85d24a615f235565c16c9a2ac57add4a14636d331bf9f4ef14fa"},
+    {file = "flake8_bugbear-23.6.5-py3-none-any.whl", hash = "sha256:1d9eae6d262a3823765f4579cdab169963d1d2288b02f0f5c6e829b03dded509"},
 ]
 
 [package.dependencies]
@@ -2063,4 +2063,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "51b311e33602f419ef5062e24d7803e333a5eafb9af3c8a5ba3b60520697bf96"
+content-hash = "2cf12b2969c45d411c50c08d32bc7213b8b230ad6121ecfd46045f2d0a869fed"
