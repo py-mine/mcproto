@@ -17,7 +17,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     strategy:
-      fail-fast: false  # Allows for matrix sub-jobs to fail without cancelling the rest
+      fail-fast: false # Allows for matrix sub-jobs to fail without cancelling the rest
       matrix:
         platform: [ubuntu-latest, windows-latest]
         python-version: ["3.8", "3.11"]
@@ -31,7 +31,6 @@ jobs:
         uses: ItsDrike/setup-poetry@v1
         with:
           python-version: 3.11
-          poetry-version: 1.3.1
           install-args: "--without lint --without release"
 
       - name: Run pytest
@@ -63,7 +62,6 @@ jobs:
         uses: ItsDrike/setup-poetry@v1
         with:
           python-version: 3.11
-          poetry-version: 1.3.1
           install-args: "--no-root --only test"
 
       - name: Download coverage artifact
