@@ -1,3 +1,50 @@
+## Version 0.3.0 (2023-06-08)
+
+### Features
+
+- [#54](https://github.com/py-mine/mcproto/issues/54): Add support for LOGIN state packets
+  - `LoginStart`
+  - `LoginEncryptionRequest`
+  - `LoginEncryptionResponse`
+  - `LoginSuccess`
+  - `LoginDisconnect`
+  - `LoginPluginRequest`
+  - `LoginPluginResponse`
+  - `LoginSetCompression`
+
+### Bugfixes
+
+- [#75](https://github.com/py-mine/mcproto/issues/75): Increase the stack level of warnings shown on protocol version fallbacks
+- [#113](https://github.com/py-mine/mcproto/issues/113): TCP connections now properly shut down the connection gracefully (TCP FIN)
+
+### Documentation Improvements
+
+- [#2](https://github.com/py-mine/mcproto/issues/2): Add Sphinx and basic docs layout
+- [#18](https://github.com/py-mine/mcproto/issues/18): Rewrite all docstrings into proper Sphinx format, instead of using markdown.
+- [#27](https://github.com/py-mine/mcproto/issues/27): Add changelog page to docs, linking `CHANGELOG.md`, including unreleased changes from fragments.
+- [#28](https://github.com/py-mine/mcproto/issues/28): Use furo theme for the documentation
+- [#34](https://github.com/py-mine/mcproto/issues/34): Add version guarantees page
+- [#40](https://github.com/py-mine/mcproto/issues/40): Move code of conduct to the docs.
+- Improve readability of the changelog readme (changes/README.md)
+   - Mention taskipy `changelog-preview` shorthand command
+   - Add category headers splitting things up, for better readability
+   - Explain how to express multiple changes related to a single goal in a changelog fragment.
+- Include `CHANGELOG.md` file in project's distribution files.
+
+### Internal Changes
+
+- [#12](https://github.com/py-mine/mcproto/issues/12): Replace HassanAbouelela setup-python action with ItsDrike/setup-python in CI workflows
+- [#17](https://github.com/py-mine/mcproto/issues/17): Start using codeclimate to monitor code coverage and it's changes
+- [#35](https://github.com/py-mine/mcproto/issues/35): Add more tests
+- [#38](https://github.com/py-mine/mcproto/issues/38): Replace our implementation of `SemanticVersion` with a community-maintained `semantic-version` package.
+- [#53](https://github.com/py-mine/mcproto/issues/53): Mark all packet classes as `typing.final`, making the type-checker enforce existence of concrete implementations for all abstract methods.
+- [#112](https://github.com/py-mine/mcproto/issues/112): Removed `codespell` linter. This proved too annoying, especially when we already have a lot of linters here. Spelling mistakes can simply be caught in the review process.
+- [#114](https://github.com/py-mine/mcproto/issues/114): Use latest poetry version in CI workflows (remove version lock - at 1.3.1)
+- The `documentation` category of changelog was renamed to shorter `docs`
+
+---
+
+
 ## Version 0.2.0 (2022-12-30)
 
 ### Features
