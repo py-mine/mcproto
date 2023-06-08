@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import errno
 import socket
 from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar
@@ -160,6 +161,14 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
     def _close(self) -> None:
         """Close the underlying connection."""
+        # Gracefully end the connection first (shutdown), informing the other side
+        # we're disconnecting, and waiting for them to disconnect cleanly (TCP FIN)
+        try:
+            self.socket.shutdown(socket.SHUT_RDWR)
+        except OSError as exc:
+            if exc.errno != errno.ENOTCONN:
+                raise
+
         self.socket.close()
 
 
@@ -218,6 +227,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 
     async def _close(self) -> None:
         """Close the underlying connection."""
+        # Close automatically performs a graceful TCP connection shutdown too
         self.writer.close()
 
     @property
