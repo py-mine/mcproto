@@ -146,7 +146,6 @@ source = ["mcproto"]
 
 [tool.towncrier]
 package = "mcproto"
-package_dir = "mcproto"
 directory = "changes"
 template = "changes/.template.rst"
 filename = "CHANGELOG.md"
