@@ -6,7 +6,7 @@ from typing import Any
 import pytest
 
 from mcproto.buffer import Buffer
-from mcproto.packets.v757.status.status import StatusResponse
+from mcproto.packets.status.status import StatusResponse
 
 
 @pytest.mark.parametrize(

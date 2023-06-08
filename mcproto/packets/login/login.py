@@ -6,8 +6,8 @@ from typing_extensions import Self
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
-from mcproto.types.v757.chat import ChatMessage
-from mcproto.types.v757.uuid import UUID
+from mcproto.types.chat import ChatMessage
+from mcproto.types.uuid import UUID
 
 __all__ = [
     "LoginStart",

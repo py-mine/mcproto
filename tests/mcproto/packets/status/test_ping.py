@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 
 from mcproto.buffer import Buffer
-from mcproto.packets.v757.status.ping import PingPong
+from mcproto.packets.status.ping import PingPong
 
 
 @pytest.mark.parametrize(

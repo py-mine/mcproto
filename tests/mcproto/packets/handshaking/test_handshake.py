@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 
 from mcproto.buffer import Buffer
-from mcproto.packets.v757.handshaking.handshake import Handshake, NextState
+from mcproto.packets.handshaking.handshake import Handshake, NextState
 
 
 @pytest.mark.parametrize(

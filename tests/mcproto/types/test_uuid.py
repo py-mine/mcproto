@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 from mcproto.buffer import Buffer
-from mcproto.types.v757.uuid import UUID
+from mcproto.types.uuid import UUID
 
 
 @pytest.mark.parametrize(
