@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "mcproto"
 version = "0.0.1a4.dev11+b8fa5cf" # Versioning handled by poetry-dynamic-versioning
-description = "Library providing easy interactions with minecraft sevrers"
+description = "Library providing easy interactions with minecraft servers"
 authors = ["ItsDrike <itsdrike@protonmail.com>"]
 license = "LGPL-3.0-or-later"
 readme = "README.md"
@@ -40,20 +40,20 @@ taskipy = "^1.10.2"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.1.2"
-pytest-asyncio = "^0.18.3"
-pytest-cov = "^3.0.0"
+pytest-asyncio = "^0.20.3"
+pytest-cov = ">=3,<5"
 
 [tool.poetry.group.lint.dependencies]
 flake8 = "^6.0.0"
-flake8-annotations = "^2.9.0"
+flake8-annotations = ">=2.9,<4.0"
 flake8-bandit = "^4.1.1"
-flake8-bugbear = "^22.3.23"
+flake8-bugbear = "^23.3.23"
 flake8-builtins = "^2.1.0"
-flake8-comprehensions = "^3.10.1"
-flake8-dunder-all = {git = "https://github.com/python-formate/flake8-dunder-all.git"}
+flake8-comprehensions = "^3.12.0"
+flake8-dunder-all = "^0.3.0"
 flake8-functions = "^0.0.7"
-flake8-future-annotations = "^0.0.5"
-flake8-noqa = "^1.3.0"
+flake8-future-annotations = ">=0.0.5,<1.1.1"
+flake8-noqa = "^1.3.1"
 flake8-pep3101 = "^2.0.0"
 flake8-pep585 = { version = "^0.1.5", python = ">=3.9" }
 flake8-print = "^5.0.0"
@@ -62,11 +62,11 @@ flake8-pytest-style = "^1.6.0"
 flake8-raise = "^0.0.5"
 flake8-simplify = "^0.19.2"
 flake8-tidy-imports = "^4.6.0"
-pep8-naming = "^0.12.1"
-black = "^22.3.0"
+pep8-naming = "^0.13.3"
+black = ">=22.3,<24.0"
 isort = "^5.10.1"
-pyright = "^1.1.239"
-codespell = {extras = ["tomli"], version = "^2.2.2"}
+pyright = "^1.1.303"
+codespell = {extras = ["tomli"], version = "^2.2.4"}
 slotscheck = "^0.16.1"
 
 [tool.poetry.group.release.dependencies]
@@ -110,7 +110,7 @@ case_sensitive = true
 combine_as_imports = true
 
 [tool.codespell]
-skip = "./.venv/*,./htmlcov/*,./.git,./.mypy_cache/*,./.pytest_cache/*"
+skip = "./.venv/*,./htmlcov/*,./.git,./.mypy_cache/*,./.pytest_cache/*,./poetry.lock"
 ignore-words-list = "ned"
 
 [tool.pytest.ini_options]
