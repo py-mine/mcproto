@@ -41,7 +41,7 @@ jobs:
       # Get content of the changelog for the latest release, so that we can use it as the body for a GitHub tag
       - name: Obtain latest changelog
         id: changelog
-        uses: mathiasvr/command-output@v1
+        uses: mathiasvr/command-output@v2
         with:
           # Our CHANGELOG.md uses `---` separators between each published version. The command below
           # obtains all content until that separator, leaving us with just the content for the latest version.
