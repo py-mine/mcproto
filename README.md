@@ -202,23 +202,25 @@ The Ping response packet, which has an ID of 1, and the Status response packet, 
 
 To receive a packet, we therefore need to know both the game state, and the direction, as only then are we able to
 figure out what the type of packet it is. In mcproto, packet receiving therefore requires a "packet map", which is a
-mapping (dictionary) of packet id -> packet class. In the future, all you'll need will be to know the direction and
-game state, and the packet map will be obtained based on that, however right now, mcproto doesn't yet support that,
-which means you'll need to define and pass over these packet maps yourself. Here's the packet map for that status
-state, with clientbound direction:
+mapping (dictionary) of packet id -> packet class. Here's an example of obtaining a packet map:
 
 ```python
-from mcproto.packets.status.status import StatusResponse
-from mcproto.packets.status.ping import PingPong
+from mcproto.packets import generate_packet_map, GameState, PacketDirection
 
-STATUS_CLIENTBOUND_MAP = {
-    PingPong.PACKET_ID: PingPong,
-    StatusResponse.PAKCET_ID: StatusResponse,
+STATUS_CLIENTBOUND_MAP = generate_packet_map(PacketDirection.CLIENTBOUND, GameState.STATUS)
+```
+
+Which, if you were to print it, would look like this:
+
+```
+{
+    0: <class 'mcproto.packets.status.status.StatusResponse'>
+    1: <class 'mcproto.packets.status.ping.PingPong'>,
 }
 ```
 
-The first game state we'll be in, before doing anything will always be the handshaking state. However this state
-actually only contains server bound packets, so the client-bound packet map for it would be an empty dict.
+Telling us that in the status gamestate, for the clientbound direction, these are the only packet we can receive,
+and showing us the actual packet classes for every possible ID number.
 
 #### Building our own packets
 
@@ -315,16 +317,13 @@ the status obtaining logic from the manual example, but with these new packet cl
 
 ```python
 from mcproto.connection import TCPAsyncConnection
-from mcproto.packets import async_write_packet, async_read_packet
+from mcproto.packets import async_write_packet, async_read_packet, generate_packet_map
 from mcproto.packets.packet import PacketDirection, GameState
 from mcproto.packets.handshaking.handshake import Handshake, NextState
 from mcproto.packets.status.status import StatusRequest, StatusResponse
 from mcproto.packets.status.ping import PingPong
 
-STATUS_CLIENTBOUND_MAP = {
-    PingPong.PACKET_ID: PingPong,
-    StatusResponse.PAKCET_ID: StatusResponse,
-}
+STATUS_CLIENTBOUND_MAP = generate_packet_map(PacketDirection.CLIENTBOUND, GameState.STATUS)
 
 
 async def get_status(ip: str, port: int) -> dict:
