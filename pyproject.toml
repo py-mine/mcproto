@@ -69,7 +69,7 @@ pyright = "^1.1.313"
 slotscheck = "^0.16.1"
 
 [tool.poetry.group.release.dependencies]
-towncrier = "^22.12.0"
+towncrier = ">=22.12,<24.0"
 
 [tool.poetry.group.release-ci]
 optional = true
