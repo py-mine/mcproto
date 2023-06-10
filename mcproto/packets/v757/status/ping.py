@@ -5,7 +5,7 @@ from typing import ClassVar, final
 from typing_extensions import Self
 
 from mcproto.buffer import Buffer
-from mcproto.packets.abc import ClientBoundPacket, GameState, ServerBoundPacket
+from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
 
 __all__ = ["PingPong"]

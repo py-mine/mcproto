@@ -5,8 +5,8 @@ from collections.abc import Mapping
 from typing import TypeVar
 
 from mcproto.buffer import Buffer
-from mcproto.packets.abc import Packet
 from mcproto.packets.map import PacketMap
+from mcproto.packets.packet import Packet
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 
 __all__ = ["async_read_packet", "async_write_packet", "sync_read_packet", "sync_write_packet", "PACKET_MAP"]

@@ -206,7 +206,7 @@ generate this dictionary for this state, for all of the receiving (client bound)
 
 ```python
 from mcproto.packets import PACKET_MAP
-from mcproto.packets.abc import PacketDirection, GameState
+from mcproto.packets.packet import PacketDirection, GameState
 
 handshaking_packet_map = PACKET_MAP.make_id_map(
     protocol_version=757,
@@ -339,7 +339,7 @@ let's see just how much simpler it will be:
 ```python
 from mcproto.connection import TCPAsyncConnection
 from mcproto.packets import async_write_packet, async_read_packet, PACKET_MAP
-from mcproto.packets.abc import PacketDirection, GameState
+from mcproto.packets.packet import PacketDirection, GameState
 from mcproto.packets.v757.handshaking.handshake import Handshake, NextState
 from mcproto.packets.v757.status.status import StatusRequest, StatusResponse
 
