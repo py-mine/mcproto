@@ -1,3 +1,16 @@
+## Version 0.4.0 (2023-06-11)
+
+### Breaking Changes
+
+- [#41](https://github.com/py-mine/mcproto/issues/41): Rename `mcproto.packets.abc` to `mcproto.packets.packet`
+- [#116](https://github.com/py-mine/mcproto/issues/116): Restructure the project, moving to a single protocol version model
+  - This change does NOT have a deprecation period, and will very likely break most existing code-bases. However this change is necessary, as multi-version support was unsustainable (see issue #45 for more details)
+  - Any packets and types will no longer be present in versioned folders (mcproto.packets.v757.xxx), but rather be directly in the parent directory (mcproto.packets.xxx).
+  - This change doesn't affect manual communication with the server, connection, and basic IO writers/readers remain the same.
+
+---
+
+
 ## Version 0.3.0 (2023-06-08)
 
 ### Features
