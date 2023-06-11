@@ -4,11 +4,10 @@ import importlib
 import pkgutil
 from collections.abc import Iterator, Mapping, Sequence
 from functools import lru_cache
-from types import ModuleType
+from types import MappingProxyType, ModuleType
 from typing import Literal, NamedTuple, NoReturn, overload
 
 from mcproto.packets.packet import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
-from mcproto.utils.decorators import copied_return
 
 __all__ = ["generate_packet_map"]
 
@@ -95,9 +94,8 @@ def generate_packet_map(
     ...
 
 
-@copied_return
 @lru_cache()
-def generate_packet_map(direction: PacketDirection, state: GameState) -> dict[int, type[Packet]]:
+def generate_packet_map(direction: PacketDirection, state: GameState) -> Mapping[int, type[Packet]]:
     """Dynamically generated a packet map for given ``direction`` and ``state``.
 
     This generation is done by dynamically importing all of the modules containing these packets,
@@ -124,4 +122,8 @@ def generate_packet_map(direction: PacketDirection, state: GameState) -> dict[in
             if issubclass(packet_class, direction_class):
                 packet_map[packet_class.PACKET_ID] = packet_class
 
-    return packet_map
+    # Return an immutable mapping proxy, rather than the actual (mutable) dict
+    # This allows us to safely cache the function returns, without worrying that
+    # when the user mutates the dict, next function run would return that same
+    # mutated dict, as it was cached
+    return MappingProxyType(packet_map)
