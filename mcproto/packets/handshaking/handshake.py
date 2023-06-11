@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from enum import IntEnum
-from typing import ClassVar, Union
+from typing import ClassVar, Union, final
 
 from typing_extensions import Self
 
 from mcproto.buffer import Buffer
-from mcproto.packets.abc import GameState, ServerBoundPacket
+from mcproto.packets.packet import GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
 
 __all__ = [
@@ -20,6 +20,7 @@ class NextState(IntEnum):
     LOGIN = 2
 
 
+@final
 class Handshake(ServerBoundPacket):
     """Initializes connection between server and client. (Client -> Server)"""
 

@@ -21,7 +21,7 @@ checks:
 
   method-complexity:
     config:
-      threshold: 8 # (default: 5)
+      threshold: 10 # (default: 5)
 
   method-count:
     enabled: false

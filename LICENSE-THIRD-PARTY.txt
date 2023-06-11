@@ -43,7 +43,7 @@ SOFTWARE.
 Applies to:
     - Copyright (c) 2022, Milo Weinberg <iapetus011@gmail.com>
       All rights reserved.
-        - mcproto/packets/abc.py: GameState and PacketDirection enum classes
+        - mcproto/packets/packet.py: GameState and PacketDirection enum classes
 ---------------------------------------------------------------------------------------------------
 Fulltext of the license can be seen in the LICENSE.txt file, as it matches the current license of
 this project, this file just disclaims the copyrighted sections used in our codebase.

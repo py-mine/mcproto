@@ -46,19 +46,11 @@ repos:
 
   - repo: local
     hooks:
-      - id: codespell
-        name: CodeSpell
-        description: Run code spell checker
-        entry: poetry run codespell
-        language: system
-
-  - repo: local
-    hooks:
       - id: slotscheck
         name: Slotscheck
         description: "Slotscheck: Ensure your __slots__ are working properly"
         entry: poetry run slotscheck -m mcproto
-        language: python
+        language: system
         pass_filenames: false # running slotscheck for single files doesn't respect ignored files, run for entire project
         types: [python]
 

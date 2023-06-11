@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import platform
+import struct
 from abc import ABC, abstractmethod
 from typing import Any, Union
 from unittest.mock import AsyncMock, Mock
@@ -242,7 +243,7 @@ class WriterTests(ABC):
         fmt: INT_FORMATS_TYPE,
         value: Any,  # noqa: ANN401
     ):
-        with pytest.raises(Exception):
+        with pytest.raises(struct.error):
             self.writer.write_value(fmt, value)
 
     @pytest.mark.parametrize(

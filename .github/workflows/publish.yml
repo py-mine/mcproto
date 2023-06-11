@@ -25,7 +25,6 @@ jobs:
         uses: ItsDrike/setup-poetry@v1
         with:
           python-version: 3.11
-          poetry-version: 1.3.1
           install-args: "--only release-ci"
 
       - name: Set version with dynamic versioning
@@ -42,7 +41,7 @@ jobs:
       # Get content of the changelog for the latest release, so that we can use it as the body for a GitHub tag
       - name: Obtain latest changelog
         id: changelog
-        uses: mathiasvr/command-output@v1
+        uses: mathiasvr/command-output@v2.0.0
         with:
           # Our CHANGELOG.md uses `---` separators between each published version. The command below
           # obtains all content until that separator, leaving us with just the content for the latest version.

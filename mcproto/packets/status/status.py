@@ -1,16 +1,17 @@
 from __future__ import annotations
 
 import json
-from typing import Any, ClassVar
+from typing import Any, ClassVar, final
 
 from typing_extensions import Self
 
 from mcproto.buffer import Buffer
-from mcproto.packets.abc import ClientBoundPacket, GameState, ServerBoundPacket
+from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
 
 __all__ = ["StatusRequest", "StatusResponse"]
 
 
+@final
 class StatusRequest(ServerBoundPacket):
     """Request from the client to get information on the server. (Client -> Server)"""
 
@@ -27,6 +28,7 @@ class StatusRequest(ServerBoundPacket):
         return cls()
 
 
+@final
 class StatusResponse(ClientBoundPacket):
     """Response from the server to requesting client with status data information. (Server -> Client)"""
 

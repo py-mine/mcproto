@@ -29,11 +29,11 @@ rules can often make your life much easier, make debugging quicker and keep the 
    This method can help avoid having multiple people working on the exact same thing at the same time, without knowing
    about each other, which will often lead to multiple approaches solving the same thing, only one of which can be
    accepted (usually from the person who was originally assigned).
-4. **Use assets licensed for public use.** Whenever a static asset such as images/video files/audio or even code is
+5. **Use assets licensed for public use.** Whenever a static asset such as images/video files/audio or even code is
    added, they must have a compatible license with our projects.
-5. **Use draft pull requests if you aren't done yet.** If your PR isn't ready to be reviewed yet, mark it as draft.
+6. **Use draft pull requests if you aren't done yet.** If your PR isn't ready to be reviewed yet, mark it as draft.
    This is further described in [this section](#work-in-progress-prs)
-6. **Follow our [Code of Conduct](./CODE-OF-CONDUCT.md).**
+7. **Follow our [Code of Conduct](./CODE-OF-CONDUCT.md).**
 
 ## Making Great Commits
 
@@ -49,6 +49,7 @@ described in [this category](#linting-and-precommit).
 
 We've compiled a few resources on making good commits:
 
+- <https://itsdrike.com/posts/great-commits/>
 - <https://chris.beams.io/posts/git-commit/>
 - <https://dhwthompson.com/2019/my-favourite-git-commit>
 - <https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message>
@@ -66,6 +67,7 @@ Methods of marking PR as a draft:
 1. When creating it
 
    ![image](https://user-images.githubusercontent.com/20902250/94499351-bc736e80-01fc-11eb-8e99-a7863dd1428a.png)
+
 2. After it was created
 
    ![image](https://user-images.githubusercontent.com/20902250/94499276-8930df80-01fc-11eb-9292-7f0c6101b995.png)
@@ -354,7 +356,6 @@ auto-generated project documentation, however this is likely to change soon.
 
 For now, we follow these general rules on specifying our docstrings:
 
-
 ```python
 def donut(a: bool, b: str) -> None:
     """Short one-line description of the function."""
@@ -390,7 +391,6 @@ class Tomato:
 
     X: ClassVar[int] = 5  # Extra newline even between docstrings and class variables
 ```
-
 
 Another general rule of thumb when writing docstrings is to generally stick to using an imperative mood.
 

@@ -36,7 +36,6 @@ jobs:
         uses: ItsDrike/setup-poetry@v1
         with:
           python-version: 3.11
-          poetry-version: 1.3.1
           install-args: "--no-root --only release"
 
       - name: Checkout new branch
@@ -60,7 +59,7 @@ jobs:
           destination_branch: main
           pr_assignee: ${{ github.event.sender.login }}
           pr_title: Prepare for release of ${{ github.event.inputs.version }}
-          pr_label: "area: dependencies,type: release"
+          pr_label: "a: dependencies,t: release"
           pr_body: |
             Release preparation triggered by @${{ github.event.sender.login }}.
             Once the pull request is merged, you can trigger a PyPI release by pushing a \`v${{ github.event.inputs.version }}\` git tag in the repository.
