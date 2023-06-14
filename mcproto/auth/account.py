@@ -165,3 +165,60 @@ class Account:
             raise AuthServerApiError(exc) from exc
 
         raise ValueError(f"Received unexpected 2XX response: {res.status_code} from /validate, but not 204")
+
+    @classmethod
+    async def yggdrasil_auth(cls, client: httpx.AsyncClient, login: str, password: str) -> Self:
+        """Authenticate using the Yggdrassil system (for non-Microsoft accounts).
+
+        :param login: E-Mail of your Minecraft account, or username for (really old) Mojang accounts.
+        :param password: Plaintext account password.
+        """
+        # Any random string, we use a random v4 uuid, needs to remain same in further communications
+        client_token = str(uuid4())
+
+        payload = {
+            "agent": {
+                "name": "Minecraft",
+                "version": 1,
+            },
+            "username": login,
+            "password": password,
+            "clientToken": client_token,
+            "requestUser": False,
+        }
+        res = await client.post(f"{AUTHSERVER_API_URL}/authenticate", json=payload)
+
+        try:
+            res.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            raise AuthServerApiError(exc) from exc
+
+        data = res.json()
+
+        if (recv_client_token := data["clientToken"]) != client_token:
+            raise ValueError(f"Missmatched client tokens! {recv_client_token!r} != {client_token!r}")
+
+        username = data["selectedProfile"]["name"]
+        uuid = McUUID(data["selectedProfile"]["uuid"])
+        access_token = data["accessToken"]
+
+        return cls(username, uuid, access_token, client_token)
+
+    async def yggdrasil_signout(self, client: httpx.AsyncClient, username: str, password: str) -> None:
+        """Sign out using the Yggdrassil system (for non-Microsoft accounts).
+
+        :param login: E-Mail of your Minecraft account, or username for (really old) Mojang accounts.
+        :param password: Plaintext account password.
+        """
+        payload = {
+            "username": username,
+            "password": password,
+        }
+        res = await client.post(f"{AUTHSERVER_API_URL}/signout", json=payload)
+
+        try:
+            res.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            raise AuthServerApiError(exc) from exc
+
+        # Status code is 2XX, meaning we succeeded (response doesn't contain any payload)
