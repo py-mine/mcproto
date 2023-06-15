@@ -61,8 +61,8 @@ class TestLoginEncryptionRequest:
         ("kwargs", "expected_bytes"),
         [
             (
-                {"public_key": b"I'm public", "verify_token": b"Token"},
-                bytes.fromhex("1420202020202020202020202020202020202020200a49276d207075626c696305546f6b656e"),
+                {"public_key": b"I'm public", "verify_token": b"Token", "server_id": "a" * 20},
+                bytes.fromhex("1461616161616161616161616161616161616161610a49276d207075626c696305546f6b656e"),
             ),
         ],
     )
@@ -74,8 +74,8 @@ class TestLoginEncryptionRequest:
         ("input_bytes", "expected_args"),
         [
             (
-                bytes.fromhex("1420202020202020202020202020202020202020200a49276d207075626c696305546f6b656e"),
-                {"public_key": b"I'm public", "verify_token": b"Token"},
+                bytes.fromhex("1461616161616161616161616161616161616161610a49276d207075626c696305546f6b656e"),
+                {"public_key": b"I'm public", "verify_token": b"Token", "server_id": "a" * 20},
             ),
         ],
     )
