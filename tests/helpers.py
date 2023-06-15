@@ -6,7 +6,7 @@ import unittest.mock
 from collections.abc import Callable, Coroutine
 from typing import Any, Generic, TypeVar
 
-from typing_extensions import ParamSpec
+from typing_extensions import ParamSpec, override
 
 T = TypeVar("T")
 P = ParamSpec("P")
@@ -51,6 +51,7 @@ class SynchronizedMixin:
 
     _WRAPPED_ATTRIBUTE: str
 
+    @override
     def __getattribute__(self, __name: str) -> Any:
         """Return attributes of the wrapped object, if the attribute is a coroutine function, synchronize it.
 
@@ -72,6 +73,7 @@ class SynchronizedMixin:
 
         return super().__getattribute__(__name)
 
+    @override
     def __setattr__(self, __name: str, __value: object) -> None:
         """Allow for changing attributes of the wrapped object.
 

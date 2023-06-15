@@ -5,7 +5,7 @@ from typing import ClassVar, cast, final
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat, load_der_public_key
-from typing_extensions import Self
+from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
@@ -42,16 +42,16 @@ class LoginStart(ServerBoundPacket):
         self.username = username
         self.uuid = uuid
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         buf = Buffer()
         buf.write_utf(self.username)
         buf.extend(self.uuid.serialize())
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         username = buf.read_utf()
         uuid = UUID.deserialize(buf)
         return cls(username=username, uuid=uuid)
@@ -80,8 +80,8 @@ class LoginEncryptionRequest(ClientBoundPacket):
         self.public_key = public_key
         self.verify_token = verify_token
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         public_key_raw = self.public_key.public_bytes(encoding=Encoding.DER, format=PublicFormat.SubjectPublicKeyInfo)
 
         buf = Buffer()
@@ -90,9 +90,9 @@ class LoginEncryptionRequest(ClientBoundPacket):
         buf.write_bytearray(self.verify_token)
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         server_id = buf.read_utf()
         public_key_raw = buf.read_bytearray()
         verify_token = buf.read_bytearray()
@@ -122,16 +122,16 @@ class LoginEncryptionResponse(ServerBoundPacket):
         self.shared_secret = shared_secret
         self.verify_token = verify_token
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         buf = Buffer()
         buf.write_bytearray(self.shared_secret)
         buf.write_bytearray(self.verify_token)
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         shared_secret = buf.read_bytearray()
         verify_token = buf.read_bytearray()
         return cls(shared_secret=shared_secret, verify_token=verify_token)
@@ -155,16 +155,16 @@ class LoginSuccess(ClientBoundPacket):
         self.uuid = uuid
         self.username = username
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         buf = Buffer()
         buf.extend(self.uuid.serialize())
         buf.write_utf(self.username)
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         uuid = UUID.deserialize(buf)
         username = buf.read_utf()
         return cls(uuid, username)
@@ -186,13 +186,13 @@ class LoginDisconnect(ClientBoundPacket):
         """
         self.reason = reason
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         return self.reason.serialize()
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         reason = ChatMessage.deserialize(buf)
         return cls(reason)
 
@@ -217,17 +217,17 @@ class LoginPluginRequest(ClientBoundPacket):
         self.channel = channel
         self.data = data
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         buf = Buffer()
         buf.write_varint(self.message_id)
         buf.write_utf(self.channel)
         buf.write(self.data)
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         message_id = buf.read_varint()
         channel = buf.read_utf()
         data = buf.read(buf.remaining)  # All of the remaining data in the buffer
@@ -252,16 +252,16 @@ class LoginPluginResponse(ServerBoundPacket):
         self.message_id = message_id
         self.data = data
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         buf = Buffer()
         buf.write_varint(self.message_id)
         buf.write_optional(self.data, buf.write)
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         message_id = buf.read_varint()
         data = buf.read_optional(lambda: buf.read(buf.remaining))
         return cls(message_id, data)
@@ -288,14 +288,14 @@ class LoginSetCompression(ClientBoundPacket):
         """
         self.threshold = threshold
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         buf = Buffer()
         buf.write_varint(self.threshold)
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         threshold = buf.read_varint()
         return cls(threshold)

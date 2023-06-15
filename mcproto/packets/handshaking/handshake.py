@@ -3,7 +3,7 @@ from __future__ import annotations
 from enum import IntEnum
 from typing import ClassVar, final
 
-from typing_extensions import Self
+from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import GameState, ServerBoundPacket
@@ -58,8 +58,8 @@ class Handshake(ServerBoundPacket):
         self.server_port = server_port
         self.next_state = next_state
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         buf = Buffer()
         buf.write_varint(self.protocol_version)
         buf.write_utf(self.server_address)
@@ -67,9 +67,9 @@ class Handshake(ServerBoundPacket):
         buf.write_varint(self.next_state.value)
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         return cls(
             protocol_version=buf.read_varint(),
             server_address=buf.read_utf(),

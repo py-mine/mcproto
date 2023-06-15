@@ -7,6 +7,7 @@ from typing import TypedDict
 import httpx
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
+from typing_extensions import override
 
 from mcproto.auth.account import Account
 
@@ -75,6 +76,7 @@ class UserJoinRequestFailedError(Exception):
 
         return " ".join(msg_parts)
 
+    @override
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg})"
 
@@ -97,6 +99,7 @@ class UserJoinCheckFailedError(Exception):
         self.client_ip = client_ip
         super().__init__(repr(self))
 
+    @override
     def __repr__(self) -> str:
         msg = "Unable to verify user join for "
         msg += f"username={self.client_username!r}, server_hash={self.server_hash!r}, client_ip={self.client_ip!r}"

@@ -5,6 +5,7 @@ from enum import Enum
 from typing import TypedDict
 
 import httpx
+from typing_extensions import override
 
 __all__ = [
     "MicrosoftOauthResponseErrorType",
@@ -67,6 +68,7 @@ class MicrosoftOauthResponseError(Exception):
             return f"Unknown error: {self.error!r}"
         return f"Error {self.err_type.name}: {self.err_type.value!r}"
 
+    @override
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg!r})"
 

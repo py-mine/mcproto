@@ -4,6 +4,7 @@ from enum import Enum
 from typing import NamedTuple
 
 import httpx
+from typing_extensions import override
 
 __all__ = [
     "XSTSErrorType",
@@ -76,6 +77,7 @@ class XSTSRequestError(Exception):
 
         return " ".join(msg_parts)
 
+    @override
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg})"
 

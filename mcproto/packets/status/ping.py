@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import ClassVar, final
 
-from typing_extensions import Self
+from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
@@ -29,14 +29,14 @@ class PingPong(ClientBoundPacket, ServerBoundPacket):
         """
         self.payload = payload
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the packet."""
         buf = Buffer()
         buf.write_value(StructFormat.LONGLONG, self.payload)
         return buf
 
+    @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         payload = buf.read_value(StructFormat.LONGLONG)
         return cls(payload)
