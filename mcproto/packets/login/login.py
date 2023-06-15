@@ -25,26 +25,30 @@ __all__ = [
 class LoginStart(ServerBoundPacket):
     """Packet from client asking to start login process. (Client -> Server)"""
 
-    __slots__ = ("username",)
+    __slots__ = ("username", "uuid")
 
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    def __init__(self, *, username: str):
+    def __init__(self, *, username: str, uuid: UUID | None):
         """
         :param username: Username of the client who sent the request.
+        :param uuid: UUID of the player logging in (if the player doesn't have a UUID, this can be ``None``)
         """
         self.username = username
+        self.uuid = uuid
 
     def serialize(self) -> Buffer:
         buf = Buffer()
         buf.write_utf(self.username)
+        buf.write_optional(self.uuid, lambda id: buf.extend(id.serialize()))
         return buf
 
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
         username = buf.read_utf()
-        return cls(username=username)
+        uuid = buf.read_optional(lambda: UUID.deserialize(buf))
+        return cls(username=username, uuid=uuid)
 
 
 @final

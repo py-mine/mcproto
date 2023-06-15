@@ -23,8 +23,14 @@ class TestLoginStart:
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
-            ({"username": "ItsDrike"}, bytes.fromhex("084974734472696b65")),
-            ({"username": "foobar1"}, bytes.fromhex("07666f6f62617231")),
+            (
+                {"username": "ItsDrike", "uuid": UUID("f70b4a42c9a04ffb92a31390c128a1b2")},
+                bytes.fromhex("084974734472696b6501f70b4a42c9a04ffb92a31390c128a1b2"),
+            ),
+            (
+                {"username": "foobar1", "uuid": UUID("7a82476416fc4e8b8686a99c775db7d3")},
+                bytes.fromhex("07666f6f62617231017a82476416fc4e8b8686a99c775db7d3"),
+            ),
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
@@ -34,8 +40,14 @@ class TestLoginStart:
     @pytest.mark.parametrize(
         ("input_bytes", "expected_args"),
         [
-            (bytes.fromhex("084974734472696b65"), {"username": "ItsDrike"}),
-            (bytes.fromhex("07666f6f62617231"), {"username": "foobar1"}),
+            (
+                bytes.fromhex("084974734472696b6501f70b4a42c9a04ffb92a31390c128a1b2"),
+                {"username": "ItsDrike", "uuid": UUID("f70b4a42c9a04ffb92a31390c128a1b2")},
+            ),
+            (
+                bytes.fromhex("07666f6f62617231017a82476416fc4e8b8686a99c775db7d3"),
+                {"username": "foobar1", "uuid": UUID("7a82476416fc4e8b8686a99c775db7d3")},
+            ),
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
