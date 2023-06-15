@@ -3,7 +3,7 @@ from __future__ import annotations
 from enum import Enum
 
 import httpx
-from typing_extensions import Self
+from typing_extensions import Self, override
 
 from mcproto.auth.account import Account
 from mcproto.types.uuid import UUID as McUUID  # noqa: N811
@@ -59,6 +59,7 @@ class ServicesAPIError(Exception):
 
         return " ".join(msg_parts)
 
+    @override
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg})"
 

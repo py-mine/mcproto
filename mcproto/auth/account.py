@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import httpx
+from typing_extensions import override
 
 from mcproto.types.uuid import UUID as McUUID  # noqa: N811
 
@@ -22,6 +23,7 @@ class MismatchedAccountInfoError(Exception):
         self.expected = expected
         super().__init__(repr(self))
 
+    @override
     def __repr__(self) -> str:
         msg = f"Account has mismatched {self.missmatched_variable}: "
         msg += f"current={self.current!r}, expected={self.expected!r}."

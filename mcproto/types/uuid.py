@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 from typing import final
 
-from typing_extensions import Self
+from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.types.abc import MCType
@@ -21,13 +21,13 @@ class UUID(MCType, uuid.UUID):
 
     __slots__ = ()
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the UUID."""
         buf = Buffer()
         buf.write(self.bytes)
         return buf
 
+    @override
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize a UUID."""
         return cls(bytes=bytes(buf.read(16)))

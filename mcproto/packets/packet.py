@@ -5,7 +5,7 @@ from collections.abc import Sequence
 from enum import IntEnum
 from typing import ClassVar
 
-from typing_extensions import Self
+from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.utils.abc import RequiredParamsABCMixin, Serializable
@@ -46,9 +46,9 @@ class Packet(Serializable, RequiredParamsABCMixin):
     PACKET_ID: ClassVar[int]
     GAME_STATE: ClassVar[GameState]
 
+    @override
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         try:
             return cls._deserialize(buf)
         except IOError as exc:
@@ -57,7 +57,6 @@ class Packet(Serializable, RequiredParamsABCMixin):
     @classmethod
     @abstractmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize the packet."""
         raise NotImplementedError
 
 
@@ -153,5 +152,6 @@ class InvalidPacketContentError(IOError):
 
         return " ".join(msg_parts)
 
+    @override
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg})"

@@ -14,6 +14,7 @@ from sphinx.locale import _ as translate
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.typing import OptionSpec
 from sphinx.writers.html5 import HTML5Translator
+from typing_extensions import override
 
 
 class AttributeTable(nodes.General, nodes.Element):
@@ -111,6 +112,7 @@ class PyAttributeTable(SphinxDirective):
 
         return modulename, name
 
+    @override
     def run(self) -> list[AttributeTablePlaceholder]:
         """If you're curious on the HTML this is meant to generate:
 

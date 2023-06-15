@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing_extensions import override
+
 from mcproto.protocol.base_io import BaseSyncReader, BaseSyncWriter
 
 __all__ = ["Buffer"]
@@ -14,10 +16,12 @@ class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
         super().__init__(*args, **kwargs)
         self.pos = 0
 
+    @override
     def write(self, data: bytes) -> None:
         """Write/Store given ``data`` into the buffer."""
         self.extend(data)
 
+    @override
     def read(self, length: int) -> bytearray:
         """Read data stored in the buffer.
 
@@ -52,6 +56,7 @@ class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
         finally:
             self.pos = end
 
+    @override
     def clear(self, only_already_read: bool = False) -> None:
         """Clear out the stored data and reset position.
 

@@ -95,6 +95,7 @@ reportUnnecessaryCast = "error"
 reportUnnecessaryComparison = "error"
 reportUnnecessaryContains = "error"
 reportUnnecessaryTypeIgnoreComment = "error"
+reportImplicitOverride = "error"
 reportShadowedImports = "error"
 
 [tool.ruff]

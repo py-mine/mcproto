@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import TypedDict, Union, final
 
-from typing_extensions import Self, TypeAlias
+from typing_extensions import Self, TypeAlias, override
 
 from mcproto.buffer import Buffer
 from mcproto.types.abc import MCType
@@ -53,6 +53,7 @@ class ChatMessage(MCType):
         # pragma: no cover
         raise TypeError(f"Found unexpected type ({self.raw.__class__!r}) ({self.raw!r}) in `raw` attribute")
 
+    @override
     def __eq__(self, other: object) -> bool:
         """Check equality between two chat messages.
 
@@ -65,16 +66,16 @@ class ChatMessage(MCType):
 
         return self.raw == other.raw
 
+    @override
     def serialize(self) -> Buffer:
-        """Serialize the chat message."""
         txt = json.dumps(self.raw)
         buf = Buffer()
         buf.write_utf(txt)
         return buf
 
+    @override
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize a chat message."""
         txt = buf.read_utf()
         dct = json.loads(txt)
         return cls(dct)

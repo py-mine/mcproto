@@ -9,7 +9,7 @@ from typing import Generic, TypeVar
 import asyncio_dgram
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from typing_extensions import ParamSpec, Self
+from typing_extensions import ParamSpec, Self, override
 
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 
@@ -94,6 +94,7 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
         """Send raw ``data`` through this specific connection."""
         raise NotImplementedError
 
+    @override
     def write(self, data: bytes, /) -> None:
         """Send given ``data`` over the connection.
 
@@ -116,6 +117,7 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
         """
         raise NotImplementedError
 
+    @override
     def read(self, length: int, /) -> bytearray:
         """Receive data sent through the connection.
 
@@ -206,6 +208,7 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
         """Send raw ``data`` through this specific connection."""
         raise NotImplementedError
 
+    @override
     async def write(self, data: bytes, /) -> None:
         """Send given ``data`` over the connection.
 
@@ -228,6 +231,7 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
         """
         raise NotImplementedError
 
+    @override
     async def read(self, length: int, /) -> bytearray:
         """Receive data sent through the connection.
 
@@ -263,28 +267,15 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
         super().__init__()
         self.socket = socket
 
+    @override
     @classmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection (Client -> Server) to given server ``address``.
-
-        :param address: Address of the server to connection to.
-        :param timeout:
-            Amount of seconds to wait for the connection to be established.
-            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
-            This timeout is then also used for any further data receiving.
-        """
         sock = socket.create_connection(address, timeout=timeout)
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         return cls(sock)
 
+    @override
     def _read(self, length: int) -> bytearray:
-        """Receive raw data from this specific connection.
-
-        :param length:
-            Amount of bytes to be received. If the requested amount can't be received
-            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
-            will be raised.
-        """
         result = bytearray()
         while len(result) < length:
             new = self.socket.recv(length - len(result))
@@ -301,12 +292,12 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
         return result
 
+    @override
     def _write(self, data: bytes) -> None:
-        """Send raw ``data`` through this specific connection."""
         self.socket.send(data)
 
+    @override
     def _close(self) -> None:
-        """Close the underlying connection."""
         # Gracefully end the connection first (shutdown), informing the other side
         # we're disconnecting, and waiting for them to disconnect cleanly (TCP FIN)
         try:
@@ -329,28 +320,15 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
         self.writer = writer
         self.timeout = timeout
 
+    @override
     @classmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection (Client -> Server) to given server ``address``.
-
-        :param address: Address of the server to connection to.
-        :param timeout:
-            Amount of seconds to wait for the connection to be established.
-            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
-            This timeout is then also used for any further data receiving.
-        """
         conn = asyncio.open_connection(address[0], address[1])
         reader, writer = await asyncio.wait_for(conn, timeout=timeout)
         return cls(reader, writer, timeout)
 
+    @override
     async def _read(self, length: int) -> bytearray:
-        """Receive data sent through the connection.
-
-        :param length:
-            Amount of bytes to be received. If the requested amount can't be received
-            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
-            will be raised.
-        """
         result = bytearray()
         while len(result) < length:
             new = await asyncio.wait_for(self.reader.read(length - len(result)), timeout=self.timeout)
@@ -367,12 +345,12 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 
         return result
 
+    @override
     async def _write(self, data: bytes) -> None:
-        """Send raw ``data`` through this specific connection."""
         self.writer.write(data)
 
+    @override
     async def _close(self) -> None:
-        """Close the underlying connection."""
         # Close automatically performs a graceful TCP connection shutdown too
         self.writer.close()
 
@@ -394,42 +372,27 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
         self.socket = socket
         self.address = address
 
+    @override
     @classmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection (Client -> Server) to given server ``address``.
-
-        :param address: Address of the server to connection to.
-        :param timeout:
-            Amount of seconds to wait for the connection to be established.
-            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
-            This timeout is then also used for any further data receiving.
-        """
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(timeout)
         return cls(sock, address)
 
+    @override
     def _read(self, length: int | None = None) -> bytearray:
-        """Receive data sent through the connection.
-
-        :param length:
-            For UDP connections, ``length`` parameter is ignored and not required.
-            Instead, UDP connections always read exactly :attr:`.BUFFER_SIZE` bytes.
-
-            If the requested amount can't be received (server didn't send that much
-            data/server didn't send any data), an :exc:`IOError` will be raised.
-        """
         result = bytearray()
         while len(result) == 0:
             received_data, server_addr = self.socket.recvfrom(self.BUFFER_SIZE)
             result.extend(received_data)
         return result
 
+    @override
     def _write(self, data: bytes) -> None:
-        """Send raw ``data`` through this specific connection."""
         self.socket.sendto(data, self.address)
 
+    @override
     def _close(self) -> None:
-        """Close the underlying connection."""
         self.socket.close()
 
 
@@ -443,39 +406,25 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
         self.stream = stream
         self.timeout = timeout
 
+    @override
     @classmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection (Client -> Server) to given server ``address``.
-
-        :param address: Address of the server to connection to.
-        :param timeout:
-            Amount of seconds to wait for the connection to be established.
-            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
-            This timeout is then also used for any further data receiving.
-        """
         conn = asyncio_dgram.connect(address)
         stream = await asyncio.wait_for(conn, timeout=timeout)
         return cls(stream, timeout)
 
+    @override
     async def _read(self, length: int | None = None) -> bytearray:
-        """Receive data sent through the connection.
-
-        :param length:
-            For UDP connections, ``length`` parameter is ignored and not required.
-
-            If the requested amount can't be received (server didn't send that much
-            data/server didn't send any data), an :exc:`IOError` will be raised.
-        """
         result = bytearray()
         while len(result) == 0:
             received_data, server_addr = await asyncio.wait_for(self.stream.recv(), timeout=self.timeout)
             result.extend(received_data)
         return result
 
+    @override
     async def _write(self, data: bytes) -> None:
-        """Send raw ``data`` through this specific connection."""
         await self.stream.send(data)
 
+    @override
     async def _close(self) -> None:
-        """Close the underlying connection."""
         self.stream.close()
