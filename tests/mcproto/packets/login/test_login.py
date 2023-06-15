@@ -90,7 +90,7 @@ class TestLoginEncryptionResponse:
         ("kwargs", "expected_bytes"),
         [
             (
-                {"shared_key": b"I'm shared", "verify_token": b"Token"},
+                {"shared_secret": b"I'm shared", "verify_token": b"Token"},
                 bytes.fromhex("0a49276d2073686172656405546f6b656e"),
             )
         ],
@@ -104,7 +104,7 @@ class TestLoginEncryptionResponse:
         [
             (
                 bytes.fromhex("0a49276d2073686172656405546f6b656e"),
-                {"shared_key": b"I'm shared", "verify_token": b"Token"},
+                {"shared_secret": b"I'm shared", "verify_token": b"Token"},
             )
         ],
     )
