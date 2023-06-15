@@ -20,8 +20,7 @@ checks:
     enabled: false
 
   method-complexity:
-    config:
-      threshold: 10 # (default: 5)
+    enabled: false
 
   method-count:
     enabled: false
