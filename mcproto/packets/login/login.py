@@ -92,30 +92,30 @@ class LoginEncryptionRequest(ClientBoundPacket):
 class LoginEncryptionResponse(ServerBoundPacket):
     """Response from the client to LoginEncryptionRequest. (Client -> Server)"""
 
-    __slots__ = ("shared_key", "verify_token")
+    __slots__ = ("shared_secret", "verify_token")
 
     PACKET_ID: ClassVar[int] = 0x01
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    def __init__(self, *, shared_key: bytes, verify_token: bytes):
+    def __init__(self, *, shared_secret: bytes, verify_token: bytes):
         """
-        :param shared_key: Shared secret value, encrypted with server's public key.
+        :param shared_secret: Shared secret value, encrypted with server's public key.
         :param verify_token: Verify token value, encrypted with same public key.
         """
-        self.shared_key = shared_key
+        self.shared_secret = shared_secret
         self.verify_token = verify_token
 
     def serialize(self) -> Buffer:
         buf = Buffer()
-        buf.write_bytearray(self.shared_key)
+        buf.write_bytearray(self.shared_secret)
         buf.write_bytearray(self.verify_token)
         return buf
 
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
-        shared_key = buf.read_bytearray()
+        shared_secret = buf.read_bytearray()
         verify_token = buf.read_bytearray()
-        return cls(shared_key=shared_key, verify_token=verify_token)
+        return cls(shared_secret=shared_secret, verify_token=verify_token)
 
 
 @final
