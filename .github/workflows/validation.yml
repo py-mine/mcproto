@@ -27,7 +27,7 @@ jobs:
         uses: ItsDrike/setup-poetry@v1
         with:
           python-version: 3.11
-          install-args: "--without release --with docs"
+          install-args: "--without release"
 
       - name: Pre-commit Environment Caching
         uses: actions/cache@v3

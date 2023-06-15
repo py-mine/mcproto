@@ -77,9 +77,6 @@ optional = true
 [tool.poetry.group.release-ci.dependencies]
 poetry-dynamic-versioning = "^0.22.0"
 
-[tool.poetry.group.docs]
-optional = true
-
 [tool.poetry.group.docs.dependencies]
 sphinx = ">=6.2.1,<8.0.0"
 tomli = { version = "^2.0.1", python = "<3.11" }
