@@ -97,6 +97,15 @@ taskipy = "^1.10.4"
 [tool.pyright]
 pythonVersion = "3.8"
 
+reportUntypedFunctionDecorator = "error"
+reportUntypedClassDecorator = "error"
+reportUntypedNamedTuple = "error"
+reportTypeCommentUsage = "error"
+reportConstantRedefinition = "error"
+reportDeprecated = "warning"
+reportOverlappingOverload = "error"
+reportShadowedImports = "error"
+
 [tool.black]
 line-length = 119
 
