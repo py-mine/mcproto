@@ -75,7 +75,7 @@ towncrier = ">=22.12,<24.0"
 optional = true
 
 [tool.poetry.group.release-ci.dependencies]
-poetry-dynamic-versioning = "^0.22.0"
+poetry-dynamic-versioning = ">=0.22,<0.24"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = ">=6.2.1,<8.0.0"
@@ -91,7 +91,7 @@ sphinxcontrib-towncrier = "^0.3.2a0"
 optional = true
 
 [tool.poetry.group.docs-ci.dependencies]
-poetry-dynamic-versioning = "^0.22.0"
+poetry-dynamic-versioning = ">=0.22,<0.24"
 taskipy = "^1.10.4"
 
 [tool.black]
