@@ -104,6 +104,10 @@ reportTypeCommentUsage = "error"
 reportConstantRedefinition = "error"
 reportDeprecated = "warning"
 reportOverlappingOverload = "error"
+reportUnnecessaryIsInstance = "error"
+reportUnnecessaryCast = "error"
+reportUnnecessaryComparison = "error"
+reportUnnecessaryContains = "error"
 reportShadowedImports = "error"
 
 [tool.black]
