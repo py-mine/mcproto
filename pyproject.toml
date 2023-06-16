@@ -108,6 +108,7 @@ reportUnnecessaryIsInstance = "error"
 reportUnnecessaryCast = "error"
 reportUnnecessaryComparison = "error"
 reportUnnecessaryContains = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
 reportShadowedImports = "error"
 
 [tool.black]
