@@ -43,7 +43,7 @@ class Handshake(ServerBoundPacket):
         :param server_port: The port the client is connecting to.
         :param next_state: The next state for the server to move into.
         """
-        if isinstance(next_state, int):
+        if not isinstance(next_state, NextState):  # next_state is int
             rev_lookup = {x.value: x for x in NextState.__members__.values()}
             try:
                 next_state = rev_lookup[next_state]

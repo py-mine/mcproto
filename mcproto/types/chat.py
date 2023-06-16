@@ -44,7 +44,7 @@ class ChatMessage(MCType):
             return RawChatMessageDict(extra=self.raw)
         elif isinstance(self.raw, str):
             return RawChatMessageDict(text=self.raw)
-        elif isinstance(self.raw, dict):
+        elif isinstance(self.raw, dict):  # pyright: ignore[reportUnnecessaryIsInstance]
             return self.raw
         else:  # pragma: no cover
             raise TypeError(f"Found unexpected type ({self.raw.__class__!r}) ({self.raw!r}) in `raw` attribute")
