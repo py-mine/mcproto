@@ -31,7 +31,7 @@ from tests.mcproto.protocol.helpers import (
 class SyncWriter(BaseSyncWriter):
     """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncWriter` ABC."""
 
-    def write(self, data: bytearray) -> None:
+    def write(self, data: bytes) -> None:
         """Concrete implementation of abstract write method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
@@ -79,7 +79,7 @@ class SyncReader(BaseSyncReader):
 class AsyncWriter(BaseAsyncWriter):
     """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseAsyncWriter` ABC."""
 
-    async def write(self, data: bytearray) -> None:
+    async def write(self, data: bytes) -> None:
         """Concrete implementation of abstract write method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
