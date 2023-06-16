@@ -94,6 +94,9 @@ optional = true
 poetry-dynamic-versioning = ">=0.22,<0.24"
 taskipy = "^1.10.4"
 
+[tool.pyright]
+pythonVersion = "3.8"
+
 [tool.black]
 line-length = 119
 

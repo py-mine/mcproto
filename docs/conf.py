@@ -7,6 +7,7 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 """
+from __future__ import annotations
 
 import sys
 from datetime import date
@@ -171,7 +172,13 @@ def override_towncrier_draft_format() -> None:
         markup_source: str,
     ) -> list[nodes.Node]:
         markup_source = markup_source.replace("## Version Unreleased changes", "## Unreleased changes")
-        markup_source = markup_source.rstrip(" \n").removesuffix("---").rstrip(" \n")
+        markup_source = markup_source.rstrip(" \n")
+
+        # Alternative to 3.9+ str.removesuffix
+        if markup_source.endswith("---"):
+            markup_source = markup_source[:-3]
+
+        markup_source = markup_source.rstrip(" \n")
         markup_source = m2r2.M2R()(markup_source)
 
         with open("foo.rst", "w") as f:
