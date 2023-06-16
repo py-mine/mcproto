@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import json
-from typing import TypeAlias, TypedDict, Union, final
+from typing import TypedDict, Union, final
 
-from typing_extensions import Self
+from typing_extensions import Self, TypeAlias
 
 from mcproto.buffer import Buffer
 from mcproto.types.abc import MCType
@@ -28,7 +28,7 @@ class RawChatMessageDict(TypedDict, total=False):
     obfuscated: bool
 
 
-RawChatMessage: TypeAlias = Union[RawChatMessageDict, list[RawChatMessageDict], str]
+RawChatMessage: TypeAlias = Union[RawChatMessageDict, "list[RawChatMessageDict]", str]
 
 
 @final
