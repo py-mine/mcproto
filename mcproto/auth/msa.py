@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from enum import StrEnum
+from enum import Enum
 
 import httpx
 from typing_extensions import Self
@@ -17,7 +17,7 @@ __all__ = [
 MC_SERVICES_API_URL = "https://api.minecraftservices.com"
 
 
-class ServicesAPIErrorType(StrEnum):
+class ServicesAPIErrorType(str, Enum):
     INVALID_REGISTRATION = "Invalid app registration, see https://aka.ms/AppRegInfo for more information"
     UNKNOWN = "This is an unknown error."
 
