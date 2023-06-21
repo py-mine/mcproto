@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import asyncio
-from enum import StrEnum
+from enum import Enum
 from typing import TypedDict
 
 import httpx
@@ -20,7 +20,7 @@ __all__ = [
 MICROSOFT_OAUTH_URL = "https://login.microsoftonline.com/consumers/oauth2/v2.0"
 
 
-class MicrosoftOauthResponseErrorType(StrEnum):
+class MicrosoftOauthResponseErrorType(str, Enum):
     AUTHORIZATION_PENDING = "The user hasn't finished authenticating, but hasn't canceled the flow."
     AUTHORIZATION_DECLINED = "The end user denied the authorization request."
     BAD_VERIFICATION_CODE = "The device_code sent to the /token endpoint wasn't recognized."

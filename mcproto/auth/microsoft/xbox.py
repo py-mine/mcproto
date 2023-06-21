@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from enum import StrEnum
+from enum import Enum
 from typing import NamedTuple
 
 import httpx
@@ -16,7 +16,7 @@ XBOX_LIVE_AUTH_URL = "https://user.auth.xboxlive.com/user/authenticate"
 XBOX_SECURE_TOKEN_SERVER_AUTH_URL = "https://xsts.auth.xboxlive.com/xsts/authorize"  # noqa: S105
 
 
-class XSTSErrorType(StrEnum):
+class XSTSErrorType(str, Enum):
     NO_XBOX_ACCOUNT = (
         "The account doesn't have an Xbox account. Once they sign up for one (or login through minecraft.net to create"
         " one) then they can proceed with the login. This shouldn't happen with accounts that have purchased Minecraft"

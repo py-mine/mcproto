@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from enum import StrEnum
+from enum import Enum
 from uuid import uuid4
 
 import httpx
@@ -19,7 +19,7 @@ __all__ = [
 AUTHSERVER_API_URL = "https://authserver.mojang.com"
 
 
-class AuthServerApiErrorType(StrEnum):
+class AuthServerApiErrorType(str, Enum):
     MICROSOFT_MIGRATED = "This Minecraft account was migrated, use Microsoft OAuth2 login instaed."
     FORBIDDEN = "An attempt to sign in using empty or insufficiently short credentials."
     INVALID_CREDENTIALS = (
