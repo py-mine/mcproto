@@ -13,7 +13,7 @@ breaking change, and what isn't.
 
 First thing to keep in mind is that breaking changes only apply to **publicly documented
 functions and classes**. If it's not listed in the documentation here, it's an internal feature,
-that's it's not considered a part of the public API, and thus is bound to change. This includes
+that isn't considered a part of the public API, and thus is bound to change. This includes
 documented attributes that start with an underscore.
 
 .. note::
