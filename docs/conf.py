@@ -181,9 +181,6 @@ def override_towncrier_draft_format() -> None:
         markup_source = markup_source.rstrip(" \n")
         markup_source = m2r2.M2R()(markup_source)
 
-        with open("foo.rst", "w") as f:
-            f.write(markup_source)
-
         return orig_f(state, markup_source)
 
     sphinxcontrib.towncrier.ext._nodes_from_document_markup_source = override_f
