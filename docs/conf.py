@@ -21,6 +21,8 @@ else:
     from tomli import load as toml_parse
 
 
+# -- Basic project information -----------------------------------------------
+
 with open("../pyproject.toml", "rb") as f:
     pkg_meta: dict[str, str] = toml_parse(f)["tool"]["poetry"]
 
@@ -35,37 +37,20 @@ release = str(parsed_version)
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.doctest",
-    "sphinx.ext.todo",
-    "sphinx.ext.coverage",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.autosectionlabel",
-    # Used to reference for third party projects:
-    "sphinx.ext.intersphinx",
-    # Used to include .md files:
-    "m2r2",
-    # Copyable codeblocks
-    "sphinx_copybutton",
-    # Towncrier changelog
-    "sphinxcontrib.towncrier.ext",
+    # official extensions
+    "sphinx.ext.autodoc",  # Automatic documentation generation
+    "sphinx.ext.autosectionlabel",  # Allows referring to sections by their title
+    "sphinx.ext.extlinks",  # Shorten common link patterns
+    "sphinx.ext.intersphinx",  # Used to reference for third party projects:
+    "sphinx.ext.todo",  # Adds todo directive
+    "sphinx.ext.viewcode",  # Links to source files for the documented functions
+    # external
+    "sphinxcontrib.towncrier.ext",  # Towncrier changelog
+    "m2r2",  # Used to include .md files:
+    "sphinx_copybutton",  # Copyable codeblocks
 ]
 
-autoclass_content = "both"
-autodoc_member_order = "bysource"
-
-autodoc_default_flags = {
-    "members": "",
-    "undoc-members": "code,error_template",
-    "exclude-members": "__dict__,__weakref__",
-}
-
-# Automatically generate section labels:
-autosectionlabel_prefix_document = True
-
 # The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
 source_suffix = [".rst", ".md"]
 
 # The master toctree document.
@@ -80,17 +65,21 @@ language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build"]
+
+# If true, '()' will be appended to :func: etc. cross-reference text.
+add_function_parentheses = True
+
+# If true, the current module name will be prepended to all description
+# unit titles (such as .. function::).
+add_module_names = True
+
+# If true, sectionauthor and moduleauthor directives will be shown in the
+# output. They are ignored by default.
+show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
-
-add_module_names = False
-
-autodoc_default_options = {
-    "show-inheritance": True,
-}
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -103,14 +92,55 @@ html_css_files = ["extra.css"]
 
 # -- Extension configuration -------------------------------------------------
 
+# -- sphinx.ext.autodoc ------------------------
+
+# What docstring to insert into main body of autoclass
+# "class" / "init" / "both"
+autoclass_content = "both"
+
+# Sort order of the automatically documented members
+autodoc_member_order = "bysource"
+
+# Default options for all autodoc directives
+autodoc_default_options = {
+    "members": True,
+    "undoc-members": True,
+    "show-inheritance": True,
+    "exclude-members": "__dict__,__weakref__",
+}
+
+# -- sphinx.ext.autosectionlabel ---------------
+
+# Automatically generate section labels:
+autosectionlabel_prefix_document = True
+
+# -- sphinx.ext.extlinks -----------------------
+
+# will create new role, allowing for example :issue:`123`
+extlinks = {
+    # role: (URL with %s, caption or None)
+    "issue": ("https://github.com/py-mine/mcproto/issues/%s", "GH-%s"),
+}
+
+# -- sphinx.ext.intersphinx --------------------
+
 # Third-party projects documentation references:
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
 }
 
+# -- sphinx.ext.todo ---------------------------
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+# -- sphinxcontrib.towncrier.ext ---------------
+
+towncrier_draft_autoversion_mode = "draft"
+towncrier_draft_include_empty = True
+towncrier_draft_working_directory = Path(__file__).parents[1].resolve()
+
+# -- m2r2 --------------------------------------
 
 # Enable multiple references to the same URL for m2r2
 m2r_anonymous_references = True
@@ -123,12 +153,6 @@ suppress_warnings = [
     "autosectionlabel.pages/code-of-conduct",
     "autosectionlabel.pages/contributing",
 ]
-
-# Towncrier
-towncrier_draft_autoversion_mode = "draft"
-towncrier_draft_include_empty = True
-towncrier_draft_working_directory = Path(__file__).parents[1].resolve()
-
 
 # -- Other options -----------------------------------------------------------
 
