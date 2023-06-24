@@ -1,6 +1,11 @@
 Version Guarantees
 ==================
 
+.. attention::
+   Mcproto is currently in the pre-release phase (pre v1.0.0). During this phase, these guarantees will NOT be
+   followed! This means that **breaking changes can occur in minor version bumps**, though micro version bumps are
+   still strictly for bugfixes, and will not include any features or breaking changes.
+
 This library follows `semantic versioning model <https:semver.org>`_, which means the major version
 is updated every time there is an incompatible (breaking) change made to the public API. However
 due to the fairly dynamic nature of Python, it can be hard to discern what can be considered a
