@@ -36,6 +36,10 @@ release = str(parsed_version)
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+# Add docs/extensions into python path, allowing custom internal sphinx extensions
+# these will now be essentially considered as regualar packages
+sys.path.append(str(Path(__file__).parent.joinpath("extensions").absolute()))
+
 extensions = [
     # official extensions
     "sphinx.ext.autodoc",  # Automatic documentation generation
@@ -48,6 +52,8 @@ extensions = [
     "sphinxcontrib.towncrier.ext",  # Towncrier changelog
     "m2r2",  # Used to include .md files:
     "sphinx_copybutton",  # Copyable codeblocks
+    # internal
+    "attributetable",  # adds attributetable directive, for producing list of methods and attributes of class
 ]
 
 # The suffix(es) of source filenames.
@@ -89,6 +95,7 @@ html_favicon = "https://i.imgur.com/nPCcxts.png"
 
 html_static_path = ["_static"]
 html_css_files = ["extra.css"]
+html_js_files = ["extra.js"]
 
 # -- Extension configuration -------------------------------------------------
 
