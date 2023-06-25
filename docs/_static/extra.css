@@ -5,6 +5,14 @@ html {
 body {
     --toc-item-spacing-horizontal: 0.5rem;
     --admonition-font-size: 0.8em;
+
+    --attribute-table-title: var(--color-content-foreground);
+    --attribute-table-entry-border: var(--color-foreground-border);
+    --attribute-table-entry-text: var(--color-api-name);
+    --attribute-table-entry-hover-border: var(--color-content-foreground);
+    --attribute-table-entry-hover-background: var(--color-api-background-hover);
+    --attribute-table-entry-hover-text: var(--color-content-foreground);
+    --attribute-table-badge: var(--color-api-keyword);
 }
 
 .icon {
@@ -44,4 +52,68 @@ body {
     .sidebar-tree .reference {
         padding: 0.5em 1em;
     }
+}
+
+/* attribute tables */
+.py-attribute-table {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 0 2em;
+    padding-top: 16px;
+}
+
+.py-attribute-table-column {
+    flex: 1 1 auto;
+}
+
+.py-attribute-table-column:not(:first-child) {
+    margin-top: 1em;
+}
+
+.py-attribute-table-column > span {
+    color: var(--attribute-table-title);
+}
+
+main .py-attribute-table-column > ul {
+    list-style: none;
+    margin: 4px 0px;
+    padding-left: 0;
+    font-size: 0.95em;
+}
+
+.py-attribute-table-entry {
+    margin: 0;
+    padding: 2px 0;
+    padding-left: 0.2em;
+    border-left: 2px solid var(--attribute-table-entry-border);
+    display: flex;
+    line-height: 1.2em;
+}
+
+.py-attribute-table-entry > a {
+    padding-left: 0.5em;
+    color: var(--attribute-table-entry-text);
+    flex-grow: 1;
+}
+
+.py-attribute-table-entry > a:hover {
+    color: var(--attribute-table-entry-hover-text);
+    text-decoration: none;
+}
+
+.py-attribute-table-entry:hover {
+    background-color: var(--attribute-table-entry-hover-background);
+    border-left: 2px solid var(--attribute-table-entry-hover-border);
+    text-decoration: none;
+}
+
+.py-attribute-table-badge {
+    flex-basis: 3em;
+    text-align: right;
+    font-size: 0.9em;
+    color: var(--attribute-table-badge);
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }

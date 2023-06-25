@@ -19,6 +19,9 @@ Applies to:
     - Copyright (c) 2015-present Rapptz
       All rights reserved.
         - docs/pages/version_guarantees.rst: Entire file
+        - docs/_static/extra.css: Attribute table related config
+        - docs/_static/extra.js: Attribute table related functionality
+        - docs/extensions/attributetable.py: Entire file
 ---------------------------------------------------------------------------------------------------
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
