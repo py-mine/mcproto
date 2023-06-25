@@ -3,13 +3,16 @@ from __future__ import annotations
 from typing import Optional
 from unittest.mock import AsyncMock, Mock
 
+from typing_extensions import override
+
 
 class WriteFunctionMock(Mock):
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
         self.combined_data = bytearray()
 
-    def __call__(self, data: bytes) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
+    @override
+    def __call__(self, data: bytearray) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Override mock's ``__call__`` to extend our :attr:`.combined_data` bytearray.
 
         This allows us to keep track of exactly what data was written by the mocked write function
@@ -19,6 +22,7 @@ class WriteFunctionMock(Mock):
         self.combined_data.extend(data)
         return super().__call__(data)
 
+    @override
     def assert_has_data(self, data: bytearray, ensure_called: bool = True) -> None:
         """Ensure that the combined write data by the mocked function matches expected ``data``."""
         if ensure_called:
@@ -39,6 +43,7 @@ class ReadFunctionMock(Mock):
             combined_data = bytearray()
         self.combined_data = combined_data
 
+    @override
     def __call__(self, length: int) -> bytearray:  # pyright: ignore[reportIncompatibleMethodOverride]
         """Override mock's __call__ to make it return part of our :attr:`.combined_data` bytearray.
 
@@ -51,6 +56,7 @@ class ReadFunctionMock(Mock):
         del self.combined_data[:length]
         return super().__call__(length)
 
+    @override
     def assert_read_everything(self, ensure_called: bool = True) -> None:
         """Ensure that the passed :attr:`.combined_data` was fully read and depleted."""
         if ensure_called:

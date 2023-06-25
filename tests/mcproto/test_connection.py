@@ -7,6 +7,7 @@ from typing import Optional
 from unittest.mock import MagicMock
 
 import pytest
+from typing_extensions import override
 
 from mcproto.connection import TCPAsyncConnection, TCPSyncConnection
 from tests.helpers import CustomMockMixin
@@ -23,19 +24,23 @@ class MockSocket(CustomMockMixin, MagicMock):
         self._send = WriteFunctionMock()
         self._closed = False
 
+    @override
     def send(self, data: bytearray) -> None:
         if self._closed:
             raise OSError(errno.EBADF, "Bad file descriptor")
         return self._send(data)
 
+    @override
     def recv(self, length: int) -> bytearray:
         if self._closed:
             raise OSError(errno.EBADF, "Bad file descriptor")
         return self._recv(length)
 
+    @override
     def close(self) -> None:
         self._closed = True
 
+    @override
     def shutdown(self, __how: int, /) -> None:
         pass
 
@@ -49,11 +54,13 @@ class MockStreamWriter(CustomMockMixin, MagicMock):
         self._write = WriteFunctionMock()
         self._closed = False
 
+    @override
     def write(self, data: bytearray) -> None:
         if self._closed:
             raise OSError(errno.EBADF, "Bad file descriptor")
         return self._write(data)
 
+    @override
     def close(self) -> None:
         self._closed = True
 
@@ -66,6 +73,7 @@ class MockStreamReader(CustomMockMixin, MagicMock):
         self.mock_add_spec(["_read"])
         self._read = ReadFunctionAsyncMock(combined_data=read_data)
 
+    @override
     def read(self, length: int) -> bytearray:
         return self._read(length)
 

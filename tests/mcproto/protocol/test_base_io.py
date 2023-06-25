@@ -7,6 +7,7 @@ from typing import Any, Union
 from unittest.mock import AsyncMock, Mock
 
 import pytest
+from typing_extensions import override
 
 from mcproto.protocol.base_io import (
     BaseAsyncReader,
@@ -31,6 +32,7 @@ from tests.mcproto.protocol.helpers import (
 class SyncWriter(BaseSyncWriter):
     """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncWriter` ABC."""
 
+    @override
     def write(self, data: bytes) -> None:
         """Concrete implementation of abstract write method.
 
@@ -55,6 +57,7 @@ class SyncWriter(BaseSyncWriter):
 class SyncReader(BaseSyncReader):
     """Testable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncReader` ABC."""
 
+    @override
     def read(self, length: int) -> bytearray:
         """Concrete implementation of abstract read method.
 
@@ -79,6 +82,7 @@ class SyncReader(BaseSyncReader):
 class AsyncWriter(BaseAsyncWriter):
     """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseAsyncWriter` ABC."""
 
+    @override
     async def write(self, data: bytes) -> None:
         """Concrete implementation of abstract write method.
 
@@ -103,6 +107,7 @@ class AsyncWriter(BaseAsyncWriter):
 class AsyncReader(BaseAsyncReader):
     """Testable concrete implementation of BaseAsyncReader ABC."""
 
+    @override
     async def read(self, length: int) -> bytearray:
         """Concrete implementation of abstract read method.
 
@@ -577,6 +582,7 @@ class ReaderTests(ABC):
 class TestBaseSyncWriter(WriterTests):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncWriter`."""
 
+    @override
     @classmethod
     def setup_class(cls):
         """Initialize writer instance to be tested."""
@@ -586,6 +592,7 @@ class TestBaseSyncWriter(WriterTests):
 class TestBaseSyncReader(ReaderTests):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
 
+    @override
     @classmethod
     def setup_class(cls):
         """Initialize reader instance to be tested."""
@@ -597,6 +604,7 @@ class TestBaseAsyncWriter(WriterTests):
 
     writer: WrappedAsyncWriter
 
+    @override
     @classmethod
     def setup_class(cls):
         cls.writer = WrappedAsyncWriter()
@@ -607,6 +615,7 @@ class TestBaseAsyncReader(ReaderTests):
 
     reader: WrappedAsyncReader
 
+    @override
     @classmethod
     def setup_class(cls):
         cls.reader = WrappedAsyncReader()

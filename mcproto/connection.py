@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar
 
 import asyncio_dgram
-from typing_extensions import ParamSpec, Self
+from typing_extensions import ParamSpec, Self, override
 
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
 
@@ -117,6 +117,7 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
         super().__init__()
         self.socket = socket
 
+    @override
     @classmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         """Construct a client connection (Client -> Server) to given server ``address``.
@@ -131,6 +132,7 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         return cls(sock)
 
+    @override
     def read(self, length: int) -> bytearray:
         """Receive data sent through the connection.
 
@@ -155,10 +157,12 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
         return result
 
+    @override
     def write(self, data: bytes) -> None:
         """Send given ``data`` over the connection."""
         self.socket.send(data)
 
+    @override
     def _close(self) -> None:
         """Close the underlying connection."""
         # Gracefully end the connection first (shutdown), informing the other side
@@ -183,6 +187,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
         self.writer = writer
         self.timeout = timeout
 
+    @override
     @classmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         """Construct a client connection (Client -> Server) to given server ``address``.
@@ -197,6 +202,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
         reader, writer = await asyncio.wait_for(conn, timeout=timeout)
         return cls(reader, writer, timeout)
 
+    @override
     async def read(self, length: int) -> bytearray:
         """Receive data sent through the connection.
 
@@ -221,10 +227,12 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 
         return result
 
+    @override
     async def write(self, data: bytes) -> None:
         """Send given ``data`` over the connection."""
         self.writer.write(data)
 
+    @override
     async def _close(self) -> None:
         """Close the underlying connection."""
         # Close automatically performs a graceful TCP connection shutdown too
@@ -248,6 +256,7 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
         self.socket = socket
         self.address = address
 
+    @override
     @classmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         """Construct a client connection (Client -> Server) to given server ``address``.
@@ -262,6 +271,7 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
         sock.settimeout(timeout)
         return cls(sock, address)
 
+    @override
     def read(self, length: Optional[int] = None) -> bytearray:
         """Receive data sent through the connection.
 
@@ -278,10 +288,12 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
             result.extend(received_data)
         return result
 
+    @override
     def write(self, data: bytes) -> None:
         """Send given ``data`` over the connection."""
         self.socket.sendto(data, self.address)
 
+    @override
     def _close(self) -> None:
         """Close the underlying connection."""
         self.socket.close()
@@ -297,6 +309,7 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
         self.stream = stream
         self.timeout = timeout
 
+    @override
     @classmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         """Construct a client connection (Client -> Server) to given server ``address``.
@@ -311,6 +324,7 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
         stream = await asyncio.wait_for(conn, timeout=timeout)
         return cls(stream, timeout)
 
+    @override
     async def read(self, length: Optional[int] = None) -> bytearray:
         """Receive data sent through the connection.
 
@@ -326,10 +340,12 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
             result.extend(received_data)
         return result
 
+    @override
     async def write(self, data: bytes) -> None:
         """Send given ``data`` over the connection."""
         await self.stream.send(data)
 
+    @override
     async def _close(self) -> None:
         """Close the underlying connection."""
         self.stream.close()

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any, ClassVar, final
 
-from typing_extensions import Self
+from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
@@ -20,9 +20,11 @@ class StatusRequest(ServerBoundPacket):
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.STATUS
 
+    @override
     def serialize(self) -> Buffer:  # pragma: no cover, nothing to test here.
         return Buffer()
 
+    @override
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:  # pragma: no cover, nothing to test here.
         return cls()
@@ -43,12 +45,14 @@ class StatusResponse(ClientBoundPacket):
         """
         self.data = data
 
+    @override
     def serialize(self) -> Buffer:
         buf = Buffer()
         s = json.dumps(self.data)
         buf.write_utf(s)
         return buf
 
+    @override
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
         s = buf.read_utf()
