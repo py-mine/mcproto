@@ -113,6 +113,7 @@ select = [
   "FA",     # flake8-future-annotations
   "T20",    # flake8-print
   "PT",     # flake8-pytest-style
+  "Q",      # flake8-quotes
   "RSE",    # flake8-raise
   "SIM",    # flake8-simplify
   "TID",    # flake8-tidy-imports
