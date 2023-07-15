@@ -119,6 +119,7 @@ select = [
   "SIM",    # flake8-simplify
   "TID",    # flake8-tidy-imports
   "PTH",    # flake8-use-pathlib
+  "PGH",    # pygrep-hooks
   "PL",     # pylint
   "RUF",    # ruff-specific rules
   "UP",     # pyupgrade
@@ -133,6 +134,7 @@ ignore = [
   "PT011",   # pytest.raises without match parameter is too broad
   "UP024",   # Using errors that alias OSError
   "PLR2004", # Using unnamed numerical constants
+  "PGH003",  # Using specific rule codes in type ignores
 ]
 
 [tool.ruff.extend-per-file-ignores]

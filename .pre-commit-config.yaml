@@ -11,12 +11,6 @@ repos:
       - id: mixed-line-ending
         args: [--fix=lf]
 
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
-    hooks:
-      - id: python-check-blanket-noqa # Enforce noqa annotations (noqa: F401,W203)
-      - id: python-use-type-annotations # Enforce type annotations instead of type comments
-
   - repo: local
     hooks:
       - id: black
