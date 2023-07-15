@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 from unittest.mock import AsyncMock, Mock
 
 
@@ -33,7 +32,7 @@ class WriteFunctionAsyncMock(WriteFunctionMock, AsyncMock):
 
 
 class ReadFunctionMock(Mock):
-    def __init__(self, *a, combined_data: Optional[bytearray] = None, **kw):
+    def __init__(self, *a, combined_data: bytearray | None = None, **kw):
         super().__init__(*a, **kw)
         if combined_data is None:
             combined_data = bytearray()

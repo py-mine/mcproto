@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import IntEnum
-from typing import ClassVar, Union, final
+from typing import ClassVar, final
 
 from typing_extensions import Self
 
@@ -35,7 +35,7 @@ class Handshake(ServerBoundPacket):
         protocol_version: int,
         server_address: str,
         server_port: int,
-        next_state: Union[NextState, int],
+        next_state: NextState | int,
     ):
         """
         :param protocol_version: Protocol version number to be used.

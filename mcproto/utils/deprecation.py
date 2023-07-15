@@ -4,7 +4,7 @@ import importlib.metadata
 import warnings
 from collections.abc import Callable
 from functools import wraps
-from typing import Optional, TypeVar, Union
+from typing import TypeVar
 
 from semantic_version import Version
 from typing_extensions import ParamSpec, Protocol
@@ -18,9 +18,9 @@ P = ParamSpec("P")
 def deprecation_warn(
     *,
     obj_name: str,
-    removal_version: Union[str, Version],
-    replacement: Optional[str] = None,
-    extra_msg: Optional[str] = None,
+    removal_version: str | Version,
+    replacement: str | None = None,
+    extra_msg: str | None = None,
     stack_level: int = 3,
 ) -> None:
     """Produce an appropriate deprecation warning given the parameters.
@@ -76,10 +76,10 @@ class DecoratorFunction(Protocol):
 
 
 def deprecated(
-    removal_version: Union[str, Version],
-    display_name: Optional[str] = None,
-    replacement: Optional[str] = None,
-    extra_msg: Optional[str] = None,
+    removal_version: str | Version,
+    display_name: str | None = None,
+    replacement: str | None = None,
+    extra_msg: str | None = None,
 ) -> DecoratorFunction:
     """Mark an object as deprecated.
 

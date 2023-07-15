@@ -3,7 +3,6 @@ from __future__ import annotations
 import asyncio
 import errno
 import socket
-from typing import Optional
 from unittest.mock import MagicMock
 
 import pytest
@@ -16,7 +15,7 @@ from tests.mcproto.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMo
 class MockSocket(CustomMockMixin, MagicMock):
     spec_set = socket.socket
 
-    def __init__(self, *args, read_data: Optional[bytearray] = None, **kwargs) -> None:
+    def __init__(self, *args, read_data: bytearray | None = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.mock_add_spec(["_recv", "_send", "_closed"])
         self._recv = ReadFunctionMock(combined_data=read_data)
@@ -61,7 +60,7 @@ class MockStreamWriter(CustomMockMixin, MagicMock):
 class MockStreamReader(CustomMockMixin, MagicMock):
     spec_set = asyncio.StreamReader
 
-    def __init__(self, *args, read_data: Optional[bytearray] = None, **kwargs) -> None:
+    def __init__(self, *args, read_data: bytearray | None = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.mock_add_spec(["_read"])
         self._read = ReadFunctionAsyncMock(combined_data=read_data)
@@ -71,7 +70,7 @@ class MockStreamReader(CustomMockMixin, MagicMock):
 
 
 class TestTCPSyncConnection:
-    def make_connection(self, read_data: Optional[bytearray] = None) -> TCPSyncConnection[MockSocket]:
+    def make_connection(self, read_data: bytearray | None = None) -> TCPSyncConnection[MockSocket]:
         if read_data is not None:
             read_data = read_data.copy()
 
@@ -125,7 +124,7 @@ class TestTCPSyncConnection:
 class TestTCPAsyncConnection:
     def make_connection(
         self,
-        read_data: Optional[bytearray] = None,
+        read_data: bytearray | None = None,
     ) -> TCPAsyncConnection[MockStreamReader, MockStreamWriter]:
         if read_data is not None:
             read_data = read_data.copy()
