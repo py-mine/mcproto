@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable
 from enum import Enum
 from itertools import count
-from typing import Literal, Optional, TypeVar, Union, overload
+from typing import Literal, TypeVar, Union, overload
 
 from typing_extensions import TypeAlias
 
@@ -105,7 +105,7 @@ class BaseAsyncWriter(ABC):
         """Write a given ``value`` as given struct format (``fmt``) in big-endian mode."""
         await self.write(struct.pack(">" + fmt.value, value))
 
-    async def _write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
+    async def _write_varuint(self, value: int, /, *, max_bits: int | None = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -179,7 +179,7 @@ class BaseAsyncWriter(ABC):
         await self.write_varint(len(data))
         await self.write(data)
 
-    async def write_optional(self, value: Optional[T], /, writer: Callable[[T], Awaitable[R]]) -> Optional[R]:
+    async def write_optional(self, value: T | None, /, writer: Callable[[T], Awaitable[R]]) -> R | None:
         """Writes a bool showing if a ``value`` is present, if so, also writes this value with ``writer`` function.
 
         * When ``value`` is ``None``, a bool of ``False`` will be written, and ``None`` is returned.
@@ -223,7 +223,7 @@ class BaseSyncWriter(ABC):
         """Write a given ``value`` as given struct format (``fmt``) in big-endian mode."""
         self.write(struct.pack(">" + fmt.value, value))
 
-    def _write_varuint(self, value: int, /, *, max_bits: Optional[int] = None) -> None:
+    def _write_varuint(self, value: int, /, *, max_bits: int | None = None) -> None:
         """Write an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -297,7 +297,7 @@ class BaseSyncWriter(ABC):
         self.write_varint(len(data))
         self.write(data)
 
-    def write_optional(self, value: Optional[T], /, writer: Callable[[T], R]) -> Optional[R]:
+    def write_optional(self, value: T | None, /, writer: Callable[[T], R]) -> R | None:
         """Writes a bool showing if a ``value`` is present, if so, also writes this value with ``writer`` function.
 
         * When ``value`` is ``None``, a bool of ``False`` will be written, and ``None`` is returned.
@@ -351,7 +351,7 @@ class BaseAsyncReader(ABC):
         unpacked = struct.unpack(">" + fmt.value, data)
         return unpacked[0]
 
-    async def _read_varuint(self, *, max_bits: Optional[int] = None) -> int:
+    async def _read_varuint(self, *, max_bits: int | None = None) -> int:
         """Read an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -444,7 +444,7 @@ class BaseAsyncReader(ABC):
 
         return chars
 
-    async def read_optional(self, reader: Callable[[], Awaitable[R]]) -> Optional[R]:
+    async def read_optional(self, reader: Callable[[], Awaitable[R]]) -> R | None:
         """Reads a bool showing if a value is present, if so, also reads this value with ``reader`` function.
 
         * When ``False`` is read, the function will not read anything and ``None`` is returned.
@@ -491,7 +491,7 @@ class BaseSyncReader(ABC):
         unpacked = struct.unpack(">" + fmt.value, data)
         return unpacked[0]
 
-    def _read_varuint(self, *, max_bits: Optional[int] = None) -> int:
+    def _read_varuint(self, *, max_bits: int | None = None) -> int:
         """Read an arbitrarily big unsigned integer in a variable length format.
 
         This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.
@@ -584,7 +584,7 @@ class BaseSyncReader(ABC):
 
         return chars
 
-    def read_optional(self, reader: Callable[[], R]) -> Optional[R]:
+    def read_optional(self, reader: Callable[[], R]) -> R | None:
         """Reads a bool showing if a value is present, if so, also reads this value with ``reader`` function.
 
         * When ``False`` is read, the function will not read anything and ``None`` is returned.

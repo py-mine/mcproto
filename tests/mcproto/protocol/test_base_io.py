@@ -3,7 +3,7 @@ from __future__ import annotations
 import platform
 import struct
 from abc import ABC, abstractmethod
-from typing import Any, Union
+from typing import Any
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -159,7 +159,7 @@ class WrappedAsyncWriter(SynchronizedMixin):
 class WriterTests(ABC):
     """This class holds tests for both sync and async versions of writer."""
 
-    writer: Union[BaseSyncWriter, BaseAsyncWriter]
+    writer: BaseSyncWriter | BaseAsyncWriter
 
     @classmethod
     @abstractmethod
@@ -168,7 +168,7 @@ class WriterTests(ABC):
         ...
 
     @pytest.fixture()
-    def method_mock(self) -> Union[Mock, AsyncMock]:
+    def method_mock(self) -> Mock | AsyncMock:
         """Returns the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.writer, BaseSyncWriter):
             return Mock
@@ -188,7 +188,7 @@ class WriterTests(ABC):
             patch_path = "mcproto.protocol.base_io.BaseAsyncWriter"
             mock_type = AsyncMock
 
-        def autopatch(function_name: str) -> Union[Mock, AsyncMock]:
+        def autopatch(function_name: str) -> Mock | AsyncMock:
             mock_f = mock_type()
             monkeypatch.setattr(f"{patch_path}.{function_name}", mock_f)
             return mock_f
@@ -332,7 +332,7 @@ class WriterTests(ABC):
             ("test", [len("test"), *list(map(ord, "test"))]),
             ("a" * 100, [len("a" * 100), *list(map(ord, "a" * 100))]),
             ("", [0]),
-            ("नमस्ते", [18] + [int(x) for x in "नमस्ते".encode("utf-8")]),
+            ("नमस्ते", [18] + [int(x) for x in "नमस्ते".encode()]),
         ],
     )
     def test_write_utf(self, string: str, expected_bytes: list[int], write_mock: WriteFunctionMock):
@@ -346,7 +346,7 @@ class WriterTests(ABC):
         with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
             self.writer.write_utf("a" * (32768))
 
-    def test_write_optional_true(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
+    def test_write_optional_true(self, method_mock: Mock | AsyncMock, write_mock: WriteFunctionMock):
         """Writing non-None value should write True and run the writer function."""
         mock_v = Mock()
         mock_f = method_mock()
@@ -354,7 +354,7 @@ class WriterTests(ABC):
         mock_f.assert_called_once_with(mock_v)
         write_mock.assert_has_data(bytearray([1]))
 
-    def test_write_optional_false(self, method_mock: Union[Mock, AsyncMock], write_mock: WriteFunctionMock):
+    def test_write_optional_false(self, method_mock: Mock | AsyncMock, write_mock: WriteFunctionMock):
         """Writing None value should write False and skip running the writer function."""
         mock_f = method_mock()
         self.writer.write_optional(None, mock_f)
@@ -365,7 +365,7 @@ class WriterTests(ABC):
 class ReaderTests(ABC):
     """This class holds tests for both sync and async versions of reader."""
 
-    reader: Union[BaseSyncReader, BaseAsyncReader]
+    reader: BaseSyncReader | BaseAsyncReader
 
     @classmethod
     @abstractmethod
@@ -374,7 +374,7 @@ class ReaderTests(ABC):
         ...
 
     @pytest.fixture()
-    def method_mock(self) -> Union[Mock, AsyncMock]:
+    def method_mock(self) -> Mock | AsyncMock:
         """Returns the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.reader, BaseSyncReader):
             return Mock
@@ -394,7 +394,7 @@ class ReaderTests(ABC):
             patch_path = "mcproto.protocol.base_io.BaseAsyncReader"
             mock_type = AsyncMock
 
-        def autopatch(function_name: str) -> Union[Mock, AsyncMock]:
+        def autopatch(function_name: str) -> Mock | AsyncMock:
             mock_f = mock_type()
             monkeypatch.setattr(f"{patch_path}.{function_name}", mock_f)
             return mock_f
@@ -523,7 +523,7 @@ class ReaderTests(ABC):
             ([len("test"), *list(map(ord, "test"))], "test"),
             ([len("a" * 100), *list(map(ord, "a" * 100))], "a" * 100),
             ([0], ""),
-            ([18] + [int(x) for x in "नमस्ते".encode("utf-8")], "नमस्ते"),
+            ([18] + [int(x) for x in "नमस्ते".encode()], "नमस्ते"),
         ],
     )
     def test_read_utf(self, read_bytes: list[int], expected_string: str, read_mock: ReadFunctionMock):
@@ -548,14 +548,14 @@ class ReaderTests(ABC):
         with pytest.raises(IOError):
             self.reader.read_utf()
 
-    def test_read_optional_true(self, method_mock: Union[Mock, AsyncMock], read_mock: ReadFunctionMock):
+    def test_read_optional_true(self, method_mock: Mock | AsyncMock, read_mock: ReadFunctionMock):
         """Reading optional should run reader function when first bool is True."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([1])
         self.reader.read_optional(mock_f)
         mock_f.assert_called_once_with()
 
-    def test_read_optional_false(self, method_mock: Union[Mock, AsyncMock], read_mock: ReadFunctionMock):
+    def test_read_optional_false(self, method_mock: Mock | AsyncMock, read_mock: ReadFunctionMock):
         """Reading optional should not run reader function when first bool is False."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([0])

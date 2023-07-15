@@ -94,7 +94,7 @@ def generate_packet_map(
     ...
 
 
-@lru_cache()
+@lru_cache
 def generate_packet_map(direction: PacketDirection, state: GameState) -> Mapping[int, type[Packet]]:
     """Dynamically generated a packet map for given ``direction`` and ``state``.
 

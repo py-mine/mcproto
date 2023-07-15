@@ -4,7 +4,7 @@ import asyncio
 import errno
 import socket
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 
 import asyncio_dgram
 from typing_extensions import ParamSpec, Self
@@ -262,7 +262,7 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
         sock.settimeout(timeout)
         return cls(sock, address)
 
-    def read(self, length: Optional[int] = None) -> bytearray:
+    def read(self, length: int | None = None) -> bytearray:
         """Receive data sent through the connection.
 
         :param length:
@@ -311,7 +311,7 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
         stream = await asyncio.wait_for(conn, timeout=timeout)
         return cls(stream, timeout)
 
-    async def read(self, length: Optional[int] = None) -> bytearray:
+    async def read(self, length: int | None = None) -> bytearray:
         """Receive data sent through the connection.
 
         :param length:
