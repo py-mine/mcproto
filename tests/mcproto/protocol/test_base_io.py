@@ -316,8 +316,8 @@ class WriterTests(ABC):
     @pytest.mark.parametrize(
         ("string", "expected_bytes"),
         [
-            ("test", list(map(ord, "test")) + [0]),
-            ("a" * 100, list(map(ord, "a" * 100)) + [0]),
+            ("test", [*list(map(ord, "test")), 0]),
+            ("a" * 100, [*list(map(ord, "a" * 100)), 0]),
             ("", [0]),
         ],
     )
@@ -329,8 +329,8 @@ class WriterTests(ABC):
     @pytest.mark.parametrize(
         ("string", "expected_bytes"),
         [
-            ("test", [len("test")] + list(map(ord, "test"))),
-            ("a" * 100, [len("a" * 100)] + list(map(ord, "a" * 100))),
+            ("test", [len("test"), *list(map(ord, "test"))]),
+            ("a" * 100, [len("a" * 100), *list(map(ord, "a" * 100))]),
             ("", [0]),
             ("नमस्ते", [18] + [int(x) for x in "नमस्ते".encode("utf-8")]),
         ],
@@ -507,8 +507,8 @@ class ReaderTests(ABC):
     @pytest.mark.parametrize(
         ("read_bytes", "expected_string"),
         [
-            (list(map(ord, "test")) + [0], "test"),
-            (list(map(ord, "a" * 100)) + [0], "a" * 100),
+            ([*list(map(ord, "test")), 0], "test"),
+            ([*list(map(ord, "a" * 100)), 0], "a" * 100),
             ([0], ""),
         ],
     )
@@ -520,8 +520,8 @@ class ReaderTests(ABC):
     @pytest.mark.parametrize(
         ("read_bytes", "expected_string"),
         [
-            ([len("test")] + list(map(ord, "test")), "test"),
-            ([len("a" * 100)] + list(map(ord, "a" * 100)), "a" * 100),
+            ([len("test"), *list(map(ord, "test"))], "test"),
+            ([len("a" * 100), *list(map(ord, "a" * 100))], "a" * 100),
             ([0], ""),
             ([18] + [int(x) for x in "नमस्ते".encode("utf-8")], "नमस्ते"),
         ],
@@ -536,7 +536,7 @@ class ReaderTests(ABC):
         ("read_bytes"),
         [
             [253, 255, 7],
-            [128, 128, 2] + list(map(ord, "a" * (32768))),
+            [128, 128, 2, *list(map(ord, "a" * 32768))],
         ],
         # Temporary workaround.
         # https://github.com/pytest-dev/pytest/issues/6881#issuecomment-596381626
