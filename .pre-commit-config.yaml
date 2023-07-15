@@ -37,10 +37,10 @@ repos:
 
   - repo: local
     hooks:
-      - id: flake8
-        name: Flake8
-        description: Run flake8 checks on the code
-        entry: poetry run flake8
+      - id: ruff
+        name: Ruff
+        description: Run Ruff checks on the code
+        entry: poetry run ruff --show-fixes --show-source
         language: system
         types: [python]
 

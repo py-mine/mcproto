@@ -41,7 +41,7 @@ class LoginStart(ServerBoundPacket):
     def serialize(self) -> Buffer:
         buf = Buffer()
         buf.write_utf(self.username)
-        buf.write_optional(self.uuid, lambda id: buf.extend(id.serialize()))
+        buf.write_optional(self.uuid, lambda id_: buf.extend(id_.serialize()))
         return buf
 
     @classmethod

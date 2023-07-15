@@ -44,25 +44,7 @@ pytest-asyncio = "^0.21.0"
 pytest-cov = ">=3,<5"
 
 [tool.poetry.group.lint.dependencies]
-flake8 = "^6.0.0"
-flake8-annotations = ">=2.9,<4.0"
-flake8-bandit = "^4.1.1"
-flake8-bugbear = "^23.6.5"
-flake8-builtins = "^2.1.0"
-flake8-comprehensions = "^3.12.0"
-flake8-dunder-all = "^0.3.0"
-flake8-functions = "^0.0.8"
-flake8-future-annotations = ">=0.0.5,<1.1.1"
-flake8-noqa = "^1.3.1"
-flake8-pep3101 = "^2.0.0"
-flake8-pep585 = { version = "^0.1.5", python = ">=3.9" }
-flake8-print = "^5.0.0"
-flake8-printf-formatting = "^1.1.2"
-flake8-pytest-style = "^1.6.0"
-flake8-raise = "^0.0.5"
-flake8-simplify = "^0.20.0"
-flake8-tidy-imports = "^4.6.0"
-pep8-naming = "^0.13.3"
+ruff = "^0.0.278"
 black = ">=22.3,<24.0"
 isort = "^5.10.1"
 pyright = "^1.1.313"
@@ -111,6 +93,49 @@ reportUnnecessaryComparison = "error"
 reportUnnecessaryContains = "error"
 reportUnnecessaryTypeIgnoreComment = "error"
 reportShadowedImports = "error"
+
+[tool.ruff]
+target-version = "py38"
+line-length = 119
+
+select = [
+  "F",      # Pyflakes
+  "W",      # Pycodestyle (warnigns)
+  "E",      # Pycodestyle (errors)
+  "N",      # pep8-naming
+  "YTT",    # flake8-2020
+  "ANN",    # flake8-annotations
+  "S",      # flake8-bandit
+  "B",      # flake8-bugbear
+  "A",      # flake8-builtins
+  "C4",     # flake8-comprehensions
+  "FA",     # flake8-future-annotations
+  "T20",    # flake8-print
+  "PT",     # flake8-pytest-style
+  "RSE",    # flake8-raise
+  "SIM",    # flake8-simplify
+  "TID",    # flake8-tidy-imports
+  "RUF100", # flake8-noqa
+  "UP006",  # flake8-pep585
+]
+
+ignore = [
+  "ANN002", # Missing type annotation for *args
+  "ANN003", # Missing type annotation for **kwargs
+  "ANN101", # Missing type annotation for self in method
+  "ANN102", # Missing type annotation for cls in classmethod
+  "ANN204", # Missing return type annotation for special method
+  "PT011",  # pytest.raises without match parameter is too broad
+]
+
+[tool.ruff.extend-per-file-ignores]
+"tests/*" = [
+  "ANN",  # flake8-annotations
+  "S101", # Use of assert
+]
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
 
 [tool.black]
 line-length = 119

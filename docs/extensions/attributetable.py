@@ -10,7 +10,7 @@ from docutils import nodes
 from sphinx import addnodes
 from sphinx.application import Sphinx
 from sphinx.environment import BuildEnvironment
-from sphinx.locale import _ as translate  # noqa: N813
+from sphinx.locale import _ as translate
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.typing import OptionSpec
 from sphinx.writers.html5 import HTML5Translator
@@ -265,7 +265,12 @@ def class_results_to_node(key: str, elements: Sequence[TableElement]) -> Attribu
     ul = nodes.bullet_list("")
     for element in elements:
         ref = nodes.reference(
-            "", "", internal=True, refuri=f"#{element.fullname}", anchorname="", *[nodes.Text(element.label)]
+            "",
+            "",
+            internal=True,
+            refuri=f"#{element.fullname}",
+            anchorname="",
+            *[nodes.Text(element.label)],  # noqa: B026 # (from original impl)
         )
         para = addnodes.compact_paragraph("", "", ref)
         if element.badge is not None:
