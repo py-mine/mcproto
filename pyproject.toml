@@ -105,6 +105,7 @@ select = [
   "N",      # pep8-naming
   "YTT",    # flake8-2020
   "ANN",    # flake8-annotations
+  "ASYNC",  # flake8-async
   "S",      # flake8-bandit
   "B",      # flake8-bugbear
   "A",      # flake8-builtins
