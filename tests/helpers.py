@@ -51,7 +51,7 @@ class SynchronizedMixin:
 
     _WRAPPED_ATTRIBUTE: str
 
-    def __getattribute__(self, __name: str) -> Any:  # noqa: ANN401
+    def __getattribute__(self, __name: str) -> Any:
         """Return attributes of the wrapped object, if the attribute is a coroutine function, synchronize it.
 
         The only exception to this behavior is getting the :attr:`._WRAPPED_ATTRIBUTE` variable itself, or the
@@ -137,11 +137,7 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
         # and rather raise an AttributeError, informing that given attr isn't accessible
         if self._mock_sealed:
             mock_name = self._extract_mock_name()
-            if "name" in kwargs:
-                obj_name = f"{mock_name}.{kwargs['name']}"
-            else:
-                obj_name = f"{mock_name}()"
-
+            obj_name = f"{mock_name}.{kwargs['name']}" if "name" in kwargs else f"{mock_name}()"
             raise AttributeError(f"Can't access {obj_name}, mock is sealed.")
 
         # Propagate any other children as simple `unittest.mock.Mock` instances

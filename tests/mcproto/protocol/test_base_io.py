@@ -198,11 +198,7 @@ class WriterTests(ABC):
     @pytest.fixture()
     def write_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the write function with a mock which is returned."""
-        if isinstance(self.writer, BaseSyncWriter):
-            mock_f = WriteFunctionMock()
-        else:
-            mock_f = WriteFunctionAsyncMock()
-
+        mock_f = WriteFunctionMock() if isinstance(self.writer, BaseSyncWriter) else WriteFunctionAsyncMock()
         monkeypatch.setattr(self.writer.__class__, "write", mock_f)
         return mock_f
 
@@ -222,7 +218,7 @@ class WriterTests(ABC):
     def test_write_value(
         self,
         fmt: INT_FORMATS_TYPE,
-        value: Any,  # noqa: ANN401
+        value: Any,
         expected_bytes: list[int],
         write_mock: WriteFunctionMock,
     ):
@@ -241,7 +237,7 @@ class WriterTests(ABC):
     def test_write_value_out_of_range(
         self,
         fmt: INT_FORMATS_TYPE,
-        value: Any,  # noqa: ANN401
+        value: Any,
     ):
         with pytest.raises(struct.error):
             self.writer.write_value(fmt, value)
@@ -408,10 +404,7 @@ class ReaderTests(ABC):
     @pytest.fixture()
     def read_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the read function with a mock which is returned."""
-        if isinstance(self.reader, SyncReader):
-            mock_f = ReadFunctionMock()
-        else:
-            mock_f = ReadFunctionAsyncMock()
+        mock_f = ReadFunctionMock() if isinstance(self.reader, SyncReader) else ReadFunctionAsyncMock()
         monkeypatch.setattr(self.reader.__class__, "read", mock_f)
         yield mock_f
         # Run this assertion after the test, to ensure that all specified data
@@ -435,7 +428,7 @@ class ReaderTests(ABC):
         self,
         fmt: INT_FORMATS_TYPE,
         read_bytes: list[int],
-        expected_value: Any,  # noqa: ANN401
+        expected_value: Any,
         read_mock: ReadFunctionMock,
     ):
         read_mock.combined_data = bytearray(read_bytes)
