@@ -391,8 +391,7 @@ class BaseAsyncReader(ABC):
         For more information about variable length format check :meth:`._read_varuint`.
         """
         unsigned_num = await self._read_varuint(max_bits=32)
-        val = from_twos_complement(unsigned_num, bits=32)
-        return val
+        return from_twos_complement(unsigned_num, bits=32)
 
     async def read_varlong(self) -> int:
         """Read a 64-bit signed integer in a variable length format.
@@ -400,8 +399,7 @@ class BaseAsyncReader(ABC):
         For more information about variable length format check :meth:`._read_varuint`.
         """
         unsigned_num = await self._read_varuint(max_bits=64)
-        val = from_twos_complement(unsigned_num, bits=64)
-        return val
+        return from_twos_complement(unsigned_num, bits=64)
 
     async def read_bytearray(self, /) -> bytearray:
         """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
@@ -533,8 +531,7 @@ class BaseSyncReader(ABC):
         For more information about variable length format check :meth:`._read_varuint`.
         """
         unsigned_num = self._read_varuint(max_bits=32)
-        val = from_twos_complement(unsigned_num, bits=32)
-        return val
+        return from_twos_complement(unsigned_num, bits=32)
 
     def read_varlong(self) -> int:
         """Read a 64-bit signed integer in a variable length format.
@@ -542,8 +539,7 @@ class BaseSyncReader(ABC):
         For more information about variable length format check :meth:`._read_varuint`.
         """
         unsigned_num = self._read_varuint(max_bits=64)
-        val = from_twos_complement(unsigned_num, bits=64)
-        return val
+        return from_twos_complement(unsigned_num, bits=64)
 
     def read_bytearray(self) -> bytearray:
         """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""

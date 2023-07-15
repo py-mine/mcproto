@@ -42,12 +42,12 @@ class ChatMessage(MCType):
         """Convert received ``raw`` into a stadard :class:`dict` form."""
         if isinstance(self.raw, list):
             return RawChatMessageDict(extra=self.raw)
-        elif isinstance(self.raw, str):
+        if isinstance(self.raw, str):
             return RawChatMessageDict(text=self.raw)
-        elif isinstance(self.raw, dict):  # pyright: ignore[reportUnnecessaryIsInstance]
+        if isinstance(self.raw, dict):  # pyright: ignore[reportUnnecessaryIsInstance]
             return self.raw
-        else:  # pragma: no cover
-            raise TypeError(f"Found unexpected type ({self.raw.__class__!r}) ({self.raw!r}) in `raw` attribute")
+        # pragma: no cover
+        raise TypeError(f"Found unexpected type ({self.raw.__class__!r}) ({self.raw!r}) in `raw` attribute")
 
     def __eq__(self, other: Self) -> bool:
         """Check equality between two chat messages.

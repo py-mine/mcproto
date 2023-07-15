@@ -115,6 +115,7 @@ select = [
   "PT",     # flake8-pytest-style
   "Q",      # flake8-quotes
   "RSE",    # flake8-raise
+  "RET",    # flake8-return
   "SIM",    # flake8-simplify
   "TID",    # flake8-tidy-imports
   "PTH",    # flake8-use-pathlib

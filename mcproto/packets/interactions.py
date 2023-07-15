@@ -43,8 +43,7 @@ def _serialize_packet(packet: Packet, *, compressed: bool = False) -> Buffer:
         data_buf.write_varint(data_length)
         data_buf.write(packet_buf)
         return data_buf
-    else:
-        return packet_buf
+    return packet_buf
 
 
 def _deserialize_packet(
