@@ -131,7 +131,7 @@ ignore = [
   "ANN101",  # Missing type annotation for self in method
   "ANN102",  # Missing type annotation for cls in classmethod
   "ANN204",  # Missing return type annotation for special method
-  "PT011",   # pytest.raises without match parameter is too broad
+  "PT011",   # pytest.raises without match parameter is too broad # TODO: Unignore this
   "UP024",   # Using errors that alias OSError
   "PLR2004", # Using unnamed numerical constants
   "PGH003",  # Using specific rule codes in type ignores
