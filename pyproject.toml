@@ -115,6 +115,7 @@ select = [
   "RSE",    # flake8-raise
   "SIM",    # flake8-simplify
   "TID",    # flake8-tidy-imports
+  "PTH",    # flake8-use-pathlib
   "RUF",    # ruff-specific rules
   "UP006",  # flake8-pep585
 ]

@@ -23,7 +23,7 @@ else:
 
 # -- Basic project information -----------------------------------------------
 
-with open("../pyproject.toml", "rb") as f:
+with Path("../pyproject.toml").open("rb") as f:
     pkg_meta: dict[str, str] = toml_parse(f)["tool"]["poetry"]
 
 project = str(pkg_meta["name"])
