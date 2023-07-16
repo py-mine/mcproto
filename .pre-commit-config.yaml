@@ -34,9 +34,11 @@ repos:
       - id: ruff
         name: Ruff
         description: Run Ruff checks on the code
-        entry: poetry run ruff --show-fixes --show-source
+        entry: poetry run ruff check --force-exclude
         language: system
         types: [python]
+        require_serial: true
+        args: [--fix, --exit-non-zero-on-fix]
 
   - repo: local
     hooks:
