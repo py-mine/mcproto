@@ -172,15 +172,15 @@ skip_covered = false
 skip_empty = false
 sort = "cover"
 exclude_lines = [
-    "\\#\\s*pragma: no cover",
-    "^\\s*if (typing\\.)?TYPE_CHECKING:",
-    "^\\s*@(abc\\.)?abstractmethod",
-    "^\\s*@(typing\\.)?overload",
-    "^\\s*def __repr__\\(",
-    "^\\s*class .*\\bProtocol\\):",
-    "^\\s*raise NotImplementedError",
-    "^\\s*return NotImplemented",
-    "^\\s*\\.\\.\\.",
+  "\\#\\s*pragma: no cover",
+  "^\\s*if (typing\\.)?TYPE_CHECKING:",
+  "^\\s*@(abc\\.)?abstractmethod",
+  "^\\s*@(typing\\.)?overload",
+  "^\\s*def __repr__\\(",
+  "^\\s*class .*\\bProtocol\\):",
+  "^\\s*raise NotImplementedError",
+  "^\\s*return NotImplemented",
+  "^\\s*\\.\\.\\.",
 ]
 
 [tool.coverage.run]
@@ -196,15 +196,15 @@ directory = "changes"
 template = "changes/.template.rst"
 filename = "CHANGELOG.md"
 issue_format = "[#{issue}](https://github.com/py-mine/mcproto/issues/{issue})"
-orphan_prefix = "+"   # Use '+' instead of number for fragments not connected to any PR
-underlines = [2, 3]  # We use this for heading levels (see template file)
+orphan_prefix = "+" # Use '+' instead of number for fragments not connected to any PR
+underlines = [2, 3] # We use this for heading levels (see template file)
 type = [
-    { name = "Breaking Changes",            directory = "breaking",      showcontent = true },
-    { name = "Deprecation",                 directory = "deprecation",   showcontent = true },
-    { name = "Features",                    directory = "feature",       showcontent = true },
-    { name = "Bugfixes",                    directory = "bugfix",        showcontent = true },
-    { name = "Documentation Improvements",  directory = "docs",          showcontent = true },
-    { name = "Internal Changes",            directory = "internal",      showcontent = true },
+  { name = "Breaking Changes", directory = "breaking", showcontent = true },
+  { name = "Deprecation", directory = "deprecation", showcontent = true },
+  { name = "Features", directory = "feature", showcontent = true },
+  { name = "Bugfixes", directory = "bugfix", showcontent = true },
+  { name = "Documentation Improvements", directory = "docs", showcontent = true },
+  { name = "Internal Changes", directory = "internal", showcontent = true },
 ]
 
 [tool.slotscheck]
