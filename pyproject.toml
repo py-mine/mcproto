@@ -99,30 +99,31 @@ target-version = "py38"
 line-length = 119
 
 select = [
-  "F",      # Pyflakes
-  "W",      # Pycodestyle (warnigns)
-  "E",      # Pycodestyle (errors)
-  "N",      # pep8-naming
-  "YTT",    # flake8-2020
-  "ANN",    # flake8-annotations
-  "ASYNC",  # flake8-async
-  "S",      # flake8-bandit
-  "B",      # flake8-bugbear
-  "A",      # flake8-builtins
-  "C4",     # flake8-comprehensions
-  "FA",     # flake8-future-annotations
-  "T20",    # flake8-print
-  "PT",     # flake8-pytest-style
-  "Q",      # flake8-quotes
-  "RSE",    # flake8-raise
-  "RET",    # flake8-return
-  "SIM",    # flake8-simplify
-  "TID",    # flake8-tidy-imports
-  "PTH",    # flake8-use-pathlib
-  "PGH",    # pygrep-hooks
-  "PL",     # pylint
-  "RUF",    # ruff-specific rules
-  "UP",     # pyupgrade
+  "F",     # Pyflakes
+  "W",     # Pycodestyle (warnigns)
+  "E",     # Pycodestyle (errors)
+  "N",     # pep8-naming
+  "YTT",   # flake8-2020
+  "ANN",   # flake8-annotations
+  "ASYNC", # flake8-async
+  "S",     # flake8-bandit
+  "B",     # flake8-bugbear
+  "A",     # flake8-builtins
+  "C4",    # flake8-comprehensions
+  "FA",    # flake8-future-annotations
+  "T20",   # flake8-print
+  "PT",    # flake8-pytest-style
+  "Q",     # flake8-quotes
+  "RSE",   # flake8-raise
+  "RET",   # flake8-return
+  "SIM",   # flake8-simplify
+  "TID",   # flake8-tidy-imports
+  "INT",   # flake8-gettext
+  "PTH",   # flake8-use-pathlib
+  "PGH",   # pygrep-hooks
+  "PL",    # pylint
+  "RUF",   # ruff-specific rules
+  "UP",    # pyupgrade
 ]
 
 ignore = [
