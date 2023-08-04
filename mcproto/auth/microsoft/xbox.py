@@ -37,7 +37,7 @@ class XSTSErrorType(str, Enum):
             return cls.NO_XBOX_ACCOUNT
         if xerr_no == 2148916235:
             return cls.XBOX_LIVE_NOT_IN_COUNTRY
-        if xerr_no == 2148916236 or xerr_no == 2148916237:
+        if xerr_no in (2148916236, 2148916237):
             return cls.ADULT_VERIFICATION_NEEDED
         if xerr_no == 2148916238:
             return cls.UNDERAGE_ACCOUNT
