@@ -130,7 +130,10 @@ async def microsoft_oauth_authenticate(
 
 
 async def full_microsoft_oauth(client: httpx.AsyncClient, client_id: str) -> MicrosoftOauthResponseData:
-    """Perform full Microsoft Oauth2 sequence, waiting for user to authenticated (from the browser)."""
+    """Perform full Microsoft Oauth2 sequence, waiting for user to authenticated (from the browser).
+
+    See :func:`microsoft_oauth_request` (OAuth2 start) and :func:`microsoft_oauth_authenticate` (OAuth2 end).
+    """
     request_data = await microsoft_oauth_request(client, client_id)
 
     # Contains instructions for the user (user code and verification url)
