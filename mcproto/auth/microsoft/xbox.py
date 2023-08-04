@@ -56,7 +56,7 @@ class XSTSRequestError(Exception):
         self.redirect_url: str = data["Redirect"]
         self.err_type = XSTSErrorType.from_status_error(self.xerr)
 
-        return super().__init__(self.msg)
+        super().__init__(self.msg)
 
     @property
     def msg(self) -> str:

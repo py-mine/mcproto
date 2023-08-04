@@ -73,7 +73,7 @@ class AuthServerApiError(Exception):
             self.code, self.short_msg, self.cause_msg, self.full_msg
         )
 
-        return super().__init__(self.msg)
+        super().__init__(self.msg)
 
     @property
     def msg(self) -> str:

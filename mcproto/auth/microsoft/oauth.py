@@ -54,7 +54,7 @@ class MicrosoftOauthResponseError(Exception):
         self.error = data["error"]
         self.err_type = MicrosoftOauthResponseErrorType.from_status_error(self.error)
 
-        return super().__init__(self.err_type.value)
+        super().__init__(self.err_type.value)
 
     def __repr__(self) -> str:
         if self.err_type is MicrosoftOauthResponseErrorType.UNKNOWN:
