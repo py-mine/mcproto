@@ -38,7 +38,7 @@ class ServicesAPIError(Exception):
         self.err_msg: str | None = data.get("errorMessage")
         self.err_type = ServicesAPIErrorType.from_status_error(self.code, self.err_msg)
 
-        return super().__init__(self.msg)
+        super().__init__(self.msg)
 
     @property
     def msg(self) -> str:
