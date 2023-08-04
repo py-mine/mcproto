@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-This project is fully open-sourced and all new contributions are welcome.
+This project is fully open-sourced and new contributions are welcome!
 
 However know that we value the quality of the code we maintain and distribute, and you will need to adhere to some code
 quality standards which we define. Your PR may get rejected on the basis of a contributor failing to follow these
@@ -35,107 +35,40 @@ rules can often make your life much easier, make debugging quicker and keep the 
    This is further described in [this section](#work-in-progress-prs)
 7. **Follow our [Code of Conduct](./CODE-OF-CONDUCT.md).**
 
-## Making Great Commits
+## Project installation
 
-A well-structured git log is key to a project's maintainability; it provides insight into when and why things were done
-for future maintainers of the project.
+This project uses [`poetry`](https://python-poetry.org/docs/). It's a tool for managing python virtual environments. If
+you haven't heard of those, they're essentially a mini installation of python used purely for the project you're working
+on (as opposed to using a single global python installation for everything, which is prone to conflicts, as different
+projects might need different versions of the same package). Follow the linked documentation for installation
+instructions.
 
-Commits should be as narrow in scope as possible. Commits that span hundreds of lines across multiple unrelated
-functions and/or files are very hard for maintainers to follow. After about a week, they'll probably be hard for you to
-follow too.
+Once installed, you will want to create a new environment for mcproto, with all of it's dependencies installed. To do
+that, enter the clonned repository in your terminal, and run:
 
-Please also avoid making a lot minor commits for fixing test failures or linting errors. Just lint before you push as
-described in [this category](#linting-and-precommit).
+```bash
+poetry install
+```
 
-We've compiled a few resources on making good commits:
+Note that you will want to re-run this command each time our dependencies are updated, to stay in sync with the project.
 
-- <https://itsdrike.com/posts/great-commits/>
-- <https://chris.beams.io/posts/git-commit/>
-- <https://dhwthompson.com/2019/my-favourite-git-commit>
-- <https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message>
-- <https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html>
+After that, the environment will contain all of the dependencies, including various executable programs, such as
+`pyright`. One of these executable programs is also `python`, which is the python interpreter for this environment,
+capable of interacting with all of the installed libraries.
 
-## Work in Progress PRs
+You will now need to make your terminal use the programs from this environment, rather than any global versions that you
+may have installed, so that you can use the tools in it when working on the project. Some IDEs/editors are capable of
+doing this for you automatically when you open the project. If yours isn't, you can run:
 
-Whenever you add a pull request that isn't yet ready to be reviewed and merged, you can mark it as a draft. This
-provides both visual and functional indicator that the PR isn't yet ready to be reviewed and merged.
+```bash
+poetry shell
+```
 
-This feature should be utilized instead of the traditional method of prepending `[WIP]` to the PR title.
+You can then start your IDE from the terminal, after you ran this command, and it should pick up the python environment
+created by poetry.
 
-Methods of marking PR as a draft:
-
-1. When creating it
-
-   ![image](https://user-images.githubusercontent.com/20902250/94499351-bc736e80-01fc-11eb-8e99-a7863dd1428a.png)
-
-2. After it was created
-
-   ![image](https://user-images.githubusercontent.com/20902250/94499276-8930df80-01fc-11eb-9292-7f0c6101b995.png)
-
-For more info, check the GitHub's documentation about this feature
-[here](https://github.blog/2019-02-14-introducing-draft-pull-requests/)
-
-## Don't reinvent the wheel
-
-We're an open-sourced project, and like most other open-sourced projects, we depend on other projects that already
-implemented many things which we need in our code. It doesn't make a lot of sense to try and implement everything from
-the bottom, when there already are perfectly reasonable and working implementations made.
-
-In most of the cases, this will mean using some libraries which can simply be added to our [project's
-dependencies](./pyproject.toml) which is maintained with poetry, which you can read more about in [this
-section](#setting-up-the-virtual-environment).
-
-Libraries aren't the only way to make use of the existing open-source code that's already out there. Another
-thing which we can often do is simply directly copy open-source code into our project. However always make sure that
-before even considering to paste someones code into ours, you have the right to do so given to you by the code's
-author. This could be a directly given permission, but in most of cases, it will be an open-source license allowing
-anyone to use the code it applies to as long as the conditions of that license are followed.
-
-We all stand on the shoulders of giants even just by using the python language. There were some very smart people
-behind implementing this language or the libraries that our project uses and they deserve the credit for their hard
-work as their license specifies. To do this, we use the [`ATTRIBUTION.txt`](./ATTRIBUTION.txt) file.
-
-This project is released under the LGPL v3 license and this means we can utilize the code of LGPL v3 libraries as well
-as the permissive licenses (such as MIT, Apache or BSD licenses), it also means that when you contribute to our
-project, you agree that your contributions may appear on other projects accordingly to the LGPL license (however you
-may choose to later publish your code under any other license).
-
-LGPL v3 is a "copy-left" license, which ensures that your code will always remain open-sourced and it will never be
-relicensed (unless you give your permission as the copyright holder of your code). If for some reason you don't want to
-contribute under a copy-left license but rather under MIT, or other permissive license, you are free to do so, just
-mention whatever parts you added in the attribution file with your license's full-text with a copyright notice that
-includes your name and a link to the original source (if you just made that code up, instead of a link to the original
-source, you can just include a link to your GitHub profile, or just use your git email address.)
-
-- How software licenses work: <https://itsdrike.com/posts/software-licenses/>
-- GitHub's docs on licenses: <https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository>
-
-## Setting up the virtual environment
-
-When contributing to our project, we recommend working from a virtual python environment instead of installing all of
-our dependencies onto your system-wide python. Virtual environment is essentially a completely isolated python version
-just for a given project. You should ideally use a virtual environment for any project which requires some external
-dependencies, because always using the system python will inevitably lead to dependency collisions (one project you're
-working on requires a different version of some dependency than other project).
-
-To manage the virtual environment, this project uses [`poetry`](https://python-poetry.org/) for dependency management
-and virtual environment. Poetry is a very powerful tool for managing virtual environments for python. If you're already
-used to similar tools such as pipenv, or even just pure venv, you'll probably find it quite easy to use.
-
-To use poetry, you will need to install it. If you're on linux, you can usually do this through your package manager,
-but generally just installing with system-wide `pip` will do the trick. SO generally, you can just run `pip install
-poetry` from your terminal to install it. After that, you'll want to navigate into the project's directory from the
-terminal and run `poetry install`. This will create a new virtual environment for you, along with automatically
-installing all of our dependencies for the project without having to worry about anything. You should also re-run this
-command each time new dependencies are added, to stay in sync with the project.
-
-After that, to work from within this virtual environment, you'll want to use `poetry shell` command, activating this
-environment and therefore overriding your default system version of python to instead use the virtual environment's
-version. You will need to work from an activated environment to be able to run all further commands specified in the
-sections below, as they usually rely on the dependencies installed in this environment. Alternatively, you could also
-instead use `poetry run my_command` to only execute a single command from the virtual environment without having to
-activate it, however this will likely soon become annoying and just working from within an activated environment should
-be easier.
+You can also just prefix any command with `poetry run` (e.g. `poetry run python`) to use the executable from the
+environment, without activating it, however you will almost always want to activate the environment instead.
 
 For more info about poetry, make sure to check their amazing official documentation: `https://python-poetry.org/docs/`,
 these include installation instructions, explain how to add new dependencies to the project, or how to remove some, and
@@ -147,10 +80,10 @@ For clarity and readability, adhering to a consistent code style across the whol
 unusual that style adjustments will be requested in pull requests.
 
 It is always a good practice to review the style of the existing code-base before adding something new, and adhere to
-that established style. If you think a code style change is should be made, open an issue about it and tell us what
-exactly should be changed, describe why you think this change is important and if you want to, you can also ask to be
-assigned to the issue and work on changing the style in the code-base in a standalone PR just for that. (Hey you may
-even get to edit this section!)
+that established style. That applies even if it isn't the style you generally prefer, however if you think a code style
+change of some kind would be justified, feel free to open an issue about it and tell us what exactly should be changed,
+and why you think this change is important. If you want to, you can also ask to be assigned to the issue and work on
+changing the style in the code-base in your own PR. (Hey you may even get to edit this section!)
 
 > A style guide is about consistency. Consistency with this style guide is important. Consistency within a project is
 > more important. Consistency within one module or function is the most important.
@@ -159,152 +92,61 @@ even get to edit this section!)
 > use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask!
 > — [PEP 8, the general Style Guide for Python Code](https://peps.python.org/pep-0008/)
 
-### Automated linters
+### Automatic linting
 
-Every python code should adhere to "PEP-8" styling (not just in our code-base). This is a relatively simple set of
-guidelines defining how python code should look like, to remain readable and well maintainable. If you aren't familiar
-with this standard, you can check the official [PEP 8 Guidelines](https://www.python.org/dev/peps/pep-0008/).
+As there is a lot of various styling rules we adhere to in our code base, and obviously, describing all of them in a
+style guide here would just take way too long, and it would be impossible to remember anyway. For that reason, we use
+automated tools to help us catch any style violation without manual review!
 
-To check that your code meets these guidelines, we use a tool (or "linter") called
-[`flake8`](https://flake8.pycqa.org/en/latest/). Flake8 can run checks on every python file in our code-base, and
-verify that it meets all of the rules it contains. These rules fully capture all of the PEP-8 guidelines, along with
-some other extra rules which are more unique to flake8 directly. On top of these flake8 rules, we also have some
-extensions to flake8, which add other specialized rules, such as for enforcing the presence of type annotations.
+Currently, these are the tools we use for code style enforcement:
 
-But flake8 isn't the only linter we use in the code-base. We're also utilizing `black`, which is not just a linter, but
-also an auto-formatter, meaning running it can edit the source-code on it's own, and fix the issues it finds for you.
-This can often save you a lot of time and means you don't need to deeply study all of the guidelines and styling rules,
-and instead just let a simple tool handle it all for you.
+- [`ruff`](https://beta.ruff.rs/docs/): General python linter
+- [`isort`](https://pycqa.github.io/isort/): Formatter/Sorter of import statements
+- [`black`](https://black.readthedocs.io/en/stable/): General python formatter
 
-The last linter, and also an auto-formatter tool which we're using is `isort`. We use isort for automatic sorting of
-our import statements in alphabetical order, and into 3 general groups: standard library imports, external imports
-(installed with pip) and internal/project imports.
+You can read more about them individually in the sections below. It is important that you familiarize yourself with all
+of these tools, and their standalone usage, but it would of course be very annoying to have to run all of these tools
+manually, so while there will be instructions on how to do that, you should pretty much always prefer direct IDE/editor
+integration, which is mentioned [here](#editor-integration), and make use of [pre-commit](#pre-commit).
 
-Combining all of these tools makes up for a very clean code-base which is very easy to maintain. However running all of
-these tools constantly can get very annoying. For that reason, we make use of `pre-commit`, which can run them for us
-automatically before each commit. This will be later described in better detail in
-[it's own section](#linting-and-precommit) below.
+#### Ruff linter
 
-To make sure that everything works as it should and to save some time on reviewing issues in code formatting, we use an
-automated [validation workflow](./.github/workflows/validation.yml). This workflow runs these checks automatically the
-moment you push some code to GitHub. However it is important that you run the linters locally instead of just relying
-on this workflow. Not only does this avoid making a lot of unnecessary fixing commits, it also saves you time, because
-it takes a while for the workflow to run, and running the linters locally is way faster. But the biggest reason we ask
-you not to rely on these workflows is that we have a limited amount of concurrent workflows, so please don't abuse
-them.
+Ruff is an alternative program to the more popular [`flake8`](https://flake8.pycqa.org/en/latest/) linter. Ruff is
+faster (written in rust! 🦀) and includes most of the popular flake8 extensions directly.
 
-### Linting and Precommit
+You can check which ruff rules we're using in [`pyproject.toml`](./pyproject.toml) file, under the `[tools.ruff]`.
 
-Linting is the process of running some form of linter on the code-base. As mentioned above, we use several of these
-linters to ensure that the codebase stays clean and maintainable. You can run these linters individually, by running
-these commands from the terminal (from within an with activated virtual environment, and while in the root of the
-repository):
+To run `ruff` on the code, you can use `ruff check .` command, while in the project's root directory (from an activated
+poetry environment, alternatively `poetry run ruff .`). Ruff also supports some automatic fixes to many violations it
+founds, to enable fixing, you can use `ruff check --fix`.
 
-- **Flake8**: `flake8 .`
-- **Black**: `black .`
-- **Isort**: `isort .`
+If you find a rule violation in your code somewhere, and you don't understand what that rule's purpose is, `ruff` evens
+supports running `ruff rule [rule id]` (for example `ruff rule ANN401`). These explanations are in markdown, so I'd
+recommend using a markdown renderer such as [`glow`](https://github.com/charmbracelet/glow) (on Arch linux, you can
+install it with: `pacman -S glow`) and piping the output into it for a much nicer reading experience: `ruff rule ANN401
+| glow`.
 
-It is important that we make sure to lint before pushing, because it can avoid needlessly making a lot of commits just
-to fix the linting issues and pass the workflow checks or meet additional requested styling. However running all of
-these commands before every commit can quickly get very annoying, and people also tend to forget to run them. To solve
-this issue we use a tool called `pre-commit`.
+#### Isort
 
-Pre-commit is a tool utilizing the pre-commit [git hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) that
-runs before every commit you make, and is able to stop that commit if some linter reported a failure. To install
-pre-commit hook all you need to do is to run `poetry run task precommit` which will add the git-hook and pre-commit
-will now run before each new commit you make and will stop you from committing badly-linted code.
+Isort is a tool for sorting python imports. We use it for consistency in the code-base, and because it makes it very
+easy to quickly know where to look, when a file has a lot of imports in it, since you'll know they're all sorted in a
+very particular order.
 
-In our [`.pre-commit-config.yaml`](./.pre-commit-config.yaml), we define several checks to be ran before committing,
-which are here to enforce our styling guidelines and correct typing. These include flake8, black and isort, but there
-are some other things too, such as a linter for TOML/YAML files.
+Specifically, isort splits our imports up into 3 groups: stdlib, external, internal. Inside of these groups, all
+imports are also alphabetically sorted.
 
-By default, once you make a commit, pre-commit will only run on the edited files. If you want to run `pre-commit` on
-all files in the project, or if you just want to run it as a lint check without having to make a commit, you can do so
-by running `poetry run task lint` command.
+You can run isort to automatically sort the imports for you with: `isort .` (or `poetry run isort .`) from the
+project's root.
 
-Even though in most cases enforcing linting before each commit is what we want, there are some situations where
-we need to commit some code which doesn't pass these checks. This can happen for example after a merge, or as a result
-of making a single purpose small commit without yet worrying about linters. In these cases, you can use the
-`--no-verify` flag when making a commit, telling git to skip all of the pre-commit hooks and commit normally.
+#### Black
 
-However this kind of verification skipping should only be used sparingly, as we do value a clean history which
-consistently follows our linting guidelines, you should avoid from making too many commits skipping the linting, only
-to then make one big commit fixing all of the linting issues. And when you do need to use it, you should wait until you
-make another commit where linting is resolved until you push, to avoid needlessly failing the automated workflows on
-GitHub which run pre-commit themselves (amongst other things).
+Black is a popular auto-formatter for python, with a bunch of different rules to automatically format our code in a
+way we want it to look. Black is a great way to allow us to focus on writing the logic of the code, without worrying
+too much about the code style, as it simply formats the code for us. It is fully compatible with `ruff`, linter, so no
+conflicts between these tools will arise. In fact, black can often fix a lot of violations ruff will report on it's
+own.
 
-### Type hinting
-
-[PEP 484](https://www.python.org/dev/peps/pep-0484/) formally specifies type hints for Python functions, added to the
-Python Standard Library in version 3.5. Type hints are recognized by most modern code editing tools and provide useful
-insight into both the input and output types of a function, preventing the user from having to go through the codebase
-to determine these types.
-
-For example, a non-annotated function can look like this:
-
-```python
-def divide(a, b):
-    """Divide the two given arguments."""
-    return a / b
-```
-
-With annotation, the function looks like this:
-
-```python
-def divide(a: int, b: int) -> float:
-    """Divide the two given arguments."""
-    return a / b
-```
-
-Some great resources for learning about python type-hints:
-
-Thankfully python type-hinting is fairly easy to understand, but if you do want to see some rather interesting
-resources for a bit more advanced concepts such as type variables or some python specific types like `typing.Callable`,
-we've compiled a quick list of really amazing resources about these type hinting practice.
-
-- Python documentation from `typing` library: <https://docs.python.org/3/library/typing.html>
-- MyPy documentation (very extensive but quite beginner friendly): <https://mypy.readthedocs.io/en/stable/>
-- Decorator Factory blog about typing: <https://decorator-factory.github.io/typing-tips/>
-- Typing Generics (advanced): <https://itsdrike.com/posts/typing-generics/>
-
-### Enforcing type hints - Type checker
-
-Even though the type hints can be pretty useful in knowing what the function variables are expected to be and they also
-provide better auto-completion, if we're not careful, we could soon end up violating our own type specifications,
-because by default python doesn't enforce these type-hints in any way.
-
-To give ensure that our code-base is correct type-wise, we use a tool that goes through the code (similarly to a
-linter), just to analyze the specified types and tell us if our current use of these types makes sense. Using a
-type-checker is very beneficial to a code-base, because it can quickly catch mistakes we made based on purely the
-types, without relying purely on unit-tests, which may not cover everything.
-
-There are many python type-checkers available, the most notable ones being `mypy` and `pyright`. We decided to use
-`pyright`, because it has great support for newer typing features and is quick to update and bug fixing. Pyright can be
-used from the terminal as a stand-alone linter-like checker, by simply running `pyright .` (from within an activated
-virtual environment), however we include it in our pre-commit checks, to ensure type-correctness before each commit.
-
-Pyright is one of the fastest type-checkers out there (at least when it comes to type-checkers that also support a lot
-of the newer features), however it still needs to perform some very complex logic for this type analysis and can take a
-while to run (a few seconds). This isn't too long, but it may get a bit annoying to have to run it before each commit.
-If you prefer to run pre-commit without pyright, you can specify `SKIP=pyrigt` environmental variable, which will skip
-this check in pre-commit, however make sure to run it at least before you push your code to GitHub to avoid unnecessary
-failures on our workflows.
-
-Pyright can also be used as an extension to VSCode, as it is a part of Pylance (an extension installed by default with
-the Python extension). However type-checking is disabled by default, so if you want to use it like that, you will need
-to set `"python.languageServer": "Pylance"` and `"python.analysis.typeCheckingMode": "basic"` in settings. Pyright can
-also be used as a base language server for almost any editor, you just need to figure out how to get your editor to
-pick it up.
-
-### Quotes
-
-Preference is to use double-quotes (`"`) wherever possible. Single quotes should only be used for cases where it is
-logical. Exceptions might include:
-
-- Using a key string within an f-string: f"Today is {data['day']}".
-- Using double quotes within a string: 'She said "oh dear" in response'
-
-Docstrings/Multiline strings must always be wrapped in 3 double quotes (`"""my string"""`).
+To run black, simply execute `black .` (or `poetry run black .`) from the project's root.
 
 ### Use of `__all__`
 
@@ -403,6 +245,193 @@ Present tense defines that the work being done is now, in the present, rather th
 
 **Use:** "Build a player object."
 **Don't use:** "Built a player object." or "Will build a player object."
+
+## Type hinting
+
+[PEP 484](https://www.python.org/dev/peps/pep-0484/) formally specifies type hints for Python. You can specify type
+hints for a function, in addition to just parameter names, allowing you to quickly understand what kind of parameter
+this is. Most IDEs/editors will even be able to recognize these type hints, and provide auto-completion based on them.
+For example, if you type hint a parameter as `list`, an editor can suggest list methods like `join` or `append`. Many
+editors will even show you the type hint on the argument in the function's signature, when you're trying to call it,
+along with the parameter name making it really easy to understand what you're supposed to pass without even looking at
+the docstring.
+
+For example, an untyped function can look like this:
+
+```python
+def divide(a, b):
+    """Divide the two given arguments."""
+    return a / b
+```
+
+With type-annotations, the function looks like this:
+
+```python
+def divide(a: int, b: int) -> float:
+    """Divide the two given arguments."""
+    return a / b
+```
+
+Thankfully python type-hinting is fairly easy to understand, but if you do want to see some rather interesting
+resources for a bit more advanced concepts such as type variables or some more complex types like `typing.Callable`,
+we've compiled a quick list of really amazing resources about these type hinting practice.
+
+- Python documentation from `typing` library: <https://docs.python.org/3/library/typing.html>
+- MyPy documentation (very extensive but quite beginner friendly): <https://mypy.readthedocs.io/en/stable/>
+- Decorator Factory blog about typing: <https://decorator-factory.github.io/typing-tips/>
+- Typing Generics (advanced): <https://itsdrike.com/posts/typing-generics/>
+
+### Enforcing type hints - Type checker
+
+Even though the type hints can be pretty useful in knowing what the function variables are expected to be and they also
+provide better auto-completion, if we're not careful, we could soon end up violating our own type specifications,
+because by default python doesn't enforce these type-hints in any way. To python, they're not much more than comments.
+
+To make sure that our code-base really is correct type-wise, we use a tool that looks at the code statically (similarly
+to a linter), and analyzes the types, finding any inconsistencies. Using a type-checker can be very beneficial,
+especially to bigger projects, as it can quickly catch mistakes we made based on purely the types, without even having
+to run the code. So many times, you'll see issues before actually testing things out (with unit-tests, or manually). In
+a lot of cases, type checkers can even uncover many things that our unit tests wouldn't find.
+
+There are many python type-checkers available, the most notable ones being `mypy` and `pyright`. We decided to use
+`pyright`, because it has great support for many newer typing features. Pyright can be used from the terminal as a
+stand-alone linter-like checker, by simply running `pyright .` (from within an activated virtual environment). But just
+like with linters, you should ideally just [include it into your editor directly](#editor-integration). We also run
+pyright automatically, as a part of [pre-commit](#pre-commit).
+
+## Pre-commit
+
+Now that you've seen all of the linters and type-checkers we use in the project, you might be wondering whether you're
+really expected to run all of those commands manually, after each change. And of course, no, you're not, that would be
+really annoying, and you'd probably also often just forget to do that.
+
+So, instead of that, we use a tool called `pre-commit`, which creates a [git
+hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), that will automatically run before each commit you
+make. That means each time when you make a commit, all of the linters, formatters and other checkers will run over the
+code you updated, and if any of these linters detects an issue, the commit will be aborted, and you will see which
+linter failed, and it's output telling you why.
+
+To install pre-commit as a git hook all you need to do is to run `pre-commit install` from an activated poetry
+environment, installing it into the git repository as a hook running before every commit. That said, you can also run
+pre-commit without having to install it (or without having to make a commit, even if installed). To do that, simply
+execute: `pre-commit run --all-files`. Note that the installed hook will only run the linters on the files that were
+updated in the commit, while using the command directly will run it on the whole project.
+
+You can find pre-commit's configuration the [`.pre-commit-config.yaml`](./.pre-commit-config.yaml) file, where we define
+which tools should be ran and how. Currently, pre-commit runs ruff, black, isort and pyright, but also a checker for
+some issues in TOML/YAML files.
+
+Even though in most cases enforcing linting before each commit is what we want, there are some situations where
+we need to commit some code which doesn't pass these checks. This can happen for example after a merge, or as a result
+of making a single purpose small commit without yet worrying about linters. In these cases, you can use the
+`--no-verify` flag when making a commit, telling git to skip all of the pre-commit hooks and commit normally. You can
+also only skip a specific hook(s), by setting `SKIP` environmental variable (e.g. `SKIP=ruff`, or
+`SKIP=ruff,isort`), the names of the individual hooks are their ids, you can find those in the configuration
+file for pre-commit.
+
+However this kind of verification skipping should be used sparingly. We value a clean history which consistently follows
+our linting guidelines, and making commits with linting issues only leads to more commits, fixing those issues later. If
+you really do need to skip the linters though, you should then wait until you create another commit fixing the issues
+before pushing the code to github, to avoid needlessly failing the automated workflows, which run pre-commit themselves
+(amongst other things).
+
+## Editor Integration
+
+Even with pre-commit, it would still be very annoying to have to only run the linters during the commit, because with
+the amount of rules we have, and especially if you're not used to following many of them, you will make a lot of
+mistakes. Because of that, we heavily recommend that you integrate these tools into your IDE/editor directly. Most
+editors will support integration will all of these tools, so you shouldn't have any trouble doing this.
+
+If you're using neovim, I would recommend setting up LSP (Language Server Protocol), and installing Pyright, as it has
+language server support built into it. Same thing goes with `ruff`, which has an LSP implementation
+[`ruff-lsp`](https://github.com/astral-sh/ruff-lsp). As for `isort` and `black`, you'll want to use something like
+`null-ls` for those.
+
+On vscode, you can simply install extensions for all of the tools we're using:
+
+- [pylance (pyright)](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
+- [ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+- [isort](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)
+- [black](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
+
+Note that with Pylance, you will also need to enable the type checking mode, by setting
+`"python.analysis.typeCheckingMode": "basic"` in `settings.json`. You can use `.vscode/settings.json` for per-project
+settings, to only enable type-checking for this project, or enable it globally in your user settings).
+
+## Making Great Commits
+
+A well-structured git log is key to a project's maintainability; it provides insight into when and why things were done
+for future maintainers of the project.
+
+Commits should be as narrow in scope as possible. Commits that span hundreds of lines across multiple unrelated
+functions and/or files are very hard for maintainers to follow. After about a week, they'll probably be hard for you to
+follow too.
+
+Please also avoid making a lot minor commits for fixing test failures or linting errors. Instead, run the linters before
+you push, ideally with [pre-commit](#pre-commit).
+
+We've compiled a few resources on making good commits:
+
+- <https://itsdrike.com/posts/great-commits/>
+- <https://chris.beams.io/posts/git-commit/>
+- <https://dhwthompson.com/2019/my-favourite-git-commit>
+- <https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message>
+- <https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html>
+
+## Work in Progress PRs
+
+Whenever you add a pull request that isn't yet ready to be reviewed and merged, you can mark it as a draft. This
+provides both visual and functional indicator that the PR isn't yet ready to be reviewed and merged.
+
+This feature should be utilized instead of the traditional method of prepending `[WIP]` to the PR title.
+
+Methods of marking PR as a draft:
+
+1. When creating it
+
+   ![image](https://user-images.githubusercontent.com/20902250/94499351-bc736e80-01fc-11eb-8e99-a7863dd1428a.png)
+
+2. After it was created
+
+   ![image](https://user-images.githubusercontent.com/20902250/94499276-8930df80-01fc-11eb-9292-7f0c6101b995.png)
+
+For more info, check the GitHub's documentation about this feature
+[here](https://github.blog/2019-02-14-introducing-draft-pull-requests/)
+
+## Don't reinvent the wheel
+
+We're an open-sourced project, and like most other open-sourced projects, we depend on other projects that already
+implemented many things which we need in our code. It doesn't make a lot of sense to try and implement everything from
+the bottom, when there already are perfectly reasonable and working implementations made.
+
+In most of the cases, this will mean using some libraries which can simply be added to our [project's
+dependencies](./pyproject.toml) which is maintained with poetry, which you can read more about in [this
+section](#project-installation).
+
+Libraries aren't the only way to make use of the existing open-source code that's already out there. Another
+thing which we can often do is simply directly copy open-source code into our project. However always make sure that
+before even considering to paste someones code into ours, you have the right to do so given to you by the code's
+author. This could be a directly given permission, but in most of cases, it will be an open-source license allowing
+anyone to use the code it applies to as long as the conditions of that license are followed.
+
+We all stand on the shoulders of giants even just by using the python language. There were some very smart people
+behind implementing this language or the libraries that our project uses and they deserve the credit for their hard
+work as their license specifies. To do this, we use the [`ATTRIBUTION.txt`](./ATTRIBUTION.txt) file.
+
+This project is released under the LGPL v3 license and this means we can utilize the code of LGPL v3 libraries as well
+as the permissive licenses (such as MIT, Apache or BSD licenses), it also means that when you contribute to our
+project, you agree that your contributions may appear on other projects accordingly to the LGPL license (however you
+may choose to later publish your code under any other license).
+
+LGPL v3 is a "copy-left" license, which ensures that your code will always remain open-sourced and it will never be
+relicensed (unless you give your permission as the copyright holder of your code). If for some reason you don't want to
+contribute under a copy-left license but rather under MIT, or other permissive license, you are free to do so, just
+mention whatever parts you added in the attribution file with your license's full-text with a copyright notice that
+includes your name and a link to the original source (if you just made that code up, instead of a link to the original
+source, you can just include a link to your GitHub profile, or just use your git email address.)
+
+- How software licenses work: <https://itsdrike.com/posts/software-licenses/>
+- GitHub's docs on licenses: <https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository>
 
 ## Changelog
 
