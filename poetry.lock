@@ -353,13 +353,13 @@ files = [
 
 [[package]]
 name = "dunamai"
-version = "1.17.0"
+version = "1.18.0"
 description = "Dynamic version generation"
 optional = false
 python-versions = ">=3.5,<4.0"
 files = [
-    {file = "dunamai-1.17.0-py3-none-any.whl", hash = "sha256:5aa4ac1085de10691269af021b10497261a5dd644f277e2a21822212604d877b"},
-    {file = "dunamai-1.17.0.tar.gz", hash = "sha256:459381b585a1e78e4070f0d38a6afb4d67de2ee95064bf6b0438ec620dde0820"},
+    {file = "dunamai-1.18.0-py3-none-any.whl", hash = "sha256:f9284a9f4048f0b809d11539896e78bde94c05b091b966a04a44ab4c48df03ce"},
+    {file = "dunamai-1.18.0.tar.gz", hash = "sha256:5200598561ea5ba956a6174c36e402e92206c6a6aa4a93a6c5cb8003ee1e0997"},
 ]
 
 [package.dependencies]
@@ -709,17 +709,17 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "poetry-dynamic-versioning"
-version = "0.23.0"
+version = "0.25.0"
 description = "Plugin for Poetry to enable dynamic versioning based on VCS tags"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "poetry_dynamic_versioning-0.23.0-py3-none-any.whl", hash = "sha256:764be34df672f57f5000dd800110a21dc42bcd9ab0f5492a37bd4f0265ee521d"},
-    {file = "poetry_dynamic_versioning-0.23.0.tar.gz", hash = "sha256:c540fde6e9e334ec3b0f14f57f8467076d8d76ed0d503a89db9f91e59fd5d6f9"},
+    {file = "poetry_dynamic_versioning-0.25.0-py3-none-any.whl", hash = "sha256:8dd146f2c5a12ae43145e82bed3386048880ebd52e1c52ae5517c62cb25206d3"},
+    {file = "poetry_dynamic_versioning-0.25.0.tar.gz", hash = "sha256:f751f345405f968e49423df147160b5c936960aabbee00fa4b74d3a4964789b1"},
 ]
 
 [package.dependencies]
-dunamai = ">=1.17.0,<2.0.0"
+dunamai = ">=1.18.0,<2.0.0"
 jinja2 = ">=2.11.1,<4"
 tomlkit = ">=0.4"
 
@@ -1355,4 +1355,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "c993c41200f02879a8f1180187feb922ca9e09ae21ca23692a29959981418010"
+content-hash = "dd6bc61204a76304556da50a3c9b06c497cdfb74d7eb740ac895b05455ca46db"
