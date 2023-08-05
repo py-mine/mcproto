@@ -76,7 +76,11 @@ class MSAAccount(Account):
 
     @classmethod
     async def from_xbox_access_token(cls, client: httpx.AsyncClient, access_token: str) -> Self:
-        """Construct the account from the xbox access token, using it to get the rest of the profile information."""
+        """Construct the account from the xbox access token, using it to get the rest of the profile information.
+
+        See :meth:`_get_access_token_from_xbox` for how to obtain the ``access_token``. Note that
+        in most cases, you'll want to use :meth:`xbox_auth` rather than this method directly.
+        """
         res = await client.get(
             f"{MC_SERVICES_API_URL}/minecraft/profile", headers={"Authorization": f"Bearer {access_token}"}
         )
@@ -87,6 +91,9 @@ class MSAAccount(Account):
 
     @classmethod
     async def xbox_auth(cls, client: httpx.AsyncClient, user_hash: str, xsts_token: str) -> Self:
-        """Authenticate using an XSTS token from Xbox Live auth (for Microsoft accounts)."""
+        """Authenticate using an XSTS token from Xbox Live auth (for Microsoft accounts).
+
+        See :func:`mcproto.auth.microsoft.xbox.xbox_auth` for how to obtain the ``user_hash`` and ``xsts_token``.
+        """
         access_token = await cls._get_access_token_from_xbox(client, user_hash, xsts_token)
         return await cls.from_xbox_access_token(client, access_token)
