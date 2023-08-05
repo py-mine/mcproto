@@ -81,7 +81,10 @@ class XboxData(NamedTuple):
 
 
 async def xbox_auth(client: httpx.AsyncClient, microsoft_access_token: str, bedrock: bool = False) -> XboxData:
-    """Authenticate into Xbox Live account and obtain user hash and XSTS token."""
+    """Authenticate into Xbox Live account and obtain user hash and XSTS token.
+
+    See :func:`~mcproto.auth.microsoft.oauth.full_microsoft_oauth` for info on ``microsoft_access_token``.
+    """
     # Obtain XBL token
     payload = {
         "Properties": {
