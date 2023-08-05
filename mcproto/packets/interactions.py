@@ -91,10 +91,11 @@ def _deserialize_packet(
     :param compressed:
         Boolean flag, if compression is enabled, it should be set to ``True``, ``False`` otherwise.
 
-        Note that in the LoginSetCompression packet, we will only see a compression threshold, not
-        a simple bool flag. This threshold is only useful when writing (serializing) the packets,
-        for reading, we only need to know if compression is enabled or not. That is, if the threshold
-        is set to a non-negative number, this should be ``True``.
+        You can get this based on :class:`~mcproto.packets.login.login.LoginSetCompression` packet,
+        which will contain a compression threshold value. This threshold is only useful when writing
+        the packets, for reading, we don't care about the specific threshold, we only need to know
+        whether compression is enabled or not. That is, if the threshold is set to a non-negative
+        number, this should be ``True``.
     """
     if compressed:
         data_length = buf.read_varint()
@@ -153,7 +154,7 @@ def sync_read_packet(
     reader: BaseSyncReader,
     packet_map: Mapping[int, type[T_Packet]],
     *,
-    compressed: bool = False,
+    compression_threshold: int = -1,
 ) -> T_Packet:
     """Read a packet.
 
@@ -163,17 +164,22 @@ def sync_read_packet(
 
         This mapping should contain all of the packets for the current gamestate and direction.
         See :func:`~mcproto.packets.packet_map.generate_packet_map`
-    :param compressed:
-        A boolean flag, representing whether or not compression is enabled.
+    :param compression_threshold:
+        A threshold packet length, whcih if crossed compression should be enabled.
 
-        You can get this based on :class:`~mcproto.packets.login.login.LoginSetCompression` packet,
-        which will contain a compression threshold value. This threshold is only useful when writing
-        the packets, for reading, we don't care about the specific threshold, we only need to know
-        whether compression is enabled or not. That is, if the threshold is set to a non-negative
-        number, this should be ``True``.
+        You can get this number from :class:`~mcproto.packets.login.login.LoginSetCompression` packet.
+        If this packet wasn't sent by the server, set this to -1 (default).
 
-        If this packet wasn't sent by the server, set this to ``False`` (default).
+        Note that during reading, we don't actually need to know the specific threshold, just
+        whether or not is is non-negative (whether compression is enabled), as the packet format
+        fundamentally changes when it is. That means you can pass any positive number here to
+        enable compresison, regardess of what it actually is.
     """
+    # The packet format fundamentally changes when compression_threshold is non-negative (enabeld)
+    # We only care about the sepcific threshold when writing though, for reading (deserialization),
+    # we just need to know whether or not compression is enabled
+    compressed = compression_threshold >= 0
+
     data_buf = Buffer(reader.read_bytearray())
     return _deserialize_packet(data_buf, packet_map, compressed=compressed)
 
@@ -182,7 +188,7 @@ async def async_read_packet(
     reader: BaseAsyncReader,
     packet_map: Mapping[int, type[T_Packet]],
     *,
-    compressed: bool = False,
+    compression_threshold: int = -1,
 ) -> T_Packet:
     """Read a packet.
 
@@ -192,16 +198,21 @@ async def async_read_packet(
 
         This mapping should contain all of the packets for the current gamestate and direction.
         See :func:`~mcproto.packets.packet_map.generate_packet_map`
-    :param compressed:
-        A boolean flag, representing whether or not compression is enabled.
+    :param compression_threshold:
+        A threshold packet length, whcih if crossed compression should be enabled.
 
-        You can get this based on :class:`~mcproto.packets.login.login.LoginSetCompression` packet,
-        which will contain a compression threshold value. This threshold is only useful when writing
-        the packets, for reading, we don't care about the specific threshold, we only need to know
-        whether compression is enabled or not. That is, if the threshold is set to a non-negative
-        number, this should be ``True``.
+        You can get this number from :class:`~mcproto.packets.login.login.LoginSetCompression` packet.
+        If this packet wasn't sent by the server, set this to -1 (default).
 
-        If this packet wasn't sent by the server, set this to ``False`` (default).
+        Note that during reading, we don't actually need to know the specific threshold, just
+        whether or not is is non-negative (whether compression is enabled), as the packet format
+        fundamentally changes when it is. That means you can pass any positive number here to
+        enable compresison, regardess of what it actually is.
     """
+    # The packet format fundamentally changes when compression_threshold is non-negative (enabeld)
+    # We only care about the sepcific threshold when writing though, for reading (deserialization),
+    # we just need to know whether or not compression is enabled
+    compressed = compression_threshold >= 0
+
     data_buf = Buffer(await reader.read_bytearray())
     return _deserialize_packet(data_buf, packet_map, compressed=compressed)
