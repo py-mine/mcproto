@@ -57,6 +57,7 @@ Applies to:
     - Copyright (c) 2012 Ammar Askar
       All rights reserved.
         - mcproto/connection.py: write, read methods in all classes (not _write and _read though)
+        - mcproto/encryption.py: encrypt_token_and_secret, generate_shared_secret functions
 ---------------------------------------------------------------------------------------------------
 
 
@@ -260,4 +261,3 @@ Applies to:
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-

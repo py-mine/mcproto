@@ -50,6 +50,8 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
 
         :param shared_secret:
             This is the cipher key for the AES symetric cipher used for the encryption.
+
+            See :func:`mcproto.encryption.generate_shared_secret`.
         """
         # Ensurethe `shared_secret` is an instance of the bytes class, not any
         # subclass. This is needed since the cryptography library calls some C
@@ -160,6 +162,8 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
 
         :param shared_secret:
             This is the cipher key for the AES symetric cipher used for the encryption.
+
+            See :func:`mcproto.encryption.generate_shared_secret`.
         """
         # Ensurethe `shared_secret` is an instance of the bytes class, not any
         # subclass. This is needed since the cryptography library calls some C
