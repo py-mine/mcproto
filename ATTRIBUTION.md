@@ -13,7 +13,10 @@ allowed mcproto to exist in the first place.
 - **Mcstatus**: A library that allows for easy fetching of status/query data from minecraft servers, including parsers and
   structures that meaningfully represent the obtained data, but also the logic on how it's actually obtained, some of
   which this project took heavy inspiration from.
-
+- **pyCraft**: A long abandoned project similar to mcproto, which served as an inspiration for various functionalities in
+  the library.
+- **quarry**: A library providing support for basic interactions with the minecraft protocol, though only up to packet reading.
+  Implementation for reading data from specific packets is not included.
 
 To all of these projects, they deserve a massive thank you, for keeping their code/information open-sourced and
 available as a source of information, and inspiration freely to anyone.
