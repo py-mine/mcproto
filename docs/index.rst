@@ -8,6 +8,7 @@ Content
     :caption: Pages
 
     pages/installation.rst
+    usage/index.rst
     examples/index.rst
     pages/faq.rst
     pages/changelog.rst
