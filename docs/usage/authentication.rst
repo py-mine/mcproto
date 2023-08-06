@@ -110,6 +110,9 @@ Note that the :meth:`~mcproto.auth.microsoft.oauth.full_microsoft_oauth` will pr
 should visit in your browser, and a one time code to type in once you reach this URL. That will then prompt you to log
 in to your Microsoft account, and then allow you to authorize the application to use your account.
 
+Caching
+^^^^^^^
+
 You will very likely want to set up caching here, and store at least the ``microsoft_token`` somewhere, so you don't
 have to log in each time your code will run. Here's some example code that caches every step of the way, always
 resorting to the "closest" functional token. Note that this is using `pickle` to store the tokens, you may want to use
