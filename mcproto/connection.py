@@ -7,6 +7,8 @@ from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
 import asyncio_dgram
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from typing_extensions import ParamSpec, Self
 
 from mcproto.protocol.base_io import BaseAsyncReader, BaseAsyncWriter, BaseSyncReader, BaseSyncWriter
@@ -31,10 +33,36 @@ T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.Datagra
 class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     """Base class for all classes handling synchronous connections."""
 
-    __slots__ = ("closed",)
+    __slots__ = ("closed", "encryption_enabled", "shared_secret", "cipher", "encryptor", "decryptor")
 
     def __init__(self):
         self.closed = False
+        self.encryption_enabled = False
+
+    def enable_encryption(self, shared_secret: bytes) -> None:
+        """Enable encryption for this connection, using the ``shared_secret``.
+
+        After calling this method, the reading and writing process for this connection
+        will be altered, and any future communication will be encrypted/decrypted there.
+
+        You will need to call this method after sending the
+        :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet.
+
+        :param shared_secret:
+            This is the cipher key for the AES symetric cipher used for the encryption.
+        """
+        # Ensurethe `shared_secret` is an instance of the bytes class, not any
+        # subclass. This is needed since the cryptography library calls some C
+        # code in the back, which relies on this being bytes. If it's not a bytes
+        # instance, convert it.
+        if type(shared_secret) is not bytes:
+            shared_secret = bytes(shared_secret)
+
+        self.encryption_enabled = True
+        self.shared_secret = shared_secret
+        self.cipher = Cipher(algorithms.AES(shared_secret), modes.CFB8(shared_secret), backend=default_backend())
+        self.encryptor = self.cipher.encryptor()
+        self.decryptor = self.cipher.decryptor()
 
     @classmethod
     @abstractmethod
@@ -59,6 +87,50 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
         self._close()
         self.closed = True
 
+    @abstractmethod
+    def _write(self, data: bytes, /) -> None:
+        """Send raw ``data`` through this specific connection."""
+        raise NotImplementedError
+
+    def write(self, data: bytes, /) -> None:
+        """Send given ``data`` over the connection.
+
+        Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
+        this might also perform an encryption of the input data.
+        """
+        if self.encryption_enabled:
+            data = self.encryptor.update(data)
+
+        return self._write(data)
+
+    @abstractmethod
+    def _read(self, length: int, /) -> bytearray:
+        """Receive raw data from this specific connection.
+
+        :param length:
+            Amount of bytes to be received. If the requested amount can't be received
+            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
+            will be raised.
+        """
+        raise NotImplementedError
+
+    def read(self, length: int, /) -> bytearray:
+        """Receive data sent through the connection.
+
+        Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
+        this might also perform a decryption of the received data.
+
+        :param length:
+            Amount of bytes to be received. If the requested amount can't be received
+            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
+            will be raised.
+        """
+        data = self._read(length)
+
+        if self.encryption_enabled:
+            return bytearray(self.decryptor.update(data))
+        return data
+
     def __enter__(self) -> Self:
         if self.closed:
             raise IOError("Connection already closed.")
@@ -71,10 +143,36 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
 class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
     """Base class for all classes handling asynchronous connections."""
 
-    __slots__ = ("closed",)
+    __slots__ = ("closed", "encryption_enabled", "shared_secret", "cipher", "encryptor", "decryptor")
 
     def __init__(self):
         self.closed = False
+        self.encryption_enabled = False
+
+    def enable_encryption(self, shared_secret: bytes) -> None:
+        """Enable encryption for this connection, using the ``shared_secret``.
+
+        After calling this method, the reading and writing process for this connection
+        will be altered, and any future communication will be encrypted/decrypted there.
+
+        You will need to call this method after sending the
+        :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet.
+
+        :param shared_secret:
+            This is the cipher key for the AES symetric cipher used for the encryption.
+        """
+        # Ensurethe `shared_secret` is an instance of the bytes class, not any
+        # subclass. This is needed since the cryptography library calls some C
+        # code in the back, which relies on this being bytes. If it's not a bytes
+        # instance, convert it.
+        if type(shared_secret) is not bytes:
+            shared_secret = bytes(shared_secret)
+
+        self.encryption_enabled = True
+        self.shared_secret = shared_secret
+        self.cipher = Cipher(algorithms.AES(shared_secret), modes.CFB8(shared_secret), backend=default_backend())
+        self.encryptor = self.cipher.encryptor()
+        self.decryptor = self.cipher.decryptor()
 
     @classmethod
     @abstractmethod
@@ -98,6 +196,50 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
         """Close the connection (it cannot be used after this)."""
         await self._close()
         self.closed = True
+
+    @abstractmethod
+    async def _write(self, data: bytes, /) -> None:
+        """Send raw ``data`` through this specific connection."""
+        raise NotImplementedError
+
+    async def write(self, data: bytes, /) -> None:
+        """Send given ``data`` over the connection.
+
+        Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
+        this might also perform an encryption of the input data.
+        """
+        if self.encryption_enabled:
+            data = self.encryptor.update(data)
+
+        return await self._write(data)
+
+    @abstractmethod
+    async def _read(self, length: int, /) -> bytearray:
+        """Receive raw data from this specific connection.
+
+        :param length:
+            Amount of bytes to be received. If the requested amount can't be received
+            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
+            will be raised.
+        """
+        raise NotImplementedError
+
+    async def read(self, length: int, /) -> bytearray:
+        """Receive data sent through the connection.
+
+        Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
+        this might also perform a decryption of the received data.
+
+        :param length:
+            Amount of bytes to be received. If the requested amount can't be received
+            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
+            will be raised.
+        """
+        data = await self._read(length)
+
+        if self.encryption_enabled:
+            return bytearray(self.decryptor.update(data))
+        return data
 
     async def __aenter__(self) -> Self:
         if self.closed:
@@ -131,8 +273,8 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         return cls(sock)
 
-    def read(self, length: int) -> bytearray:
-        """Receive data sent through the connection.
+    def _read(self, length: int) -> bytearray:
+        """Receive raw data from this specific connection.
 
         :param length:
             Amount of bytes to be received. If the requested amount can't be received
@@ -155,8 +297,8 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
         return result
 
-    def write(self, data: bytes) -> None:
-        """Send given ``data`` over the connection."""
+    def _write(self, data: bytes) -> None:
+        """Send raw ``data`` through this specific connection."""
         self.socket.send(data)
 
     def _close(self) -> None:
@@ -197,7 +339,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
         reader, writer = await asyncio.wait_for(conn, timeout=timeout)
         return cls(reader, writer, timeout)
 
-    async def read(self, length: int) -> bytearray:
+    async def _read(self, length: int) -> bytearray:
         """Receive data sent through the connection.
 
         :param length:
@@ -221,8 +363,8 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 
         return result
 
-    async def write(self, data: bytes) -> None:
-        """Send given ``data`` over the connection."""
+    async def _write(self, data: bytes) -> None:
+        """Send raw ``data`` through this specific connection."""
         self.writer.write(data)
 
     async def _close(self) -> None:
@@ -262,7 +404,7 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
         sock.settimeout(timeout)
         return cls(sock, address)
 
-    def read(self, length: int | None = None) -> bytearray:
+    def _read(self, length: int | None = None) -> bytearray:
         """Receive data sent through the connection.
 
         :param length:
@@ -278,8 +420,8 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
             result.extend(received_data)
         return result
 
-    def write(self, data: bytes) -> None:
-        """Send given ``data`` over the connection."""
+    def _write(self, data: bytes) -> None:
+        """Send raw ``data`` through this specific connection."""
         self.socket.sendto(data, self.address)
 
     def _close(self) -> None:
@@ -311,7 +453,7 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
         stream = await asyncio.wait_for(conn, timeout=timeout)
         return cls(stream, timeout)
 
-    async def read(self, length: int | None = None) -> bytearray:
+    async def _read(self, length: int | None = None) -> bytearray:
         """Receive data sent through the connection.
 
         :param length:
@@ -326,8 +468,8 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
             result.extend(received_data)
         return result
 
-    async def write(self, data: bytes) -> None:
-        """Send given ``data`` over the connection."""
+    async def _write(self, data: bytes) -> None:
+        """Send raw ``data`` through this specific connection."""
         await self.stream.send(data)
 
     async def _close(self) -> None:
