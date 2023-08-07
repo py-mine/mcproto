@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey, RSAPublicKey, generate_private_key
 
 
-def generate_shared_secret() -> bytes:
+def generate_shared_secret() -> bytes:  # pragma: no cover
     """Generate a random shared secret for client
 
     This secret will be sent to the server in :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet,
@@ -18,7 +18,7 @@ def generate_shared_secret() -> bytes:
     return os.urandom(16)
 
 
-def generate_rsa_key() -> RSAPrivateKey:
+def generate_rsa_key() -> RSAPrivateKey:  # pragma: no cover
     """Generate a random RSA key pair for server.
 
     This key pair will be used for :class:`~mcproto.packets.login.login.LoginEncryptionRequest` packet,
