@@ -1,7 +1,10 @@
 from __future__ import annotations
 
-from typing import ClassVar, final
+from typing import ClassVar, cast, final
 
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
+from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat, load_der_public_key
 from typing_extensions import Self
 
 from mcproto.buffer import Buffer
@@ -60,7 +63,7 @@ class LoginEncryptionRequest(ClientBoundPacket):
     PACKET_ID: ClassVar[int] = 0x01
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    def __init__(self, *, server_id: str | None = None, public_key: bytes, verify_token: bytes):
+    def __init__(self, *, server_id: str | None = None, public_key: RSAPublicKey, verify_token: bytes):
         """
         :param server_id: Empty on minecraft versions 1.7.X and higher (20 random chars pre 1.7).
         :param public_key: Server's public key.
@@ -74,17 +77,24 @@ class LoginEncryptionRequest(ClientBoundPacket):
         self.verify_token = verify_token
 
     def serialize(self) -> Buffer:
+        public_key_raw = self.public_key.public_bytes(encoding=Encoding.DER, format=PublicFormat.SubjectPublicKeyInfo)
+
         buf = Buffer()
         buf.write_utf(self.server_id)
-        buf.write_bytearray(self.public_key)
+        buf.write_bytearray(public_key_raw)
         buf.write_bytearray(self.verify_token)
         return buf
 
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
         server_id = buf.read_utf()
-        public_key = buf.read_bytearray()
+        public_key_raw = buf.read_bytearray()
         verify_token = buf.read_bytearray()
+
+        # Key type is determined by the passed key itself, we know in our case, it will
+        # be an RSA public key, so we explicitly type-cast here.
+        public_key = cast(RSAPublicKey, load_der_public_key(public_key_raw, default_backend()))
+
         return cls(server_id=server_id, public_key=public_key, verify_token=verify_token)
 
 
