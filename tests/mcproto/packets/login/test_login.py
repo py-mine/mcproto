@@ -17,6 +17,7 @@ from mcproto.packets.login.login import (
 )
 from mcproto.types.chat import ChatMessage
 from mcproto.types.uuid import UUID
+from tests.mcproto.test_encryption import RSA_PUBLIC_KEY
 
 
 class TestLoginStart:
@@ -61,8 +62,13 @@ class TestLoginEncryptionRequest:
         ("kwargs", "expected_bytes"),
         [
             (
-                {"public_key": b"I'm public", "verify_token": b"Token", "server_id": "a" * 20},
-                bytes.fromhex("1461616161616161616161616161616161616161610a49276d207075626c696305546f6b656e"),
+                {"public_key": RSA_PUBLIC_KEY, "verify_token": bytes.fromhex("9bd416ef"), "server_id": "a" * 20},
+                bytes.fromhex(
+                    "146161616161616161616161616161616161616161a20130819f300d06092a864886f70d010101050003818d003081890"
+                    "2818100cb515109911ea3e4740d8a17a7ccd9cf226c83c7615e4a5505cd124571ee210a4ba26c7c42e15f51fcb7fa90dc"
+                    "e6f83ebe0e163817c7d9fb1af7d981e90da2cc06ea59d01ff9fbb76b1803a0fe5af4a2c75145d89eb03e6a4aae21d2e7d"
+                    "4c3938a298da575e12e0ae178d61a69bc0ea0b381790f182d9dba715bfb503c99d92b0203010001049bd416ef"
+                ),
             ),
         ],
     )
@@ -74,8 +80,13 @@ class TestLoginEncryptionRequest:
         ("input_bytes", "expected_args"),
         [
             (
-                bytes.fromhex("1461616161616161616161616161616161616161610a49276d207075626c696305546f6b656e"),
-                {"public_key": b"I'm public", "verify_token": b"Token", "server_id": "a" * 20},
+                bytes.fromhex(
+                    "146161616161616161616161616161616161616161a20130819f300d06092a864886f70d010101050003818d003081890"
+                    "2818100cb515109911ea3e4740d8a17a7ccd9cf226c83c7615e4a5505cd124571ee210a4ba26c7c42e15f51fcb7fa90dc"
+                    "e6f83ebe0e163817c7d9fb1af7d981e90da2cc06ea59d01ff9fbb76b1803a0fe5af4a2c75145d89eb03e6a4aae21d2e7d"
+                    "4c3938a298da575e12e0ae178d61a69bc0ea0b381790f182d9dba715bfb503c99d92b0203010001049bd416ef"
+                ),
+                {"public_key": RSA_PUBLIC_KEY, "verify_token": bytes.fromhex("9bd416ef"), "server_id": "a" * 20},
             ),
         ],
     )
