@@ -92,6 +92,17 @@ class TestTCPSyncConnection:
         with pytest.raises(IOError):
             conn.read(10)
 
+    def test_encrypted_read(self):
+        # The encryption is done with AES/CFB8 stream cipher
+        key = bytearray.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+        plaintext_data = bytearray.fromhex("1077656c6c2068656c6c6f207468657265")
+        encrypted_data = bytearray.fromhex("1ee5262f2df60b7262bed1ee27a3056184")
+
+        conn = self.make_connection(encrypted_data)
+        conn.enable_encryption(key)
+
+        assert conn.read(17) == plaintext_data
+
     def test_write(self):
         data = bytearray("hello", "utf-8")
         conn = self.make_connection()
@@ -99,6 +110,18 @@ class TestTCPSyncConnection:
         conn.write(data)
 
         conn.socket._send.assert_has_data(data)
+
+    def test_encrypted_write(self):
+        # The encryption is done with AES/CFB8 stream cipher
+        key = bytearray.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+        plaintext_data = bytearray.fromhex("1077656c6c2068656c6c6f207468657265")
+        encrypted_data = bytearray.fromhex("1ee5262f2df60b7262bed1ee27a3056184")
+
+        conn = self.make_connection()
+        conn.enable_encryption(key)
+
+        conn.write(plaintext_data)
+        conn.socket._send.assert_has_data(encrypted_data)
 
     def test_socket_close(self):
         conn = self.make_connection()
