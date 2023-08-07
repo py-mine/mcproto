@@ -53,7 +53,7 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
 
             See :func:`mcproto.encryption.generate_shared_secret`.
         """
-        # Ensurethe `shared_secret` is an instance of the bytes class, not any
+        # Ensure the `shared_secret` is an instance of the bytes class, not any
         # subclass. This is needed since the cryptography library calls some C
         # code in the back, which relies on this being bytes. If it's not a bytes
         # instance, convert it.
@@ -165,7 +165,7 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
 
             See :func:`mcproto.encryption.generate_shared_secret`.
         """
-        # Ensurethe `shared_secret` is an instance of the bytes class, not any
+        # Ensure the `shared_secret` is an instance of the bytes class, not any
         # subclass. This is needed since the cryptography library calls some C
         # code in the back, which relies on this being bytes. If it's not a bytes
         # instance, convert it.
