@@ -1,7 +1,10 @@
 from typing import cast
 
+from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
+
+from mcproto.encryption import encrypt_token_and_secret
 
 _SERIALIZED_RSA_PRIVATE_KEY = b"""
 -----BEGIN PRIVATE KEY-----
@@ -23,3 +26,13 @@ zmnkw1hek/JcfQBlVYo3gFmWBh6Hl1Lb7p3TKUViJCA1k2f0aGv7+d9aFS0fRq6u
 """
 RSA_PRIVATE_KEY = cast(RSAPrivateKey, load_pem_private_key(_SERIALIZED_RSA_PRIVATE_KEY, password=None))
 RSA_PUBLIC_KEY = RSA_PRIVATE_KEY.public_key()
+
+
+def test_encrypt_token_and_secret():
+    verification_token = bytes.fromhex("9bd416ef")
+    shared_secret = bytes.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+
+    encrypted_token, encrypted_secret = encrypt_token_and_secret(RSA_PUBLIC_KEY, verification_token, shared_secret)
+
+    assert RSA_PRIVATE_KEY.decrypt(encrypted_token, PKCS1v15()) == verification_token
+    assert RSA_PRIVATE_KEY.decrypt(encrypted_secret, PKCS1v15()) == shared_secret
