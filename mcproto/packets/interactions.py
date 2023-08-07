@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import gzip
+import zlib
 from collections.abc import Mapping
 from typing import TypeVar
 
@@ -66,7 +66,7 @@ def _serialize_packet(packet: Packet, *, compression_threshold: int = -1) -> Buf
         # send uncompressed data with an extra 0 for data length
         if len(packet_buf) > compression_threshold:
             data_length = len(packet_buf)
-            packet_buf = Buffer(gzip.compress(packet_buf))
+            packet_buf = Buffer(zlib.compress(packet_buf))
         else:
             data_length = 0
 
@@ -102,7 +102,7 @@ def _deserialize_packet(
         packet_data = buf.read(buf.remaining)
         # Only run decompression if the threshold was crosed, otherwise the data_length will be
         # set to 0, indicating no compression was done, read the data normally if that's the case
-        buf = Buffer(gzip.decompress(packet_data)) if data_length != 0 else Buffer(packet_data)
+        buf = Buffer(zlib.decompress(packet_data)) if data_length != 0 else Buffer(packet_data)
 
     packet_id = buf.read_varint()
     packet_data = buf.read(buf.remaining)
