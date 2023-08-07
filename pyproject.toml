@@ -46,7 +46,7 @@ pytest-asyncio = "^0.21.0"
 pytest-cov = ">=3,<5"
 
 [tool.poetry.group.lint.dependencies]
-ruff = "^0.0.278"
+ruff = ">=0.0.278,<0.0.283"
 black = ">=22.3,<24.0"
 isort = "^5.10.1"
 pyright = "^1.1.313"
