@@ -43,9 +43,11 @@ def encrypt_token_and_secret(
     :param shared_secret: The generated shared secret
     :return: A tuple containing (encrypted token, encrypted secret)
     """
-    # Make absolutely certain that we're using bytes, not say bytearrays
-    # this is needed since the cryptography lib calls some C code in the back
-    # which relies on these being bytes
+
+    # Ensure both the `shared_secret` and `verification_token` are instances
+    # of the bytes class, not any subclass. This is needed since the cryptography
+    # library calls some C code in the back, which relies on this being bytes. If
+    # it's not a bytes instance, convert it.
     if type(verification_token) is not bytes:
         verification_token = bytes(verification_token)
     if type(shared_secret) is not bytes:
