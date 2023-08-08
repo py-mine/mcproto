@@ -10,7 +10,6 @@ from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from typing_extensions import Self
 
 from mcproto.auth.account import Account
-from mcproto.types.uuid import UUID as McUUID  # noqa: N811 # not a constant
 
 __all__ = [
     "SessionServerError",
@@ -179,7 +178,7 @@ async def join_check(
     client_username: str,
     server_hash: str,
     client_ip: str | None = None,
-) -> None:
+) -> JoinAcknowledgeData:
     """Check with the Mojang session server if a join request was made.
 
     This function is called by the server in online mode (non-warez), to verify that the joining client
@@ -215,6 +214,4 @@ async def join_check(
     )
     res.raise_for_status()
     data: JoinAcknowledgeData = res.json()
-
-    McUUID(data["id"])
-    data["name"]
+    return data
