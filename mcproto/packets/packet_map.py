@@ -3,11 +3,26 @@ from __future__ import annotations
 import importlib
 import pkgutil
 from collections.abc import Iterator, Mapping, Sequence
-from functools import lru_cache
 from types import MappingProxyType, ModuleType
-from typing import Literal, NamedTuple, NoReturn, overload
+from typing import Literal, NamedTuple, NoReturn, TYPE_CHECKING, overload
 
 from mcproto.packets.packet import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
+
+# lru_cache doesn't forward the call parameters in _lru_cache_wrapper type, only the return type,
+# this fixes the issue, though it means losing the type info about the function being cached,
+# that's annoying, but preserving the parameters is much more important to us, so this is the lesser
+# evil from the two
+if TYPE_CHECKING:
+    from typing import TypeVar
+
+    T = TypeVar("T")
+
+    def lru_cache(func: T, /) -> T:
+        ...
+
+else:
+    from functools import lru_cache
+
 
 __all__ = ["generate_packet_map"]
 
