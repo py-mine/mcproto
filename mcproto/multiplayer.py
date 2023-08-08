@@ -14,6 +14,7 @@ from mcproto.auth.account import Account
 __all__ = [
     "SessionServerError",
     "SessionServerErrorType",
+    "UserJoinCheckFailedError",
     "join_request",
     "join_check",
     "compute_server_hash",
@@ -64,6 +65,20 @@ class SessionServerError(Exception):
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg})"
+
+
+class UserJoinCheckFailedError(Exception):
+    def __init__(self, response: httpx.Response, client_username: str, server_hash: str, client_ip: str | None):
+        self.response = response
+        self.client_username = client_username
+        self.server_hash = server_hash
+        self.client_ip = client_ip
+        super().__init__(repr(self))
+
+    def __repr__(self) -> str:
+        msg = "Unable to verify user join for "
+        msg += f"username={self.client_username!r}, server_hash={self.server_hash!r}, client_ip={self.client_ip!r}"
+        return f"{self.__class__.__name__}({msg!r})"
 
 
 class JoinAcknowledgeProperty(TypedDict):
@@ -208,10 +223,14 @@ async def join_check(
 
         Servers only include this when 'prevent-proxy-connections' is set to true in server.properties
     """
-    res = await client.post(
-        f"{SESSION_SERVER_URL}/session/minecraft/hasJoined",
-        params={"username": client_username, "serverId": server_hash, "ip": client_ip},
-    )
+    params = {"username": client_username, "serverId": server_hash}
+    if client_ip is not None:
+        params["ip"] = client_ip
+    res = await client.get(f"{SESSION_SERVER_URL}/session/minecraft/hasJoined", params=params)
     res.raise_for_status()
+
+    if res.status_code == 204:
+        raise UserJoinCheckFailedError(res, client_username, server_hash, client_ip)
+
     data: JoinAcknowledgeData = res.json()
     return data
