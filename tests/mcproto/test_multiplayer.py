@@ -12,9 +12,11 @@ from mcproto.multiplayer import (
     SessionServerError,
     SessionServerErrorType,
     UserJoinCheckFailedError,
+    compute_server_hash,
     join_check,
     join_request,
 )
+from tests.mcproto.test_encryption import RSA_PUBLIC_KEY
 
 
 @pytest.mark.skipif(sys.version_info < (3, 9), reason="requires 3.9+ for pytest-httpx dependency")
@@ -142,3 +144,12 @@ async def test_join_check_invalid(httpx_mock: HTTPXMock):
         assert exc.client_username == client_username
         assert exc.server_hash == server_hash
         assert exc.client_ip == client_ip
+
+
+def test_compute_server_hash():
+    server_id = ""
+    shared_secret = bytes.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+    server_public_key = RSA_PUBLIC_KEY
+    expected_server_hash = "-745fc7fdb2d6ae7c4b20e2987770def8f3dd1105"
+
+    assert compute_server_hash(server_id, shared_secret, server_public_key) == expected_server_hash
