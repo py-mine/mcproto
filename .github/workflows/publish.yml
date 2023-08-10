@@ -43,9 +43,12 @@ jobs:
       - name: Check pre-release status
         id: check-version
         run: |
-          [[ "$(poetry version --short)" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] \
-            && echo "prerelease=false" >> $GITHUB_OUTPUT \
-            || echo prerelease=true >> $GITHUB_OUTPUT
+          if [[ "$(poetry version --short)" =~ "^[0-9]+\.[0-9]+\.[0-9]+$" ]]
+          then
+            echo prerelease=true >> $GITHUB_OUTPUT
+          else
+            echo prerelease=false >> $GITHUB_OUTPUT
+          fi
 
       # Get content of the changelog for the latest release, so that we can use
       # it as the body for a GitHub tag
