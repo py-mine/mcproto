@@ -1223,19 +1223,18 @@ testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (
 
 [[package]]
 name = "slotscheck"
-version = "0.16.5"
+version = "0.17.0"
 description = "Ensure your __slots__ are working properly."
 optional = false
-python-versions = ">=3.7,<4"
+python-versions = ">=3.8.1,<4"
 files = [
-    {file = "slotscheck-0.16.5-py3-none-any.whl", hash = "sha256:b202def7a1d4559575a6a1926aabe461bf780c1584275eff2d3ee4465c52d8c6"},
-    {file = "slotscheck-0.16.5.tar.gz", hash = "sha256:6cae3e73808121cf63c1bc638c3b5ae7e10f651323ad3cf38790ce005b77e221"},
+    {file = "slotscheck-0.17.0-py3-none-any.whl", hash = "sha256:7ff6d6cc5e58e12f96c82bf192e6498412dd6fc3aa230937f32935c2151b3d2e"},
+    {file = "slotscheck-0.17.0.tar.gz", hash = "sha256:5e4ccb16148825b6a644705a4f8ca30855c853e4a777229ec5ed1ee4a55fa97c"},
 ]
 
 [package.dependencies]
 click = ">=8.0,<9.0"
 tomli = {version = ">=0.2.6,<3.0.0", markers = "python_version < \"3.11\""}
-typing-extensions = {version = ">=4.1,<5", markers = "python_version < \"3.10\""}
 
 [[package]]
 name = "sniffio"
@@ -1589,4 +1588,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "94d5142cdbc492c72397b56a0b5feab69b34fdebe287f36cd74e372eaf6e8d5a"
+content-hash = "2de8b8a1e6bfb5c95d8c884ba3db4833b7c13d7448f08dd12002d276ce4eca08"
