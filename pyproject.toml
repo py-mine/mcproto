@@ -51,7 +51,7 @@ ruff = "^0.0.278"
 black = ">=22.3,<24.0"
 isort = "^5.10.1"
 pyright = "^1.1.313"
-slotscheck = "^0.16.1"
+slotscheck = ">=0.16.1,<0.18.0"
 
 [tool.poetry.group.release.dependencies]
 towncrier = ">=22.12,<24.0"
