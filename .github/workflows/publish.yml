@@ -5,21 +5,20 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: read
+
 jobs:
-  publish:
-    name: "Build and publish to PyPI"
+  build:
+    name: "Build the project"
     runs-on: ubuntu-latest
+
+    outputs:
+      prerelease: ${{ steps.check-version.outputs.prerelease }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
 
       - name: Setup poetry
         uses: ItsDrike/setup-poetry@v1
@@ -33,32 +32,89 @@ jobs:
       - name: Build project for distribution
         run: poetry build
 
+      - name: Upload build files
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: "dist"
+          path: "dist/"
+          if-no-files-found: error
+          retention-days: 5
+
       - name: Check pre-release status
         id: check-version
         run: |
-          [[ "$(poetry version --short)" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || echo prerelease=true >> $GITHUB_OUTPUT
+          [[ "$(poetry version --short)" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] \
+            && echo "prerelease=false" >> $GITHUB_OUTPUT \
+            || echo prerelease=true >> $GITHUB_OUTPUT
 
-      # Get content of the changelog for the latest release, so that we can use it as the body for a GitHub tag
+      # Get content of the changelog for the latest release, so that we can use
+      # it as the body for a GitHub tag
       - name: Obtain latest changelog
-        id: changelog
-        uses: mathiasvr/command-output@v2.0.0
+        # Our CHANGELOG.md uses `---` separators between each published
+        # version. The command below obtains all content until that separator,
+        # leaving us with just the content for the latest version. We then
+        # remove first 2 lines, being level 2 header with version and date,
+        # and a blank line under it, and also the last 2 lines, being the
+        # separator itself, and a blank line above it.
+        run: |
+          awk '1;/---/{exit}' CHANGELOG.md | tail -n +3 | head -n -2 \
+            > changelog.txt
+
+      - name: Upload release changelog
+        uses: actions/upload-artifact@v3.1.2
         with:
-          # Our CHANGELOG.md uses `---` separators between each published version. The command below
-          # obtains all content until that separator, leaving us with just the content for the latest version.
-          # We then remove first 2 lines, being level 2 header with version and date, and a blank line under it,
-          # and also the last 2 lines, being the separator itself, and a blank line above it.
-          run: awk '1;/---/{exit}' CHANGELOG.md | tail -n +3 | head -n -2
+          name: "changelog.txt"
+          path: "changelog.txt"
+          if-no-files-found: error
+          retention-days: 5
+
+  publish:
+    name: "Publish a release"
+    needs: build
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      # Used to authenticate to PyPI via OIDC.
+      id-token: write
+      # Used to create a new GitHub release
+      contents: write
+
+    steps:
+      - name: Download the distribution files from PR artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: "dist"
+          path: "dist/"
+
+      - name: Download the changelog from PR artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: "changelog.txt"
+          path: "changelog.txt"
+
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/*"
           token: ${{ steps.generate_token.outputs.token }}
-          body: ${{ steps.changelog.outputs.stdout }}
+          bodyFile: changelog.txt
           draft: false
-          prerelease: steps.check-version.outputs.prerelease == 'true'
+          prerelease: ${{ needs.build.outputs.prerelease == 'true' }}
 
-      - name: Run release script
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
-        run: poetry publish
+      # Upload to Test PyPI first, in case something fails.
+      - name: Upload to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # the "legacy" in the URL doesn't mean it's deprecated
+          repository-url: https://test.pypi.org/legacy/
+
+      # This uses PyPI's trusted publishing, so no token is required
+      - name: Release to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
