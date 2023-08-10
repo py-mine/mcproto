@@ -12,18 +12,20 @@ from typing_extensions import Self
 from mcproto.auth.account import Account
 
 __all__ = [
-    "SessionServerError",
-    "SessionServerErrorType",
+    "JoinAcknowledgeData",
+    "JoinAcknowledgeProperty",
+    "UserJoinRequestFailedError",
+    "UserJoinRequestErrorKind",
     "UserJoinCheckFailedError",
-    "join_request",
-    "join_check",
     "compute_server_hash",
+    "join_check",
+    "join_request",
 ]
 
 SESSION_SERVER_URL = "https://sessionserver.mojang.com"
 
 
-class SessionServerErrorType(str, Enum):
+class UserJoinRequestErrorKind(str, Enum):
     BANNED_FROM_MULTIPLAYER = "User with has been banned from multiplayer."
     XBOX_MULTIPLAYER_DISABLED = "User's Xbox profile has multiplayer disabled."
     UNKNOWN = "This is an unknown error."
@@ -38,7 +40,14 @@ class SessionServerErrorType(str, Enum):
         return cls.UNKNOWN
 
 
-class SessionServerError(Exception):
+class UserJoinRequestFailedError(Exception):
+    """Exception raised when :func:`join_request` fails.
+
+    This can be caused by various reasons. See: :class:`UserJoinRequestErrorKind` enum class.
+    The most likely case for this error is invalid authentication token, or the user being
+    banned from multiplayer.
+    """
+
     def __init__(self, exc: httpx.HTTPStatusError):
         self.status_error = exc
         self.code = exc.response.status_code
@@ -46,7 +55,7 @@ class SessionServerError(Exception):
 
         data = exc.response.json()
         self.err_msg: str | None = data.get("error")
-        self.err_type = SessionServerErrorType.from_status_error(self.code, self.err_msg)
+        self.err_type = UserJoinRequestErrorKind.from_status_error(self.code, self.err_msg)
 
         super().__init__(self.msg)
 
@@ -56,7 +65,7 @@ class SessionServerError(Exception):
         msg_parts.append(f"HTTP {self.code} from {self.url}:")
         msg_parts.append(f"type={self.err_type.name!r}")
 
-        if self.err_type is not SessionServerErrorType.UNKNOWN:
+        if self.err_type is not UserJoinRequestErrorKind.UNKNOWN:
             msg_parts.append(f"details={self.err_type.value!r}")
         elif self.err_msg is not None:
             msg_parts.append(f"msg={self.err_msg!r}")
@@ -68,6 +77,16 @@ class SessionServerError(Exception):
 
 
 class UserJoinCheckFailedError(Exception):
+    """Exception raised when :func:`join_check` fails.
+
+    This signifies that the Minecraft session API server didn't contain a join request for the
+    `server_hash` and `client_username`, and it therefore didn't acknowledge the join.
+
+    This means the user didn't confirm this join with Minecraft API (didn't call
+    :func:`join_request`), hence the validity of this account can't be verified. The server
+    should kick the user and end the join flow.
+    """
+
     def __init__(self, response: httpx.Response, client_username: str, server_hash: str, client_ip: str | None):
         self.response = response
         self.client_username = client_username
@@ -82,12 +101,20 @@ class UserJoinCheckFailedError(Exception):
 
 
 class JoinAcknowledgeProperty(TypedDict):
+    """Skin blob data from :class:`JoinAcknowledgeData`."""
+
     name: str
     value: str
     signature: str
 
 
 class JoinAcknowledgeData(TypedDict):
+    """Response from :func:`join_check` (hasJoined minecraft API endpoint).
+
+    This response contains information on the user has submitted the :func:`join_request`.
+    (uuid, name, and player skin properties)
+    """
+
     id: str
     name: str
     properties: list[JoinAcknowledgeProperty]
@@ -180,7 +207,7 @@ async def join_request(client: httpx.AsyncClient, account: Account, server_hash:
     try:
         res.raise_for_status()
     except httpx.HTTPStatusError as exc:
-        raise SessionServerError(exc) from exc
+        raise UserJoinRequestFailedError(exc) from exc
 
     if res.status_code == 204:
         return

@@ -9,9 +9,9 @@ from mcproto.multiplayer import (
     JoinAcknowledgeData,
     JoinAcknowledgeProperty,
     SESSION_SERVER_URL,
-    SessionServerError,
-    SessionServerErrorType,
     UserJoinCheckFailedError,
+    UserJoinRequestErrorKind,
+    UserJoinRequestFailedError,
     compute_server_hash,
     join_check,
     join_request,
@@ -40,15 +40,15 @@ async def test_join_request_valid(httpx_mock: HTTPXMock) -> None:
 @pytest.mark.parametrize(
     ("status_code", "err_msg", "err_type"),
     [
-        (403, "InsufficientPrivilegesException", SessionServerErrorType.XBOX_MULTIPLAYER_DISABLED),
-        (403, "UserBannedException", SessionServerErrorType.BANNED_FROM_MULTIPLAYER),
-        (403, "ForbiddenOperationException", SessionServerErrorType.UNKNOWN),
+        (403, "InsufficientPrivilegesException", UserJoinRequestErrorKind.XBOX_MULTIPLAYER_DISABLED),
+        (403, "UserBannedException", UserJoinRequestErrorKind.BANNED_FROM_MULTIPLAYER),
+        (403, "ForbiddenOperationException", UserJoinRequestErrorKind.UNKNOWN),
     ],
 )
 async def test_join_request_invalid(
     status_code: int,
     err_msg: str,
-    err_type: SessionServerErrorType,
+    err_type: UserJoinRequestErrorKind,
     httpx_mock: HTTPXMock,
 ) -> None:
     httpx_mock.add_response(
@@ -64,7 +64,7 @@ async def test_join_request_invalid(
     server_hash = "-745fc7fdb2d6ae7c4b20e2987770def8f3dd1105"
 
     async with httpx.AsyncClient() as client:
-        with pytest.raises(SessionServerError) as exc_info:
+        with pytest.raises(UserJoinRequestFailedError) as exc_info:
             await join_request(client, account, server_hash)
 
         exc = exc_info.value
