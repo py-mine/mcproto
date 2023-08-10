@@ -68,16 +68,11 @@ jobs:
           if-no-files-found: error
           retention-days: 5
 
-  publish:
-    name: "Publish a release"
+  publish-github:
+    name: "Publish a GitHub release"
     needs: build
     runs-on: ubuntu-latest
     environment: release
-    permissions:
-      # Used to authenticate to PyPI via OIDC.
-      id-token: write
-      # Used to create a new GitHub release
-      contents: write
 
     steps:
       - name: Download the distribution files from PR artifact
@@ -107,6 +102,22 @@ jobs:
           bodyFile: changelog.txt
           draft: false
           prerelease: ${{ needs.build.outputs.prerelease == 'true' }}
+
+  publish-pypi:
+    name: "Publish to PyPI"
+    needs: [build, publish-github]
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      # Used to authenticate to PyPI via OIDC.
+      id-token: write
+
+    steps:
+      - name: Download the distribution files from PR artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: "dist"
+          path: "dist/"
 
       # Upload to Test PyPI first, in case something fails.
       - name: Upload to Test PyPI
