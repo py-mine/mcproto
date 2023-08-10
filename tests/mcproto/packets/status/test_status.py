@@ -28,6 +28,7 @@ from mcproto.packets.status.status import StatusResponse
     ],
 )
 def test_serialize(data: dict[str, Any], expected_bytes: bytes):
+    """Test serialization of StatusResponse packet."""
     expected_buffer = Buffer(expected_bytes)
     # Clear the length before the actual JSON data. JSON strings are encoded using UTF (StatusResponse uses
     # `write_utf`), so `write_utf` writes the length of the string as a varint before writing the string itself.
@@ -60,6 +61,7 @@ def test_serialize(data: dict[str, Any], expected_bytes: bytes):
     ],
 )
 def test_deserialize(read_bytes: list[int], expected_data: dict[str, Any]):
+    """Test deserialization of StatusResponse packet."""
     status = StatusResponse.deserialize(Buffer(read_bytes))
 
     assert expected_data == status.data

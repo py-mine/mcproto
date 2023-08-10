@@ -83,7 +83,10 @@ class BaseAsyncWriter(ABC):
 
     @abstractmethod
     async def write(self, data: bytes, /) -> None:
-        ...
+        """Underlying write method, sending/storing the data.
+
+        All of the writer functions will eventually call this method.
+        """
 
     @overload
     async def write_value(self, fmt: INT_FORMATS_TYPE, value: int, /) -> None:
@@ -180,7 +183,7 @@ class BaseAsyncWriter(ABC):
         await self.write(data)
 
     async def write_optional(self, value: T | None, /, writer: Callable[[T], Awaitable[R]]) -> R | None:
-        """Writes a bool showing if a ``value`` is present, if so, also writes this value with ``writer`` function.
+        """Write a bool showing if a ``value`` is present, if so, also writes this value with ``writer`` function.
 
         * When ``value`` is ``None``, a bool of ``False`` will be written, and ``None`` is returned.
         * When ``value`` is not ``None``, a bool of ``True`` is written, after which the ``writer`` function is called,
@@ -201,7 +204,10 @@ class BaseSyncWriter(ABC):
 
     @abstractmethod
     def write(self, data: bytes, /) -> None:
-        ...
+        """Underlying write method, sending/storing the data.
+
+        All of the writer functions will eventually call this method.
+        """
 
     @overload
     def write_value(self, fmt: INT_FORMATS_TYPE, value: int, /) -> None:
@@ -298,7 +304,7 @@ class BaseSyncWriter(ABC):
         self.write(data)
 
     def write_optional(self, value: T | None, /, writer: Callable[[T], R]) -> R | None:
-        """Writes a bool showing if a ``value`` is present, if so, also writes this value with ``writer`` function.
+        """Write a bool showing if a ``value`` is present, if so, also writes this value with ``writer`` function.
 
         * When ``value`` is ``None``, a bool of ``False`` will be written, and ``None`` is returned.
         * When ``value`` is not ``None``, a bool of ``True`` is written, after which the ``writer`` function is called,
@@ -323,7 +329,10 @@ class BaseAsyncReader(ABC):
 
     @abstractmethod
     async def read(self, length: int, /) -> bytearray:
-        ...
+        """Underlying read method, obtaining the raw data.
+
+        All of the reader functions will eventually call this method.
+        """
 
     @overload
     async def read_value(self, fmt: INT_FORMATS_TYPE, /) -> int:
@@ -445,7 +454,7 @@ class BaseAsyncReader(ABC):
         return chars
 
     async def read_optional(self, reader: Callable[[], Awaitable[R]]) -> R | None:
-        """Reads a bool showing if a value is present, if so, also reads this value with ``reader`` function.
+        """Read a bool showing if a value is present, if so, also reads this value with ``reader`` function.
 
         * When ``False`` is read, the function will not read anything and ``None`` is returned.
         * When ``True`` is read, the ``reader`` function is called, and it's return value is forwarded.
@@ -463,7 +472,10 @@ class BaseSyncReader(ABC):
 
     @abstractmethod
     def read(self, length: int, /) -> bytearray:
-        ...
+        """Underlying read method, obtaining the raw data.
+
+        All of the reader functions will eventually call this method.
+        """
 
     @overload
     def read_value(self, fmt: INT_FORMATS_TYPE, /) -> int:
@@ -585,7 +597,7 @@ class BaseSyncReader(ABC):
         return chars
 
     def read_optional(self, reader: Callable[[], R]) -> R | None:
-        """Reads a bool showing if a value is present, if so, also reads this value with ``reader`` function.
+        """Read a bool showing if a value is present, if so, also reads this value with ``reader`` function.
 
         * When ``False`` is read, the function will not read anything and ``None`` is returned.
         * When ``True`` is read, the ``reader`` function is called, and it's return value is forwarded.

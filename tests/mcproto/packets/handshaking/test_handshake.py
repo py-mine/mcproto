@@ -40,6 +40,7 @@ from mcproto.packets.handshaking.handshake import Handshake, NextState
     ],
 )
 def test_serialize(kwargs: dict[str, Any], expected_bytes: list[int]):
+    """Test serialization of Handshake packet."""
     handshake = Handshake(**kwargs)
     assert handshake.serialize().flush() == bytearray(expected_bytes)
 
@@ -86,6 +87,7 @@ def test_serialize(kwargs: dict[str, Any], expected_bytes: list[int]):
     ],
 )
 def test_deserialize(read_bytes: list[int], expected_out: dict[str, Any]):
+    """Test deserialization of Handshake packet."""
     handshake = Handshake.deserialize(Buffer(read_bytes))
 
     for i, v in expected_out.items():
@@ -94,5 +96,6 @@ def test_deserialize(read_bytes: list[int], expected_out: dict[str, Any]):
 
 @pytest.mark.parametrize(("state"), [3, 4, 5, 6])
 def test_invalid_state(state):
+    """Test initialization of Handshake packet with invalid next state raises :exc:`ValueError`."""
     with pytest.raises(ValueError):
         Handshake(protocol_version=757, server_address="localhost", server_port=25565, next_state=state)

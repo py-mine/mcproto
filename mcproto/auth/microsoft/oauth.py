@@ -21,6 +21,8 @@ MICROSOFT_OAUTH_URL = "https://login.microsoftonline.com/consumers/oauth2/v2.0"
 
 
 class MicrosoftOauthResponseErrorType(str, Enum):
+    """Enum for various different kinds of exceptions that the Microsoft OAuth2 API can report."""
+
     AUTHORIZATION_PENDING = "The user hasn't finished authenticating, but hasn't canceled the flow."
     AUTHORIZATION_DECLINED = "The end user denied the authorization request."
     BAD_VERIFICATION_CODE = "The device_code sent to the /token endpoint wasn't recognized."
@@ -33,6 +35,7 @@ class MicrosoftOauthResponseErrorType(str, Enum):
 
     @classmethod
     def from_status_error(cls, error: str) -> Self:
+        """Determine the error kind based on the error data."""
         if error == "expired_token":
             return cls.EXPIRED_TOKEN
         if error == "authorization_pending":
@@ -47,6 +50,8 @@ class MicrosoftOauthResponseErrorType(str, Enum):
 
 
 class MicrosoftOauthResponseError(Exception):
+    """Exception raised on a failure from the Microsoft OAuth2 API."""
+
     def __init__(self, exc: httpx.HTTPStatusError):
         self.status_error = exc
 
@@ -66,6 +71,13 @@ class MicrosoftOauthResponseError(Exception):
 
 
 class MicrosoftOauthRequestData(TypedDict):
+    """Data obtained from Microsoft OAuth2 API after making a new authentication request.
+
+    This data specifies where (URL) we can check with the Microsoft OAuth2 servers for a client
+    confirmation of this authentication request, how often we should check with this server, and
+    when this request expires.
+    """
+
     user_code: str
     device_code: str
     verification_url: str
@@ -75,6 +87,12 @@ class MicrosoftOauthRequestData(TypedDict):
 
 
 class MicrosoftOauthResponseData(TypedDict):
+    """Data obtained from Microsoft OAuth2 API after a successful authentication.
+
+    This data contains the access and refresh tokens, giving us the requested account access
+    and the expiry information.
+    """
+
     token_type: str
     scope: str
     expires_in: int

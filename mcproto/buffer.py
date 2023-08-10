@@ -6,6 +6,8 @@ __all__ = ["Buffer"]
 
 
 class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
+    """In-memory bytearray-like buffer supporting the common read/write operations."""
+
     __slots__ = ("pos",)
 
     def __init__(self, *args, **kwargs):

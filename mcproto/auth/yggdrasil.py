@@ -20,6 +20,8 @@ AUTHSERVER_API_URL = "https://authserver.mojang.com"
 
 
 class AuthServerApiErrorType(str, Enum):
+    """Enum for various different kinds of exceptions that the authserver API can report."""
+
     MICROSOFT_MIGRATED = "This Minecraft account was migrated, use Microsoft OAuth2 login instaed."
     FORBIDDEN = "An attempt to sign in using empty or insufficiently short credentials."
     INVALID_CREDENTIALS = (
@@ -42,6 +44,7 @@ class AuthServerApiErrorType(str, Enum):
 
     @classmethod
     def from_status_error(cls, code: int, short_msg: str, full_msg: str, cause_msg: str | None) -> Self:
+        """Determine the error kind based on the error data."""
         if code == 410:
             return cls.MICROSOFT_MIGRATED
         if code == 403:
@@ -60,6 +63,8 @@ class AuthServerApiErrorType(str, Enum):
 
 
 class AuthServerApiError(Exception):
+    """Exception raised on a failure from the authserver API."""
+
     def __init__(self, exc: httpx.HTTPStatusError):
         self.status_error = exc
         self.code = exc.response.status_code
@@ -77,6 +82,7 @@ class AuthServerApiError(Exception):
 
     @property
     def msg(self) -> str:
+        """Produce a message for this error."""
         msg_parts = []
         msg_parts.append(f"HTTP {self.code} from {self.url}:")
         msg_parts.append(f"type={self.err_type.name!r}")
@@ -95,6 +101,8 @@ class AuthServerApiError(Exception):
 
 
 class YggdrasilAccount(Account):
+    """Minecraft account logged into using Yggdrasil (legacy/unmigrated) auth system."""
+
     __slots__ = ("client_token",)
 
     def __init__(self, username: str, uuid: McUUID, access_token: str, client_token: str | None) -> None:
@@ -105,6 +113,12 @@ class YggdrasilAccount(Account):
         self.client_token = client_token
 
     async def refresh(self, client: httpx.AsyncClient) -> None:
+        """Refresh the Yggdrasil access token.
+
+        This method can be called when the access token expires, to obtain a new one without
+        having to go through a complete re-login. This can happen after some time period, or
+        for example when someone else logs in to this minecraft account elsewhere.
+        """
         payload = {
             "accessToken": self.access_token,
             "clientToken": self.client_token,
@@ -143,7 +157,7 @@ class YggdrasilAccount(Account):
         self.access_token = data["accessToken"]
 
     async def validate(self, client: httpx.AsyncClient) -> bool:
-        """Checks if the access token is (still) usable for authentication with a Minecraft server.
+        """Check if the access token is (still) usable for authentication with a Minecraft server.
 
         If this method fails, the stored access token is no longer usable for for authentcation
         with a Minecraft server, but should still be good enough for :meth:`refresh`.

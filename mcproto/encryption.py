@@ -8,7 +8,7 @@ from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey, RSAPubl
 
 
 def generate_shared_secret() -> bytes:  # pragma: no cover
-    """Generate a random shared secret for client
+    """Generate a random shared secret for client.
 
     This secret will be sent to the server in :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet,
     and used to encrypt all future communication afterwards.
@@ -43,7 +43,6 @@ def encrypt_token_and_secret(
     :param shared_secret: The generated shared secret
     :return: A tuple containing (encrypted token, encrypted secret)
     """
-
     # Ensure both the `shared_secret` and `verification_token` are instances
     # of the bytes class, not any subclass. This is needed since the cryptography
     # library calls some C code in the back, which relies on this being bytes. If

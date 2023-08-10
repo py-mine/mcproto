@@ -16,6 +16,7 @@ from mcproto.packets.status.ping import PingPong
     ],
 )
 def test_serialize(kwargs: dict[str, Any], expected_bytes: list[int]):
+    """Test serialization of PingPong packet."""
     ping = PingPong(**kwargs)
     assert ping.serialize().flush() == bytearray(expected_bytes)
 
@@ -28,6 +29,7 @@ def test_serialize(kwargs: dict[str, Any], expected_bytes: list[int]):
     ],
 )
 def test_deserialize(read_bytes: list[int], expected_out: dict[str, Any]):
+    """Test deserialization of PingPong packet."""
     ping = PingPong.deserialize(Buffer(read_bytes))
 
     for i, v in expected_out.items():

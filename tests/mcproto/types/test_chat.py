@@ -24,6 +24,7 @@ from mcproto.types.chat import ChatMessage, RawChatMessage, RawChatMessageDict
     ],
 )
 def test_serialize(data: RawChatMessage, expected_bytes: list[int]):
+    """Test serialization of ChatMessage results in expected bytes."""
     output_bytes = ChatMessage(data).serialize()
     assert output_bytes == expected_bytes
 
@@ -46,6 +47,7 @@ def test_serialize(data: RawChatMessage, expected_bytes: list[int]):
     ],
 )
 def test_deserialize(input_bytes: list[int], data: RawChatMessage):
+    """Test deserialization of ChatMessage with expected bytes produces expected ChatMessage."""
     chat = ChatMessage.deserialize(Buffer(input_bytes))
     assert chat.raw == data
 
@@ -68,6 +70,7 @@ def test_deserialize(input_bytes: list[int], data: RawChatMessage):
     ],
 )
 def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
+    """Test converting raw ChatMessage input into dict produces expected dict."""
     chat = ChatMessage(raw)
     assert chat.as_dict() == expected_dict
 
@@ -88,4 +91,5 @@ def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
     ],
 )
 def test_equality(raw1: RawChatMessage, raw2: RawChatMessage, expected_result: bool):
+    """Test comparing ChatMessage instances produces expected equality result."""
     assert (ChatMessage(raw1) == ChatMessage(raw2)) is expected_result

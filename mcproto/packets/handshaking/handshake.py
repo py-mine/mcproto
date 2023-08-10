@@ -16,13 +16,15 @@ __all__ = [
 
 
 class NextState(IntEnum):
+    """Enum of all possible next game states we can transition to from the :class:`Handshake` packet."""
+
     STATUS = 1
     LOGIN = 2
 
 
 @final
 class Handshake(ServerBoundPacket):
-    """Initializes connection between server and client. (Client -> Server)"""
+    """Initializes connection between server and client. (Client -> Server)."""
 
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.HANDSHAKING
@@ -37,7 +39,8 @@ class Handshake(ServerBoundPacket):
         server_port: int,
         next_state: NextState | int,
     ):
-        """
+        """Initialize the Handshake packet.
+
         :param protocol_version: Protocol version number to be used.
         :param server_address: The host/address the client is connecting to.
         :param server_port: The port the client is connecting to.
@@ -56,6 +59,7 @@ class Handshake(ServerBoundPacket):
         self.next_state = next_state
 
     def serialize(self) -> Buffer:
+        """Serialize the packet."""
         buf = Buffer()
         buf.write_varint(self.protocol_version)
         buf.write_utf(self.server_address)
@@ -65,6 +69,7 @@ class Handshake(ServerBoundPacket):
 
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
+        """Deserialize the packet."""
         return cls(
             protocol_version=buf.read_varint(),
             server_address=buf.read_utf(),

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mcproto"
-version = "0.0.1a4.dev11+b8fa5cf" # Versioning handled by poetry-dynamic-versioning
+version = "0.0.1" # Versioning handled by poetry-dynamic-versioning
 description = "Library providing easy interactions with minecraft servers"
 authors = ["ItsDrike <itsdrike@protonmail.com>"]
 license = "LGPL-3.0-or-later"
@@ -106,6 +106,7 @@ select = [
   "W",     # Pycodestyle (warnigns)
   "E",     # Pycodestyle (errors)
   "N",     # pep8-naming
+  "D",     # pydocstyle
   "YTT",   # flake8-2020
   "ANN",   # flake8-annotations
   "ASYNC", # flake8-async
@@ -130,11 +131,32 @@ select = [
 ]
 
 ignore = [
-  "ANN002",  # Missing type annotation for *args
-  "ANN003",  # Missing type annotation for **kwargs
-  "ANN101",  # Missing type annotation for self in method
-  "ANN102",  # Missing type annotation for cls in classmethod
-  "ANN204",  # Missing return type annotation for special method
+  "D100", # Missing docstring in public module
+  "D104", # Missing docstring in public package
+  "D105", # Missing docstring in magic method
+  "D107", # Missing docstring in __init__
+  "D203", # Blank line required before class docstring
+  "D213", # Multi-line summary should start at second line (incompatible with D212)
+  "D301", # Use r""" if any backslashes in a docstring
+  "D405", # Section name should be properly capitalized
+  "D406", # Section name should end with a newline
+  "D407", # Missing dashed underline after section
+  "D408", # Section underline should be in the line following the section's name
+  "D409", # Section underline should match the length of its name
+  "D410", # Missing blank line after section
+  "D411", # Missing blank line before section
+  "D412", # No blank lines allowed between a section header and its content
+  "D413", # Missing blank line after last section
+  "D414", # Section has no content
+  "D416", # Section name should end with a colon
+  "D417", # Missing argument descrition in the docstring
+
+  "ANN002", # Missing type annotation for *args
+  "ANN003", # Missing type annotation for **kwargs
+  "ANN101", # Missing type annotation for self in method
+  "ANN102", # Missing type annotation for cls in classmethod
+  "ANN204", # Missing return type annotation for special method
+
   "PT011",   # pytest.raises without match parameter is too broad # TODO: Unignore this
   "UP024",   # Using errors that alias OSError
   "PLR2004", # Using unnamed numerical constants
@@ -145,6 +167,9 @@ ignore = [
 "tests/*" = [
   "ANN",  # flake8-annotations
   "S101", # Use of assert
+]
+"docs/extensions/*" = [
+  "D", # pydocstyle
 ]
 
 [tool.ruff.flake8-tidy-imports]
