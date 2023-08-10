@@ -104,7 +104,7 @@ jobs:
 
   publish-pypi:
     name: "Publish to PyPI"
-    needs: [build, publish-github]
+    needs: build
     runs-on: ubuntu-latest
     environment: release
     permissions:
