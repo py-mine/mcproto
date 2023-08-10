@@ -85,7 +85,6 @@ jobs:
         uses: actions/download-artifact@v3.0.2
         with:
           name: "changelog"
-          path: "changelog.txt"
 
       - name: Generate token
         id: generate_token
