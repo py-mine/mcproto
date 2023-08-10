@@ -16,6 +16,7 @@ from mcproto.types.uuid import UUID
     ],
 )
 def test_serialize(data: str, expected_bytes: list[int]):
+    """Test serialization of UUID results in expected bytes."""
     output_bytes = UUID(data).serialize()
     assert output_bytes == expected_bytes
 
@@ -30,5 +31,6 @@ def test_serialize(data: str, expected_bytes: list[int]):
     ],
 )
 def test_deserialize(input_bytes: list[int], data: str):
+    """Test deserialization of UUID with expected bytes produces expected UUID."""
     uuid = UUID.deserialize(Buffer(input_bytes))
     assert str(uuid) == data

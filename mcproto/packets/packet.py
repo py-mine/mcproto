@@ -16,6 +16,8 @@ __all__ = [
 
 
 class GameState(IntEnum):
+    """All possible game states in minecraft."""
+
     HANDSHAKING = 0
     STATUS = 1
     LOGIN = 2
@@ -23,12 +25,14 @@ class GameState(IntEnum):
 
 
 class PacketDirection(IntEnum):
+    """Represents whether a packet targets (is bound to) a client or server."""
+
     SERVERBOUND = 0
     CLIENTBOUND = 1
 
 
 class Packet(Serializable, RequiredParamsABCMixin):
-    """Base class for all packets"""
+    """Base class for all packets."""
 
     _REQUIRED_CLASS_VARS: ClassVar[Sequence[str]] = ["PACKET_ID", "GAME_STATE"]
     _REQUIRED_CLASS_VARS_NO_MRO: ClassVar[Sequence[str]] = ["__slots__"]

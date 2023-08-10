@@ -17,6 +17,8 @@ XBOX_SECURE_TOKEN_SERVER_AUTH_URL = "https://xsts.auth.xboxlive.com/xsts/authori
 
 
 class XSTSErrorType(str, Enum):
+    """Enum for various different kinds of exceptions that the Xbox Secure Token Server (XSTS) API can report."""
+
     NO_XBOX_ACCOUNT = (
         "The account doesn't have an Xbox account. Once they sign up for one (or login through minecraft.net to create"
         " one) then they can proceed with the login. This shouldn't happen with accounts that have purchased Minecraft"
@@ -33,6 +35,7 @@ class XSTSErrorType(str, Enum):
 
     @classmethod
     def from_status_error(cls, xerr_no: int) -> Self:
+        """Determine the error kind based on the error data."""
         if xerr_no == 2148916233:
             return cls.NO_XBOX_ACCOUNT
         if xerr_no == 2148916235:
@@ -46,6 +49,8 @@ class XSTSErrorType(str, Enum):
 
 
 class XSTSRequestError(Exception):
+    """Exception raised on a failure from the Xbox Secure Token Server (XSTS) API."""
+
     def __init__(self, exc: httpx.HTTPStatusError):
         self.status_error = exc
 
@@ -60,6 +65,7 @@ class XSTSRequestError(Exception):
 
     @property
     def msg(self) -> str:
+        """Produce a message for this error."""
         msg_parts = []
         if self.err_type is not XSTSErrorType.UNKNOWN:
             msg_parts.append(f"{self.err_type.name}: {self.err_type.value!r}")
@@ -76,6 +82,8 @@ class XSTSRequestError(Exception):
 
 
 class XboxData(NamedTuple):
+    """Xbox authentication data."""
+
     user_hash: str
     xsts_token: str
 

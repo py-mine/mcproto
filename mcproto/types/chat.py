@@ -16,6 +16,8 @@ __all__ = [
 
 
 class RawChatMessageDict(TypedDict, total=False):
+    """Dictionary structure of JSON chat messages when serialized."""
+
     text: str
     translation: str
     extra: list[RawChatMessageDict]
@@ -33,6 +35,8 @@ RawChatMessage: TypeAlias = Union[RawChatMessageDict, "list[RawChatMessageDict]"
 
 @final
 class ChatMessage(MCType):
+    """Minecraft chat message representation."""
+
     __slots__ = ("raw",)
 
     def __init__(self, raw: RawChatMessage):
@@ -62,6 +66,7 @@ class ChatMessage(MCType):
         return self.raw == other.raw
 
     def serialize(self) -> Buffer:
+        """Serialize the chat message."""
         txt = json.dumps(self.raw)
         buf = Buffer()
         buf.write_utf(txt)
@@ -69,6 +74,7 @@ class ChatMessage(MCType):
 
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
+        """Deserialize a chat message."""
         txt = buf.read_utf()
         dct = json.loads(txt)
         return cls(dct)

@@ -14,7 +14,7 @@ T_Mock = TypeVar("T_Mock", bound=unittest.mock.Mock)
 
 
 def synchronize(f: Callable[P, Coroutine[Any, Any, T]]) -> Callable[P, T]:
-    """This is a helper function, which takes an asynchronous function, and returns a synchronous alternative.
+    """Take an asynchronous function, and return a synchronous alternative.
 
     This is needed because we sometimes want to test asynchronous behavior in a synchronous test function,
     where we can't simply await something. This function uses `asyncio.run` and generates a wrapper
@@ -91,10 +91,10 @@ class SynchronizedMixin:
 
 
 class UnpropagatingMockMixin(Generic[T_Mock]):
-    """This class is here to provide common functionality for our :class:`~unittest.mock.Mock` classes.
+    """Provides common functionality for our :class:`~unittest.mock.Mock` classes.
 
     By default, mock objects propagate themselves by returning a new instance of the same mock
-    class, with same initialization attributes. THis is done whenever we're accessing new
+    class, with same initialization attributes. This is done whenever we're accessing new
     attributes that mock class.
 
     This propagation makes sense for simple mocks without any additional restrictions, however when
@@ -126,13 +126,12 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
     _extract_mock_name: Callable[[], str]
 
     def _get_child_mock(self, **kwargs) -> T_Mock:
-        """Method override which makes :attr:`.child_mock_type`` instances instead of instances of the same class.
+        """Make :attr:`.child_mock_type`` instances instead of instances of the same class.
 
         By default, this method creates a new mock instance of the same original class, and passes
         over the same initialization arguments. This overrides that behavior to instead create an
         instance of :attr:`.child_mock_type` class.
         """
-
         # Mocks can be sealed, in which case we wouldn't want to allow propagation of any kind
         # and rather raise an AttributeError, informing that given attr isn't accessible
         if self._mock_sealed:

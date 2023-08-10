@@ -22,10 +22,12 @@ class UUID(MCType, uuid.UUID):
     __slots__ = ()
 
     def serialize(self) -> Buffer:
+        """Serialize the UUID."""
         buf = Buffer()
         buf.write(self.bytes)
         return buf
 
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
+        """Deserialize a UUID."""
         return cls(bytes=bytes(buf.read(16)))

@@ -26,12 +26,15 @@ SESSION_SERVER_URL = "https://sessionserver.mojang.com"
 
 
 class UserJoinRequestErrorKind(str, Enum):
+    """Enum for various different kinds of exceptions that can occur during :func:`join_request`."""
+
     BANNED_FROM_MULTIPLAYER = "User with has been banned from multiplayer."
     XBOX_MULTIPLAYER_DISABLED = "User's Xbox profile has multiplayer disabled."
     UNKNOWN = "This is an unknown error."
 
     @classmethod
     def from_status_error(cls, code: int, err_msg: str | None) -> Self:
+        """Determine the error kind based on the status code and error message."""
         if code == 403:
             if err_msg == "InsufficientPrivilegesException":
                 return cls.XBOX_MULTIPLAYER_DISABLED
@@ -61,6 +64,7 @@ class UserJoinRequestFailedError(Exception):
 
     @property
     def msg(self) -> str:
+        """Produce a message for this error."""
         msg_parts = []
         msg_parts.append(f"HTTP {self.code} from {self.url}:")
         msg_parts.append(f"type={self.err_type.name!r}")

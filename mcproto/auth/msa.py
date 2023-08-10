@@ -18,17 +18,22 @@ MC_SERVICES_API_URL = "https://api.minecraftservices.com"
 
 
 class ServicesAPIErrorType(str, Enum):
+    """Enum for various different kinds of exceptions that the Minecraft services API can report."""
+
     INVALID_REGISTRATION = "Invalid app registration, see https://aka.ms/AppRegInfo for more information"
     UNKNOWN = "This is an unknown error."
 
     @classmethod
     def from_status_error(cls, code: int, err_msg: str | None) -> Self:
+        """Determine the error kind based on the error data."""
         if code == 401 and err_msg == "Invalid app registration, see https://aka.ms/AppRegInfo for more information":
             return cls.INVALID_REGISTRATION
         return cls.UNKNOWN
 
 
 class ServicesAPIError(Exception):
+    """Exception raised on a failure from the Minecraft services API."""
+
     def __init__(self, exc: httpx.HTTPStatusError):
         self.status_error = exc
         self.code = exc.response.status_code
@@ -42,6 +47,7 @@ class ServicesAPIError(Exception):
 
     @property
     def msg(self) -> str:
+        """Produce a message for this error."""
         msg_parts = []
         msg_parts.append(f"HTTP {self.code} from {self.url}:")
         msg_parts.append(f"type={self.err_type.name!r}")
@@ -58,6 +64,8 @@ class ServicesAPIError(Exception):
 
 
 class MSAAccount(Account):
+    """Minecraft account logged into using Microsoft OAUth2 auth system."""
+
     __slots__ = ()
 
     @staticmethod

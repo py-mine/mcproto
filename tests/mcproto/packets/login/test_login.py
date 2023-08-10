@@ -21,6 +21,8 @@ from tests.mcproto.test_encryption import RSA_PUBLIC_KEY
 
 
 class TestLoginStart:
+    """Collection of tests for the LoginStart packet."""
+
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
@@ -35,6 +37,7 @@ class TestLoginStart:
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
+        """Test serialization of LoginStart packet."""
         packet = LoginStart(**kwargs)
         assert packet.serialize().flush() == bytearray(expected_bytes)
 
@@ -52,12 +55,15 @@ class TestLoginStart:
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
+        """Test deserialization of LoginStart packet."""
         packet = LoginStart.deserialize(Buffer(input_bytes))
         for arg_name, val in expected_args.items():
             assert getattr(packet, arg_name) == val
 
 
 class TestLoginEncryptionRequest:
+    """Collection of tests for the LoginEncryptionRequest packet."""
+
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
@@ -73,6 +79,7 @@ class TestLoginEncryptionRequest:
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
+        """Test serialization of LoginEncryptionRequest packet."""
         packet = LoginEncryptionRequest(**kwargs)
         assert packet.serialize().flush() == bytearray(expected_bytes)
 
@@ -91,12 +98,15 @@ class TestLoginEncryptionRequest:
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
+        """Test deserialization of LoginEncryptionRequest packet."""
         packet = LoginEncryptionRequest.deserialize(Buffer(input_bytes))
         for arg_name, val in expected_args.items():
             assert getattr(packet, arg_name) == val
 
 
 class TestLoginEncryptionResponse:
+    """Collection of tests for the LoginEncryptionResponse packet."""
+
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
@@ -107,6 +117,7 @@ class TestLoginEncryptionResponse:
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
+        """Test serialization of LoginEncryptionRespones packet."""
         packet = LoginEncryptionResponse(**kwargs)
         assert packet.serialize().flush() == bytearray(expected_bytes)
 
@@ -120,12 +131,15 @@ class TestLoginEncryptionResponse:
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
+        """Test deserialization of LoginEncryptionRespones packet."""
         packet = LoginEncryptionResponse.deserialize(Buffer(input_bytes))
         for arg_name, val in expected_args.items():
             assert getattr(packet, arg_name) == val
 
 
 class TestLoginSuccess:
+    """Collection of tests for the LoginSuccess packet."""
+
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
@@ -136,6 +150,7 @@ class TestLoginSuccess:
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
+        """Test serialization of LoginSuccess packet."""
         packet = LoginSuccess(**kwargs)
         assert packet.serialize().flush() == bytearray(expected_bytes)
 
@@ -149,12 +164,15 @@ class TestLoginSuccess:
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
+        """Test deserialization of LoginSuccess packet."""
         packet = LoginSuccess.deserialize(Buffer(input_bytes))
         for arg_name, val in expected_args.items():
             assert getattr(packet, arg_name) == val
 
 
 class TestLoginDisconnect:
+    """Collection of tests for the LoginDisconnect packet."""
+
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
@@ -165,6 +183,7 @@ class TestLoginDisconnect:
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
+        """Test serialization of LoginDisconnect packet."""
         packet = LoginDisconnect(**kwargs)
         assert packet.serialize().flush() == bytearray(expected_bytes)
 
@@ -178,12 +197,15 @@ class TestLoginDisconnect:
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
+        """Test deserialization of LoginDisconnect packet."""
         packet = LoginDisconnect.deserialize(Buffer(input_bytes))
         for arg_name, val in expected_args.items():
             assert getattr(packet, arg_name) == val
 
 
 class TestLoginPluginRequest:
+    """Collection of tests for the LoginPluginRequest packet."""
+
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
@@ -194,6 +216,7 @@ class TestLoginPluginRequest:
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
+        """Test serialization of LoginPluginRequest packet."""
         packet = LoginPluginRequest(**kwargs)
         assert packet.serialize().flush() == bytearray(expected_bytes)
 
@@ -207,12 +230,15 @@ class TestLoginPluginRequest:
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
+        """Test serialization of LoginPluginRequest packet."""
         packet = LoginPluginRequest.deserialize(Buffer(input_bytes))
         for arg_name, val in expected_args.items():
             assert getattr(packet, arg_name) == val
 
 
 class TestLoginPluginResponse:
+    """Collection of tests for the LoginPluginResponse packet."""
+
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
@@ -223,6 +249,7 @@ class TestLoginPluginResponse:
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
+        """Test serialization of LoginPluginResponse packet."""
         packet = LoginPluginResponse(**kwargs)
         assert packet.serialize().flush() == bytearray(expected_bytes)
 
@@ -236,12 +263,15 @@ class TestLoginPluginResponse:
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
+        """Test deserialization of LoginPluginResponse packet."""
         packet = LoginPluginResponse.deserialize(Buffer(input_bytes))
         for arg_name, val in expected_args.items():
             assert getattr(packet, arg_name) == val
 
 
 class TestLoginSetCompression:
+    """Collection of tests for the LoginSetCompression packet."""
+
     @pytest.mark.parametrize(
         ("kwargs", "expected_bytes"),
         [
@@ -252,6 +282,7 @@ class TestLoginSetCompression:
         ],
     )
     def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
+        """Test serialization of LoginSetCompression packet."""
         packet = LoginSetCompression(**kwargs)
         assert packet.serialize().flush() == bytearray(expected_bytes)
 
@@ -265,6 +296,7 @@ class TestLoginSetCompression:
         ],
     )
     def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
+        """Test deserialization of LoginSetCompression packet."""
         packet = LoginSetCompression.deserialize(Buffer(input_bytes))
         for arg_name, val in expected_args.items():
             assert getattr(packet, arg_name) == val

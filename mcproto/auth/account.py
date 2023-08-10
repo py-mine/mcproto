@@ -14,6 +14,8 @@ __all__ = [
 
 
 class MismatchedAccountInfoError(Exception):
+    """Exception raised when info stored in the account instance doesn't match one from API."""
+
     def __init__(self, mismatched_variable: str, current: object, expected: object) -> None:
         self.missmatched_variable = mismatched_variable
         self.current = current
@@ -28,6 +30,8 @@ class MismatchedAccountInfoError(Exception):
 
 
 class InvalidAccountAccessTokenError(Exception):
+    """Exception raised when the access token of the account was reported as invalid."""
+
     def __init__(self, access_token: str, status_error: httpx.HTTPStatusError) -> None:
         self.access_token = access_token
         self.status_error = status_error
@@ -35,6 +39,8 @@ class InvalidAccountAccessTokenError(Exception):
 
 
 class Account:
+    """Base class for an authenticated Minecraft account."""
+
     __slots__ = ("username", "uuid", "access_token")
 
     def __init__(self, username: str, uuid: McUUID, access_token: str) -> None:

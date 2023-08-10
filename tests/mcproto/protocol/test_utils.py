@@ -17,6 +17,7 @@ from mcproto.protocol.utils import from_twos_complement, to_twos_complement
     ],
 )
 def test_to_twos_complement_positive(number: int, bits: int, expected_out: int):
+    """Test conversion to two's complement format from positive numbers gives expected result."""
     assert to_twos_complement(number, bits) == expected_out
 
 
@@ -29,6 +30,7 @@ def test_to_twos_complement_positive(number: int, bits: int, expected_out: int):
     ],
 )
 def test_to_twos_complement_negative(number: int, bits: int, expected_out: int):
+    """Test conversion to two's complement format of negative numbers gives expected result."""
     assert to_twos_complement(number, bits) == expected_out
 
 
@@ -46,6 +48,7 @@ def test_to_twos_complement_negative(number: int, bits: int, expected_out: int):
     ],
 )
 def test_to_twos_complement_range(number: int, bits: int):
+    """Test conversion to two's complement format for out of range numbers raises :exc:`ValueError`."""
     with pytest.raises(ValueError, match="out of range"):
         to_twos_complement(number, bits)
 
@@ -60,6 +63,7 @@ def test_to_twos_complement_range(number: int, bits: int):
     ],
 )
 def test_from_twos_complement_positive(number: int, bits: int, expected_out: int):
+    """Test conversion from two's complement format of positive numbers give expected result."""
     assert from_twos_complement(number, bits) == expected_out
 
 
@@ -72,6 +76,7 @@ def test_from_twos_complement_positive(number: int, bits: int, expected_out: int
     ],
 )
 def test_from_twos_complement_negative(number: int, bits: int, expected_out: int):
+    """Test conversion from two's complement format of negative numbers give expected result."""
     assert from_twos_complement(number, bits) == expected_out
 
 
@@ -89,5 +94,6 @@ def test_from_twos_complement_negative(number: int, bits: int, expected_out: int
     ],
 )
 def test_from_twos_complement_range(number: int, bits: int):
+    """Test conversion from two's complement format for out of range numbers raises :exc:`ValueError`."""
     with pytest.raises(ValueError, match="out of range"):
         from_twos_complement(number, bits)

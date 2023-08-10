@@ -157,7 +157,7 @@ class WrappedAsyncWriter(SynchronizedMixin):
 
 
 class WriterTests(ABC):
-    """This class holds tests for both sync and async versions of writer."""
+    """Collection of tests for both sync and async versions of the writer."""
 
     writer: BaseSyncWriter | BaseAsyncWriter
 
@@ -169,14 +169,14 @@ class WriterTests(ABC):
 
     @pytest.fixture()
     def method_mock(self) -> Mock | AsyncMock:
-        """Returns the appropriate type of mock, supporting both sync and async modes."""
+        """Obtain the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.writer, BaseSyncWriter):
             return Mock
         return AsyncMock
 
     @pytest.fixture()
     def autopatch(self, monkeypatch: pytest.MonkeyPatch):
-        """Returns a simple function, supporting patching both sync/async writer functions with appropriate mocks.
+        """Create a simple function, supporting patching both sync/async writer functions with appropriate mocks.
 
         This returned function takes in the name of the function to patch, and returns the mock object.
         This mock object will either be Mock, or AsyncMock instance, depending on whether we're in async or sync mode.
@@ -222,6 +222,7 @@ class WriterTests(ABC):
         expected_bytes: list[int],
         write_mock: WriteFunctionMock,
     ):
+        """Test writing values sends expected bytes."""
         self.writer.write_value(fmt, value)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
@@ -239,6 +240,7 @@ class WriterTests(ABC):
         fmt: INT_FORMATS_TYPE,
         value: Any,
     ):
+        """Test writing out of range values for the given format raises :exc:`struct.error`."""
         with pytest.raises(struct.error):
             self.writer.write_value(fmt, value)
 
@@ -258,7 +260,7 @@ class WriterTests(ABC):
         ],
     )
     def test_write_varuint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
-        """Writing varuints results in correct bytes."""
+        """Test writing varuints results in correct bytes."""
         self.writer._write_varuint(number)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
@@ -272,7 +274,7 @@ class WriterTests(ABC):
         ],
     )
     def test_write_varuint_out_of_range(self, write_value: int, max_bits: int):
-        """Varuints without should only work on positive integers up to n max_bits."""
+        """Test writing out of range varuints raises :exc:`ValueError`."""
         with pytest.raises(ValueError):
             self.writer._write_varuint(write_value, max_bits=max_bits)
 
@@ -281,7 +283,7 @@ class WriterTests(ABC):
         [(127, [127]), (16384, [128, 128, 1]), (-128, [128, 255, 255, 255, 15]), (-16383, [129, 128, 255, 255, 15])],
     )
     def test_write_varint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
-        """Writing varints results in correct bytes."""
+        """Test writing varints results in correct bytes."""
         self.writer.write_varint(number)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
@@ -295,7 +297,7 @@ class WriterTests(ABC):
         ],
     )
     def test_write_varlong(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
-        """Writing varlongs results in correct bytes."""
+        """Test writing varlongs results in correct bytes."""
         self.writer.write_varlong(number)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
@@ -309,7 +311,7 @@ class WriterTests(ABC):
         ],
     )
     def test_write_bytearray(self, data: bytes, expected_bytes: list[int], write_mock: WriteFunctionMock):
-        """Writing ASCII string results in correct bytes."""
+        """Test writing ASCII string results in correct bytes."""
         self.writer.write_bytearray(data)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
@@ -322,7 +324,7 @@ class WriterTests(ABC):
         ],
     )
     def test_write_ascii(self, string: str, expected_bytes: list[int], write_mock: WriteFunctionMock):
-        """Writing ASCII string results in correct bytes."""
+        """Test writing ASCII string results in correct bytes."""
         self.writer.write_ascii(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
@@ -336,18 +338,18 @@ class WriterTests(ABC):
         ],
     )
     def test_write_utf(self, string: str, expected_bytes: list[int], write_mock: WriteFunctionMock):
-        """Writing UTF string results in correct bytes."""
+        """Test writing UTF string results in correct bytes."""
         self.writer.write_utf(string)
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
     def test_write_utf_limit(self, write_mock: WriteFunctionMock):
-        """Writing a UTF string too big should raise a ValueError."""
+        """Test writing a UTF string too big raises a :exc:`ValueError`."""
         with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
             self.writer.write_utf("a" * (32768))
 
     def test_write_optional_true(self, method_mock: Mock | AsyncMock, write_mock: WriteFunctionMock):
-        """Writing non-None value should write True and run the writer function."""
+        """Test writing non-``None`` value writes ``True`` and runs the writer function."""
         mock_v = Mock()
         mock_f = method_mock()
         self.writer.write_optional(mock_v, mock_f)
@@ -355,7 +357,7 @@ class WriterTests(ABC):
         write_mock.assert_has_data(bytearray([1]))
 
     def test_write_optional_false(self, method_mock: Mock | AsyncMock, write_mock: WriteFunctionMock):
-        """Writing None value should write False and skip running the writer function."""
+        """Test writing ``None`` value should write ``False`` and skip running the writer function."""
         mock_f = method_mock()
         self.writer.write_optional(None, mock_f)
         mock_f.assert_not_called()
@@ -363,7 +365,7 @@ class WriterTests(ABC):
 
 
 class ReaderTests(ABC):
-    """This class holds tests for both sync and async versions of reader."""
+    """Collection of tests for both sync and async versions of the reader."""
 
     reader: BaseSyncReader | BaseAsyncReader
 
@@ -375,14 +377,14 @@ class ReaderTests(ABC):
 
     @pytest.fixture()
     def method_mock(self) -> Mock | AsyncMock:
-        """Returns the appropriate type of mock, supporting both sync and async modes."""
+        """Obtain the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(self.reader, BaseSyncReader):
             return Mock
         return AsyncMock
 
     @pytest.fixture()
     def autopatch(self, monkeypatch: pytest.MonkeyPatch):
-        """Returns a simple function, supporting patching both sync/async reader functions with appropriate mocks.
+        """Create a simple function, supporting patching both sync/async reader functions with appropriate mocks.
 
         This returned function takes in the name of the function to patch, and returns the mock object.
         This mock object will either be Mock, or AsyncMock instance, depending on whether we're in async or sync mode.
@@ -431,6 +433,7 @@ class ReaderTests(ABC):
         expected_value: Any,
         read_mock: ReadFunctionMock,
     ):
+        """Test reading bytes gets expected value."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_value(fmt) == expected_value
 
@@ -450,7 +453,7 @@ class ReaderTests(ABC):
         ],
     )
     def test_read_varuint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
-        """Reading varuint bytes results in correct values."""
+        """Test reading varuint bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader._read_varuint() == expected_value
 
@@ -462,7 +465,7 @@ class ReaderTests(ABC):
         ],
     )
     def test_read_varuint_out_of_range(self, read_bytes: list[int], max_bits: int, read_mock: ReadFunctionMock):
-        """Varuint reading limited to n max bits should raise an IOError for numbers out of this range."""
+        """Test reading out-of-range varuints raises :exc:`IOError`."""
         read_mock.combined_data = bytearray(read_bytes)
         with pytest.raises(IOError):
             self.reader._read_varuint(max_bits=max_bits)
@@ -472,7 +475,7 @@ class ReaderTests(ABC):
         [([127], 127), ([128, 128, 1], 16384), ([128, 255, 255, 255, 15], -128), ([129, 128, 255, 255, 15], -16383)],
     )
     def test_read_varint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
-        """Reading varuint bytes results in correct values."""
+        """Test reading varuint bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_varint() == expected_value
 
@@ -486,7 +489,7 @@ class ReaderTests(ABC):
         ],
     )
     def test_read_varlong(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
-        """Reading varuint bytes results in correct values."""
+        """Test reading varuint bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_varlong() == expected_value
 
@@ -500,7 +503,7 @@ class ReaderTests(ABC):
         ],
     )
     def test_read_bytearray(self, read_bytes: list[int], expected_bytes: bytes, read_mock: ReadFunctionMock):
-        """Reading ASCII string results in correct bytes."""
+        """Test reading ASCII string results in correct bytes."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_bytearray() == expected_bytes
 
@@ -513,7 +516,7 @@ class ReaderTests(ABC):
         ],
     )
     def test_read_ascii(self, read_bytes: list[int], expected_string: str, read_mock: ReadFunctionMock):
-        """Reading ASCII string results in correct bytes."""
+        """Test reading ASCII string results in correct bytes."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_ascii() == expected_string
 
@@ -527,7 +530,7 @@ class ReaderTests(ABC):
         ],
     )
     def test_read_utf(self, read_bytes: list[int], expected_string: str, read_mock: ReadFunctionMock):
-        """Reading UTF string results in correct values."""
+        """Test reading UTF string results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
         assert self.reader.read_utf() == expected_string
 
@@ -543,20 +546,20 @@ class ReaderTests(ABC):
         ids=["a", "b"],
     )
     def test_read_utf_limit(self, read_bytes: list[int], read_mock: ReadFunctionMock):
-        """Reading a UTF string too big raises an IOError."""
+        """Test reading a UTF string too big raises an IOError."""
         read_mock.combined_data = bytearray(read_bytes)
         with pytest.raises(IOError):
             self.reader.read_utf()
 
     def test_read_optional_true(self, method_mock: Mock | AsyncMock, read_mock: ReadFunctionMock):
-        """Reading optional should run reader function when first bool is True."""
+        """Test reading optional runs reader function when first bool is ``True``."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([1])
         self.reader.read_optional(mock_f)
         mock_f.assert_called_once_with()
 
     def test_read_optional_false(self, method_mock: Mock | AsyncMock, read_mock: ReadFunctionMock):
-        """Reading optional should not run reader function when first bool is False."""
+        """Test reading optional doesn't run reader function when first bool is ``False``."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([0])
         self.reader.read_optional(mock_f)
@@ -592,6 +595,7 @@ class TestBaseAsyncWriter(WriterTests):
 
     @classmethod
     def setup_class(cls):
+        """Initialize writer instance to be tested."""
         cls.writer = WrappedAsyncWriter()
 
 
@@ -602,6 +606,7 @@ class TestBaseAsyncReader(ReaderTests):
 
     @classmethod
     def setup_class(cls):
+        """Initialize writer instance to be tested."""
         cls.reader = WrappedAsyncReader()
 
 

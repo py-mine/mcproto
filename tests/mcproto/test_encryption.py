@@ -29,6 +29,7 @@ RSA_PUBLIC_KEY = RSA_PRIVATE_KEY.public_key()
 
 
 def test_encrypt_token_and_secret():
+    """Test encryption returns properly encrypted (decryptable) values."""
     verification_token = bytes.fromhex("9bd416ef")
     shared_secret = bytes.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
 

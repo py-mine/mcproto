@@ -21,6 +21,7 @@ from tests.mcproto.test_encryption import RSA_PUBLIC_KEY
 
 @pytest.mark.skipif(sys.version_info < (3, 9), reason="requires 3.9+ for pytest-httpx dependency")
 async def test_join_request_valid(httpx_mock: HTTPXMock) -> None:
+    """Test making a join request, getting back a valid response."""
     httpx_mock.add_response(
         url=f"{SESSION_SERVER_URL}/session/minecraft/join",
         method="POST",
@@ -51,6 +52,7 @@ async def test_join_request_invalid(
     err_type: UserJoinRequestErrorKind,
     httpx_mock: HTTPXMock,
 ) -> None:
+    """Test making a join request, getting back an invalid response."""
     httpx_mock.add_response(
         url=f"{SESSION_SERVER_URL}/session/minecraft/join",
         method="POST",
@@ -83,6 +85,7 @@ async def test_join_request_invalid(
     ],
 )
 async def test_join_check_valid(client_ip, httpx_mock: HTTPXMock):
+    """Test making a join check, getting back a valid response."""
     client_username = "ItsDrike"
     server_hash = "-745fc7fdb2d6ae7c4b20e2987770def8f3dd1105"
     ack_data = JoinAcknowledgeData(
@@ -121,6 +124,7 @@ async def test_join_check_valid(client_ip, httpx_mock: HTTPXMock):
 
 @pytest.mark.skipif(sys.version_info < (3, 9), reason="requires 3.9+ for pytest-httpx dependency")
 async def test_join_check_invalid(httpx_mock: HTTPXMock):
+    """Test making a join check, getting back an invalid response."""
     client_username = "ItsDrike"
     server_hash = "-745fc7fdb2d6ae7c4b20e2987770def8f3dd1105"
     client_ip = None
@@ -147,6 +151,7 @@ async def test_join_check_invalid(httpx_mock: HTTPXMock):
 
 
 def test_compute_server_hash():
+    """Test hash value computing returns expected hash."""
     server_id = ""
     shared_secret = bytes.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
     server_public_key = RSA_PUBLIC_KEY
