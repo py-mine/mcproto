@@ -59,7 +59,7 @@ class SynchronizedMixin:
         be delegated to the wrapped attribute. If the wrapped object doesn't have given attribute, the lookup
         will fallback to regular lookup for variables belonging to this class.
         """
-        if __name == "_WRAPPED_ATTRIBUTE" or __name == self._WRAPPED_ATTRIBUTE:
+        if __name == "_WRAPPED_ATTRIBUTE" or __name == self._WRAPPED_ATTRIBUTE:  # noqa: PLR1714 # Order is important
             return super().__getattribute__(__name)
 
         wrapped = getattr(self, self._WRAPPED_ATTRIBUTE)
