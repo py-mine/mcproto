@@ -202,6 +202,18 @@ class TestTCPAsyncConnection:
         with pytest.raises(IOError):
             await conn.read(10)
 
+    async def test_encrypted_read(self):
+        """Test reading encrypted data with enabled encryption properly decrypts the data."""
+        # The encryption is done with AES/CFB8 stream cipher
+        key = bytearray.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+        plaintext_data = bytearray.fromhex("1077656c6c2068656c6c6f207468657265")
+        encrypted_data = bytearray.fromhex("1ee5262f2df60b7262bed1ee27a3056184")
+
+        conn = self.make_connection(encrypted_data)
+        conn.enable_encryption(key)
+
+        assert await conn.read(17) == plaintext_data
+
     async def test_write(self):
         """Test writing data sends that original (unmodified) data."""
         data = bytearray("hello", "utf-8")
@@ -210,6 +222,19 @@ class TestTCPAsyncConnection:
         await conn.write(data)
 
         conn.writer._write.assert_has_data(data)
+
+    async def test_encrypted_write(self):
+        """Test writing plaintext data with enabled encryption encrypts the data before sending."""
+        # The encryption is done with AES/CFB8 stream cipher
+        key = bytearray.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+        plaintext_data = bytearray.fromhex("1077656c6c2068656c6c6f207468657265")
+        encrypted_data = bytearray.fromhex("1ee5262f2df60b7262bed1ee27a3056184")
+
+        conn = self.make_connection()
+        conn.enable_encryption(key)
+
+        await conn.write(plaintext_data)
+        conn.writer._write.assert_has_data(encrypted_data)
 
     async def test_socket_close(self):
         """Test close method closes the underlying socket."""
