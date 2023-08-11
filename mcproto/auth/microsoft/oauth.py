@@ -61,13 +61,15 @@ class MicrosoftOauthResponseError(Exception):
 
         super().__init__(self.err_type.value)
 
-    def __repr__(self) -> str:
+    @property
+    def msg(self) -> str:
+        """Produce a message for this error."""
         if self.err_type is MicrosoftOauthResponseErrorType.UNKNOWN:
-            msg = f"Unknown error: {self.error!r}"
-        else:
-            msg = f"Error {self.err_type.name}: {self.err_type.value!r}"
+            return f"Unknown error: {self.error!r}"
+        return f"Error {self.err_type.name}: {self.err_type.value!r}"
 
-        return f"{self.__class__.__name__}({msg})"
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.msg!r})"
 
 
 class MicrosoftOauthRequestData(TypedDict):
