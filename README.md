@@ -333,3 +333,78 @@ async def get_status(ip: str, port: int) -> dict:
 ```
 
 Well, that wasn't so hard, was it?
+
+### Using Client class for communication
+
+Now that you understand how packets work, let's take a look at a much nicer and easier way to do this. Note that it's
+still very important that you understand the basics shown above, as even though this is the best way of using mcproto,
+and by far the easiest, as a lot of the flows are already implemented for you, if you intent on writing any more
+complex bot accounts or doing similar things, you will still need to understand how to work with packets on their own,
+and where to learn what to send and when.
+
+```python
+
+import httpx
+
+from mcproto.client import Client
+from mcproto.connection import TCPAsyncConnection
+from mcproto.auth.account import Account
+from mcproto.types.uuid import UUID
+
+HOST = "localhost"
+PORT = 25565
+
+MINECRAFT_USERNAME = "YourMinecraftUsername"
+
+# To get your UUID, go to:  # https://api.mojang.com/users/profiles/minecraft/YourMinecraftUsername
+MINECRAFT_UUID = UUID("YourMinecraftUUID")
+
+# This can be left empty for warez accounts, but if you want to connect to online mode servers,
+# you will need to set this. See: https://mcproto.readthedocs.io/en/stable/usage/authentication/
+MINECRAFT_ACCESS_TOKEN = ""
+
+
+account = Account(MINECRAFT_USERNAME, MINECRAFT_UUID, MINECRAFT_ACCESS_TOKEN)
+
+
+async def main():
+    async with httpx.AsyncClient() as client:
+        async with (await TCPAsyncConnection.make_client((HOST, PORT), 2)) as connection:
+            client = Client(
+                host="localhost",
+                port=25565,
+                client=client,
+                account=account,
+                conn=connection,
+                protocol_version=763,  # 1.20.1
+            )
+
+            # To request status, you can now simply do:
+            status_response = client.status()
+
+            # `status_response` will now contain an instance of StatusResponse packet,
+            # so you can access the data just like in the above example, with `status_response.data`
+
+            # In the back, the `status` function has performed a handshake to transition us from
+            # the initial (None) game state, to the STATUS game state, and then sent a status
+            # request, getting back a response.
+
+            # The Client instance also includes a `login` function, which is capable to go through
+            # the entire login flow, leaving you in PLAY game state. Note that unless you've
+            # set MINECRAFT_ACCESS_TOKEN, you will only be able to do this for warez servers.
+
+            # But since we just called `status`, it left us in the STATUS game state, but we need
+            # to be in LOGIN game state. The `login` function will work if called from an initial
+            # game state (None), as it's smart enough to perform a handshake getting us to LOGIN,
+            # however it doesn't know what to do from STATUS game state.
+
+            # What we can do, is simply set game_state back to None (this is what happens during
+            # initialization of the Client class), making the login function send out another
+            # handshake, this time transitioning to LOGIN instead of STATUS. We could also create
+            # a completely new client instance.
+            client.game_state = None
+
+            client.login()
+
+            # Play state, yay!
+```
