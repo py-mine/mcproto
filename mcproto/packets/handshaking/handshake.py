@@ -68,7 +68,7 @@ class Handshake(ServerBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         return cls(
             protocol_version=buf.read_varint(),
