@@ -50,7 +50,7 @@ class LoginStart(ServerBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         username = buf.read_utf()
         uuid = buf.read_optional(lambda: UUID.deserialize(buf))
@@ -91,7 +91,7 @@ class LoginEncryptionRequest(ClientBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         server_id = buf.read_utf()
         public_key_raw = buf.read_bytearray()
@@ -130,7 +130,7 @@ class LoginEncryptionResponse(ServerBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         shared_secret = buf.read_bytearray()
         verify_token = buf.read_bytearray()
@@ -163,7 +163,7 @@ class LoginSuccess(ClientBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         uuid = UUID.deserialize(buf)
         username = buf.read_utf()
@@ -191,7 +191,7 @@ class LoginDisconnect(ClientBoundPacket):
         return self.reason.serialize()
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         reason = ChatMessage.deserialize(buf)
         return cls(reason)
@@ -226,7 +226,7 @@ class LoginPluginRequest(ClientBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         message_id = buf.read_varint()
         channel = buf.read_utf()
@@ -260,7 +260,7 @@ class LoginPluginResponse(ServerBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         message_id = buf.read_varint()
         data = buf.read_optional(lambda: buf.read(buf.remaining))
@@ -295,7 +295,7 @@ class LoginSetCompression(ClientBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         threshold = buf.read_varint()
         return cls(threshold)

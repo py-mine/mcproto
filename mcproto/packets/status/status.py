@@ -25,7 +25,7 @@ class StatusRequest(ServerBoundPacket):
         return Buffer()
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:  # pragma: no cover, nothing to test here.
+    def _deserialize(cls, buf: Buffer, /) -> Self:  # pragma: no cover, nothing to test here.
         """Deserialize the packet."""
         return cls()
 
@@ -54,7 +54,7 @@ class StatusResponse(ClientBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         s = buf.read_utf()
         data_ = json.loads(s)

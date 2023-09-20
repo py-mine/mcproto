@@ -36,7 +36,7 @@ class PingPong(ClientBoundPacket, ServerBoundPacket):
         return buf
 
     @classmethod
-    def deserialize(cls, buf: Buffer, /) -> Self:
+    def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         payload = buf.read_value(StructFormat.LONGLONG)
         return cls(payload)
