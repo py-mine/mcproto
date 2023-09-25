@@ -47,7 +47,7 @@ pytest-cov = ">=3,<5"
 pytest-httpx = { version = ">=0.23.1,<0.25.0", python = ">=3.9,<4" }
 
 [tool.poetry.group.lint.dependencies]
-ruff = ">=0.0.278,<0.0.291"
+ruff = ">=0.0.278,<0.0.292"
 black = ">=22.3,<24.0"
 isort = "^5.10.1"
 pyright = "^1.1.313"
