@@ -408,3 +408,35 @@ async def main():
 
             # Play state, yay!
 ```
+
+### Using Server class to create a basic server
+
+Along with the `Client` class, mcproto also has a `Server` class, which is capable of partially simulating a minecraft
+server. Note that this is a very basic implementation and it doesn't currently support PLAY state at all, however this
+class is extendable, so you can absolutely subclass it to fit your needs.
+
+To start this server, you can run the following:
+
+```python
+import httpx
+from mcproto.server import Server
+
+HOST = "0.0.0.0"
+PORT = 25565
+
+async with httpx.AsyncClient() as client:
+    server = Server(
+        HOST,
+        PORT,
+        httpx_client=client,
+        enable_encryption=True,
+        online=True,
+        compression_threshold=-1,
+        prevent_proxy_connections=False,
+    )
+    await server.start()
+```
+
+The `server.start()` function will block forever, as the server will be running. With this, you should be able to
+actually see this server in minecraft's multiplayer menu, as it does support returning status. However actually trying
+to connect will fail at finishConnect(), because of the lack of PLAY gamestate support.
