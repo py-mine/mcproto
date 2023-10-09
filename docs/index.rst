@@ -21,6 +21,8 @@ Content
     :caption: API Documentation
 
     api/basic.rst
+    api/packets.rst
+    api/protocol.rst
     api/internal.rst
 
 
