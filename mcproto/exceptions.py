@@ -93,3 +93,28 @@ class UnexpectedPacketError(Exception):
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg!r})"
+
+
+class InvalidVerifyTokenError(Exception):
+    """Exception produced when the verify_token from client doesn't match the one sent by the server.
+
+    The verify_token is sent by the server in `~mcproto.packets.login.login.LoginEncryptionRequest`, then
+    encrypted by the client and sent back in `~mcproto.packets.login.login.LoginEncryptionResponse`.
+    """
+
+    def __init__(self, original_token: bytes, received_decrypted_token: bytes) -> None:
+        self.original_token = original_token
+        self.received_decrypted_token = received_decrypted_token
+        super().__init__(self.msg)
+
+    @property
+    def msg(self) -> str:
+        """Produce a message for this error."""
+        return (
+            "Client sent mismatched verify token:"
+            f" original: {self.original_token!r},"
+            f" received: {self.received_decrypted_token!r}"
+        )
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.msg!r})"
