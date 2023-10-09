@@ -222,5 +222,4 @@ class Client:
         # Wait for Login (play) packet now. It could take a while for some servers to
         # transition to the play state, but we can be certain the server won't send any
         # other packets before this Login one.
-        recv_packet = await self._read_packet()
-        # TODO: Mcproto doesn't yet contain PLAY game state packets
+        raise NotImplementedError("Play state packets aren't implemented yet")

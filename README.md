@@ -373,7 +373,7 @@ async def main():
             client = Client(
                 host="localhost",
                 port=25565,
-                client=client,
+                httpx_client=client,
                 account=account,
                 conn=connection,
                 protocol_version=763,  # 1.20.1
