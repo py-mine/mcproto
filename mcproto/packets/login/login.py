@@ -33,7 +33,7 @@ class LoginStart(ServerBoundPacket):
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    def __init__(self, *, username: str, uuid: UUID | None):
+    def __init__(self, *, username: str, uuid: UUID):
         """Initialize the LoginStart packet.
 
         :param username: Username of the client who sent the request.
@@ -46,14 +46,14 @@ class LoginStart(ServerBoundPacket):
         """Serialize the packet."""
         buf = Buffer()
         buf.write_utf(self.username)
-        buf.write_optional(self.uuid, lambda id_: buf.extend(id_.serialize()))
+        buf.extend(self.uuid.serialize())
         return buf
 
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
         """Deserialize the packet."""
         username = buf.read_utf()
-        uuid = buf.read_optional(lambda: UUID.deserialize(buf))
+        uuid = UUID.deserialize(buf)
         return cls(username=username, uuid=uuid)
 
 
