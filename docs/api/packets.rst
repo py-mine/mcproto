@@ -2,7 +2,7 @@ Packets documentation
 =====================
 
 Base classes and interaction functions
----------------------
+--------------------------------------
 
 .. automodule:: mcproto.packets
    :members:
