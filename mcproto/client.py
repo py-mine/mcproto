@@ -19,6 +19,7 @@ from mcproto.packets.login.login import (
 )
 from mcproto.packets.packet import ClientBoundPacket, GameState, PacketDirection, ServerBoundPacket
 from mcproto.packets.packet_map import generate_packet_map
+from mcproto.packets.status.ping import PingPong
 from mcproto.packets.status.status import StatusRequest, StatusResponse
 
 
@@ -101,6 +102,23 @@ class Client:
         )
         await self._write_packet(packet)
         self.game_state = GameState.STATUS if next_state is NextState.STATUS else GameState.LOGIN
+
+    async def ping(self, payload: int) -> PingPong:
+        """Ping the server."""
+        if self.game_state is None:
+            await self._handshake(NextState.STATUS)
+
+        if self.game_state is not GameState.STATUS:
+            raise InvalidGameStateError("Requesting ping failed", expected=GameState.STATUS, found=self.game_state)
+
+        packet = PingPong(payload)
+        await self._write_packet(packet)
+
+        recv_packet = await self._read_packet()
+        if not isinstance(recv_packet, PingPong):
+            raise UnexpectedPacketError("Receiving ping response failed", expected=PingPong, found=recv_packet)
+
+        return recv_packet
 
     async def status(self) -> StatusResponse:
         """Obtain status data from the server.
