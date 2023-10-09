@@ -28,11 +28,11 @@ class TestLoginStart:
         [
             (
                 {"username": "ItsDrike", "uuid": UUID("f70b4a42c9a04ffb92a31390c128a1b2")},
-                bytes.fromhex("084974734472696b6501f70b4a42c9a04ffb92a31390c128a1b2"),
+                bytes.fromhex("084974734472696b65f70b4a42c9a04ffb92a31390c128a1b2"),
             ),
             (
                 {"username": "foobar1", "uuid": UUID("7a82476416fc4e8b8686a99c775db7d3")},
-                bytes.fromhex("07666f6f62617231017a82476416fc4e8b8686a99c775db7d3"),
+                bytes.fromhex("07666f6f626172317a82476416fc4e8b8686a99c775db7d3"),
             ),
         ],
     )
@@ -45,11 +45,11 @@ class TestLoginStart:
         ("input_bytes", "expected_args"),
         [
             (
-                bytes.fromhex("084974734472696b6501f70b4a42c9a04ffb92a31390c128a1b2"),
+                bytes.fromhex("084974734472696b65f70b4a42c9a04ffb92a31390c128a1b2"),
                 {"username": "ItsDrike", "uuid": UUID("f70b4a42c9a04ffb92a31390c128a1b2")},
             ),
             (
-                bytes.fromhex("07666f6f62617231017a82476416fc4e8b8686a99c775db7d3"),
+                bytes.fromhex("07666f6f626172317a82476416fc4e8b8686a99c775db7d3"),
                 {"username": "foobar1", "uuid": UUID("7a82476416fc4e8b8686a99c775db7d3")},
             ),
         ],
