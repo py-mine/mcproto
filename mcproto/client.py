@@ -33,7 +33,7 @@ class Client:
     __slots__ = (
         "host",
         "port",
-        "client",
+        "httpx_client",
         "account",
         "conn",
         "protocol_version",
@@ -45,7 +45,7 @@ class Client:
         self,
         host: str,
         port: int,
-        client: httpx.AsyncClient,
+        httpx_client: httpx.AsyncClient,
         account: Account,
         conn: TCPAsyncConnection,
         protocol_version: int,
@@ -54,7 +54,7 @@ class Client:
     ) -> None:
         self.host = host
         self.port = port
-        self.client = client
+        self.httpx_client = httpx_client
         self.account = account
         self.conn = conn
         self.protocol_version = protocol_version
@@ -155,7 +155,7 @@ class Client:
         # If the server isn't in offline mode (has server_id of "-"), contact the session server API.
         if packet.server_id != "-":
             server_hash = compute_server_hash(packet.server_id, shared_secret, packet.public_key)
-            await join_request(self.client, self.account, server_hash)
+            await join_request(self.httpx_client, self.account, server_hash)
 
         encrypted_token, encrypted_secret = encrypt_token_and_secret(
             packet.public_key,
