@@ -43,7 +43,7 @@ taskipy = "^1.10.4"
 [tool.poetry.group.test.dependencies]
 pytest = "^7.3.1"
 pytest-asyncio = "^0.21.0"
-pytest-cov = ">=3,<5"
+pytest-cov = ">=3,<6"
 pytest-httpx = { version = ">=0.23.1,<0.25.0", python = ">=3.9,<4" }
 
 [tool.poetry.group.lint.dependencies]
@@ -70,7 +70,7 @@ packaging = ">=23.1,<25.0"
 sphinx-autodoc-typehints = "^1.23"
 sphinx-copybutton = "^0.5.2"
 furo = ">=2022.12.7"
-sphinxcontrib-towncrier = "^0.3.2a0"
+sphinxcontrib-towncrier = ">=0.3.2,<0.5.0"
 
 [tool.poetry.group.docs-ci]
 optional = true
