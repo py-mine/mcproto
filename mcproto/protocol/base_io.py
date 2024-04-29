@@ -155,9 +155,9 @@ class BaseAsyncWriter(ABC):
 
     async def write_ascii(self, value: str, /) -> None:
         """Write ISO-8859-1 encoded string, with NULL (0x00) at the end to indicate string end."""
-        data = bytearray(value, "ISO-8859-1")
+        data = bytes(value, "ISO-8859-1")
         await self.write(data)
-        await self.write(bytearray.fromhex("00"))
+        await self.write(bytes([0]))
 
     async def write_utf(self, value: str, /) -> None:
         """Write a UTF-8 encoded string, prefixed with a varint of it's size (in bytes).
@@ -174,7 +174,7 @@ class BaseAsyncWriter(ABC):
         if len(value) > 32767:
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
 
-        data = bytearray(value, "utf-8")
+        data = bytes(value, "utf-8")
         await self.write_varint(len(data))
         await self.write(data)
 
@@ -272,9 +272,9 @@ class BaseSyncWriter(ABC):
 
     def write_ascii(self, value: str, /) -> None:
         """Write ISO-8859-1 encoded string, with NULL (0x00) at the end to indicate string end."""
-        data = bytearray(value, "ISO-8859-1")
+        data = bytes(value, "ISO-8859-1")
         self.write(data)
-        self.write(bytearray.fromhex("00"))
+        self.write(bytes([0]))
 
     def write_utf(self, value: str, /) -> None:
         """Write a UTF-8 encoded string, prefixed with a varint of it's size (in bytes).
@@ -291,7 +291,7 @@ class BaseSyncWriter(ABC):
         if len(value) > 32767:
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
 
-        data = bytearray(value, "utf-8")
+        data = bytes(value, "utf-8")
         self.write_varint(len(data))
         self.write(data)
 

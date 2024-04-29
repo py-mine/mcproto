@@ -4,13 +4,19 @@ import asyncio
 import inspect
 import unittest.mock
 from collections.abc import Callable, Coroutine
-from typing import Any, Generic, TypeVar
+from typing import Any, Dict, Generic, Tuple, TypeVar, cast
 
+import pytest
 from typing_extensions import ParamSpec, override
+
+from mcproto.buffer import Buffer
+from mcproto.utils.abc import Serializable
 
 T = TypeVar("T")
 P = ParamSpec("P")
 T_Mock = TypeVar("T_Mock", bound=unittest.mock.Mock)
+
+__all__ = ["synchronize", "SynchronizedMixin", "UnpropagatingMockMixin", "CustomMockMixin", "gen_serializable_test"]
 
 
 def synchronize(f: Callable[P, Coroutine[Any, Any, T]]) -> Callable[P, T]:
@@ -160,3 +166,175 @@ class CustomMockMixin(UnpropagatingMockMixin):
         if "spec_set" in kwargs:
             self.spec_set = kwargs.pop("spec_set")
         super().__init__(spec_set=self.spec_set, **kwargs)  # type: ignore # Mixin class, this __init__ is valid
+
+
+def gen_serializable_test(
+    context: dict[str, Any],
+    cls: type[Serializable],
+    fields: list[tuple[str, type]],
+    test_data: list[
+        tuple[tuple[Any, ...], bytes] | tuple[tuple[Any, ...], type[Exception]] | tuple[type[Exception], bytes]
+    ],
+):
+    """Generate tests for a serializable class.
+
+    This function generates tests for the serialization, deserialization, validation, and deserialization error
+    handling
+
+    :param context: The context to add the test functions to. This is usually `globals()`.
+    :param cls: The serializable class to test.
+    :param fields: A list of tuples containing the field names and types of the serializable class.
+    :param test_data: A list of test data. Each element is a tuple containing either:
+        - A tuple of parameters to pass to the serializable class constructor and the expected bytes after
+            serialization
+        - A tuple of parameters to pass to the serializable class constructor and the expected exception during
+            validation
+        - An exception to expect during deserialization and the bytes to deserialize
+
+    Example usage:
+    ```python
+    @final
+    @dataclass
+    class ToyClass(Serializable):
+        a: int
+        b: str
+
+        def serialize_to(self, buf: Buffer):
+            buf.write_varint(self.a)
+            buf.write_utf(self.b)
+
+        @classmethod
+        def deserialize(cls, buf: Buffer) -> "ToyClass":
+            a = buf.read_varint()
+            b = buf.read_utf()
+            if len(b) > 10:
+                raise ValueError("b must be less than 10 characters")
+            return cls(a, b)
+
+        def validate(self) -> None:
+            if self.a == 0:
+                raise ZeroDivisionError("a must be non-zero")
+
+    gen_serializable_test(
+        context=globals(),
+        cls=ToyClass,
+        fields=[("a", int), ("b", str)],
+        test_data=[
+            ((1, "hello"), b"\x01\x05hello"),
+            ((2, "world"), b"\x02\x05world"),
+            ((0, "hello"), ZeroDivisionError),
+            (IOError, b"\x01"), # Not enough data to deserialize
+            (ValueError, b"\x01\x0bhello world"), # 0b = 11 is too long
+        ],
+    )
+    ```
+    This will add 1 class test with 4 test functions containing the tests for serialization, deserialization,
+    validation, and deserialization error handling
+
+
+    """
+    # Separate the test data into parameters for each test function
+    # This holds the parameters for the serialization and deserialization tests
+    parameters: list[tuple[dict[str, Any], bytes]] = []
+
+    # This holds the parameters for the validation tests
+    validation_fail: list[tuple[dict[str, Any], type[Exception]]] = []
+
+    # This holds the parameters for the deserialization error tests
+    deserialization_fail: list[tuple[bytes, type[Exception]]] = []
+
+    # kwargs = dict(zip([f[0] for f in fields], data_or_exc))
+    for data_or_exc, expected_bytes_or_exc in test_data:
+        if isinstance(data_or_exc, tuple) and isinstance(expected_bytes_or_exc, bytes):
+            kwargs = dict(zip([f[0] for f in fields], data_or_exc))
+            parameters.append((kwargs, expected_bytes_or_exc))
+        elif isinstance(data_or_exc, type) and isinstance(expected_bytes_or_exc, bytes):
+            deserialization_fail.append((expected_bytes_or_exc, data_or_exc))
+        else:
+            data = cast(Tuple[Any, ...], data_or_exc)
+            exception = cast(type[Exception], expected_bytes_or_exc)
+            kwargs = dict(zip([f[0] for f in fields], data))
+            validation_fail.append((kwargs, exception))
+
+    def generate_name(param: dict[str, Any] | bytes, i: int) -> str:
+        """Generate a name for the test case."""
+        length = 30
+        result = f"{i:02d}] : "  # the first [ is added by pytest
+        if isinstance(param, bytes):
+            try:
+                result += str(param[:length], "utf-8") + "..." if len(param) > (length + 3) else param.decode("utf-8")
+            except UnicodeDecodeError:
+                result += repr(param[:length]) + "..." if len(param) > (length + 3) else repr(param)
+        else:
+            param = cast(Dict[str, Any], param)
+            begin = ", ".join(f"{k}={v}" for k, v in param.items())
+            result += begin[:length] + "..." if len(begin) > (length + 3) else begin
+        result = result.replace("\n", "\\n").replace("\r", "\\r")
+        result += f" [{cls.__name__}"  # the other [ is added by pytest
+        return result
+
+    class TestClass:
+        """Test class for the generated tests."""
+
+        @pytest.mark.parametrize(
+            ("kwargs", "expected_bytes"),
+            parameters,
+            ids=tuple(generate_name(kwargs, i) for i, (kwargs, _) in enumerate(parameters)),
+        )
+        def test_serialization(self, kwargs: dict[str, Any], expected_bytes: bytes):
+            """Test serialization of the object."""
+            obj = cls(**kwargs)
+            serialized_bytes = obj.serialize()
+            assert serialized_bytes == expected_bytes, f"{serialized_bytes} != {expected_bytes}"
+
+        @pytest.mark.parametrize(
+            ("kwargs", "expected_bytes"),
+            parameters,
+            ids=tuple(generate_name(kwargs, i) for i, (kwargs, _) in enumerate(parameters)),
+        )
+        def test_deserialization(self, kwargs: dict[str, Any], expected_bytes: bytes):
+            """Test deserialization of the object."""
+            buf = Buffer(expected_bytes)
+            obj = cls.deserialize(buf)
+            assert cls(**kwargs) == obj, f"{cls.__name__}({kwargs}) != {obj}"
+            assert buf.remaining == 0, f"Buffer has {buf.remaining} bytes remaining"
+
+        @pytest.mark.parametrize(
+            ("kwargs", "exc"),
+            validation_fail,
+            ids=tuple(generate_name(kwargs, i) for i, (kwargs, _) in enumerate(validation_fail)),
+        )
+        def test_validation(self, kwargs: dict[str, Any], exc: type[Exception]):
+            """Test validation of the object."""
+            with pytest.raises(exc):
+                cls(**kwargs)
+
+        @pytest.mark.parametrize(
+            ("content", "exc"),
+            deserialization_fail,
+            ids=tuple(generate_name(content, i) for i, (content, _) in enumerate(deserialization_fail)),
+        )
+        def test_deserialization_error(self, content: bytes, exc: type[Exception]):
+            """Test deserialization error handling."""
+            buf = Buffer(content)
+            with pytest.raises(exc):
+                cls.deserialize(buf)
+
+    if len(parameters) == 0:
+        # If there are no serialization tests, remove them
+        del TestClass.test_serialization
+        del TestClass.test_deserialization
+
+    if len(validation_fail) == 0:
+        # If there are no validation tests, remove them
+        del TestClass.test_validation
+
+    if len(deserialization_fail) == 0:
+        # If there are no deserialization error tests, remove them
+        del TestClass.test_deserialization_error
+
+    # Set the names of the class
+    TestClass.__name__ = f"TestGen{cls.__name__}"
+
+    # Add the test functions to the global context
+    context[TestClass.__name__] = TestClass
