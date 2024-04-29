@@ -93,7 +93,7 @@ class PyAttributeTable(SphinxDirective):
     required_arguments = 1
     optional_arguments = 0
     final_argument_whitespace = False
-    option_spec: OptionSpec = {}  # noqa: RUF012 # (from original impl)
+    option_spec: OptionSpec = {}  # type: ignore # noqa: RUF012 # (from original impl)
 
     def parse_name(self, content: str) -> tuple[str, str]:
         match = _name_parser_regex.match(content)

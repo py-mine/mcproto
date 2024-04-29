@@ -7,7 +7,6 @@ from typing import TypedDict
 import httpx
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
-from typing_extensions import Self
 
 from mcproto.auth.account import Account
 
@@ -33,7 +32,7 @@ class UserJoinRequestErrorKind(str, Enum):
     UNKNOWN = "This is an unknown error."
 
     @classmethod
-    def from_status_error(cls, code: int, err_msg: str | None) -> Self:
+    def from_status_error(cls, code: int, err_msg: str | None) -> UserJoinRequestErrorKind:
         """Determine the error kind based on the status code and error message."""
         if code == 403:
             if err_msg == "InsufficientPrivilegesException":

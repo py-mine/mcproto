@@ -24,7 +24,7 @@ class ServicesAPIErrorType(str, Enum):
     UNKNOWN = "This is an unknown error."
 
     @classmethod
-    def from_status_error(cls, code: int, err_msg: str | None) -> Self:
+    def from_status_error(cls, code: int, err_msg: str | None) -> ServicesAPIErrorType:
         """Determine the error kind based on the error data."""
         if code == 401 and err_msg == "Invalid app registration, see https://aka.ms/AppRegInfo for more information":
             return cls.INVALID_REGISTRATION

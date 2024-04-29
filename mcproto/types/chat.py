@@ -53,7 +53,7 @@ class ChatMessage(MCType):
         # pragma: no cover
         raise TypeError(f"Found unexpected type ({self.raw.__class__!r}) ({self.raw!r}) in `raw` attribute")
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Check equality between two chat messages.
 
         ..warning: This is purely using the `raw` field, which means it's possible that
