@@ -47,9 +47,7 @@ pytest-cov = ">=3,<6"
 pytest-httpx = { version = ">=0.23.1,<0.25.0", python = ">=3.9,<4" }
 
 [tool.poetry.group.lint.dependencies]
-ruff = ">=0.0.278,<0.1.6"
-black = ">=22.3,<25.0"
-isort = "^5.10.1"
+ruff = "^0.3.4"
 pyright = "^1.1.313"
 slotscheck = ">=0.16.1,<0.18.0"
 
@@ -102,6 +100,7 @@ reportShadowedImports = "error"
 target-version = "py38"
 line-length = 119
 
+[tool.ruff.lint]
 select = [
   "F",     # Pyflakes
   "W",     # Pycodestyle (warnigns)
@@ -124,8 +123,10 @@ select = [
   "SIM",   # flake8-simplify
   "TID",   # flake8-tidy-imports
   "INT",   # flake8-gettext
+  "ISC",   # flake8-implicit-str-concat
   "PTH",   # flake8-use-pathlib
   "PGH",   # pygrep-hooks
+  "PIE",   # flake8-pie
   "PL",    # pylint
   "RUF",   # ruff-specific rules
   "UP",    # pyupgrade
@@ -157,14 +158,34 @@ ignore = [
   "ANN101", # Missing type annotation for self in method
   "ANN102", # Missing type annotation for cls in classmethod
   "ANN204", # Missing return type annotation for special method
+  "ANN401", # Dynamically typed expressions (typing.Any) disallowed
+
+  "SIM102", # use a single if statement instead of nested if statements
+  "SIM108", # Use ternary operator {contents} instead of if-else-block
 
   "PT011",   # pytest.raises without match parameter is too broad # TODO: Unignore this
   "UP024",   # Using errors that alias OSError
   "PLR2004", # Using unnamed numerical constants
   "PGH003",  # Using specific rule codes in type ignores
+  "E731",    # Don't asign a lambda expression, use a def
+
+  # Redundant rules with ruff-format:
+  "E111",   # Indentation of a non-multiple of 4 spaces
+  "E114",   # Comment with indentation  of a non-multiple of 4 spaces
+  "E117",   # Cheks for over-indented code
+  "D206",   # Checks for docstrings indented with tabs
+  "D300",   # Checks for docstring that use ''' instead of """
+  "Q000",   # Checks of inline strings that use wrong quotes (' instead of ")
+  "Q001",   # Multiline string that use wrong quotes (''' instead of """)
+  "Q002",   # Checks for docstrings that use wrong quotes (''' instead of """)
+  "Q003",   # Checks for avoidable escaped quotes ("\"" -> '"')
+  "COM812", # Missing trailing comma (in multi-line lists/tuples/...)
+  "COM819", # Prohibited trailing comma (in single-line lists/tuples/...)
+  "ISC001", # Single line implicit string concatenation ("hi" "hey" -> "hihey")
+  "ISC002", # Multi line implicit string concatenation
 ]
 
-[tool.ruff.extend-per-file-ignores]
+[tool.ruff.lint.extend-per-file-ignores]
 "tests/*" = [
   "ANN",  # flake8-annotations
   "S101", # Use of assert
@@ -173,25 +194,29 @@ ignore = [
   "D", # pydocstyle
 ]
 
-[tool.ruff.flake8-tidy-imports]
+[tool.ruff.lint.isort]
+order-by-type = false
+case-sensitive = true
+combine-as-imports = true
+
+# Redundant rules with ruff-format
+force-single-line = false       # forces all imports to appear on their own line
+force-wrap-aliases = false      # Split imports with multiple members and at least one alias
+lines-after-imports = -1        # The number of blank lines to place after imports
+lines-between-types = 0         # Number of lines to place between "direct" and import from imports
+split-on-trailing-comma = false # if last member of multiline import has a comma, don't fold it to single line
+
+[tool.ruff.lint.pylint]
+max-args = 20
+max-branches = 20
+max-returns = 20
+max-statements = 250
+
+[tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
-[tool.ruff.pylint]
-max-args = 6
-max-branches = 12
-max-returns = 10
-max-statements = 50
-
-[tool.black]
-line-length = 119
-
-[tool.isort]
-profile = "black"
-line_length = 119
-atomic = true
-order_by_type = false
-case_sensitive = true
-combine_as_imports = true
+[tool.ruff.format]
+line-ending = "lf"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -257,10 +282,9 @@ exclude-modules = '''
 [tool.taskipy.tasks]
 precommit = "pre-commit install"
 lint = "pre-commit run --all-files"
-black = "black ."
-isort = "isort ."
 pyright = "pyright ."
-flake8 = "flake8 ."
+ruff = "ruff check --fix ."
+ruff-format = "ruff format ."
 slotscheck = "slotscheck -m mcproto"
 test = "pytest -v --failed-first"
 retest = "pytest -v --last-failed"

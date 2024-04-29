@@ -100,25 +100,30 @@ automated tools to help us catch any style violation without manual review!
 
 Currently, these are the tools we use for code style enforcement:
 
-- [`ruff`](https://beta.ruff.rs/docs/): General python linter
-- [`isort`](https://pycqa.github.io/isort/): Formatter/Sorter of import statements
-- [`black`](https://black.readthedocs.io/en/stable/): General python formatter
+- [`ruff`](https://beta.ruff.rs/docs/): General python linter, formatter and import sorter
+- [`slotscheck`](https://slotscheck.readthedocs.io/en/latest/): Enforces the presence of `__slots__` in classes
 
-You can read more about them individually in the sections below. It is important that you familiarize yourself with all
-of these tools, and their standalone usage, but it would of course be very annoying to have to run all of these tools
-manually, so while there will be instructions on how to do that, you should pretty much always prefer direct IDE/editor
-integration, which is mentioned [here](#editor-integration), and make use of [pre-commit](#pre-commit).
+You can read more about them individually in the sections below. It is important that you familiarize yourself with
+these tools, and their standalone usage, but it would of course be very annoying to have to run the commands to run
+these tools manually, so while there will be instructions on how to do that, you should pretty much always prefer
+direct IDE/editor integration, which is mentioned [here](#editor-integration), and make use of
+[pre-commit](#pre-commit).
 
-#### Ruff linter
+#### Ruff linter & Formatter
 
-Ruff is an alternative program to the more popular [`flake8`](https://flake8.pycqa.org/en/latest/) linter. Ruff is
-faster (written in rust! 🦀) and includes most of the popular flake8 extensions directly.
+Ruff is an all-in-one linter & formatter solution, which aims to replace the previously very popular
+[`flake8`](https://flake8.pycqa.org/en/latest/) linter, [`isort`](https://pycqa.github.io/isort/) import sorter and
+[`black`](https://black.readthedocs.io/en/stable/) formatter. Ruff is faster (written in rust! 🦀) and includes most of
+the popular flake8 extensions directly. It is almost 1:1 compatible with black, which means the way it formats code is
+pretty much the same, with only some very subtle differences.
 
-You can check which ruff rules we're using in [`pyproject.toml`](./pyproject.toml) file, under the `[tools.ruff]`.
+You can check the ruff configuration we're using in [`pyproject.toml`](./pyproject.toml) file, under the `[tool.ruff]`
+category (and it's subcategories), you can find the enabled linter rules there, and some more specific configuration,
+like line length, python version, individual ignored lint rules, and ignored files.
 
-To run `ruff` on the code, you can use `ruff check .` command, while in the project's root directory (from an activated
-poetry environment, alternatively `poetry run ruff .`). Ruff also supports some automatic fixes to many violations it
-founds, to enable fixing, you can use `ruff check --fix`.
+To run `ruff` **linter** on the code, you can use `ruff check .` command, while in the project's root directory (from
+an activated poetry environment, alternatively `poetry run ruff .`). Ruff also supports some automatic fixes to many
+violations it founds, to enable fixing, you can use `ruff check --fix`. This will also run the `isort` integration.
 
 If you find a rule violation in your code somewhere, and you don't understand what that rule's purpose is, `ruff` evens
 supports running `ruff rule [rule id]` (for example `ruff rule ANN401`). These explanations are in markdown, so I'd
@@ -126,27 +131,20 @@ recommend using a markdown renderer such as [`glow`](https://github.com/charmbra
 install it with: `pacman -S glow`) and piping the output into it for a much nicer reading experience: `ruff rule ANN401
 | glow`.
 
-#### Isort
+To run `ruff` **formatter** on the code, you can simply execute `ruff format .` command (also needs an activated poetry
+environment). This will automatically format all files in the code-base.
 
-Isort is a tool for sorting python imports. We use it for consistency in the code-base, and because it makes it very
-easy to quickly know where to look, when a file has a lot of imports in it, since you'll know they're all sorted in a
-very particular order.
+#### Slotscheck
 
-Specifically, isort splits our imports up into 3 groups: stdlib, external, internal. Inside of these groups, all
-imports are also alphabetically sorted.
+Slotscheck is a utility/linter that enforces the proper use of `__slots__` in our python classes. This is important for
+memory-optimization reasons, and it also improves the general performance when accessing/working with attributes of
+slotted classes.
 
-You can run isort to automatically sort the imports for you with: `isort .` (or `poetry run isort .`) from the
-project's root.
+If you're unsure how slots work / what they are, there is a very nice explanation of them in the official python wiki:
+[here](https://wiki.python.org/moin/UsingSlots).
 
-#### Black
-
-Black is a popular auto-formatter for python, with a bunch of different rules to automatically format our code in a
-way we want it to look. Black is a great way to allow us to focus on writing the logic of the code, without worrying
-too much about the code style, as it simply formats the code for us. It is fully compatible with `ruff`, linter, so no
-conflicts between these tools will arise. In fact, black can often fix a lot of violations ruff will report on it's
-own.
-
-To run black, simply execute `black .` (or `poetry run black .`) from the project's root.
+To run slotscheck, you can simply execute `slotscheck -m mcproto` from an activated poetry environment (or
+`poetry run slotscheck -m mcproto`).
 
 ### Use of `__all__`
 
@@ -301,15 +299,15 @@ pyright automatically, as a part of [pre-commit](#pre-commit).
 
 ## Pre-commit
 
-Now that you've seen all of the linters and type-checkers we use in the project, you might be wondering whether you're
-really expected to run all of those commands manually, after each change. And of course, no, you're not, that would be
-really annoying, and you'd probably also often just forget to do that.
+Now that you've seen the linters, formatters, type-checkers and other tools that we use in the project, you might be
+wondering whether you're really expected to run all of those commands manually, after each change. And of course, no,
+you're not, that would be really annoying, and you'd probably also often just forget to do that.
 
 So, instead of that, we use a tool called `pre-commit`, which creates a [git
 hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), that will automatically run before each commit you
-make. That means each time when you make a commit, all of the linters, formatters and other checkers will run over the
-code you updated, and if any of these linters detects an issue, the commit will be aborted, and you will see which
-linter failed, and it's output telling you why.
+make. That means each time when you make a commit, all of these tools will run over the code you updated, and if any of
+these linters detects an issue, the commit will be aborted, and you will see which linter failed, and it's output
+telling you why.
 
 To install pre-commit as a git hook all you need to do is to run `pre-commit install` from an activated poetry
 environment, installing it into the git repository as a hook running before every commit. That said, you can also run
@@ -317,17 +315,17 @@ pre-commit without having to install it (or without having to make a commit, eve
 execute: `pre-commit run --all-files`. Note that the installed hook will only run the linters on the files that were
 updated in the commit, while using the command directly will run it on the whole project.
 
-You can find pre-commit's configuration the [`.pre-commit-config.yaml`](./.pre-commit-config.yaml) file, where we define
-which tools should be ran and how. Currently, pre-commit runs ruff, black, isort and pyright, but also a checker for
-some issues in TOML/YAML files.
+You can find pre-commit's configuration the [`.pre-commit-config.yaml`](./.pre-commit-config.yaml) file, where we
+define which tools should be ran and how. Currently, pre-commit runs ruff linter, ruff formatter, slotscheck and
+pyright, but also a checker for some issues in TOML/YAML files.
 
-Even though in most cases enforcing linting before each commit is what we want, there are some situations where
-we need to commit some code which doesn't pass these checks. This can happen for example after a merge, or as a result
-of making a single purpose small commit without yet worrying about linters. In these cases, you can use the
-`--no-verify` flag when making a commit, telling git to skip all of the pre-commit hooks and commit normally. You can
-also only skip a specific hook(s), by setting `SKIP` environmental variable (e.g. `SKIP=ruff`, or
-`SKIP=ruff,isort`), the names of the individual hooks are their ids, you can find those in the configuration
-file for pre-commit.
+Even though in most cases enforcing linting before each commit is what we want, there are some situations where we need
+to commit some code which doesn't pass these checks. This can happen for example after a merge, or as a result of
+making a single purpose small commit without yet worrying about linters. In these cases, you can use the `--no-verify`
+flag when making a commit, telling git to skip all of the pre-commit hooks and commit normally. You can also only skip
+a specific hook(s), by setting `SKIP` environmental variable (e.g. `SKIP=pyright`, or
+`SKIP=ruff-linter,ruff-formatter,slotscheck`), the names of the individual hooks are their ids, you can find those in
+the configuration file for pre-commit.
 
 However this kind of verification skipping should be used sparingly. We value a clean history which consistently follows
 our linting guidelines, and making commits with linting issues only leads to more commits, fixing those issues later. If
@@ -344,19 +342,21 @@ editors will support integration will all of these tools, so you shouldn't have 
 
 If you're using neovim, I would recommend setting up LSP (Language Server Protocol), and installing Pyright, as it has
 language server support built into it. Same thing goes with `ruff`, which has an LSP implementation
-[`ruff-lsp`](https://github.com/astral-sh/ruff-lsp). As for `isort` and `black`, you'll want to use something like
-`null-ls` for those.
+[`ruff-lsp`](https://github.com/astral-sh/ruff-lsp). As for slotscheck, there isn't currently any good way to integrate
+it directly, so you will need to rely on pre-commit, or run it manually. However, slotscheck violations are fairly
+rare.
 
-On vscode, you can simply install extensions for all of the tools we're using:
+On vscode, you can simply install the following extensions:
 
 - [pylance (pyright)](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
 - [ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
-- [isort](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)
-- [black](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
 
 Note that with Pylance, you will also need to enable the type checking mode, by setting
 `"python.analysis.typeCheckingMode": "basic"` in `settings.json`. You can use `.vscode/settings.json` for per-project
 settings, to only enable type-checking for this project, or enable it globally in your user settings).
+
+(Similarly to neovim, there is no extension available for slotscheck, however violations are fairly rare, and it should
+be enough to have it run with pre-commit.)
 
 ## Making Great Commits
 

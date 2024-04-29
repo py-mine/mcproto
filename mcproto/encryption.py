@@ -40,7 +40,11 @@ def generate_rsa_key() -> RSAPrivateKey:  # pragma: no cover
 
     This will be a 1024-bit RSA key pair.
     """
-    return generate_private_key(public_exponent=65537, key_size=1024, backend=default_backend())
+    return generate_private_key(
+        public_exponent=65537,
+        key_size=1024,  # noqa: S505  # 1024-bit keys are not secure, but well, the mc protocol uses them
+        backend=default_backend(),
+    )
 
 
 def encrypt_token_and_secret(

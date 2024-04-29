@@ -51,7 +51,6 @@ class MockSocket(CustomMockMixin, MagicMock):
     @override
     def shutdown(self, __how: int, /) -> None:
         """Mock version of shutdown, without any real implementation."""
-        pass
 
 
 class MockStreamWriter(CustomMockMixin, MagicMock):
