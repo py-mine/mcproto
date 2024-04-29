@@ -5,7 +5,6 @@ from enum import Enum
 from typing import TypedDict
 
 import httpx
-from typing_extensions import Self
 
 __all__ = [
     "MicrosoftOauthResponseErrorType",
@@ -34,7 +33,7 @@ class MicrosoftOauthResponseErrorType(str, Enum):
     UNKNOWN = "This is an unknown error"
 
     @classmethod
-    def from_status_error(cls, error: str) -> Self:
+    def from_status_error(cls, error: str) -> MicrosoftOauthResponseErrorType:
         """Determine the error kind based on the error data."""
         if error == "expired_token":
             return cls.EXPIRED_TOKEN

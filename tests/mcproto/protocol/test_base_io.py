@@ -3,7 +3,7 @@ from __future__ import annotations
 import platform
 import struct
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Generic, TypeVar, Union
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -155,11 +155,14 @@ class WrappedAsyncWriter(SynchronizedMixin):
 # endregion
 # region: Abstract test classes
 
+T_WRITER = TypeVar("T_WRITER", bound=Union[BaseSyncWriter, BaseAsyncWriter])
+T_READER = TypeVar("T_READER", bound=Union[BaseSyncReader, BaseAsyncReader])
 
-class WriterTests(ABC):
+
+class WriterTests(ABC, Generic[T_WRITER]):
     """Collection of tests for both sync and async versions of the writer."""
 
-    writer: BaseSyncWriter | BaseAsyncWriter
+    writer: T_WRITER
 
     @classmethod
     @abstractmethod
@@ -364,10 +367,10 @@ class WriterTests(ABC):
         write_mock.assert_has_data(bytearray([0]))
 
 
-class ReaderTests(ABC):
+class ReaderTests(ABC, Generic[T_READER]):
     """Collection of tests for both sync and async versions of the reader."""
 
-    reader: BaseSyncReader | BaseAsyncReader
+    reader: T_READER
 
     @classmethod
     @abstractmethod
@@ -570,7 +573,7 @@ class ReaderTests(ABC):
 # region: Concrete test classes
 
 
-class TestBaseSyncWriter(WriterTests):
+class TestBaseSyncWriter(WriterTests[SyncWriter]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncWriter`."""
 
     @classmethod
@@ -579,7 +582,7 @@ class TestBaseSyncWriter(WriterTests):
         cls.writer = SyncWriter()
 
 
-class TestBaseSyncReader(ReaderTests):
+class TestBaseSyncReader(ReaderTests[SyncReader]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
 
     @classmethod
@@ -588,26 +591,22 @@ class TestBaseSyncReader(ReaderTests):
         cls.reader = SyncReader()
 
 
-class TestBaseAsyncWriter(WriterTests):
+class TestBaseAsyncWriter(WriterTests[AsyncWriter]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
-
-    writer: WrappedAsyncWriter
 
     @classmethod
     def setup_class(cls):
         """Initialize writer instance to be tested."""
-        cls.writer = WrappedAsyncWriter()
+        cls.writer = WrappedAsyncWriter()  # type: ignore
 
 
-class TestBaseAsyncReader(ReaderTests):
+class TestBaseAsyncReader(ReaderTests[AsyncReader]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
-
-    reader: WrappedAsyncReader
 
     @classmethod
     def setup_class(cls):
         """Initialize writer instance to be tested."""
-        cls.reader = WrappedAsyncReader()
+        cls.reader = WrappedAsyncReader()  # type: ignore
 
 
 # endregion

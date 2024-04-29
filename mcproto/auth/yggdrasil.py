@@ -43,7 +43,13 @@ class AuthServerApiErrorType(str, Enum):
     UNKNOWN = "This is an unknown error."
 
     @classmethod
-    def from_status_error(cls, code: int, short_msg: str, full_msg: str, cause_msg: str | None) -> Self:
+    def from_status_error(
+        cls,
+        code: int,
+        short_msg: str,
+        full_msg: str,
+        cause_msg: str | None,
+    ) -> AuthServerApiErrorType:
         """Determine the error kind based on the error data."""
         if code == 410:
             return cls.MICROSOFT_MIGRATED
