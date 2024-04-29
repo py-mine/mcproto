@@ -17,8 +17,7 @@ if TYPE_CHECKING:
 
     T = TypeVar("T")
 
-    def lru_cache(func: T, /) -> T:
-        ...
+    def lru_cache(func: T, /) -> T: ...
 
 else:
     from functools import lru_cache
@@ -97,16 +96,14 @@ def _walk_module_packets(module_data: WalkableModuleData) -> Iterator[type[Packe
 def generate_packet_map(
     direction: Literal[PacketDirection.SERVERBOUND],
     state: GameState,
-) -> Mapping[int, type[ServerBoundPacket]]:
-    ...
+) -> Mapping[int, type[ServerBoundPacket]]: ...
 
 
 @overload
 def generate_packet_map(
     direction: Literal[PacketDirection.CLIENTBOUND],
     state: GameState,
-) -> Mapping[int, type[ClientBoundPacket]]:
-    ...
+) -> Mapping[int, type[ClientBoundPacket]]: ...
 
 
 @lru_cache
