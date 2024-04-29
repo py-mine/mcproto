@@ -1,20 +1,31 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+import sys
+from abc import ABC, ABCMeta, abstractmethod
 from collections.abc import Sequence
-from typing import ClassVar
+from dataclasses import dataclass as _dataclass
+from functools import partial
+from typing import Any, ClassVar, TYPE_CHECKING
 
 from typing_extensions import Self
 
 from mcproto.buffer import Buffer
 
-__all__ = ["RequiredParamsABCMixin", "Serializable"]
+__all__ = ["RequiredParamsABCMixin", "Serializable", "dataclass"]
+
+if TYPE_CHECKING:
+    dataclass = _dataclass  # The type checker needs
+
+if sys.version_info >= (3, 10):
+    dataclass = partial(_dataclass, slots=True)
+else:
+    dataclass = _dataclass
 
 
 class RequiredParamsABCMixin:
     """Mixin class to ABCs that require certain attributes to be set in order to allow initialization.
 
-    This class performs a similar check to what :class:`~abc.ABC` already des with abstractmethods,
+    This class performs a similar check to what :class:`~abc.ABC` already does with abstractmethods,
     but for class variables. The required class variable names are set with :attr:`._REQUIRED_CLASS_VARS`
     class variable, which itself is automatically required.
 
@@ -37,7 +48,7 @@ class RequiredParamsABCMixin:
     _REQUIRRED_CLASS_VARS: ClassVar[Sequence[str]]
     _REQUIRED_CLASS_VARS_NO_MRO: ClassVar[Sequence[str]]
 
-    def __new__(cls: type[Self], *a, **kw) -> Self:
+    def __new__(cls: type[Self], *a: Any, **kw: Any) -> Self:  # noqa: ANN401
         """Enforce required parameters being set for each instance of the concrete classes."""
         _err_msg = f"Can't instantiate abstract {cls.__name__} class without defining " + "{!r} classvar"
 
@@ -63,18 +74,60 @@ class RequiredParamsABCMixin:
         return super().__new__(cls)
 
 
-class Serializable(ABC):
-    """Base class for any type that should be (de)serializable into/from :class:`~mcproto.Buffer` data."""
+class _MetaDataclass(ABCMeta):
+    def __new__(
+        cls: type[_MetaDataclass],
+        name: str,
+        bases: tuple[type, ...],
+        namespace: dict[str, Any],
+        **kwargs: Any,  # noqa: ANN401
+    ) -> Any:  # noqa: ANN401 # Create the class using the super() method to ensure it is correctly formed as an ABC
+        new_class = super().__new__(cls, name, bases, namespace, **kwargs)
+
+        # Check if the dataclass is already defined, if not, create it
+        if not hasattr(new_class, "__dataclass_fields__"):
+            new_class = dataclass(new_class)
+
+        return new_class
+
+
+class Serializable(ABC):  # , metaclass=_MetaDataclass):
+    """Base class for any type that should be (de)serializable into/from :class:`~mcproto.Buffer` data.
+
+    Any class that inherits from this class and adds parameters should use the :func:`~mcproto.utils.abc.dataclass`
+    decorator.
+    """
 
     __slots__ = ()
 
-    @abstractmethod
+    def __post_init__(self) -> None:
+        """Run the validation method after the object is initialized."""
+        self.validate()
+
     def serialize(self) -> Buffer:
         """Represent the object as a :class:`~mcproto.Buffer` (transmittable sequence of bytes)."""
+        self.validate()
+        buf = Buffer()
+        self.serialize_to(buf)
+        return buf
+
+    @abstractmethod
+    def serialize_to(self, buf: Buffer, /) -> None:
+        """Write the object to a :class:`~mcproto.Buffer`."""
         raise NotImplementedError
+
+    def validate(self) -> None:
+        """Validate the object's attributes, raising an exception if they are invalid.
+
+        This will be called at the end of the object's initialization, and before serialization.
+        Use cast() in serialize_to() if your validation asserts that a value is of a certain type.
+
+        By default, this method does nothing. Override it in your subclass to add validation logic.
+        """
+        return
 
     @classmethod
     @abstractmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
-        """Construct the object from a :class:`~mcproto.Buffer` (transmitable sequence of bytes)."""
+        """Construct the object from a :class:`~mcproto.Buffer` (transmittable sequence of bytes)."""
         raise NotImplementedError

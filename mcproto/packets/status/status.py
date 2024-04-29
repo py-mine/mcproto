@@ -7,22 +7,22 @@ from typing_extensions import Self
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
+from mcproto.utils.abc import dataclass
 
 __all__ = ["StatusRequest", "StatusResponse"]
 
 
 @final
+@dataclass
 class StatusRequest(ServerBoundPacket):
     """Request from the client to get information on the server. (Client -> Server)."""
-
-    __slots__ = ()
 
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.STATUS
 
-    def serialize(self) -> Buffer:  # pragma: no cover, nothing to test here.
+    def serialize_to(self, buf: Buffer) -> None:
         """Serialize the packet."""
-        return Buffer()
+        ...  # pragma: no cover, nothing to test here.
 
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:  # pragma: no cover, nothing to test here.
@@ -31,27 +31,24 @@ class StatusRequest(ServerBoundPacket):
 
 
 @final
+@dataclass
 class StatusResponse(ClientBoundPacket):
-    """Response from the server to requesting client with status data information. (Server -> Client)."""
+    """Response from the server to requesting client with status data information. (Server -> Client).
 
-    __slots__ = ("data",)
+    Initialize the StatusResponse packet.
+
+    :param data: JSON response data sent back to the client.
+    """
 
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.STATUS
 
-    def __init__(self, data: dict[str, Any]):
-        """Initialize the StatusResponse packet.
+    data: dict[str, Any]  # JSON response data sent back to the client.
 
-        :param data: JSON response data sent back to the client.
-        """
-        self.data = data
-
-    def serialize(self) -> Buffer:
+    def serialize_to(self, buf: Buffer) -> None:
         """Serialize the packet."""
-        buf = Buffer()
         s = json.dumps(self.data)
         buf.write_utf(s)
-        return buf
 
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
@@ -59,3 +56,11 @@ class StatusResponse(ClientBoundPacket):
         s = buf.read_utf()
         data_ = json.loads(s)
         return cls(data_)
+
+    def validate(self) -> None:
+        """Validate the packet data."""
+        # Ensure the data is serializable to JSON
+        try:
+            json.dumps(self.data)
+        except TypeError as exc:
+            raise ValueError("Data is not serializable to JSON.") from exc

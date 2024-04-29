@@ -12,7 +12,7 @@ __all__ = ["UUID"]
 
 
 @final
-class UUID(MCType, uuid.UUID):
+class UUID(uuid.UUID, MCType):
     """Minecraft UUID type.
 
     In order to support potential future changes in protocol version, and implement McType,
@@ -21,13 +21,22 @@ class UUID(MCType, uuid.UUID):
 
     __slots__ = ()
 
-    def serialize(self) -> Buffer:
-        """Serialize the UUID."""
-        buf = Buffer()
+    def serialize_to(self, buf: Buffer) -> None:
+        """Write the UUID to a buffer.
+
+        :param buf: Buffer to write the UUID to.
+        """
         buf.write(self.bytes)
-        return buf
 
     @classmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
-        """Deserialize a UUID."""
-        return cls(bytes=bytes(buf.read(16)))
+        """Deserialize a UUID from a buffer.
+
+        :param buf: Buffer to read the UUID from.
+        """
+        data = bytes(buf.read(16))
+        return cls(bytes=data)
+
+    def validate(self) -> None:
+        """No validation is required for UUIDs."""
+        return
