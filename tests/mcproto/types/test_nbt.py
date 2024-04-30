@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import struct
 from typing import Any, Dict, List, cast
-from typing_extensions import override
 
 import pytest
 
@@ -24,7 +23,6 @@ from mcproto.types.nbt import (
     PayloadType,
     ShortNBT,
     StringNBT,
-    NBTagConvertible,
 )
 
 # region EndNBT
@@ -79,11 +77,11 @@ def test_serialize_deserialize_end():
         (LongNBT, -1, bytearray.fromhex("04 FF FF FF FF FF FF FF FF")),
         (LongNBT, 12, bytearray.fromhex("04 00 00 00 00 00 00 00 0C")),
         (FloatNBT, 1.0, bytearray.fromhex("05") + bytes(struct.pack(">f", 1.0))),
-        (FloatNBT, 3.14, bytearray.fromhex("05") + bytes(struct.pack(">f", 3.14))),
+        (FloatNBT, 0.25, bytearray.fromhex("05") + bytes(struct.pack(">f", 0.25))),
         (FloatNBT, -1.0, bytearray.fromhex("05") + bytes(struct.pack(">f", -1.0))),
         (FloatNBT, 12.0, bytearray.fromhex("05") + bytes(struct.pack(">f", 12.0))),
         (DoubleNBT, 1.0, bytearray.fromhex("06") + bytes(struct.pack(">d", 1.0))),
-        (DoubleNBT, 3.14, bytearray.fromhex("06") + bytes(struct.pack(">d", 3.14))),
+        (DoubleNBT, 0.25, bytearray.fromhex("06") + bytes(struct.pack(">d", 0.25))),
         (DoubleNBT, -1.0, bytearray.fromhex("06") + bytes(struct.pack(">d", -1.0))),
         (DoubleNBT, 12.0, bytearray.fromhex("06") + bytes(struct.pack(">d", 12.0))),
         (ByteArrayNBT, b"", bytearray.fromhex("07 00 00 00 00")),
@@ -379,9 +377,9 @@ def test_serialize_deserialize_noname(nbt_class: type[NBTag], value: PayloadType
         ),
         (
             FloatNBT,
-            3.14,
+            0.25,
             "a",
-            bytearray.fromhex("05") + b"\x00\x01a" + bytes(struct.pack(">f", 3.14)),
+            bytearray.fromhex("05") + b"\x00\x01a" + bytes(struct.pack(">f", 0.25)),
         ),
         (
             FloatNBT,
@@ -403,9 +401,9 @@ def test_serialize_deserialize_noname(nbt_class: type[NBTag], value: PayloadType
         ),
         (
             DoubleNBT,
-            3.14,
+            0.25,
             "a",
-            bytearray.fromhex("06") + b"\x00\x01a" + bytes(struct.pack(">d", 3.14)),
+            bytearray.fromhex("06") + b"\x00\x01a" + bytes(struct.pack(">d", 0.25)),
         ),
         (
             DoubleNBT,
@@ -1024,7 +1022,7 @@ def test_nbt_bigfile():
     Slightly modified from the source data to also include a IntArrayNBT and a LongArrayNBT.
     Source data: https://wiki.vg/NBT#Example.
     """
-    data = "0a00054c6576656c0400086c6f6e67546573747fffffffffffffff02000973686f7274546573747fff08000a737472696e6754657374002948454c4c4f20574f524c4420544849532049532041205445535420535452494e4720c385c384c39621050009666c6f6174546573743eff1832030007696e74546573747fffffff0a00146e657374656420636f6d706f756e6420746573740a000368616d0800046e616d65000648616d70757305000576616c75653f400000000a00036567670800046e616d6500074567676265727405000576616c75653f00000000000c000f6c6973745465737420286c6f6e672900000005000000000000000b000000000000000c000000000000000d000000000000000e7fffffffffffffff0b000e6c697374546573742028696e7429000000047fffffff7ffffffe7ffffffd7ffffffc0900136c697374546573742028636f6d706f756e64290a000000020800046e616d65000f436f6d706f756e642074616720233004000a637265617465642d6f6e000001265237d58d000800046e616d65000f436f6d706f756e642074616720233104000a637265617465642d6f6e000001265237d58d0001000862797465546573747f07006562797465417272617954657374202874686520666972737420313030302076616c756573206f6620286e2a6e2a3235352b6e2a3729253130302c207374617274696e672077697468206e3d302028302c2036322c2033342c2031362c20382c202e2e2e2929000003e8003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a063005000a646f75626c65546573743efc7b5e00"  # noqa: E501
+    data = "0a00054c6576656c0400086c6f6e67546573747fffffffffffffff02000973686f7274546573747fff08000a737472696e6754657374002948454c4c4f20574f524c4420544849532049532041205445535420535452494e4720c385c384c39621050009666c6f6174546573743eff1832030007696e74546573747fffffff0a00146e657374656420636f6d706f756e6420746573740a000368616d0800046e616d65000648616d70757305000576616c75653f400000000a00036567670800046e616d6500074567676265727405000576616c75653f00000000000c000f6c6973745465737420286c6f6e672900000005000000000000000b000000000000000c000000000000000d000000000000000e7fffffffffffffff0b000e6c697374546573742028696e7429000000047fffffff7ffffffe7ffffffd7ffffffc0900136c697374546573742028636f6d706f756e64290a000000020800046e616d65000f436f6d706f756e642074616720233004000a637265617465642d6f6e000001265237d58d000800046e616d65000f436f6d706f756e642074616720233104000a637265617465642d6f6e000001265237d58d0001000862797465546573747f07006562797465417272617954657374202874686520666972737420313030302076616c756573206f6620286e2a6e2a3235352b6e2a3729253130302c207374617274696e672077697468206e3d302028302c2036322c2033342c2031362c20382c202e2e2e2929000003e8003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a063005000a646f75626c65546573743efc000000"  # noqa: E501
     data = bytes.fromhex(data)
     buffer = Buffer(data)
 
@@ -1047,7 +1045,7 @@ def test_nbt_bigfile():
         "byteTest": 127,
         "byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, "
         "starting with n=0 (0, 62, 34, 16, 8, ...))": bytes((n * n * 255 + n * 7) % 100 for n in range(1000)),
-        "doubleTest": 0.4931287132182315,
+        "doubleTest": 0.4921875,
     }
     expected_schema = {
         "longTest": LongNBT,
@@ -1117,23 +1115,16 @@ def test_nbt_bigfile():
 # region Edge cases
 
 
-def test_from_object_lst_not_same_type():
-    """Test from_object with a list that does not have the same type."""
-    with pytest.raises(TypeError):
-        NBTag.from_object([0, "test"], [IntNBT, StringNBT])
-
-
 def test_from_object_morecases():
     """Test from_object with more edge cases."""
 
-    class CustomType(NBTagConvertible):
-        @override
+    class CustomType:
         def to_nbt(self, name: str = "") -> NBTag:
             return ByteArrayNBT(b"CustomType", name)
 
     assert NBTag.from_object(
         {
-            "nbtag": ByteNBT(0),  # ByteNBT
+            "number": ByteNBT(0),  # ByteNBT
             "bytearray": b"test",  # Conversion from bytes
             "empty_list": [],  # Empty list with type EndNBT
             "empty_compound": {},  # Empty compound
@@ -1144,7 +1135,7 @@ def test_from_object_morecases():
             ],
         },
         {
-            "nbtag": ByteNBT,
+            "number": ByteNBT,
             "bytearray": ByteArrayNBT,
             "empty_list": [],
             "empty_compound": {},
@@ -1157,7 +1148,7 @@ def test_from_object_morecases():
             ByteArrayNBT(b"test", "bytearray"),
             ByteArrayNBT(b"CustomType", "custom"),
             ListNBT([], "empty_list"),
-            ByteNBT(0, "nbtag"),
+            ByteNBT(0, "number"),
             ListNBT(
                 [ListNBT([IntNBT(0), IntNBT(1), IntNBT(2)]), ListNBT([ShortNBT(3), ShortNBT(4), ShortNBT(5)])],
                 "recursive_list",
@@ -1166,14 +1157,8 @@ def test_from_object_morecases():
     )
 
     compound = CompoundNBT.from_object(
-        {
-            "test": ByteNBT(0),
-            "test2": IntNBT(0),
-        },
-        {
-            "test": ByteNBT,
-            "test2": IntNBT,
-        },
+        {"test": 0, "test2": 0},
+        {"test": ByteNBT, "test2": IntNBT},
         name="compound",
     )
 
@@ -1204,7 +1189,7 @@ def test_from_object_morecases():
             {"test": [1, 0]},
             {"test": [ByteNBT, IntNBT]},
             TypeError,
-            "Expected a list of lists or dictionaries, but found a different type.",
+            "The schema must contain a single type of elements. .*",
         ),
         # Schema and data have different lengths
         (
@@ -1213,8 +1198,7 @@ def test_from_object_morecases():
             ValueError,
             "The schema and the data must have the same length.",
         ),
-        # schema empty, data is not
-        ([1], [], ValueError, "The schema is empty, but the data is not."),
+        ([1], [], ValueError, "The schema and the data must have the same length."),
         # Schema is a dict, data is not
         (["test"], {"test": ByteNBT}, TypeError, "Expected a dictionary, but found a different type."),
         # Schema is not a dict, list or subclass of NBTagConvertible
@@ -1222,20 +1206,34 @@ def test_from_object_morecases():
             ["test"],
             "test",
             TypeError,
-            "The schema must be a list, dict or a subclass of either NBTag or NBTagConvertible.",
+            "The schema must be a list, dict, a subclass of NBTag or an object with a `to_nbt` method.",
+        ),
+        # Schema contains a mix of dict and list
+        (
+            [{"test": 0}, [1, 2, 3]],
+            [{"test": ByteNBT}, [IntNBT]],
+            TypeError,
+            "Expected a list of lists or dictionaries, but found a different type",
+        ),
+        # Schema contains multiple types
+        (
+            [[0], [-1]],
+            [IntArrayNBT, LongArrayNBT],
+            TypeError,
+            "The schema must contain a single type of elements.",
         ),
         # Schema contains CompoundNBT or ListNBT instead of a dict or list
         (
             {"test": 0},
             CompoundNBT,
             ValueError,
-            "The schema must specify the type of the elements in CompoundNBT and ListNBT tags.",
+            "Use a list or a dictionary in the schema to create a CompoundNBT or a ListNBT.",
         ),
         (
             ["test"],
             ListNBT,
             ValueError,
-            "The schema must specify the type of the elements in CompoundNBT and ListNBT tags.",
+            "Use a list or a dictionary in the schema to create a CompoundNBT or a ListNBT.",
         ),
         # The schema specifies a type, but the data is a dict with more than one key
         (
@@ -1266,11 +1264,27 @@ def test_from_object_error(data: Any, schema: Any, error: type[Exception], error
         NBTag.from_object(data, schema)
 
 
+def test_from_object_more_errors():
+    """Test from_object with more edge cases."""
+    # Redefine the name of the tag
+    schema = ByteNBT
+    data = {"test": 0}
+    with pytest.raises(ValueError):
+        NBTag.from_object(data, schema, name="othername")
+
+    class CustomType:
+        def to_nbt(self, name: str = "") -> NBTag:
+            return ByteArrayNBT(b"CustomType", name)
+
+    # Wrong data type
+    with pytest.raises(TypeError):
+        NBTag.from_object(0, CustomType)
+
+
 def test_to_object_morecases():
     """Test to_object with more edge cases."""
 
-    class CustomType(NBTagConvertible):
-        @override
+    class CustomType:
         def to_nbt(self, name: str = "") -> NBTag:
             return ByteArrayNBT(b"CustomType", name)
 
