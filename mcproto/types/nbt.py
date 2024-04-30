@@ -1,17 +1,18 @@
 from __future__ import annotations
 
-import warnings
-from abc import ABCMeta
+from abc import abstractmethod
 from enum import IntEnum
-from typing import ClassVar, List, Mapping, Union, cast
+from typing import Iterator, List, Mapping, Sequence, Tuple, Type, Union, cast
 
-from typing_extensions import TypeAlias
+from typing_extensions import TypeAlias, override
+from typing import Protocol, runtime_checkable  # Have to be imported from the same place
 
 from mcproto.buffer import Buffer
 from mcproto.protocol.base_io import StructFormat
 from mcproto.types.abc import MCType
 
 __all__ = [
+    "NBTagConvertible",
     "NBTagType",
     "NBTag",
     "EndNBT",
@@ -29,103 +30,105 @@ __all__ = [
     "LongArrayNBT",
 ]
 
-
+"""
+Implementation of the NBT (Named Binary Tag) format used in Minecraft as described in the NBT specification
+(:seealso: :class:`NBTagType`).
+"""
 # region NBT Specification
-"""
-Source : https://web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt
-
-Named Binary Tag specification
-
-NBT (Named Binary Tag) is a tag based binary format designed to carry large amounts of binary data with smaller amounts
-of additional data.
-An NBT file consists of a single GZIPped Named Tag of type TAG_Compound.
-
-A Named Tag has the following format:
-
-    byte tagType
-    TAG_String name
-    [payload]
-
-The tagType is a single byte defining the contents of the payload of the tag.
-
-The name is a descriptive name, and can be anything (eg "cat", "banana", "Hello World!"). It has nothing to do with the
-tagType.
-The purpose for this name is to name tags so parsing is easier and can be made to only look for certain recognized tag
-names.
-Exception: If tagType is TAG_End, the name is skipped and assumed to be "".
-
-The [payload] varies by tagType.
-
-Note that ONLY Named Tags carry the name and tagType data. Explicitly identified Tags (such as TAG_String above) only
-contains the payload.
-
-
-The tag types and respective payloads are:
-
-    TYPE: 0  NAME: TAG_End
-    Payload: None.
-    Note:    This tag is used to mark the end of a list.
-             Cannot be named! If type 0 appears where a Named Tag is expected, the name is assumed to be "".
-             (In other words, this Tag is always just a single 0 byte when named, and nothing in all other cases)
-
-    TYPE: 1  NAME: TAG_Byte
-    Payload: A single signed byte (8 bits)
-
-    TYPE: 2  NAME: TAG_Short
-    Payload: A signed short (16 bits, big endian)
-
-    TYPE: 3  NAME: TAG_Int
-    Payload: A signed short (32 bits, big endian)
-
-    TYPE: 4  NAME: TAG_Long
-    Payload: A signed long (64 bits, big endian)
-
-    TYPE: 5  NAME: TAG_Float
-    Payload: A floating point value (32 bits, big endian, IEEE 754-2008, binary32)
-
-    TYPE: 6  NAME: TAG_Double
-    Payload: A floating point value (64 bits, big endian, IEEE 754-2008, binary64)
-
-    TYPE: 7  NAME: TAG_Byte_Array
-    Payload: TAG_Int length
-             An array of bytes of unspecified format. The length of this array is <length> bytes
-
-    TYPE: 8  NAME: TAG_String
-    Payload: TAG_Short length
-             An array of bytes defining a string in UTF-8 format. The length of this array is <length> bytes
-
-    TYPE: 9  NAME: TAG_List
-    Payload: TAG_Byte tagId
-             TAG_Int length
-             A sequential list of Tags (not Named Tags), of type <typeId>. The length of this array is <length> Tags
-    Notes:   All tags share the same type.
-
-    TYPE: 10 NAME: TAG_Compound
-    Payload: A sequential list of Named Tags. This array keeps going until a TAG_End is found.
-             TAG_End end
-    Notes:   If there's a nested TAG_Compound within this tag, that one will also have a TAG_End, so simply reading
-    until the next TAG_End will not work.
-             The names of the named tags have to be unique within each TAG_Compound
-             The order of the tags is not guaranteed.
-
-
-    // NEW TAGS
-    TYPE: 11 NAME: TAG_Int_Array
-    Payload: TAG_Int length
-             An array of integers. The length of this array is <length> integers
-
-    TYPE: 12 NAME: TAG_Long_Array
-    Payload: TAG_Int length
-             An array of longs. The length of this array is <length> longs
-
-
-"""
-# endregion
-# region NBT base classes/types
 
 
 class NBTagType(IntEnum):
-    """Types of NBT tags."""
+    """Enumeration of the different types of NBT tags.
+
+    Source : https://web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt
+
+    Named Binary Tag specification
+
+    NBT (Named Binary Tag) is a tag based binary format designed to carry large amounts of binary data with smaller
+    amounts of additional data.
+    An NBT file consists of a single GZIPped Named Tag of type TAG_Compound.
+
+    A Named Tag has the following format:
+
+        byte tagType
+        TAG_String name
+        [payload]
+
+    The tagType is a single byte defining the contents of the payload of the tag.
+
+    The name is a descriptive name, and can be anything (eg "cat", "banana", "Hello World!"). It has nothing to do with
+    the tagType.
+    The purpose for this name is to name tags so parsing is easier and can be made to only look for certain recognized
+    tag names.
+    Exception: If tagType is TAG_End, the name is skipped and assumed to be "".
+
+    The [payload] varies by tagType.
+
+    Note that ONLY Named Tags carry the name and tagType data. Explicitly identified Tags (such as TAG_String above)
+    only contains the payload.
+
+
+    The tag types and respective payloads are:
+
+        TYPE: 0  NAME: TAG_End
+        Payload: None.
+        Note:    This tag is used to mark the end of a list.
+                 Cannot be named! If type 0 appears where a Named Tag is expected, the name is assumed to be "".
+                 (In other words, this Tag is always just a single 0 byte when named, and nothing in all other cases)
+
+        TYPE: 1  NAME: TAG_Byte
+        Payload: A single signed byte (8 bits)
+
+        TYPE: 2  NAME: TAG_Short
+        Payload: A signed short (16 bits, big endian)
+
+        TYPE: 3  NAME: TAG_Int
+        Payload: A signed short (32 bits, big endian)
+
+        TYPE: 4  NAME: TAG_Long
+        Payload: A signed long (64 bits, big endian)
+
+        TYPE: 5  NAME: TAG_Float
+        Payload: A floating point value (32 bits, big endian, IEEE 754-2008, binary32)
+
+        TYPE: 6  NAME: TAG_Double
+        Payload: A floating point value (64 bits, big endian, IEEE 754-2008, binary64)
+
+        TYPE: 7  NAME: TAG_Byte_Array
+        Payload: TAG_Int length
+                 An array of bytes of unspecified format. The length of this array is <length> bytes
+
+        TYPE: 8  NAME: TAG_String
+        Payload: TAG_Short length
+                 An array of bytes defining a string in UTF-8 format. The length of this array is <length> bytes
+
+        TYPE: 9  NAME: TAG_List
+        Payload: TAG_Byte tagId
+                 TAG_Int length
+                 A sequential list of Tags (not Named Tags), of type <typeId>. The length of this array is <length>
+                Tags
+        Notes:   All tags share the same type.
+
+        TYPE: 10 NAME: TAG_Compound
+        Payload: A sequential list of Named Tags. This array keeps going until a TAG_End is found.
+                 TAG_End end
+        Notes:   If there's a nested TAG_Compound within this tag, that one will also have a TAG_End, so simply reading
+        until the next TAG_End will not work.
+                 The names of the named tags have to be unique within each TAG_Compound
+                 The order of the tags is not guaranteed.
+
+
+        // NEW TAGS
+        TYPE: 11 NAME: TAG_Int_Array
+        Payload: TAG_Int length
+                 An array of integers. The length of this array is <length> integers
+
+        TYPE: 12 NAME: TAG_Long_Array
+        Payload: TAG_Int length
+                 An array of longs. The length of this array is <length> longs
+
+
+    """
 
     END = 0
     BYTE = 1
@@ -145,44 +148,62 @@ class NBTagType(IntEnum):
 PayloadType: TypeAlias = Union[
     int,
     float,
-    bytearray,
     bytes,
     str,
-    List["PayloadType"],
-    Mapping[str, "PayloadType"],
-    List[int],
     "NBTag",
-    List["NBTag"],
+    Sequence["PayloadType"],
+    Mapping[str, "PayloadType"],
 ]
 
 
-class _MetaNBTag(ABCMeta):
-    """Metaclass for NBT tags."""
+@runtime_checkable
+class NBTagConvertible(Protocol):
+    """Protocol for objects that can be converted to an NBT tag."""
 
-    TYPE: NBTagType = NBTagType.COMPOUND
+    __slots__ = ()
 
-    def __new__(cls, name: str, bases: tuple[type], namespace: dict, **kwargs):
-        new_cls: NBTag = super().__new__(cls, name, bases, namespace)  # type: ignore
-        if name != "NBTag":
-            NBTag.ASSOCIATED_TYPES[new_cls.TYPE] = new_cls  # type: ignore
-        return new_cls
+    def to_nbt(self, name: str = "") -> NBTag:
+        """Convert the object to an NBT tag.
+
+        :param name: The name of the tag.
+
+        :return: The NBT tag created from the object.
+        """
+        ...
 
 
-class NBTag(MCType, metaclass=_MetaNBTag):
-    """Base class for NBT tags."""
+FromObjectType: TypeAlias = Union[
+    int,
+    float,
+    bytes,
+    str,
+    NBTagConvertible,
+    Sequence["FromObjectType"],
+    Mapping[str, "FromObjectType"],
+]
+
+FromObjectSchema: TypeAlias = Union[
+    Type["NBTag"],
+    Type[NBTagConvertible],
+    Sequence["FromObjectSchema"],
+    Mapping[str, "FromObjectSchema"],
+]
+
+
+class NBTag(MCType, NBTagConvertible):
+    """Base class for NBT tags.
+
+    In MC v1.20.2+ the type and name of the root tag are not written to the buffer, and unless specified, the type of
+    the tag is assumed to be TAG_Compound.
+    """
 
     __slots__ = ("name", "payload")
 
-    TYPE: ClassVar[NBTagType] = NBTagType.COMPOUND
-
-    ASSOCIATED_TYPES: ClassVar[dict[NBTagType, type[NBTag]]] = {}
-
     def __init__(self, payload: PayloadType, name: str = ""):
-        if self.__class__ == NBTag:
-            raise TypeError("Cannot instantiate an NBTag object directly, use a subclass instead.")
         self.name = name
         self.payload = payload
 
+    @override
     def serialize(self, with_type: bool = True, with_name: bool = True) -> Buffer:
         """Serialize the NBT tag to a buffer.
 
@@ -196,21 +217,19 @@ class NBTag(MCType, metaclass=_MetaNBTag):
         self.write_to(buf, with_name=with_name, with_type=with_type)
         return buf
 
-    def _write_header(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> bool:
+    def _write_header(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         if with_type:
-            buf.write_value(StructFormat.BYTE, self.TYPE.value)
-        if self.TYPE == NBTagType.END:
-            return False
-        if with_name:
-            if not self.name:
-                raise ValueError("Named tags must have a name.")
+            tag_type = _get_tag_type(self)
+            buf.write_value(StructFormat.BYTE, tag_type.value)
+        if with_name and self.name:
             StringNBT(self.name).write_to(buf, with_type=False, with_name=False)
-        return True
 
+    @abstractmethod
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the NBT tag to the buffer."""
         ...
 
+    @override
     @classmethod
     def deserialize(cls, buf: Buffer, with_name: bool = True, with_type: bool = True) -> NBTag:
         """Deserialize the NBT tag.
@@ -229,7 +248,7 @@ class NBTag(MCType, metaclass=_MetaNBTag):
         """
         name, tag_type = cls._read_header(buf, with_name=with_name, read_type=with_type)
 
-        tag_class = NBTag.ASSOCIATED_TYPES[tag_type]
+        tag_class = ASSOCIATED_TYPES[tag_type]
         if cls not in (NBTag, tag_class):
             raise TypeError(f"Expected a {cls.__name__} tag, but found a different tag ({tag_class.__name__}).")
 
@@ -251,16 +270,17 @@ class NBTag(MCType, metaclass=_MetaNBTag):
         :note: It is possible that this function reads nothing from the buffer if both with_name and read_type are set
             to False.
         """
-        tag_type: NBTagType = cls.TYPE  # default value
         if read_type:
             try:
                 tag_type = NBTagType(buf.read_value(StructFormat.BYTE))
-            except OSError:
-                raise IOError("Buffer is empty.") from None
-            except ValueError:
-                raise TypeError("Invalid tag type.") from None
+            except OSError as exc:
+                raise IOError("Buffer is empty.") from exc
+            except ValueError as exc:
+                raise TypeError("Invalid tag type.") from exc
+        else:
+            tag_type = _get_tag_type(cls)
 
-        if tag_type == NBTagType.END:
+        if tag_type is NBTagType.END:
             return "", tag_type
 
         name = StringNBT.read_from(buf, with_type=False, with_name=False).value if with_name else ""
@@ -268,6 +288,7 @@ class NBTag(MCType, metaclass=_MetaNBTag):
         return name, tag_type
 
     @classmethod
+    @abstractmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> NBTag:
         """Read the NBT tag from the buffer.
 
@@ -281,142 +302,133 @@ class NBTag(MCType, metaclass=_MetaNBTag):
 
         :return: The NBT tag.
         """
-        return cls.deserialize(buf, with_name=with_name, with_type=with_type)
+        ...
 
     @staticmethod
-    def from_object(data: object, /, name: str = "", *, use_int_array: bool = True) -> NBTag:  # noqa: PLR0911,PLR0912
-        """Create an NBT tag from an arbitrary (compatible) Python object.
+    def from_object(data: FromObjectType, schema: FromObjectSchema, name: str = "") -> NBTag:
+        """Create an NBT tag from a dictionary.
 
-        :param data: The object to convert to an NBT tag.
-        :param use_int_array: Whether to use IntArrayNBT and LongArrayNBT for lists of integers.
-            If set to False, all lists of integers will be considered as ListNBT.
-        :param name: The name of the resulting tag. Used for recursive calls.
+        :param data: The dictionary to create the NBT tag from.
+        :param schema: The schema used to create the NBT tags.
 
-        :return: The NBT tag representing the object.
+            If the schema is a list, the data must be a list and the schema must either contain a single element
+            representing the type of the elements in the list or multiple dictionaries or lists representing the types
+            of the elements in the list since they are the only types that have a variable type.
 
-        :note: The function will attempt to convert the object to an NBT tag in the following way:
-            - If the object is a dictionary with a single key, the key will be used as the name of the tag.
-            - If the object is an integer, it will be converted to a ByteNBT, ShortNBT, IntNBT, or LongNBT tag
-                depending on the value.
-            - If the object is a list, it will be converted to a ListNBT tag.
-            - If the object is a dictionary, it will be converted to a CompoundNBT tag.
-            - If the object is a string, it will be converted to a StringNBT tag.
-            - If the object is a float, it will be converted to a FloatNBT tag.
-            - If the object can be serialized to bytes, it will be converted to a ByteArrayNBT tag.
-
-
-            - If you want an object to be serialized in a specific way, you can implement:
-
+        Example:
             ```python
-            def to_nbt(self, name: str = "") -> NBTag:
-                ...
+            schema = [IntNBT]
+            data = [1, 2, 3]
+            schema = [[IntNBT], [StringNBT]]
+            data = [[1, 2, 3], ["a", "b", "c"]]
             ```
+
+            If the schema is a dictionary, the data must be a dictionary and the schema must contain the keys and the
+            types of the values in the dictionary.
+
+        Example:
+            ```python
+            schema = {"key": IntNBT}
+            data = {"key": 1}
+            ```
+
+            If the schema is a subclass of NBTag, the data will be passed to the constructor of the schema.
+            If the schema is not a list, dictionary or subclass of NBTag, the data will be converted to an NBT tag
+            using the `to_nbt` method of the data.
+
+        :param name: The name of the NBT tag.
+
+        :return: The NBT tag created from the dictionary.
         """
-        if hasattr(data, "to_nbt"):  # For objects that can be converted to NBT
-            return data.to_nbt(name=name)  # type: ignore
+        if isinstance(schema, (list, tuple)):
+            if not isinstance(data, list):
+                raise TypeError("Expected a list, but found a different type.")
+            payload: list[NBTag] = []
+            if len(schema) > 1:
+                if not all(isinstance(item, (list, dict)) for item in schema):
+                    raise TypeError("Expected a list of lists or dictionaries, but found a different type.")
+                if len(schema) != len(data):
+                    raise ValueError("The schema and the data must have the same length.")
+                for item, sub_schema in zip(data, schema):
+                    payload.append(NBTag.from_object(item, sub_schema))
+            else:
+                if len(schema) == 0 and len(data) > 0:
+                    raise ValueError("The schema is empty, but the data is not.")
+                if len(schema) == 0:
+                    return ListNBT([], name=name)
 
-        if isinstance(data, int):
-            if -(1 << 7) <= data < 1 << 7:
-                return ByteNBT(data, name=name)
-            if -(1 << 15) <= data < 1 << 15:
-                return ShortNBT(data, name=name)
-            if -(1 << 31) <= data < 1 << 31:
-                return IntNBT(data, name=name)
-            if -(1 << 63) <= data < 1 << 63:
-                return LongNBT(data, name=name)
-            raise ValueError(f"Integer {data} is out of range.")
-        if isinstance(data, float):
-            return FloatNBT(data, name=name)
-        if isinstance(data, str):
-            return StringNBT(data, name=name)
-        if isinstance(data, (bytearray, bytes)):
-            if isinstance(data, bytearray):
-                data = bytes(data)
-            return ByteArrayNBT(data, name=name)
-        if isinstance(data, list):
-            if not data:
-                # Type END is used to mark an empty list
-                return ListNBT([], name=name)
-            first_type = type(data[0])
-            if any(type(item) != first_type for item in data):
-                raise TypeError("All items in a list must be of the same type.")
-
-            if issubclass(first_type, int) and use_int_array:
-                # Check the range of the integers in the list
-                use_int = all(-(1 << 31) <= item < 1 << 31 for item in data)
-                use_long = all(-(1 << 63) <= item < 1 << 63 for item in data)
-                if use_int:
-                    return IntArrayNBT(data, name=name)
-                if not use_long:  # Too big to fit in a long, won't fit in a List of Longs either
-                    raise ValueError("Integer list contains values out of range.")
-                return LongArrayNBT(data, name=name)
-            return ListNBT([NBTag.from_object(item, use_int_array=use_int_array) for item in data], name=name)
-        if isinstance(data, dict):
-            if len(data) == 0:
-                return CompoundNBT([], name=name)
-            if len(data) == 1 and name == "":
-                key, value = next(iter(data.items()))
-                return NBTag.from_object(value, name=key, use_int_array=use_int_array)
-            payload = []
+                schema = schema[0]
+                for item in data:
+                    payload.append(NBTag.from_object(item, schema))
+            return ListNBT(payload, name=name)
+        if isinstance(schema, dict):
+            if not isinstance(data, dict):
+                raise TypeError("Expected a dictionary, but found a different type.")
+            payload: list[NBTag] = []
             for key, value in data.items():
-                tag = NBTag.from_object(value, name=key, use_int_array=use_int_array)
-                payload.append(tag)
-            return CompoundNBT(payload, name)
-        if data is None:
-            warnings.warn("Converting None to an END tag.", stacklevel=2)
-            return EndNBT()  # Should not be used
+                payload.append(NBTag.from_object(value, schema[key], name=key))
+            return CompoundNBT(payload, name=name)
+        if not isinstance(schema, type) or not issubclass(schema, (NBTag, NBTagConvertible)):  # type: ignore
+            raise TypeError("The schema must be a list, dict or a subclass of either NBTag or NBTagConvertible.")
+        if isinstance(data, schema):
+            return data.to_nbt(name=name)
+        schema = cast(Type[NBTag], schema)  # Last option
+        if issubclass(schema, (CompoundNBT, ListNBT)):
+            raise ValueError("The schema must specify the type of the elements in CompoundNBT and ListNBT tags.")
+        if isinstance(data, dict):
+            if len(data) != 1:
+                raise ValueError("Expected a dictionary with a single key-value pair.")
+            key, value = next(iter(data.items()))
+            return schema.from_object(value, schema, name=key)
+        if not isinstance(data, (bytes, str, int, float, list)):
+            raise TypeError(f"Expected a bytes, str, int, float, but found {type(data).__name__}.")
+        if isinstance(data, list) and not all(isinstance(item, int) for item in data):
+            raise TypeError("Expected a list of integers.")  # LongArrayNBT, IntArrayNBT
 
-        try:
-            # Check if the object can be converted to bytes
-            return ByteArrayNBT(bytes(data), name=name)  # type: ignore
-        except (TypeError, ValueError):
-            pass
-        raise TypeError(f"Cannot convert object of type {type(data)} to an NBT tag.")
+        data = cast(Union[bytes, str, int, float, List[int]], data)
+        return schema(data, name=name)
 
-    def to_object(self) -> Mapping[str, PayloadType] | PayloadType:
-        """Convert the NBT payload to a dictionary."""
-        return CompoundNBT(self.payload).to_object()  # allow NBTag.to_object to act as a dict
+    def to_object(
+        self, include_schema: bool = False, include_name: bool = False
+    ) -> PayloadType | Mapping[str, PayloadType] | tuple[PayloadType | Mapping[str, PayloadType], FromObjectSchema]:
+        """Convert the NBT tag to a python object.
 
-    def __getitem__(self, key: str | int) -> PayloadType:
-        """Get a tag from the list or compound tag."""
-        if self.TYPE not in (NBTagType.LIST, NBTagType.COMPOUND, NBTagType.INT_ARRAY, NBTagType.LONG_ARRAY):
-            raise TypeError(f"Cannot get a tag by index from a non-LIST or non-COMPOUND tag ({self.TYPE}).")
+        :param include_schema: Whether to return a schema describing the types of the original tag.
+        :param include_name: Whether to include the name of the tag in the output.
+            If the tag has no name, the name will be set to "".
 
-        if not isinstance(self.payload, list):
-            raise AttributeError(
-                f"The payload of the tag is not a list ({self.TYPE}).\n"
-                "Check that the initialization of the tag is correct."
+        :return: Either :
+            - A python object representing the payload of the tag. (default)
+            - A dictionary containing the name associated with a python object representing the payload of the tag.
+            - A tuple which includes one of the above and a schema describing the types of the original tag.
+        """
+        if type(self) is EndNBT:
+            raise NotImplementedError("Cannot convert an EndNBT tag to a python object.")
+        if type(self) in (CompoundNBT, ListNBT):
+            raise TypeError(
+                f"Use the `{type(self).__name__}.to_object()` method to convert the tag to a python object."
             )
-        if not isinstance(key, (str, int)):  # type: ignore
-            raise TypeError("Key must be a string or an integer.")
+        result = self.payload if not include_name else {self.name: self.payload}
+        if include_schema:
+            return result, type(self)
+        return result
 
-        if isinstance(key, str):
-            if self.TYPE != NBTagType.COMPOUND:
-                raise TypeError(f"Cannot get a tag by name from a non-COMPOUND tag ({self.TYPE}).")
-            if not all(isinstance(tag, NBTag) for tag in self.payload):
-                raise AttributeError("The payload of the tag is not a list of NBTag objects.")
-            for tag in self.payload:
-                tag = cast(NBTag, tag)
-                if tag.name == key:
-                    return tag
-            raise KeyError(f"No tag with the name {key!r} found.")
-
-        # Key is an integer
-        if key < -len(self.payload) or key >= len(self.payload):
-            raise IndexError(f"Index {key} out of range.")
-        return self.payload[key]
-
+    @override
     def __repr__(self) -> str:
         if self.name:
-            return f"{self.__class__.__name__}[{self.name!r}]({self.payload!r})"
-        return f"{self.__class__.__name__}({self.payload!r})"
+            return f"{type(self).__name__}[{self.name!r}]({self.payload!r})"
+        return f"{type(self).__name__}({self.payload!r})"
 
+    @override
     def __eq__(self, other: object) -> bool:
         """Check equality between two NBT tags."""
         if not isinstance(other, NBTag):
             raise NotImplementedError("Cannot compare an NBTag to a non-NBTag object.")
-        return self.name == other.name and self.TYPE == other.TYPE and self.payload == other.payload
+        if type(self) is not type(other):
+            return False
+        return self.name == other.name and self.payload == other.payload
 
+    @override
     def to_nbt(self, name: str = "") -> NBTag:
         """Convert the object to an NBT tag.
 
@@ -426,12 +438,10 @@ class NBTag(MCType, metaclass=_MetaNBTag):
         return self
 
     @property
+    @abstractmethod
     def value(self) -> PayloadType:
         """Get the payload of the NBT tag in a python-friendly format."""
-        obj = self.to_object()
-        if isinstance(obj, dict) and self.name:
-            return obj[self.name]
-        return obj
+        ...
 
 
 # endregion
@@ -441,22 +451,23 @@ class NBTag(MCType, metaclass=_MetaNBTag):
 class EndNBT(NBTag):
     """Sentinel tag used to mark the end of a TAG_Compound."""
 
-    TYPE = NBTagType.END
     __slots__ = ()
 
     def __init__(self):
         """Create a new EndNBT tag."""
         super().__init__(0, name="")
 
-    def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
+    @override
+    def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = False) -> None:
         """Write the EndNBT tag to the buffer.
 
         :param buf: The buffer to write to.
         :param with_type: Whether to include the type of the tag in the serialization.
         :param with_name: Whether to include the name of the tag in the serialization.
         """
-        self._write_header(buf, with_type=with_type, with_name=with_name)
+        self._write_header(buf, with_type=with_type, with_name=False)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> EndNBT:
         """Read the EndNBT tag from the buffer.
@@ -469,26 +480,37 @@ class EndNBT(NBTag):
         :return: The EndNBT tag.
         """
         _, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
         return EndNBT()
 
-    def to_object(self) -> Mapping[str, PayloadType]:
+    @override
+    def to_object(
+        self, include_schema: bool = False, include_name: bool = False
+    ) -> PayloadType | Mapping[str, PayloadType]:
         """Convert the EndNBT tag to a python object.
 
-        :return: An empty dictionary.
+        :param include_schema: Whether to return a schema describing the types of the original tag.
+        :param include_name: Whether to include the name of the tag in the output.
+
+        :return: None
         """
-        return {}
+        return NotImplemented
+
+    @property
+    @override
+    def value(self) -> PayloadType:
+        """Get the payload of the EndNBT tag in a python-friendly format."""
+        return NotImplemented
 
 
 class ByteNBT(NBTag):
     """NBT tag representing a single byte value, represented as a signed 8-bit integer."""
 
-    TYPE = NBTagType.BYTE
-
     __slots__ = ()
     payload: int
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the ByteNBT tag to the buffer.
 
@@ -502,6 +524,7 @@ class ByteNBT(NBTag):
 
         buf.write_value(StructFormat.BYTE, self.payload)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> ByteNBT:
         """Read the ByteNBT tag from the buffer.
@@ -514,8 +537,8 @@ class ByteNBT(NBTag):
         :return: The ByteNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
 
         if buf.remaining < 1:
             raise IOError("Buffer does not contain enough data to read a byte. (Empty buffer)")
@@ -526,17 +549,8 @@ class ByteNBT(NBTag):
         """Get the integer value of the ByteNBT tag."""
         return self.payload
 
-    def to_object(self) -> Mapping[str, int] | int:
-        """Convert the ByteNBT tag to a python object.
-
-        :return: A dictionary containing the name and the integer value of the tag. If the tag has no name, the value
-            will be returned directly.
-        """
-        if self.name:
-            return {self.name: self.payload}
-        return self.payload
-
     @property
+    @override
     def value(self) -> int:
         """Get the integer value of the IntNBT tag."""
         return self.payload
@@ -545,10 +559,9 @@ class ByteNBT(NBTag):
 class ShortNBT(ByteNBT):
     """NBT tag representing a short value, represented as a signed 16-bit integer."""
 
-    TYPE = NBTagType.SHORT
-
     __slots__ = ()
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the ShortNBT tag to the buffer.
 
@@ -565,6 +578,7 @@ class ShortNBT(ByteNBT):
 
         buf.write(self.payload.to_bytes(2, "big", signed=True))
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> ShortNBT:
         """Read the ShortNBT tag from the buffer.
@@ -577,8 +591,8 @@ class ShortNBT(ByteNBT):
         :return: The ShortNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
 
         if buf.remaining < 2:
             raise IOError("Buffer does not contain enough data to read a short.")
@@ -589,10 +603,9 @@ class ShortNBT(ByteNBT):
 class IntNBT(ByteNBT):
     """NBT tag representing an integer value, represented as a signed 32-bit integer."""
 
-    TYPE = NBTagType.INT
-
     __slots__ = ()
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the IntNBT tag to the buffer.
 
@@ -610,6 +623,7 @@ class IntNBT(ByteNBT):
         # No more messing around with the struct, we want 32 bits of data no matter what
         buf.write(self.payload.to_bytes(4, "big", signed=True))
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> IntNBT:
         """Read the IntNBT tag from the buffer.
@@ -622,8 +636,8 @@ class IntNBT(ByteNBT):
         :return: The IntNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
 
         if buf.remaining < 4:
             raise IOError("Buffer does not contain enough data to read an int.")
@@ -634,10 +648,9 @@ class IntNBT(ByteNBT):
 class LongNBT(ByteNBT):
     """NBT tag representing a long value, represented as a signed 64-bit integer."""
 
-    TYPE = NBTagType.LONG
-
     __slots__ = ()
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the LongNBT tag to the buffer.
 
@@ -655,6 +668,7 @@ class LongNBT(ByteNBT):
         # No more messing around with the struct, we want 64 bits of data no matter what
         buf.write(self.payload.to_bytes(8, "big", signed=True))
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> LongNBT:
         """Read the LongNBT tag from the buffer.
@@ -667,8 +681,8 @@ class LongNBT(ByteNBT):
         :return: The LongNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
 
         if buf.remaining < 8:
             raise IOError("Buffer does not contain enough data to read a long.")
@@ -680,12 +694,11 @@ class LongNBT(ByteNBT):
 class FloatNBT(NBTag):
     """NBT tag representing a floating-point value, represented as a 32-bit IEEE 754-2008 binary32 value."""
 
-    TYPE = NBTagType.FLOAT
-
     payload: float
 
     __slots__ = ()
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the FloatNBT tag to the buffer.
 
@@ -698,6 +711,7 @@ class FloatNBT(NBTag):
         self._write_header(buf, with_type=with_type, with_name=with_name)
         buf.write_value(StructFormat.FLOAT, self.payload)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> FloatNBT:
         """Read the FloatNBT tag from the buffer.
@@ -710,8 +724,8 @@ class FloatNBT(NBTag):
         :return: The FloatNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
 
         if buf.remaining < 4:
             raise IOError("Buffer does not contain enough data to read a float.")
@@ -722,16 +736,7 @@ class FloatNBT(NBTag):
         """Get the float value of the FloatNBT tag."""
         return self.payload
 
-    def to_object(self) -> Mapping[str, float] | float:
-        """Convert the FloatNBT tag to a python object.
-
-        :return: A dictionary containing the name and the float value of the tag. If the tag has no name, the value
-            will be returned directly.
-        """
-        if self.name:
-            return {self.name: self.payload}
-        return self.payload
-
+    @override
     def __eq__(self, other: object) -> bool:
         """Check equality between two FloatNBT tags.
 
@@ -744,14 +749,15 @@ class FloatNBT(NBTag):
         if not isinstance(other, NBTag):
             raise NotImplementedError("Cannot compare an NBTag to a non-NBTag object.")
         # Compare the float values with a small epsilon
-        if not (self.name == other.name and self.TYPE == other.TYPE):
+        if type(self) is not type(other):
             return False
-        if not isinstance(other, self.__class__):  # pragma: no cover
-            return False  # Should not happen if nobody messes with the TYPE attribute
-
+        other.payload = cast(float, other.payload)
+        if self.name != other.name:
+            return False
         return abs(self.payload - other.payload) < 1e-6
 
     @property
+    @override
     def value(self) -> float:
         """Get the float value of the FloatNBT tag."""
         return self.payload
@@ -760,10 +766,9 @@ class FloatNBT(NBTag):
 class DoubleNBT(FloatNBT):
     """NBT tag representing a double-precision floating-point value, represented as a 64-bit IEEE 754-2008 binary64."""
 
-    TYPE = NBTagType.DOUBLE
-
     __slots__ = ()
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the DoubleNBT tag to the buffer.
 
@@ -776,6 +781,7 @@ class DoubleNBT(FloatNBT):
         self._write_header(buf, with_type=with_type, with_name=with_name)
         buf.write_value(StructFormat.DOUBLE, self.payload)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> DoubleNBT:
         """Read the DoubleNBT tag from the buffer.
@@ -788,8 +794,8 @@ class DoubleNBT(FloatNBT):
         :return: The DoubleNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
 
         if buf.remaining < 8:
             raise IOError("Buffer does not contain enough data to read a double.")
@@ -800,12 +806,11 @@ class DoubleNBT(FloatNBT):
 class ByteArrayNBT(NBTag):
     """NBT tag representing an array of bytes. The length of the array is stored as a signed 32-bit integer."""
 
-    TYPE = NBTagType.BYTE_ARRAY
-
     __slots__ = ()
 
-    payload: bytearray
+    payload: bytes
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the ByteArrayNBT tag to the buffer.
 
@@ -819,6 +824,7 @@ class ByteArrayNBT(NBTag):
         IntNBT(len(self.payload)).write_to(buf, with_type=False, with_name=False)
         buf.write(self.payload)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> ByteArrayNBT:
         """Read the ByteArrayNBT tag from the buffer.
@@ -831,12 +837,12 @@ class ByteArrayNBT(NBTag):
         :return: The ByteArrayNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
         try:
             length = IntNBT.read_from(buf, with_type=False, with_name=False).value
-        except IOError:
-            raise IOError("Buffer does not contain enough data to read a byte array.") from None
+        except IOError as exc:
+            raise IOError("Buffer does not contain enough data to read a byte array.") from exc
 
         if length < 0:
             raise ValueError("Invalid byte array length.")
@@ -846,32 +852,24 @@ class ByteArrayNBT(NBTag):
                 f"Buffer does not contain enough data to read the byte array ({buf.remaining} < {length} bytes)."
             )
 
-        return ByteArrayNBT(buf.read(length), name=name)
+        return ByteArrayNBT(bytes(buf.read(length)), name=name)
 
     def __bytes__(self) -> bytes:
         """Get the bytes value of the ByteArrayNBT tag."""
         return self.payload
 
-    def to_object(self) -> Mapping[str, bytearray] | bytearray:
-        """Convert the ByteArrayNBT tag to a python object.
-
-        :return: A dictionary containing the name and the byte array value of the tag. If the tag has no name, the
-            value will be returned directly.
-        """
-        if self.name:
-            return {self.name: self.payload}
-        return self.payload
-
+    @override
     def __repr__(self) -> str:
         """Get a string representation of the ByteArrayNBT tag."""
         if self.name:
-            return f"{self.__class__.__name__}[{self.name!r}](length={len(self.payload)})"
+            return f"{type(self).__name__}[{self.name!r}](length={len(self.payload)})"
         if len(self.payload) < 8:
-            return f"{self.__class__.__name__}(length={len(self.payload)}, {self.payload!r})"
-        return f"{self.__class__.__name__}(length={len(self.payload)}, {bytes(self.payload[:7])!r}...)"
+            return f"{type(self).__name__}(length={len(self.payload)}, {self.payload!r})"
+        return f"{type(self).__name__}(length={len(self.payload)}, {bytes(self.payload[:7])!r}...)"
 
     @property
-    def value(self) -> bytearray:
+    @override
+    def value(self) -> bytes:
         """Get the bytes value of the ByteArrayNBT tag."""
         return self.payload
 
@@ -879,12 +877,11 @@ class ByteArrayNBT(NBTag):
 class StringNBT(NBTag):
     """NBT tag representing an UTF-8 string value. The length of the string is stored as a signed 16-bit integer."""
 
-    TYPE = NBTagType.STRING
-
     __slots__ = ()
 
     payload: str
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the StringNBT tag to the buffer.
 
@@ -899,10 +896,11 @@ class StringNBT(NBTag):
             # Check the length of the string (can't generate strings that long in tests)
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")  # pragma: no cover
 
-        data = bytearray(self.payload, "utf-8")
+        data = bytes(self.payload, "utf-8")
         ShortNBT(len(data)).write_to(buf, with_type=False, with_name=False)
         buf.write(data)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> StringNBT:
         """Read the StringNBT tag from the buffer.
@@ -915,12 +913,12 @@ class StringNBT(NBTag):
         :return: The StringNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
         try:
             length = ShortNBT.read_from(buf, with_type=False, with_name=False).value
-        except IOError:
-            raise IOError("Buffer does not contain enough data to read a string.") from None
+        except IOError as exc:
+            raise IOError("Buffer does not contain enough data to read a string.") from exc
 
         if length < 0:
             raise ValueError("Invalid string length.")
@@ -933,21 +931,13 @@ class StringNBT(NBTag):
         except UnicodeDecodeError:
             raise  # We want to know it
 
+    @override
     def __str__(self) -> str:
         """Get the string value of the StringNBT tag."""
         return self.payload
 
-    def to_object(self) -> Mapping[str, str] | str:
-        """Convert the StringNBT tag to a python object.
-
-        :return: A dictionary containing the name and the string value of the tag. If the tag has no name, the value
-            will be returned directly.
-        """
-        if self.name:
-            return {self.name: self.payload}
-        return self.payload
-
     @property
+    @override
     def value(self) -> str:
         """Get the string value of the StringNBT tag."""
         return self.payload
@@ -956,12 +946,11 @@ class StringNBT(NBTag):
 class ListNBT(NBTag):
     """NBT tag representing a list of tags. All tags in the list must be of the same type."""
 
-    TYPE = NBTagType.LIST
-
     __slots__ = ()
 
     payload: list[NBTag]
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the ListNBT tag to the buffer.
 
@@ -986,17 +975,18 @@ class ListNBT(NBTag):
                 "objects to tags first."
             )
 
-        tag_type = self.payload[0].TYPE
+        tag_type = _get_tag_type(self.payload[0])
         ByteNBT(tag_type).write_to(buf, with_name=False, with_type=False)
         IntNBT(len(self.payload)).write_to(buf, with_name=False, with_type=False)
         for tag in self.payload:
-            if tag_type != tag.TYPE:
+            if tag_type != _get_tag_type(tag):
                 raise ValueError(f"All tags in a list must be of the same type, got tag {tag!r}")
             if tag.name != "":
                 raise ValueError(f"All tags in a list must be unnamed, got tag {tag!r}")
 
             tag.write_to(buf, with_type=False, with_name=False)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> ListNBT:
         """Read the ListNBT tag from the buffer.
@@ -1009,69 +999,104 @@ class ListNBT(NBTag):
         :return: The ListNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
         list_tag_type = ByteNBT.read_from(buf, with_type=False, with_name=False).payload
         try:
             length = IntNBT.read_from(buf, with_type=False, with_name=False).value
-        except IOError:
-            raise IOError("Buffer does not contain enough data to read a list.") from None
+        except IOError as exc:
+            raise IOError("Buffer does not contain enough data to read a list.") from exc
 
-        if length < 0 or list_tag_type == NBTagType.END:
+        if length < 1 or list_tag_type is NBTagType.END:
             return ListNBT([], name=name)
 
         try:
             list_tag_type = NBTagType(list_tag_type)
-        except ValueError:
-            raise TypeError(f"Unknown tag type {list_tag_type}.") from None
+        except ValueError as exc:
+            raise TypeError(f"Unknown tag type {list_tag_type}.") from exc
 
-        list_type_class = NBTag.ASSOCIATED_TYPES.get(list_tag_type, NBTag)
-        if list_type_class == NBTag:
+        list_type_class = ASSOCIATED_TYPES.get(list_tag_type, NBTag)
+        if list_type_class is NBTag:
             raise TypeError(f"Unknown tag type {list_tag_type}.")  # pragma: no cover
         try:
-            payload = [
-                # The type is already known, so we don't need to read it again
-                # List items are unnamed, so we don't need to read the name
-                list_type_class.read_from(buf, with_type=False, with_name=False)
-                for _ in range(length)
-            ]
-        except IOError:
-            raise IOError("Buffer does not contain enough data to read the list.") from None
+            payload = [list_type_class.read_from(buf, with_type=False, with_name=False) for _ in range(length)]
+        except IOError as exc:
+            raise IOError("Buffer does not contain enough data to read the list.") from exc
         return ListNBT(payload, name=name)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[NBTag]:
         """Iterate over the tags in the list."""
         yield from self.payload
 
+    @override
     def __repr__(self) -> str:
         """Get a string representation of the ListNBT tag."""
         if self.name:
-            return f"{self.__class__.__name__}[{self.name!r}](length={len(self.payload)}, {self.payload!r})"
+            return f"{type(self).__name__}[{self.name!r}](length={len(self.payload)}, {self.payload!r})"
         if len(self.payload) < 8:
-            return f"{self.__class__.__name__}(length={len(self.payload)}, {self.payload!r})"
-        return f"{self.__class__.__name__}(length={len(self.payload)}, {self.payload[:7]!r}...)"
+            return f"{type(self).__name__}(length={len(self.payload)}, {self.payload!r})"
+        return f"{type(self).__name__}(length={len(self.payload)}, {self.payload[:7]!r}...)"
 
-    def to_object(self) -> Mapping[str, list[PayloadType]] | list[PayloadType]:
+    @override
+    def to_object(
+        self, include_schema: bool = False, include_name: bool = False
+    ) -> (
+        list[PayloadType]
+        | Mapping[str, list[PayloadType]]
+        | tuple[list[PayloadType] | Mapping[str, list[PayloadType]], list[FromObjectSchema]]
+    ):
         """Convert the ListNBT tag to a python object.
 
-        :return: A dictionary containing the name and the list of tags. If the tag has no name, the list will be
-            returned directly.
+        :param include_schema: Whether to return a schema describing the types of the original tag.
+        :param include_name: Whether to include the name of the tag in the output.
+            If the tag has no name, the name will be set to "".
+
+        :return: Either :
+        - A list containing the payload of the tag. (default)
+        - A dictionary containing the name associated with a list containing the payload of the tag.
+        - A tuple which includes one of the above and a list of schemas describing the types of the original tag.
         """
-        self.payload: list[NBTag]
-        if self.name:
-            return {self.name: [tag.to_object() for tag in self.payload]}  # Extract the (unnamed) object from each tag
-        return [tag.to_object() for tag in self.payload]  # Extract the (unnamed) object from each tag
+        result = [tag.to_object() for tag in self.payload]
+        result = cast(List[PayloadType], result)
+        result = result if not include_name else {self.name: result}
+        if include_schema:
+            subschemas = [
+                cast(
+                    Tuple[PayloadType, FromObjectSchema],
+                    tag.to_object(include_schema=True),
+                )[1]
+                for tag in self.payload
+            ]
+            if len(result) == 0:
+                return result, []
+
+            first = subschemas[0]
+            if all(schema == first for schema in subschemas):
+                return result, [first]
+
+            if not isinstance(first, (dict, list)):
+                raise TypeError(f"The schema must contain either a dict or a list. Found {first!r}")
+            # This will take care of ensuring either everything is a dict or a list
+            if not all(isinstance(schema, type(first)) for schema in subschemas):
+                raise TypeError(f"All items in the list must have the same type. Found {subschemas!r}")
+            return result, subschemas
+        return result
+
+    @property
+    @override
+    def value(self) -> list[PayloadType]:
+        """Get the payload of the ListNBT tag in a python-friendly format."""
+        return [tag.value for tag in self.payload]
 
 
 class CompoundNBT(NBTag):
     """NBT tag representing a compound of named tags."""
 
-    TYPE = NBTagType.COMPOUND
-
     __slots__ = ()
 
     payload: list[NBTag]
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the CompoundNBT tag to the buffer.
 
@@ -1102,6 +1127,7 @@ class CompoundNBT(NBTag):
             tag.write_to(buf)
         EndNBT().write_to(buf, with_name=False, with_type=True)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> CompoundNBT:
         """Read the CompoundNBT tag from the buffer.
@@ -1114,16 +1140,16 @@ class CompoundNBT(NBTag):
         :return: The CompoundNBT tag.
         """
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
-        if tag_type != cls.TYPE:
-            raise TypeError(f"Expected a {cls.TYPE.name} tag, but found a different tag ({tag_type.name}).")
+        if _get_tag_type(cls) != tag_type:
+            raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
 
-        payload = []
+        payload: list[NBTag] = []
         while True:
             child_name, child_type = cls._read_header(buf, with_name=True, read_type=True)
-            if child_type == NBTagType.END:
+            if child_type is NBTagType.END:
                 break
             # The name and type of the tag have already been read
-            tag = NBTag.ASSOCIATED_TYPES[child_type].read_from(buf, with_type=False, with_name=False)
+            tag = ASSOCIATED_TYPES[child_type].read_from(buf, with_type=False, with_name=False)
             tag.name = child_name
             payload.append(tag)
         return CompoundNBT(payload, name=name)
@@ -1133,29 +1159,50 @@ class CompoundNBT(NBTag):
         for tag in self.payload:
             yield tag.name, tag
 
+    @override
     def __repr__(self) -> str:
         """Get a string representation of the CompoundNBT tag."""
         if self.name:
-            return f"{self.__class__.__name__}[{self.name!r}]({dict(self)})"
-        return f"{self.__class__.__name__}({dict(self)})"
+            return f"{type(self).__name__}[{self.name!r}]({dict(self)})"
+        return f"{type(self).__name__}({dict(self)})"
 
-    def to_object(self) -> Mapping[str, Mapping[str, PayloadType]]:
+    @override
+    def to_object(
+        self, include_schema: bool = False, include_name: bool = False
+    ) -> (
+        Mapping[str, PayloadType]
+        | Mapping[str, Mapping[str, PayloadType]]
+        | tuple[
+            Mapping[str, PayloadType] | Mapping[str, Mapping[str, PayloadType]],
+            Mapping[str, FromObjectSchema],
+        ]
+    ):
         """Convert the CompoundNBT tag to a python object.
 
-        :return: A dictionary containing the name and the dictionary of tags. If the tag has no name, the dictionary
-            will be returned directly.
+        :param include_schema: Whether to return a schema describing the types of the original tag and its children.
+        :param include_name: Whether to include the name of the tag in the output.
+            If the tag has no name, the name will be set to "".
+
+        :return: Either :
+        - A dictionary containing the payload of the tag. (default)
+        - A dictionary containing the name associated with a dictionary containing the payload of the tag.
+        - A tuple which includes one of the above and a dictionary of schemas describing the types of the original tag.
         """
-        result = {}
-        for tag in self.payload:
-            if tag.name in result:
-                raise ValueError(f"Duplicate tag name {tag.name!r} in the compound.")
-            if tag.name == "":
-                raise ValueError("All tags in a compound must have a name.")
-            result.update(cast("dict[str, PayloadType]", tag.to_object()))
-        if self.name:
-            return {self.name: result}
+        result = {tag.name: tag.to_object() for tag in self.payload}
+        result = cast(Mapping[str, PayloadType], result)
+        result = result if not include_name else {self.name: result}
+        if include_schema:
+            subschemas = {
+                tag.name: cast(
+                    Tuple[PayloadType, FromObjectSchema],
+                    tag.to_object(include_schema=True),
+                )[1]
+                for tag in self.payload
+            }
+            return result, subschemas
         return result
 
+    @override
     def __eq__(self, other: object) -> bool:
         """Check equality between two CompoundNBT tags.
 
@@ -1169,24 +1216,30 @@ class CompoundNBT(NBTag):
         # The order of the tags is not guaranteed
         if not isinstance(other, NBTag):
             raise NotImplementedError("Cannot compare an NBTag to a non-NBTag object.")
-        if self.name != other.name or self.TYPE != other.TYPE:
+        if type(self) is not type(other):
             return False
-        if not isinstance(other, self.__class__):  # pragma: no cover
-            return False  # Should not happen if nobody messes with the TYPE attribute
+        if self.name != other.name:
+            return False
+        other = cast(CompoundNBT, other)
         if len(self.payload) != len(other.payload):
             return False
         return all(tag in other.payload for tag in self.payload)
+
+    @property
+    @override
+    def value(self) -> dict[str, PayloadType]:
+        """Get the dictionary of tags in the CompoundNBT tag."""
+        return {tag.name: tag.value for tag in self.payload}
 
 
 class IntArrayNBT(NBTag):
     """NBT tag representing an array of integers. The length of the array is stored as a signed 32-bit integer."""
 
-    TYPE = NBTagType.INT_ARRAY
-
     __slots__ = ()
 
     payload: list[int]
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the IntArrayNBT tag to the buffer.
 
@@ -1208,6 +1261,7 @@ class IntArrayNBT(NBTag):
         for i in self.payload:
             IntNBT(i).write_to(buf, with_name=False, with_type=False)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> IntArrayNBT:
         """Read the IntArrayNBT tag from the buffer.
@@ -1224,36 +1278,28 @@ class IntArrayNBT(NBTag):
             raise TypeError(f"Expected an INT_ARRAY tag, but found a different tag ({tag_type}).")
         length = IntNBT.read_from(buf, with_type=False, with_name=False).value
         try:
-            payload = [IntNBT.read_from(buf, with_type == NBTagType.INT, with_name=False).value for _ in range(length)]
-        except IOError:
+            payload = [IntNBT.read_from(buf, with_type is NBTagType.INT, with_name=False).value for _ in range(length)]
+        except IOError as exc:
             raise IOError(
                 "Buffer does not contain enough data to read the entire integer array. (Incomplete data)"
-            ) from None
+            ) from exc
         return IntArrayNBT(payload, name=name)
 
+    @override
     def __repr__(self) -> str:
         """Get a string representation of the IntArrayNBT tag."""
         if self.name:
-            return f"{self.__class__.__name__}[{self.name!r}](length={len(self.payload)}, {self.payload!r})"
+            return f"{type(self).__name__}[{self.name!r}](length={len(self.payload)}, {self.payload!r})"
         if len(self.payload) < 8:
-            return f"{self.__class__.__name__}(length={len(self.payload)}, {self.payload!r})"
-        return f"{self.__class__.__name__}(length={len(self.payload)}, {self.payload[:7]!r}...)"
+            return f"{type(self).__name__}(length={len(self.payload)}, {self.payload!r})"
+        return f"{type(self).__name__}(length={len(self.payload)}, {self.payload[:7]!r}...)"
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[int]:
         """Iterate over the integers in the array."""
         yield from self.payload
 
-    def to_object(self) -> Mapping[str, list[int]] | list[int]:
-        """Convert the IntArrayNBT tag to a python object.
-
-        :return: A dictionary containing the name and the list of integers. If the tag has no name, the list will be
-            returned directly.
-        """
-        if self.name:
-            return {self.name: self.payload}
-        return self.payload
-
     @property
+    @override
     def value(self) -> list[int]:
         """Get the list of integers in the IntArrayNBT tag."""
         return self.payload
@@ -1262,10 +1308,9 @@ class IntArrayNBT(NBTag):
 class LongArrayNBT(IntArrayNBT):
     """NBT tag representing an array of longs. The length of the array is stored as a signed 32-bit integer."""
 
-    TYPE = NBTagType.LONG_ARRAY
-
     __slots__ = ()
 
+    @override
     def write_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the LongArrayNBT tag to the buffer.
 
@@ -1287,6 +1332,7 @@ class LongArrayNBT(IntArrayNBT):
         for i in self.payload:
             LongNBT(i).write_to(buf, with_name=False, with_type=False)
 
+    @override
     @classmethod
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> LongArrayNBT:
         """Read the LongArrayNBT tag from the buffer.
@@ -1305,11 +1351,49 @@ class LongArrayNBT(IntArrayNBT):
 
         try:
             payload = [LongNBT.read_from(buf, with_type=False, with_name=False).payload for _ in range(length)]
-        except IOError:
+        except IOError as exc:
             raise IOError(
                 "Buffer does not contain enough data to read the entire long array. (Incomplete data)"
-            ) from None
+            ) from exc
         return LongArrayNBT(payload, name=name)
+
+
+# endregion
+
+# region: NBT Associated Types
+ASSOCIATED_TYPES: dict[NBTagType, type[NBTag]] = {
+    NBTagType.END: EndNBT,
+    NBTagType.BYTE: ByteNBT,
+    NBTagType.SHORT: ShortNBT,
+    NBTagType.INT: IntNBT,
+    NBTagType.LONG: LongNBT,
+    NBTagType.FLOAT: FloatNBT,
+    NBTagType.DOUBLE: DoubleNBT,
+    NBTagType.BYTE_ARRAY: ByteArrayNBT,
+    NBTagType.STRING: StringNBT,
+    NBTagType.LIST: ListNBT,
+    NBTagType.COMPOUND: CompoundNBT,
+    NBTagType.INT_ARRAY: IntArrayNBT,
+    NBTagType.LONG_ARRAY: LongArrayNBT,
+}
+
+
+def _get_tag_type(tag: NBTag | type[NBTag]) -> NBTagType:
+    """Get the tag type of an NBTag object or class.
+
+    :param tag: The tag to get the type of.
+
+    :return: The tag type of the tag.
+    """
+    cls = tag if isinstance(tag, type) else type(tag)
+
+    if cls is NBTag:
+        return NBTagType.COMPOUND
+    for tag_type, tag_cls in ASSOCIATED_TYPES.items():
+        if cls is tag_cls:
+            return tag_type
+
+    raise ValueError(f"Unknown tag type {cls}.")  # pragma: no cover
 
 
 # endregion
