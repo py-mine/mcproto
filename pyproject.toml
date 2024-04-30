@@ -65,7 +65,7 @@ sphinx = ">=6.2.1,<8.0.0"
 tomli = { version = "^2.0.1", python = "<3.11" }
 m2r2 = "^0.3.3.post2"
 packaging = ">=23.1,<25.0"
-sphinx-autodoc-typehints = "^1.23"
+sphinx-autodoc-typehints = ">=1.23,<3.0"
 sphinx-copybutton = "^0.5.2"
 furo = ">=2022.12.7"
 sphinxcontrib-towncrier = ">=0.3.2,<0.5.0"
