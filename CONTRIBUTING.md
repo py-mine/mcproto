@@ -191,19 +191,33 @@ immediately show which parts of that file should be considered public, and which
 
 ### Docstring formatting directive
 
-We currently don't follow any exact convention telling us how to format our docstrings for something like an
-auto-generated project documentation, however this is likely to change soon.
+The `ruff` linter uses various rules from the `flake8-docstrings` rule-set to enforce a specific standardized docstring
+formatting. However, these rules will only enforce the basic structure of docstrings, and where they need to be
+specified. In addition to these rules, it is important to mention the rules on the style of the content in the
+docstrings themselves.
 
-For now, we follow these general rules on specifying our docstrings:
+Specifically, we follow Sphinx, and the docstrings should be written in the restructuredtext format. Sphinx supports
+various directives that allow specifying notes, describe how to add citations, references to other
+functions/documentation, how to add tables and a bunch of other things. You can read up on these guidelines in the
+official Sphinx documentation: [here](https://www.sphinx-doc.org/en/master/usage/restructuredtext/)
+
+The use of this style is important, as many editors recognize it, and can show you properly formatted descriptions on
+functions or other types of objects upon hovering on them. This format is also useful for automatic generation of
+documentation using Sphinx, as it's much easier and more comfortable to simply add the descriptions for each function
+directly in the code, than having to replicate it manually in the standalone source code for the project's
+documentation, and keep it up to date as new changes to the code are introduced. That said, there are some standalone
+files used for documentation, and these are actually also written in reStructuredText format, so what you'll learn here
+will carry over to writing / changing those.
+
+Below is a quick example that demonstrates some of how this code style can look. This showcases both the general style
+of our docstrings, and the use of restructuredtext in them. However, it is heavily recommended that you read up on this
+in the linked documentation, to know what markup is available and how to use it. You can also see a bunch of examples
+from the existing code in this code-base, if you just want a better quick glance.
 
 ```python
 def donut(a: bool, b: str) -> None:
     """Short one-line description of the function."""
 
-def apple(a: bool, b: str) -> None:
-    """
-    Longer one-line description of the function, which would take up way too much line space if done as shown above.
-    """
 
 def pineapple(a: bool, b: str) -> str:
     """One-line description of the function telling us what it's about.
@@ -216,20 +230,110 @@ def pineapple(a: bool, b: str) -> str:
     with an explanation of how the function works, if it's relevant.
     """
 
-def banana(a: bool, b: str) -> None:
-    """My docstring"""
-    print("I like bananas")  # No space between docstring and first line of code for functions/methods
 
-class Orange:
-    """My docstring"""
+def divide(x: int, y: int) -> int:
+    """Add two numbers together.
 
-    def __init__(self):  # Extra newline between the class docstring and first method
-      ...
+    :param x: Number 1 (numerator).
+    :param y: Number 2 (denominator).
+    :return: Result of ``x / y`` addition.
+    :raises ZeroDivisionError: If ``y`` is 0.
+    """
 
-class Tomato:
-    """My other docstring"""
+def basic_rest(a: bool, b: str) -> None:
+    """My funtcion teaches you about some basic reST formatting.
 
-    X: ClassVar[int] = 5  # Extra newline even between docstrings and class variables
+    Some types of text formatting in restructuredtext (reST) are very similar to
+    those supported in markdown, for example, **this text will be bold**, *This
+    text will be emphasised (italic)*.
+
+    One important difference between reST and markdown is the use of double backquotes
+    to include inline code (literals), instead of just a single backquote: ``code``.
+
+    * This is a bulleted list.
+    * It has three items, the second one has a nested list.
+      * This is a nested list.
+      * It has two items.
+    * This is the third item, continuing the parent list.
+
+    1. This is a numbered list
+    2. It has two items.
+
+    #. This is a numbered list
+    #. It has two items too.
+
+    .. versionadded:: 2.5
+    .. deprecated:: 3.1
+       Use :func:`coconut` instead.
+    .. versionremoved:: 4.0
+       The :func:`coconut` is more flexible, and should be used instead.
+       This function will be removed in an upcomming major release.
+    .. note::
+        This is a note directive, it will show up nicely formatted in the
+        documentation.
+    .. warning::
+        This is a warning directive. It may contain some important info about
+        this function, and should be used instead of the note directive, if you're
+        describing some information regarding security.
+    """
+
+def hyperlinks(q: float) -> int:
+    """This function teaches you about hyperlinks
+
+    Restructured text also supports hyperlinks. For named links, you can use:
+    `Link text <https://domain.invalid>`_. For inline links, that just show the URL,
+    you can simply use: `<https://domain.invalid>`_.
+
+    You can also separate the link and target definition, like this: `my link`_.
+
+    .. _my link: https://domain.invalid
+
+    .. deprecated: 2.5
+    """
+
+def reference(param: str) -> None:
+    """This teaches you about references.
+
+    You will often need to refer to external (or internal) functions, classes or
+    other things in your docstrings. To do so, you can follow this guide:
+
+    * To refer to the parameter/argument that this function takes, simply use ``param``.
+    * To refer to another class, use :class:`MyClass`.
+    * To refer to another function, use :func:`my_func`.
+    * To refer to another method, in the class this method is in, use :meth:`my_method`.
+    * To refer to an attribute of the class this method is in, use :attr:`my_attr`
+    * To refer to a constant, use :const:`FOOBAR`.
+    * To refer to an exception, use :exc:`FoobarError`.
+    * To refer to an object, use :obj:`my_object`.
+
+    If you need to refer to objects defined outside of this file, you can use the
+    fully qualified path to them, like: :class:`my_module.foo.bar.MyClass`. This
+    will show to full path in the documentation too though, if you don't want that,
+    you can also use: :class:`~my_module.foo.bar.MyClass`, which will only show up
+    as ``MyClass`` in the final docs.
+
+    You can also refer to entire modules: :mod:`itertools`. Since ``itertools`` is
+    actually a part of the standard library, sphinx can even produce links that go
+    back to Python's official docs for the ``itertools`` modules.
+
+    You can even refer to PEPs, like the :PEP:`287`.
+
+    .. seealso::
+        This directive can be used to refer to some other documentation or external
+        documents.
+
+        It can be useful to put your references in, instead of just having them in
+        the docstring's text directly.
+
+        One such reference that can be useful here is the Sphinx documentation of the
+        Python Domain, that details all of these modules. An interesting detail about
+        this domain is that it's actually included and used by default, that's why in
+        the documentation, you may see ``:py:func:`` while in these examples, we simply
+        used ``:func:``.
+
+        You can find this documentation
+        `here <https://www.sphinx-doc.org/en/master/usage/domains/python.html>_`
+    """
 ```
 
 Another general rule of thumb when writing docstrings is to generally stick to using an imperative mood.
