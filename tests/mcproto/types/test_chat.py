@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from mcproto.types.chat import ChatMessage, RawChatMessage, RawChatMessageDict
+from mcproto.types.chat import JSONTextComponent, RawTextComponent, RawTextComponentDict, TextComponent
 from tests.helpers import gen_serializable_test
+from mcproto.types.nbt import CompoundNBT, StringNBT, ByteNBT, ListNBT
 
 
 @pytest.mark.parametrize(
@@ -23,9 +24,9 @@ from tests.helpers import gen_serializable_test
         ),
     ],
 )
-def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
-    """Test converting raw ChatMessage input into dict produces expected dict."""
-    chat = ChatMessage(raw)
+def test_as_dict(raw: RawTextComponent, expected_dict: RawTextComponentDict):
+    """Test converting raw TextComponent input into dict produces expected dict."""
+    chat = JSONTextComponent(raw)
     assert chat.as_dict() == expected_dict
 
 
@@ -44,15 +45,15 @@ def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
         ),
     ],
 )
-def test_equality(raw1: RawChatMessage, raw2: RawChatMessage, expected_result: bool):
-    """Test comparing ChatMessage instances produces expected equality result."""
-    assert (ChatMessage(raw1) == ChatMessage(raw2)) is expected_result
+def test_equality(raw1: RawTextComponent, raw2: RawTextComponent, expected_result: bool):
+    """Test comparing TextComponent instances produces expected equality result."""
+    assert (JSONTextComponent(raw1) == JSONTextComponent(raw2)) is expected_result
 
 
 gen_serializable_test(
     context=globals(),
-    cls=ChatMessage,
-    fields=[("raw", RawChatMessage)],
+    cls=JSONTextComponent,
+    fields=[("raw", RawTextComponent)],
     serialize_deserialize=[
         (
             ("A Minecraft Server",),
@@ -74,5 +75,50 @@ gen_serializable_test(
         (([{"no_text": "invalid"}, {"text": "Hello"}, {"extra": "World"}],), AttributeError),
         # Expects a list of dicts if raw is a list
         (([[]],), TypeError),
+    ],
+)
+
+gen_serializable_test(
+    context=globals(),
+    cls=TextComponent,
+    fields=[("raw", RawTextComponent)],
+    serialize_deserialize=[
+        (({"text": "abc"},), bytes(CompoundNBT([StringNBT("abc", name="text")]).serialize())),
+        (
+            ([{"text": "abc"}, {"text": "def"}],),
+            bytes(
+                CompoundNBT(
+                    [
+                        StringNBT("abc", name="text"),
+                        ListNBT([CompoundNBT([StringNBT("def", name="text")])], name="extra"),
+                    ]
+                ).serialize()
+            ),
+        ),
+        (("A Minecraft Server",), bytes(CompoundNBT([StringNBT("A Minecraft Server", name="text")]).serialize())),
+        (
+            ([{"text": "abc", "extra": [{"text": "def"}]}, {"text": "ghi"}],),
+            bytes(
+                CompoundNBT(
+                    [
+                        StringNBT("abc", name="text"),
+                        ListNBT(
+                            [
+                                CompoundNBT([StringNBT("def", name="text")]),
+                                CompoundNBT([StringNBT("ghi", name="text")]),
+                            ],
+                            name="extra",
+                        ),
+                    ]
+                ).serialize()
+            ),
+        ),
+    ],
+    deserialization_fail=[
+        # Type shitfuckery
+        (bytes(CompoundNBT([CompoundNBT([ByteNBT(0, "Something")], "text")]).serialize()), TypeError),
+        (bytes(CompoundNBT([ByteNBT(0, "unknownkey")]).serialize()), KeyError),
+        (bytes(CompoundNBT([ListNBT([StringNBT("Expected str")], "text")]).serialize()), TypeError),
+        (bytes(CompoundNBT([StringNBT("Wrong type", "extra")]).serialize()), TypeError),
     ],
 )

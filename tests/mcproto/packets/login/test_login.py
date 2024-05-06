@@ -11,7 +11,7 @@ from mcproto.packets.login.login import (
     LoginSuccess,
 )
 from mcproto.packets.packet import InvalidPacketContentError
-from mcproto.types.chat import ChatMessage
+from mcproto.types.chat import JSONTextComponent
 from mcproto.types.uuid import UUID
 from tests.helpers import gen_serializable_test
 from tests.mcproto.test_encryption import RSA_PUBLIC_KEY
@@ -92,10 +92,10 @@ gen_serializable_test(
 gen_serializable_test(
     context=globals(),
     cls=LoginDisconnect,
-    fields=[("reason", ChatMessage)],
+    fields=[("reason", JSONTextComponent)],
     serialize_deserialize=[
         (
-            (ChatMessage("You are banned."),),
+            (JSONTextComponent("You are banned."),),
             bytes.fromhex("1122596f75206172652062616e6e65642e22"),
         ),
     ],
