@@ -10,7 +10,7 @@ from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
-from mcproto.types.chat import ChatMessage
+from mcproto.types.chat import JSONTextComponent
 from mcproto.types.uuid import UUID
 
 __all__ = [
@@ -178,7 +178,7 @@ class LoginDisconnect(ClientBoundPacket):
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    reason: ChatMessage
+    reason: JSONTextComponent
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -187,7 +187,7 @@ class LoginDisconnect(ClientBoundPacket):
     @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        reason = ChatMessage.deserialize(buf)
+        reason = JSONTextComponent.deserialize(buf)
         return cls(reason)
 
 
