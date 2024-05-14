@@ -10,8 +10,8 @@ from mcproto.types.abc import MCType
 
 __all__ = [
     "ChatMessage",
-    "RawChatMessageDict",
     "RawChatMessage",
+    "RawChatMessageDict",
 ]
 
 

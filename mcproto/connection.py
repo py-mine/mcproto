@@ -33,7 +33,7 @@ T_DATAGRAM_CLIENT = TypeVar("T_DATAGRAM_CLIENT", bound=asyncio_dgram.aio.Datagra
 class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     """Base class for all classes handling synchronous connections."""
 
-    __slots__ = ("closed", "encryption_enabled", "shared_secret", "cipher", "encryptor", "decryptor")
+    __slots__ = ("cipher", "closed", "decryptor", "encryption_enabled", "encryptor", "shared_secret")
 
     def __init__(self):
         self.closed = False
@@ -147,7 +147,7 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
 class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
     """Base class for all classes handling asynchronous connections."""
 
-    __slots__ = ("closed", "encryption_enabled", "shared_secret", "cipher", "encryptor", "decryptor")
+    __slots__ = ("cipher", "closed", "decryptor", "encryption_enabled", "encryptor", "shared_secret")
 
     def __init__(self):
         self.closed = False
@@ -312,7 +312,7 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER]):
     """Asynchronous TCP connection using :class:`~asyncio.StreamWriter` and :class:`~asyncio.StreamReader`."""
 
-    __slots__ = ("reader", "writer", "timeout")
+    __slots__ = ("reader", "timeout", "writer")
 
     def __init__(self, reader: T_STREAMREADER, writer: T_STREAMWRITER, timeout: float):
         super().__init__()
@@ -363,7 +363,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
     """Synchronous connection using a UDP :class:`~socket.socket`."""
 
-    __slots__ = ("socket", "address")
+    __slots__ = ("address", "socket")
 
     BUFFER_SIZE = 65535
 

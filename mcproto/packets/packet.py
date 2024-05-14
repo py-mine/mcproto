@@ -11,11 +11,11 @@ from mcproto.buffer import Buffer
 from mcproto.utils.abc import RequiredParamsABCMixin, Serializable
 
 __all__ = [
-    "GameState",
-    "PacketDirection",
-    "Packet",
-    "ServerBoundPacket",
     "ClientBoundPacket",
+    "GameState",
+    "Packet",
+    "PacketDirection",
+    "ServerBoundPacket",
 ]
 
 
@@ -118,7 +118,7 @@ class InvalidPacketContentError(IOError):
         elif isinstance(packet_class, ClientBoundPacket):
             direction = PacketDirection.CLIENTBOUND
         else:
-            raise ValueError(
+            raise TypeError(
                 "Unable to determine the packet direction. Got a packet class which doesn't "
                 "inherit from ServerBoundPacket nor ClientBoundPacket class."
             )

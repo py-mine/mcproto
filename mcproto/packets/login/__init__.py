@@ -12,12 +12,12 @@ from mcproto.packets.login.login import (
 )
 
 __all__ = [
-    "LoginStart",
+    "LoginDisconnect",
     "LoginEncryptionRequest",
     "LoginEncryptionResponse",
-    "LoginSuccess",
-    "LoginDisconnect",
     "LoginPluginRequest",
     "LoginPluginResponse",
     "LoginSetCompression",
+    "LoginStart",
+    "LoginSuccess",
 ]

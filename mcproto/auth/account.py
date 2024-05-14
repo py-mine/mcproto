@@ -9,8 +9,8 @@ MINECRAFT_API_URL = "https://api.minecraftservices.com"
 
 __all__ = [
     "Account",
-    "MismatchedAccountInfoError",
     "InvalidAccountAccessTokenError",
+    "MismatchedAccountInfoError",
 ]
 
 
@@ -43,7 +43,7 @@ class InvalidAccountAccessTokenError(Exception):
 class Account:
     """Base class for an authenticated Minecraft account."""
 
-    __slots__ = ("username", "uuid", "access_token")
+    __slots__ = ("access_token", "username", "uuid")
 
     def __init__(self, username: str, uuid: McUUID, access_token: str) -> None:
         self.username = username

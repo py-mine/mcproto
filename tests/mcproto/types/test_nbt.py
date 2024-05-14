@@ -1078,7 +1078,6 @@ def test_nbt_bigfile():
     }
 
     data = CompoundNBT.deserialize(buffer)
-    # print(f"{data=}\n{expected_object=}\n{data.to_object()=}\n{NBTag.from_object(expected_object)=}")
 
     def check_equality(self: object, other: object) -> bool:
         """Check if two objects are equal, with deep epsilon check for floats."""

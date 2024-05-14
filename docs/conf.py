@@ -10,7 +10,7 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 from __future__ import annotations
 
 import sys
-from datetime import date
+import datetime
 from pathlib import Path
 
 from packaging.version import parse as parse_version
@@ -28,7 +28,7 @@ with Path("../pyproject.toml").open("rb") as f:
     pkg_meta: dict[str, str] = toml_parse(f)["tool"]["poetry"]
 
 project = str(pkg_meta["name"])
-copyright = f"{date.today().year}, ItsDrike"  # noqa: A001
+copyright = f"{datetime.datetime.now(tz=datetime.timezone.utc).date().year}, ItsDrike"  # noqa: A001
 author = "ItsDrike"
 
 parsed_version = parse_version(pkg_meta["version"])

@@ -10,8 +10,8 @@ from mcproto.packets.packet import GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
 
 __all__ = [
-    "NextState",
     "Handshake",
+    "NextState",
 ]
 
 
@@ -29,7 +29,7 @@ class Handshake(ServerBoundPacket):
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.HANDSHAKING
 
-    __slots__ = ("protocol_version", "server_address", "server_port", "next_state")
+    __slots__ = ("next_state", "protocol_version", "server_address", "server_port")
 
     def __init__(
         self,

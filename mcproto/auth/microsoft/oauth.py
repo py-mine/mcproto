@@ -8,13 +8,13 @@ import httpx
 from typing_extensions import override
 
 __all__ = [
-    "MicrosoftOauthResponseErrorType",
-    "MicrosoftOauthResponseError",
     "MicrosoftOauthRequestData",
     "MicrosoftOauthResponseData",
-    "microsoft_oauth_request",
-    "microsoft_oauth_authenticate",
+    "MicrosoftOauthResponseError",
+    "MicrosoftOauthResponseErrorType",
     "full_microsoft_oauth",
+    "microsoft_oauth_authenticate",
+    "microsoft_oauth_request",
 ]
 
 MICROSOFT_OAUTH_URL = "https://login.microsoftonline.com/consumers/oauth2/v2.0"

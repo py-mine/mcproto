@@ -12,7 +12,7 @@ __all__ = [
     "ServerBoundPacket",
     "async_read_packet",
     "async_write_packet",
+    "generate_packet_map",
     "sync_read_packet",
     "sync_write_packet",
-    "generate_packet_map",
 ]

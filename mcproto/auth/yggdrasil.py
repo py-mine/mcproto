@@ -11,8 +11,8 @@ from mcproto.auth.account import Account
 from mcproto.types.uuid import UUID as McUUID  # noqa: N811
 
 __all__ = [
-    "AuthServerApiErrorType",
     "AuthServerApiError",
+    "AuthServerApiErrorType",
     "YggdrasilAccount",
 ]
 

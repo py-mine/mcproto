@@ -13,14 +13,14 @@ from mcproto.types.chat import ChatMessage
 from mcproto.types.uuid import UUID
 
 __all__ = [
-    "LoginStart",
+    "LoginDisconnect",
     "LoginEncryptionRequest",
     "LoginEncryptionResponse",
-    "LoginSuccess",
-    "LoginDisconnect",
     "LoginPluginRequest",
     "LoginPluginResponse",
     "LoginSetCompression",
+    "LoginStart",
+    "LoginSuccess",
 ]
 
 
@@ -61,7 +61,7 @@ class LoginStart(ServerBoundPacket):
 class LoginEncryptionRequest(ClientBoundPacket):
     """Used by the server to ask the client to encrypt the login process. (Server -> Client)."""
 
-    __slots__ = ("server_id", "public_key", "verify_token")
+    __slots__ = ("public_key", "server_id", "verify_token")
 
     PACKET_ID: ClassVar[int] = 0x01
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
@@ -141,7 +141,7 @@ class LoginEncryptionResponse(ServerBoundPacket):
 class LoginSuccess(ClientBoundPacket):
     """Sent by the server to denote a successful login. (Server -> Client)."""
 
-    __slots__ = ("uuid", "username")
+    __slots__ = ("username", "uuid")
 
     PACKET_ID: ClassVar[int] = 0x02
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
@@ -201,7 +201,7 @@ class LoginDisconnect(ClientBoundPacket):
 class LoginPluginRequest(ClientBoundPacket):
     """Sent by the server to implement a custom handshaking flow. (Server -> Client)."""
 
-    __slots__ = ("message_id", "channel", "data")
+    __slots__ = ("channel", "data", "message_id")
 
     PACKET_ID: ClassVar[int] = 0x04
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
@@ -238,7 +238,7 @@ class LoginPluginRequest(ClientBoundPacket):
 class LoginPluginResponse(ServerBoundPacket):
     """Response to LoginPluginRequest from client. (Client -> Server)."""
 
-    __slots__ = ("message_id", "data")
+    __slots__ = ("data", "message_id")
 
     PACKET_ID: ClassVar[int] = 0x02
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN

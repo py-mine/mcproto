@@ -5,20 +5,20 @@ from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable
 from enum import Enum
 from itertools import count
-from typing import Literal, TypeVar, Union, overload
+from typing import Literal, TypeVar, overload
 
 from typing_extensions import TypeAlias
 
 from mcproto.protocol.utils import from_twos_complement, to_twos_complement
 
 __all__ = [
+    "FLOAT_FORMATS_TYPE",
+    "INT_FORMATS_TYPE",
     "BaseAsyncReader",
     "BaseAsyncWriter",
     "BaseSyncReader",
     "BaseSyncWriter",
     "StructFormat",
-    "INT_FORMATS_TYPE",
-    "FLOAT_FORMATS_TYPE",
 ]
 
 T = TypeVar("T")
@@ -52,23 +52,23 @@ class StructFormat(str, Enum):
     ULONGLONG = "Q"
 
 
-INT_FORMATS_TYPE: TypeAlias = Union[
-    Literal[StructFormat.BYTE],
-    Literal[StructFormat.UBYTE],
-    Literal[StructFormat.SHORT],
-    Literal[StructFormat.USHORT],
-    Literal[StructFormat.INT],
-    Literal[StructFormat.UINT],
-    Literal[StructFormat.LONG],
-    Literal[StructFormat.ULONG],
-    Literal[StructFormat.LONGLONG],
-    Literal[StructFormat.ULONGLONG],
+INT_FORMATS_TYPE: TypeAlias = Literal[
+    StructFormat.BYTE,
+    StructFormat.UBYTE,
+    StructFormat.SHORT,
+    StructFormat.USHORT,
+    StructFormat.INT,
+    StructFormat.UINT,
+    StructFormat.LONG,
+    StructFormat.ULONG,
+    StructFormat.LONGLONG,
+    StructFormat.ULONGLONG,
 ]
 
-FLOAT_FORMATS_TYPE: TypeAlias = Union[
-    Literal[StructFormat.FLOAT],
-    Literal[StructFormat.DOUBLE],
-    Literal[StructFormat.HALFFLOAT],
+FLOAT_FORMATS_TYPE: TypeAlias = Literal[
+    StructFormat.FLOAT,
+    StructFormat.DOUBLE,
+    StructFormat.HALFFLOAT,
 ]
 
 # endregion

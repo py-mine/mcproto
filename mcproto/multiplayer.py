@@ -14,9 +14,9 @@ from mcproto.auth.account import Account
 __all__ = [
     "JoinAcknowledgeData",
     "JoinAcknowledgeProperty",
-    "UserJoinRequestFailedError",
-    "UserJoinRequestErrorKind",
     "UserJoinCheckFailedError",
+    "UserJoinRequestErrorKind",
+    "UserJoinRequestFailedError",
     "compute_server_hash",
     "join_check",
     "join_request",

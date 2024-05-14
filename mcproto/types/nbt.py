@@ -12,22 +12,22 @@ from mcproto.protocol.base_io import StructFormat
 from mcproto.types.abc import MCType
 
 __all__ = [
+    "ByteArrayNBT",
+    "ByteNBT",
+    "CompoundNBT",
+    "DoubleNBT",
+    "EndNBT",
+    "FloatNBT",
+    "IntArrayNBT",
+    "IntNBT",
+    "ListNBT",
+    "LongArrayNBT",
+    "LongNBT",
+    "NBTag",
     "NBTagConvertible",
     "NBTagType",
-    "NBTag",
-    "EndNBT",
-    "ByteNBT",
     "ShortNBT",
-    "IntNBT",
-    "LongNBT",
-    "FloatNBT",
-    "DoubleNBT",
-    "ByteArrayNBT",
     "StringNBT",
-    "ListNBT",
-    "CompoundNBT",
-    "IntArrayNBT",
-    "LongArrayNBT",
 ]
 
 """
@@ -770,10 +770,7 @@ class StringNBT(NBTag):
         if buf.remaining < length:
             raise IOError("Buffer does not contain enough data to read the string.")
         data = buf.read(length)
-        try:
-            return StringNBT(data.decode("utf-8"), name=name)
-        except UnicodeDecodeError:
-            raise  # We want to know it
+        return StringNBT(data.decode("utf-8"), name=name)
 
     @override
     def __str__(self) -> str:

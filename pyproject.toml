@@ -103,33 +103,51 @@ line-length = 119
 [tool.ruff.lint]
 select = [
   "F",     # Pyflakes
-  "W",     # Pycodestyle (warnigns)
   "E",     # Pycodestyle (errors)
+  "W",     # Pycodestyle (warnigns)
   "N",     # pep8-naming
   "D",     # pydocstyle
+  "UP",    # pyupgrade
   "YTT",   # flake8-2020
   "ANN",   # flake8-annotations
   "ASYNC", # flake8-async
   "S",     # flake8-bandit
+  "BLE",   # flake8-blind-except
   "B",     # flake8-bugbear
   "A",     # flake8-builtins
+  "COM",   # flake8-commas
   "C4",    # flake8-comprehensions
+  "DTZ",   # flake8-datetimez
+  "T10",   # flake8-debugger
+  "EM",    # flake8-errmsg
+  "EXE",   # flake8-executable
   "FA",    # flake8-future-annotations
+  "ISC",   # flake8-implicit-str-concat
+  "ICN",   # flake8-import-conventions
+  "LOG",   # flake8-logging
+  "G",     # flake8-logging-format
+  "INP",   # flake8-no-pep420
+  "PIE",   # flake8-pie
   "T20",   # flake8-print
+  "PYI",   # flake8-pyi
   "PT",    # flake8-pytest-style
   "Q",     # flake8-quotes
   "RSE",   # flake8-raise
   "RET",   # flake8-return
+  "SLOT",  # flake8-slots
   "SIM",   # flake8-simplify
   "TID",   # flake8-tidy-imports
+  "TCH",   # flake8-type-checking
   "INT",   # flake8-gettext
-  "ISC",   # flake8-implicit-str-concat
   "PTH",   # flake8-use-pathlib
+  "TD",    # flake8-todos
+  "ERA",   # flake8-eradicate
   "PGH",   # pygrep-hooks
-  "PIE",   # flake8-pie
   "PL",    # pylint
+  "TRY",   # tryceratops
+  "FLY",   # flynt
+  "PERF",  # perflint
   "RUF",   # ruff-specific rules
-  "UP",    # pyupgrade
 ]
 
 ignore = [
@@ -163,7 +181,17 @@ ignore = [
   "SIM102", # use a single if statement instead of nested if statements
   "SIM108", # Use ternary operator {contents} instead of if-else-block
 
+  "TCH001", # Move application imports used only for annotations into a type-checking block
+  "TCH002", # Move 3rd-party imports used only for annotations into a type-checking block
+  "TCH003", # Move standard library imports used only for annotations into a type-checking block
+
+  "TD002", # Missing author in TODO
+  "TD003", # Missing issue link on the line following this TODO
+
   "PT011",   # pytest.raises without match parameter is too broad # TODO: Unignore this
+  "TRY003",  # No f-strings in raise statements
+  "EM101",   # No string literals in exception init
+  "EM102",   # No f-strings in exception init
   "UP024",   # Using errors that alias OSError
   "PLR2004", # Using unnamed numerical constants
   "PGH003",  # Using specific rule codes in type ignores
@@ -190,8 +218,16 @@ ignore = [
   "ANN",  # flake8-annotations
   "S101", # Use of assert
 ]
+"docs/conf.py" = [
+  "INP", # allow implicit namespace (pep 420)
+]
 "docs/extensions/*" = [
-  "D", # pydocstyle
+  "D",   # pydocstyle
+  "INP", # allow implicit namespace (pep 420)
+]
+".github/scripts/*" = [
+  "D",   # pydocstyle
+  "INP", # allow implicit namespace (pep 420)
 ]
 
 [tool.ruff.lint.isort]
