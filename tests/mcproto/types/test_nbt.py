@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import struct
-from typing import Any, Dict, List, cast
+from typing import Any, cast
 
 import pytest
 
@@ -1085,8 +1085,8 @@ def test_nbt_bigfile():
         if type(self) != type(other):
             return False
         if isinstance(self, dict):
-            self = cast(Dict[Any, Any], self)
-            other = cast(Dict[Any, Any], other)
+            self = cast("dict[Any, Any]", self)
+            other = cast("dict[Any, Any]", other)
             if len(self) != len(other):
                 return False
             for key in self:
@@ -1096,8 +1096,8 @@ def test_nbt_bigfile():
                     return False
             return True
         if isinstance(self, list):
-            self = cast(List[Any], self)
-            other = cast(List[Any], other)
+            self = cast("list[Any]", self)
+            other = cast("list[Any]", other)
             if len(self) != len(other):
                 return False
             return all(check_equality(self[i], other[i]) for i in range(len(self)))
@@ -1183,7 +1183,7 @@ def test_from_object_morecases():
     ("data", "schema", "error", "error_msg"),
     [
         # Data is not a list
-        ({"test": 0}, {"test": [ByteNBT]}, TypeError, "Expected a list, but found a different type."),
+        ({"test": 0}, {"test": [ByteNBT]}, TypeError, "Expected a list, but found int."),
         # Expected a list of dict, got a list of NBTags for schema
         (
             {"test": [1, 0]},
@@ -1200,7 +1200,7 @@ def test_from_object_morecases():
         ),
         ([1], [], ValueError, "The schema and the data must have the same length."),
         # Schema is a dict, data is not
-        (["test"], {"test": ByteNBT}, TypeError, "Expected a dictionary, but found a different type."),
+        (["test"], {"test": ByteNBT}, TypeError, "Expected a dictionary, but found list."),
         # Schema is not a dict, list or subclass of NBTagConvertible
         (
             ["test"],
@@ -1247,7 +1247,7 @@ def test_from_object_morecases():
             {"test": object()},
             ByteNBT,
             TypeError,
-            "Expected a bytes, str, int, float, but found object.",
+            r"Expected one of \(bytes, str, int, float, list\), but found object.",
         ),
         # The data is a list but not all elements are ints
         (
