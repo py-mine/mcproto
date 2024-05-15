@@ -304,6 +304,7 @@ def gen_serializable_test(
         def test_deserialization(self, kwargs: dict[str, Any], expected_bytes: bytes):
             """Test deserialization of the object."""
             buf = Buffer(expected_bytes)
+
             obj = cls.deserialize(buf)
             equality = cls(**kwargs) == obj
             error_message: list[str] = []
