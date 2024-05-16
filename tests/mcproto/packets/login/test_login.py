@@ -1,10 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
-import pytest
-
-from mcproto.buffer import Buffer
 from mcproto.packets.login.login import (
     LoginDisconnect,
     LoginEncryptionRequest,
@@ -15,288 +10,132 @@ from mcproto.packets.login.login import (
     LoginStart,
     LoginSuccess,
 )
+from mcproto.packets.packet import InvalidPacketContentError
 from mcproto.types.chat import ChatMessage
 from mcproto.types.uuid import UUID
+from tests.helpers import gen_serializable_test
 from tests.mcproto.test_encryption import RSA_PUBLIC_KEY
 
+# LoginStart
+gen_serializable_test(
+    context=globals(),
+    cls=LoginStart,
+    fields=[("username", str), ("uuid", UUID)],
+    test_data=[
+        (
+            ("ItsDrike", UUID("f70b4a42c9a04ffb92a31390c128a1b2")),
+            bytes.fromhex("084974734472696b65f70b4a42c9a04ffb92a31390c128a1b2"),
+        ),
+        (
+            ("foobar1", UUID("7a82476416fc4e8b8686a99c775db7d3")),
+            bytes.fromhex("07666f6f626172317a82476416fc4e8b8686a99c775db7d3"),
+        ),
+    ],
+)
 
-class TestLoginStart:
-    """Collection of tests for the LoginStart packet."""
-
-    @pytest.mark.parametrize(
-        ("kwargs", "expected_bytes"),
-        [
-            (
-                {"username": "ItsDrike", "uuid": UUID("f70b4a42c9a04ffb92a31390c128a1b2")},
-                bytes.fromhex("084974734472696b65f70b4a42c9a04ffb92a31390c128a1b2"),
+# LoginEncryptionRequest
+gen_serializable_test(
+    context=globals(),
+    cls=LoginEncryptionRequest,
+    fields=[("server_id", str), ("public_key", bytes), ("verify_token", bytes)],
+    test_data=[
+        (
+            ("a" * 20, RSA_PUBLIC_KEY, bytes.fromhex("9bd416ef")),
+            bytes.fromhex(
+                "146161616161616161616161616161616161616161a20130819f300d06092a864886f70d010101050003818d003081890"
+                "2818100cb515109911ea3e4740d8a17a7ccd9cf226c83c7615e4a5505cd124571ee210a4ba26c7c42e15f51fcb7fa90dc"
+                "e6f83ebe0e163817c7d9fb1af7d981e90da2cc06ea59d01ff9fbb76b1803a0fe5af4a2c75145d89eb03e6a4aae21d2e7d"
+                "4c3938a298da575e12e0ae178d61a69bc0ea0b381790f182d9dba715bfb503c99d92b0203010001049bd416ef"
             ),
-            (
-                {"username": "foobar1", "uuid": UUID("7a82476416fc4e8b8686a99c775db7d3")},
-                bytes.fromhex("07666f6f626172317a82476416fc4e8b8686a99c775db7d3"),
-            ),
-        ],
-    )
-    def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
-        """Test serialization of LoginStart packet."""
-        packet = LoginStart(**kwargs)
-        assert packet.serialize().flush() == bytearray(expected_bytes)
-
-    @pytest.mark.parametrize(
-        ("input_bytes", "expected_args"),
-        [
-            (
-                bytes.fromhex("084974734472696b65f70b4a42c9a04ffb92a31390c128a1b2"),
-                {"username": "ItsDrike", "uuid": UUID("f70b4a42c9a04ffb92a31390c128a1b2")},
-            ),
-            (
-                bytes.fromhex("07666f6f626172317a82476416fc4e8b8686a99c775db7d3"),
-                {"username": "foobar1", "uuid": UUID("7a82476416fc4e8b8686a99c775db7d3")},
-            ),
-        ],
-    )
-    def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
-        """Test deserialization of LoginStart packet."""
-        packet = LoginStart.deserialize(Buffer(input_bytes))
-        for arg_name, val in expected_args.items():
-            assert getattr(packet, arg_name) == val
+        ),
+        (InvalidPacketContentError, bytes.fromhex("14")),
+    ],
+)
 
 
-class TestLoginEncryptionRequest:
-    """Collection of tests for the LoginEncryptionRequest packet."""
-
-    @pytest.mark.parametrize(
-        ("kwargs", "expected_bytes"),
-        [
-            (
-                {"public_key": RSA_PUBLIC_KEY, "verify_token": bytes.fromhex("9bd416ef"), "server_id": "a" * 20},
-                bytes.fromhex(
-                    "146161616161616161616161616161616161616161a20130819f300d06092a864886f70d010101050003818d003081890"
-                    "2818100cb515109911ea3e4740d8a17a7ccd9cf226c83c7615e4a5505cd124571ee210a4ba26c7c42e15f51fcb7fa90dc"
-                    "e6f83ebe0e163817c7d9fb1af7d981e90da2cc06ea59d01ff9fbb76b1803a0fe5af4a2c75145d89eb03e6a4aae21d2e7d"
-                    "4c3938a298da575e12e0ae178d61a69bc0ea0b381790f182d9dba715bfb503c99d92b0203010001049bd416ef"
-                ),
-            ),
-        ],
-    )
-    def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
-        """Test serialization of LoginEncryptionRequest packet."""
-        packet = LoginEncryptionRequest(**kwargs)
-        assert packet.serialize().flush() == bytearray(expected_bytes)
-
-    @pytest.mark.parametrize(
-        ("input_bytes", "expected_args"),
-        [
-            (
-                bytes.fromhex(
-                    "146161616161616161616161616161616161616161a20130819f300d06092a864886f70d010101050003818d003081890"
-                    "2818100cb515109911ea3e4740d8a17a7ccd9cf226c83c7615e4a5505cd124571ee210a4ba26c7c42e15f51fcb7fa90dc"
-                    "e6f83ebe0e163817c7d9fb1af7d981e90da2cc06ea59d01ff9fbb76b1803a0fe5af4a2c75145d89eb03e6a4aae21d2e7d"
-                    "4c3938a298da575e12e0ae178d61a69bc0ea0b381790f182d9dba715bfb503c99d92b0203010001049bd416ef"
-                ),
-                {"public_key": RSA_PUBLIC_KEY, "verify_token": bytes.fromhex("9bd416ef"), "server_id": "a" * 20},
-            ),
-        ],
-    )
-    def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
-        """Test deserialization of LoginEncryptionRequest packet."""
-        packet = LoginEncryptionRequest.deserialize(Buffer(input_bytes))
-        for arg_name, val in expected_args.items():
-            assert getattr(packet, arg_name) == val
+def test_login_encryption_request_noid():
+    """Test LoginEncryptionRequest without server_id."""
+    packet = LoginEncryptionRequest(server_id=None, public_key=RSA_PUBLIC_KEY, verify_token=bytes.fromhex("9bd416ef"))
+    assert packet.server_id == " " * 20  # None is converted to an empty server id
 
 
-class TestLoginEncryptionResponse:
-    """Collection of tests for the LoginEncryptionResponse packet."""
-
-    @pytest.mark.parametrize(
-        ("kwargs", "expected_bytes"),
-        [
-            (
-                {"shared_secret": b"I'm shared", "verify_token": b"Token"},
-                bytes.fromhex("0a49276d2073686172656405546f6b656e"),
-            )
-        ],
-    )
-    def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
-        """Test serialization of LoginEncryptionRespones packet."""
-        packet = LoginEncryptionResponse(**kwargs)
-        assert packet.serialize().flush() == bytearray(expected_bytes)
-
-    @pytest.mark.parametrize(
-        ("input_bytes", "expected_args"),
-        [
-            (
-                bytes.fromhex("0a49276d2073686172656405546f6b656e"),
-                {"shared_secret": b"I'm shared", "verify_token": b"Token"},
-            )
-        ],
-    )
-    def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
-        """Test deserialization of LoginEncryptionRespones packet."""
-        packet = LoginEncryptionResponse.deserialize(Buffer(input_bytes))
-        for arg_name, val in expected_args.items():
-            assert getattr(packet, arg_name) == val
+# TestLoginEncryptionResponse
+gen_serializable_test(
+    context=globals(),
+    cls=LoginEncryptionResponse,
+    fields=[("shared_secret", bytes), ("verify_token", bytes)],
+    test_data=[
+        (
+            (b"I'm shared", b"Token"),
+            bytes.fromhex("0a49276d2073686172656405546f6b656e"),
+        ),
+    ],
+)
 
 
-class TestLoginSuccess:
-    """Collection of tests for the LoginSuccess packet."""
+# LoginSuccess
+gen_serializable_test(
+    context=globals(),
+    cls=LoginSuccess,
+    fields=[("uuid", UUID), ("username", str)],
+    test_data=[
+        (
+            (UUID("f70b4a42c9a04ffb92a31390c128a1b2"), "Mario"),
+            bytes.fromhex("f70b4a42c9a04ffb92a31390c128a1b2054d6172696f"),
+        ),
+    ],
+)
 
-    @pytest.mark.parametrize(
-        ("kwargs", "expected_bytes"),
-        [
-            (
-                {"uuid": UUID("f70b4a42c9a04ffb92a31390c128a1b2"), "username": "Mario"},
-                bytes.fromhex("f70b4a42c9a04ffb92a31390c128a1b2054d6172696f"),
-            )
-        ],
-    )
-    def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
-        """Test serialization of LoginSuccess packet."""
-        packet = LoginSuccess(**kwargs)
-        assert packet.serialize().flush() == bytearray(expected_bytes)
-
-    @pytest.mark.parametrize(
-        ("input_bytes", "expected_args"),
-        [
-            (
-                bytes.fromhex("f70b4a42c9a04ffb92a31390c128a1b2054d6172696f"),
-                {"uuid": UUID("f70b4a42c9a04ffb92a31390c128a1b2"), "username": "Mario"},
-            )
-        ],
-    )
-    def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
-        """Test deserialization of LoginSuccess packet."""
-        packet = LoginSuccess.deserialize(Buffer(input_bytes))
-        for arg_name, val in expected_args.items():
-            assert getattr(packet, arg_name) == val
+# LoginDisconnect
+gen_serializable_test(
+    context=globals(),
+    cls=LoginDisconnect,
+    fields=[("reason", ChatMessage)],
+    test_data=[
+        (
+            (ChatMessage("You are banned."),),
+            bytes.fromhex("1122596f75206172652062616e6e65642e22"),
+        ),
+    ],
+)
 
 
-class TestLoginDisconnect:
-    """Collection of tests for the LoginDisconnect packet."""
-
-    @pytest.mark.parametrize(
-        ("kwargs", "expected_bytes"),
-        [
-            (
-                {"reason": ChatMessage("You are banned.")},
-                bytes.fromhex("1122596f75206172652062616e6e65642e22"),
-            )
-        ],
-    )
-    def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
-        """Test serialization of LoginDisconnect packet."""
-        packet = LoginDisconnect(**kwargs)
-        assert packet.serialize().flush() == bytearray(expected_bytes)
-
-    @pytest.mark.parametrize(
-        ("input_bytes", "expected_args"),
-        [
-            (
-                bytes.fromhex("1122596f75206172652062616e6e65642e22"),
-                {"reason": ChatMessage("You are banned.")},
-            )
-        ],
-    )
-    def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
-        """Test deserialization of LoginDisconnect packet."""
-        packet = LoginDisconnect.deserialize(Buffer(input_bytes))
-        for arg_name, val in expected_args.items():
-            assert getattr(packet, arg_name) == val
+# LoginPluginRequest
+gen_serializable_test(
+    context=globals(),
+    cls=LoginPluginRequest,
+    fields=[("message_id", int), ("channel", str), ("data", bytes)],
+    test_data=[
+        (
+            (0, "xyz", b"Hello"),
+            bytes.fromhex("000378797a48656c6c6f"),
+        ),
+    ],
+)
 
 
-class TestLoginPluginRequest:
-    """Collection of tests for the LoginPluginRequest packet."""
+# LoginPluginResponse
+gen_serializable_test(
+    context=globals(),
+    cls=LoginPluginResponse,
+    fields=[("message_id", int), ("data", bytes)],
+    test_data=[
+        (
+            (0, b"Hello"),
+            bytes.fromhex("000148656c6c6f"),
+        ),
+    ],
+)
 
-    @pytest.mark.parametrize(
-        ("kwargs", "expected_bytes"),
-        [
-            (
-                {"message_id": 0, "channel": "xyz", "data": b"Hello"},
-                bytes.fromhex("000378797a48656c6c6f"),
-            )
-        ],
-    )
-    def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
-        """Test serialization of LoginPluginRequest packet."""
-        packet = LoginPluginRequest(**kwargs)
-        assert packet.serialize().flush() == bytearray(expected_bytes)
-
-    @pytest.mark.parametrize(
-        ("input_bytes", "expected_args"),
-        [
-            (
-                bytes.fromhex("000378797a48656c6c6f"),
-                {"message_id": 0, "channel": "xyz", "data": b"Hello"},
-            )
-        ],
-    )
-    def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
-        """Test serialization of LoginPluginRequest packet."""
-        packet = LoginPluginRequest.deserialize(Buffer(input_bytes))
-        for arg_name, val in expected_args.items():
-            assert getattr(packet, arg_name) == val
-
-
-class TestLoginPluginResponse:
-    """Collection of tests for the LoginPluginResponse packet."""
-
-    @pytest.mark.parametrize(
-        ("kwargs", "expected_bytes"),
-        [
-            (
-                {"message_id": 0, "data": b"Hello"},
-                bytes.fromhex("000148656c6c6f"),
-            )
-        ],
-    )
-    def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
-        """Test serialization of LoginPluginResponse packet."""
-        packet = LoginPluginResponse(**kwargs)
-        assert packet.serialize().flush() == bytearray(expected_bytes)
-
-    @pytest.mark.parametrize(
-        ("input_bytes", "expected_args"),
-        [
-            (
-                bytes.fromhex("000148656c6c6f"),
-                {"message_id": 0, "data": b"Hello"},
-            )
-        ],
-    )
-    def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
-        """Test deserialization of LoginPluginResponse packet."""
-        packet = LoginPluginResponse.deserialize(Buffer(input_bytes))
-        for arg_name, val in expected_args.items():
-            assert getattr(packet, arg_name) == val
-
-
-class TestLoginSetCompression:
-    """Collection of tests for the LoginSetCompression packet."""
-
-    @pytest.mark.parametrize(
-        ("kwargs", "expected_bytes"),
-        [
-            (
-                {"threshold": 2},
-                bytes.fromhex("02"),
-            )
-        ],
-    )
-    def test_serialize(self, kwargs: dict[str, Any], expected_bytes: bytes):
-        """Test serialization of LoginSetCompression packet."""
-        packet = LoginSetCompression(**kwargs)
-        assert packet.serialize().flush() == bytearray(expected_bytes)
-
-    @pytest.mark.parametrize(
-        ("input_bytes", "expected_args"),
-        [
-            (
-                bytes.fromhex("02"),
-                {"threshold": 2},
-            )
-        ],
-    )
-    def test_deserialize(self, input_bytes: bytes, expected_args: dict[str, Any]):
-        """Test deserialization of LoginSetCompression packet."""
-        packet = LoginSetCompression.deserialize(Buffer(input_bytes))
-        for arg_name, val in expected_args.items():
-            assert getattr(packet, arg_name) == val
+# LoginSetCompression
+gen_serializable_test(
+    context=globals(),
+    cls=LoginSetCompression,
+    fields=[("threshold", int)],
+    test_data=[
+        (
+            (2,),
+            bytes.fromhex("02"),
+        ),
+    ],
+)
