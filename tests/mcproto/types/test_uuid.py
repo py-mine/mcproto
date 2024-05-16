@@ -1,36 +1,20 @@
 from __future__ import annotations
 
-import pytest
-
-from mcproto.buffer import Buffer
 from mcproto.types.uuid import UUID
+from tests.helpers import gen_serializable_test
 
-
-@pytest.mark.parametrize(
-    ("data", "expected_bytes"),
-    [
-        (
-            "12345678-1234-5678-1234-567812345678",
-            bytearray.fromhex("12345678123456781234567812345678"),
-        ),
+gen_serializable_test(
+    context=globals(),
+    cls=UUID,
+    fields=[("hex", str)],
+    test_data=[
+        (("12345678-1234-5678-1234-567812345678",), bytes.fromhex("12345678123456781234567812345678")),
+        # Too short or too long
+        (("12345678-1234-5678-1234-56781234567",), ValueError),
+        (("12345678-1234-5678-1234-5678123456789",), ValueError),
+        # Not enough data in the buffer (needs 16 bytes)
+        (IOError, b""),
+        (IOError, b"\x01"),
+        (IOError, b"\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e"),
     ],
 )
-def test_serialize(data: str, expected_bytes: list[int]):
-    """Test serialization of UUID results in expected bytes."""
-    output_bytes = UUID(data).serialize()
-    assert output_bytes == expected_bytes
-
-
-@pytest.mark.parametrize(
-    ("input_bytes", "data"),
-    [
-        (
-            bytearray.fromhex("12345678123456781234567812345678"),
-            "12345678-1234-5678-1234-567812345678",
-        ),
-    ],
-)
-def test_deserialize(input_bytes: list[int], data: str):
-    """Test deserialization of UUID with expected bytes produces expected UUID."""
-    uuid = UUID.deserialize(Buffer(input_bytes))
-    assert str(uuid) == data

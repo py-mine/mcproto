@@ -2,54 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from mcproto.buffer import Buffer
 from mcproto.types.chat import ChatMessage, RawChatMessage, RawChatMessageDict
-
-
-@pytest.mark.parametrize(
-    ("data", "expected_bytes"),
-    [
-        (
-            "A Minecraft Server",
-            bytearray.fromhex("142241204d696e6563726166742053657276657222"),
-        ),
-        (
-            {"text": "abc"},
-            bytearray.fromhex("0f7b2274657874223a2022616263227d"),
-        ),
-        (
-            [{"text": "abc"}, {"text": "def"}],
-            bytearray.fromhex("225b7b2274657874223a2022616263227d2c207b2274657874223a2022646566227d5d"),
-        ),
-    ],
-)
-def test_serialize(data: RawChatMessage, expected_bytes: list[int]):
-    """Test serialization of ChatMessage results in expected bytes."""
-    output_bytes = ChatMessage(data).serialize()
-    assert output_bytes == expected_bytes
-
-
-@pytest.mark.parametrize(
-    ("input_bytes", "data"),
-    [
-        (
-            bytearray.fromhex("142241204d696e6563726166742053657276657222"),
-            "A Minecraft Server",
-        ),
-        (
-            bytearray.fromhex("0f7b2274657874223a2022616263227d"),
-            {"text": "abc"},
-        ),
-        (
-            bytearray.fromhex("225b7b2274657874223a2022616263227d2c207b2274657874223a2022646566227d5d"),
-            [{"text": "abc"}, {"text": "def"}],
-        ),
-    ],
-)
-def test_deserialize(input_bytes: list[int], data: RawChatMessage):
-    """Test deserialization of ChatMessage with expected bytes produces expected ChatMessage."""
-    chat = ChatMessage.deserialize(Buffer(input_bytes))
-    assert chat.raw == data
+from tests.helpers import gen_serializable_test
 
 
 @pytest.mark.parametrize(
@@ -93,3 +47,30 @@ def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
 def test_equality(raw1: RawChatMessage, raw2: RawChatMessage, expected_result: bool):
     """Test comparing ChatMessage instances produces expected equality result."""
     assert (ChatMessage(raw1) == ChatMessage(raw2)) is expected_result
+
+
+gen_serializable_test(
+    context=globals(),
+    cls=ChatMessage,
+    fields=[("raw", RawChatMessage)],
+    test_data=[
+        (
+            ("A Minecraft Server",),
+            bytes.fromhex("142241204d696e6563726166742053657276657222"),
+        ),
+        (
+            ({"text": "abc"},),
+            bytes.fromhex("0f7b2274657874223a2022616263227d"),
+        ),
+        (
+            ([{"text": "abc"}, {"text": "def"}],),
+            bytes.fromhex("225b7b2274657874223a2022616263227d2c207b2274657874223a2022646566227d5d"),
+        ),
+        # Wrong type for raw
+        ((b"invalid",), TypeError),
+        (({"no_extra_or_text": "invalid"},), AttributeError),
+        (([{"no_text": "invalid"}, {"text": "Hello"}, {"extra": "World"}],), AttributeError),
+        # Expects a list of dicts if raw is a list
+        (([[]],), TypeError),
+    ],
+)

@@ -1,101 +1,38 @@
 from __future__ import annotations
 
-from typing import Any
-
-import pytest
-
-from mcproto.buffer import Buffer
 from mcproto.packets.handshaking.handshake import Handshake, NextState
+from tests.helpers import gen_serializable_test
 
-
-@pytest.mark.parametrize(
-    ("kwargs", "expected_bytes"),
-    [
+gen_serializable_test(
+    context=globals(),
+    cls=Handshake,
+    fields=[
+        ("protocol_version", int),
+        ("server_address", str),
+        ("server_port", int),
+        ("next_state", NextState),
+    ],
+    test_data=[
         (
-            {"protocol_version": 757, "server_address": "mc.aircs.racing", "server_port": 25565, "next_state": 2},
+            (757, "mc.aircs.racing", 25565, NextState.LOGIN),
             bytes.fromhex("f5050f6d632e61697263732e726163696e6763dd02"),
         ),
         (
-            {"protocol_version": 757, "server_address": "mc.aircs.racing", "server_port": 25565, "next_state": 1},
+            (757, "mc.aircs.racing", 25565, NextState.STATUS),
             bytes.fromhex("f5050f6d632e61697263732e726163696e6763dd01"),
         ),
         (
-            {
-                "protocol_version": 757,
-                "server_address": "hypixel.net",
-                "server_port": 25565,
-                "next_state": NextState.LOGIN,
-            },
+            (757, "hypixel.net", 25565, NextState.LOGIN),
             bytes.fromhex("f5050b6879706978656c2e6e657463dd02"),
         ),
         (
-            {
-                "protocol_version": 757,
-                "server_address": "hypixel.net",
-                "server_port": 25565,
-                "next_state": NextState.STATUS,
-            },
+            (757, "hypixel.net", 25565, NextState.STATUS),
             bytes.fromhex("f5050b6879706978656c2e6e657463dd01"),
         ),
+        # Invalid next state
+        ((757, "localhost", 25565, 3), ValueError),
+        ((757, "localhost", 25565, 4), ValueError),
+        ((757, "localhost", 25565, 5), ValueError),
+        ((757, "localhost", 25565, 6), ValueError),
     ],
 )
-def test_serialize(kwargs: dict[str, Any], expected_bytes: list[int]):
-    """Test serialization of Handshake packet."""
-    handshake = Handshake(**kwargs)
-    assert handshake.serialize().flush() == bytearray(expected_bytes)
-
-
-@pytest.mark.parametrize(
-    ("read_bytes", "expected_out"),
-    [
-        (
-            bytes.fromhex("f5050f6d632e61697263732e726163696e6763dd02"),
-            {
-                "protocol_version": 757,
-                "server_address": "mc.aircs.racing",
-                "server_port": 25565,
-                "next_state": NextState.LOGIN,
-            },
-        ),
-        (
-            bytes.fromhex("f5050f6d632e61697263732e726163696e6763dd01"),
-            {
-                "protocol_version": 757,
-                "server_address": "mc.aircs.racing",
-                "server_port": 25565,
-                "next_state": NextState.STATUS,
-            },
-        ),
-        (
-            bytes.fromhex("f5050b6879706978656c2e6e657463dd02"),
-            {
-                "protocol_version": 757,
-                "server_address": "hypixel.net",
-                "server_port": 25565,
-                "next_state": NextState.LOGIN,
-            },
-        ),
-        (
-            bytes.fromhex("f5050b6879706978656c2e6e657463dd01"),
-            {
-                "protocol_version": 757,
-                "server_address": "hypixel.net",
-                "server_port": 25565,
-                "next_state": NextState.STATUS,
-            },
-        ),
-    ],
-)
-def test_deserialize(read_bytes: list[int], expected_out: dict[str, Any]):
-    """Test deserialization of Handshake packet."""
-    handshake = Handshake.deserialize(Buffer(read_bytes))
-
-    for i, v in expected_out.items():
-        assert getattr(handshake, i) == v
-
-
-@pytest.mark.parametrize(("state"), [3, 4, 5, 6])
-def test_invalid_state(state):
-    """Test initialization of Handshake packet with invalid next state raises :exc:`ValueError`."""
-    with pytest.raises(ValueError):
-        Handshake(protocol_version=757, server_address="localhost", server_port=25565, next_state=state)

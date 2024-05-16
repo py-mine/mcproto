@@ -113,9 +113,9 @@ class InvalidPacketContentError(IOError):
         This is a convenience constructor, picking up the necessary parameters about the identified packet
         from the packet class automatically (packet id, game state, ...).
         """
-        if isinstance(packet_class, ServerBoundPacket):
+        if issubclass(packet_class, ServerBoundPacket):
             direction = PacketDirection.SERVERBOUND
-        elif isinstance(packet_class, ClientBoundPacket):
+        elif issubclass(packet_class, ClientBoundPacket):
             direction = PacketDirection.CLIENTBOUND
         else:
             raise TypeError(
