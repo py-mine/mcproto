@@ -346,7 +346,7 @@ and where to learn what to send and when.
 
 import httpx
 
-from mcproto.client import Client
+from mcproto.interactions.client import Client
 from mcproto.connection import TCPAsyncConnection
 from mcproto.auth.account import Account
 from mcproto.types.uuid import UUID
@@ -371,8 +371,8 @@ async def main():
     async with httpx.AsyncClient() as client:
         async with (await TCPAsyncConnection.make_client((HOST, PORT), 2)) as connection:
             client = Client(
-                host="localhost",
-                port=25565,
+                host=HOST,
+                port=PORT,
                 httpx_client=client,
                 account=account,
                 conn=connection,
@@ -388,20 +388,26 @@ async def main():
             # In the back, the `status` function has performed a handshake to transition us from
             # the initial (None) game state, to the STATUS game state, and then sent a status
             # request, getting back a response.
-
+            #
             # The Client instance also includes a `login` function, which is capable to go through
             # the entire login flow, leaving you in PLAY game state. Note that unless you've
             # set MINECRAFT_ACCESS_TOKEN, you will only be able to do this for warez servers.
-
+            #
             # But since we just called `status`, it left us in the STATUS game state, but we need
             # to be in LOGIN game state. The `login` function will work if called from an initial
             # game state (None), as it's smart enough to perform a handshake getting us to LOGIN,
             # however it doesn't know what to do from STATUS game state.
-
+            #
             # What we can do, is simply set game_state back to None (this is what happens during
             # initialization of the Client class), making the login function send out another
             # handshake, this time transitioning to LOGIN instead of STATUS. We could also create
             # a completely new client instance.
+            #
+            # Note that this way of naively resetting the game-state won't always work, as the
+            # underlying connection isn't actually reset, and it's possible that in some cases,
+            # the server simply won't let us perform another handshake on the same connection.
+            # You will likely encounter this if you attempt to request status twice, however
+            # transitioning to login in this way will generally work.
             client.game_state = None
 
             client.login()
@@ -419,7 +425,7 @@ To start this server, you can run the following:
 
 ```python
 import httpx
-from mcproto.server import Server
+from mcproto.interactions.server import Server
 
 HOST = "0.0.0.0"
 PORT = 25565

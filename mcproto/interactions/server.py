@@ -9,7 +9,7 @@ from typing_extensions import Self
 
 from mcproto.connection import TCPAsyncConnection
 from mcproto.encryption import decrypt_token_and_secret, generate_rsa_key, generate_verify_token
-from mcproto.interaction.exceptions import InvalidVerifyTokenError, UnexpectedPacketError
+from mcproto.interactions.exceptions import InvalidVerifyTokenError, UnexpectedPacketError
 from mcproto.multiplayer import compute_server_hash, join_check
 from mcproto.packets.handshaking.handshake import Handshake, NextState
 from mcproto.packets.interactions import async_read_packet, async_write_packet

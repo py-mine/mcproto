@@ -5,7 +5,7 @@ import httpx
 from mcproto.auth.account import Account
 from mcproto.connection import TCPAsyncConnection
 from mcproto.encryption import encrypt_token_and_secret, generate_shared_secret
-from mcproto.interaction.exceptions import InvalidGameStateError, UnexpectedPacketError
+from mcproto.interactions.exceptions import InvalidGameStateError, UnexpectedPacketError
 from mcproto.multiplayer import compute_server_hash, join_request
 from mcproto.packets.handshaking.handshake import Handshake, NextState
 from mcproto.packets.interactions import async_read_packet, async_write_packet
