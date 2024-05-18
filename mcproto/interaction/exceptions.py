@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing_extensions import override
 
 from mcproto.packets.packet import GameState, Packet
 
@@ -46,6 +47,7 @@ class InvalidGameStateError(Exception):
             msg += f": {self.reason}"
         return msg
 
+    @override
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg!r})"
 
@@ -91,6 +93,7 @@ class UnexpectedPacketError(Exception):
 
         return msg
 
+    @override
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg!r})"
 
@@ -116,5 +119,6 @@ class InvalidVerifyTokenError(Exception):
             f" received: {self.received_decrypted_token!r}"
         )
 
+    @override
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.msg!r})"
