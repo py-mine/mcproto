@@ -13,7 +13,7 @@ class WriteFunctionMock(Mock):
         self.combined_data = bytearray()
 
     @override
-    def __call__(self, data: bytes) -> None:  # pyright: ignore[reportIncompatibleMethodOverride]
+    def __call__(self, data: bytes) -> None:
         """Override mock's ``__call__`` to extend our :attr:`.combined_data` bytearray.
 
         This allows us to keep track of exactly what data was written by the mocked write function
@@ -47,7 +47,7 @@ class ReadFunctionMock(Mock):
         self.combined_data = combined_data
 
     @override
-    def __call__(self, length: int) -> bytearray:  # pyright: ignore[reportIncompatibleMethodOverride]
+    def __call__(self, length: int) -> bytearray:
         """Override mock's __call__ to make it return part of our :attr:`.combined_data` bytearray.
 
         This allows us to make the return value always be the next requested part (length) of
