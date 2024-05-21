@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import struct
-from typing import Any, Dict, List, cast
+from typing import Any, List, cast
 
 import pytest
 
@@ -228,6 +228,8 @@ gen_serializable_test(
         (("a" * 32768, "b"), ValueError),
         # Wrong type
         ((1, "a"), TypeError),
+        # Unpaired surrogate
+        (("\udc80", "a"), ValueError),
     ],
 )
 
@@ -486,8 +488,8 @@ def test_nbt_bigfile():
         if type(self) != type(other):
             return False
         if isinstance(self, dict):
-            self = cast(Dict[Any, Any], self)
-            other = cast(Dict[Any, Any], other)
+            self = cast("dict[Any, Any]", self)
+            other = cast("dict[Any, Any]", other)
             if len(self) != len(other):
                 return False
             for key in self:
@@ -646,7 +648,7 @@ def test_from_object_morecases():
             {"test": object()},
             ByteNBT,
             TypeError,
-            "Expected one of \\(bytes, str, int, float, list\\), but found object.",
+            r"Expected one of \(bytes, str, int, float, list\), but found object.",
         ),
         # The data is a list but not all elements are ints
         (

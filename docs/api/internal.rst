@@ -6,5 +6,8 @@ as an easy quick reference for contributors. These components **are not a part o
 should not be used externally**, as we do not guarantee their backwards compatibility, which means breaking changes
 may be introduced between patch versions without any warnings.
 
+.. automodule:: mcproto.utils.abc
+
+.. autofunction:: tests.helpers.gen_serializable_test
 ..
     TODO: Write this

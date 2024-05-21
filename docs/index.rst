@@ -24,6 +24,7 @@ Content
     api/packets.rst
     api/protocol.rst
     api/internal.rst
+    api/types/index.rst
 
 
 Indices and tables

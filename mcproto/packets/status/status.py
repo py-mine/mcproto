@@ -47,7 +47,7 @@ class StatusResponse(ClientBoundPacket):
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
-        s = json.dumps(self.data)
+        s = json.dumps(self.data, separators=(",", ":"))
         buf.write_utf(s)
 
     @override

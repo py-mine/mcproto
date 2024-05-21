@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import sys
-from abc import ABC, ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from dataclasses import dataclass as _dataclass
 from functools import partial
@@ -45,7 +45,7 @@ class RequiredParamsABCMixin:
 
     __slots__ = ()
 
-    _REQUIRRED_CLASS_VARS: ClassVar[Sequence[str]]
+    _REQUIRED_CLASS_VARS: ClassVar[Sequence[str]]
     _REQUIRED_CLASS_VARS_NO_MRO: ClassVar[Sequence[str]]
 
     def __new__(cls: type[Self], *a: Any, **kw: Any) -> Self:
@@ -74,24 +74,7 @@ class RequiredParamsABCMixin:
         return super().__new__(cls)
 
 
-class _MetaDataclass(ABCMeta):
-    def __new__(
-        cls: type[_MetaDataclass],
-        name: str,
-        bases: tuple[type, ...],
-        namespace: dict[str, Any],
-        **kwargs: Any,
-    ) -> Any:  # Create the class using the super() method to ensure it is correctly formed as an ABC
-        new_class = super().__new__(cls, name, bases, namespace, **kwargs)
-
-        # Check if the dataclass is already defined, if not, create it
-        if not hasattr(new_class, "__dataclass_fields__"):
-            new_class = dataclass(new_class)
-
-        return new_class
-
-
-class Serializable(ABC):  # , metaclass=_MetaDataclass):
+class Serializable(ABC):
     """Base class for any type that should be (de)serializable into/from :class:`~mcproto.Buffer` data.
 
     Any class that inherits from this class and adds parameters should use the :func:`~mcproto.utils.abc.dataclass`
@@ -103,10 +86,10 @@ class Serializable(ABC):  # , metaclass=_MetaDataclass):
     def __post_init__(self) -> None:
         """Run the validation method after the object is initialized."""
         self.validate()
+        self.transform()
 
     def serialize(self) -> Buffer:
         """Represent the object as a :class:`~mcproto.Buffer` (transmittable sequence of bytes)."""
-        self.validate()
         buf = Buffer()
         self.serialize_to(buf)
         return buf
@@ -116,13 +99,29 @@ class Serializable(ABC):  # , metaclass=_MetaDataclass):
         """Write the object to a :class:`~mcproto.Buffer`."""
         raise NotImplementedError
 
+    def transform(self) -> None:
+        """Apply a transformation to the payload of the object.
+
+        This can be used to convert an int to an enum. This method is called during the initialization,
+        after the validation method. By default, this method does nothing. Override it in your subclass
+        to add transformation logic.
+
+        This method should not raise any exception.
+
+        .. note::
+            This method is not called during serialization, any modifications made to the payload will have to
+            call this method manually to apply the transformation if needed.
+        """
+        return
+
     def validate(self) -> None:
         """Validate the object's attributes, raising an exception if they are invalid.
 
-        This will be called at the end of the object's initialization, and before serialization.
-        Use cast() in serialize_to() if your validation asserts that a value is of a certain type.
-
         By default, this method does nothing. Override it in your subclass to add validation logic.
+
+        .. note::
+            This method is called before :meth:`~mcproto.utils.abc.Serializable.transform`, so it must not rely
+            on any transformations made by that method.
         """
         return
 

@@ -47,7 +47,7 @@ class Handshake(ServerBoundPacket):
     @override
     def serialize_to(self, buf: Buffer) -> None:
         """Serialize the packet."""
-        self.next_state = cast(NextState, self.next_state)  # Handled by the validate method
+        self.next_state = cast(NextState, self.next_state)  # Handled by the transform method
         buf.write_varint(self.protocol_version)
         buf.write_utf(self.server_address)
         buf.write_value(StructFormat.USHORT, self.server_port)
@@ -65,10 +65,12 @@ class Handshake(ServerBoundPacket):
 
     @override
     def validate(self) -> None:
-        """Validate the packet."""
         if not isinstance(self.next_state, NextState):
             rev_lookup = {x.value: x for x in NextState.__members__.values()}
-            try:
-                self.next_state = rev_lookup[self.next_state]
-            except KeyError as exc:
-                raise ValueError("No such next_state.") from exc
+            if self.next_state not in rev_lookup:
+                raise ValueError("No such next_state.")
+
+    @override
+    def transform(self) -> None:
+        """Get the next state enum from the integer value."""
+        self.next_state = NextState(self.next_state)

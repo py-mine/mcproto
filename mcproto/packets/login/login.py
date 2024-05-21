@@ -97,8 +97,7 @@ class LoginEncryptionRequest(ClientBoundPacket):
         return cls(server_id=server_id, public_key=public_key, verify_token=verify_token)
 
     @override
-    def validate(self) -> None:
-        """Validate the packet."""
+    def transform(self) -> None:
         if self.server_id is None:
             self.server_id = " " * 20
 
@@ -266,7 +265,7 @@ class LoginSetCompression(ClientBoundPacket):
         Maximum size of a packet before it is compressed. All packets smaller than this will remain uncompressed.
         To disable compression completely, threshold can be set to -1.
 
-    :note: This packet is optional, and if not set, the compression will not be enabled at all.
+    .. note:: This packet is optional, and if not set, the compression will not be enabled at all.
     """
 
     PACKET_ID: ClassVar[int] = 0x03

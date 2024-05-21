@@ -5,11 +5,12 @@ from enum import IntEnum
 from typing import ClassVar, Union, cast, Protocol, final, runtime_checkable
 from collections.abc import Iterator, Mapping, Sequence
 
-from typing_extensions import TypeAlias, override
+from typing_extensions import TypeAlias, override, Self
 
 from mcproto.buffer import Buffer
 from mcproto.protocol.base_io import StructFormat, INT_FORMATS_TYPE, FLOAT_FORMATS_TYPE
 from mcproto.types.abc import MCType, dataclass
+from mcproto.utils.abc import RequiredParamsABCMixin
 
 __all__ = [
     "ByteArrayNBT",
@@ -404,9 +405,8 @@ class NBTag(MCType, NBTagConvertible):
         if isinstance(first_schema, (list, dict)) and not all(isinstance(item, type(first_schema)) for item in schema):
             raise TypeError(f"Expected a list of lists or dictionaries, but found a different type ({schema=}).")
         # NBTag case
-        # Now don't get me wrong, this is actually covered but the coverage tool thinks that it's missing a case with
-        # an empty list, which is not possible because of the previous checks
-        if isinstance(first_schema, type) and not all(item == first_schema for item in schema):  # pragma: no cover
+        # Ignore branch coverage, `schema` will never be an empty list here
+        if isinstance(first_schema, type) and not all(item == first_schema for item in schema):  # pragma: no branch
             raise TypeError(f"The schema must contain a single type of elements. ({schema=})")
 
         for item, sub_schema in zip(data, schema):
@@ -446,15 +446,6 @@ class NBTag(MCType, NBTagConvertible):
         if self.name:
             return f"{type(self).__name__}[{self.name!r}]({self.payload!r})"
         return f"{type(self).__name__}({self.payload!r})"
-
-    @override
-    def __eq__(self, other: object) -> bool:
-        """Check equality between two NBT tags."""
-        if not isinstance(other, NBTag):
-            return NotImplemented
-        if type(self) is not type(other):
-            return False
-        return self.name == other.name and self.payload == other.payload
 
     @override
     def to_nbt(self, name: str = "") -> NBTag:
@@ -509,11 +500,13 @@ class EndNBT(NBTag):
 
 
 @dataclass
-class _NumberNBTag(NBTag):
+class _NumberNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing a number.
 
     This class is not meant to be used directly, but rather through its subclasses.
     """
+
+    _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # type: ignore
     DATA_SIZE: ClassVar[int] = NotImplemented
@@ -528,7 +521,7 @@ class _NumberNBTag(NBTag):
 
     @override
     @classmethod
-    def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> _NumberNBTag:
+    def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> Self:
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
         if _get_tag_type(cls) != tag_type:
             raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
@@ -593,8 +586,10 @@ class LongNBT(_NumberNBTag):
 
 
 @dataclass
-class _FloatingNBTag(NBTag):
+class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing a floating-point number."""
+
+    _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
     STRUCT_FORMAT: ClassVar[FLOAT_FORMATS_TYPE] = NotImplemented  # type: ignore
     DATA_SIZE: ClassVar[int] = NotImplemented
@@ -609,7 +604,7 @@ class _FloatingNBTag(NBTag):
 
     @override
     @classmethod
-    def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> _FloatingNBTag:
+    def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> Self:
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
         if _get_tag_type(cls) != tag_type:
             raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
@@ -629,10 +624,13 @@ class _FloatingNBTag(NBTag):
 
     @override
     def validate(self) -> None:
+        if not isinstance(self.payload, (int, float)):  # type: ignore # We want to check anyway
+            raise TypeError(f"Expected a float, but found {type(self.payload).__name__}.")
+
+    @override
+    def transform(self) -> None:
         if isinstance(self.payload, int):
             self.payload = float(self.payload)
-        if not isinstance(self.payload, float):
-            raise TypeError(f"Expected a float, but found {type(self.payload).__name__}.")
 
 
 @final
@@ -708,10 +706,13 @@ class ByteArrayNBT(NBTag):
 
     @override
     def validate(self) -> None:
+        if not isinstance(self.payload, (bytearray, bytes)):
+            raise TypeError(f"Expected a bytes, but found {type(self.payload).__name__}.")
+
+    @override
+    def transform(self) -> None:
         if isinstance(self.payload, bytearray):
             self.payload = bytes(self.payload)
-        if not isinstance(self.payload, bytes):
-            raise TypeError(f"Expected a bytes, but found {type(self.payload).__name__}.")
 
 
 @dataclass
@@ -769,7 +770,7 @@ class StringNBT(NBTag):
         # Check that the string is valid UTF-8
         try:
             self.payload.encode("utf-8")
-        except UnicodeEncodeError as exc:  # pragma: no cover (don't know how to trigger)
+        except UnicodeEncodeError as exc:
             raise ValueError("Invalid UTF-8 string.") from exc
 
 
@@ -790,21 +791,10 @@ class ListNBT(NBTag):
             IntNBT(0).serialize_to(buf, with_name=False, with_type=False)
             return
 
-        if not all(isinstance(tag, NBTag) for tag in self.payload):  # type: ignore # We want to check anyway
-            raise ValueError(
-                f"All items in a list must be NBTags. Got {self.payload!r}.\nUse NBTag.from_object() to convert "
-                "objects to tags first."
-            )
-
         tag_type = _get_tag_type(self.payload[0])
         ByteNBT(tag_type).serialize_to(buf, with_name=False, with_type=False)
         IntNBT(len(self.payload)).serialize_to(buf, with_name=False, with_type=False)
         for tag in self.payload:
-            if tag_type != _get_tag_type(tag):
-                raise ValueError(f"All tags in a list must be of the same type, got tag {tag!r}")
-            if tag.name != "":
-                raise ValueError(f"All tags in a list must be unnamed, got tag {tag!r}")
-
             tag.serialize_to(buf, with_type=False, with_name=False)
 
     @override
@@ -861,10 +851,7 @@ class ListNBT(NBTag):
         result = result if not include_name else {self.name: result}
         if include_schema:
             subschemas = [
-                cast(
-                    "tuple[PayloadType, FromObjectSchema]",
-                    tag.to_object(include_schema=True),
-                )[1]
+                cast("tuple[PayloadType, FromObjectSchema]", tag.to_object(include_schema=True))[1]
                 for tag in self.payload
             ]
             if len(result) == 0:
@@ -874,10 +861,13 @@ class ListNBT(NBTag):
             if all(schema == first for schema in subschemas):
                 return result, [first]
 
-            if not isinstance(first, (dict, list)):
+            # Useful tests but if they fail, this means `test_to_object_morecases` fails
+            # because they can only be triggered by a malfunction of to_object in a child class
+            # or the `validate` method
+            if not isinstance(first, (dict, list)):  # pragma: no cover
                 raise TypeError(f"The schema must contain either a dict or a list. Found {first!r}")
             # This will take care of ensuring either everything is a dict or a list
-            if not all(isinstance(schema, type(first)) for schema in subschemas):
+            if not all(isinstance(schema, type(first)) for schema in subschemas):  # pragma: no cover
                 raise TypeError(f"All items in the list must have the same type. Found {subschemas!r}")
             return result, subschemas
         return result
@@ -915,17 +905,6 @@ class CompoundNBT(NBTag):
         if not self.payload:
             EndNBT().serialize_to(buf, with_name=False, with_type=True)
             return
-        if not all(isinstance(tag, NBTag) for tag in self.payload):  # type: ignore # We want to check anyway
-            raise ValueError(
-                f"All items in a compound must be NBTags. Got {self.payload!r}.\n"
-                "Use NBTag.from_object() to convert objects to tags first."
-            )
-
-        if not all(tag.name for tag in self.payload):
-            raise ValueError(f"All tags in a compound must be named, got tags {self.payload!r}")
-
-        if len(self.payload) != len({tag.name for tag in self.payload}):  # Check for duplicate names
-            raise ValueError("All tags in a compound must have unique names.")
 
         for tag in self.payload:
             tag.serialize_to(buf)
@@ -1026,8 +1005,10 @@ class CompoundNBT(NBTag):
 
 
 @dataclass
-class _NumberArrayNBTag(NBTag):
+class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing an array of numbers."""
+
+    _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # type: ignore
     DATA_SIZE: ClassVar[int] = NotImplemented
@@ -1044,7 +1025,7 @@ class _NumberArrayNBTag(NBTag):
 
     @override
     @classmethod
-    def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> _NumberArrayNBTag:
+    def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> Self:
         name, tag_type = cls._read_header(buf, read_type=with_type, with_name=with_name)
         if _get_tag_type(cls) != tag_type:
             raise TypeError(f"Expected a {_get_tag_type(cls).name} tag, but found a different tag ({tag_type.name}).")
@@ -1119,8 +1100,6 @@ def _get_tag_type(tag: NBTag | type[NBTag]) -> NBTagType:
     """Get the tag type of an NBTag object or class."""
     cls = tag if isinstance(tag, type) else type(tag)
 
-    if cls is NBTag:
-        return NBTagType.COMPOUND
     for tag_type, tag_cls in ASSOCIATED_TYPES.items():
         if cls is tag_cls:
             return tag_type

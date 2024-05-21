@@ -69,6 +69,7 @@ sphinx-autodoc-typehints = ">=1.23,<3.0"
 sphinx-copybutton = "^0.5.2"
 furo = ">=2022.12.7"
 sphinxcontrib-towncrier = ">=0.3.2,<0.5.0"
+pytest = "^7.3.1" # Required to list the gen_test_serializable function in the docs
 
 [tool.poetry.group.docs-ci]
 optional = true
