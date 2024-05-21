@@ -1,9 +1,14 @@
+from __future__ import annotations
+
 import sys
+from typing import TYPE_CHECKING
 from unittest.mock import Mock
 
 import httpx
 import pytest
-from pytest_httpx import HTTPXMock
+
+if sys.version_info > (3, 9) or TYPE_CHECKING:
+    from pytest_httpx import HTTPXMock
 
 from mcproto.multiplayer import (
     JoinAcknowledgeData,
