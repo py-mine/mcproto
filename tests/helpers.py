@@ -4,7 +4,7 @@ import asyncio
 import inspect
 import unittest.mock
 from collections.abc import Callable, Coroutine
-from typing import Any, Dict, Generic, Tuple, TypeVar, cast
+from typing import Any, Generic, Literal, TypeVar, Union, cast, overload
 
 import pytest
 from typing_extensions import ParamSpec, override
@@ -168,12 +168,54 @@ class CustomMockMixin(UnpropagatingMockMixin):
         super().__init__(spec_set=self.spec_set, **kwargs)  # type: ignore # Mixin class, this __init__ is valid
 
 
+@overload
+def isexception(obj: type[Exception] | Exception) -> Literal[True]: ...  # type: ignore[reportOverlappingOverload]
+@overload
+def isexception(obj: Any) -> Literal[False]: ...
+
+
+def isexception(obj: Any) -> bool:
+    """Check if the object is an exception."""
+    return (isinstance(obj, type) and issubclass(obj, Exception)) or isinstance(obj, Exception)
+
+
+def check_exception_equality(raised: Exception, expected: type[Exception] | Exception) -> tuple[bool, str]:
+    """Check if two exceptions are equal (compatible).
+
+    This function is used to check if the raised exception is compatible with the expected one, meaning
+    that if Excepted is a type, the raised exception must be an instance of that type. If Expected is an instance
+    of an exception then the type must be equal, but also the message and the arguments must be equal.
+
+    :param raised: The raised exception.
+    :param expected: The expected exception.
+
+    :return: Whether the exceptions are compatible.
+    """
+    if isinstance(expected, type):
+        return isinstance(
+            raised, expected
+        ), f"Did not raise the expected exception: expected {expected!r}, got {raised!r}"
+
+    if type(raised) != type(expected):
+        return check_exception_equality(raised, type(expected))  # Reuse the message from the type check
+
+    if raised.args != expected.args:
+        return False, f"Raised exception has different arguments: expected {expected.args}, got {raised.args!r}"
+
+    if str(raised) != str(expected):
+        return False, f"Raised exception has different message: expected {expected}, got {raised}"
+
+    return True, ""
+
+
 def gen_serializable_test(
     context: dict[str, Any],
     cls: type[Serializable],
-    fields: list[tuple[str, type]],
+    fields: list[tuple[str, type | str]],
     test_data: list[
-        tuple[tuple[Any, ...], bytes] | tuple[tuple[Any, ...], type[Exception]] | tuple[type[Exception], bytes]
+        tuple[tuple[Any, ...], bytes]
+        | tuple[tuple[Any, ...], type[Exception] | Exception]
+        | tuple[type[Exception] | Exception, bytes]
     ],
 ):
     """Generate tests for a serializable class.
@@ -186,73 +228,41 @@ def gen_serializable_test(
     :param fields: A list of tuples containing the field names and types of the serializable class.
     :param test_data: A list of test data. Each element is a tuple containing either:
         - A tuple of parameters to pass to the serializable class constructor and the expected bytes after
-            serialization
+        serialization
         - A tuple of parameters to pass to the serializable class constructor and the expected exception during
-            validation
+        validation
         - An exception to expect during deserialization and the bytes to deserialize
 
     Example usage:
-    ```python
-    @final
-    @dataclass
-    class ToyClass(Serializable):
-        a: int
-        b: str
 
-        def serialize_to(self, buf: Buffer):
-            buf.write_varint(self.a)
-            buf.write_utf(self.b)
+    .. literalinclude:: /../tests/mcproto/utils/test_serializable.py
+        :start-after: # region ToyClass
+        :linenos:
+        :language: python
 
-        @classmethod
-        def deserialize(cls, buf: Buffer) -> "ToyClass":
-            a = buf.read_varint()
-            b = buf.read_utf()
-            if len(b) > 10:
-                raise ValueError("b must be less than 10 characters")
-            return cls(a, b)
-
-        def validate(self) -> None:
-            if self.a == 0:
-                raise ZeroDivisionError("a must be non-zero")
-
-    gen_serializable_test(
-        context=globals(),
-        cls=ToyClass,
-        fields=[("a", int), ("b", str)],
-        test_data=[
-            ((1, "hello"), b"\x01\x05hello"),
-            ((2, "world"), b"\x02\x05world"),
-            ((0, "hello"), ZeroDivisionError),
-            (IOError, b"\x01"), # Not enough data to deserialize
-            (ValueError, b"\x01\x0bhello world"), # 0b = 11 is too long
-        ],
-    )
-    ```
     This will add 1 class test with 4 test functions containing the tests for serialization, deserialization,
     validation, and deserialization error handling
-
-
     """
     # Separate the test data into parameters for each test function
     # This holds the parameters for the serialization and deserialization tests
     parameters: list[tuple[dict[str, Any], bytes]] = []
 
     # This holds the parameters for the validation tests
-    validation_fail: list[tuple[dict[str, Any], type[Exception]]] = []
+    validation_fail: list[tuple[dict[str, Any], type[Exception] | Exception]] = []
 
     # This holds the parameters for the deserialization error tests
-    deserialization_fail: list[tuple[bytes, type[Exception]]] = []
+    deserialization_fail: list[tuple[bytes, type[Exception] | Exception]] = []
 
     for data_or_exc, expected_bytes_or_exc in test_data:
         if isinstance(data_or_exc, tuple) and isinstance(expected_bytes_or_exc, bytes):
             kwargs = dict(zip([f[0] for f in fields], data_or_exc))
             parameters.append((kwargs, expected_bytes_or_exc))
-        elif isinstance(data_or_exc, type) and isinstance(expected_bytes_or_exc, bytes):
-            deserialization_fail.append((expected_bytes_or_exc, data_or_exc))
-        else:
-            data = cast(Tuple[Any, ...], data_or_exc)
-            exception = cast(type[Exception], expected_bytes_or_exc)
-            kwargs = dict(zip([f[0] for f in fields], data))
+        elif isexception(data_or_exc) and isinstance(expected_bytes_or_exc, bytes):
+            exception = cast(Union[type[Exception], Exception], data_or_exc)
+            deserialization_fail.append((expected_bytes_or_exc, exception))
+        elif isinstance(data_or_exc, tuple) and isexception(expected_bytes_or_exc):
+            exception = cast(Union[type[Exception], Exception], expected_bytes_or_exc)
+            kwargs = dict(zip([f[0] for f in fields], data_or_exc))
             validation_fail.append((kwargs, exception))
 
     def generate_name(param: dict[str, Any] | bytes, i: int) -> str:
@@ -260,14 +270,12 @@ def gen_serializable_test(
         length = 30
         result = f"{i:02d}] : "  # the first [ is added by pytest
         if isinstance(param, bytes):
-            try:
-                result += str(param[:length], "utf-8") + "..." if len(param) > (length + 3) else param.decode("utf-8")
-            except UnicodeDecodeError:
-                result += repr(param[:length]) + "..." if len(param) > (length + 3) else repr(param)
-        else:
-            param = cast(Dict[str, Any], param)
-            begin = ", ".join(f"{k}={v}" for k, v in param.items())
+            result += repr(param[:length]) + "..." if len(param) > (length + 3) else repr(param)
+        elif isinstance(param, dict):
+            begin = ", ".join(f"{k}={v!r}" for k, v in param.items())
             result += begin[:length] + "..." if len(begin) > (length + 3) else begin
+        else:
+            raise TypeError(f"Wrong type for param : {param!r}")
         result = result.replace("\n", "\\n").replace("\r", "\\r")
         result += f" [{cls.__name__}"  # the other [ is added by pytest
         return result
@@ -283,7 +291,7 @@ def gen_serializable_test(
         def test_serialization(self, kwargs: dict[str, Any], expected_bytes: bytes):
             """Test serialization of the object."""
             obj = cls(**kwargs)
-            serialized_bytes = obj.serialize()
+            serialized_bytes = bytes(obj.serialize())
             assert serialized_bytes == expected_bytes, f"{serialized_bytes} != {expected_bytes}"
 
         @pytest.mark.parametrize(
@@ -295,7 +303,21 @@ def gen_serializable_test(
             """Test deserialization of the object."""
             buf = Buffer(expected_bytes)
             obj = cls.deserialize(buf)
-            assert cls(**kwargs) == obj, f"{cls.__name__}({kwargs}) != {obj}"
+            equality = cls(**kwargs) == obj
+            error_message: list[str] = []
+            # Try to find the mismatched field
+            if not equality:
+                for field, value in kwargs.items():
+                    obj_val = getattr(obj, field, None)
+                    if obj_val is None:  # Either skip it, or it is intended to be None
+                        continue
+                    if obj_val != value:
+                        error_message.append(f"{field}={obj_val} != {value}")
+                        break
+            if error_message:
+                assert equality, f"Object not equal: {', '.join(error_message)}"
+            else:
+                assert equality, f"Object not equal: {obj} != {cls(**kwargs)} (expected)"
             assert buf.remaining == 0, f"Buffer has {buf.remaining} bytes remaining"
 
         @pytest.mark.parametrize(
@@ -303,21 +325,31 @@ def gen_serializable_test(
             validation_fail,
             ids=tuple(generate_name(kwargs, i) for i, (kwargs, _) in enumerate(validation_fail)),
         )
-        def test_validation(self, kwargs: dict[str, Any], exc: type[Exception]):
+        def test_validation(self, kwargs: dict[str, Any], exc: type[Exception] | Exception):
             """Test validation of the object."""
-            with pytest.raises(exc):
+            try:
                 cls(**kwargs)
+            except Exception as e:  # noqa: BLE001 # We do want to catch all exceptions
+                passed, message = check_exception_equality(e, exc)
+                assert passed, message
+            else:
+                raise AssertionError(f"Expected {exc} to be raised")
 
         @pytest.mark.parametrize(
             ("content", "exc"),
             deserialization_fail,
             ids=tuple(generate_name(content, i) for i, (content, _) in enumerate(deserialization_fail)),
         )
-        def test_deserialization_error(self, content: bytes, exc: type[Exception]):
+        def test_deserialization_error(self, content: bytes, exc: type[Exception] | Exception):
             """Test deserialization error handling."""
             buf = Buffer(content)
-            with pytest.raises(exc):
+            try:
                 cls.deserialize(buf)
+            except Exception as e:  # noqa: BLE001 # We do want to catch all exceptions
+                passed, message = check_exception_equality(e, exc)
+                assert passed, message
+            else:
+                raise AssertionError(f"Expected {exc} to be raised")
 
     if len(parameters) == 0:
         # If there are no serialization tests, remove them
@@ -336,4 +368,4 @@ def gen_serializable_test(
     TestClass.__name__ = f"TestGen{cls.__name__}"
 
     # Add the test functions to the global context
-    context[TestClass.__name__] = TestClass
+    context[TestClass.__name__] = TestClass  # BERK

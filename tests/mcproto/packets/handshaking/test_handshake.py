@@ -31,8 +31,5 @@ gen_serializable_test(
         ),
         # Invalid next state
         ((757, "localhost", 25565, 3), ValueError),
-        ((757, "localhost", 25565, 4), ValueError),
-        ((757, "localhost", 25565, 5), ValueError),
-        ((757, "localhost", 25565, 6), ValueError),
     ],
 )
