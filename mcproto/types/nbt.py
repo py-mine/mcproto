@@ -137,8 +137,8 @@ PayloadType: TypeAlias = Union[
     bytes,
     str,
     "NBTag",
-    Sequence["PayloadType"],
-    Mapping[str, "PayloadType"],
+    "Sequence[PayloadType]",
+    "Mapping[str, PayloadType]",
 ]
 """Represents the type of a payload that can be stored in an NBT tag."""
 
@@ -163,17 +163,17 @@ FromObjectType: TypeAlias = Union[
     float,
     bytes,
     str,
-    NBTagConvertible,
-    Sequence["FromObjectType"],
-    Mapping[str, "FromObjectType"],
+    "NBTagConvertible",
+    "Sequence[FromObjectType]",
+    "Mapping[str, FromObjectType]",
 ]
 """Represents any object holding some data that can be converted to an NBT tag(s)."""
 
 FromObjectSchema: TypeAlias = Union[
-    type["NBTag"],
-    type[NBTagConvertible],
-    Sequence["FromObjectSchema"],
-    Mapping[str, "FromObjectSchema"],
+    "type[NBTag]",
+    "type[NBTagConvertible]",
+    "Sequence[FromObjectSchema]",
+    "Mapping[str, FromObjectSchema]",
 ]
 """Represents the type of a schema, used to define how an object should be converted to an NBT tag(s)."""
 
@@ -967,7 +967,7 @@ class CompoundNBT(NBTag):
         ]
     ):
         result = {tag.name: tag.to_object() for tag in self.payload}
-        result = cast(Mapping[str, PayloadType], result)
+        result = cast("Mapping[str, PayloadType]", result)
         result = result if not include_name else {self.name: result}
         if include_schema:
             subschemas = {
