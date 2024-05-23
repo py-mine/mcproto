@@ -62,8 +62,3 @@ jobs:
           pr_number: ${{ steps.pr_info.outputs.pr_number }}
           pr_title: ${{ steps.pr_info.outputs.pr_title }}
           pr_source: ${{ steps.pr_info.outputs.pr_source }}
-
-          # And some additional details
-          actor: ${{ github.actor }}
-          repository: ${{ github.repository }}
-          ref: ${{ github.ref }}
