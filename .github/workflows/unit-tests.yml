@@ -20,7 +20,7 @@ jobs:
       fail-fast: false # Allows for matrix sub-jobs to fail without cancelling the rest
       matrix:
         platform: [ubuntu-latest, windows-latest]
-        python-version: ["3.8", "3.11"]
+        python-version: ["3.8", "3.12"]
 
     steps:
       - name: Checkout repository
