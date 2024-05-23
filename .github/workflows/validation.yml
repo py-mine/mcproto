@@ -1,3 +1,4 @@
+---
 name: Validation
 
 on: workflow_call

@@ -1,3 +1,4 @@
+---
 name: Status Embed
 
 on:
@@ -14,7 +15,7 @@ concurrency:
 
 jobs:
   status_embed:
-    name:  Send Status Embed to Discord
+    name: Send Status Embed to Discord
     runs-on: ubuntu-latest
     steps:
       # A workflow_run event does not contain all the information
@@ -45,7 +46,7 @@ jobs:
         uses: SebastiaanZ/github-status-embed-for-discord@v0.3.0
         with:
           # Our GitHub Actions webhook
-          webhook_id: '1051784242318815242'
+          webhook_id: "1051784242318815242"
           webhook_token: ${{ secrets.webhook_token }}
 
           # We need to provide the information of the workflow that
@@ -64,5 +65,5 @@ jobs:
 
           # And some additional details
           actor: ${{ github.actor }}
-          repository:  ${{ github.repository }}
+          repository: ${{ github.repository }}
           ref: ${{ github.ref }}
