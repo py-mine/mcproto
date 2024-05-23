@@ -1,16 +1,6 @@
 name: Unit-Tests
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-  workflow_dispatch:
-
-# Cancel already running workflows if new ones are scheduled
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+on: workflow_call
 
 jobs:
   unit-tests:
