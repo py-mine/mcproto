@@ -20,7 +20,7 @@ jobs:
     steps:
       # A workflow_run event does not contain all the information
       # we need for a PR embed. That's why we upload an artifact
-      # with that information in the Lint workflow.
+      # with that information in the CI workflow.
       - name: Get Pull Request Information
         id: pr_info
         if: github.event.workflow_run.event == 'pull_request'
