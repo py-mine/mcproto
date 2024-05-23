@@ -1,15 +1,6 @@
 name: Validation
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-  workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+on: workflow_call
 
 env:
   PRE_COMMIT_HOME: "/home/runner/.cache/pre-commit"
