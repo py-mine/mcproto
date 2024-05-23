@@ -4,8 +4,7 @@ name: Status Embed
 on:
   workflow_run:
     workflows:
-      - Validation
-      - Unit-Tests
+      - CI
     types:
       - completed
 
