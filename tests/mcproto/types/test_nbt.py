@@ -30,9 +30,11 @@ gen_serializable_test(
     context=globals(),
     cls=EndNBT,
     fields=[],
-    test_data=[
+    serialize_deserialize=[
         ((), b"\x00"),
-        (IOError, b"\x01"),
+    ],
+    deserialization_fail=[
+        (b"\x01", IOError),
     ],
 )
 
@@ -44,20 +46,24 @@ gen_serializable_test(
     context=globals(),
     cls=ByteNBT,
     fields=[("payload", int), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         ((0, "a"), b"\x01\x00\x01a\x00"),
         ((1, "test"), b"\x01\x00\x04test\x01"),
         ((127, "&à@é"), b"\x01\x00\x06" + bytes("&à@é", "utf-8") + b"\x7f"),
         ((-128, "test"), b"\x01\x00\x04test\x80"),
         ((-1, "a" * 100), b"\x01\x00\x64" + b"a" * 100 + b"\xff"),
+    ],
+    deserialization_fail=[
         # Errors
-        (IOError, b"\x01\x00\x04test"),
-        (IOError, b"\x01\x00\x04tes"),
-        (IOError, b"\x01\x00"),
-        (IOError, b"\x01"),
+        (b"\x01\x00\x04test", IOError),
+        (b"\x01\x00\x04tes", IOError),
+        (b"\x01\x00", IOError),
+        (b"\x01", IOError),
         # Wrong type
-        (TypeError, b"\x02\x00\x01a\x00"),
-        (TypeError, b"\xff\x00\x01a\x00"),
+        (b"\x02\x00\x01a\x00", TypeError),
+        (b"\xff\x00\x01a\x00", TypeError),
+    ],
+    validation_fail=[
         # Out of bounds
         ((1 << 7, "a"), OverflowError),
         ((-(1 << 7) - 1, "a"), OverflowError),
@@ -72,17 +78,21 @@ gen_serializable_test(
     context=globals(),
     cls=ShortNBT,
     fields=[("payload", int), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         ((0, "a"), b"\x02\x00\x01a\x00\x00"),
         ((1, "test"), b"\x02\x00\x04test\x00\x01"),
         ((32767, "&à@é"), b"\x02\x00\x06" + bytes("&à@é", "utf-8") + b"\x7f\xff"),
         ((-32768, "test"), b"\x02\x00\x04test\x80\x00"),
         ((-1, "a" * 100), b"\x02\x00\x64" + b"a" * 100 + b"\xff\xff"),
+    ],
+    deserialization_fail=[
         # Errors
-        (IOError, b"\x02\x00\x04test"),
-        (IOError, b"\x02\x00\x04tes"),
-        (IOError, b"\x02\x00"),
-        (IOError, b"\x02"),
+        (b"\x02\x00\x04test", IOError),
+        (b"\x02\x00\x04tes", IOError),
+        (b"\x02\x00", IOError),
+        (b"\x02", IOError),
+    ],
+    validation_fail=[
         # Out of bounds
         ((1 << 15, "a"), OverflowError),
         ((-(1 << 15) - 1, "a"), OverflowError),
@@ -96,17 +106,21 @@ gen_serializable_test(
     context=globals(),
     cls=IntNBT,
     fields=[("payload", int), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         ((0, "a"), b"\x03\x00\x01a\x00\x00\x00\x00"),
         ((1, "test"), b"\x03\x00\x04test\x00\x00\x00\x01"),
         ((2147483647, "&à@é"), b"\x03\x00\x06" + bytes("&à@é", "utf-8") + b"\x7f\xff\xff\xff"),
         ((-2147483648, "test"), b"\x03\x00\x04test\x80\x00\x00\x00"),
         ((-1, "a" * 100), b"\x03\x00\x64" + b"a" * 100 + b"\xff\xff\xff\xff"),
+    ],
+    deserialization_fail=[
         # Errors
-        (IOError, b"\x03\x00\x04test"),
-        (IOError, b"\x03\x00\x04tes"),
-        (IOError, b"\x03\x00"),
-        (IOError, b"\x03"),
+        (b"\x03\x00\x04test", IOError),
+        (b"\x03\x00\x04tes", IOError),
+        (b"\x03\x00", IOError),
+        (b"\x03", IOError),
+    ],
+    validation_fail=[
         # Out of bounds
         ((1 << 31, "a"), OverflowError),
         ((-(1 << 31) - 1, "a"), OverflowError),
@@ -120,17 +134,21 @@ gen_serializable_test(
     context=globals(),
     cls=LongNBT,
     fields=[("payload", int), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         ((0, "a"), b"\x04\x00\x01a\x00\x00\x00\x00\x00\x00\x00\x00"),
         ((1, "test"), b"\x04\x00\x04test\x00\x00\x00\x00\x00\x00\x00\x01"),
         (((1 << 63) - 1, "&à@é"), b"\x04\x00\x06" + bytes("&à@é", "utf-8") + b"\x7f\xff\xff\xff\xff\xff\xff\xff"),
         ((-1 << 63, "test"), b"\x04\x00\x04test\x80\x00\x00\x00\x00\x00\x00\x00"),
         ((-1, "a" * 100), b"\x04\x00\x64" + b"a" * 100 + b"\xff\xff\xff\xff\xff\xff\xff\xff"),
+    ],
+    deserialization_fail=[
         # Errors
-        (IOError, b"\x04\x00\x04test"),
-        (IOError, b"\x04\x00\x04tes"),
-        (IOError, b"\x04\x00"),
-        (IOError, b"\x04"),
+        (b"\x04\x00\x04test", IOError),
+        (b"\x04\x00\x04tes", IOError),
+        (b"\x04\x00", IOError),
+        (b"\x04", IOError),
+    ],
+    validation_fail=[
         # Out of bounds
         ((1 << 63, "a"), OverflowError),
         ((-(1 << 63) - 1, "a"), OverflowError),
@@ -139,23 +157,28 @@ gen_serializable_test(
     ],
 )
 
+
 # endregion
 # region Floating point NBT tests
 gen_serializable_test(
     context=globals(),
     cls=FloatNBT,
     fields=[("payload", float), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         ((1.0, "a"), b"\x05\x00\x01a" + bytes(struct.pack(">f", 1.0))),
         ((0.5, "test"), b"\x05\x00\x04test" + bytes(struct.pack(">f", 0.5))),  # has to be convertible to float exactly
         ((-1.0, "&à@é"), b"\x05\x00\x06" + bytes("&à@é", "utf-8") + bytes(struct.pack(">f", -1.0))),
         ((12.0, "a" * 100), b"\x05\x00\x64" + b"a" * 100 + bytes(struct.pack(">f", 12.0))),
         ((1, "a"), b"\x05\x00\x01a" + bytes(struct.pack(">f", 1.0))),
+    ],
+    deserialization_fail=[
         # Errors
-        (IOError, b"\x05\x00\x04test"),
-        (IOError, b"\x05\x00\x04tes"),
-        (IOError, b"\x05\x00"),
-        (IOError, b"\x05"),
+        (b"\x05\x00\x04test", IOError),
+        (b"\x05\x00\x04tes", IOError),
+        (b"\x05\x00", IOError),
+        (b"\x05", IOError),
+    ],
+    validation_fail=[
         # Wrong type
         (("1.5", "a"), TypeError),
     ],
@@ -165,26 +188,29 @@ gen_serializable_test(
     context=globals(),
     cls=DoubleNBT,
     fields=[("payload", float), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         ((1.0, "a"), b"\x06\x00\x01a" + bytes(struct.pack(">d", 1.0))),
         ((3.14, "test"), b"\x06\x00\x04test" + bytes(struct.pack(">d", 3.14))),
         ((-1.0, "&à@é"), b"\x06\x00\x06" + bytes("&à@é", "utf-8") + bytes(struct.pack(">d", -1.0))),
         ((12.0, "a" * 100), b"\x06\x00\x64" + b"a" * 100 + bytes(struct.pack(">d", 12.0))),
+    ],
+    deserialization_fail=[
         # Errors
-        (IOError, b"\x06\x00\x04test\x01"),
-        (IOError, b"\x06\x00\x04test"),
-        (IOError, b"\x06\x00\x04tes"),
-        (IOError, b"\x06\x00"),
-        (IOError, b"\x06"),
+        (b"\x06\x00\x04test\x01", IOError),
+        (b"\x06\x00\x04test", IOError),
+        (b"\x06\x00\x04tes", IOError),
+        (b"\x06\x00", IOError),
+        (b"\x06", IOError),
     ],
 )
+
 # endregion
 # region Variable Length NBT tests
 gen_serializable_test(
     context=globals(),
     cls=ByteArrayNBT,
     fields=[("payload", bytes), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         ((b"", "a"), b"\x07\x00\x01a\x00\x00\x00\x00"),
         ((b"\x00", "test"), b"\x07\x00\x04test\x00\x00\x00\x01\x00"),
         ((b"\x00\x01", "&à@é"), b"\x07\x00\x06" + bytes("&à@é", "utf-8") + b"\x00\x00\x00\x02\x00\x01"),
@@ -192,15 +218,19 @@ gen_serializable_test(
         ((b"\xff" * 1024, "a" * 100), b"\x07\x00\x64" + b"a" * 100 + b"\x00\x00\x04\x00" + b"\xff" * 1024),
         ((b"Hello World", "test"), b"\x07\x00\x04test\x00\x00\x00\x0b" + b"Hello World"),
         ((bytearray(b"Hello World"), "test"), b"\x07\x00\x04test\x00\x00\x00\x0b" + b"Hello World"),
+    ],
+    deserialization_fail=[
         # Errors
-        (IOError, b"\x07\x00\x04test"),
-        (IOError, b"\x07\x00\x04tes"),
-        (IOError, b"\x07\x00"),
-        (IOError, b"\x07"),
-        (IOError, b"\x07\x00\x01a\x00\x01"),
-        (IOError, b"\x07\x00\x01a\x00\x00\x00\xff"),
+        (b"\x07\x00\x04test", IOError),
+        (b"\x07\x00\x04tes", IOError),
+        (b"\x07\x00", IOError),
+        (b"\x07", IOError),
+        (b"\x07\x00\x01a\x00\x01", IOError),
+        (b"\x07\x00\x01a\x00\x00\x00\xff", IOError),
         # Negative length
-        (ValueError, b"\x07\x00\x01a\xff\xff\xff\xff"),
+        (b"\x07\x00\x01a\xff\xff\xff\xff", ValueError),
+    ],
+    validation_fail=[
         # Wrong type
         ((1, "a"), TypeError),
     ],
@@ -210,20 +240,24 @@ gen_serializable_test(
     context=globals(),
     cls=StringNBT,
     fields=[("payload", str), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         (("", "a"), b"\x08\x00\x01a\x00\x00"),
         (("test", "a"), b"\x08\x00\x01a\x00\x04" + b"test"),
         (("a" * 100, "&à@é"), b"\x08\x00\x06" + bytes("&à@é", "utf-8") + b"\x00\x64" + b"a" * 100),
         (("&à@é", "test"), b"\x08\x00\x04test\x00\x06" + bytes("&à@é", "utf-8")),
+    ],
+    deserialization_fail=[
         # Errors
-        (IOError, b"\x08\x00\x04test"),
-        (IOError, b"\x08\x00\x04tes"),
-        (IOError, b"\x08\x00"),
-        (IOError, b"\x08"),
-        # Negative length
-        (ValueError, b"\x08\xff\xff\xff\xff"),
+        (b"\x08\x00\x04test", IOError),
+        (b"\x08\x00\x04tes", IOError),
+        (b"\x08\x00", IOError),
+        (b"\x08", IOError),
         # Unicode decode error
-        (UnicodeDecodeError, b"\x08\x00\x01a\x00\x01\xff"),
+        (b"\x08\x00\x01a\x00\x01\xff", UnicodeDecodeError),
+        (b"\x08\xff\xff\xff\xff", ValueError),
+    ],
+    validation_fail=[
+        # Negative length
         # String too long
         (("a" * 32768, "b"), ValueError),
         # Wrong type
@@ -237,8 +271,7 @@ gen_serializable_test(
     context=globals(),
     cls=ListNBT,
     fields=[("payload", list), ("name", str)],
-    test_data=[
-        # Here we only want to test ListNBT related stuff
+    serialize_deserialize=[
         (([], "a"), b"\x09\x00\x01a\x00\x00\x00\x00\x00"),
         (([ByteNBT(-1)], "a"), b"\x09\x00\x01a\x01\x00\x00\x00\x01\xff"),
         (([ListNBT([])], "a"), b"\x09\x00\x01a\x09\x00\x00\x00\x01" + ListNBT([]).serialize()[1:]),
@@ -255,15 +288,18 @@ gen_serializable_test(
             + ListNBT([ByteNBT(-1)]).serialize()[1:]
             + ListNBT([IntNBT(128), IntNBT(8)]).serialize()[1:],
         ),
-        # Errors
+    ],
+    deserialization_fail=[
         # Not enough data
-        (IOError, b"\x09\x00\x01a"),
-        (IOError, b"\x09\x00\x01a\x01"),
-        (IOError, b"\x09\x00\x01a\x01\x00"),
-        (IOError, b"\x09\x00\x01a\x01\x00\x00\x00\x01"),
-        (IOError, b"\x09\x00\x01a\x01\x00\x00\x00\x03\x01"),
+        (b"\x09\x00\x01a", IOError),
+        (b"\x09\x00\x01a\x01", IOError),
+        (b"\x09\x00\x01a\x01\x00", IOError),
+        (b"\x09\x00\x01a\x01\x00\x00\x00\x01", IOError),
+        (b"\x09\x00\x01a\x01\x00\x00\x00\x03\x01", IOError),
         # Invalid tag type
-        (TypeError, b"\x09\x00\x01a\xff\x00\x00\x01\x00"),
+        (b"\x09\x00\x01a\xff\x00\x00\x01\x00", TypeError),
+    ],
+    validation_fail=[
         # Not NBTags
         (([1, 2, 3], "a"), TypeError),
         # Not the same tag type
@@ -279,7 +315,7 @@ gen_serializable_test(
     context=globals(),
     cls=CompoundNBT,
     fields=[("payload", list), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         (([], "a"), b"\x0a\x00\x01a\x00"),
         (([ByteNBT(0, name="Byte")], "a"), b"\x0a\x00\x01a" + ByteNBT(0, name="Byte").serialize() + b"\x00"),
         (
@@ -294,15 +330,18 @@ gen_serializable_test(
             ([ListNBT([ByteNBT(0)] * 3, name="List")], "a"),
             b"\x0a\x00\x01a" + ListNBT([ByteNBT(0)] * 3, name="List").serialize() + b"\x00",
         ),
-        # Errors
+    ],
+    deserialization_fail=[
         # Not enough data
-        (IOError, b"\x0a\x00\x01a"),
-        (IOError, b"\x0a\x00\x01a\x01"),
-        # All muse be NBTags
+        (b"\x0a\x00\x01a", IOError),
+        (b"\x0a\x00\x01a\x01", IOError),
+    ],
+    validation_fail=[
+        # All must be NBTags
         (([0, 1, 2], "a"), TypeError),
         # All with a name
         (([ByteNBT(0)], "a"), ValueError),
-        # Must be unique
+        # Names must be unique
         (([ByteNBT(0, name="Byte"), ByteNBT(0, name="Byte")], "a"), ValueError),
         # Wrong type
         ((1, "a"), TypeError),
@@ -313,19 +352,22 @@ gen_serializable_test(
     context=globals(),
     cls=IntArrayNBT,
     fields=[("payload", list), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         (([], "a"), b"\x0b\x00\x01a\x00\x00\x00\x00"),
         (([0], "a"), b"\x0b\x00\x01a\x00\x00\x00\x01\x00\x00\x00\x00"),
         (([0, 1], "a"), b"\x0b\x00\x01a\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x01"),
         (([1, 2, 3], "a"), b"\x0b\x00\x01a\x00\x00\x00\x03\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x03"),
         (([(1 << 31) - 1], "a"), b"\x0b\x00\x01a\x00\x00\x00\x01\x7f\xff\xff\xff"),
         (([-1, -2, -3], "a"), b"\x0b\x00\x01a\x00\x00\x00\x03\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xfd"),
-        # Errors
+    ],
+    deserialization_fail=[
         # Not enough data
-        (IOError, b"\x0b\x00\x01a"),
-        (IOError, b"\x0b\x00\x01a\x01"),
-        (IOError, b"\x0b\x00\x01a\x00\x00\x00\x01"),
-        (IOError, b"\x0b\x00\x01a\x00\x00\x00\x03\x01"),
+        (b"\x0b\x00\x01a", IOError),
+        (b"\x0b\x00\x01a\x01", IOError),
+        (b"\x0b\x00\x01a\x00\x00\x00\x01", IOError),
+        (b"\x0b\x00\x01a\x00\x00\x00\x03\x01", IOError),
+    ],
+    validation_fail=[
         # Must contain ints only
         ((["a"], "a"), TypeError),
         (([IntNBT(0)], "a"), TypeError),
@@ -335,11 +377,12 @@ gen_serializable_test(
         ((1, "a"), TypeError),
     ],
 )
+
 gen_serializable_test(
     context=globals(),
     cls=LongArrayNBT,
     fields=[("payload", list), ("name", str)],
-    test_data=[
+    serialize_deserialize=[
         (([], "a"), b"\x0c\x00\x01a\x00\x00\x00\x00"),
         (([0], "a"), b"\x0c\x00\x01a\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00"),
         (
@@ -351,12 +394,16 @@ gen_serializable_test(
             ([-1, -2], "a"),
             b"\x0c\x00\x01a\x00\x00\x00\x02\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe",
         ),
+    ],
+    deserialization_fail=[
         # Not enough data
-        (IOError, b"\x0c\x00\x01a"),
-        (IOError, b"\x0c\x00\x01a\x01"),
-        (IOError, b"\x0c\x00\x01a\x00\x00\x00\x01"),
-        (IOError, b"\x0c\x00\x01a\x00\x00\x00\x03\x01"),
-        # Must contain ints only
+        (b"\x0c\x00\x01a", IOError),
+        (b"\x0c\x00\x01a\x01", IOError),
+        (b"\x0c\x00\x01a\x00\x00\x00\x01", IOError),
+        (b"\x0c\x00\x01a\x00\x00\x00\x03\x01", IOError),
+    ],
+    validation_fail=[
+        # Must contain longs only
         ((["a"], "a"), TypeError),
         (([LongNBT(0)], "a"), TypeError),
         (([1 << 63], "a"), OverflowError),

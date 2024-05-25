@@ -53,7 +53,7 @@ gen_serializable_test(
     context=globals(),
     cls=ChatMessage,
     fields=[("raw", RawChatMessage)],
-    test_data=[
+    serialize_deserialize=[
         (
             ("A Minecraft Server",),
             bytes.fromhex("142241204d696e6563726166742053657276657222"),
@@ -66,6 +66,8 @@ gen_serializable_test(
             ([{"text": "abc"}, {"text": "def"}],),
             bytes.fromhex("225b7b2274657874223a2022616263227d2c207b2274657874223a2022646566227d5d"),
         ),
+    ],
+    validation_fail=[
         # Wrong type for raw
         ((b"invalid",), TypeError),
         (({"no_extra_or_text": "invalid"},), AttributeError),

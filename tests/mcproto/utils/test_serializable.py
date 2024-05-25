@@ -1,11 +1,21 @@
 from __future__ import annotations
 
-from typing import cast, final
+from typing import Any, cast, final
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.utils.abc import Serializable, define
-from tests.helpers import gen_serializable_test
+from tests.helpers import gen_serializable_test, TestExc
+
+
+class CustomError(Exception):
+    """Custom exception for testing."""
+
+    additional_data: Any
+
+    def __init__(self, message: str, additional_data: Any):
+        super().__init__(message)
+        self.additional_data = additional_data
 
 
 # region ToyClass
@@ -37,7 +47,7 @@ class ToyClass(Serializable):
         """Deserialize the object from a buffer."""
         a = buf.read_varint()
         if a == 0:
-            raise ZeroDivisionError("a must be non-zero")
+            raise CustomError("a must be non-zero", additional_data=a)
         b = buf.read_utf()
         return cls(a, b)
 
@@ -51,26 +61,30 @@ class ToyClass(Serializable):
             raise ValueError("b must be less than 10 characters")
 
 
-# endregion
+# endregion ToyClass
 
 # region Test ToyClass
 gen_serializable_test(
     context=globals(),
     cls=ToyClass,
     fields=[("a", int), ("b", str)],
-    test_data=[
+    serialize_deserialize=[
         ((1, "hello"), b"\x01\x05hello"),
         ((2, "world"), b"\x02\x05world"),
         ((3, 1234567890), b"\x03\x0a1234567890"),
-        ((0, "hello"), ZeroDivisionError("a must be non-zero")),  # Message specified
+    ],
+    validation_fail=[
+        ((0, "hello"), TestExc(ZeroDivisionError, "a must be non-zero")),  # Message specified
         ((1, "hello world"), ValueError),  # No message specified
-        ((1, 12345678900), ValueError("b must be less than .*")),  # Message specified with regex
-        (ZeroDivisionError, b"\x00"),
-        (ZeroDivisionError, b"\x00\x05hello"),
-        (IOError, b"\x01"),
+        ((1, 12345678900), TestExc(ValueError, "b must be less than .*")),  # Message regex
+    ],
+    deserialization_fail=[
+        (b"\x00", CustomError),  # No message specified
+        (b"\x00\x05hello", TestExc(CustomError, "a must be non-zero", {"additional_data": 0})),  # Check fields
+        (b"\x01", TestExc(IOError)),  # No message specified
     ],
 )
-# endregion
+# endregion Test ToyClass
 
 
 if __name__ == "__main__":

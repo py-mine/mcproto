@@ -7,7 +7,7 @@ gen_serializable_test(
     context=globals(),
     cls=PingPong,
     fields=[("payload", int)],
-    test_data=[
+    serialize_deserialize=[
         (
             (2806088,),
             bytes.fromhex("00000000002ad148"),
