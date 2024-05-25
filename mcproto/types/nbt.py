@@ -9,7 +9,7 @@ from typing_extensions import TypeAlias, override, Self
 
 from mcproto.buffer import Buffer
 from mcproto.protocol.base_io import StructFormat, INT_FORMATS_TYPE, FLOAT_FORMATS_TYPE
-from mcproto.types.abc import MCType, dataclass
+from mcproto.types.abc import MCType, define
 from mcproto.utils.abc import RequiredParamsABCMixin
 
 __all__ = [
@@ -188,7 +188,7 @@ class NBTag(MCType, NBTagConvertible):
 
     __slots__ = ("name", "payload")
 
-    @override
+    @override  # Add some extra kwargs to control serialization
     def serialize(self, with_type: bool = True, with_name: bool = True) -> Buffer:
         """Serialize the NBT tag to a new buffer.
 
@@ -468,7 +468,7 @@ class NBTag(MCType, NBTagConvertible):
 
 
 @final
-@dataclass
+@define
 class EndNBT(NBTag):
     """Sentinel tag used to mark the end of a TAG_Compound."""
 
@@ -499,7 +499,7 @@ class EndNBT(NBTag):
         return NotImplemented
 
 
-@dataclass
+@define
 class _NumberNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing a number.
 
@@ -549,6 +549,7 @@ class _NumberNBTag(NBTag, RequiredParamsABCMixin):
         return self.payload
 
 
+@final
 class ByteNBT(_NumberNBTag):
     """NBT tag representing a single byte value, represented as a signed 8-bit integer."""
 
@@ -558,6 +559,7 @@ class ByteNBT(_NumberNBTag):
     __slots__ = ()
 
 
+@final
 class ShortNBT(_NumberNBTag):
     """NBT tag representing a short value, represented as a signed 16-bit integer."""
 
@@ -567,6 +569,7 @@ class ShortNBT(_NumberNBTag):
     __slots__ = ()
 
 
+@final
 class IntNBT(_NumberNBTag):
     """NBT tag representing an integer value, represented as a signed 32-bit integer."""
 
@@ -576,6 +579,7 @@ class IntNBT(_NumberNBTag):
     __slots__ = ()
 
 
+@final
 class LongNBT(_NumberNBTag):
     """NBT tag representing a long value, represented as a signed 64-bit integer."""
 
@@ -585,7 +589,7 @@ class LongNBT(_NumberNBTag):
     __slots__ = ()
 
 
-@dataclass
+@define
 class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing a floating-point number."""
 
@@ -596,6 +600,12 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
 
     payload: float
     name: str = ""
+
+    @override
+    def __attrs_post_init__(self) -> None:
+        if isinstance(self.payload, int):
+            self.payload = float(self.payload)
+        return super().__attrs_post_init__()
 
     @override
     def serialize_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
@@ -627,11 +637,6 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
         if not isinstance(self.payload, (int, float)):  # type: ignore # We want to check anyway
             raise TypeError(f"Expected a float, but found {type(self.payload).__name__}.")
 
-    @override
-    def transform(self) -> None:
-        if isinstance(self.payload, int):
-            self.payload = float(self.payload)
-
 
 @final
 class FloatNBT(_FloatingNBTag):
@@ -653,12 +658,18 @@ class DoubleNBT(_FloatingNBTag):
     __slots__ = ()
 
 
-@dataclass
+@define
 class ByteArrayNBT(NBTag):
     """NBT tag representing an array of bytes. The length of the array is stored as a signed 32-bit integer."""
 
     payload: bytes
     name: str = ""
+
+    @override
+    def __attrs_post_init__(self) -> None:
+        if isinstance(self.payload, bytearray):
+            self.payload = bytes(self.payload)
+        return super().__attrs_post_init__()
 
     @override
     def serialize_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
@@ -709,13 +720,8 @@ class ByteArrayNBT(NBTag):
         if not isinstance(self.payload, (bytearray, bytes)):
             raise TypeError(f"Expected a bytes, but found {type(self.payload).__name__}.")
 
-    @override
-    def transform(self) -> None:
-        if isinstance(self.payload, bytearray):
-            self.payload = bytes(self.payload)
 
-
-@dataclass
+@define
 class StringNBT(NBTag):
     """NBT tag representing an UTF-8 string value. The length of the string is stored as a signed 16-bit integer."""
 
@@ -774,7 +780,7 @@ class StringNBT(NBTag):
             raise ValueError("Invalid UTF-8 string.") from exc
 
 
-@dataclass
+@define
 class ListNBT(NBTag):
     """NBT tag representing a list of tags. All tags in the list must be of the same type."""
 
@@ -892,7 +898,7 @@ class ListNBT(NBTag):
             raise ValueError("All tags in a list must be unnamed.")
 
 
-@dataclass
+@define
 class CompoundNBT(NBTag):
     """NBT tag representing a compound of named tags."""
 
@@ -1004,7 +1010,7 @@ class CompoundNBT(NBTag):
             raise ValueError("All tags in a compound must have unique names.")
 
 
-@dataclass
+@define
 class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing an array of numbers."""
 

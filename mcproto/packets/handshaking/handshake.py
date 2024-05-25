@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
-from mcproto.utils.abc import dataclass
+from mcproto.utils.abc import define
 
 __all__ = [
     "NextState",
@@ -24,7 +24,7 @@ class NextState(IntEnum):
 
 
 @final
-@dataclass
+@define
 class Handshake(ServerBoundPacket):
     """Initializes connection between server and client. (Client -> Server).
 
@@ -45,9 +45,16 @@ class Handshake(ServerBoundPacket):
     next_state: NextState | int
 
     @override
+    def __attrs_post_init__(self) -> None:
+        if not isinstance(self.next_state, NextState):
+            self.next_state = NextState(self.next_state)
+
+        super().__attrs_post_init__()
+
+    @override
     def serialize_to(self, buf: Buffer) -> None:
         """Serialize the packet."""
-        self.next_state = cast(NextState, self.next_state)  # Handled by the transform method
+        self.next_state = cast(NextState, self.next_state)  # Handled by the __attrs_post_init__ method
         buf.write_varint(self.protocol_version)
         buf.write_utf(self.server_address)
         buf.write_value(StructFormat.USHORT, self.server_port)
@@ -69,8 +76,3 @@ class Handshake(ServerBoundPacket):
             rev_lookup = {x.value: x for x in NextState.__members__.values()}
             if self.next_state not in rev_lookup:
                 raise ValueError("No such next_state.")
-
-    @override
-    def transform(self) -> None:
-        """Get the next state enum from the integer value."""
-        self.next_state = NextState(self.next_state)

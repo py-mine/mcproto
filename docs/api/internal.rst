@@ -7,6 +7,7 @@ should not be used externally**, as we do not guarantee their backwards compatib
 may be introduced between patch versions without any warnings.
 
 .. automodule:: mcproto.utils.abc
+    :exclude-members: define
 
 .. autofunction:: tests.helpers.gen_serializable_test
 ..
