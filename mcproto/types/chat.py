@@ -6,7 +6,7 @@ from typing import TypedDict, Union, final
 from typing_extensions import Self, TypeAlias, override
 
 from mcproto.buffer import Buffer
-from mcproto.types.abc import MCType, dataclass
+from mcproto.types.abc import MCType, define
 
 __all__ = [
     "ChatMessage",
@@ -33,12 +33,14 @@ class RawChatMessageDict(TypedDict, total=False):
 RawChatMessage: TypeAlias = Union[RawChatMessageDict, "list[RawChatMessageDict]", str]
 
 
-@dataclass
 @final
+@define
 class ChatMessage(MCType):
     """Minecraft chat message representation."""
 
     raw: RawChatMessage
+
+    __slots__ = ("raw",)
 
     def as_dict(self) -> RawChatMessageDict:
         """Convert received ``raw`` into a stadard :class:`dict` form."""

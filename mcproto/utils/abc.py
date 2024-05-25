@@ -1,25 +1,16 @@
 from __future__ import annotations
 
-import sys
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from dataclasses import dataclass as _dataclass
-from functools import partial
-from typing import Any, ClassVar, TYPE_CHECKING
+from attrs import define
+from typing import Any, ClassVar
 
 from typing_extensions import Self
 
 from mcproto.buffer import Buffer
 
-__all__ = ["RequiredParamsABCMixin", "Serializable", "dataclass"]
 
-if TYPE_CHECKING:
-    dataclass = _dataclass  # The type checker needs
-
-if sys.version_info >= (3, 10):
-    dataclass = partial(_dataclass, slots=True)
-else:
-    dataclass = _dataclass
+__all__ = ["RequiredParamsABCMixin", "Serializable", "define"]
 
 
 class RequiredParamsABCMixin:
@@ -83,10 +74,17 @@ class Serializable(ABC):
 
     __slots__ = ()
 
-    def __post_init__(self) -> None:
-        """Run the validation method after the object is initialized."""
+    def __attrs_post_init__(self) -> None:
+        """Run the validation method after the object is initialized.
+
+        This function is responsible for conversion/transformation of given values right after initialization (often
+        for example to convert an int initialization param into a specific enum variant)
+
+        .. note::
+            If you override this method, make sure to call the superclass method at some point to ensure that the
+            validation is run.
+        """
         self.validate()
-        self.transform()
 
     def serialize(self) -> Buffer:
         """Represent the object as a :class:`~mcproto.Buffer` (transmittable sequence of bytes)."""
@@ -99,29 +97,13 @@ class Serializable(ABC):
         """Write the object to a :class:`~mcproto.Buffer`."""
         raise NotImplementedError
 
-    def transform(self) -> None:
-        """Apply a transformation to the payload of the object.
-
-        This can be used to convert an int to an enum. This method is called during the initialization,
-        after the validation method. By default, this method does nothing. Override it in your subclass
-        to add transformation logic.
-
-        This method should not raise any exception.
-
-        .. note::
-            This method is not called during serialization, any modifications made to the payload will have to
-            call this method manually to apply the transformation if needed.
-        """
-        return
-
     def validate(self) -> None:
         """Validate the object's attributes, raising an exception if they are invalid.
 
         By default, this method does nothing. Override it in your subclass to add validation logic.
 
         .. note::
-            This method is called before :meth:`~mcproto.utils.abc.Serializable.transform`, so it must not rely
-            on any transformations made by that method.
+            This method is called by :meth:`~mcproto.utils.abc.Serializable.__attrs_post_init__`
         """
         return
 

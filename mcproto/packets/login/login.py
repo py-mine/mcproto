@@ -11,7 +11,7 @@ from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
 from mcproto.types.chat import ChatMessage
 from mcproto.types.uuid import UUID
-from mcproto.utils.abc import dataclass
+from mcproto.utils.abc import define
 
 __all__ = [
     "LoginDisconnect",
@@ -26,7 +26,7 @@ __all__ = [
 
 
 @final
-@dataclass
+@define
 class LoginStart(ServerBoundPacket):
     """Packet from client asking to start login process. (Client -> Server).
 
@@ -56,7 +56,7 @@ class LoginStart(ServerBoundPacket):
 
 
 @final
-@dataclass
+@define
 class LoginEncryptionRequest(ClientBoundPacket):
     """Used by the server to ask the client to encrypt the login process. (Server -> Client).
 
@@ -73,6 +73,13 @@ class LoginEncryptionRequest(ClientBoundPacket):
     public_key: RSAPublicKey
     verify_token: bytes
     server_id: str | None = None
+
+    @override
+    def __attrs_post_init__(self) -> None:
+        if self.server_id is None:
+            self.server_id = " " * 20
+
+        super().__attrs_post_init__()
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -96,14 +103,9 @@ class LoginEncryptionRequest(ClientBoundPacket):
 
         return cls(server_id=server_id, public_key=public_key, verify_token=verify_token)
 
-    @override
-    def transform(self) -> None:
-        if self.server_id is None:
-            self.server_id = " " * 20
-
 
 @final
-@dataclass
+@define
 class LoginEncryptionResponse(ServerBoundPacket):
     """Response from the client to :class:`LoginEncryptionRequest` packet. (Client -> Server).
 
@@ -134,7 +136,7 @@ class LoginEncryptionResponse(ServerBoundPacket):
 
 
 @final
-@dataclass
+@define
 class LoginSuccess(ClientBoundPacket):
     """Sent by the server to denote a successful login. (Server -> Client).
 
@@ -164,7 +166,7 @@ class LoginSuccess(ClientBoundPacket):
 
 
 @final
-@dataclass
+@define
 class LoginDisconnect(ClientBoundPacket):
     """Sent by the server to kick a player while in the login state. (Server -> Client).
 
@@ -190,7 +192,7 @@ class LoginDisconnect(ClientBoundPacket):
 
 
 @final
-@dataclass
+@define
 class LoginPluginRequest(ClientBoundPacket):
     """Sent by the server to implement a custom handshaking flow. (Server -> Client).
 
@@ -224,7 +226,7 @@ class LoginPluginRequest(ClientBoundPacket):
 
 
 @final
-@dataclass
+@define
 class LoginPluginResponse(ServerBoundPacket):
     """Response to LoginPluginRequest from client. (Client -> Server).
 
@@ -254,7 +256,7 @@ class LoginPluginResponse(ServerBoundPacket):
 
 
 @final
-@dataclass
+@define
 class LoginSetCompression(ClientBoundPacket):
     """Sent by the server to specify whether to use compression on future packets or not (Server -> Client).
 

@@ -4,7 +4,8 @@ import asyncio
 import inspect
 import unittest.mock
 from collections.abc import Callable, Coroutine
-from typing import Any, Generic, Literal, TypeVar, Union, cast, overload
+from typing import Any, Generic, TypeVar
+from typing_extensions import TypeGuard
 
 import pytest
 from typing_extensions import ParamSpec, override
@@ -168,44 +169,16 @@ class CustomMockMixin(UnpropagatingMockMixin):
         super().__init__(spec_set=self.spec_set, **kwargs)  # type: ignore # Mixin class, this __init__ is valid
 
 
-@overload
-def isexception(obj: type[Exception] | Exception) -> Literal[True]: ...  # type: ignore[reportOverlappingOverload]
-@overload
-def isexception(obj: Any) -> Literal[False]: ...
-
-
-def isexception(obj: Any) -> bool:
+def isexception(obj: object) -> TypeGuard[type[Exception] | Exception]:
     """Check if the object is an exception."""
     return (isinstance(obj, type) and issubclass(obj, Exception)) or isinstance(obj, Exception)
 
 
-def check_exception_equality(raised: Exception, expected: type[Exception] | Exception) -> tuple[bool, str]:
-    """Check if two exceptions are equal (compatible).
-
-    This function is used to check if the raised exception is compatible with the expected one, meaning
-    that if Excepted is a type, the raised exception must be an instance of that type. If Expected is an instance
-    of an exception then the type must be equal, but also the message and the arguments must be equal.
-
-    :param raised: The raised exception.
-    :param expected: The expected exception.
-
-    :return: Whether the exceptions are compatible.
-    """
-    if isinstance(expected, type):
-        return isinstance(
-            raised, expected
-        ), f"Did not raise the expected exception: expected {expected!r}, got {raised!r}"
-
-    if type(raised) != type(expected):
-        return check_exception_equality(raised, type(expected))  # Reuse the message from the type check
-
-    if raised.args != expected.args:
-        return False, f"Raised exception has different arguments: expected {expected.args}, got {raised.args!r}"
-
-    if str(raised) != str(expected):
-        return False, f"Raised exception has different message: expected {expected}, got {raised}"
-
-    return True, ""
+def get_exception(exception: type[Exception] | Exception) -> tuple[type[Exception], str | None]:
+    """Get the exception type and message."""
+    if isinstance(exception, type):
+        return exception, None
+    return type(exception), str(exception)
 
 
 def gen_serializable_test(
@@ -233,6 +206,9 @@ def gen_serializable_test(
         validation
         - An exception to expect during deserialization and the bytes to deserialize
 
+        Exception can be either a type or an instance of an exception, in the latter case the exception message will
+        be used to match the exception, and can contain regex patterns.
+
     Example usage:
 
     .. literalinclude:: /../tests/mcproto/utils/test_serializable.py
@@ -242,6 +218,11 @@ def gen_serializable_test(
 
     This will add 1 class test with 4 test functions containing the tests for serialization, deserialization,
     validation, and deserialization error handling
+
+    .. note::
+        The test cases will use :meth:`__eq__` to compare the objects, so make sure to implement it in the class if
+        you are not using a dataclass.
+
     """
     # Separate the test data into parameters for each test function
     # This holds the parameters for the serialization and deserialization tests
@@ -258,12 +239,10 @@ def gen_serializable_test(
             kwargs = dict(zip([f[0] for f in fields], data_or_exc))
             parameters.append((kwargs, expected_bytes_or_exc))
         elif isexception(data_or_exc) and isinstance(expected_bytes_or_exc, bytes):
-            exception = cast(Union[type[Exception], Exception], data_or_exc)
-            deserialization_fail.append((expected_bytes_or_exc, exception))
+            deserialization_fail.append((expected_bytes_or_exc, data_or_exc))
         elif isinstance(data_or_exc, tuple) and isexception(expected_bytes_or_exc):
-            exception = cast(Union[type[Exception], Exception], expected_bytes_or_exc)
             kwargs = dict(zip([f[0] for f in fields], data_or_exc))
-            validation_fail.append((kwargs, exception))
+            validation_fail.append((kwargs, expected_bytes_or_exc))
 
     def generate_name(param: dict[str, Any] | bytes, i: int) -> str:
         """Generate a name for the test case."""
@@ -327,13 +306,9 @@ def gen_serializable_test(
         )
         def test_validation(self, kwargs: dict[str, Any], exc: type[Exception] | Exception):
             """Test validation of the object."""
-            try:
+            exc, msg = get_exception(exc)
+            with pytest.raises(exc, match=msg):
                 cls(**kwargs)
-            except Exception as e:  # noqa: BLE001 # We do want to catch all exceptions
-                passed, message = check_exception_equality(e, exc)
-                assert passed, message
-            else:
-                raise AssertionError(f"Expected {exc} to be raised")
 
         @pytest.mark.parametrize(
             ("content", "exc"),
@@ -343,13 +318,9 @@ def gen_serializable_test(
         def test_deserialization_error(self, content: bytes, exc: type[Exception] | Exception):
             """Test deserialization error handling."""
             buf = Buffer(content)
-            try:
+            exc, msg = get_exception(exc)
+            with pytest.raises(exc, match=msg):
                 cls.deserialize(buf)
-            except Exception as e:  # noqa: BLE001 # We do want to catch all exceptions
-                passed, message = check_exception_equality(e, exc)
-                assert passed, message
-            else:
-                raise AssertionError(f"Expected {exc} to be raised")
 
     if len(parameters) == 0:
         # If there are no serialization tests, remove them

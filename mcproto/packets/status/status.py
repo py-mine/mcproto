@@ -7,13 +7,13 @@ from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
-from mcproto.utils.abc import dataclass
+from mcproto.utils.abc import define
 
 __all__ = ["StatusRequest", "StatusResponse"]
 
 
 @final
-@dataclass
+@define
 class StatusRequest(ServerBoundPacket):
     """Request from the client to get information on the server. (Client -> Server)."""
 
@@ -31,7 +31,7 @@ class StatusRequest(ServerBoundPacket):
 
 
 @final
-@dataclass
+@define
 class StatusResponse(ClientBoundPacket):
     """Response from the server to requesting client with status data information. (Server -> Client).
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import struct
-from typing import Any, List, cast
+from typing import Any, cast
 
 import pytest
 
@@ -499,8 +499,8 @@ def test_nbt_bigfile():
                     return False
             return True
         if isinstance(self, list):
-            self = cast(List[Any], self)
-            other = cast(List[Any], other)
+            self = cast("list[Any]", self)
+            other = cast("list[Any]", other)
             if len(self) != len(other):
                 return False
             return all(check_equality(self[i], other[i]) for i in range(len(self)))

@@ -7,13 +7,13 @@ from typing_extensions import Self, override
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
-from mcproto.utils.abc import dataclass
+from mcproto.utils.abc import define
 
 __all__ = ["PingPong"]
 
 
 @final
-@dataclass
+@define
 class PingPong(ClientBoundPacket, ServerBoundPacket):
     """Ping request/Pong response (Server <-> Client).
 
