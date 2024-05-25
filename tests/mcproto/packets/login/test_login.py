@@ -21,7 +21,7 @@ gen_serializable_test(
     context=globals(),
     cls=LoginStart,
     fields=[("username", str), ("uuid", UUID)],
-    test_data=[
+    serialize_deserialize=[
         (
             ("ItsDrike", UUID("f70b4a42c9a04ffb92a31390c128a1b2")),
             bytes.fromhex("084974734472696b65f70b4a42c9a04ffb92a31390c128a1b2"),
@@ -38,7 +38,7 @@ gen_serializable_test(
     context=globals(),
     cls=LoginEncryptionRequest,
     fields=[("server_id", str), ("public_key", bytes), ("verify_token", bytes)],
-    test_data=[
+    serialize_deserialize=[
         (
             ("a" * 20, RSA_PUBLIC_KEY, bytes.fromhex("9bd416ef")),
             bytes.fromhex(
@@ -48,7 +48,9 @@ gen_serializable_test(
                 "4c3938a298da575e12e0ae178d61a69bc0ea0b381790f182d9dba715bfb503c99d92b0203010001049bd416ef"
             ),
         ),
-        (InvalidPacketContentError, bytes.fromhex("14")),
+    ],
+    deserialization_fail=[
+        (bytes.fromhex("14"), InvalidPacketContentError),
     ],
 )
 
@@ -64,7 +66,7 @@ gen_serializable_test(
     context=globals(),
     cls=LoginEncryptionResponse,
     fields=[("shared_secret", bytes), ("verify_token", bytes)],
-    test_data=[
+    serialize_deserialize=[
         (
             (b"I'm shared", b"Token"),
             bytes.fromhex("0a49276d2073686172656405546f6b656e"),
@@ -78,7 +80,7 @@ gen_serializable_test(
     context=globals(),
     cls=LoginSuccess,
     fields=[("uuid", UUID), ("username", str)],
-    test_data=[
+    serialize_deserialize=[
         (
             (UUID("f70b4a42c9a04ffb92a31390c128a1b2"), "Mario"),
             bytes.fromhex("f70b4a42c9a04ffb92a31390c128a1b2054d6172696f"),
@@ -91,7 +93,7 @@ gen_serializable_test(
     context=globals(),
     cls=LoginDisconnect,
     fields=[("reason", ChatMessage)],
-    test_data=[
+    serialize_deserialize=[
         (
             (ChatMessage("You are banned."),),
             bytes.fromhex("1122596f75206172652062616e6e65642e22"),
@@ -105,7 +107,7 @@ gen_serializable_test(
     context=globals(),
     cls=LoginPluginRequest,
     fields=[("message_id", int), ("channel", str), ("data", bytes)],
-    test_data=[
+    serialize_deserialize=[
         (
             (0, "xyz", b"Hello"),
             bytes.fromhex("000378797a48656c6c6f"),
@@ -119,7 +121,7 @@ gen_serializable_test(
     context=globals(),
     cls=LoginPluginResponse,
     fields=[("message_id", int), ("data", bytes)],
-    test_data=[
+    serialize_deserialize=[
         (
             (0, b"Hello"),
             bytes.fromhex("000148656c6c6f"),
@@ -132,7 +134,7 @@ gen_serializable_test(
     context=globals(),
     cls=LoginSetCompression,
     fields=[("threshold", int)],
-    test_data=[
+    serialize_deserialize=[
         (
             (2,),
             bytes.fromhex("02"),

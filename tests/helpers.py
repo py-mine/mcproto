@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import asyncio
 import inspect
+import re
 import unittest.mock
 from collections.abc import Callable, Coroutine
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, NamedTuple, TypeVar
 from typing_extensions import TypeGuard
 
 import pytest
@@ -17,7 +18,14 @@ T = TypeVar("T")
 P = ParamSpec("P")
 T_Mock = TypeVar("T_Mock", bound=unittest.mock.Mock)
 
-__all__ = ["synchronize", "SynchronizedMixin", "UnpropagatingMockMixin", "CustomMockMixin", "gen_serializable_test"]
+__all__ = [
+    "synchronize",
+    "SynchronizedMixin",
+    "UnpropagatingMockMixin",
+    "CustomMockMixin",
+    "gen_serializable_test",
+    "TestExc",
+]
 
 
 def synchronize(f: Callable[P, Coroutine[Any, Any, T]]) -> Callable[P, T]:
@@ -169,27 +177,42 @@ class CustomMockMixin(UnpropagatingMockMixin):
         super().__init__(spec_set=self.spec_set, **kwargs)  # type: ignore # Mixin class, this __init__ is valid
 
 
-def isexception(obj: object) -> TypeGuard[type[Exception] | Exception]:
+def isexception(obj: object) -> TypeGuard[type[Exception] | TestExc]:
     """Check if the object is an exception."""
-    return (isinstance(obj, type) and issubclass(obj, Exception)) or isinstance(obj, Exception)
+    return (isinstance(obj, type) and issubclass(obj, Exception)) or isinstance(obj, TestExc)
 
 
-def get_exception(exception: type[Exception] | Exception) -> tuple[type[Exception], str | None]:
-    """Get the exception type and message."""
-    if isinstance(exception, type):
-        return exception, None
-    return type(exception), str(exception)
+class TestExc(NamedTuple):
+    """Named tuple to check if an exception is raised with a specific message.
+
+    :param exception: The exception type.
+    :param match: If specified, a string containing a regular expression, or a regular expression object, that is
+    tested against the string representation of the exception using :func:`re.search`.
+
+    :param kwargs: The keyword arguments passed to the exception.
+
+    If :attr:`kwargs` is not None, the exception instance will need to have the same attributes with the same values.
+    """
+
+    exception: type[Exception] | tuple[type[Exception], ...]
+    match: str | re.Pattern[str] | None = None
+    kwargs: dict[str, Any] | None = None
+
+    @classmethod
+    def from_exception(cls, exception: type[Exception] | tuple[type[Exception], ...] | TestExc) -> TestExc:
+        """Create a :class:`TestExc` from an exception, does nothing if the object is already a :class:`TestExc`."""
+        if isinstance(exception, TestExc):
+            return exception
+        return cls(exception)
 
 
 def gen_serializable_test(
     context: dict[str, Any],
     cls: type[Serializable],
     fields: list[tuple[str, type | str]],
-    test_data: list[
-        tuple[tuple[Any, ...], bytes]
-        | tuple[tuple[Any, ...], type[Exception] | Exception]
-        | tuple[type[Exception] | Exception, bytes]
-    ],
+    serialize_deserialize: list[tuple[tuple[Any, ...], bytes]] | None = None,
+    validation_fail: list[tuple[tuple[Any, ...], type[Exception] | TestExc]] | None = None,
+    deserialization_fail: list[tuple[bytes, type[Exception] | TestExc]] | None = None,
 ):
     """Generate tests for a serializable class.
 
@@ -199,15 +222,14 @@ def gen_serializable_test(
     :param context: The context to add the test functions to. This is usually `globals()`.
     :param cls: The serializable class to test.
     :param fields: A list of tuples containing the field names and types of the serializable class.
-    :param test_data: A list of test data. Each element is a tuple containing either:
-        - A tuple of parameters to pass to the serializable class constructor and the expected bytes after
-        serialization
-        - A tuple of parameters to pass to the serializable class constructor and the expected exception during
-        validation
-        - An exception to expect during deserialization and the bytes to deserialize
-
-        Exception can be either a type or an instance of an exception, in the latter case the exception message will
-        be used to match the exception, and can contain regex patterns.
+    :param serialize_deserialize: A list of tuples containing:
+        - The tuple representing the arguments to pass to the :class:`mcproto.utils.abc.Serializable` class
+        - The expected bytes
+    :param validation_fail: A list of tuples containing the arguments to pass to the
+        :class:`mcproto.utils.abc.Serializable` class and the expected exception, either as is or wrapped in a
+        :class:`TestExc` object.
+    :param deserialization_fail: A list of tuples containing the bytes to pass to the :meth:`deserialize` method of the
+        class and the expected exception, either as is or wrapped in a :class:`TestExc` object.
 
     Example usage:
 
@@ -221,28 +243,30 @@ def gen_serializable_test(
 
     .. note::
         The test cases will use :meth:`__eq__` to compare the objects, so make sure to implement it in the class if
-        you are not using a dataclass.
+        you are not using the autogenerated method from :func:`attrs.define`.
 
     """
-    # Separate the test data into parameters for each test function
     # This holds the parameters for the serialization and deserialization tests
     parameters: list[tuple[dict[str, Any], bytes]] = []
 
     # This holds the parameters for the validation tests
-    validation_fail: list[tuple[dict[str, Any], type[Exception] | Exception]] = []
+    validation_fail_kw: list[tuple[dict[str, Any], TestExc]] = []
 
-    # This holds the parameters for the deserialization error tests
-    deserialization_fail: list[tuple[bytes, type[Exception] | Exception]] = []
+    for data, exp_bytes in [] if serialize_deserialize is None else serialize_deserialize:
+        kwargs = dict(zip([f[0] for f in fields], data))
+        parameters.append((kwargs, exp_bytes))
 
-    for data_or_exc, expected_bytes_or_exc in test_data:
-        if isinstance(data_or_exc, tuple) and isinstance(expected_bytes_or_exc, bytes):
-            kwargs = dict(zip([f[0] for f in fields], data_or_exc))
-            parameters.append((kwargs, expected_bytes_or_exc))
-        elif isexception(data_or_exc) and isinstance(expected_bytes_or_exc, bytes):
-            deserialization_fail.append((expected_bytes_or_exc, data_or_exc))
-        elif isinstance(data_or_exc, tuple) and isexception(expected_bytes_or_exc):
-            kwargs = dict(zip([f[0] for f in fields], data_or_exc))
-            validation_fail.append((kwargs, expected_bytes_or_exc))
+    for data, exc in [] if validation_fail is None else validation_fail:
+        kwargs = dict(zip([f[0] for f in fields], data))
+        exc_wrapped = TestExc.from_exception(exc)
+        validation_fail_kw.append((kwargs, exc_wrapped))
+
+    # Just make sure that the exceptions are wrapped in TestExc
+    deserialization_fail = (
+        []
+        if deserialization_fail is None
+        else [(data, TestExc.from_exception(exc)) for data, exc in deserialization_fail]
+    )
 
     def generate_name(param: dict[str, Any] | bytes, i: int) -> str:
         """Generate a name for the test case."""
@@ -301,33 +325,45 @@ def gen_serializable_test(
 
         @pytest.mark.parametrize(
             ("kwargs", "exc"),
-            validation_fail,
-            ids=tuple(generate_name(kwargs, i) for i, (kwargs, _) in enumerate(validation_fail)),
+            validation_fail_kw,
+            ids=tuple(generate_name(kwargs, i) for i, (kwargs, _) in enumerate(validation_fail_kw)),
         )
-        def test_validation(self, kwargs: dict[str, Any], exc: type[Exception] | Exception):
+        def test_validation(self, kwargs: dict[str, Any], exc: TestExc):
             """Test validation of the object."""
-            exc, msg = get_exception(exc)
-            with pytest.raises(exc, match=msg):
+            with pytest.raises(exc.exception, match=exc.match) as exc_info:
                 cls(**kwargs)
+
+            # If exc.kwargs is not None, check them against the exception
+            if exc.kwargs is not None:
+                for key, value in exc.kwargs.items():
+                    assert value == getattr(
+                        exc_info.value, key
+                    ), f"{key}: {value!r} != {getattr(exc_info.value, key)!r}"
 
         @pytest.mark.parametrize(
             ("content", "exc"),
             deserialization_fail,
             ids=tuple(generate_name(content, i) for i, (content, _) in enumerate(deserialization_fail)),
         )
-        def test_deserialization_error(self, content: bytes, exc: type[Exception] | Exception):
+        def test_deserialization_error(self, content: bytes, exc: TestExc):
             """Test deserialization error handling."""
             buf = Buffer(content)
-            exc, msg = get_exception(exc)
-            with pytest.raises(exc, match=msg):
+            with pytest.raises(exc.exception, match=exc.match) as exc_info:
                 cls.deserialize(buf)
+
+            # If exc.kwargs is not None, check them against the exception
+            if exc.kwargs is not None:
+                for key, value in exc.kwargs.items():
+                    assert value == getattr(
+                        exc_info.value, key
+                    ), f"{key}: {value!r} != {getattr(exc_info.value, key)!r}"
 
     if len(parameters) == 0:
         # If there are no serialization tests, remove them
         del TestClass.test_serialization
         del TestClass.test_deserialization
 
-    if len(validation_fail) == 0:
+    if len(validation_fail_kw) == 0:
         # If there are no validation tests, remove them
         del TestClass.test_validation
 

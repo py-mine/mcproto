@@ -8,7 +8,7 @@ gen_serializable_test(
     context=globals(),
     cls=StatusResponse,
     fields=[("data", "dict[str, Any]")],
-    test_data=[
+    serialize_deserialize=[
         (
             (
                 {
@@ -24,6 +24,8 @@ gen_serializable_test(
                 "16d65223a22312e31382e31222c2270726f746f636f6c223a3735377d7d"
             ),
         ),
+    ],
+    validation_fail=[
         # Unserializable data for JSON
         (({"data": object()},), ValueError),
     ],
