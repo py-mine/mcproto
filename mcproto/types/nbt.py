@@ -9,7 +9,9 @@ from typing_extensions import TypeAlias, override, Self
 
 from mcproto.buffer import Buffer
 from mcproto.protocol.base_io import StructFormat, INT_FORMATS_TYPE, FLOAT_FORMATS_TYPE
-from mcproto.types.abc import MCType, define
+from mcproto.types.abc import MCType
+from attrs import define
+
 from mcproto.utils.abc import RequiredParamsABCMixin
 
 __all__ = [

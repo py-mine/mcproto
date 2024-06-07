@@ -11,7 +11,7 @@ from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
 from mcproto.types.chat import ChatMessage
 from mcproto.types.uuid import UUID
-from mcproto.utils.abc import define
+from attrs import define
 
 __all__ = [
     "LoginDisconnect",
