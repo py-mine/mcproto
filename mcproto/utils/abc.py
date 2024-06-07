@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from attrs import define
 from typing import Any, ClassVar
 
 from typing_extensions import Self
@@ -10,7 +9,7 @@ from typing_extensions import Self
 from mcproto.buffer import Buffer
 
 
-__all__ = ["RequiredParamsABCMixin", "Serializable", "define"]
+__all__ = ["RequiredParamsABCMixin", "Serializable"]
 
 
 class RequiredParamsABCMixin:

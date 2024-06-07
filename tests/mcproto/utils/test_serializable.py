@@ -4,7 +4,9 @@ from typing import Any, cast, final
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
-from mcproto.utils.abc import Serializable, define
+from mcproto.utils.abc import Serializable
+from attrs import define
+
 from tests.helpers import gen_serializable_test, TestExc
 
 

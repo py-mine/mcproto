@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from mcproto.utils.abc import Serializable, define
+from mcproto.utils.abc import Serializable
 
-__all__ = ["MCType", "define"]  # That way we can import it from mcproto.types.abc
+
+__all__ = ["MCType"]
 
 
 class MCType(Serializable):

@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
-from mcproto.utils.abc import define
+from attrs import define
 
 __all__ = [
     "NextState",
