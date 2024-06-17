@@ -9,13 +9,14 @@ from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
 from mcproto.types.abc import MCType
 from attrs import define
+from mcproto.protocol.utils import to_twos_complement
 
 
 @define
 class FixedBitset(MCType):
     """Represents a fixed-size bitset."""
 
-    __n: ClassVar[int] = -1
+    __BIT_COUNT: ClassVar[int] = -1
 
     data: bytearray
 
@@ -26,16 +27,18 @@ class FixedBitset(MCType):
     @override
     @classmethod
     def deserialize(cls, buf: Buffer) -> FixedBitset:
-        data = buf.read(math.ceil(cls.__n / 8))
+        if cls.__BIT_COUNT == -1:
+            raise ValueError("Bitset size is not defined.")
+        data = buf.read(math.ceil(cls.__BIT_COUNT / 8))
         return cls(data=data)
 
     @override
     def validate(self) -> None:
         """Validate the bitset."""
-        if self.__n == -1:
+        if self.__BIT_COUNT == -1:
             raise ValueError("Bitset size is not defined.")
-        if len(self.data) != math.ceil(self.__n / 8):
-            raise ValueError(f"Bitset size is {len(self.data) * 8}, expected {self.__n}.")
+        if len(self.data) != math.ceil(self.__BIT_COUNT / 8):
+            raise ValueError(f"Bitset size is {len(self.data) * 8}, expected {self.__BIT_COUNT}.")
 
     @staticmethod
     def of_size(n: int) -> type[FixedBitset]:
@@ -44,7 +47,7 @@ class FixedBitset(MCType):
         :param n: The size of the bitset.
         """
         new_class = type(f"FixedBitset{n}", (FixedBitset,), {})
-        new_class.__n = n
+        new_class.__BIT_COUNT = n
         return new_class
 
     @classmethod
@@ -53,17 +56,9 @@ class FixedBitset(MCType):
 
         :param n: The integer value.
         """
-        if cls.__n == -1:
+        if cls.__BIT_COUNT == -1:
             raise ValueError("Bitset size is not defined.")
-        if n < 0:
-            # Manually compute two's complement
-            n = -n
-            data = bytearray(n.to_bytes(math.ceil(cls.__n / 8), "big"))
-            for i in range(len(data)):
-                data[i] ^= 0xFF
-            data[-1] += 1
-        else:
-            data = bytearray(n.to_bytes(math.ceil(cls.__n / 8), "big"))
+        data = bytearray(to_twos_complement(n, cls.__BIT_COUNT).to_bytes(math.ceil(cls.__BIT_COUNT / 8), "big"))
         return cls(data=data)
 
     def __setitem__(self, index: int, value: bool) -> None:
@@ -80,20 +75,20 @@ class FixedBitset(MCType):
         return bool(self.data[byte_index] & (1 << bit_index))
 
     def __len__(self) -> int:
-        return self.__n
+        return self.__BIT_COUNT
 
     def __and__(self, other: FixedBitset) -> FixedBitset:
-        if self.__n != other.__n:
+        if self.__BIT_COUNT != other.__BIT_COUNT:
             raise ValueError("Bitsets must have the same size.")
         return type(self)(data=bytearray(a & b for a, b in zip(self.data, other.data)))
 
     def __or__(self, other: FixedBitset) -> FixedBitset:
-        if self.__n != other.__n:
+        if self.__BIT_COUNT != other.__BIT_COUNT:
             raise ValueError("Bitsets must have the same size.")
         return type(self)(data=bytearray(a | b for a, b in zip(self.data, other.data)))
 
     def __xor__(self, other: FixedBitset) -> FixedBitset:
-        if self.__n != other.__n:
+        if self.__BIT_COUNT != other.__BIT_COUNT:
             raise ValueError("Bitsets must have the same size.")
         return type(self)(data=bytearray(a ^ b for a, b in zip(self.data, other.data)))
 
@@ -107,12 +102,12 @@ class FixedBitset(MCType):
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, FixedBitset):
             return NotImplemented
-        return self.data == value.data and self.__n == value.__n
+        return self.data == value.data and self.__BIT_COUNT == value.__BIT_COUNT
 
 
 @define
 class Bitset(MCType):
-    """Represents a lenght-prefixed bitset with a variable size.
+    """Represents a length-prefixed bitset with a variable size.
 
     :param size: The number of longs in the array representing the bitset.
     :param data: The bits of the bitset.
@@ -131,8 +126,6 @@ class Bitset(MCType):
     @classmethod
     def deserialize(cls, buf: Buffer) -> Bitset:
         size = buf.read_varint()
-        if buf.remaining < size * 8:
-            raise IOError("Not enough data to read bitset.")
         data = [buf.read_value(StructFormat.LONGLONG) for _ in range(size)]
         return cls(size=size, data=data)
 
@@ -140,7 +133,7 @@ class Bitset(MCType):
     def validate(self) -> None:
         """Validate the bitset."""
         if self.size != len(self.data):
-            raise ValueError(f"Bitset size is {self.size}, expected {len(self.data)}.")
+            raise ValueError(f"Bitset size is ({self.size}) doesn't match data size ({len(self.data)}).")
 
     @classmethod
     def from_int(cls, n: int, size: int | None = None) -> Bitset:
@@ -150,7 +143,9 @@ class Bitset(MCType):
         :param size: The number of longs in the array representing the bitset.
         """
         if size is None:
-            size = math.ceil(float(n.bit_length()) / 64.0)
+            size = math.ceil(n.bit_length() / 64.0)
+
+        # Split the integer into 64-bit chunks (longlong array)
         data = [n >> (i * 64) & 0xFFFFFFFFFFFFFFFF for i in range(size)]
         return cls(size=size, data=data)
 

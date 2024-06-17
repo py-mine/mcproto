@@ -211,7 +211,7 @@ gen_serializable_test(
     ],
     serialize_deserialize=[
         (
-            (54, Slot(present=True, item_id=1, item_count=1, nbt=EndNBT())),
+            (54, Slot(present=True, item_id=1, item_count=1, nbt=None)),
             b"\x36\x07" + Slot(present=True, item_id=1, item_count=1).serialize(),
         ),
     ],

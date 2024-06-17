@@ -1,10 +1,11 @@
-from mcproto.types.entity import PandaEM
+from mcproto.types.entity import PandaEM, DisplayEM
 from mcproto.buffer import Buffer
 
 
 import pytest
 from mcproto.types.entity.metadata import proxy, entry, EntityMetadataCreator, EntityMetadata
 from mcproto.types.entity.metadata_types import ByteEME, Masked
+from mcproto.types.vec3 import Vec3
 
 
 def test_panda():
@@ -43,6 +44,18 @@ def test_panda():
     assert not panda2.is_sitting
 
 
+def test_assign_vec3():
+    """Test assigning a Vec3 to an EntityMetadata.
+
+    This is meant to test assigning a value to a field that is not a primitive type.
+    """
+    display = DisplayEM()
+
+    display.scale = Vec3(1.0, 2.0, 3.0)
+    display.scale.x = 4.0
+    assert display.scale == Vec3(4.0, 2.0, 3.0)
+
+
 def test_kwargs():
     """Test kwargs for EnitityMetadata."""
     panda = PandaEM(custom_name="test", is_custom_name_visible=True)
@@ -58,22 +71,21 @@ def test_class_error():
     with pytest.raises(TypeError):
         proxy(object, Masked, mask=0x1)  # wrong type
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r"Default value for .* is not set\."):
 
         class Test(metaclass=EntityMetadataCreator):  # type: ignore
-            test: int
+            """Test class."""
 
-    with pytest.raises(ValueError):
-
-        class Test(metaclass=EntityMetadataCreator):  # type: ignore # noqa: F811
-            test: int = 0
+            test: int = None  # type: ignore
 
     with pytest.raises(ValueError):
         EntityMetadata(1, 1)  # type: ignore
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r"Bound entry for .* is not set\."):
 
         class Test(metaclass=EntityMetadataCreator):  # noqa: F811
+            """Test class."""
+
             test: int = proxy(entry(ByteEME, 1), Masked, mask=0x1)
 
     buf = Buffer(b"\x00\x02\x00")  # Wrong metadata type

@@ -7,7 +7,7 @@ from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.utils.abc import Serializable
-from tests.helpers import TestExc, gen_serializable_test
+from tests.helpers import ExcTest, gen_serializable_test
 
 
 class CustomError(Exception):
@@ -76,14 +76,14 @@ gen_serializable_test(
         ((3, 1234567890), b"\x03\x0a1234567890"),
     ],
     validation_fail=[
-        ((0, "hello"), TestExc(ZeroDivisionError, "a must be non-zero")),  # Message specified
+        ((0, "hello"), ExcTest(ZeroDivisionError, "a must be non-zero")),  # Message specified
         ((1, "hello world"), ValueError),  # No message specified
-        ((1, 12345678900), TestExc(ValueError, "b must be less than .*")),  # Message regex
+        ((1, 12345678900), ExcTest(ValueError, "b must be less than .*")),  # Message regex
     ],
     deserialization_fail=[
         (b"\x00", CustomError),  # No message specified
-        (b"\x00\x05hello", TestExc(CustomError, "a must be non-zero", {"additional_data": 0})),  # Check fields
-        (b"\x01", TestExc(IOError)),  # No message specified
+        (b"\x00\x05hello", ExcTest(CustomError, "a must be non-zero", {"additional_data": 0})),  # Check fields
+        (b"\x01", ExcTest(IOError)),  # No message specified
     ],
 )
 # endregion Test ToyClass

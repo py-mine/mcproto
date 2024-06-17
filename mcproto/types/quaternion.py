@@ -22,10 +22,10 @@ class Quaternion(MCType):
     :param w: The w component.
     """
 
-    x: float | int
-    y: float | int
-    z: float | int
-    w: float | int
+    x: float
+    y: float
+    z: float
+    w: float
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -52,10 +52,10 @@ class Quaternion(MCType):
                 f"Quaternion components must be floats or integers, got {self.x!r}, {self.y!r}, {self.z!r}, {self.w!r}"
             )
 
-        # Check that the components are not NaN.
+        # Check that the components are finite (not NaN or inf)
         if any(not math.isfinite(comp) for comp in (self.x, self.y, self.z, self.w)):
             raise ValueError(
-                f"Quaternion components must not be NaN, got {self.x!r}, {self.y!r}, {self.z!r}, {self.w!r}."
+                f"Quaternion components must be finite, got {self.x!r}, {self.y!r}, {self.z!r}, {self.w!r}."
             )
 
     def __add__(self, other: Quaternion) -> Quaternion:

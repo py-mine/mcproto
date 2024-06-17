@@ -839,3 +839,60 @@ def test_wrong_type(buffer_content: str, tag_type: type[NBTag]):
     buffer = Buffer(bytearray.fromhex(buffer_content))
     with pytest.raises(TypeError):
         tag_type.read_from(buffer, with_name=False)
+
+
+def test_nbt_sets():
+    """Test that NBTags behave correctly in dict and sets to be used as keys."""
+    tag1 = ByteNBT(0, "tag")
+    tag2 = ByteNBT(1, "tag2")
+    tag3 = ByteNBT(0, "tag")
+    tag4 = ByteNBT(1, "tag")
+
+    byte_set: set[NBTag] = {tag1, tag2}
+    assert tag1 in byte_set
+    assert tag2 in byte_set
+
+    byte_set.add(tag3)
+    assert tag3 in byte_set
+    assert len(byte_set) == 2
+
+    byte_set.add(tag4)
+    assert tag4 in byte_set
+    assert len(byte_set) == 3
+
+    byte_dict: dict[NBTag, int] = {tag1: 0, tag2: 1}
+    assert tag1 in byte_dict
+    assert tag2 in byte_dict
+
+    byte_dict[tag3] = 2
+    assert tag3 in byte_dict
+    assert len(byte_dict) == 2
+    assert byte_dict[tag1] == 2
+    assert byte_dict[tag3] == 2
+
+
+def test_nbt_compound_set():
+    """Test that CompoundNBT behave correctly in dict and sets to be used as keys."""
+    tag1 = ByteNBT(0, "tag")
+    tag2 = ByteNBT(1, "tag2")
+    tag3 = ByteNBT(0, "tag")
+    tag4 = ByteNBT(1, "tag4")
+
+    compound1 = CompoundNBT([tag1, tag2], "compound")
+    compound2 = CompoundNBT([tag3, tag4], "compound2")
+    compound3 = CompoundNBT([tag3, tag2], "compound")
+
+    compound_set: set[NBTag] = {compound1, compound2}
+    assert compound1 in compound_set
+    assert compound2 in compound_set
+    assert len(compound_set) == 2
+
+    assert compound3 in compound_set
+    assert len(compound_set) == 2
+
+    compound_set.add(compound3)  # Should hash to the same value as compound1
+    assert len(compound_set) == 2
+
+    compound4 = CompoundNBT([tag2, tag1], "compound")
+    assert compound4 in compound_set
+    assert len(compound_set) == 2

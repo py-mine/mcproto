@@ -69,10 +69,3 @@ class Handshake(ServerBoundPacket):
             server_port=buf.read_value(StructFormat.USHORT),
             next_state=buf.read_varint(),
         )
-
-    @override
-    def validate(self) -> None:
-        if not isinstance(self.next_state, NextState):
-            rev_lookup = {x.value: x for x in NextState.__members__.values()}
-            if self.next_state not in rev_lookup:
-                raise ValueError("No such next_state.")

@@ -62,12 +62,14 @@ from mcproto.types.entity.metadata_types import {types}
 from mcproto.types.slot import Slot
 from mcproto.types.chat import TextComponent
 from mcproto.types.nbt import NBTag, EndNBT
-from mcproto.types.vec3 import Position
+from mcproto.types.vec3 import Position, Vec3
+from mcproto.types.quaternion import Quaternion
 from mcproto.types.uuid import UUID
 
 {classes}
 """
 INIT_FILE = """
+from mcproto.types.entity.metadata import EntityMetadata
 from mcproto.types.entity.generated import {generated}
 {header}
 """
@@ -226,7 +228,7 @@ def write_files(entity_data: list[EntityData]) -> None:
     """
     types: set[str] = set()
     enums: set[str] = set()
-    all_classes: list[str] = []
+    all_classes: list[str] = ["EntityMetadata"]
     class_code: list[str] = []
     generated: list[str] = []
     for entity in entity_data:
@@ -237,10 +239,11 @@ def write_files(entity_data: list[EntityData]) -> None:
         all_classes.append(entity_name)
         class_code.append(class_str)
         generated.append(entity_name)
-    all_classes_str = ",\n    ".join(f'"{c}"' for c in all_classes + list(enums))
-    types_str = ", ".join(types)
-    enums_str = ", ".join(enums)
-    generated_str = ", ".join(generated)
+
+    all_classes_str = ",\n    ".join(f'"{c}"' for c in sorted(all_classes + list(enums)))
+    types_str = ", ".join(sorted(types))
+    enums_str = ", ".join(sorted(enums))
+    generated_str = ", ".join(sorted(generated))
 
     header = FILE_HEADER.format(
         enums=enums_str,
