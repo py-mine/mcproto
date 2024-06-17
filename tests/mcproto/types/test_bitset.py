@@ -1,4 +1,5 @@
 from mcproto.types.bitset import FixedBitset, Bitset
+from mcproto.buffer import Buffer
 from tests.helpers import gen_serializable_test
 
 import pytest
@@ -81,7 +82,7 @@ def test_bitset_indexing():
 
 def test_fixed_bitset_and():
     """Test bitwise AND operation between FixedBitsets."""
-    b1 = FixedBitset.of_size(64).from_int(0xFFFFFFFFFFFFFFFF)
+    b1 = FixedBitset.of_size(64).from_int(-1)
     b2 = FixedBitset.of_size(64).from_int(0)
 
     result = b1 & b2
@@ -99,7 +100,7 @@ def test_bitset_and():
 
 def test_fixed_bitset_or():
     """Test bitwise OR operation between FixedBitsets."""
-    b1 = FixedBitset.of_size(8).from_int(0xFE)
+    b1 = FixedBitset.of_size(8).from_int(-2)
     b2 = FixedBitset.of_size(8).from_int(0x01)
 
     result = b1 | b2
@@ -156,6 +157,9 @@ def test_fixed_bitset_size_undefined():
 
     with pytest.raises(ValueError):
         FixedBitset(bytearray(b"\x00\x00\x00\x00"))
+
+    with pytest.raises(ValueError):
+        FixedBitset.deserialize(Buffer(b"\x00"))
 
 
 def test_bitset_len():

@@ -360,7 +360,6 @@ class EntityMetadataCreator(ABCMeta):
                 default.m_bound_index = bound_entry
             else:
                 continue
-
             # Add the entry to the defaults
             cls.m_defaults[name] = default
 

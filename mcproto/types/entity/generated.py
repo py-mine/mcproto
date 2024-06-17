@@ -6,155 +6,156 @@ from typing import ClassVar, Any
 #     You can modify it by changing what you want in the script.
 ######################################################################
 
-from mcproto.types.entity.enums import Pose, DragonPhase, SnifferState, Direction
+from mcproto.types.entity.enums import Direction, DragonPhase, Pose, SnifferState
 
 __all__ = [
-    "EntityEM",
-    "InteractionEM",
-    "DisplayEM",
+    "AbstractArrowEM",
+    "AbstractFishEM",
+    "AbstractGolemEM",
+    "AbstractHorseEM",
+    "AbstractIllagerEM",
+    "AbstractMinecartContainerEM",
+    "AbstractMinecartEM",
+    "AbstractSkeletonEM",
+    "AbstractVehicleEM",
+    "AbstractVillagerEM",
+    "AgeableMobEM",
+    "AmbientCreatureEM",
+    "AnimalEM",
+    "AreaEffectCloudEM",
+    "ArmorStandEM",
+    "ArrowEM",
+    "AxolotlEM",
+    "BasePiglinEM",
+    "BatEM",
+    "BeeEM",
+    "BlazeEM",
     "BlockDisplayEM",
+    "BoatEM",
+    "CamelEM",
+    "CatEM",
+    "ChestBoatEM",
+    "ChestedHorseEM",
+    "ChickenEM",
+    "CodEM",
+    "CowEM",
+    "CreeperEM",
+    "Direction",
+    "DisplayEM",
+    "DolphinEM",
+    "DonkeyEM",
+    "DragonFireballEM",
+    "DragonPhase",
+    "DrownedEM",
+    "ElderGuardianEM",
+    "EndCrystalEM",
+    "EnderDragonEM",
+    "EndermanEM",
+    "EndermiteEM",
+    "EntityEM",
+    "EntityMetadata",
+    "EvokerEM",
+    "EvokerFangsEM",
+    "EyeOfEnderEM",
+    "FallingBlockEM",
+    "FireballEM",
+    "FireworkRocketEM",
+    "FishingHookEM",
+    "FlyingEM",
+    "FoxEM",
+    "FrogEM",
+    "GhastEM",
+    "GiantEM",
+    "GlowingItemFrameEM",
+    "GoatEM",
+    "GuardianEM",
+    "HoglinEM",
+    "HorseEM",
+    "HuskEM",
+    "IllusionerEM",
+    "InteractionEM",
+    "IronGolemEM",
     "ItemDisplayEM",
+    "ItemEntityEM",
+    "ItemFrameEM",
+    "LivingEntityEM",
+    "LlamaEM",
+    "LlamaSpitEM",
+    "MinecartChestEM",
+    "MinecartCommandBlockEM",
+    "MinecartEM",
+    "MinecartFurnaceEM",
+    "MinecartHopperEM",
+    "MinecartSpawnerEM",
+    "MinecartTNTEM",
+    "MobEM",
+    "MonsterEM",
+    "MooshroomEM",
+    "MuleEM",
+    "OcelotEM",
+    "PaintingEM",
+    "PandaEM",
+    "ParrotEM",
+    "PathfinderMobEM",
+    "PhantomEM",
+    "PigEM",
+    "PiglinBruteEM",
+    "PiglinEM",
+    "PillagerEM",
+    "PlayerEM",
+    "PolarBearEM",
+    "Pose",
+    "PrimedTntEM",
+    "PufferFishEM",
+    "RabbitEM",
+    "RaiderEM",
+    "RavagerEM",
+    "SalmonEM",
+    "SheepEM",
+    "ShulkerEM",
+    "SilverfishEM",
+    "SkeletonEM",
+    "SkeletonHorseEM",
+    "SlimeEM",
+    "SmallFireballEM",
+    "SnifferEM",
+    "SnifferState",
+    "SnowGolemEM",
+    "SpectralArrowEM",
+    "SpellcasterIllagerEM",
+    "SpiderEM",
+    "SquidEM",
+    "StrayEM",
+    "StriderEM",
+    "TadpoleEM",
+    "TameableAnimalEM",
     "TextDisplayEM",
-    "ThrownItemProjectileEM",
     "ThrownEggEM",
     "ThrownEnderPearlEM",
     "ThrownExperienceBottleEM",
+    "ThrownItemProjectileEM",
     "ThrownPotionEM",
     "ThrownSnowballEM",
-    "EyeOfEnderEM",
-    "FallingBlockEM",
-    "AreaEffectCloudEM",
-    "FishingHookEM",
-    "AbstractArrowEM",
-    "ArrowEM",
-    "SpectralArrowEM",
     "ThrownTridentEM",
-    "AbstractVehicleEM",
-    "BoatEM",
-    "ChestBoatEM",
-    "AbstractMinecartEM",
-    "MinecartEM",
-    "AbstractMinecartContainerEM",
-    "MinecartHopperEM",
-    "MinecartChestEM",
-    "MinecartFurnaceEM",
-    "MinecartTNTEM",
-    "MinecartSpawnerEM",
-    "MinecartCommandBlockEM",
-    "EndCrystalEM",
-    "DragonFireballEM",
-    "SmallFireballEM",
-    "FireballEM",
-    "WitherSkullEM",
-    "FireworkRocketEM",
-    "ItemFrameEM",
-    "GlowingItemFrameEM",
-    "PaintingEM",
-    "ItemEntityEM",
-    "LivingEntityEM",
-    "PlayerEM",
-    "ArmorStandEM",
-    "MobEM",
-    "AmbientCreatureEM",
-    "BatEM",
-    "PathfinderMobEM",
-    "WaterAnimalEM",
-    "SquidEM",
-    "DolphinEM",
-    "AbstractFishEM",
-    "CodEM",
-    "PufferFishEM",
-    "SalmonEM",
-    "TropicalFishEM",
-    "TadpoleEM",
-    "AgeableMobEM",
-    "AnimalEM",
-    "SnifferEM",
-    "AbstractHorseEM",
-    "HorseEM",
-    "ZombieHorseEM",
-    "SkeletonHorseEM",
-    "CamelEM",
-    "ChestedHorseEM",
-    "DonkeyEM",
-    "LlamaEM",
     "TraderLlamaEM",
-    "MuleEM",
-    "AxolotlEM",
-    "BeeEM",
-    "FoxEM",
-    "FrogEM",
-    "OcelotEM",
-    "PandaEM",
-    "PigEM",
-    "RabbitEM",
+    "TropicalFishEM",
     "TurtleEM",
-    "PolarBearEM",
-    "ChickenEM",
-    "CowEM",
-    "MooshroomEM",
-    "HoglinEM",
-    "SheepEM",
-    "StriderEM",
-    "GoatEM",
-    "TameableAnimalEM",
-    "CatEM",
-    "WolfEM",
-    "ParrotEM",
-    "AbstractVillagerEM",
-    "VillagerEM",
-    "WanderingTraderEM",
-    "AbstractGolemEM",
-    "IronGolemEM",
-    "SnowGolemEM",
-    "ShulkerEM",
-    "MonsterEM",
-    "BasePiglinEM",
-    "PiglinEM",
-    "PiglinBruteEM",
-    "BlazeEM",
-    "CreeperEM",
-    "EndermiteEM",
-    "GiantEM",
-    "GuardianEM",
-    "ElderGuardianEM",
-    "SilverfishEM",
-    "RaiderEM",
-    "AbstractIllagerEM",
-    "VindicatorEM",
-    "PillagerEM",
-    "SpellcasterIllagerEM",
-    "EvokerEM",
-    "IllusionerEM",
-    "RavagerEM",
-    "WitchEM",
-    "EvokerFangsEM",
     "VexEM",
-    "AbstractSkeletonEM",
-    "SkeletonEM",
-    "WitherSkeletonEM",
-    "StrayEM",
-    "SpiderEM",
+    "VillagerEM",
+    "VindicatorEM",
+    "WanderingTraderEM",
     "WardenEM",
+    "WaterAnimalEM",
+    "WitchEM",
     "WitherEM",
+    "WitherSkeletonEM",
+    "WitherSkullEM",
+    "WolfEM",
     "ZoglinEM",
     "ZombieEM",
+    "ZombieHorseEM",
     "ZombieVillagerEM",
-    "HuskEM",
-    "DrownedEM",
     "ZombifiedPiglinEM",
-    "EndermanEM",
-    "EnderDragonEM",
-    "FlyingEM",
-    "GhastEM",
-    "PhantomEM",
-    "SlimeEM",
-    "LlamaSpitEM",
-    "PrimedTntEM",
-    "Pose",
-    "DragonPhase",
-    "SnifferState",
-    "Direction",
 ]
 
 
@@ -164,39 +165,40 @@ from mcproto.types.entity.metadata import (
     EntityMetadata,
 )
 from mcproto.types.entity.metadata_types import (
-    VillagerDataEME,
-    FrogVariantEME,
-    OptUUIDEME,
-    OptBlockStateEME,
-    CatVariantEME,
-    StringEME,
-    SlotEME,
-    PositionEME,
-    OptVarIntEME,
-    RotationEME,
-    ParticleEME,
-    QuaternionEME,
     BlockStateEME,
-    ByteEME,
-    TextComponentEME,
-    PaintingVariantEME,
-    Masked,
-    DragonPhaseEME,
-    NBTagEME,
-    VarIntEME,
-    OptPositionEME,
-    VarLongEME,
     BooleanEME,
-    FloatEME,
-    Vector3EME,
-    PoseEME,
-    SnifferStateEME,
+    ByteEME,
+    CatVariantEME,
     DirectionEME,
+    DragonPhaseEME,
+    FloatEME,
+    FrogVariantEME,
+    Masked,
+    NBTagEME,
+    OptBlockStateEME,
+    OptPositionEME,
+    OptUUIDEME,
+    OptVarIntEME,
+    PaintingVariantEME,
+    ParticleEME,
+    PoseEME,
+    PositionEME,
+    QuaternionEME,
+    RotationEME,
+    SlotEME,
+    SnifferStateEME,
+    StringEME,
+    TextComponentEME,
+    VarIntEME,
+    VarLongEME,
+    Vector3EME,
+    VillagerDataEME,
 )
 from mcproto.types.slot import Slot
 from mcproto.types.chat import TextComponent
 from mcproto.types.nbt import NBTag, EndNBT
-from mcproto.types.vec3 import Position
+from mcproto.types.vec3 import Position, Vec3
+from mcproto.types.quaternion import Quaternion
 from mcproto.types.uuid import UUID
 
 
@@ -323,14 +325,14 @@ class DisplayEM(EntityEM):
     :param interpolation_rotation_duration: Rotation interpolation duration.
     :type interpolation_rotation_duration: int, optional, default: 0
     :param translation: Translation vector
-    :type translation: tuple[float, float, float], optional, default: (0.0, 0.0, 0.0)
+    :type translation: :class:`Vec3`, optional, default: :attr:`Vec3(0.0, 0.0, 0.0)`
     :param scale: Scaling vector
-    :type scale: tuple[float, float, float], optional, default: (1.0, 1.0, 1.0)
+    :type scale: :class:`Vec3`, optional, default: :attr:`Vec3(1.0, 1.0, 1.0)`
     :param rotation_left: See :attr:`rotation_right`
-    :type rotation_left: tuple[float, float, float, float], optional, default: (0.0, 0.0, 0.0, 1.0)
+    :type rotation_left: :class:`Quaternion`, optional, default: :attr:`Quaternion(0.0, 0.0, 0.0, 1.0)`
     :param rotation_right: Initial rotation. This tag corresponds to the right-singular vector matrix after the
         matrix singular value decomposition.
-    :type rotation_right: tuple[float, float, float, float], optional, default: (0.0, 0.0, 0.0, 1.0)
+    :type rotation_right: :class:`Quaternion`, optional, default: :attr:`Quaternion(0.0, 0.0, 0.0, 1.0)`
     :param billboard_constraint: Billboard Constraints (0 = FIXED, 1 = VERTICAL, 2 = HORIZONTAL, 3 = CENTER)
         Controls if this entity should pivot to face player when rendered.
     :type billboard_constraint: int, optional, default: 0
@@ -395,10 +397,10 @@ class DisplayEM(EntityEM):
     interpolation_delay: int = entry(VarIntEME, 0)
     interpolation_translation_duration: int = entry(VarIntEME, 0)
     interpolation_rotation_duration: int = entry(VarIntEME, 0)
-    translation: tuple[float, float, float] = entry(Vector3EME, (0.0, 0.0, 0.0))
-    scale: tuple[float, float, float] = entry(Vector3EME, (1.0, 1.0, 1.0))
-    rotation_left: tuple[float, float, float, float] = entry(QuaternionEME, (0.0, 0.0, 0.0, 1.0))
-    rotation_right: tuple[float, float, float, float] = entry(QuaternionEME, (0.0, 0.0, 0.0, 1.0))
+    translation: Vec3 = entry(Vector3EME, Vec3(0.0, 0.0, 0.0))
+    scale: Vec3 = entry(Vector3EME, Vec3(1.0, 1.0, 1.0))
+    rotation_left: Quaternion = entry(QuaternionEME, Quaternion(0.0, 0.0, 0.0, 1.0))
+    rotation_right: Quaternion = entry(QuaternionEME, Quaternion(0.0, 0.0, 0.0, 1.0))
     billboard_constraint: int = entry(ByteEME, 0)
     brightness_override: int = entry(VarIntEME, -1)
     view_range: float = entry(FloatEME, 1.0)
@@ -429,14 +431,14 @@ class BlockDisplayEM(DisplayEM):
     :param interpolation_rotation_duration: Rotation interpolation duration.
     :type interpolation_rotation_duration: int, optional, default: 0
     :param translation: Translation vector
-    :type translation: tuple[float, float, float], optional, default: (0.0, 0.0, 0.0)
+    :type translation: :class:`Vec3`, optional, default: :attr:`Vec3(0.0, 0.0, 0.0)`
     :param scale: Scaling vector
-    :type scale: tuple[float, float, float], optional, default: (1.0, 1.0, 1.0)
+    :type scale: :class:`Vec3`, optional, default: :attr:`Vec3(1.0, 1.0, 1.0)`
     :param rotation_left: See :attr:`rotation_right`
-    :type rotation_left: tuple[float, float, float, float], optional, default: (0.0, 0.0, 0.0, 1.0)
+    :type rotation_left: :class:`Quaternion`, optional, default: :attr:`Quaternion(0.0, 0.0, 0.0, 1.0)`
     :param rotation_right: Initial rotation. This tag corresponds to the right-singular vector matrix after the
         matrix singular value decomposition.
-    :type rotation_right: tuple[float, float, float, float], optional, default: (0.0, 0.0, 0.0, 1.0)
+    :type rotation_right: :class:`Quaternion`, optional, default: :attr:`Quaternion(0.0, 0.0, 0.0, 1.0)`
     :param billboard_constraint: Billboard Constraints (0 = FIXED, 1 = VERTICAL, 2 = HORIZONTAL, 3 = CENTER)
         Controls if this entity should pivot to face player when rendered.
     :type billboard_constraint: int, optional, default: 0
@@ -524,14 +526,14 @@ class ItemDisplayEM(DisplayEM):
     :param interpolation_rotation_duration: Rotation interpolation duration.
     :type interpolation_rotation_duration: int, optional, default: 0
     :param translation: Translation vector
-    :type translation: tuple[float, float, float], optional, default: (0.0, 0.0, 0.0)
+    :type translation: :class:`Vec3`, optional, default: :attr:`Vec3(0.0, 0.0, 0.0)`
     :param scale: Scaling vector
-    :type scale: tuple[float, float, float], optional, default: (1.0, 1.0, 1.0)
+    :type scale: :class:`Vec3`, optional, default: :attr:`Vec3(1.0, 1.0, 1.0)`
     :param rotation_left: See :attr:`rotation_right`
-    :type rotation_left: tuple[float, float, float, float], optional, default: (0.0, 0.0, 0.0, 1.0)
+    :type rotation_left: :class:`Quaternion`, optional, default: :attr:`Quaternion(0.0, 0.0, 0.0, 1.0)`
     :param rotation_right: Initial rotation. This tag corresponds to the right-singular vector matrix after the
         matrix singular value decomposition.
-    :type rotation_right: tuple[float, float, float, float], optional, default: (0.0, 0.0, 0.0, 1.0)
+    :type rotation_right: :class:`Quaternion`, optional, default: :attr:`Quaternion(0.0, 0.0, 0.0, 1.0)`
     :param billboard_constraint: Billboard Constraints (0 = FIXED, 1 = VERTICAL, 2 = HORIZONTAL, 3 = CENTER)
         Controls if this entity should pivot to face player when rendered.
     :type billboard_constraint: int, optional, default: 0
@@ -635,14 +637,14 @@ class TextDisplayEM(DisplayEM):
     :param interpolation_rotation_duration: Rotation interpolation duration.
     :type interpolation_rotation_duration: int, optional, default: 0
     :param translation: Translation vector
-    :type translation: tuple[float, float, float], optional, default: (0.0, 0.0, 0.0)
+    :type translation: :class:`Vec3`, optional, default: :attr:`Vec3(0.0, 0.0, 0.0)`
     :param scale: Scaling vector
-    :type scale: tuple[float, float, float], optional, default: (1.0, 1.0, 1.0)
+    :type scale: :class:`Vec3`, optional, default: :attr:`Vec3(1.0, 1.0, 1.0)`
     :param rotation_left: See :attr:`rotation_right`
-    :type rotation_left: tuple[float, float, float, float], optional, default: (0.0, 0.0, 0.0, 1.0)
+    :type rotation_left: :class:`Quaternion`, optional, default: :attr:`Quaternion(0.0, 0.0, 0.0, 1.0)`
     :param rotation_right: Initial rotation. This tag corresponds to the right-singular vector matrix after the
         matrix singular value decomposition.
-    :type rotation_right: tuple[float, float, float, float], optional, default: (0.0, 0.0, 0.0, 1.0)
+    :type rotation_right: :class:`Quaternion`, optional, default: :attr:`Quaternion(0.0, 0.0, 0.0, 1.0)`
     :param billboard_constraint: Billboard Constraints (0 = FIXED, 1 = VERTICAL, 2 = HORIZONTAL, 3 = CENTER)
         Controls if this entity should pivot to face player when rendered.
     :type billboard_constraint: int, optional, default: 0
@@ -2844,17 +2846,17 @@ class ArmorStandEM(LivingEntityEM):
     :param is_marker: Whether the armor stand is a marker. (this affects :attr:`_armorstand_flags`)
     :type is_marker: bool, optional
     :param head_rotation: Rotation of the armor stand's head.
-    :type head_rotation: tuple[float, float, float], optional, default: (0.0, 0.0, 0.0)
+    :type head_rotation: :class:`Vec3`, optional, default: :attr:`Vec3(0.0, 0.0, 0.0)`
     :param body_rotation: Rotation of the armor stand's body.
-    :type body_rotation: tuple[float, float, float], optional, default: (0.0, 0.0, 0.0)
+    :type body_rotation: :class:`Vec3`, optional, default: :attr:`Vec3(0.0, 0.0, 0.0)`
     :param left_arm_rotation: Rotation of the armor stand's left arm.
-    :type left_arm_rotation: tuple[float, float, float], optional, default: (-10.0, 0.0, -10.0)
+    :type left_arm_rotation: :class:`Vec3`, optional, default: :attr:`Vec3(-10.0, 0.0, -10.0)`
     :param right_arm_rotation: Rotation of the armor stand's right arm.
-    :type right_arm_rotation: tuple[float, float, float], optional, default: (-15.0, 0.0, 10.0)
+    :type right_arm_rotation: :class:`Vec3`, optional, default: :attr:`Vec3(-15.0, 0.0, 10.0)`
     :param left_leg_rotation: Rotation of the armor stand's left leg.
-    :type left_leg_rotation: tuple[float, float, float], optional, default: (-1.0, 0.0, -1.0)
+    :type left_leg_rotation: :class:`Vec3`, optional, default: :attr:`Vec3(-1.0, 0.0, -1.0)`
     :param right_leg_rotation: Rotation of the armor stand's right leg.
-    :type right_leg_rotation: tuple[float, float, float], optional, default: (1.0, 0.0, 1.0)
+    :type right_leg_rotation: :class:`Vec3`, optional, default: :attr:`Vec3(1.0, 0.0, 1.0)`
 
     Inherited from :class:`LivingEntityEM`:
 
@@ -2920,12 +2922,12 @@ class ArmorStandEM(LivingEntityEM):
     has_arms: bool = proxy(_armorstand_flags, Masked, mask=0x4)
     has_no_base_plate: bool = proxy(_armorstand_flags, Masked, mask=0x8)
     is_marker: bool = proxy(_armorstand_flags, Masked, mask=0x10)
-    head_rotation: tuple[float, float, float] = entry(RotationEME, (0.0, 0.0, 0.0))
-    body_rotation: tuple[float, float, float] = entry(RotationEME, (0.0, 0.0, 0.0))
-    left_arm_rotation: tuple[float, float, float] = entry(RotationEME, (-10.0, 0.0, -10.0))
-    right_arm_rotation: tuple[float, float, float] = entry(RotationEME, (-15.0, 0.0, 10.0))
-    left_leg_rotation: tuple[float, float, float] = entry(RotationEME, (-1.0, 0.0, -1.0))
-    right_leg_rotation: tuple[float, float, float] = entry(RotationEME, (1.0, 0.0, 1.0))
+    head_rotation: Vec3 = entry(RotationEME, Vec3(0.0, 0.0, 0.0))
+    body_rotation: Vec3 = entry(RotationEME, Vec3(0.0, 0.0, 0.0))
+    left_arm_rotation: Vec3 = entry(RotationEME, Vec3(-10.0, 0.0, -10.0))
+    right_arm_rotation: Vec3 = entry(RotationEME, Vec3(-15.0, 0.0, 10.0))
+    left_leg_rotation: Vec3 = entry(RotationEME, Vec3(-1.0, 0.0, -1.0))
+    right_leg_rotation: Vec3 = entry(RotationEME, Vec3(1.0, 0.0, 1.0))
 
     __slots__ = ()
 

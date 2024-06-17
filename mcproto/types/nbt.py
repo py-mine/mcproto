@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import abstractmethod
 from collections.abc import Iterator, Mapping, Sequence
 from enum import IntEnum
-from typing import ClassVar, Protocol, Union, cast, final, runtime_checkable
+from typing import ClassVar, Hashable, Protocol, Union, cast, final, runtime_checkable
 
 from attrs import define
 from typing_extensions import Self, TypeAlias, override
@@ -61,7 +61,7 @@ only contains the payload.
 .. seealso:: :class:`NBTagType`
 """
 
-# region NBT Specification
+# region NBT Specification,
 
 
 class NBTagType(IntEnum):
@@ -180,7 +180,7 @@ FromObjectSchema: TypeAlias = Union[
 """Represents the type of a schema, used to define how an object should be converted to an NBT tag(s)."""
 
 
-class NBTag(MCType, NBTagConvertible):
+class NBTag(MCType, NBTagConvertible, Hashable):
     """Base class for NBT tags.
 
     In MC v1.20.2+ the type and name of the root tag is not written to the buffer, and unless specified,
@@ -207,7 +207,7 @@ class NBTag(MCType, NBTagConvertible):
 
     @override
     @classmethod
-    def deserialize(cls, buf: Buffer, with_name: bool = True, with_type: bool = True) -> NBTag:
+    def deserialize(cls, buf: Buffer, with_name: bool = True, with_type: bool = True) -> Self:
         """Deserialize the NBT tag.
 
         :param buf: The buffer to read from.
@@ -227,7 +227,7 @@ class NBTag(MCType, NBTagConvertible):
 
         tag = tag_class.read_from(buf, with_type=False, with_name=False)
         tag.name = name
-        return tag
+        return tag  # type: ignore
 
     @override
     @abstractmethod
@@ -341,6 +341,7 @@ class NBTag(MCType, NBTagConvertible):
                 raise ValueError("Use a list or a dictionary in the schema to create a CompoundNBT or a ListNBT.")
             # Check if the data contains the name (if it is a dictionary)
             if isinstance(data, dict):
+                data = cast("Mapping[str, FromObjectType]", data)
                 if len(data) != 1:
                     raise ValueError("Expected a dictionary with a single key-value pair.")
                 # We also check if the name isn't already set
@@ -462,14 +463,24 @@ class NBTag(MCType, NBTagConvertible):
         """Get the payload of the NBT tag in a python-friendly format."""
         raise NotImplementedError
 
+    @override
+    def __hash__(self) -> int:
+        return hash((self.name, self.payload, type(self)))
+
+    @override
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, NBTag):
+            return NotImplemented
+        return (self.name, self.payload, type(self)) == (value.name, value.payload, type(value))
+
 
 # endregion
 # region NBT tags types
 
 
 @final
-@define
-class EndNBT(NBTag):
+@define(hash=False, eq=False)
+class EndNBT(NBTag, Hashable):
     """Sentinel tag used to mark the end of a TAG_Compound."""
 
     payload: None = None
@@ -499,8 +510,8 @@ class EndNBT(NBTag):
         return NotImplemented
 
 
-@define
-class _NumberNBTag(NBTag, RequiredParamsABCMixin):
+@define(hash=False, eq=False)
+class _NumberNBTag(NBTag, RequiredParamsABCMixin, Hashable):
     """Base class for NBT tags representing a number.
 
     This class is not meant to be used directly, but rather through its subclasses.
@@ -550,7 +561,7 @@ class _NumberNBTag(NBTag, RequiredParamsABCMixin):
 
 
 @final
-class ByteNBT(_NumberNBTag):
+class ByteNBT(_NumberNBTag, Hashable):
     """NBT tag representing a single byte value, represented as a signed 8-bit integer."""
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = StructFormat.BYTE
@@ -560,7 +571,7 @@ class ByteNBT(_NumberNBTag):
 
 
 @final
-class ShortNBT(_NumberNBTag):
+class ShortNBT(_NumberNBTag, Hashable):
     """NBT tag representing a short value, represented as a signed 16-bit integer."""
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = StructFormat.SHORT
@@ -570,7 +581,7 @@ class ShortNBT(_NumberNBTag):
 
 
 @final
-class IntNBT(_NumberNBTag):
+class IntNBT(_NumberNBTag, Hashable):
     """NBT tag representing an integer value, represented as a signed 32-bit integer."""
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = StructFormat.INT
@@ -580,7 +591,7 @@ class IntNBT(_NumberNBTag):
 
 
 @final
-class LongNBT(_NumberNBTag):
+class LongNBT(_NumberNBTag, Hashable):
     """NBT tag representing a long value, represented as a signed 64-bit integer."""
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = StructFormat.LONGLONG
@@ -589,8 +600,8 @@ class LongNBT(_NumberNBTag):
     __slots__ = ()
 
 
-@define
-class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
+@define(hash=False, eq=False)
+class _FloatingNBTag(NBTag, RequiredParamsABCMixin, Hashable):
     """Base class for NBT tags representing a floating-point number."""
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
@@ -658,8 +669,8 @@ class DoubleNBT(_FloatingNBTag):
     __slots__ = ()
 
 
-@define
-class ByteArrayNBT(NBTag):
+@define(hash=False, eq=False)
+class ByteArrayNBT(NBTag, Hashable):
     """NBT tag representing an array of bytes. The length of the array is stored as a signed 32-bit integer."""
 
     payload: bytes
@@ -721,8 +732,8 @@ class ByteArrayNBT(NBTag):
             raise TypeError(f"Expected a bytes, but found {type(self.payload).__name__}.")
 
 
-@define
-class StringNBT(NBTag):
+@define(hash=False, eq=False)
+class StringNBT(NBTag, Hashable):
     """NBT tag representing an UTF-8 string value. The length of the string is stored as a signed 16-bit integer."""
 
     payload: str
@@ -780,8 +791,8 @@ class StringNBT(NBTag):
             raise ValueError("Invalid UTF-8 string.") from exc
 
 
-@define
-class ListNBT(NBTag):
+@define(hash=False, eq=False)
+class ListNBT(NBTag, Hashable):
     """NBT tag representing a list of tags. All tags in the list must be of the same type."""
 
     payload: list[NBTag]
@@ -872,6 +883,7 @@ class ListNBT(NBTag):
             # or the `validate` method
             if not isinstance(first, (dict, list)):  # pragma: no cover
                 raise TypeError(f"The schema must contain either a dict or a list. Found {first!r}")
+            first = cast("dict[str, PayloadType]|list[PayloadType]", first)
             # This will take care of ensuring either everything is a dict or a list
             if not all(isinstance(schema, type(first)) for schema in subschemas):  # pragma: no cover
                 raise TypeError(f"All items in the list must have the same type. Found {subschemas!r}")
@@ -898,8 +910,8 @@ class ListNBT(NBTag):
             raise ValueError("All tags in a list must be unnamed.")
 
 
-@define
-class CompoundNBT(NBTag):
+@define(hash=False, eq=False)
+class CompoundNBT(NBTag, Hashable):
     """NBT tag representing a compound of named tags."""
 
     payload: list[NBTag]
@@ -1009,9 +1021,13 @@ class CompoundNBT(NBTag):
         if len(self.payload) != len({tag.name for tag in self.payload}):
             raise ValueError("All tags in a compound must have unique names.")
 
+    @override
+    def __hash__(self) -> int:
+        return hash((self.name, frozenset(self.payload), type(self)))  # Use frozenset to ignore the order
 
-@define
-class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
+
+@define(hash=False, eq=False)
+class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin, Hashable):
     """Base class for NBT tags representing an array of numbers."""
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")

@@ -5,6 +5,7 @@ from typing import cast
 import pytest
 import math
 
+from mcproto.buffer import Buffer
 from mcproto.types.vec3 import Position, Vec3
 from tests.helpers import gen_serializable_test
 
@@ -216,3 +217,23 @@ def test_vec3_normalize(x: float, y: float, z: float, expected: Vec3 | type):
             v.normalize()
     else:
         assert (v.normalize() - expected).norm() < 1e-6
+
+
+def test_vec3_serialize_to_double():
+    """Test that a Vec3 object can be serialized to a double."""
+    v = Vec3(x=1.0, y=2.0, z=3.0)
+    buf = Buffer()
+    v.serialize_to_double(buf)
+
+    assert bytes(buf) == struct.pack(">ddd", 1.0, 2.0, 3.0)
+
+
+def test_vec3_deserialize_from_double():
+    """Test that a Vec3 object can be deserialized from a double."""
+    buf = Buffer(struct.pack(">ddd", 1.0, 2.0, 3.0))
+    v = Vec3.deserialize_double(buf)
+
+    assert type(v) == Vec3
+    assert v.x == 1.0
+    assert v.y == 2.0
+    assert v.z == 3.0

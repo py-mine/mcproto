@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 
-from typing import cast, final
+from typing import final
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
@@ -20,9 +20,9 @@ class Vec3(MCType):
     :param z: The z component.
     """
 
-    x: float | int
-    y: float | int
-    z: float | int
+    x: float
+    y: float
+    z: float
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -38,6 +38,26 @@ class Vec3(MCType):
         z = buf.read_value(StructFormat.FLOAT)
         return cls(x=x, y=y, z=z)
 
+    def serialize_to_double(self, buf: Buffer) -> None:
+        """Serialize the vector to a buffer using double precision.
+
+        .. seealso:: :meth:`serialize_to`
+        """
+        buf.write_value(StructFormat.DOUBLE, self.x)
+        buf.write_value(StructFormat.DOUBLE, self.y)
+        buf.write_value(StructFormat.DOUBLE, self.z)
+
+    @classmethod
+    def deserialize_double(cls, buf: Buffer) -> Vec3:
+        """Deserialize a vector from a buffer using double precision.
+
+        .. seealso:: :meth:`deserialize`
+        """
+        x = buf.read_value(StructFormat.DOUBLE)
+        y = buf.read_value(StructFormat.DOUBLE)
+        z = buf.read_value(StructFormat.DOUBLE)
+        return cls(x=x, y=y, z=z)
+
     @override
     def validate(self) -> None:
         """Validate the vector's components."""
@@ -45,9 +65,9 @@ class Vec3(MCType):
         if not all(isinstance(comp, (float, int)) for comp in (self.x, self.y, self.z)):  # type: ignore
             raise TypeError(f"Vector components must be floats or integers, got {self.x!r}, {self.y!r}, {self.z!r}")
 
-        # Check that the components are not NaN.
+        # Check that the components are finite (not NaN or inf)
         if any(not math.isfinite(comp) for comp in (self.x, self.y, self.z)):
-            raise ValueError(f"Vector components must not be NaN, got {self.x!r}, {self.y!r}, {self.z!r}.")
+            raise ValueError(f"Vector components must be finite, got {self.x!r}, {self.y!r}, {self.z!r}.")
 
     def __add__(self, other: Vec3) -> Vec3:
         # Use the type of self to return a Vec3 or a subclass.
@@ -103,13 +123,14 @@ class Position(Vec3):
     :param z: The z coordinate (26 bits).
     """
 
+    x: int
+    y: int
+    z: int
+
     __slots__ = ()
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
-        self.x = cast(int, self.x)
-        self.y = cast(int, self.y)
-        self.z = cast(int, self.z)
         encoded = ((self.x & 0x3FFFFFF) << 38) | ((self.z & 0x3FFFFFF) << 12) | (self.y & 0xFFF)
 
         # Convert the bit mess to a signed integer for packing.
@@ -144,9 +165,9 @@ class Position(Vec3):
         """
         super().validate()  # Validate the Vec3 components.
 
-        self.x = int(self.x)
-        self.y = int(self.y)
-        self.z = int(self.z)
+        self.x = int(self.x)  # type: ignore
+        self.y = int(self.y)  # type: ignore
+        self.z = int(self.z)  # type: ignore
         if not (-1 << 25 <= self.x < 1 << 25):
             raise OverflowError(f"Invalid x coordinate: {self.x}")
         if not (-1 << 11 <= self.y < 1 << 11):

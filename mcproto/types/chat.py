@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from typing import TypedDict, Union, cast, final
+from copy import deepcopy
 
 from attrs import define
 from typing_extensions import Self, TypeAlias, override
@@ -14,6 +15,7 @@ __all__ = [
     "TextComponent",
     "RawTextComponentDict",
     "RawTextComponent",
+    "JSONTextComponent",
 ]
 
 
@@ -33,12 +35,6 @@ class RawTextComponentDict(TypedDict, total=False):
 
 
 RawTextComponent: TypeAlias = Union[RawTextComponentDict, "list[RawTextComponentDict]", str]
-
-
-def _deep_copy_dict(data: RawTextComponentDict) -> RawTextComponentDict:
-    """Deep copy a dictionary structure."""
-    json_data = json.dumps(data)
-    return json.loads(json_data)
 
 
 @define
@@ -65,7 +61,7 @@ class JSONTextComponent(MCType):
         """Check equality between two chat messages.
 
         ..warning: This is purely using the `raw` field, which means it's possible that
-        a chat message that appears the same, but was representing in a different way
+        a chat message that appears the same, but was represented in a different way
         will fail this equality check.
         """
         if not isinstance(other, JSONTextComponent):
@@ -125,23 +121,7 @@ class TextComponent(JSONTextComponent):
         # Ensure the schema is compatible with the one defined in the class
         data, schema = cast("tuple[FromObjectType, FromObjectSchema]", nbt.to_object(include_schema=True))
 
-        def recursive_validate(recieved: FromObjectSchema, expected: FromObjectSchema) -> None:
-            if isinstance(recieved, dict):
-                if not isinstance(expected, dict):
-                    raise TypeError(f"Expected {expected!r}, got dict")
-                for key, value in recieved.items():
-                    if key not in expected:
-                        raise KeyError(f"Unexpected key {key!r}")
-                    recursive_validate(value, expected[key])
-            elif isinstance(recieved, list):
-                if not isinstance(expected, list):
-                    raise TypeError(f"Expected {expected!r}, got list")
-                for rec in recieved:
-                    recursive_validate(rec, expected[0])
-            elif recieved != expected:
-                raise TypeError(f"Expected {expected!r}, got {recieved!r}")
-
-        recursive_validate(schema, cls._build_schema())
+        TextComponent._recursive_validate(schema, cls._build_schema())
         data = cast(RawTextComponentDict, data)  # We just ensured that the data is compatible with the schema
         return cls(data)
 
@@ -162,6 +142,31 @@ class TextComponent(JSONTextComponent):
         return schema
 
     @staticmethod
+    def _recursive_validate(received: FromObjectSchema, expected: FromObjectSchema) -> None:
+        """Recursively validate the NBT data representing the chat message.
+
+        .. note :: The expected schema is recursive so we don't want to iterate over it.
+        """
+        if isinstance(received, dict):
+            if not isinstance(expected, dict):
+                raise TypeError(f"Expected {expected!r}, got dict")
+            received = cast("dict[str, FromObjectSchema]", received)
+            for key, value in received.items():
+                if key not in expected:
+                    raise KeyError(f"Unexpected key {key!r}")
+                expected_value = cast(FromObjectSchema, expected[key])
+                TextComponent._recursive_validate(value, expected_value)
+        elif isinstance(received, list):
+            if not isinstance(expected, list):
+                raise TypeError(f"Expected {expected!r}, got list")
+            received = cast("list[FromObjectSchema]", received)
+            for rec in received:
+                expected_value = cast(FromObjectSchema, expected[0])
+                TextComponent._recursive_validate(rec, expected_value)
+        elif received != expected:
+            raise TypeError(f"Expected {expected!r}, got {received!r}")
+
+    @staticmethod
     def _convert_to_dict(msg: RawTextComponent) -> RawTextComponentDict:
         """Convert a chat message into a dictionary representation."""
         if isinstance(msg, str):
@@ -176,7 +181,7 @@ class TextComponent(JSONTextComponent):
             return main
 
         if isinstance(msg, dict):  # pyright: ignore[reportUnnecessaryIsInstance]
-            return _deep_copy_dict(msg)  # We don't want to modify self.raw for example
+            return deepcopy(msg)
 
         raise TypeError(f"Unexpected type {msg!r} ({msg.__class__.__name__})")  # pragma: no cover
 

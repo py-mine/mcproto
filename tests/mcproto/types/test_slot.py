@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from mcproto.types.nbt import ByteNBT, CompoundNBT, EndNBT, IntNBT, NBTag
 from mcproto.types.slot import Slot
 from tests.helpers import gen_serializable_test
@@ -32,3 +34,27 @@ gen_serializable_test(
         ((False, None, None, CompoundNBT([])), ValueError),
     ],
 )
+
+
+def test_slot_data():
+    """Test the item property of Slot."""
+    s = Slot(present=True, item_id=1, item_count=4, nbt=CompoundNBT([IntNBT(2, "int_nbt")]))
+    assert s.item == (1, 4, CompoundNBT([IntNBT(2, "int_nbt")]))
+
+    with pytest.raises(ValueError):
+        Slot(present=False).item  # noqa: B018
+
+
+def test_slot_hash():
+    """Test that the slot hash is consistent."""
+    s1 = Slot(present=True, item_id=1, item_count=1, nbt=None)
+    s2 = Slot(present=True, item_id=1, item_count=1, nbt=None)
+
+    assert hash(s1) == hash(s2)
+    assert s1 == s2
+
+    s1 = Slot(present=True, item_id=1, item_count=1, nbt=CompoundNBT([ByteNBT(1, "byte_nbt")]))
+    s2 = Slot(present=True, item_id=1, item_count=1, nbt=CompoundNBT([ByteNBT(1, "byte_nbt")]))
+
+    assert hash(s1) == hash(s2)
+    assert s1 == s2
