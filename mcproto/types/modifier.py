@@ -29,12 +29,12 @@ class ModifierOperation(IntEnum):
 @final
 @define
 class ModifierData(MCType):
-    """Represents a modifier data in the :class:`mcproto.packets.play.UpdateAttributes` packet.
+    """Represents a modifier data in the :class:`~mcproto.packets.play.UpdateAttributes` packet.
 
     https://wiki.vg/Protocol#Update_Attributes
 
     :param uuid: The UUID of the modifier.
-    :type uuid: :class:`mcproto.types.uuid.UUID`
+    :type uuid: :class:`~mcproto.types.uuid.UUID`
     :param amount: The amount of the modifier.
     :type amount: float
     :param operation: The operation of the modifier.

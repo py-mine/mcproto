@@ -224,10 +224,10 @@ def gen_serializable_test(
     :param cls: The serializable class to test.
     :param fields: A list of tuples containing the field names and types of the serializable class.
     :param serialize_deserialize: A list of tuples containing:
-        - The tuple representing the arguments to pass to the :class:`mcproto.utils.abc.Serializable` class
+        - The tuple representing the arguments to pass to the :class:`~mcproto.utils.abc.Serializable` class
         - The expected bytes
     :param validation_fail: A list of tuples containing the arguments to pass to the
-        :class:`mcproto.utils.abc.Serializable` class and the expected exception, either as is or wrapped in a
+        :class:`~mcproto.utils.abc.Serializable` class and the expected exception, either as is or wrapped in a
         :class:`ExcTest` object.
     :param deserialization_fail: A list of tuples containing the bytes to pass to the :meth:`deserialize` method of the
         class and the expected exception, either as is or wrapped in a :class:`ExcTest` object.
@@ -236,7 +236,8 @@ def gen_serializable_test(
     Example usage:
 
     .. literalinclude:: /../tests/mcproto/utils/test_serializable.py
-        :start-after: # region ToyClass
+        :start-after: # region Test ToyClass
+        :end-before: # endregion
         :linenos:
         :language: python
 

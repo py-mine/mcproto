@@ -22,7 +22,7 @@ class Ingredient(MCType):
     :param count: The count of the item.
     :type count: int
     :param items: The items that can be used to craft the item.
-    :type items: list[:class:`mcproto.types.slot.Slot`]
+    :type items: list[:class:`~mcproto.types.slot.Slot`]
 
     .. note:: Each item in the list has to have a count of 1.
     """
@@ -52,12 +52,12 @@ class Ingredient(MCType):
 
 @define
 class Recipe(MCType, RequiredParamsABCMixin):
-    """Represents a recipe in the :class:`mcproto.packets.play.UpdateRecipes` packet.
+    """Represents a recipe in the :class:`~mcproto.packets.play.UpdateRecipes` packet.
 
     https://wiki.vg/Protocol#Update_Recipes
 
     :param recipe_id: The ID of the recipe.
-    :type recipe_id: :class:`mcproto.types.identifier.Identifier`
+    :type recipe_id: :class:`~mcproto.types.identifier.Identifier`
     """
 
     _REQUIRED_CLASS_VARS = ("recipe_type",)
@@ -87,7 +87,7 @@ class Recipe(MCType, RequiredParamsABCMixin):
 @final
 @define
 class ShapedRecipe(Recipe):
-    """Represents a shaped recipe in the :class:`mcproto.packets.play.UpdateRecipes` packet.
+    """Represents a shaped recipe in the :class:`~mcproto.packets.play.UpdateRecipes` packet.
 
     Shaped crafting recipe. All items must be present in the same pattern (which may be flipped horizontally or
     translated).
@@ -103,7 +103,7 @@ class ShapedRecipe(Recipe):
     :param ingredients: The ingredients of the recipe.
     :type ingredients: list[:class:`Ingredient`]
     :param result: The result of the recipe.
-    :type result: :class:`mcproto.types.slot.Slot`
+    :type result: :class:`~mcproto.types.slot.Slot`
     :param show_toast: Whether to show a toast notification when the recipe is unlocked.
     :type show_toast: bool
     """
@@ -157,7 +157,7 @@ class ShapedRecipe(Recipe):
 @final
 @define
 class ShapelessRecipe(Recipe):
-    """Represents a shapeless recipe in the :class:`mcproto.packets.play.UpdateRecipes` packet.
+    """Represents a shapeless recipe in the :class:`~mcproto.packets.play.UpdateRecipes` packet.
 
     Shapeless crafting recipe. Items can be anywhere in the grid.
 
@@ -168,7 +168,7 @@ class ShapelessRecipe(Recipe):
     :param ingredients: The ingredients of the recipe.
     :type ingredients: list[:class:`Ingredient`]
     :param result: The result of the recipe.
-    :type result: :class:`mcproto.types.slot.Slot`
+    :type result: :class:`~mcproto.types.slot.Slot`
     """
 
     recipe_type: ClassVar[int] = 1
@@ -376,9 +376,9 @@ class SmeltingRecipe(Recipe):
     :param category: The category of the recipe. Building = 0, Redstone = 1, Equipment = 2, Misc = 3
     :type category: int
     :param ingredient: The ingredient of the recipe.
-    :type ingredient: :class:`Ingredient
+    :type ingredient: :class:`Ingredient`
     :param result: The result of the recipe.
-    :type result: :class:`mcproto.types.slot.Slot`
+    :type result: :class:`~mcproto.types.slot.Slot`
     :param experience: The experience given when the recipe is completed.
     :type experience: float
     :param cooking_time: The time it takes to complete the recipe.
@@ -465,7 +465,7 @@ class StoneCuttingRecipe(Recipe):
     :param ingredient: The ingredient of the recipe.
     :type ingredient: :class:`Ingredient`
     :param result: The result of the recipe.
-    :type result: :class:`mcproto.types.slot.Slot`
+    :type result: :class:`~mcproto.types.slot.Slot`
     """
 
     recipe_type: ClassVar[int] = 19
@@ -548,7 +548,7 @@ class SmithingTransformRecipe(SmithingTrimRecipe):
     :param addition: The additional ingredient of the recipe.
     :type addition: :class:`Ingredient`
     :param result: The result of the recipe.
-    :type result: :class:`mcproto.types.slot.Slot`
+    :type result: :class:`~mcproto.types.slot.Slot`
     """
 
     recipe_type: ClassVar[int] = 20

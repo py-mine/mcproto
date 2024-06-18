@@ -372,13 +372,15 @@ class EntityMetadata(MCType, metaclass=EntityMetadataCreator):
     You can set attributes of the entity class by using the entry() and proxy() functions.
 
     Example:
-    ```python
-    class EntityMetadata(EntityMetadata):
-        byte_entry: ClassVar[int] = entry(ByteEME, 0) # ByteEME is the type and 0 is the default value
-        varint_entry: int = entry(VarIntEME, 0)
-        proxy_entry: int = proxy(byte_entry, Masked, mask=0x01)
-        proxy_entry2: int = proxy(byte_entry, Masked, mask=0x02)
-    ```
+
+    .. code-block:: python
+
+        class EntityMetadata(EntityMetadata):
+            byte_entry: ClassVar[int] = entry(ByteEME, 0) # ByteEME is the type and 0 is the default value
+            varint_entry: int = entry(VarIntEME, 0)
+            proxy_entry: int = proxy(byte_entry, Masked, mask=0x01)
+            proxy_entry2: int = proxy(byte_entry, Masked, mask=0x02)
+
 
     Note that the extra arguments for the proxy() function are passed to the proxy class and that the
     bound entry is passed as the first argument without quotes.

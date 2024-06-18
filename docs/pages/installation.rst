@@ -17,7 +17,7 @@ Latest (git) version
 
 Alternatively, you may want to install the latest available version, which is what you currently see in the ``main``
 git branch. Although this method will actually work for any branch with a pretty straightforward change. This kind of
-installation should only be done when testing new feautes, and it's likely you'll encounter bugs.
+installation should only be done when testing new features, and it's likely you'll encounter bugs.
 
 That said, since mcproto is still in development, changes can often be made pretty quickly, and it can sometimes take a
 while for these changes to carry over to PyPI. So if you really want to try out that latest feature, this is the method

@@ -68,6 +68,14 @@ class Serializable(ABC):
 
     Any class that inherits from this class and adds parameters should use the :func:`~mcproto.utils.abc.define`
     decorator.
+
+    Example usage:
+
+    .. literalinclude:: /../tests/mcproto/utils/test_serializable.py
+        :start-after: # region ToyClass
+        :end-before: # endregion
+        :linenos:
+        :language: python
     """
 
     __slots__ = ()
@@ -92,7 +100,7 @@ class Serializable(ABC):
 
     @abstractmethod
     def serialize_to(self, buf: Buffer, /) -> None:
-        """Write the object to a :class:`~mcproto.Buffer`."""
+        """Write the object to a :class:`~mcproto.buffer.Buffer`."""
         raise NotImplementedError
 
     def validate(self) -> None:
@@ -108,5 +116,5 @@ class Serializable(ABC):
     @classmethod
     @abstractmethod
     def deserialize(cls, buf: Buffer, /) -> Self:
-        """Construct the object from a :class:`~mcproto.Buffer` (transmittable sequence of bytes)."""
+        """Construct the object from a :class:`~mcproto.buffer.Buffer` (transmittable sequence of bytes)."""
         raise NotImplementedError
