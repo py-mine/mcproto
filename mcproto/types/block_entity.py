@@ -22,7 +22,7 @@ class BlockEntity(MCType):
     :type nbt: CompoundNBT
 
     .. warning:: The position must be within the chunk.
-    .. note :: This class is used in the :class:`mcproto.packets.play.ChunkData` packet.
+    .. note :: This class is used in the :class:`~mcproto.packets.play.ChunkData` packet.
     """
 
     position: Position

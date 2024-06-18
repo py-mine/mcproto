@@ -21,7 +21,7 @@ class Advancement(MCType):
     https://wiki.vg/Protocol#Update_Advancements
 
     :param parent: The parent advancement.
-    :type parent: :class:`mcproto.types.identifier.Identifier`, optional
+    :type parent: :class:`~mcproto.types.identifier.Identifier`, optional
     :param display: The display information.
     :type display: :class:`AdvancementDisplay`, optional
     :param requirements: The criteria for this advancement.
@@ -62,14 +62,14 @@ class AdvancementDisplay(MCType):
     """Describes how an advancement should look.
 
     :param title: The title of the advancement.
-    :type title: :class:`mcproto.types.chat.TextComponent`
+    :type title: :class:`~mcproto.types.chat.TextComponent`
     :param description: The description of the advancement.
-    :type description: :class:`mcproto.types.chat.TextComponent`
+    :type description: :class:`~mcproto.types.chat.TextComponent`
     :param icon: The icon of the advancement.
-    :type icon: :class:`mcproto.types.slot.Slot`
+    :type icon: :class:`~mcproto.types.slot.Slot`
     :param frame: The frame of the advancement (0: task, 1: challenge, 2: goal).
     :param background: The background texture of the advancement.
-    :type background: :class:`mcproto.types.identifier.Identifier`, optional
+    :type background: :class:`~mcproto.types.identifier.Identifier`, optional
     :param show_toast: Whether to show a toast notification.
     :type show_toast: bool
     :param hidden: Whether the advancement is hidden.
@@ -136,7 +136,7 @@ class AdvancementProgress(MCType):
     """Represents the progress of an advancement.
 
     :param criteria: The criteria for this advancement.
-    :type criteria: dict[:class:`mcproto.types.identifier.Identifier`, :class:`AdvancementCriterion`]
+    :type criteria: dict[:class:`~mcproto.types.identifier.Identifier`, :class:`AdvancementCriterion`]
     """
 
     criteria: dict[Identifier, AdvancementCriterion]

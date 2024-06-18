@@ -48,12 +48,12 @@ class ParticleData(MCType):
     :type roll: float, optional
 
     :param item: The item that will be displayed as a particle.
-    :type item: :class:`mcproto.types.item.Slot`, optional
+    :type item: :class:`~mcproto.types.item.Slot`, optional
 
     :param source_type: The type of the source of the particle. (0 for `minecraft:block`, 1 for `minecraft:entity`)
     :type source_type: int, optional
     :param block_position: The position of the block that is the source of the particle. (used when `source_type` is 0)
-    :type block_position: :class:`mcproto.types.vec3.Position`, optional
+    :type block_position: :class:`~mcproto.types.vec3.Position`, optional
     :param entity_id: The ID of the entity that is the source of the particle. (used when `source_type` is 1)
     :type entity_id: int, optional
     :param entity_eye_height: The height of the entity's eye relative to the entity. (used when `source_type` is 1)

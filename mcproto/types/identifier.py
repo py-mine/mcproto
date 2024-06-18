@@ -17,7 +17,7 @@ class Identifier(MCType, NBTagConvertible):
     :param path: The path of the identifier.
     :type path: str, optional
 
-    If the path is not provided, the namespace and path will be extracted from the :arg:`namespace` argument.
+    If the path is not provided, the namespace and path will be extracted from the :attr:`namespace` argument.
     If the namespace is not provided, it will default to "minecraft".
     """
 
