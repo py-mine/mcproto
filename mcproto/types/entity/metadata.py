@@ -3,43 +3,11 @@ from __future__ import annotations
 from abc import ABCMeta, abstractmethod
 from typing import Any, ClassVar, Literal, TypeVar, cast, final, overload
 
-
-from typing_extensions import override, dataclass_transform
+from typing_extensions import dataclass_transform, override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
 from mcproto.types.abc import MCType
-
-
-"""
-    BYTE = 0
-    VARINT = 1
-    VARLONG = 2
-    FLOAT = 3
-    STRING = 4
-    TEXT_COMPONENT = 5
-    OPT_TEXT_COMPONENT = 6
-    SLOT = 7
-    BOOLEAN = 8
-    ROTATION = 9
-    POSITION = 10
-    OPT_POSITION = 11
-    DIRECTION = 12
-    OPT_UUID = 13
-    BLOCK_STATE = 14
-    NBT = 15
-    PARTICLE = 16
-    VILLAGER_DATA = 17
-    OPT_VARINT = 18
-    POSE = 19
-    CAT_VARIANT = 20
-    FROG_VARIANT = 21
-    OPT_GLOBAL_POS = 22
-    PAINTING_VARIANT = 23
-    SNIFFER_STATE = 24
-    VECTOR3 = 25
-    QUATERNION = 26
-"""
 
 
 class EntityMetadataEntry(MCType):
@@ -119,8 +87,11 @@ class EntityMetadataEntry(MCType):
             return index, entry_type
         return index
 
-    @override
     def validate(self) -> None:
+        """Check that the entry has a valid index.
+
+        Subclasses can override this method to add additional validation.
+        """
         if self.index < 0 or self.index > 0xFF:
             raise ValueError("Index must be between 0 and 0xFF.")
 
@@ -142,7 +113,6 @@ class EntityMetadataEntry(MCType):
         :param buf: The buffer to read from.
         :return: The value of the entry.
         """
-        ...
 
     @override
     @classmethod
@@ -186,12 +156,13 @@ class ProxyEntityMetadataEntry(MCType):
     @abstractmethod
     def setter(self, value: Any) -> None:
         """Set the value of the entry by modifying the bound entry."""
-        ...
 
     @abstractmethod
     def getter(self) -> Any:
         """Get the value of the entry by reading the bound entry."""
-        ...
+
+    def validate(self) -> None:
+        """Validate that the proxy metadata entry has valid values."""
 
 
 EntityDefault = TypeVar("EntityDefault")

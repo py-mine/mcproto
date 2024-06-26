@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import Any, cast, final
+from typing import Any, final
 
-from attrs import define
+from attrs import define, field
+from attrs.validators import and_, ge, le, max_len, not_
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
@@ -26,20 +27,12 @@ class CustomError(Exception):
 class ToyClass(Serializable):
     """Toy class for testing demonstrating the use of gen_serializable_test on `Serializable`."""
 
-    a: int
-    b: str | int
-
-    @override
-    def __attrs_post_init__(self) -> None:
-        if isinstance(self.b, int):
-            self.b = str(self.b)
-
-        return super().__attrs_post_init__()
+    a: int = field(validator=not_(and_(ge(0), le(0))))
+    b: str = field(converter=str, validator=max_len(10))
 
     @override
     def serialize_to(self, buf: Buffer):
         """Write the object to a buffer."""
-        self.b = cast(str, self.b)  # Handled by the __attrs_post_init__ method
         buf.write_varint(self.a)
         buf.write_utf(self.b)
 
@@ -52,15 +45,6 @@ class ToyClass(Serializable):
             raise CustomError("a must be non-zero", additional_data=a)
         b = buf.read_utf()
         return cls(a, b)
-
-    @override
-    def validate(self) -> None:
-        """Validate the object's attributes."""
-        if self.a == 0:
-            raise ZeroDivisionError("a must be non-zero")
-        self.b = cast(str, self.b)  # Handled by the __attrs_post_init__ method
-        if len(self.b) > 10:
-            raise ValueError("b must be less than 10 characters")
 
 
 # endregion ToyClass
@@ -76,9 +60,9 @@ gen_serializable_test(
         ((3, 1234567890), b"\x03\x0a1234567890"),
     ],
     validation_fail=[
-        ((0, "hello"), ExcTest(ZeroDivisionError, "a must be non-zero")),  # Message specified
+        ((0, "hello"), ValueError),
         ((1, "hello world"), ValueError),  # No message specified
-        ((1, 12345678900), ExcTest(ValueError, "b must be less than .*")),  # Message regex
+        ((1, 12345678900), ValueError),
     ],
     deserialization_fail=[
         (b"\x00", CustomError),  # No message specified

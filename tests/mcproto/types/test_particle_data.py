@@ -1,8 +1,8 @@
-from mcproto.buffer import Buffer
-from tests.mcproto.utils.test_serializable import gen_serializable_test
-from mcproto.types import ParticleData, Position, Slot
-
 import struct
+
+from mcproto.buffer import Buffer
+from mcproto.types import ParticleData, Position, Slot, SlotData
+from tests.mcproto.utils.test_serializable import gen_serializable_test
 
 # WITH_BLOCK_STATE
 gen_serializable_test(
@@ -103,8 +103,8 @@ gen_serializable_test(
     ],
     serialize_deserialize=[
         (
-            (42, Slot(present=True, item_id=1, item_count=1, nbt=None)),
-            b"\x2a" + Slot(present=True, item_id=1, item_count=1, nbt=None).serialize(),
+            (42, Slot(SlotData(23, 13))),
+            b"\x2a" + Slot(SlotData(23, 13)).serialize(),
         ),
     ],
     validation_fail=[

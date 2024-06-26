@@ -1,8 +1,7 @@
 import struct
-from mcproto.types import Trade
-from tests.helpers import gen_serializable_test
-from mcproto.types import Slot
 
+from mcproto.types import Slot, SlotData, Trade
+from tests.helpers import gen_serializable_test
 
 gen_serializable_test(
     context=globals(),
@@ -22,9 +21,9 @@ gen_serializable_test(
     serialize_deserialize=[
         (
             (
-                Slot(True, 6, 64, None),
-                Slot(False),
-                Slot(True, 1, 1, None),
+                Slot(SlotData(6, 64)),
+                Slot(None),
+                Slot(SlotData(1, 1)),
                 False,
                 1,
                 12,
@@ -33,9 +32,9 @@ gen_serializable_test(
                 1.5,
                 3,
             ),
-            bytes(Slot(True, 6, 64, None).serialize())
-            + bytes(Slot(False).serialize())
-            + bytes(Slot(True, 1, 1, None).serialize())
+            bytes(Slot(SlotData(6, 64)).serialize())
+            + bytes(Slot(None).serialize())
+            + bytes(Slot(SlotData(1, 1)).serialize())
             + b"\x00\x01\x0c\x10\x02"
             + struct.pack("!f", 1.5)
             + b"\x03",

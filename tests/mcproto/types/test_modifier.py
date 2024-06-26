@@ -1,6 +1,7 @@
-from tests.helpers import gen_serializable_test
-from mcproto.types import ModifierData, UUID, ModifierOperation
 import struct
+
+from mcproto.types import ModifierData, ModifierOperation, UUID
+from tests.helpers import gen_serializable_test
 
 gen_serializable_test(
     context=globals(),

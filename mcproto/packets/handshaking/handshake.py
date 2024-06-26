@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import IntEnum
-from typing import ClassVar, cast, final
+from typing import ClassVar, final
 
 from attrs import define
 from typing_extensions import Self, override
@@ -42,19 +42,11 @@ class Handshake(ServerBoundPacket):
     protocol_version: int
     server_address: str
     server_port: int
-    next_state: NextState | int
-
-    @override
-    def __attrs_post_init__(self) -> None:
-        if not isinstance(self.next_state, NextState):
-            self.next_state = NextState(self.next_state)
-
-        super().__attrs_post_init__()
+    next_state: NextState
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
         """Serialize the packet."""
-        self.next_state = cast(NextState, self.next_state)  # Handled by the __attrs_post_init__ method
         buf.write_varint(self.protocol_version)
         buf.write_utf(self.server_address)
         buf.write_value(StructFormat.USHORT, self.server_port)
@@ -67,5 +59,5 @@ class Handshake(ServerBoundPacket):
             protocol_version=buf.read_varint(),
             server_address=buf.read_utf(),
             server_port=buf.read_value(StructFormat.USHORT),
-            next_state=buf.read_varint(),
+            next_state=NextState(buf.read_varint()),
         )

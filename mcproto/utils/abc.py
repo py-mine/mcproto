@@ -80,18 +80,6 @@ class Serializable(ABC):
 
     __slots__ = ()
 
-    def __attrs_post_init__(self) -> None:
-        """Run the validation method after the object is initialized.
-
-        This function is responsible for conversion/transformation of given values right after initialization (often
-        for example to convert an int initialization param into a specific enum variant)
-
-        .. note::
-            If you override this method, make sure to call the superclass method at some point to ensure that the
-            validation is run.
-        """
-        self.validate()
-
     def serialize(self) -> Buffer:
         """Represent the object as a :class:`~mcproto.Buffer` (transmittable sequence of bytes)."""
         buf = Buffer()
@@ -102,16 +90,6 @@ class Serializable(ABC):
     def serialize_to(self, buf: Buffer, /) -> None:
         """Write the object to a :class:`~mcproto.buffer.Buffer`."""
         raise NotImplementedError
-
-    def validate(self) -> None:
-        """Validate the object's attributes, raising an exception if they are invalid.
-
-        By default, this method does nothing. Override it in your subclass to add validation logic.
-
-        .. note::
-            This method is called by :meth:`~mcproto.utils.abc.Serializable.__attrs_post_init__`
-        """
-        return
 
     @classmethod
     @abstractmethod

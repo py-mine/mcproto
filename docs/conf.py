@@ -17,7 +17,7 @@ from typing import Any
 from packaging.version import parse as parse_version
 from typing_extensions import override
 
-from mcproto.types.entity.metadata import _ProxyEntityMetadataEntry, _DefaultEntityMetadataEntry
+from mcproto.types.entity.metadata import _DefaultEntityMetadataEntry, _ProxyEntityMetadataEntry
 
 if sys.version_info >= (3, 11):
     from tomllib import load as toml_parse

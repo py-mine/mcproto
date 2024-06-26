@@ -1,51 +1,56 @@
 from __future__ import annotations
 
 from mcproto.types.abc import MCType, Serializable
-from mcproto.types.advancement import Advancement, AdvancementProgress, AdvancementDisplay, AdvancementCriterion
+from mcproto.types.advancement import (
+    Advancement,
+    AdvancementCriterion,
+    AdvancementDisplay,
+    AdvancementFrame,
+    AdvancementProgress,
+)
 from mcproto.types.angle import Angle
 from mcproto.types.bitset import Bitset, FixedBitset
 from mcproto.types.block_entity import BlockEntity
 from mcproto.types.chat import JSONTextComponent, TextComponent
 from mcproto.types.entity import EntityMetadata
 from mcproto.types.identifier import Identifier
-from mcproto.types.map_icon import MapIcon, IconType
+from mcproto.types.map_icon import IconType, MapIcon
 from mcproto.types.modifier import ModifierData, ModifierOperation
-from mcproto.types.nbt import NBTag, CompoundNBT
+from mcproto.types.nbt import CompoundNBT, NBTag
 from mcproto.types.particle_data import ParticleData
 from mcproto.types.quaternion import Quaternion
 from mcproto.types.recipe import (
-    Recipe,
     ArmorDyeRecipe,
     BannerDuplicateRecipe,
     BlastingRecipe,
     BookCloningRecipe,
-    ShulkerBoxColoringRecipe,
     CampfireRecipe,
-    ShapedRecipe,
     DecoratedPotRecipe,
     FireworkRocketRecipe,
+    FireworkStarFadeRecipe,
+    FireworkStarRecipe,
+    Ingredient,
     MapCloningRecipe,
     MapExtendingRecipe,
+    Recipe,
     RepairItemRecipe,
+    ShapedRecipe,
     ShapelessRecipe,
     ShieldDecorationRecipe,
-    SmokingRecipe,
-    FireworkStarRecipe,
-    FireworkStarFadeRecipe,
-    Ingredient,
+    ShulkerBoxColoringRecipe,
     SmeltingRecipe,
     SmithingTransformRecipe,
     SmithingTrimRecipe,
-    TippedArrowRecipe,
+    SmokingRecipe,
     StoneCuttingRecipe,
     SuspiciousStewRecipe,
+    TippedArrowRecipe,
 )
-from mcproto.types.slot import Slot
 from mcproto.types.registry_tag import RegistryTag
+from mcproto.types.slot import Slot, SlotData
 from mcproto.types.trade import Trade
 from mcproto.types.uuid import UUID
 from mcproto.types.vec3 import Position, Vec3
-
 
 __all__ = [
     "MCType",
@@ -60,6 +65,7 @@ __all__ = [
     "CompoundNBT",
     "Quaternion",
     "Slot",
+    "SlotData",
     "RegistryTag",
     "UUID",
     "Position",
@@ -74,6 +80,7 @@ __all__ = [
     "AdvancementProgress",
     "AdvancementDisplay",
     "AdvancementCriterion",
+    "AdvancementFrame",
     "ModifierData",
     "ModifierOperation",
     "Recipe",

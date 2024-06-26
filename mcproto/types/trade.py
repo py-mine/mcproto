@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 from typing import final
-from mcproto.buffer import Buffer
-from mcproto.types.abc import MCType
-from attrs import define
 
+from attrs import define
 from typing_extensions import override
+
+from mcproto.buffer import Buffer
 from mcproto.protocol.base_io import StructFormat
+from mcproto.types.abc import MCType
 from mcproto.types.slot import Slot
 
 

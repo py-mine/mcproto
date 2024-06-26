@@ -1,15 +1,15 @@
 from __future__ import annotations
 
+from enum import IntEnum
 from typing import final
-from attrs import define
 
+from attrs import define
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
-from mcproto.types.uuid import UUID
 from mcproto.types.abc import MCType
-from enum import IntEnum
+from mcproto.types.uuid import UUID
 
 
 class ModifierOperation(IntEnum):
@@ -31,7 +31,7 @@ class ModifierOperation(IntEnum):
 class ModifierData(MCType):
     """Represents a modifier data in the :class:`~mcproto.packets.play.UpdateAttributes` packet.
 
-    https://wiki.vg/Protocol#Update_Attributes
+    <https://wiki.vg/Protocol#Update_Attributes>
 
     :param uuid: The UUID of the modifier.
     :type uuid: :class:`~mcproto.types.uuid.UUID`

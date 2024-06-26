@@ -1,16 +1,17 @@
 from __future__ import annotations
 
+from enum import IntEnum
 from typing import final
-from attrs import define
 
+from attrs import define
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
-from mcproto.types.identifier import Identifier
-from mcproto.types.chat import TextComponent
-from mcproto.types.slot import Slot
 from mcproto.types.abc import MCType
+from mcproto.types.chat import TextComponent
+from mcproto.types.identifier import Identifier
+from mcproto.types.slot import Slot
 
 
 @final
@@ -18,7 +19,7 @@ from mcproto.types.abc import MCType
 class Advancement(MCType):
     """Represents an advancement in the game.
 
-    https://wiki.vg/Protocol#Update_Advancements
+    Non-standard type, see: `<https://wiki.vg/Protocol#Update_Advancements>`
 
     :param parent: The parent advancement.
     :type parent: :class:`~mcproto.types.identifier.Identifier`, optional
@@ -56,6 +57,14 @@ class Advancement(MCType):
         return cls(parent=parent, display=display, requirements=requirements, telemetry=telemetry)
 
 
+class AdvancementFrame(IntEnum):
+    """Represents the shape of the frame of an advancement in the GUI."""
+
+    TASK = 0
+    CHALLENGE = 1
+    GOAL = 2
+
+
 @final
 @define
 class AdvancementDisplay(MCType):
@@ -67,7 +76,8 @@ class AdvancementDisplay(MCType):
     :type description: :class:`~mcproto.types.chat.TextComponent`
     :param icon: The icon of the advancement.
     :type icon: :class:`~mcproto.types.slot.Slot`
-    :param frame: The frame of the advancement (0: task, 1: challenge, 2: goal).
+    :param frame: The frame of the advancement.
+    :type frame: :class:`AdvancementFrame`
     :param background: The background texture of the advancement.
     :type background: :class:`~mcproto.types.identifier.Identifier`, optional
     :param show_toast: Whether to show a toast notification.
@@ -83,7 +93,7 @@ class AdvancementDisplay(MCType):
     title: TextComponent
     description: TextComponent
     icon: Slot
-    frame: int
+    frame: AdvancementFrame
     background: Identifier | None
     show_toast: bool
     hidden: bool
@@ -95,7 +105,7 @@ class AdvancementDisplay(MCType):
         self.title.serialize_to(buf)
         self.description.serialize_to(buf)
         self.icon.serialize_to(buf)
-        buf.write_varint(self.frame)
+        buf.write_varint(self.frame.value)
 
         flags = (self.background is not None) << 0 | self.show_toast << 1 | self.hidden << 2
         buf.write_value(StructFormat.BYTE, flags)
@@ -110,7 +120,7 @@ class AdvancementDisplay(MCType):
         title = TextComponent.deserialize(buf)
         description = TextComponent.deserialize(buf)
         icon = Slot.deserialize(buf)
-        frame = buf.read_varint()
+        frame = AdvancementFrame(buf.read_varint())
         flags = buf.read_value(StructFormat.BYTE)
         background = Identifier.deserialize(buf) if flags & 0x1 else None
         show_toast = bool(flags & 0x2)
@@ -166,7 +176,7 @@ class AdvancementCriterion(MCType):
     :type date: int, optional
     """
 
-    date: int | None
+    date: int | None = None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:

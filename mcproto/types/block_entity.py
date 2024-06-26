@@ -1,12 +1,15 @@
 from __future__ import annotations
-from attrs import define
-from mcproto.types.abc import MCType
-from mcproto.types.vec3 import Position
-from mcproto.types.nbt import CompoundNBT
+
 from typing import final
-from typing_extensions import override, Self
+
+from attrs import Attribute, define, field
+from typing_extensions import Self, override
+
 from mcproto.buffer import Buffer
 from mcproto.protocol.base_io import StructFormat
+from mcproto.types.abc import MCType
+from mcproto.types.nbt import CompoundNBT
+from mcproto.types.vec3 import Position
 
 
 @final
@@ -22,12 +25,21 @@ class BlockEntity(MCType):
     :type nbt: CompoundNBT
 
     .. warning:: The position must be within the chunk.
-    .. note :: This class is used in the :class:`~mcproto.packets.play.ChunkData` packet.
+    .. note:: This class is used in the :class:`~mcproto.packets.play.ChunkData` packet.
     """
 
-    position: Position
-    block_type: int
-    nbt: CompoundNBT
+    @staticmethod
+    def check_position(_self: BlockEntity, attribute: Attribute[Position], value: Position) -> None:
+        """Check that the position is within the chunk.
+
+        :raises ValueError: If the position is not within the chunk.
+        """
+        if not (0 <= value.x < 16 and 0 <= value.z < 16):
+            raise ValueError("Position must be within the chunk")
+
+    position: Position = field(validator=check_position.__get__(object))
+    block_type: int = field()
+    nbt: CompoundNBT = field()
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -51,9 +63,3 @@ class BlockEntity(MCType):
             buf, with_name=False, with_type=False
         )
         return cls(Position(x, y, z), block_type, nbt)
-
-    @override
-    def validate(self) -> None:
-        x, _, z = self.position.x, self.position.y, self.position.z
-        if not (0 <= x < 16 and 0 <= z < 16):
-            raise ValueError("Position must be within the chunk")

@@ -29,14 +29,6 @@ gen_serializable_test(
             (757, "hypixel.net", 25565, NextState.STATUS),
             bytes.fromhex("f5050b6879706978656c2e6e657463dd01"),
         ),
-        (
-            (757, "hypixel.net", 25565, 1),
-            bytes.fromhex("f5050b6879706978656c2e6e657463dd01"),
-        ),
-    ],
-    validation_fail=[
-        # Invalid next state
-        ((757, "localhost", 25565, 3), ValueError),
     ],
     deserialization_fail=[(b"\xf5\x05\x0fmc.aircs.racingc\xdd\x0f", ValueError)],
 )

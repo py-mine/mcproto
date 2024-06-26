@@ -57,7 +57,7 @@ gen_serializable_test(
 
 def test_login_encryption_request_noid():
     """Test LoginEncryptionRequest without server_id."""
-    packet = LoginEncryptionRequest(server_id=None, public_key=RSA_PUBLIC_KEY, verify_token=bytes.fromhex("9bd416ef"))
+    packet = LoginEncryptionRequest(public_key=RSA_PUBLIC_KEY, verify_token=bytes.fromhex("9bd416ef"))
     assert packet.server_id == " " * 20  # None is converted to an empty server id
 
 

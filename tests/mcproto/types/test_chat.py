@@ -3,8 +3,8 @@ from __future__ import annotations
 import pytest
 
 from mcproto.types.chat import JSONTextComponent, RawTextComponent, RawTextComponentDict, TextComponent
+from mcproto.types.nbt import ByteNBT, CompoundNBT, ListNBT, StringNBT
 from tests.helpers import gen_serializable_test
-from mcproto.types.nbt import CompoundNBT, StringNBT, ByteNBT, ListNBT
 
 
 @pytest.mark.parametrize(

@@ -1,7 +1,6 @@
 from mcproto.types.identifier import Identifier
-from tests.helpers import gen_serializable_test
 from mcproto.types.nbt import StringNBT
-
+from tests.helpers import gen_serializable_test
 
 gen_serializable_test(
     context=globals(),

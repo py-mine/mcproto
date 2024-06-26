@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import math
 import struct
 from typing import cast
+
 import pytest
-import math
 
 from mcproto.buffer import Buffer
 from mcproto.types.vec3 import Position, Vec3
@@ -24,14 +25,14 @@ gen_serializable_test(
     ],
     validation_fail=[
         # X out of bounds
-        ((1 << 25, 0, 0), OverflowError),
-        ((-(1 << 25) - 1, 0, 0), OverflowError),
+        ((1 << 25, 0, 0), ValueError),
+        ((-(1 << 25) - 1, 0, 0), ValueError),
         # Y out of bounds
-        ((0, 1 << 11, 0), OverflowError),
-        ((0, -(1 << 11) - 1, 0), OverflowError),
+        ((0, 1 << 11, 0), ValueError),
+        ((0, -(1 << 11) - 1, 0), ValueError),
         # Z out of bounds
-        ((0, 0, 1 << 25), OverflowError),
-        ((0, 0, -(1 << 25) - 1), OverflowError),
+        ((0, 0, 1 << 25), ValueError),
+        ((0, 0, -(1 << 25) - 1), ValueError),
     ],
 )
 

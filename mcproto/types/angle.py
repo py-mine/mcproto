@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import final
 import math
-from attrs import define
+from typing import final
 
+from attrs import define, field
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
@@ -18,9 +18,12 @@ class Angle(MCType):
     """Represents a rotation angle for an entity.
 
     :param value: The angle value in 1/256th of a full rotation.
+    :type value: int
+
+    .. note:: The angle is stored as a byte, so the value is in the range [0, 255].
     """
 
-    angle: int
+    angle: int = field(converter=lambda x: int(x) % 256)
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -35,11 +38,6 @@ class Angle(MCType):
     def deserialize(cls, buf: Buffer) -> Angle:
         payload = buf.read_value(StructFormat.BYTE)
         return cls(angle=int(payload * 360 / 256))
-
-    @override
-    def validate(self) -> None:
-        """Constrain the angle to the range [0, 256)."""
-        self.angle %= 256
 
     def in_direction(self, base: Vec3, distance: float) -> Vec3:
         """Calculate the position in the direction of the angle in the xz-plane.

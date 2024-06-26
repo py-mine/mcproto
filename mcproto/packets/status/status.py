@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any, ClassVar, final
 
-from attrs import define
+from attrs import define, field
 from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
@@ -43,7 +43,7 @@ class StatusResponse(ClientBoundPacket):
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.STATUS
 
-    data: dict[str, Any]  # JSON response data sent back to the client.
+    data: dict[str, Any] = field(validator=lambda self, _, value: json.dumps(value))
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -56,11 +56,3 @@ class StatusResponse(ClientBoundPacket):
         s = buf.read_utf()
         data_ = json.loads(s)
         return cls(data_)
-
-    @override
-    def validate(self) -> None:
-        # Ensure the data is serializable to JSON
-        try:
-            json.dumps(self.data)
-        except TypeError as exc:
-            raise ValueError("Data is not serializable to JSON.") from exc

@@ -1,35 +1,37 @@
-from tests.helpers import gen_serializable_test
+import struct
+
 from mcproto.types import (
+    ArmorDyeRecipe,
+    Identifier,
     Ingredient,
     ShapedRecipe,
     ShapelessRecipe,
-    ArmorDyeRecipe,
-    SmeltingRecipe,
-    StoneCuttingRecipe,
-    SmithingTrimRecipe,
-    SmithingTransformRecipe,
-    Identifier,
     Slot,
+    SlotData,
+    SmeltingRecipe,
+    SmithingTransformRecipe,
+    SmithingTrimRecipe,
+    StoneCuttingRecipe,
 )
-import struct
+from tests.helpers import gen_serializable_test
 
 gen_serializable_test(
     context=globals(),
     cls=Ingredient,
     fields=[("count", "int"), ("items", "set[Slot]")],
     serialize_deserialize=[
-        ((1, {Slot(True, 1, 1, None)}), b"\x01\x01" + Slot(True, 1, 1, None).serialize()),
+        ((1, {Slot(SlotData(1, 1))}), b"\x01\x01" + Slot(SlotData(1, 1)).serialize()),
     ],
-    validation_fail=[((1, {Slot(True, 1, 2, None)}), ValueError)],
+    validation_fail=[((1, {Slot(SlotData(1, 2))}), ValueError)],
 )
 
 
 def test_ingredient_set():
     """Test that the set of items gets serialized correctly."""
-    ing = Ingredient(1, {Slot(True, 1, 1, None), Slot(True, 2, 1, None)})
+    ing = Ingredient(1, {Slot(SlotData(1, 1)), Slot(SlotData(2, 1))})
 
-    opt1 = b"\x01\x02" + Slot(True, 1, 1, None).serialize() + Slot(True, 2, 1, None).serialize()
-    opt2 = b"\x01\x02" + Slot(True, 2, 1, None).serialize() + Slot(True, 1, 1, None).serialize()
+    opt1 = b"\x01\x02" + Slot(SlotData(1, 1)).serialize() + Slot(SlotData(2, 1)).serialize()
+    opt2 = b"\x01\x02" + Slot(SlotData(2, 1)).serialize() + Slot(SlotData(1, 1)).serialize()
 
     assert ing.serialize() == opt1 or ing.serialize() == opt2  # Set order is not guaranteed
 
@@ -55,16 +57,16 @@ gen_serializable_test(
                 1,
                 2,
                 2,
-                [Ingredient(1, {Slot(True, 1, 1, None)})],
-                Slot(True, 1, 1, None),
+                [Ingredient(1, {Slot(SlotData(1, 1))})],
+                Slot(SlotData(1, 1)),
                 True,
             ),
             bytes(
                 Identifier("minecraft", "test").serialize()
                 + b"\x00"  # id
                 + b"\x0atest_group\x01\x02\x02\x01"
-                + Ingredient(1, {Slot(True, 1, 1, None)}).serialize()
-                + Slot(True, 1, 1, None).serialize()
+                + Ingredient(1, {Slot(SlotData(1, 1))}).serialize()
+                + Slot(SlotData(1, 1)).serialize()
                 + b"\x01"
             ),
         ),
@@ -87,16 +89,16 @@ gen_serializable_test(
                 Identifier("minecraft", "test"),
                 "test_group",
                 6,
-                [Ingredient(3, {Slot(True, 2, 1, None)})],
-                Slot(True, 4, 5, None),
+                [Ingredient(3, {Slot(SlotData(2, 1))})],
+                Slot(SlotData(4, 5)),
             ),
             bytes(
                 Identifier("minecraft", "test").serialize()
                 + b"\x01"  # id
                 + b"\x0atest_group"
                 + b"\x06\x01"  # category + count
-                + Ingredient(3, {Slot(True, 2, 1, None)}).serialize()
-                + Slot(True, 4, 5, None).serialize()
+                + Ingredient(3, {Slot(SlotData(2, 1))}).serialize()
+                + Slot(SlotData(4, 5)).serialize()
             ),
         ),
     ],
@@ -131,8 +133,8 @@ gen_serializable_test(
                 Identifier("test"),
                 "group",
                 2,
-                Ingredient(3, {Slot(True, 4, 1, None)}),
-                Slot(True, 5, 6, None),
+                Ingredient(3, {Slot(SlotData(4, 1))}),
+                Slot(SlotData(5, 6)),
                 7.0,
                 8,
             ),
@@ -140,8 +142,8 @@ gen_serializable_test(
                 Identifier("test").serialize()
                 + b"\x0f"  # id
                 + b"\x05group\x02"
-                + Ingredient(3, {Slot(True, 4, 1, None)}).serialize()
-                + Slot(True, 5, 6, None).serialize()
+                + Ingredient(3, {Slot(SlotData(4, 1))}).serialize()
+                + Slot(SlotData(5, 6)).serialize()
                 + struct.pack("!f", 7.0)
                 + b"\x08"
             ),
@@ -163,15 +165,15 @@ gen_serializable_test(
             (
                 Identifier("test"),
                 "group",
-                Ingredient(3, {Slot(True, 4, 1, None)}),
-                Slot(True, 5, 6, None),
+                Ingredient(3, {Slot(SlotData(4, 1))}),
+                Slot(SlotData(5, 6)),
             ),
             bytes(
                 Identifier("test").serialize()
                 + b"\x13"  # id
                 + b"\x05group"
-                + Ingredient(3, {Slot(True, 4, 1, None)}).serialize()
-                + Slot(True, 5, 6, None).serialize()
+                + Ingredient(3, {Slot(SlotData(4, 1))}).serialize()
+                + Slot(SlotData(5, 6)).serialize()
             ),
         ),
     ],
@@ -191,16 +193,16 @@ gen_serializable_test(
         (
             (
                 Identifier("test"),
-                Ingredient(3, {Slot(True, 4, 1, None)}),
-                Ingredient(5, {Slot(True, 6, 1, None)}),
-                Ingredient(7, {Slot(True, 8, 1, None)}),
+                Ingredient(3, {Slot(SlotData(4, 1))}),
+                Ingredient(5, {Slot(SlotData(6, 1))}),
+                Ingredient(7, {Slot(SlotData(8, 1))}),
             ),
             bytes(
                 Identifier("test").serialize()
                 + b"\x15"  # id
-                + Ingredient(3, {Slot(True, 4, 1, None)}).serialize()
-                + Ingredient(5, {Slot(True, 6, 1, None)}).serialize()
-                + Ingredient(7, {Slot(True, 8, 1, None)}).serialize()
+                + Ingredient(3, {Slot(SlotData(4, 1))}).serialize()
+                + Ingredient(5, {Slot(SlotData(6, 1))}).serialize()
+                + Ingredient(7, {Slot(SlotData(8, 1))}).serialize()
             ),
         ),
     ],
@@ -221,18 +223,18 @@ gen_serializable_test(
         (
             (
                 Identifier("test"),
-                Ingredient(3, {Slot(True, 4, 1, None)}),
-                Ingredient(5, {Slot(True, 6, 1, None)}),
-                Ingredient(7, {Slot(True, 8, 1, None)}),
-                Slot(True, 9, 10, None),
+                Ingredient(3, {Slot(SlotData(4, 1))}),
+                Ingredient(5, {Slot(SlotData(6, 1))}),
+                Ingredient(7, {Slot(SlotData(8, 1))}),
+                Slot(SlotData(9, 10)),
             ),
             bytes(
                 Identifier("test").serialize()
                 + b"\x14"  # id
-                + Ingredient(3, {Slot(True, 4, 1, None)}).serialize()
-                + Ingredient(5, {Slot(True, 6, 1, None)}).serialize()
-                + Ingredient(7, {Slot(True, 8, 1, None)}).serialize()
-                + Slot(True, 9, 10, None).serialize()
+                + Ingredient(3, {Slot(SlotData(4, 1))}).serialize()
+                + Ingredient(5, {Slot(SlotData(6, 1))}).serialize()
+                + Ingredient(7, {Slot(SlotData(8, 1))}).serialize()
+                + Slot(SlotData(9, 10)).serialize()
             ),
         ),
     ],

@@ -1,46 +1,46 @@
 from typing import Union
+
+from mcproto.types import SlotData
+from mcproto.types.chat import TextComponent
+from mcproto.types.entity.enums import Direction, DragonPhase, Pose, SnifferState
 from mcproto.types.entity.metadata_types import (
-    PositionEME,
-    OptBlockStateEME,
-    Vector3EME,
-    RotationEME,
-    Masked,
-    OptUUIDEME,
-    VarIntEME,
-    TextComponentEME,
-    OptTextComponentEME,
-    NBTagEME,
-    StringEME,
-    FrogVariantEME,
-    PoseEME,
-    BooleanEME,
     BlockStateEME,
-    PaintingVariantEME,
-    OptGlobalPositionEME,
-    DirectionEME,
-    VarLongEME,
-    VillagerDataEME,
-    SnifferStateEME,
-    QuaternionEME,
+    BooleanEME,
+    ByteEME,
     CatVariantEME,
+    DirectionEME,
     DragonPhaseEME,
     FloatEME,
-    SlotEME,
-    ByteEME,
-    OptVarIntEME,
+    FrogVariantEME,
+    Masked,
+    NBTagEME,
+    OptBlockStateEME,
+    OptGlobalPositionEME,
     OptPositionEME,
+    OptTextComponentEME,
+    OptUUIDEME,
+    OptVarIntEME,
+    PaintingVariantEME,
     ParticleEME,
+    PoseEME,
+    PositionEME,
+    QuaternionEME,
+    RotationEME,
+    SlotEME,
+    SnifferStateEME,
+    StringEME,
+    TextComponentEME,
+    VarIntEME,
+    VarLongEME,
+    Vector3EME,
+    VillagerDataEME,
 )
-
-from mcproto.types.slot import Slot
-from mcproto.types.vec3 import Vec3, Position
-from mcproto.types.quaternion import Quaternion
-from mcproto.types.chat import TextComponent
-from mcproto.types.nbt import NBTag, EndNBT, StringNBT, CompoundNBT, ByteNBT
-from mcproto.types.uuid import UUID
 from mcproto.types.identifier import Identifier
-from mcproto.types.entity.enums import SnifferState, DragonPhase, Direction, Pose
-
+from mcproto.types.nbt import ByteNBT, CompoundNBT, EndNBT, NBTag, StringNBT
+from mcproto.types.quaternion import Quaternion
+from mcproto.types.slot import Slot
+from mcproto.types.uuid import UUID
+from mcproto.types.vec3 import Position, Vec3
 from tests.helpers import gen_serializable_test
 
 # ByteEME
@@ -211,8 +211,8 @@ gen_serializable_test(
     ],
     serialize_deserialize=[
         (
-            (54, Slot(present=True, item_id=1, item_count=1, nbt=None)),
-            b"\x36\x07" + Slot(present=True, item_id=1, item_count=1).serialize(),
+            (54, Slot(SlotData(1, 1))),
+            b"\x36\x07" + Slot(SlotData(1, 1)).serialize(),
         ),
     ],
 )

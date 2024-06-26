@@ -1,9 +1,8 @@
-from mcproto.types.entity import PandaEM, DisplayEM
-from mcproto.buffer import Buffer
-
-
 import pytest
-from mcproto.types.entity.metadata import proxy, entry, EntityMetadataCreator, EntityMetadata
+
+from mcproto.buffer import Buffer
+from mcproto.types.entity import DisplayEM, PandaEM
+from mcproto.types.entity.metadata import EntityMetadata, EntityMetadataCreator, entry, proxy
 from mcproto.types.entity.metadata_types import ByteEME, Masked
 from mcproto.types.vec3 import Vec3
 

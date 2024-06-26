@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import ClassVar, cast, final
 
-from attrs import define
+from attrs import define, field
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat, load_der_public_key
@@ -71,16 +71,9 @@ class LoginEncryptionRequest(ClientBoundPacket):
     PACKET_ID: ClassVar[int] = 0x01
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    public_key: RSAPublicKey
-    verify_token: bytes
-    server_id: str | None = None
-
-    @override
-    def __attrs_post_init__(self) -> None:
-        if self.server_id is None:
-            self.server_id = " " * 20
-
-        super().__attrs_post_init__()
+    public_key: RSAPublicKey = field()
+    verify_token: bytes = field()
+    server_id: str | None = field(default=" " * 20)
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -243,7 +236,7 @@ class LoginPluginResponse(ServerBoundPacket):
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
     message_id: int
-    data: bytes | None
+    data: bytes | None = None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
