@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import math
-
 from typing import final
+
+from attrs import Attribute, define, field, validators
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
 from mcproto.types.abc import MCType
-from attrs import define
 
 
 @define
@@ -20,9 +20,15 @@ class Vec3(MCType):
     :param z: The z component.
     """
 
-    x: float
-    y: float
-    z: float
+    @staticmethod
+    def finite_validator(instance: Vec3, attribute: Attribute[float], value: float) -> None:
+        """Validate that the quaternion components are finite."""
+        if not math.isfinite(value):
+            raise ValueError(f"Quaternion components must be finite, got {value!r}")
+
+    x: float = field(validator=[validators.instance_of((float, int)), finite_validator.__get__(object)])
+    y: float = field(validator=[validators.instance_of((float, int)), finite_validator.__get__(object)])
+    z: float = field(validator=[validators.instance_of((float, int)), finite_validator.__get__(object)])
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -57,17 +63,6 @@ class Vec3(MCType):
         y = buf.read_value(StructFormat.DOUBLE)
         z = buf.read_value(StructFormat.DOUBLE)
         return cls(x=x, y=y, z=z)
-
-    @override
-    def validate(self) -> None:
-        """Validate the vector's components."""
-        # Check that the components are floats or integers.
-        if not all(isinstance(comp, (float, int)) for comp in (self.x, self.y, self.z)):  # type: ignore
-            raise TypeError(f"Vector components must be floats or integers, got {self.x!r}, {self.y!r}, {self.z!r}")
-
-        # Check that the components are finite (not NaN or inf)
-        if any(not math.isfinite(comp) for comp in (self.x, self.y, self.z)):
-            raise ValueError(f"Vector components must be finite, got {self.x!r}, {self.y!r}, {self.z!r}.")
 
     def __add__(self, other: Vec3) -> Vec3:
         # Use the type of self to return a Vec3 or a subclass.
@@ -115,6 +110,7 @@ class Vec3(MCType):
 
 
 @final
+@define
 class Position(Vec3):
     """Represents a position in the world.
 
@@ -123,9 +119,33 @@ class Position(Vec3):
     :param z: The z coordinate (26 bits).
     """
 
-    x: int
-    y: int
-    z: int
+    x: int = field(  # type: ignore
+        validator=[
+            validators.instance_of((float, int)),
+            Vec3.finite_validator,
+            validators.ge(float(-1 << 25)),
+            validators.lt(float(1 << 25)),
+        ],
+        converter=int,
+    )
+    y: int = field(  # type: ignore
+        validator=[
+            validators.instance_of((float, int)),
+            Vec3.finite_validator,
+            validators.ge(float(-1 << 11)),
+            validators.lt(float(1 << 11)),
+        ],
+        converter=int,
+    )
+    z: int = field(  # type: ignore
+        validator=[
+            validators.instance_of((float, int)),
+            Vec3.finite_validator,
+            validators.ge(float(-1 << 25)),
+            validators.lt(float(1 << 25)),
+        ],
+        converter=int,
+    )
 
     __slots__ = ()
 
@@ -155,25 +175,6 @@ class Position(Vec3):
             z -= 1 << 26
 
         return cls(x=x, y=y, z=z)
-
-    @override
-    def validate(self) -> None:
-        """Validate the position's coordinates.
-
-        They are all signed integers, but the x and z coordinates are 26 bits
-        and the y coordinate is 12 bits.
-        """
-        super().validate()  # Validate the Vec3 components.
-
-        self.x = int(self.x)  # type: ignore
-        self.y = int(self.y)  # type: ignore
-        self.z = int(self.z)  # type: ignore
-        if not (-1 << 25 <= self.x < 1 << 25):
-            raise OverflowError(f"Invalid x coordinate: {self.x}")
-        if not (-1 << 11 <= self.y < 1 << 11):
-            raise OverflowError(f"Invalid y coordinate: {self.y}")
-        if not (-1 << 25 <= self.z < 1 << 25):
-            raise OverflowError(f"Invalid z coordinate: {self.z}")
 
 
 POS_UP = Position(0, 1, 0)

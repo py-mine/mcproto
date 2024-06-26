@@ -1,15 +1,17 @@
 import struct
-from tests.mcproto.utils.test_serializable import gen_serializable_test
+
 from mcproto.types import (
+    Advancement,
+    AdvancementCriterion,
     AdvancementDisplay,
+    AdvancementFrame,
+    AdvancementProgress,
     Identifier,
     Slot,
+    SlotData,
     TextComponent,
-    Advancement,
-    AdvancementProgress,
-    AdvancementCriterion,
 )
-
+from tests.mcproto.utils.test_serializable import gen_serializable_test
 
 gen_serializable_test(
     context=globals(),
@@ -18,7 +20,7 @@ gen_serializable_test(
         ("title", TextComponent),
         ("description", TextComponent),
         ("icon", Slot),
-        ("frame", int),
+        ("frame", AdvancementFrame),
         ("background", "Identifier|None"),
         ("show_toast", bool),
         ("hidden", bool),
@@ -30,8 +32,8 @@ gen_serializable_test(
             (
                 TextComponent("The End?"),
                 TextComponent("Go there"),
-                Slot(present=True, item_id=2, item_count=1, nbt=None),
-                1,
+                Slot(SlotData(2, 1)),
+                AdvancementFrame.CHALLENGE,
                 Identifier(namespace="minecraft", path="textures/gui/advancements/backgrounds/end.png"),
                 True,
                 False,
@@ -41,7 +43,7 @@ gen_serializable_test(
             bytes(
                 TextComponent("The End?").serialize()
                 + TextComponent("Go there").serialize()
-                + Slot(True, 2, 1, None).serialize()
+                + Slot(SlotData(2, 1)).serialize()
                 + b"\x01"  # frame
                 + b"\x03"  # 0b011
                 + Identifier(namespace="minecraft", path="textures/gui/advancements/backgrounds/end.png").serialize()
@@ -52,8 +54,8 @@ gen_serializable_test(
             (
                 TextComponent("The End?"),
                 TextComponent("Go there"),
-                Slot(present=True, item_id=2, item_count=1, nbt=None),
-                0,
+                Slot(SlotData(2, 1)),
+                AdvancementFrame.TASK,
                 None,
                 False,
                 True,
@@ -63,7 +65,7 @@ gen_serializable_test(
             bytes(
                 TextComponent("The End?").serialize()
                 + TextComponent("Go there").serialize()
-                + Slot(True, 2, 1, None).serialize()
+                + Slot(SlotData(2, 1)).serialize()
                 + b"\x00"  # frame
                 + b"\x04"  # 0b100
                 + struct.pack("!ff", 0.5, 0.5)
@@ -89,8 +91,8 @@ gen_serializable_test(
                 AdvancementDisplay(
                     TextComponent("The End?"),
                     TextComponent("Go there"),
-                    Slot(present=True, item_id=2, item_count=1, nbt=None),
-                    1,
+                    Slot(SlotData(2, 1)),
+                    AdvancementFrame.GOAL,
                     Identifier(namespace="minecraft", path="textures/gui/advancements/backgrounds/end.png"),
                     True,
                     False,
@@ -107,8 +109,8 @@ gen_serializable_test(
                 + AdvancementDisplay(
                     TextComponent("The End?"),
                     TextComponent("Go there"),
-                    Slot(True, 2, 1, None),
-                    1,
+                    Slot(SlotData(2, 1)),
+                    AdvancementFrame.GOAL,
                     Identifier(namespace="minecraft", path="textures/gui/advancements/backgrounds/end.png"),
                     True,
                     False,

@@ -1,8 +1,11 @@
 from __future__ import annotations
+
+import math
 import struct
 from typing import cast
+
 import pytest
-import math
+
 from mcproto.types.quaternion import Quaternion
 from tests.helpers import gen_serializable_test
 

@@ -1,41 +1,59 @@
 from __future__ import annotations
 
 import re
+
+from attrs import define
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.types.abc import MCType
-from attrs import define
-from mcproto.types.nbt import NBTag, StringNBT, NBTagConvertible
+from mcproto.types.nbt import NBTag, NBTagConvertible, StringNBT
 
 
-@define
+@define(init=False)
 class Identifier(MCType, NBTagConvertible):
-    """A Minecraft identifier.
+    """A Minecraft identifier."""
 
-    :param namespace: The namespace of the identifier.
-    :param path: The path of the identifier.
-    :type path: str, optional
-
-    If the path is not provided, the namespace and path will be extracted from the :attr:`namespace` argument.
-    If the namespace is not provided, it will default to "minecraft".
-    """
+    _NAMESPACE_REGEX = re.compile(r"^[a-z0-9\.\-_]+$")
+    _PATH_REGEX = re.compile(r"^[a-z0-9\.\-_/]+$")
 
     namespace: str
     path: str
 
     @override
-    def __init__(self, namespace: str, path: str | None = None) -> None:
+    def __init__(self, namespace: str, path: str | None = None):
+        """Initialize the Identifier class.
+
+        :param namespace: The namespace of the identifier.
+        :param path: The path of the identifier.
+        :type path: str, optional
+
+        If the path is not provided, the namespace and path will be extracted from the :attr:`namespace` argument.
+        If the namespace is not provided, it will default to "minecraft".
+
+        We use this to initialize the Identifier class instead of attrs because of the extra transformations that we
+        need to do, attrs does not support this out of the box.
+
+        """
         if namespace.startswith("#"):
             namespace = namespace[1:]
 
         if path is None:
             if ":" not in namespace:
-                namespace, path = "minecraft", namespace  # Default namespace
+                path = namespace
+                namespace = "minecraft"
             else:
                 namespace, path = namespace.split(":", 1)
 
-        self.__attrs_init__(namespace=namespace, path=path)  # type: ignore # @define makes this a dataclass
+        if not self._NAMESPACE_REGEX.match(namespace):
+            raise ValueError(f"Invalid namespace: {namespace}")
+        if not self._PATH_REGEX.match(path):
+            raise ValueError(f"Invalid path: {path}")
+
+        if len(namespace) + len(path) + 1 > 32767:
+            raise ValueError("Identifier is too long")
+
+        self.__attrs_init__(namespace=namespace, path=path)  # type: ignore
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -48,26 +66,6 @@ class Identifier(MCType, NBTagConvertible):
         data = buf.read_utf()
         namespace, path = data.split(":", 1)
         return cls(namespace, path)
-
-    @override
-    def validate(self) -> None:
-        if len(self.namespace) == 0:
-            raise ValueError("Namespace cannot be empty.")
-
-        if len(self.path) == 0:
-            raise ValueError("Path cannot be empty.")
-
-        if len(self.namespace) + len(self.path) + 1 > 32767:
-            raise ValueError("Identifier is too long.")
-
-        namespace_regex = r"^[a-z0-9\.\-_]+$"
-        path_regex = r"^[a-z0-9\.\-_/]+$"
-
-        if not re.match(namespace_regex, self.namespace):
-            raise ValueError(f"Namespace must match regex {namespace_regex}, got {self.namespace!r}")
-
-        if not re.match(path_regex, self.path):
-            raise ValueError(f"Path must match regex {path_regex}, got {self.path!r}")
 
     @override
     def __hash__(self) -> int:

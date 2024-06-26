@@ -2,15 +2,15 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from typing import ClassVar, final
-from attrs import define
 
-from typing_extensions import override, Self
+from attrs import Attribute, define, field, validators
+from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
-from mcproto.types.slot import Slot
-from mcproto.types.identifier import Identifier
 from mcproto.types.abc import MCType
+from mcproto.types.identifier import Identifier
+from mcproto.types.slot import Slot
 from mcproto.utils.abc import RequiredParamsABCMixin
 
 
@@ -27,8 +27,14 @@ class Ingredient(MCType):
     .. note:: Each item in the list has to have a count of 1.
     """
 
-    count: int
-    items: set[Slot]
+    @staticmethod
+    def check_quantity(instance: Ingredient, attribute: Attribute[set[Slot]], value: set[Slot]) -> None:
+        """Check that each ingredient is valid."""
+        if any(item.data is None or item.data.num != 1 for item in value):
+            raise ValueError("Each item in the list has to have a count of 1.")
+
+    count: int = field(validator=validators.ge(1))
+    items: set[Slot] = field(validator=check_quantity.__get__(object))
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -44,17 +50,12 @@ class Ingredient(MCType):
         items = {Slot.deserialize(buf) for _ in range(buf.read_varint())}
         return cls(count=count, items=items)
 
-    @override
-    def validate(self) -> None:
-        if any(item.item_count != 1 for item in self.items):
-            raise ValueError("Each item in the list has to have a count of 1.")
-
 
 @define
 class Recipe(MCType, RequiredParamsABCMixin):
     """Represents a recipe in the :class:`~mcproto.packets.play.UpdateRecipes` packet.
 
-    https://wiki.vg/Protocol#Update_Recipes
+    <https://wiki.vg/Protocol#Update_Recipes>
 
     :param recipe_id: The ID of the recipe.
     :type recipe_id: :class:`~mcproto.types.identifier.Identifier`

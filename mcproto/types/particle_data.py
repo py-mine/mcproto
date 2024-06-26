@@ -1,12 +1,15 @@
 from __future__ import annotations
+
+from typing import cast, final
+
 from attrs import define
+from typing_extensions import Self, override
+
+from mcproto.buffer import Buffer
+from mcproto.protocol.base_io import StructFormat
 from mcproto.types.abc import MCType
 from mcproto.types.slot import Slot
 from mcproto.types.vec3 import Position
-from typing import cast, final
-from typing_extensions import override, Self
-from mcproto.buffer import Buffer
-from mcproto.protocol.base_io import StructFormat
 
 
 @final
@@ -117,6 +120,44 @@ class ParticleData(MCType):
     entity_eye_height: float | None = None
     tick: int | None = None
     delay: int | None = None
+
+    def __attrs_post_init__(self) -> None:  # noqa: PLR0912 # I know but what can I do?
+        """Run all the sanity checks for the particle data."""
+        if self.particle_id in self.WITH_BLOCK_STATE:
+            if self.block_state is None:
+                raise ValueError("block_state is required for this particle ID")
+        elif self.particle_id in self.WITH_RGB_SCALE:
+            if self.red is None or self.green is None or self.blue is None:
+                raise ValueError("red, green, and blue are required for this particle ID")
+        elif self.particle_id in self.WITH_RGB_TRANSITION:
+            if self.from_red is None or self.from_green is None or self.from_blue is None:
+                raise ValueError("from_red, from_green, and from_blue are required for this particle ID")
+            if self.scale is None:
+                raise ValueError("scale is required for this particle ID")
+            if self.to_red is None or self.to_green is None or self.to_blue is None:
+                raise ValueError("to_red, to_green, and to_blue are required for this particle ID")
+        elif self.particle_id in self.WITH_ROLL:
+            if self.roll is None:
+                raise ValueError("roll is required for this particle ID")
+        elif self.particle_id in self.WITH_ITEM:
+            if self.item is None:
+                raise ValueError("item is required for this particle ID")
+        elif self.particle_id in self.WITH_VIBRATION:
+            if self.source_type is None:
+                raise ValueError("source_type is required for this particle ID")
+            if self.source_type == 0:
+                if self.block_position is None:
+                    raise ValueError("block_position is required for this particle ID with source_type 0")
+            else:
+                if self.entity_id is None:
+                    raise ValueError("entity_id is required for this particle ID with source_type 1")
+                if self.entity_eye_height is None:
+                    raise ValueError("entity_eye_height is required for this particle ID with source_type 1")
+            if self.tick is None:
+                raise ValueError("tick is required for this particle ID")
+        elif self.particle_id in self.WITH_DELAY:
+            if self.delay is None:
+                raise ValueError("delay is required for this particle ID")
 
     @override
     def serialize_to(self, buf: Buffer, with_id: bool = True) -> None:
@@ -245,41 +286,3 @@ class ParticleData(MCType):
             tick=tick,
             delay=delay,
         )
-
-    @override
-    def validate(self) -> None:  # noqa: PLR0912 # I know but what can I do?
-        if self.particle_id in self.WITH_BLOCK_STATE:
-            if self.block_state is None:
-                raise ValueError("block_state is required for this particle ID")
-        elif self.particle_id in self.WITH_RGB_SCALE:
-            if self.red is None or self.green is None or self.blue is None:
-                raise ValueError("red, green, and blue are required for this particle ID")
-        elif self.particle_id in self.WITH_RGB_TRANSITION:
-            if self.from_red is None or self.from_green is None or self.from_blue is None:
-                raise ValueError("from_red, from_green, and from_blue are required for this particle ID")
-            if self.scale is None:
-                raise ValueError("scale is required for this particle ID")
-            if self.to_red is None or self.to_green is None or self.to_blue is None:
-                raise ValueError("to_red, to_green, and to_blue are required for this particle ID")
-        elif self.particle_id in self.WITH_ROLL:
-            if self.roll is None:
-                raise ValueError("roll is required for this particle ID")
-        elif self.particle_id in self.WITH_ITEM:
-            if self.item is None:
-                raise ValueError("item is required for this particle ID")
-        elif self.particle_id in self.WITH_VIBRATION:
-            if self.source_type is None:
-                raise ValueError("source_type is required for this particle ID")
-            if self.source_type == 0:
-                if self.block_position is None:
-                    raise ValueError("block_position is required for this particle ID with source_type 0")
-            else:
-                if self.entity_id is None:
-                    raise ValueError("entity_id is required for this particle ID with source_type 1")
-                if self.entity_eye_height is None:
-                    raise ValueError("entity_eye_height is required for this particle ID with source_type 1")
-            if self.tick is None:
-                raise ValueError("tick is required for this particle ID")
-        elif self.particle_id in self.WITH_DELAY:
-            if self.delay is None:
-                raise ValueError("delay is required for this particle ID")

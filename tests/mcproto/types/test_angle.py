@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from mcproto.types.vec3 import Position, POS_NORTH, POS_SOUTH, POS_EAST, POS_WEST, POS_ZERO
 from mcproto.types.angle import Angle
+from mcproto.types.vec3 import POS_EAST, POS_NORTH, POS_SOUTH, POS_WEST, POS_ZERO, Position
 from tests.helpers import gen_serializable_test
 
 PI = 3.14159265358979323846

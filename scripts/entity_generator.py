@@ -1,8 +1,9 @@
 from __future__ import annotations
-from typing import List, Dict, Union, cast
-from pathlib import Path
+
 import subprocess
 import sys
+from pathlib import Path
+from typing import Dict, List, Union, cast
 
 from scripts.entity_generator_data import ENTITY_DATA, EntityData, Field
 
@@ -50,8 +51,8 @@ __all__ = [
 
 BASE_FILE = """
 from __future__ import annotations
-from typing import ClassVar, Any
 {header}
+from typing import ClassVar, Any
 
 from mcproto.types.entity.metadata import (
     proxy,
@@ -59,7 +60,7 @@ from mcproto.types.entity.metadata import (
     EntityMetadata,
 )
 from mcproto.types.entity.metadata_types import {types}
-from mcproto.types.slot import Slot
+from mcproto.types.slot import Slot, SlotData
 from mcproto.types.chat import TextComponent
 from mcproto.types.nbt import NBTag, EndNBT
 from mcproto.types.vec3 import Position, Vec3
@@ -69,9 +70,9 @@ from mcproto.types.uuid import UUID
 {classes}
 """
 INIT_FILE = """
+{header}
 from mcproto.types.entity.metadata import EntityMetadata
 from mcproto.types.entity.generated import {generated}
-{header}
 """
 
 FILE_PATH = "mcproto/types/entity/generated.py"

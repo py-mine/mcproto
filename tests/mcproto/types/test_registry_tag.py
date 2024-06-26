@@ -1,5 +1,5 @@
+from mcproto.types import Identifier, RegistryTag
 from tests.helpers import gen_serializable_test
-from mcproto.types import RegistryTag, Identifier
 
 gen_serializable_test(
     context=globals(),

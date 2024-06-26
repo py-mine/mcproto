@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import math
-
 from typing import final
+
+from attrs import Attribute, define, field, validators
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
 from mcproto.types.abc import MCType
-from attrs import define
 
 
 @define
@@ -22,10 +22,16 @@ class Quaternion(MCType):
     :param w: The w component.
     """
 
-    x: float
-    y: float
-    z: float
-    w: float
+    @staticmethod
+    def finite_validator(instance: Quaternion, attribute: Attribute[float], value: float) -> None:
+        """Validate that the quaternion components are finite."""
+        if not math.isfinite(value):
+            raise ValueError(f"Quaternion components must be finite, got {value!r}")
+
+    x: float = field(validator=[validators.instance_of((float, int)), finite_validator.__get__(object)])
+    y: float = field(validator=[validators.instance_of((float, int)), finite_validator.__get__(object)])
+    z: float = field(validator=[validators.instance_of((float, int)), finite_validator.__get__(object)])
+    w: float = field(validator=[validators.instance_of((float, int)), finite_validator.__get__(object)])
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -42,21 +48,6 @@ class Quaternion(MCType):
         z = buf.read_value(StructFormat.FLOAT)
         w = buf.read_value(StructFormat.FLOAT)
         return cls(x=x, y=y, z=z, w=w)
-
-    @override
-    def validate(self) -> None:
-        """Validate the quaternion's components."""
-        # Check that the components are floats or integers.
-        if not all(isinstance(comp, (float, int)) for comp in (self.x, self.y, self.z, self.w)):  # type: ignore
-            raise TypeError(
-                f"Quaternion components must be floats or integers, got {self.x!r}, {self.y!r}, {self.z!r}, {self.w!r}"
-            )
-
-        # Check that the components are finite (not NaN or inf)
-        if any(not math.isfinite(comp) for comp in (self.x, self.y, self.z, self.w)):
-            raise ValueError(
-                f"Quaternion components must be finite, got {self.x!r}, {self.y!r}, {self.z!r}, {self.w!r}."
-            )
 
     def __add__(self, other: Quaternion) -> Quaternion:
         # Use the type of self to return a Quaternion or a subclass.

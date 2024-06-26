@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import json
-from typing import TypedDict, Union, cast, final
 from copy import deepcopy
+from typing import TypedDict, Union, cast, final
 
-from attrs import define
+from attrs import Attribute, define, field, validators
 from typing_extensions import Self, TypeAlias, override
 
 from mcproto.buffer import Buffer
@@ -41,7 +41,26 @@ RawTextComponent: TypeAlias = Union[RawTextComponentDict, "list[RawTextComponent
 class JSONTextComponent(MCType):
     """Minecraft chat message representation."""
 
-    raw: RawTextComponent
+    @staticmethod
+    def check_raw(_self: JSONTextComponent, _: Attribute[RawTextComponent], value: RawTextComponent) -> None:
+        """Check that the `raw` attribute is a valid JSON chat message.
+
+        :raises AttributeError: If the `raw` attribute is not a valid JSON chat message (missing fields).
+        :raises TypeError: If the `raw` attribute is not a valid JSON chat message (wrong type).
+        """
+        if isinstance(value, dict):  # We want to keep it this way for readability
+            if "text" not in value and "extra" not in value:
+                raise AttributeError("Expected `raw` to have either 'text' or 'extra' key, got neither")
+        if isinstance(value, list):
+            for elem in value:
+                if not isinstance(elem, dict):  # type: ignore[unreachable]
+                    raise TypeError(f"Expected `raw` to be a list of dicts, got {elem!r} instead")
+                if "text" not in elem and "extra" not in elem:
+                    raise AttributeError(
+                        "Expected each element in `raw` to have either 'text' or 'extra' key, got neither"
+                    )
+
+    raw: RawTextComponent = field(validator=[validators.instance_of((dict, list, str)), check_raw.__get__(object)])
 
     def as_dict(self) -> RawTextComponentDict:
         """Convert received ``raw`` into a stadard :class:`dict` form."""
@@ -80,22 +99,6 @@ class JSONTextComponent(MCType):
         txt = buf.read_utf()
         dct = json.loads(txt)
         return cls(dct)
-
-    @override
-    def validate(self) -> None:
-        if not isinstance(self.raw, (dict, list, str)):  # type: ignore[unreachable]
-            raise TypeError(f"Expected `raw` to be a dict, list or str, got {self.raw!r} instead")
-        if isinstance(self.raw, dict):  # We want to keep it this way for readability
-            if "text" not in self.raw and "extra" not in self.raw:
-                raise AttributeError("Expected `raw` to have either 'text' or 'extra' key, got neither")
-        if isinstance(self.raw, list):
-            for elem in self.raw:
-                if not isinstance(elem, dict):  # type: ignore[unreachable]
-                    raise TypeError(f"Expected `raw` to be a list of dicts, got {elem!r} instead")
-                if "text" not in elem and "extra" not in elem:
-                    raise AttributeError(
-                        "Expected each element in `raw` to have either 'text' or 'extra' key, got neither"
-                    )
 
 
 @final
@@ -145,7 +148,7 @@ class TextComponent(JSONTextComponent):
     def _recursive_validate(received: FromObjectSchema, expected: FromObjectSchema) -> None:
         """Recursively validate the NBT data representing the chat message.
 
-        .. note :: The expected schema is recursive so we don't want to iterate over it.
+        .. note:: The expected schema is recursive so we don't want to iterate over it.
         """
         if isinstance(received, dict):
             if not isinstance(expected, dict):

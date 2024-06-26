@@ -1,9 +1,8 @@
-from mcproto.types.bitset import FixedBitset, Bitset
-from mcproto.buffer import Buffer
-from tests.helpers import gen_serializable_test
-
 import pytest
 
+from mcproto.buffer import Buffer
+from mcproto.types.bitset import Bitset, FixedBitset
+from tests.helpers import gen_serializable_test
 
 gen_serializable_test(
     context=globals(),
@@ -43,6 +42,18 @@ gen_serializable_test(
         ((3, [1]), ValueError),
     ],
 )
+
+
+def test_fixed_bitset_no_size():
+    """Test FixedBitset exceptions with no size."""
+    with pytest.raises(ValueError):
+        FixedBitset.from_int(0)
+
+    with pytest.raises(ValueError):
+        FixedBitset(bytearray(b""))
+
+    with pytest.raises(ValueError):
+        FixedBitset.deserialize(Buffer(b"\x00"))
 
 
 def test_fixed_bitset_indexing():
@@ -208,3 +219,14 @@ def test_bitset_operations_length_mismatch():
         b1 ^ b2  # type: ignore
 
     assert b1 != b3
+
+
+def test_fixed_bitset_cache():
+    """Test that FixedBitset.of_size caches the result."""
+    b1 = FixedBitset.of_size(64)
+    for i in range(1, 64):
+        b = FixedBitset.of_size(i)
+        assert b is not b1
+    b2 = FixedBitset.of_size(64)
+
+    assert b1 is b2

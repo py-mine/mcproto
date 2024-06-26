@@ -1,5 +1,5 @@
-from tests.helpers import gen_serializable_test, ExcTest
-from mcproto.types import MapIcon, IconType, TextComponent
+from mcproto.types import IconType, MapIcon, TextComponent
+from tests.helpers import ExcTest, gen_serializable_test
 
 gen_serializable_test(
     context=globals(),
@@ -19,8 +19,8 @@ gen_serializable_test(
         ((IconType.WHITE_BANNER, 127, -128, 15, None), b"\x0a\x7f\x80\x0f\x00"),
     ],
     validation_fail=[
-        ((IconType.PLAYER, 128, 0, 0, None), ExcTest(ValueError, "x must be between -128 and 127")),
-        ((IconType.PLAYER, 0, 128, 0, None), ExcTest(ValueError, "z must be between -128 and 127")),
-        ((IconType.PLAYER, 0, 0, 16, None), ExcTest(ValueError, "direction must be between 0 and 15")),
+        ((IconType.PLAYER, 128, 0, 0, None), ExcTest(ValueError, "<= 127")),
+        ((IconType.PLAYER, 0, -129, 0, None), ExcTest(ValueError, ">= -128")),
+        ((IconType.PLAYER, 0, 0, 16, None), ExcTest(ValueError, "<= 15")),
     ],
 )

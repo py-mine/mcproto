@@ -8,14 +8,14 @@ from typing_extensions import override
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
 from mcproto.types.chat import TextComponent
-from mcproto.types.entity.enums import Direction, Pose, SnifferState, DragonPhase
+from mcproto.types.entity.enums import Direction, DragonPhase, Pose, SnifferState
 from mcproto.types.entity.metadata import EntityMetadataEntry, ProxyEntityMetadataEntry
 from mcproto.types.identifier import Identifier
 from mcproto.types.nbt import NBTag
 from mcproto.types.quaternion import Quaternion
 from mcproto.types.slot import Slot
-from mcproto.types.vec3 import Position, Vec3
 from mcproto.types.uuid import UUID
+from mcproto.types.vec3 import Position, Vec3
 
 
 class ByteEME(EntityMetadataEntry):

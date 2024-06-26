@@ -5,8 +5,8 @@ from collections.abc import Iterator, Mapping, Sequence
 from enum import IntEnum
 from typing import ClassVar, Hashable, Protocol, Union, cast, final, runtime_checkable
 
-from attrs import define
-from typing_extensions import Self, TypeAlias, override
+from attrs import define, field, validators
+from typing_extensions import Literal, Self, TypeAlias, override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol.base_io import FLOAT_FORMATS_TYPE, INT_FORMATS_TYPE, StructFormat
@@ -61,7 +61,7 @@ only contains the payload.
 .. seealso:: :class:`NBTagType`
 """
 
-# region NBT Specification,
+# region NBT Specification
 
 
 class NBTagType(IntEnum):
@@ -189,6 +189,12 @@ class NBTag(MCType, NBTagConvertible, Hashable):
 
     __slots__ = ("name", "payload")
 
+    def __init__(self, payload: PayloadType, name: str = ""):
+        self.name = name
+        self.payload = payload
+
+        self.validate()
+
     @override  # Add some extra kwargs to control serialization
     def serialize(self, with_type: bool = True, with_name: bool = True) -> Buffer:
         """Serialize the NBT tag to a new buffer.
@@ -222,7 +228,9 @@ class NBTag(MCType, NBTagConvertible, Hashable):
         name, tag_type = cls._read_header(buf, with_name=with_name, read_type=with_type)
 
         tag_class = ASSOCIATED_TYPES[tag_type]
-        if cls not in (NBTag, tag_class):
+        if not issubclass(tag_class, cls):
+            # Either we are using NBTag.deserialize and in that case tag_class is any subclass of NBTag
+            # or we are using a specific tag and in that case we want to ensure that the tag is of the correct type
             raise TypeError(f"Expected a {cls.__name__} tag, but found a different tag ({tag_class.__name__}).")
 
         tag = tag_class.read_from(buf, with_type=False, with_name=False)
@@ -358,7 +366,7 @@ class NBTag(MCType, NBTagConvertible, Hashable):
                 raise TypeError("Expected a list of integers, but a non-integer element was found.")
             data = cast(Union[bytes, str, int, float, "list[int]"], data)
             # Create the tag with the data and the name
-            return schema(data, name=name)  # type: ignore # The schema is a subclass of NBTag
+            return schema(data, name=name)  # The schema is a subclass of NBTag
 
         # Sanity check : Verify that all type schemas have been handled
         if not isinstance(schema, (list, tuple, dict)):
@@ -463,6 +471,9 @@ class NBTag(MCType, NBTagConvertible, Hashable):
         """Get the payload of the NBT tag in a python-friendly format."""
         raise NotImplementedError
 
+    def validate(self) -> None:
+        """Check that the value contained in the NBTag payload is valid for a certain tag type."""
+
     @override
     def __hash__(self) -> int:
         return hash((self.name, self.payload, type(self)))
@@ -479,12 +490,15 @@ class NBTag(MCType, NBTagConvertible, Hashable):
 
 
 @final
-@define(hash=False, eq=False)
-class EndNBT(NBTag, Hashable):
+@define(hash=False, eq=False, init=False)
+class EndNBT(NBTag):
     """Sentinel tag used to mark the end of a TAG_Compound."""
 
     payload: None = None
     name: str = ""
+
+    def __init__(self, payload: None = None, name: Literal[""] = ""):
+        super().__init__(None, "")  # type: ignore
 
     @override
     def serialize_to(self, buf: Buffer, with_type: bool = True, with_name: bool = False) -> None:
@@ -510,8 +524,8 @@ class EndNBT(NBTag, Hashable):
         return NotImplemented
 
 
-@define(hash=False, eq=False)
-class _NumberNBTag(NBTag, RequiredParamsABCMixin, Hashable):
+@define(hash=False, eq=False, init=False)
+class _NumberNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing a number.
 
     This class is not meant to be used directly, but rather through its subclasses.
@@ -561,7 +575,7 @@ class _NumberNBTag(NBTag, RequiredParamsABCMixin, Hashable):
 
 
 @final
-class ByteNBT(_NumberNBTag, Hashable):
+class ByteNBT(_NumberNBTag):
     """NBT tag representing a single byte value, represented as a signed 8-bit integer."""
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = StructFormat.BYTE
@@ -571,7 +585,7 @@ class ByteNBT(_NumberNBTag, Hashable):
 
 
 @final
-class ShortNBT(_NumberNBTag, Hashable):
+class ShortNBT(_NumberNBTag):
     """NBT tag representing a short value, represented as a signed 16-bit integer."""
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = StructFormat.SHORT
@@ -581,7 +595,7 @@ class ShortNBT(_NumberNBTag, Hashable):
 
 
 @final
-class IntNBT(_NumberNBTag, Hashable):
+class IntNBT(_NumberNBTag):
     """NBT tag representing an integer value, represented as a signed 32-bit integer."""
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = StructFormat.INT
@@ -591,7 +605,7 @@ class IntNBT(_NumberNBTag, Hashable):
 
 
 @final
-class LongNBT(_NumberNBTag, Hashable):
+class LongNBT(_NumberNBTag):
     """NBT tag representing a long value, represented as a signed 64-bit integer."""
 
     STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = StructFormat.LONGLONG
@@ -600,8 +614,8 @@ class LongNBT(_NumberNBTag, Hashable):
     __slots__ = ()
 
 
-@define(hash=False, eq=False)
-class _FloatingNBTag(NBTag, RequiredParamsABCMixin, Hashable):
+@define(hash=False, eq=False, init=False)
+class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing a floating-point number."""
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
@@ -609,14 +623,8 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin, Hashable):
     STRUCT_FORMAT: ClassVar[FLOAT_FORMATS_TYPE] = NotImplemented  # type: ignore
     DATA_SIZE: ClassVar[int] = NotImplemented
 
-    payload: float
-    name: str = ""
-
-    @override
-    def __attrs_post_init__(self) -> None:
-        if isinstance(self.payload, int):
-            self.payload = float(self.payload)
-        return super().__attrs_post_init__()
+    payload: float = field(converter=float, validator=validators.instance_of((int, float)))
+    name: str = field(default="")
 
     @override
     def serialize_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
@@ -643,11 +651,6 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin, Hashable):
     def value(self) -> float:
         return self.payload
 
-    @override
-    def validate(self) -> None:
-        if not isinstance(self.payload, (int, float)):  # type: ignore # We want to check anyway
-            raise TypeError(f"Expected a float, but found {type(self.payload).__name__}.")
-
 
 @final
 class FloatNBT(_FloatingNBTag):
@@ -669,18 +672,12 @@ class DoubleNBT(_FloatingNBTag):
     __slots__ = ()
 
 
-@define(hash=False, eq=False)
-class ByteArrayNBT(NBTag, Hashable):
+@define(hash=False, eq=False, init=False)
+class ByteArrayNBT(NBTag):
     """NBT tag representing an array of bytes. The length of the array is stored as a signed 32-bit integer."""
 
-    payload: bytes
-    name: str = ""
-
-    @override
-    def __attrs_post_init__(self) -> None:
-        if isinstance(self.payload, bytearray):
-            self.payload = bytes(self.payload)
-        return super().__attrs_post_init__()
+    payload: bytes = field(converter=bytes, validator=validators.instance_of((bytes, bytearray)))
+    name: str = field(default="")
 
     @override
     def serialize_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
@@ -726,14 +723,9 @@ class ByteArrayNBT(NBTag, Hashable):
     def value(self) -> bytes:
         return self.payload
 
-    @override
-    def validate(self) -> None:
-        if not isinstance(self.payload, (bytearray, bytes)):
-            raise TypeError(f"Expected a bytes, but found {type(self.payload).__name__}.")
 
-
-@define(hash=False, eq=False)
-class StringNBT(NBTag, Hashable):
+@define(hash=False, eq=False, init=False)
+class StringNBT(NBTag):
     """NBT tag representing an UTF-8 string value. The length of the string is stored as a signed 16-bit integer."""
 
     payload: str
@@ -791,8 +783,8 @@ class StringNBT(NBTag, Hashable):
             raise ValueError("Invalid UTF-8 string.") from exc
 
 
-@define(hash=False, eq=False)
-class ListNBT(NBTag, Hashable):
+@define(hash=False, eq=False, init=False)
+class ListNBT(NBTag):
     """NBT tag representing a list of tags. All tags in the list must be of the same type."""
 
     payload: list[NBTag]
@@ -910,8 +902,8 @@ class ListNBT(NBTag, Hashable):
             raise ValueError("All tags in a list must be unnamed.")
 
 
-@define(hash=False, eq=False)
-class CompoundNBT(NBTag, Hashable):
+@define(hash=False, eq=False, init=False)
+class CompoundNBT(NBTag):
     """NBT tag representing a compound of named tags."""
 
     payload: list[NBTag]
@@ -1026,8 +1018,8 @@ class CompoundNBT(NBTag, Hashable):
         return hash((self.name, frozenset(self.payload), type(self)))  # Use frozenset to ignore the order
 
 
-@define(hash=False, eq=False)
-class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin, Hashable):
+@define(hash=False, eq=False, init=False)
+class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
     """Base class for NBT tags representing an array of numbers."""
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")

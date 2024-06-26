@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from typing import final
-from mcproto.buffer import Buffer
-from mcproto.types.abc import MCType
-from attrs import define
-
-from typing_extensions import override
-from mcproto.types.chat import TextComponent
-from mcproto.protocol.base_io import StructFormat
-
 from enum import IntEnum
+from typing import final
+
+from attrs import define, field, validators
+from typing_extensions import override
+
+from mcproto.buffer import Buffer
+from mcproto.protocol.base_io import StructFormat
+from mcproto.types.abc import MCType
+from mcproto.types.chat import TextComponent
 
 
 class IconType(IntEnum):
@@ -64,11 +64,11 @@ class MapIcon(MCType):
     :type display_name: :class:`~mcproto.types.chat.TextComponent`, optional
     """
 
-    icon_type: IconType
-    x: int
-    z: int
-    direction: int
-    display_name: TextComponent | None = None
+    icon_type: IconType = field(validator=validators.instance_of(IconType), converter=IconType)
+    x: int = field(validator=[validators.le(127), validators.ge(-128)])
+    z: int = field(validator=[validators.le(127), validators.ge(-128)])
+    direction: int = field(validator=[validators.le(15), validators.ge(0)])
+    display_name: TextComponent | None = field(default=None)
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -87,12 +87,3 @@ class MapIcon(MCType):
         direction = buf.read_value(StructFormat.BYTE)
         display_name = buf.read_optional(lambda: TextComponent.deserialize(buf))
         return cls(icon_type, x, z, direction, display_name)
-
-    @override
-    def validate(self) -> None:
-        if not (-128 <= self.x <= 127):
-            raise ValueError("x must be between -128 and 127")
-        if not (-128 <= self.z <= 127):
-            raise ValueError("z must be between -128 and 127")
-        if not (0 <= self.direction <= 15):
-            raise ValueError("direction must be between 0 and 15")

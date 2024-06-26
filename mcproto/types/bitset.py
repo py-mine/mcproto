@@ -1,24 +1,42 @@
 from __future__ import annotations
 
 import math
-
+from functools import lru_cache
 from typing import ClassVar
+
+from attrs import Attribute, define, field, validators
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
-from mcproto.types.abc import MCType
-from attrs import define
 from mcproto.protocol.utils import to_twos_complement
+from mcproto.types.abc import MCType
 
 
 @define
 class FixedBitset(MCType):
-    """Represents a fixed-size bitset."""
+    """Represents a fixed-size bitset.
+
+    The size of the bitset must be defined using the :meth:`of_size` method.
+    Each :class:`FixedBitset` class is unique to its size, and the size must be defined before using the class.
+
+    :param data: The bits of the bitset.
+    """
 
     __BIT_COUNT: ClassVar[int] = -1
 
-    data: bytearray
+    @staticmethod
+    def data_length_check(_self: FixedBitset, attribute: Attribute[bytearray], value: bytearray) -> None:
+        """Check that the data length matches the bitset size.
+
+        :raises ValueError: If the data length doesn't match the bitset size.
+        """
+        if _self.__BIT_COUNT == -1:
+            raise ValueError("Bitset size is not defined.")
+        if len(value) != math.ceil(_self.__BIT_COUNT / 8):
+            raise ValueError(f"Bitset size is {_self.__BIT_COUNT}, but data length is {len(value)}.")
+
+    data: bytearray = field(validator=data_length_check.__get__(object))
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -32,17 +50,13 @@ class FixedBitset(MCType):
         data = buf.read(math.ceil(cls.__BIT_COUNT / 8))
         return cls(data=data)
 
-    @override
-    def validate(self) -> None:
-        """Validate the bitset."""
-        if self.__BIT_COUNT == -1:
-            raise ValueError("Bitset size is not defined.")
-        if len(self.data) != math.ceil(self.__BIT_COUNT / 8):
-            raise ValueError(f"Bitset size is {len(self.data) * 8}, expected {self.__BIT_COUNT}.")
-
     @staticmethod
+    @lru_cache(maxsize=None)
     def of_size(n: int) -> type[FixedBitset]:
         """Return a new FixedBitset class with the given size.
+
+        The result of this method is cached, so calling it multiple times with the same value will return the same
+        class.
 
         :param n: The size of the bitset.
         """
@@ -113,8 +127,17 @@ class Bitset(MCType):
     :param data: The bits of the bitset.
     """
 
-    size: int
-    data: list[int]
+    @staticmethod
+    def data_length_check(_self: Bitset, attribute: Attribute[list[int]], value: list[int]) -> None:
+        """Check that the data length matches the bitset size.
+
+        :raises ValueError: If the data length doesn't match the bitset size.
+        """
+        if len(value) != _self.size:
+            raise ValueError(f"Bitset size is {_self.size}, but data length is {len(value)}.")
+
+    size: int = field(validator=validators.gt(0))
+    data: list[int] = field(validator=data_length_check.__get__(object))
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -128,12 +151,6 @@ class Bitset(MCType):
         size = buf.read_varint()
         data = [buf.read_value(StructFormat.LONGLONG) for _ in range(size)]
         return cls(size=size, data=data)
-
-    @override
-    def validate(self) -> None:
-        """Validate the bitset."""
-        if self.size != len(self.data):
-            raise ValueError(f"Bitset size is ({self.size}) doesn't match data size ({len(self.data)}).")
 
     @classmethod
     def from_int(cls, n: int, size: int | None = None) -> Bitset:

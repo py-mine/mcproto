@@ -308,7 +308,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=False)",  # empty
+                "default": "Slot(None)",  # empty
                 "input": "Slot",
                 "description": "The item to display. Default is an empty slot.",
             },
@@ -407,7 +407,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=False)",  # empty
+                "default": "Slot(None)",  # empty
                 "input": "Slot",
                 "description": "The item that the projectile represents",
             }
@@ -422,7 +422,7 @@ ENTITY_DATA: list[EntityData] = [
                 "type": "Slot",
                 "name": "item",
                 # Registries not implemented yet
-                "default": "Slot(present=True, item_id=NotImplemented, item_count=1)",
+                "default": "Slot(SlotData(NotImplemented, 1))",
                 "input": "Slot",
             }
         ],
@@ -435,7 +435,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=True, item_id=NotImplemented, item_count=1)",  # same
+                "default": "Slot(SlotData(NotImplemented, 1))",  # same
                 "input": "Slot",
             }
         ],
@@ -448,7 +448,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=True, item_id=NotImplemented, item_count=1)",  # same
+                "default": "Slot(SlotData(NotImplemented, 1))",  # same
                 "input": "Slot",
             }
         ],
@@ -461,7 +461,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=True, item_id=NotImplemented, item_count=1)",  # same
+                "default": "Slot(SlotData(NotImplemented, 1))",  # same
                 "input": "Slot",
             }
         ],
@@ -474,7 +474,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=True, item_id=NotImplemented, item_count=1)",  # same
+                "default": "Slot(SlotData(NotImplemented, 1))",  # same
                 "input": "Slot",
             }
         ],
@@ -487,7 +487,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=False)",  # behaves like a minecraft:ender_eye
+                "default": "Slot(None)",  # behaves like a minecraft:ender_eye
                 "input": "Slot",
                 "description": "The item that the entity represents (usually an ender eye)",
             }
@@ -846,7 +846,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=False)",
+                "default": "Slot(None)",
                 "input": "Slot",
                 "description": "The item representing the small fireball.",
             }
@@ -860,7 +860,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=False)",
+                "default": "Slot(None)",
                 "input": "Slot",
                 "description": "The item representing the fireball.",
             }
@@ -888,7 +888,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "firework_info",
-                "default": "Slot(present=False)",
+                "default": "Slot(None)",
                 "input": "Slot",
                 "description": "The information about the firework.",
             },
@@ -916,7 +916,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=False)",
+                "default": "Slot(None)",
                 "input": "Slot",
                 "description": "The item in the item frame.",
             },
@@ -957,7 +957,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Slot",
                 "name": "item",
-                "default": "Slot(present=False)",
+                "default": "Slot(None)",
                 "input": "Slot",
                 "description": "The item in the item entity.",
             }

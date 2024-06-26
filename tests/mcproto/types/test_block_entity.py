@@ -1,6 +1,6 @@
-from tests.helpers import gen_serializable_test
-from mcproto.types import BlockEntity, Position, CompoundNBT
+from mcproto.types import BlockEntity, CompoundNBT, Position
 from mcproto.types.nbt import ByteNBT
+from tests.helpers import gen_serializable_test
 
 gen_serializable_test(
     context=globals(),
