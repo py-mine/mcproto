@@ -27,14 +27,14 @@ class Ingredient(MCType):
     .. note:: Each item in the list has to have a count of 1.
     """
 
-    @staticmethod
-    def check_quantity(instance: Ingredient, attribute: Attribute[set[Slot]], value: set[Slot]) -> None:
+    count: int = field(validator=validators.ge(1))
+    items: set[Slot] = field()
+
+    @items.validator  # pyright: ignore
+    def _check_quantity(self, attribute: Attribute[set[Slot]], value: set[Slot]) -> None:
         """Check that each ingredient is valid."""
         if any(item.data is None or item.data.num != 1 for item in value):
             raise ValueError("Each item in the list has to have a count of 1.")
-
-    count: int = field(validator=validators.ge(1))
-    items: set[Slot] = field(validator=check_quantity.__get__(object))
 
     @override
     def serialize_to(self, buf: Buffer) -> None:

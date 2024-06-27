@@ -28,18 +28,18 @@ class BlockEntity(MCType):
     .. note:: This class is used in the :class:`~mcproto.packets.play.ChunkData` packet.
     """
 
-    @staticmethod
-    def check_position(_self: BlockEntity, attribute: Attribute[Position], value: Position) -> None:
+    position: Position = field()
+    block_type: int = field()
+    nbt: CompoundNBT = field()
+
+    @position.validator  # pyright: ignore
+    def _check_position(self: BlockEntity, attribute: Attribute[Position], value: Position) -> None:
         """Check that the position is within the chunk.
 
         :raises ValueError: If the position is not within the chunk.
         """
         if not (0 <= value.x < 16 and 0 <= value.z < 16):
             raise ValueError("Position must be within the chunk")
-
-    position: Position = field(validator=check_position.__get__(object))
-    block_type: int = field()
-    nbt: CompoundNBT = field()
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
