@@ -131,7 +131,7 @@ def test_position_to_tuple():
     """Test that a Position object can be converted to a tuple."""
     p = Position(x=1, y=2, z=3)
     t = p.to_tuple()
-    assert type(t) == tuple
+    assert type(t) is tuple
     assert t == (1, 2, 3)
 
 

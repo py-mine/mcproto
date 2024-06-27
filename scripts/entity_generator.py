@@ -268,9 +268,9 @@ def format_ruff(path: Path) -> None:
 
     :param path: The path to the file to format.
     """
-    # Get the python site packages path
-    subprocess.run(
-        [sys.executable, "-m", "ruff", "format", str(path.absolute())],  # noqa: S603
+    # This will only be called from the script with a trusted predefined path
+    subprocess.run(  # noqa: S603
+        [sys.executable, "-m", "ruff", "format", str(path.absolute())],
         check=True,
     )
 

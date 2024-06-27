@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any, ClassVar, final
 
-from attrs import define, field
+from attrs import Attribute, define, field
 from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
@@ -43,7 +43,12 @@ class StatusResponse(ClientBoundPacket):
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.STATUS
 
-    data: dict[str, Any] = field(validator=lambda self, _, value: json.dumps(value))
+    data: dict[str, Any] = field()
+
+    @data.validator  # pyright: ignore
+    def _validate_data(self, _: Attribute[dict[str, Any]], value: dict[str, Any]) -> None:
+        """Dump the data as json to check if it's valid."""
+        json.dumps(value)
 
     @override
     def serialize_to(self, buf: Buffer) -> None:

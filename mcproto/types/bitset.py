@@ -25,18 +25,18 @@ class FixedBitset(MCType):
 
     __BIT_COUNT: ClassVar[int] = -1
 
-    @staticmethod
-    def data_length_check(_self: FixedBitset, attribute: Attribute[bytearray], value: bytearray) -> None:
+    data: bytearray = field()
+
+    @data.validator  # pyright: ignore
+    def _data_length_check(self: FixedBitset, attribute: Attribute[bytearray], value: bytearray) -> None:
         """Check that the data length matches the bitset size.
 
         :raises ValueError: If the data length doesn't match the bitset size.
         """
-        if _self.__BIT_COUNT == -1:
+        if self.__BIT_COUNT == -1:
             raise ValueError("Bitset size is not defined.")
-        if len(value) != math.ceil(_self.__BIT_COUNT / 8):
-            raise ValueError(f"Bitset size is {_self.__BIT_COUNT}, but data length is {len(value)}.")
-
-    data: bytearray = field(validator=data_length_check.__get__(object))
+        if len(value) != math.ceil(self.__BIT_COUNT / 8):
+            raise ValueError(f"Bitset size is {self.__BIT_COUNT}, but data length is {len(value)}.")
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -127,17 +127,17 @@ class Bitset(MCType):
     :param data: The bits of the bitset.
     """
 
-    @staticmethod
-    def data_length_check(_self: Bitset, attribute: Attribute[list[int]], value: list[int]) -> None:
+    size: int = field(validator=validators.gt(0))
+    data: list[int] = field()
+
+    @data.validator  # pyright: ignore
+    def _data_length_check(self: Bitset, attribute: Attribute[list[int]], value: list[int]) -> None:
         """Check that the data length matches the bitset size.
 
         :raises ValueError: If the data length doesn't match the bitset size.
         """
-        if len(value) != _self.size:
-            raise ValueError(f"Bitset size is {_self.size}, but data length is {len(value)}.")
-
-    size: int = field(validator=validators.gt(0))
-    data: list[int] = field(validator=data_length_check.__get__(object))
+        if len(value) != self.size:
+            raise ValueError(f"Bitset size is {self.size}, but data length is {len(value)}.")
 
     @override
     def serialize_to(self, buf: Buffer) -> None:

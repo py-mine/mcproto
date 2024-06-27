@@ -47,6 +47,8 @@ class JSONTextComponent(MCType):
 
         :raises AttributeError: If the `raw` attribute is not a valid JSON chat message (missing fields).
         :raises TypeError: If the `raw` attribute is not a valid JSON chat message (wrong type).
+
+        .. note:: This is a separate method to be able to use the isinstance check for the type.
         """
         if isinstance(value, dict):  # We want to keep it this way for readability
             if "text" not in value and "extra" not in value:
