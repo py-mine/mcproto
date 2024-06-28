@@ -3,12 +3,11 @@ from __future__ import annotations
 import json
 from typing import TypedDict, Union, final
 
+from attrs import define
 from typing_extensions import Self, TypeAlias, override
 
 from mcproto.buffer import Buffer
 from mcproto.types.abc import MCType
-from attrs import define
-
 
 __all__ = [
     "ChatMessage",

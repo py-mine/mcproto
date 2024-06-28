@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from typing import Any, cast, final
+
+from attrs import define
 from typing_extensions import override
 
 from mcproto.buffer import Buffer
 from mcproto.utils.abc import Serializable
-from attrs import define
-
-from tests.helpers import gen_serializable_test, TestExc
+from tests.helpers import TestExc, gen_serializable_test
 
 
 class CustomError(Exception):

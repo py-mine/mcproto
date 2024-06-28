@@ -8,7 +8,6 @@ from typing_extensions import Self
 
 from mcproto.buffer import Buffer
 
-
 __all__ = ["RequiredParamsABCMixin", "Serializable"]
 
 

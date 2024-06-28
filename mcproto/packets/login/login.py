@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import ClassVar, cast, final
 
+from attrs import define
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat, load_der_public_key
@@ -11,7 +12,6 @@ from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
 from mcproto.types.chat import ChatMessage
 from mcproto.types.uuid import UUID
-from attrs import define
 
 __all__ = [
     "LoginDisconnect",

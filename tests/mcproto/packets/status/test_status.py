@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from mcproto.packets.status.status import StatusResponse
 from tests.helpers import gen_serializable_test
 

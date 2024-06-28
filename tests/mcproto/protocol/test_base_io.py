@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import platform
 import struct
-from abc import ABC, abstractmethod
 import sys
-from typing import TYPE_CHECKING, Any, Generic, TypeVar, Union
+from abc import ABC, abstractmethod
+from typing import Any, Generic, TYPE_CHECKING, TypeVar, Union
 from unittest.mock import AsyncMock, Mock
 
 import pytest
