@@ -6,10 +6,9 @@ import re
 import unittest.mock
 from collections.abc import Callable, Coroutine
 from typing import Any, Generic, NamedTuple, TypeVar
-from typing_extensions import TypeGuard
 
 import pytest
-from typing_extensions import ParamSpec, override
+from typing_extensions import ParamSpec, TypeGuard, override
 
 from mcproto.buffer import Buffer
 from mcproto.utils.abc import Serializable

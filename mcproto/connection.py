@@ -57,7 +57,7 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
         # subclass. This is needed since the cryptography library calls some C
         # code in the back, which relies on this being bytes. If it's not a bytes
         # instance, convert it.
-        if type(shared_secret) is not bytes:  # noqa: E721 # we don't want isinstance
+        if type(shared_secret) is not bytes:
             shared_secret = bytes(shared_secret)
 
         self.encryption_enabled = True
@@ -171,7 +171,7 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
         # subclass. This is needed since the cryptography library calls some C
         # code in the back, which relies on this being bytes. If it's not a bytes
         # instance, convert it.
-        if type(shared_secret) is not bytes:  # noqa: E721 # we don't want isinstance
+        if type(shared_secret) is not bytes:
             shared_secret = bytes(shared_secret)
 
         self.encryption_enabled = True

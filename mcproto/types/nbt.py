@@ -1,17 +1,16 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from enum import IntEnum
-from typing import ClassVar, Union, cast, Protocol, final, runtime_checkable
 from collections.abc import Iterator, Mapping, Sequence
+from enum import IntEnum
+from typing import ClassVar, Protocol, Union, cast, final, runtime_checkable
 
-from typing_extensions import TypeAlias, override, Self
+from attrs import define
+from typing_extensions import Self, TypeAlias, override
 
 from mcproto.buffer import Buffer
-from mcproto.protocol.base_io import StructFormat, INT_FORMATS_TYPE, FLOAT_FORMATS_TYPE
+from mcproto.protocol.base_io import FLOAT_FORMATS_TYPE, INT_FORMATS_TYPE, StructFormat
 from mcproto.types.abc import MCType
-from attrs import define
-
 from mcproto.utils.abc import RequiredParamsABCMixin
 
 __all__ = [

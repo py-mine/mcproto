@@ -3,11 +3,11 @@ from __future__ import annotations
 import json
 from typing import Any, ClassVar, final
 
+from attrs import define
 from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
-from attrs import define
 
 __all__ = ["StatusRequest", "StatusResponse"]
 

@@ -3,12 +3,12 @@ from __future__ import annotations
 from enum import IntEnum
 from typing import ClassVar, cast, final
 
+from attrs import define
 from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
-from attrs import define
 
 __all__ = [
     "NextState",

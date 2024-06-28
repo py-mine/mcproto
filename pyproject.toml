@@ -48,7 +48,7 @@ pytest-cov = ">=3,<6"
 pytest-httpx = { version = ">=0.23.1,<0.25.0", python = ">=3.9,<4" }
 
 [tool.poetry.group.lint.dependencies]
-ruff = ">=0.3.4,<0.5.0"
+ruff = ">=0.5.0"
 pyright = "^1.1.313"
 slotscheck = ">=0.16.1,<0.20.0"
 
@@ -70,7 +70,7 @@ sphinx-autodoc-typehints = ">=1.23,<3.0"
 sphinx-copybutton = "^0.5.2"
 furo = ">=2022.12.7"
 sphinxcontrib-towncrier = ">=0.3.2,<0.5.0"
-pytest = "^7.3.1" # Required to import the gen_test_serializable function to list it in the docs
+pytest = "^7.3.1"                                # Required to import the gen_test_serializable function to list it in the docs
 
 [tool.poetry.group.docs-ci]
 optional = true
@@ -103,56 +103,19 @@ target-version = "py38"
 line-length = 119
 
 [tool.ruff.lint]
-select = [
-  "F",     # Pyflakes
-  "E",     # Pycodestyle (errors)
-  "W",     # Pycodestyle (warnigns)
-  "N",     # pep8-naming
-  "D",     # pydocstyle
-  "UP",    # pyupgrade
-  "YTT",   # flake8-2020
-  "ANN",   # flake8-annotations
-  "ASYNC", # flake8-async
-  "S",     # flake8-bandit
-  "BLE",   # flake8-blind-except
-  "B",     # flake8-bugbear
-  "A",     # flake8-builtins
-  "COM",   # flake8-commas
-  "C4",    # flake8-comprehensions
-  "DTZ",   # flake8-datetimez
-  "T10",   # flake8-debugger
-  "EM",    # flake8-errmsg
-  "EXE",   # flake8-executable
-  "FA",    # flake8-future-annotations
-  "ISC",   # flake8-implicit-str-concat
-  "ICN",   # flake8-import-conventions
-  "LOG",   # flake8-logging
-  "G",     # flake8-logging-format
-  "INP",   # flake8-no-pep420
-  "PIE",   # flake8-pie
-  "T20",   # flake8-print
-  "PYI",   # flake8-pyi
-  "PT",    # flake8-pytest-style
-  "Q",     # flake8-quotes
-  "RSE",   # flake8-raise
-  "RET",   # flake8-return
-  "SLOT",  # flake8-slots
-  "SIM",   # flake8-simplify
-  "TID",   # flake8-tidy-imports
-  "TCH",   # flake8-type-checking
-  "INT",   # flake8-gettext
-  "PTH",   # flake8-use-pathlib
-  "TD",    # flake8-todos
-  "ERA",   # flake8-eradicate
-  "PGH",   # pygrep-hooks
-  "PL",    # pylint
-  "TRY",   # tryceratops
-  "FLY",   # flynt
-  "PERF",  # perflint
-  "RUF",   # ruff-specific rules
-]
+select = ["ALL"]
 
 ignore = [
+  "C90", # mccabe
+  "FBT", # flake8-boolean-trap
+  "CPY", # flake8-copyright
+  "EM",  # flake8-errmsg
+  "SLF", # flake8-self
+  "TCH", # flake8-type-checking
+  "ARG", # flake8-unused-arguments
+  "TD",  # flake8-todos
+  "FIX", # flake8-fixme
+
   "D100", # Missing docstring in public module
   "D104", # Missing docstring in public package
   "D105", # Missing docstring in magic method
