@@ -11,7 +11,7 @@ from mcproto.packets.login.login import (
     LoginSuccess,
 )
 from mcproto.packets.packet import InvalidPacketContentError
-from mcproto.types.chat import ChatMessage
+from mcproto.types.chat import JSONTextComponent
 from mcproto.types.uuid import UUID
 from tests.helpers import gen_serializable_test
 from tests.mcproto.test_encryption import RSA_PUBLIC_KEY
@@ -57,7 +57,7 @@ gen_serializable_test(
 
 def test_login_encryption_request_noid():
     """Test LoginEncryptionRequest without server_id."""
-    packet = LoginEncryptionRequest(server_id=None, public_key=RSA_PUBLIC_KEY, verify_token=bytes.fromhex("9bd416ef"))
+    packet = LoginEncryptionRequest(public_key=RSA_PUBLIC_KEY, verify_token=bytes.fromhex("9bd416ef"))
     assert packet.server_id == " " * 20  # None is converted to an empty server id
 
 
@@ -92,10 +92,10 @@ gen_serializable_test(
 gen_serializable_test(
     context=globals(),
     cls=LoginDisconnect,
-    fields=[("reason", ChatMessage)],
+    fields=[("reason", JSONTextComponent)],
     serialize_deserialize=[
         (
-            (ChatMessage("You are banned."),),
+            (JSONTextComponent("You are banned."),),
             bytes.fromhex("1122596f75206172652062616e6e65642e22"),
         ),
     ],
