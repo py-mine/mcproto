@@ -156,12 +156,13 @@ __all__ = [
     "ZombifiedPiglinEM",
 ]
 
-from typing import Any, ClassVar
+from typing import ClassVar
 
 from mcproto.types.chat import TextComponent
 from mcproto.types.entity.metadata import EntityMetadata, entry, proxy
 from mcproto.types.entity.metadata_types import (
     BlockStateEME,
+    BoolMasked,
     BooleanEME,
     ByteEME,
     CatVariantEME,
@@ -169,7 +170,6 @@ from mcproto.types.entity.metadata_types import (
     DragonPhaseEME,
     FloatEME,
     FrogVariantEME,
-    Masked,
     NBTagEME,
     OptBlockStateEME,
     OptPositionEME,
@@ -191,6 +191,7 @@ from mcproto.types.entity.metadata_types import (
     VillagerDataEME,
 )
 from mcproto.types.nbt import EndNBT, NBTag
+from mcproto.types.particle_data import ParticleData
 from mcproto.types.quaternion import Quaternion
 from mcproto.types.slot import Slot, SlotData
 from mcproto.types.uuid import UUID
@@ -235,14 +236,14 @@ class EntityEM(EntityMetadata):
     """
 
     _entity_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_on_fire: bool = proxy(_entity_flags, Masked, mask=0x1)
-    is_crouching: bool = proxy(_entity_flags, Masked, mask=0x2)
-    is_riding: bool = proxy(_entity_flags, Masked, mask=0x4)
-    is_sprinting: bool = proxy(_entity_flags, Masked, mask=0x8)
-    is_swimming: bool = proxy(_entity_flags, Masked, mask=0x10)
-    is_invisible: bool = proxy(_entity_flags, Masked, mask=0x20)
-    is_glowing: bool = proxy(_entity_flags, Masked, mask=0x40)
-    is_flying: bool = proxy(_entity_flags, Masked, mask=0x80)
+    is_on_fire: bool = proxy(_entity_flags, BoolMasked, mask=0x1)
+    is_crouching: bool = proxy(_entity_flags, BoolMasked, mask=0x2)
+    is_riding: bool = proxy(_entity_flags, BoolMasked, mask=0x4)
+    is_sprinting: bool = proxy(_entity_flags, BoolMasked, mask=0x8)
+    is_swimming: bool = proxy(_entity_flags, BoolMasked, mask=0x10)
+    is_invisible: bool = proxy(_entity_flags, BoolMasked, mask=0x20)
+    is_glowing: bool = proxy(_entity_flags, BoolMasked, mask=0x40)
+    is_flying: bool = proxy(_entity_flags, BoolMasked, mask=0x80)
     air: int = entry(VarIntEME, 300)
     custom_name: str = entry(StringEME, "")
     is_custom_name_visible: bool = entry(BooleanEME, False)
@@ -705,11 +706,11 @@ class TextDisplayEM(DisplayEM):
     line_width: int = entry(VarIntEME, 200)
     background_color: int = entry(VarIntEME, 1073741824)
     _display_flags: ClassVar[int] = entry(ByteEME, 0)
-    has_shadow: bool = proxy(_display_flags, Masked, mask=0x1)
-    is_see_through: bool = proxy(_display_flags, Masked, mask=0x2)
-    use_default_background: bool = proxy(_display_flags, Masked, mask=0x4)
-    align_left: bool = proxy(_display_flags, Masked, mask=0x8)
-    align_right: bool = proxy(_display_flags, Masked, mask=0x10)
+    has_shadow: bool = proxy(_display_flags, BoolMasked, mask=0x1)
+    is_see_through: bool = proxy(_display_flags, BoolMasked, mask=0x2)
+    use_default_background: bool = proxy(_display_flags, BoolMasked, mask=0x4)
+    align_left: bool = proxy(_display_flags, BoolMasked, mask=0x8)
+    align_right: bool = proxy(_display_flags, BoolMasked, mask=0x10)
 
     __slots__ = ()
 
@@ -1057,7 +1058,7 @@ class FallingBlockEM(EntityEM):
     """Entity that represents a falling block.
 
     :param position: The spawn position of the falling block
-    :type position: tuple[int, int, int], optional, default: (0, 0, 0)
+    :type position: :class:`Position`, optional, default: :attr:`Position(0, 0, 0)`
 
     Inherited from :class:`EntityEM`:
 
@@ -1095,7 +1096,7 @@ class FallingBlockEM(EntityEM):
 
     """
 
-    position: tuple[int, int, int] = entry(PositionEME, (0, 0, 0))
+    position: Position = entry(PositionEME, Position(0, 0, 0))
 
     __slots__ = ()
 
@@ -1109,8 +1110,8 @@ class AreaEffectCloudEM(EntityEM):
     :type color: int, optional, default: 0
     :param single_point_effect: Whether to ignore the radius and show the effect as a single point, not an area.
     :type single_point_effect: bool, optional, default: False
-    :param effect: The particle effect of the area effect cloud.
-    :type effect: tuple[int, Any], optional, default: (0, None)
+    :param effect: The particle effect of the area effect cloud (default: `minecraft:effect`).
+    :type effect: :class:`ParticleData`, optional, default: :attr:`ParticleData(15)`
 
     Inherited from :class:`EntityEM`:
 
@@ -1151,7 +1152,7 @@ class AreaEffectCloudEM(EntityEM):
     radius: float = entry(FloatEME, 0.5)
     color: int = entry(VarIntEME, 0)
     single_point_effect: bool = entry(BooleanEME, False)
-    effect: tuple[int, Any] = entry(ParticleEME, (0, None))
+    effect: ParticleData = entry(ParticleEME, ParticleData(15))
 
     __slots__ = ()
 
@@ -1254,8 +1255,8 @@ class AbstractArrowEM(EntityEM):
     """
 
     _arrow_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_critical: bool = proxy(_arrow_flags, Masked, mask=0x1)
-    is_noclip: bool = proxy(_arrow_flags, Masked, mask=0x2)
+    is_critical: bool = proxy(_arrow_flags, BoolMasked, mask=0x1)
+    is_noclip: bool = proxy(_arrow_flags, BoolMasked, mask=0x2)
     piercing_level: int = entry(ByteEME, 0)
 
     __slots__ = ()
@@ -2175,7 +2176,7 @@ class EndCrystalEM(EntityEM):
     """Entity that represents an end crystal.
 
     :param beam_target: The position of the beam target.
-    :type beam_target: tuple[int, int, int]|None, optional, default: None
+    :type beam_target: :class:`Position | None`, optional, default: :attr:`None`
     :param show_bottom: Whether the bottom of the end crystal is shown.
     :type show_bottom: bool, optional, default: True
 
@@ -2215,7 +2216,7 @@ class EndCrystalEM(EntityEM):
 
     """
 
-    beam_target: tuple[int, int, int] | None = entry(OptPositionEME, None)
+    beam_target: Position | None = entry(OptPositionEME, None)
     show_bottom: bool = entry(BooleanEME, True)
 
     __slots__ = ()
@@ -2711,9 +2712,9 @@ class LivingEntityEM(EntityEM):
     """
 
     _hand_states: ClassVar[int] = entry(ByteEME, 0)
-    is_hand_active: bool = proxy(_hand_states, Masked, mask=0x1)
-    active_hand: int = proxy(_hand_states, Masked, mask=0x2)
-    is_riptide_spin_attack: bool = proxy(_hand_states, Masked, mask=0x4)
+    is_hand_active: bool = proxy(_hand_states, BoolMasked, mask=0x1)
+    active_hand: int = proxy(_hand_states, BoolMasked, mask=0x2)
+    is_riptide_spin_attack: bool = proxy(_hand_states, BoolMasked, mask=0x4)
     health: float = entry(FloatEME, 1.0)
     potion_effect_color: int = entry(VarIntEME, 0)
     is_potion_effect_ambient: bool = entry(BooleanEME, False)
@@ -2815,13 +2816,13 @@ class PlayerEM(LivingEntityEM):
     additional_hearts: float = entry(FloatEME, 0.0)
     score: int = entry(VarIntEME, 0)
     _displayed_skin_parts: ClassVar[int] = entry(ByteEME, 0)
-    cape_enabled: bool = proxy(_displayed_skin_parts, Masked, mask=0x1)
-    jacket_enabled: bool = proxy(_displayed_skin_parts, Masked, mask=0x2)
-    left_sleeve_enabled: bool = proxy(_displayed_skin_parts, Masked, mask=0x4)
-    right_sleeve_enabled: bool = proxy(_displayed_skin_parts, Masked, mask=0x8)
-    left_pants_leg_enabled: bool = proxy(_displayed_skin_parts, Masked, mask=0x10)
-    right_pants_leg_enabled: bool = proxy(_displayed_skin_parts, Masked, mask=0x20)
-    hat_enabled: bool = proxy(_displayed_skin_parts, Masked, mask=0x40)
+    cape_enabled: bool = proxy(_displayed_skin_parts, BoolMasked, mask=0x1)
+    jacket_enabled: bool = proxy(_displayed_skin_parts, BoolMasked, mask=0x2)
+    left_sleeve_enabled: bool = proxy(_displayed_skin_parts, BoolMasked, mask=0x4)
+    right_sleeve_enabled: bool = proxy(_displayed_skin_parts, BoolMasked, mask=0x8)
+    left_pants_leg_enabled: bool = proxy(_displayed_skin_parts, BoolMasked, mask=0x10)
+    right_pants_leg_enabled: bool = proxy(_displayed_skin_parts, BoolMasked, mask=0x20)
+    hat_enabled: bool = proxy(_displayed_skin_parts, BoolMasked, mask=0x40)
     main_hand: int = entry(ByteEME, 1)
     left_shoulder_entity_data: NBTag = entry(NBTagEME, EndNBT())
     right_shoulder_entity_data: NBTag = entry(NBTagEME, EndNBT())
@@ -2913,10 +2914,10 @@ class ArmorStandEM(LivingEntityEM):
     """
 
     _armorstand_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_small: bool = proxy(_armorstand_flags, Masked, mask=0x1)
-    has_arms: bool = proxy(_armorstand_flags, Masked, mask=0x4)
-    has_no_base_plate: bool = proxy(_armorstand_flags, Masked, mask=0x8)
-    is_marker: bool = proxy(_armorstand_flags, Masked, mask=0x10)
+    is_small: bool = proxy(_armorstand_flags, BoolMasked, mask=0x1)
+    has_arms: bool = proxy(_armorstand_flags, BoolMasked, mask=0x4)
+    has_no_base_plate: bool = proxy(_armorstand_flags, BoolMasked, mask=0x8)
+    is_marker: bool = proxy(_armorstand_flags, BoolMasked, mask=0x10)
     head_rotation: Vec3 = entry(RotationEME, Vec3(0.0, 0.0, 0.0))
     body_rotation: Vec3 = entry(RotationEME, Vec3(0.0, 0.0, 0.0))
     left_arm_rotation: Vec3 = entry(RotationEME, Vec3(-10.0, 0.0, -10.0))
@@ -2997,9 +2998,9 @@ class MobEM(LivingEntityEM):
     """
 
     _mob_flags: ClassVar[int] = entry(ByteEME, 0)
-    no_ai: bool = proxy(_mob_flags, Masked, mask=0x1)
-    is_left_handed: bool = proxy(_mob_flags, Masked, mask=0x2)
-    is_aggressive: bool = proxy(_mob_flags, Masked, mask=0x4)
+    no_ai: bool = proxy(_mob_flags, BoolMasked, mask=0x1)
+    is_left_handed: bool = proxy(_mob_flags, BoolMasked, mask=0x2)
+    is_aggressive: bool = proxy(_mob_flags, BoolMasked, mask=0x4)
 
     __slots__ = ()
 
@@ -3155,7 +3156,7 @@ class BatEM(AmbientCreatureEM):
     """
 
     _bat_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_hanging: bool = proxy(_bat_flags, Masked, mask=0x1)
+    is_hanging: bool = proxy(_bat_flags, BoolMasked, mask=0x1)
 
     __slots__ = ()
 
@@ -3392,7 +3393,7 @@ class DolphinEM(WaterAnimalEM):
     """Entity that represents a dolphin.
 
     :param treasure_position: The position of the dolphin's treasure.
-    :type treasure_position: tuple[int, int, int], optional, default: (0, 0, 0)
+    :type treasure_position: :class:`Position`, optional, default: :attr:`Position(0, 0, 0)`
     :param has_fish: Whether the dolphin has fish.
     :type has_fish: bool, optional, default: False
     :param moisture_level: The moisture level of the dolphin.
@@ -3470,7 +3471,7 @@ class DolphinEM(WaterAnimalEM):
 
     """
 
-    treasure_position: tuple[int, int, int] = entry(PositionEME, (0, 0, 0))
+    treasure_position: Position = entry(PositionEME, Position(0, 0, 0))
     has_fish: bool = entry(BooleanEME, False)
     moisture_level: int = entry(VarIntEME, 2400)
 
@@ -4332,12 +4333,12 @@ class AbstractHorseEM(AnimalEM):
     """
 
     _horse_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_tame: bool = proxy(_horse_flags, Masked, mask=0x2)
-    is_saddled: bool = proxy(_horse_flags, Masked, mask=0x4)
-    has_bred: bool = proxy(_horse_flags, Masked, mask=0x8)
-    is_eating: bool = proxy(_horse_flags, Masked, mask=0x10)
-    is_rearing: bool = proxy(_horse_flags, Masked, mask=0x20)
-    is_mouth_open: bool = proxy(_horse_flags, Masked, mask=0x40)
+    is_tame: bool = proxy(_horse_flags, BoolMasked, mask=0x2)
+    is_saddled: bool = proxy(_horse_flags, BoolMasked, mask=0x4)
+    has_bred: bool = proxy(_horse_flags, BoolMasked, mask=0x8)
+    is_eating: bool = proxy(_horse_flags, BoolMasked, mask=0x10)
+    is_rearing: bool = proxy(_horse_flags, BoolMasked, mask=0x20)
+    is_mouth_open: bool = proxy(_horse_flags, BoolMasked, mask=0x40)
 
     __slots__ = ()
 
@@ -5470,9 +5471,9 @@ class BeeEM(AnimalEM):
     """
 
     _bee_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_angry: bool = proxy(_bee_flags, Masked, mask=0x2)
-    has_stung: bool = proxy(_bee_flags, Masked, mask=0x4)
-    has_nectar: bool = proxy(_bee_flags, Masked, mask=0x8)
+    is_angry: bool = proxy(_bee_flags, BoolMasked, mask=0x2)
+    has_stung: bool = proxy(_bee_flags, BoolMasked, mask=0x4)
+    has_nectar: bool = proxy(_bee_flags, BoolMasked, mask=0x8)
     anger_time: int = entry(VarIntEME, 0)
 
     __slots__ = ()
@@ -5581,13 +5582,13 @@ class FoxEM(AnimalEM):
 
     fox_type: int = entry(VarIntEME, 0)
     _fox_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_sitting: bool = proxy(_fox_flags, Masked, mask=0x1)
-    is_fox_crouching: bool = proxy(_fox_flags, Masked, mask=0x4)
-    is_interested: bool = proxy(_fox_flags, Masked, mask=0x8)
-    is_pouncing: bool = proxy(_fox_flags, Masked, mask=0x10)
-    is_sleeping: bool = proxy(_fox_flags, Masked, mask=0x20)
-    is_faceplanted: bool = proxy(_fox_flags, Masked, mask=0x40)
-    is_defending: bool = proxy(_fox_flags, Masked, mask=0x80)
+    is_sitting: bool = proxy(_fox_flags, BoolMasked, mask=0x1)
+    is_fox_crouching: bool = proxy(_fox_flags, BoolMasked, mask=0x4)
+    is_interested: bool = proxy(_fox_flags, BoolMasked, mask=0x8)
+    is_pouncing: bool = proxy(_fox_flags, BoolMasked, mask=0x10)
+    is_sleeping: bool = proxy(_fox_flags, BoolMasked, mask=0x20)
+    is_faceplanted: bool = proxy(_fox_flags, BoolMasked, mask=0x40)
+    is_defending: bool = proxy(_fox_flags, BoolMasked, mask=0x80)
     trusted_uuid: UUID | None = entry(OptUUIDEME, None)
     trusted_uuid_2: UUID | None = entry(OptUUIDEME, None)
 
@@ -5600,7 +5601,7 @@ class FrogEM(AnimalEM):
     :param variant: The variant of the frog.
     :type variant: int, optional, default: 0
     :param tongue_target: The target of the frog's tongue.
-    :type tongue_target: int, optional, default: 0
+    :type tongue_target: int | None, optional, default: 0
 
     Inherited from :class:`AnimalEM`:
 
@@ -5680,7 +5681,7 @@ class FrogEM(AnimalEM):
     """
 
     variant: int = entry(FrogVariantEME, 0)
-    tongue_target: int = entry(OptVarIntEME, 0)
+    tongue_target: int | None = entry(OptVarIntEME, 0)
 
     __slots__ = ()
 
@@ -5878,10 +5879,10 @@ class PandaEM(AnimalEM):
     main_gene: int = entry(ByteEME, 0)
     hidden_gene: int = entry(ByteEME, 0)
     _panda_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_sneezing: bool = proxy(_panda_flags, Masked, mask=0x2)
-    is_rolling: bool = proxy(_panda_flags, Masked, mask=0x4)
-    is_sitting: bool = proxy(_panda_flags, Masked, mask=0x8)
-    is_on_back: bool = proxy(_panda_flags, Masked, mask=0x10)
+    is_sneezing: bool = proxy(_panda_flags, BoolMasked, mask=0x2)
+    is_rolling: bool = proxy(_panda_flags, BoolMasked, mask=0x4)
+    is_sitting: bool = proxy(_panda_flags, BoolMasked, mask=0x8)
+    is_on_back: bool = proxy(_panda_flags, BoolMasked, mask=0x10)
 
     __slots__ = ()
 
@@ -6069,13 +6070,13 @@ class TurtleEM(AnimalEM):
     """Entity that represents a turtle.
 
     :param home_pos: The home position of the turtle.
-    :type home_pos: tuple[int, int, int], optional, default: (0, 0, 0)
+    :type home_pos: :class:`Position`, optional, default: :attr:`Position(0, 0, 0)`
     :param has_egg: Whether the turtle has an egg.
     :type has_egg: bool, optional, default: False
     :param is_laying_egg: Whether the turtle is laying an egg.
     :type is_laying_egg: bool, optional, default: False
     :param travel_pos: The travel position of the turtle.
-    :type travel_pos: tuple[int, int, int], optional, default: (0, 0, 0)
+    :type travel_pos: :class:`Position`, optional, default: :attr:`Position(0, 0, 0)`
     :param is_going_home: Whether the turtle is going home.
     :type is_going_home: bool, optional, default: False
     :param is_traveling: Whether the turtle is traveling.
@@ -6158,10 +6159,10 @@ class TurtleEM(AnimalEM):
 
     """
 
-    home_pos: tuple[int, int, int] = entry(PositionEME, (0, 0, 0))
+    home_pos: Position = entry(PositionEME, Position(0, 0, 0))
     has_egg: bool = entry(BooleanEME, False)
     is_laying_egg: bool = entry(BooleanEME, False)
-    travel_pos: tuple[int, int, int] = entry(PositionEME, (0, 0, 0))
+    travel_pos: Position = entry(PositionEME, Position(0, 0, 0))
     is_going_home: bool = entry(BooleanEME, False)
     is_traveling: bool = entry(BooleanEME, False)
 
@@ -6686,8 +6687,8 @@ class SheepEM(AnimalEM):
     """
 
     _sheep_data: ClassVar[int] = entry(ByteEME, 0)
-    color_id: int = proxy(_sheep_data, Masked, mask=0xF)
-    is_sheared: bool = proxy(_sheep_data, Masked, mask=0x10)
+    color_id: int = proxy(_sheep_data, BoolMasked, mask=0xF)
+    is_sheared: bool = proxy(_sheep_data, BoolMasked, mask=0x10)
 
     __slots__ = ()
 
@@ -6969,8 +6970,8 @@ class TameableAnimalEM(AnimalEM):
     """
 
     _tameable_data: ClassVar[int] = entry(ByteEME, 0)
-    is_sitting: bool = proxy(_tameable_data, Masked, mask=0x1)
-    is_tamed: bool = proxy(_tameable_data, Masked, mask=0x4)
+    is_sitting: bool = proxy(_tameable_data, BoolMasked, mask=0x1)
+    is_tamed: bool = proxy(_tameable_data, BoolMasked, mask=0x4)
     owner_uuid: UUID | None = entry(OptUUIDEME, None)
 
     __slots__ = ()
@@ -7700,7 +7701,7 @@ class IronGolemEM(AbstractGolemEM):
     """
 
     _iron_golem_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_player_created: bool = proxy(_iron_golem_flags, Masked, mask=0x1)
+    is_player_created: bool = proxy(_iron_golem_flags, BoolMasked, mask=0x1)
 
     __slots__ = ()
 
@@ -7784,7 +7785,7 @@ class SnowGolemEM(AbstractGolemEM):
     """
 
     _snow_golem_flags: ClassVar[int] = entry(ByteEME, 16)
-    has_pumpkin: bool = proxy(_snow_golem_flags, Masked, mask=0x10)
+    has_pumpkin: bool = proxy(_snow_golem_flags, BoolMasked, mask=0x10)
 
     __slots__ = ()
 
@@ -8293,7 +8294,7 @@ class BlazeEM(MonsterEM):
     """
 
     _blaze_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_blaze_on_fire: bool = proxy(_blaze_flags, Masked, mask=0x1)
+    is_blaze_on_fire: bool = proxy(_blaze_flags, BoolMasked, mask=0x1)
 
     __slots__ = ()
 
@@ -9698,7 +9699,7 @@ class VexEM(MonsterEM):
     """
 
     _vex_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_attacking: bool = proxy(_vex_flags, Masked, mask=0x1)
+    is_attacking: bool = proxy(_vex_flags, BoolMasked, mask=0x1)
 
     __slots__ = ()
 
@@ -10100,7 +10101,7 @@ class SpiderEM(MonsterEM):
     """
 
     _spider_flags: ClassVar[int] = entry(ByteEME, 0)
-    is_climbing: bool = proxy(_spider_flags, Masked, mask=0x1)
+    is_climbing: bool = proxy(_spider_flags, BoolMasked, mask=0x1)
 
     __slots__ = ()
 
@@ -10812,7 +10813,7 @@ class EndermanEM(MonsterEM):
     """Entity representing an enderman.
 
     :param carried_block: The block the enderman is carrying.
-    :type carried_block: str, optional, default: "Absent"
+    :type carried_block: int | None, optional, default: None
     :param is_screaming: Indicates if the enderman is screaming.
     :type is_screaming: bool, optional, default: False
     :param is_staring: Indicates if the enderman is staring.
@@ -10890,7 +10891,7 @@ class EndermanEM(MonsterEM):
 
     """
 
-    carried_block: str = entry(OptBlockStateEME, "Absent")
+    carried_block: int | None = entry(OptBlockStateEME, None)
     is_screaming: bool = entry(BooleanEME, False)
     is_staring: bool = entry(BooleanEME, False)
 

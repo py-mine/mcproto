@@ -22,56 +22,56 @@ ENTITY_DATA: list[EntityData] = [
                 "input": int,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_on_fire",
                         "input": bool,
                         "description": "Whether the entity is on fire.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_crouching",
                         "input": bool,
                         "description": "Whether the entity is crouching.",
                         "mask": 0x02,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_riding",
                         "input": bool,
                         "description": "[UNUSED] Whether the entity is riding something.",
                         "mask": 0x04,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_sprinting",
                         "input": bool,
                         "description": "Whether the entity is sprinting.",
                         "mask": 0x08,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_swimming",
                         "input": bool,
                         "description": "Whether the entity is swimming.",
                         "mask": 0x10,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_invisible",
                         "input": bool,
                         "description": "Whether the entity is invisible.",
                         "mask": 0x20,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_glowing",
                         "input": bool,
                         "description": "Whether the entity has a glowing effect.",
                         "mask": 0x40,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_flying",
                         "input": bool,
                         "description": "Whether the entity is flying.",
@@ -358,28 +358,28 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "has_shadow",
                         "input": bool,
                         "description": "Whether the text is displayed with shadow.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_see_through",
                         "input": bool,
                         "description": "Whether the text is displayed as see-through.",
                         "mask": 0x02,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "use_default_background",
                         "input": bool,
                         "description": "Whether to use the default background color for the text\n    display.",
                         "mask": 0x04,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "align_left",
                         "input": bool,
                         "description": "Whether the text is aligned to the left.\n"
@@ -387,7 +387,7 @@ ENTITY_DATA: list[EntityData] = [
                         "mask": 0x08,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "align_right",
                         "input": bool,
                         "description": "Whether the text is aligned to the right.\n"
@@ -501,8 +501,8 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Position",
                 "name": "position",
-                "default": "(0, 0, 0)",
-                "input": "tuple[int, int, int]",
+                "default": "Position(0, 0, 0)",
+                "input": "Position",
                 "description": "The spawn position of the falling block",
             },
         ],
@@ -536,9 +536,9 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Particle",
                 "name": "effect",
-                "default": "(0, None)",
-                "input": "tuple[int, Any]",
-                "description": "The particle effect of the area effect cloud.",
+                "default": "ParticleData(15)",  # minecraft:effect
+                "input": "ParticleData",
+                "description": "The particle effect of the area effect cloud (default: `minecraft:effect`).",
             },
         ],
     },
@@ -576,14 +576,14 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_critical",
                         "input": bool,
                         "description": "Whether the arrow is critical.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_noclip",
                         "input": bool,
                         "description": "Whether the arrow is noclip (used by loyalty tridents when\n returning).",
@@ -820,7 +820,7 @@ ENTITY_DATA: list[EntityData] = [
                 "type": "OptPosition",
                 "name": "beam_target",
                 "default": "None",
-                "input": "tuple[int, int, int]|None",
+                "input": "Position | None",
                 "description": "The position of the beam target.",
             },
             {
@@ -976,21 +976,21 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_hand_active",
                         "input": bool,
                         "description": "Whether the hand is active.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "active_hand",
                         "input": int,
                         "description": "Which hand is active (0 = main hand, 1 = offhand).",
                         "mask": 0x02,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_riptide_spin_attack",
                         "input": bool,
                         "description": "Whether the entity is in riptide spin attack.",
@@ -1072,49 +1072,49 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "cape_enabled",
                         "input": bool,
                         "description": "Whether the cape is enabled.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "jacket_enabled",
                         "input": bool,
                         "description": "Whether the jacket is enabled.",
                         "mask": 0x02,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "left_sleeve_enabled",
                         "input": bool,
                         "description": "Whether the left sleeve is enabled.",
                         "mask": 0x04,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "right_sleeve_enabled",
                         "input": bool,
                         "description": "Whether the right sleeve is enabled.",
                         "mask": 0x08,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "left_pants_leg_enabled",
                         "input": bool,
                         "description": "Whether the left pants leg is enabled.",
                         "mask": 0x10,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "right_pants_leg_enabled",
                         "input": bool,
                         "description": "Whether the right pants leg is enabled.\n" "  ",
                         "mask": 0x20,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "hat_enabled",
                         "input": bool,
                         "description": "Whether the hat is enabled.",
@@ -1159,28 +1159,28 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_small",
                         "input": bool,
                         "description": "Whether the armor stand is small.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "has_arms",
                         "input": bool,
                         "description": "Whether the armor stand has arms.",
                         "mask": 0x04,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "has_no_base_plate",
                         "input": bool,
                         "description": "Whether the armor stand has no base plate.",
                         "mask": 0x08,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_marker",
                         "input": bool,
                         "description": "Whether the armor stand is a marker.",
@@ -1246,21 +1246,21 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "no_ai",
                         "input": bool,
                         "description": "Whether the mob has AI.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_left_handed",
                         "input": bool,
                         "description": "Whether the mob is left-handed.",
                         "mask": 0x02,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_aggressive",
                         "input": bool,
                         "description": "Whether the mob is aggressive.",
@@ -1290,7 +1290,7 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_hanging",
                         "input": bool,
                         "description": "Whether the bat is hanging upside down.",
@@ -1327,8 +1327,8 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Position",
                 "name": "treasure_position",
-                "default": "(0, 0, 0)",
-                "input": "tuple[int, int, int]",
+                "default": "Position(0, 0, 0)",
+                "input": "Position",
                 "description": "The position of the dolphin's treasure.",
             },
             {
@@ -1452,42 +1452,42 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_tame",
                         "input": bool,
                         "description": "Whether the horse is tame.",
                         "mask": 0x02,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_saddled",
                         "input": bool,
                         "description": "Whether the horse is saddled.",
                         "mask": 0x04,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "has_bred",
                         "input": bool,
                         "description": "Whether the horse has bred.",
                         "mask": 0x08,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_eating",
                         "input": bool,
                         "description": "Whether the horse is eating.",
                         "mask": 0x10,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_rearing",
                         "input": bool,
                         "description": "Whether the horse is rearing (on hind legs).",
                         "mask": 0x20,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_mouth_open",
                         "input": bool,
                         "description": "Whether the horse's mouth is open.",
@@ -1639,21 +1639,21 @@ ENTITY_DATA: list[EntityData] = [
                 "description": "Flags representing various properties of the bee.",
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_angry",
                         "input": bool,
                         "description": "Whether the bee is angry.",
                         "mask": 0x02,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "has_stung",
                         "input": bool,
                         "description": "Whether the bee has stung.",
                         "mask": 0x04,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "has_nectar",
                         "input": bool,
                         "description": "Whether the bee has nectar.",
@@ -1691,49 +1691,49 @@ ENTITY_DATA: list[EntityData] = [
                 "description": "Bit mask representing various states of the fox.",
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_sitting",
                         "input": bool,
                         "description": "Whether the fox is sitting.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_fox_crouching",
                         "input": bool,
                         "description": "Whether the fox is crouching.",
                         "mask": 0x04,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_interested",
                         "input": bool,
                         "description": "Whether the fox is interested.",
                         "mask": 0x08,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_pouncing",
                         "input": bool,
                         "description": "Whether the fox is pouncing.",
                         "mask": 0x10,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_sleeping",
                         "input": bool,
                         "description": "Whether the fox is sleeping.",
                         "mask": 0x20,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_faceplanted",
                         "input": bool,
                         "description": "Whether the fox is faceplanted.",
                         "mask": 0x40,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_defending",
                         "input": bool,
                         "description": "Whether the fox is defending.",
@@ -1773,7 +1773,7 @@ ENTITY_DATA: list[EntityData] = [
                 "type": "OptVarInt",
                 "name": "tongue_target",
                 "default": 0,
-                "input": int,
+                "input": "int | None",
                 "description": "The target of the frog's tongue.",
             },
         ],
@@ -1841,28 +1841,28 @@ ENTITY_DATA: list[EntityData] = [
                 "description": "Bit mask representing various states of the panda.",
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_sneezing",
                         "input": bool,
                         "description": "Whether the panda is sneezing.",
                         "mask": 0x02,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_rolling",
                         "input": bool,
                         "description": "Whether the panda is rolling.",
                         "mask": 0x04,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_sitting",
                         "input": bool,
                         "description": "Whether the panda is sitting.",
                         "mask": 0x08,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_on_back",
                         "input": bool,
                         "description": "Whether the panda is on its back.",
@@ -1915,8 +1915,8 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Position",
                 "name": "home_pos",
-                "default": "(0, 0, 0)",
-                "input": "tuple[int, int, int]",
+                "default": "Position(0, 0, 0)",
+                "input": "Position",
                 "description": "The home position of the turtle.",
             },
             {
@@ -1936,8 +1936,8 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "Position",
                 "name": "travel_pos",
-                "default": "(0, 0, 0)",
-                "input": "tuple[int, int, int]",
+                "default": "Position(0, 0, 0)",
+                "input": "Position",
                 "description": "The travel position of the turtle.",
             },
             {
@@ -2023,14 +2023,14 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "color_id",
                         "input": int,
                         "description": "The color of the sheep.",
                         "mask": 0x0F,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_sheared",
                         "input": bool,
                         "description": "Whether the sheep is sheared.",
@@ -2111,14 +2111,14 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_sitting",
                         "input": bool,
                         "description": "Whether the animal is sitting.",
                         "mask": 0x01,
                     },
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_tamed",
                         "input": bool,
                         "description": "Whether the animal is tamed.",
@@ -2266,7 +2266,7 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_player_created",
                         "input": bool,
                         "description": "Whether the iron golem was created by a player.",
@@ -2290,7 +2290,7 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "has_pumpkin",
                         "input": bool,
                         "description": "Whether the snow golem has a pumpkin on its head.",
@@ -2397,7 +2397,7 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_blaze_on_fire",
                         "input": bool,
                         "description": "Whether the blaze is on fire.",
@@ -2587,7 +2587,7 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_attacking",
                         "input": bool,
                         "description": "Indicates if the vex is charging.",
@@ -2635,7 +2635,7 @@ ENTITY_DATA: list[EntityData] = [
                 "available": False,
                 "proxy": [
                     {
-                        "type": "Masked",
+                        "type": "BoolMasked",
                         "name": "is_climbing",
                         "input": bool,
                         "description": "Whether the spider is climbing.",
@@ -2784,8 +2784,8 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "OptBlockState",
                 "name": "carried_block",
-                "default": "Absent",
-                "input": str,
+                "default": None,
+                "input": "int | None",
                 "description": "The block the enderman is carrying.",
             },
             {

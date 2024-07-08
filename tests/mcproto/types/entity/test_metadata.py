@@ -3,7 +3,7 @@ import pytest
 from mcproto.buffer import Buffer
 from mcproto.types.entity import DisplayEM, PandaEM
 from mcproto.types.entity.metadata import EntityMetadata, EntityMetadataCreator, entry, proxy
-from mcproto.types.entity.metadata_types import ByteEME, Masked
+from mcproto.types.entity.metadata_types import BoolMasked, ByteEME
 from mcproto.types.vec3 import Vec3
 
 
@@ -65,10 +65,10 @@ def test_kwargs():
 def test_class_error():
     """Test errors for EntityMetadataCreator."""
     with pytest.raises(TypeError):
-        proxy("test", Masked, mask=0x1)  # wrong type
+        proxy("test", BoolMasked, mask=0x1)  # type: ignore # wrong type
 
     with pytest.raises(TypeError):
-        proxy(object, Masked, mask=0x1)  # wrong type
+        proxy(object, BoolMasked, mask=0x1)  # type: ignore # wrong type
 
     with pytest.raises(ValueError, match=r"Default value for .* is not set\."):
 
@@ -85,7 +85,7 @@ def test_class_error():
         class Test(metaclass=EntityMetadataCreator):  # noqa: F811
             """Test class."""
 
-            test: int = proxy(entry(ByteEME, 1), Masked, mask=0x1)
+            test: int = proxy(entry(ByteEME, 1), BoolMasked, mask=0x1)
 
     buf = Buffer(b"\x00\x02\x00")  # Wrong metadata type
     with pytest.raises(TypeError):

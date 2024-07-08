@@ -7,6 +7,7 @@ from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol.base_io import StructFormat
+from mcproto.protocol.utils import from_twos_complement, to_twos_complement
 from mcproto.types.abc import MCType
 from mcproto.types.slot import Slot
 from mcproto.types.vec3 import Position
@@ -66,38 +67,46 @@ class ParticleData(MCType):
 
     :param delay: The delay before the particle is displayed.
     :type delay: int, optional
+
+    :param color: The color of the particle.
+    :type color: int, optional
     """
 
     # TODO: Use registries for particle IDs
 
     WITH_BLOCK_STATE = (
-        2,  # minecraft:block
-        3,  # minecraft:block_marker
-        27,  # minecraft:falling_dust
+        1,  # minecraft:block
+        2,  # minecraft:block_marker
+        28,  # minecraft:falling_dust
+        105,  # minecraft:dust_pillar
     )
 
     WITH_RGB_SCALE = (
-        14,  # minecraft:dust
+        13,  # minecraft:dust
     )
 
     WITH_RGB_TRANSITION = (
-        15,  # minecraft:dust_color_transition
+        14,  # minecraft:dust_color_transition
     )
 
     WITH_ROLL = (
-        33,  # minecraft:sculk_charge
+        35,  # minecraft:sculk_charge
     )
 
     WITH_ITEM = (
-        42,  # minecraft:item
+        44,  # minecraft:item
     )
 
     WITH_VIBRATION = (
-        43,  # minecraft:vibration
+        45,  # minecraft:vibration
     )
 
     WITH_DELAY = (
-        96,  # minecraft:shriek
+        99,  # minecraft:shriek
+    )
+
+    WITH_COLOR = (
+        20,  # minecraft:entity_effect
     )
 
     particle_id: int
@@ -120,6 +129,7 @@ class ParticleData(MCType):
     entity_eye_height: float | None = None
     tick: int | None = None
     delay: int | None = None
+    color: int | None = None
 
     def __attrs_post_init__(self) -> None:  # noqa: PLR0912 # I know but what can I do?
         """Run all the sanity checks for the particle data."""
@@ -158,6 +168,9 @@ class ParticleData(MCType):
         elif self.particle_id in self.WITH_DELAY:
             if self.delay is None:
                 raise ValueError("delay is required for this particle ID")
+        elif self.particle_id in self.WITH_COLOR:
+            if self.color is None:
+                raise ValueError("color is required for this particle ID")
 
     @override
     def serialize_to(self, buf: Buffer, with_id: bool = True) -> None:
@@ -210,6 +223,9 @@ class ParticleData(MCType):
         if self.particle_id in self.WITH_DELAY:
             self.delay = cast(int, self.delay)
             buf.write_varint(self.delay)
+        if self.particle_id in self.WITH_COLOR:
+            self.color = cast(int, self.color)
+            buf.write_value(StructFormat.INT, from_twos_complement(self.color, 32))
 
     @classmethod
     @override
@@ -234,6 +250,7 @@ class ParticleData(MCType):
         entity_eye_height = None
         tick = None
         delay = None
+        color = None
 
         if particle_id in cls.WITH_BLOCK_STATE:
             block_state = buf.read_varint()
@@ -263,6 +280,8 @@ class ParticleData(MCType):
             tick = buf.read_varint()
         if particle_id in cls.WITH_DELAY:
             delay = buf.read_varint()
+        if particle_id in cls.WITH_COLOR:
+            color = to_twos_complement(buf.read_value(StructFormat.INT), 32)
 
         return cls(
             particle_id=particle_id,
@@ -285,4 +304,5 @@ class ParticleData(MCType):
             entity_eye_height=entity_eye_height,
             tick=tick,
             delay=delay,
+            color=color,
         )

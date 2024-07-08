@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import IntEnum
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Generic, TypeVar, Union, cast
 
 from typing_extensions import override
 
@@ -12,19 +12,18 @@ from mcproto.types.entity.enums import Direction, DragonPhase, Pose, SnifferStat
 from mcproto.types.entity.metadata import EntityMetadataEntry, ProxyEntityMetadataEntry
 from mcproto.types.identifier import Identifier
 from mcproto.types.nbt import NBTag
+from mcproto.types.particle_data import ParticleData
 from mcproto.types.quaternion import Quaternion
 from mcproto.types.slot import Slot
 from mcproto.types.uuid import UUID
 from mcproto.types.vec3 import Position, Vec3
 
 
-class ByteEME(EntityMetadataEntry):
+class ByteEME(EntityMetadataEntry[int]):
     """Represents a byte entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 0
     __slots__ = ()
-
-    value: int
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -43,12 +42,39 @@ class ByteEME(EntityMetadataEntry):
         super().validate()
 
 
-class Masked(ProxyEntityMetadataEntry):
+class BoolMasked(ProxyEntityMetadataEntry[bool, int]):
+    """Represents a masked entry in an entity metadata list."""
+
+    __slots__ = ("mask", "_mask_shift")
+
+    def __init__(self, bound_entry: EntityMetadataEntry[int], *, mask: int):
+        self.mask = mask
+        super().__init__(bound_entry)
+        self._mask_shift = self.mask.bit_length() - 1
+
+    @override
+    def setter(self, value: int) -> None:
+        bound = self.bound_entry.getter()
+        bound = (bound & ~self.mask) | (int(value) << self._mask_shift)
+        self.bound_entry.setter(bound)
+
+    @override
+    def getter(self) -> bool:
+        return bool(self.bound_entry.getter() & self.mask)
+
+    @override
+    def validate(self) -> None:
+        # Ensure that there is only one bit set in the mask
+        if self.mask & (self.mask - 1):
+            raise ValueError(f"Mask {self.mask} is not a power of 2.")
+
+
+class IntMasked(ProxyEntityMetadataEntry[int, int]):
     """Represents a masked entry in an entity metadata list."""
 
     __slots__ = ("mask",)
 
-    def __init__(self, bound_entry: EntityMetadataEntry, *, mask: int):
+    def __init__(self, bound_entry: EntityMetadataEntry[int], *, mask: int):
         super().__init__(bound_entry)
         self.mask = mask
 
@@ -78,13 +104,11 @@ class Masked(ProxyEntityMetadataEntry):
         return value
 
 
-class VarIntEME(EntityMetadataEntry):
+class VarIntEME(EntityMetadataEntry[int]):
     """Represents a varint entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 1
     __slots__ = ()
-
-    value: int
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -110,14 +134,15 @@ class _RegistryVarIntEME(VarIntEME):
     __slots__ = ()
 
 
-class _VarIntEnumEME(EntityMetadataEntry):
+IntEnum_T = TypeVar("IntEnum_T", bound=IntEnum)
+
+
+class _VarIntEnumEME(EntityMetadataEntry[IntEnum_T], Generic[IntEnum_T]):
     """Represents a varint entry that refereces an enum in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = -1
     __slots__ = ()
     ENUM: ClassVar[type[IntEnum]] = None  # type: ignore
-
-    value: IntEnum
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -126,13 +151,13 @@ class _VarIntEnumEME(EntityMetadataEntry):
 
     @override
     @classmethod
-    def read_value(cls, buf: Buffer) -> IntEnum:
+    def read_value(cls, buf: Buffer) -> IntEnum_T:
         value = buf.read_varint()
         try:
             value_enum = cls.ENUM(value)
         except ValueError as e:
             raise ValueError(f"Invalid value {value} for enum {cls.ENUM.__name__}.") from e
-        return value_enum
+        return cast(IntEnum_T, value_enum)
 
     @override
     def validate(self) -> None:
@@ -143,13 +168,11 @@ class _VarIntEnumEME(EntityMetadataEntry):
             raise ValueError(f"Invalid value {self.value} for enum {self.ENUM.__name__}.") from e
 
 
-class VarLongEME(EntityMetadataEntry):
+class VarLongEME(EntityMetadataEntry[int]):
     """Represents a varlong entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 2
     __slots__ = ()
-
-    value: int
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -168,13 +191,11 @@ class VarLongEME(EntityMetadataEntry):
         super().validate()
 
 
-class FloatEME(EntityMetadataEntry):
+class FloatEME(EntityMetadataEntry[float]):
     """Represents a float entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 3
     __slots__ = ()
-
-    value: float
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -187,13 +208,11 @@ class FloatEME(EntityMetadataEntry):
         return buf.read_value(StructFormat.FLOAT)
 
 
-class StringEME(EntityMetadataEntry):
+class StringEME(EntityMetadataEntry[str]):
     """Represents a string entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 4
     __slots__ = ()
-
-    value: str
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -212,13 +231,11 @@ class StringEME(EntityMetadataEntry):
         super().validate()
 
 
-class TextComponentEME(EntityMetadataEntry):
+class TextComponentEME(EntityMetadataEntry[TextComponent]):
     """Represents a text component entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 5
     __slots__ = ()
-
-    value: TextComponent
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -231,13 +248,11 @@ class TextComponentEME(EntityMetadataEntry):
         return TextComponent.deserialize(buf)
 
 
-class OptTextComponentEME(EntityMetadataEntry):
+class OptTextComponentEME(EntityMetadataEntry[Union[TextComponent, None]]):
     """Represents an optional text component entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 6
     __slots__ = ()
-
-    value: TextComponent | None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -256,13 +271,11 @@ class OptTextComponentEME(EntityMetadataEntry):
         return None
 
 
-class SlotEME(EntityMetadataEntry):
+class SlotEME(EntityMetadataEntry[Slot]):
     """Represents a slot entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 7
     __slots__ = ()
-
-    value: Slot
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -275,13 +288,11 @@ class SlotEME(EntityMetadataEntry):
         return Slot.deserialize(buf)
 
 
-class BooleanEME(EntityMetadataEntry):
+class BooleanEME(EntityMetadataEntry[bool]):
     """Represents a boolean entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 8
     __slots__ = ()
-
-    value: bool
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -294,13 +305,11 @@ class BooleanEME(EntityMetadataEntry):
         return bool(buf.read_value(StructFormat.BYTE))
 
 
-class RotationEME(EntityMetadataEntry):
+class RotationEME(EntityMetadataEntry[Vec3]):
     """Represents a rotation entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 9
     __slots__ = ()
-
-    value: Vec3
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -313,13 +322,11 @@ class RotationEME(EntityMetadataEntry):
         return Vec3.deserialize(buf)
 
 
-class PositionEME(EntityMetadataEntry):
+class PositionEME(EntityMetadataEntry[Position]):
     """Represents a position entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 10
     __slots__ = ()
-
-    value: Position
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -332,13 +339,11 @@ class PositionEME(EntityMetadataEntry):
         return Position.deserialize(buf)
 
 
-class OptPositionEME(EntityMetadataEntry):
+class OptPositionEME(EntityMetadataEntry[Union[Position, None]]):
     """Represents an optional position entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 11
     __slots__ = ()
-
-    value: Position | None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -357,13 +362,11 @@ class OptPositionEME(EntityMetadataEntry):
         return None
 
 
-class DirectionEME(EntityMetadataEntry):
+class DirectionEME(EntityMetadataEntry[Direction]):
     """Represents a direction in the world."""
 
     ENTRY_TYPE: ClassVar[int] = 12
     __slots__ = ()
-
-    value: Direction
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -376,13 +379,11 @@ class DirectionEME(EntityMetadataEntry):
         return Direction(buf.read_value(StructFormat.BYTE))
 
 
-class OptUUIDEME(EntityMetadataEntry):
+class OptUUIDEME(EntityMetadataEntry[Union[UUID, None]]):
     """Represents an optional UUID entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 13
     __slots__ = ()
-
-    value: UUID | None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -408,13 +409,11 @@ class BlockStateEME(VarIntEME):
     __slots__ = ()
 
 
-class OptBlockStateEME(EntityMetadataEntry):
+class OptBlockStateEME(EntityMetadataEntry[Union[int, None]]):
     """Represents an optional block state in the world."""
 
     ENTRY_TYPE: ClassVar[int] = 15
     __slots__ = ()
-
-    value: int | None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -433,13 +432,11 @@ class OptBlockStateEME(EntityMetadataEntry):
         return value
 
 
-class NBTagEME(EntityMetadataEntry):
+class NBTagEME(EntityMetadataEntry[NBTag]):
     """Represents an NBT entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 16
     __slots__ = ()
-
-    value: NBTag
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -452,28 +449,24 @@ class NBTagEME(EntityMetadataEntry):
         return NBTag.deserialize(buf, with_name=False)
 
 
-class ParticleEME(EntityMetadataEntry):
+class ParticleEME(EntityMetadataEntry[ParticleData]):
     """Represents a particle entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 17
     __slots__ = ()
 
-    value: tuple[int, Any]
-
     @override
     def serialize_to(self, buf: Buffer) -> None:
-        self._write_header(buf)  # pragma: no cover
-        buf.write_varint(self.value[0])  # pragma: no cover
-        raise NotImplementedError("The rest of the particle data is not implemented yet.")  # pragma: no cover
+        self._write_header(buf)
+        self.value.serialize_to(buf, with_id=True)
 
     @override
     @classmethod
-    def read_value(cls, buf: Buffer) -> tuple[int, Any]:
-        value = buf.read_varint()  # pragma: no cover   # noqa: F841
-        raise NotImplementedError("The rest of the particle data is not implemented yet.")
+    def read_value(cls, buf: Buffer) -> ParticleData:
+        return ParticleData.deserialize(buf, particle_id=None)  # Read the particle ID from the buffer
 
 
-class VillagerDataEME(EntityMetadataEntry):
+class VillagerDataEME(EntityMetadataEntry["tuple[int, int, int]"]):
     """Represents a villager data entry in an entity metadata list.
 
     This includes the type, profession, and level of the villager.
@@ -481,8 +474,6 @@ class VillagerDataEME(EntityMetadataEntry):
 
     ENTRY_TYPE: ClassVar[int] = 18
     __slots__ = ()
-
-    value: tuple[int, int, int]
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -497,13 +488,11 @@ class VillagerDataEME(EntityMetadataEntry):
         return (buf.read_varint(), buf.read_varint(), buf.read_varint())
 
 
-class OptVarIntEME(EntityMetadataEntry):
+class OptVarIntEME(EntityMetadataEntry[Union[int, None]]):
     """Represents an optional varint entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 19
     __slots__ = ()
-
-    value: int | None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -523,7 +512,7 @@ class OptVarIntEME(EntityMetadataEntry):
         return value
 
 
-class PoseEME(_VarIntEnumEME):
+class PoseEME(_VarIntEnumEME[Pose]):
     """Represents a pose entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 20
@@ -545,10 +534,10 @@ class FrogVariantEME(_RegistryVarIntEME):
     __slots__ = ()
 
 
-class DragonPhaseEME(_VarIntEnumEME):
+class DragonPhaseEME(_VarIntEnumEME[DragonPhase]):
     """Represents a dragon phase entry in an entity metadata list.
 
-    This is not a real type, because the type is VarInt, but the values are predefined.
+    .. note:: This is not a real type, because the type is `VarInt`, but the values are predefined.
     """
 
     ENTRY_TYPE: ClassVar[int] = 1
@@ -556,7 +545,7 @@ class DragonPhaseEME(_VarIntEnumEME):
     ENUM: ClassVar[type[IntEnum]] = DragonPhase
 
 
-class OptGlobalPositionEME(EntityMetadataEntry):
+class OptGlobalPositionEME(EntityMetadataEntry[Union["tuple[Identifier, Position]", None]]):
     """Represents an optional global position entry in an entity metadata list.
 
     This includes an identifier for the dimension as well as the position in it.
@@ -564,8 +553,6 @@ class OptGlobalPositionEME(EntityMetadataEntry):
 
     ENTRY_TYPE: ClassVar[int] = 23
     __slots__ = ()
-
-    value: tuple[Identifier, Position] | None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -592,7 +579,7 @@ class PaintingVariantEME(_RegistryVarIntEME):
     __slots__ = ()
 
 
-class SnifferStateEME(_VarIntEnumEME):
+class SnifferStateEME(_VarIntEnumEME[SnifferState]):
     """Represents a sniffer state entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 25
@@ -600,13 +587,11 @@ class SnifferStateEME(_VarIntEnumEME):
     ENUM: ClassVar[type[IntEnum]] = SnifferState
 
 
-class Vector3EME(EntityMetadataEntry):
+class Vector3EME(EntityMetadataEntry[Vec3]):
     """Represents a vector3 entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 26
     __slots__ = ()
-
-    value: Vec3
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -619,13 +604,11 @@ class Vector3EME(EntityMetadataEntry):
         return Vec3.deserialize(buf)
 
 
-class QuaternionEME(EntityMetadataEntry):
+class QuaternionEME(EntityMetadataEntry[Quaternion]):
     """Represents a quaternion entry in an entity metadata list."""
 
     ENTRY_TYPE: ClassVar[int] = 27
     __slots__ = ()
-
-    value: Quaternion
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
