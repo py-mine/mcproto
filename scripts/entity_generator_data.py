@@ -2784,7 +2784,7 @@ ENTITY_DATA: list[EntityData] = [
             {
                 "type": "OptBlockState",
                 "name": "carried_block",
-                "default": None,
+                "default": "None",
                 "input": "int | None",
                 "description": "The block the enderman is carrying.",
             },

@@ -11,7 +11,7 @@ from mcproto.protocol import StructFormat
 from mcproto.types.abc import MCType
 
 T = TypeVar("T")
-T_2 = TypeVar("T_2")
+U = TypeVar("U")
 
 
 class EntityMetadataEntry(MCType, Generic[T]):
@@ -137,7 +137,7 @@ class EntityMetadataEntry(MCType, Generic[T]):
         return cls(index=index, value=value)
 
 
-class ProxyEntityMetadataEntry(MCType, Generic[T, T_2]):
+class ProxyEntityMetadataEntry(MCType, Generic[T, U]):
     """A proxy entity metadata entry which is used to designate a part of a metadata entry in a human-readable format.
 
     For example, this can be used to represent a certain mask for a ByteEME entry.
@@ -145,11 +145,11 @@ class ProxyEntityMetadataEntry(MCType, Generic[T, T_2]):
 
     ENTRY_TYPE: ClassVar[int] = None  # type: ignore
 
-    bound_entry: EntityMetadataEntry[T_2]
+    bound_entry: EntityMetadataEntry[U]
 
     __slots__ = ("bound_entry",)
 
-    def __init__(self, bound_entry: EntityMetadataEntry[T_2], *args: Any, **kwargs: Any):
+    def __init__(self, bound_entry: EntityMetadataEntry[U], *args: Any, **kwargs: Any):
         self.bound_entry = bound_entry
         self.validate()
 
@@ -159,7 +159,7 @@ class ProxyEntityMetadataEntry(MCType, Generic[T, T_2]):
 
     @override
     @classmethod
-    def deserialize(cls, buf: Buffer) -> ProxyEntityMetadataEntry[T, T_2]:
+    def deserialize(cls, buf: Buffer) -> ProxyEntityMetadataEntry[T, U]:
         raise NotImplementedError("Proxy entity metadata entries cannot be deserialized.")
 
     @abstractmethod
@@ -195,7 +195,7 @@ def entry(entry_type: type[EntityMetadataEntry[T]], value: T) -> T:
 
 
 @define
-class ProxyEntityMetadataEntryDeclaration(Generic[T, T_2]):
+class ProxyEntityMetadataEntryDeclaration(Generic[T, U]):
     """Class used to pass the bound entry and additional arguments to the proxy entity metadata entry.
 
     Explanation:
@@ -209,16 +209,16 @@ class ProxyEntityMetadataEntryDeclaration(Generic[T, T_2]):
      This is set by the EntityMetadataCreator.
     """
 
-    m_bound_entry: EntityMetadataEntry[T_2]
+    m_bound_entry: EntityMetadataEntry[U]
     m_args: tuple[Any]
     m_kwargs: dict[str, Any]
-    m_type: type[ProxyEntityMetadataEntry[T, T_2]]
+    m_type: type[ProxyEntityMetadataEntry[T, U]]
     m_bound_index: int
 
 
 def proxy(
-    bound_entry: T_2,  # This will in fact be an EntityMetadataEntry, but treated as a T_2 during type checking
-    proxy: type[ProxyEntityMetadataEntry[T, T_2]],
+    bound_entry: U,  # This will in fact be an EntityMetadataEntry, but treated as a U during type checking
+    proxy: type[ProxyEntityMetadataEntry[T, U]],
     *args: Any,
     **kwargs: Any,
 ) -> T:
