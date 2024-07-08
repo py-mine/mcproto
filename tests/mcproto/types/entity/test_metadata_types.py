@@ -5,6 +5,7 @@ from mcproto.types.chat import TextComponent
 from mcproto.types.entity.enums import Direction, DragonPhase, Pose, SnifferState
 from mcproto.types.entity.metadata_types import (
     BlockStateEME,
+    BoolMasked,
     BooleanEME,
     ByteEME,
     CatVariantEME,
@@ -12,7 +13,7 @@ from mcproto.types.entity.metadata_types import (
     DragonPhaseEME,
     FloatEME,
     FrogVariantEME,
-    Masked,
+    IntMasked,
     NBTagEME,
     OptBlockStateEME,
     OptGlobalPositionEME,
@@ -37,6 +38,7 @@ from mcproto.types.entity.metadata_types import (
 )
 from mcproto.types.identifier import Identifier
 from mcproto.types.nbt import ByteNBT, CompoundNBT, EndNBT, NBTag, StringNBT
+from mcproto.types.particle_data import ParticleData
 from mcproto.types.quaternion import Quaternion
 from mcproto.types.slot import Slot
 from mcproto.types.uuid import UUID
@@ -387,13 +389,16 @@ gen_serializable_test(
     cls=ParticleEME,
     fields=[
         ("index", int),
-        ("value", tuple),
+        ("value", ParticleData),
     ],
-    deserialization_fail=[
-        (b"\x01\x11\x01", NotImplementedError),
+    serialize_deserialize=[
+        (
+            (54, ParticleData(1, 2)),
+            b"\x36\x11" + ParticleData(1, 2).serialize(),
+        ),
     ],
     validation_fail=[
-        ((-1, (2, None)), ValueError),
+        ((-1, ParticleData(1, 2)), ValueError),
     ],
 )
 
@@ -596,38 +601,64 @@ gen_serializable_test(
     ],
 )
 
+# BoolMasked
+gen_serializable_test(
+    context=globals(),
+    cls=BoolMasked,
+    fields=[
+        ("bound_entry", ByteEME),
+        ("mask", int),
+    ],
+    validation_fail=[
+        ((ByteEME(1, 0), 0b00000011), ValueError),  # not a power of 2
+    ],
+)
+
 
 def test_masked():
-    """Test the Masked class."""
+    """Test the IntMasked class."""
     container = ByteEME(index=1, value=0)
-    mask1 = Masked(container, mask=0b00000001)
-    mask2 = Masked(container, mask=0b00000010)
-    mask3 = Masked(container, mask=0b00000100)
-    mask12 = Masked(container, mask=0b00000011)
-    mask13 = Masked(container, mask=0b00000101)
+    mask1 = IntMasked(container, mask=0b00000001)
+    bmask1 = BoolMasked(container, mask=0b00000001)
+    mask2 = IntMasked(container, mask=0b00000010)
+    bmask2 = BoolMasked(container, mask=0b00000010)
+    mask3 = IntMasked(container, mask=0b00000100)
+    bmask3 = BoolMasked(container, mask=0b00000100)
+    mask12 = IntMasked(container, mask=0b00000011)
+    mask13 = IntMasked(container, mask=0b00000101)
 
     assert mask1.getter() == 0
+    assert bmask1.getter() is False
     assert mask2.getter() == 0
+    assert bmask2.getter() is False
     assert mask3.getter() == 0
+    assert bmask3.getter() is False
     assert mask12.getter() == 0
     assert mask13.getter() == 0
 
     mask1.setter(1)
     mask2.setter(1)
     assert mask1.getter() == 1
+    assert bmask1.getter() is True
     assert mask2.getter() == 1
+    assert bmask2.getter() is True
     assert mask3.getter() == 0
+    assert bmask3.getter() is False
     assert mask12.getter() == 3
     assert mask13.getter() == 1
 
     mask1.setter(0)
     mask3.setter(1)
     assert mask1.getter() == 0
+    assert bmask1.getter() is False
     assert mask13.getter() == 2
 
     mask12.setter(0)
     assert mask12.getter() == 0
     assert mask13.getter() == 2
     assert mask1.getter() == 0
+    assert bmask1.getter() is False
     assert mask2.getter() == 0
+    assert bmask2.getter() is False
     assert mask3.getter() == 1
+    assert bmask3.getter() is True

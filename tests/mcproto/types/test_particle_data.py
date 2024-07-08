@@ -13,12 +13,13 @@ gen_serializable_test(
         ("block_state", int),
     ],
     serialize_deserialize=[
-        ((2, 2), b"\x02\x02"),  # minecraft:block
-        ((3, 3), b"\x03\x03"),  # minecraft:block_marker
-        ((27, 4), b"\x1b\x04"),  # minecraft:falling_dust
+        ((1, 2), b"\x01\x02"),  # minecraft:block
+        ((2, 3), b"\x02\x03"),  # minecraft:block_marker
+        ((28, 4), b"\x1c\x04"),  # minecraft:falling_dust
+        ((105, 5), b"\x69\x05"),  # minecraft:dust_pillar
     ],
     validation_fail=[
-        ((2, None), ValueError),  # Missing block state
+        ((1, None), ValueError),  # Missing block state
     ],
     test_suffix="BlockState",
 )
@@ -34,12 +35,12 @@ gen_serializable_test(
         ("blue", float),
     ],
     serialize_deserialize=[
-        ((14, 0.5, 0.5, 0.625), b"\x0e" + struct.pack("!fff", 0.5, 0.5, 0.625)),  # minecraft:dust
+        ((13, 0.5, 0.5, 0.625), b"\x0d" + struct.pack("!fff", 0.5, 0.5, 0.625)),  # minecraft:dust
     ],
     validation_fail=[
-        ((14, None, 0.5, 0.75), ValueError),  # Missing red
-        ((14, 1.0, None, 0.75), ValueError),  # Missing green
-        ((14, 1.0, 0.5, None), ValueError),  # Missing blue
+        ((13, None, 0.5, 0.75), ValueError),  # Missing red
+        ((13, 1.0, None, 0.75), ValueError),  # Missing green
+        ((13, 1.0, 0.5, None), ValueError),  # Missing blue
     ],
     test_suffix="RGBScale",
 )
@@ -60,18 +61,18 @@ gen_serializable_test(
     ],
     serialize_deserialize=[
         (
-            (15, 1.0, 0.5, 0.75, 2.0, 0.5, 0.0, 0.625),
-            b"\x0f" + struct.pack("!fffffff", 1.0, 0.5, 0.75, 2.0, 0.5, 0.0, 0.625),
+            (14, 1.0, 0.5, 0.75, 2.0, 0.5, 0.0, 0.625),
+            b"\x0e" + struct.pack("!fffffff", 1.0, 0.5, 0.75, 2.0, 0.5, 0.0, 0.625),
         ),  # minecraft:dust_color_transition
     ],
     validation_fail=[
-        ((15, None, 0.5, 0.75, 2.0, 0.5, 0.0, 0.625), ValueError),  # Missing from_red
-        ((15, 1.0, None, 0.75, 2.0, 0.5, 0.0, 0.625), ValueError),  # Missing from_green
-        ((15, 1.0, 0.5, None, 2.0, 0.5, 0.0, 0.625), ValueError),  # Missing from_blue
-        ((15, 1.0, 0.5, 0.75, None, 0.5, 0.0, 0.625), ValueError),  # Missing scale
-        ((15, 1.0, 0.5, 0.75, 2.0, None, 0.0, 0.625), ValueError),  # Missing to_red
-        ((15, 1.0, 0.5, 0.75, 2.0, 0.5, None, 0.625), ValueError),  # Missing to_green
-        ((15, 1.0, 0.5, 0.75, 2.0, 0.5, 0.0, None), ValueError),  # Missing to_blue
+        ((14, None, 0.5, 0.75, 2.0, 0.5, 0.0, 0.625), ValueError),  # Missing from_red
+        ((14, 1.0, None, 0.75, 2.0, 0.5, 0.0, 0.625), ValueError),  # Missing from_green
+        ((14, 1.0, 0.5, None, 2.0, 0.5, 0.0, 0.625), ValueError),  # Missing from_blue
+        ((14, 1.0, 0.5, 0.75, None, 0.5, 0.0, 0.625), ValueError),  # Missing scale
+        ((14, 1.0, 0.5, 0.75, 2.0, None, 0.0, 0.625), ValueError),  # Missing to_red
+        ((14, 1.0, 0.5, 0.75, 2.0, 0.5, None, 0.625), ValueError),  # Missing to_green
+        ((14, 1.0, 0.5, 0.75, 2.0, 0.5, 0.0, None), ValueError),  # Missing to_blue
     ],
     test_suffix="RGBTransition",
 )
@@ -85,10 +86,10 @@ gen_serializable_test(
         ("roll", float),
     ],
     serialize_deserialize=[
-        ((33, 1.0), b"\x21" + struct.pack("!f", 1.0)),  # minecraft:sculk_charge
+        ((35, 1.0), b"\x23" + struct.pack("!f", 1.0)),  # minecraft:sculk_charge
     ],
     validation_fail=[
-        ((33, None), ValueError),  # Missing roll
+        ((35, None), ValueError),  # Missing roll
     ],
     test_suffix="Roll",
 )
@@ -103,12 +104,12 @@ gen_serializable_test(
     ],
     serialize_deserialize=[
         (
-            (42, Slot(SlotData(23, 13))),
-            b"\x2a" + Slot(SlotData(23, 13)).serialize(),
+            (44, Slot(SlotData(23, 13))),
+            b"\x2c" + Slot(SlotData(23, 13)).serialize(),
         ),
     ],
     validation_fail=[
-        ((42, None), ValueError),  # Missing item
+        ((44, None), ValueError),  # Missing item
     ],
     test_suffix="Item",
 )
@@ -127,20 +128,20 @@ gen_serializable_test(
     ],
     serialize_deserialize=[
         (
-            (43, 0, Position(0, 0, 0), None, None, 10),
-            b"\x2b\x00" + Position(0, 0, 0).serialize() + b"\x0a",
+            (45, 0, Position(0, 0, 0), None, None, 10),
+            b"\x2d\x00" + Position(0, 0, 0).serialize() + b"\x0a",
         ),  # minecraft:vibration with block_position
         (
-            (43, 1, None, 3, 1.0625, 10),
-            b"\x2b\x01\x03" + struct.pack("!f", 1.0625) + b"\x0a",
+            (45, 1, None, 3, 1.0625, 10),
+            b"\x2d\x01\x03" + struct.pack("!f", 1.0625) + b"\x0a",
         ),  # minecraft:vibration with entity_id and entity_eye_height
     ],
     validation_fail=[
-        ((43, None, Position(0, 0, 0), None, None, 1), ValueError),  # Missing source_type
-        ((43, 0, None, None, None, 1), ValueError),  # Missing block_position
-        ((43, 1, None, None, None, 1), ValueError),  # Missing entity_id
-        ((43, 1, None, 1, None, 1), ValueError),  # Missing entity_eye_height
-        ((43, 1, None, 1, 1.8, None), ValueError),  # Missing tick
+        ((45, None, Position(0, 0, 0), None, None, 1), ValueError),  # Missing source_type
+        ((45, 0, None, None, None, 1), ValueError),  # Missing block_position
+        ((45, 1, None, None, None, 1), ValueError),  # Missing entity_id
+        ((45, 1, None, 1, None, 1), ValueError),  # Missing entity_eye_height
+        ((45, 1, None, 1, 1.8, None), ValueError),  # Missing tick
     ],
     test_suffix="Vibration",
 )
@@ -154,12 +155,29 @@ gen_serializable_test(
         ("delay", int),
     ],
     serialize_deserialize=[
-        ((96, 1), b"\x60\x01"),  # minecraft:shriek
+        ((99, 1), b"\x63\x01"),  # minecraft:shriek
     ],
     validation_fail=[
-        ((96, None), ValueError),  # Missing delay
+        ((99, None), ValueError),  # Missing delay
     ],
     test_suffix="Delay",
+)
+
+# WITH_COLOR
+gen_serializable_test(
+    context=globals(),
+    cls=ParticleData,
+    fields=[
+        ("particle_id", int),
+        ("color", int),
+    ],
+    serialize_deserialize=[
+        ((20, 0xCC00FF66), b"\x14\xcc\x00\xff\x66"),  # minecraft:entity_effect
+    ],
+    validation_fail=[
+        ((20, None), ValueError),  # Missing color
+    ],
+    test_suffix="Color",
 )
 
 

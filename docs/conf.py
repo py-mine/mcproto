@@ -17,7 +17,7 @@ from typing import Any
 from packaging.version import parse as parse_version
 from typing_extensions import override
 
-from mcproto.types.entity.metadata import _DefaultEntityMetadataEntry, _ProxyEntityMetadataEntry
+from mcproto.types.entity.metadata import DefaultEntityMetadataEntryDeclaration, ProxyEntityMetadataEntryDeclaration
 
 if sys.version_info >= (3, 11):
     from tomllib import load as toml_parse
@@ -123,9 +123,7 @@ autodoc_default_options = {
 
 def autodoc_skip_member(app: Any, what: str, name: str, obj: Any, skip: bool, options: Any) -> bool:
     """Skip EntityMetadataEntry class fields as they are already documented in the docstring."""
-    if isinstance(obj, type) and (
-        issubclass(obj, _ProxyEntityMetadataEntry) or issubclass(obj, _DefaultEntityMetadataEntry)
-    ):
+    if isinstance(obj, (DefaultEntityMetadataEntryDeclaration, ProxyEntityMetadataEntryDeclaration)):
         return True
     return skip
 

@@ -63,6 +63,7 @@ from mcproto.types.entity.metadata_types import {types}
 from mcproto.types.slot import Slot, SlotData
 from mcproto.types.chat import TextComponent
 from mcproto.types.nbt import NBTag, EndNBT
+from mcproto.types.particle_data import ParticleData
 from mcproto.types.vec3 import Position, Vec3
 from mcproto.types.quaternion import Quaternion
 from mcproto.types.uuid import UUID

@@ -1,16 +1,20 @@
 from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
-from typing import Any, ClassVar, Literal, TypeVar, cast, final, overload
+from typing import Any, ClassVar, Generic, Literal, TypeVar, cast, final, overload
 
+from attrs import define
 from typing_extensions import dataclass_transform, override
 
 from mcproto.buffer import Buffer
 from mcproto.protocol import StructFormat
 from mcproto.types.abc import MCType
 
+T = TypeVar("T")
+T_2 = TypeVar("T_2")
 
-class EntityMetadataEntry(MCType):
+
+class EntityMetadataEntry(MCType, Generic[T]):
     """Represents an entry in an entity metadata list.
 
     :param index: The index of the entry.
@@ -24,26 +28,31 @@ class EntityMetadataEntry(MCType):
     ENTRY_TYPE: ClassVar[int] = None  # type: ignore
 
     index: int
-    value: Any
+    value: T
 
     __slots__ = ("index", "value", "hidden", "default", "name")
 
     def __init__(
-        self, index: int, value: Any = None, default: Any = None, hidden: bool = False, name: str | None = None
+        self,
+        index: int,
+        value: T | None = None,
+        default: T | None = None,
+        hidden: bool = False,
+        name: str | None = None,
     ):
         self.index = index
-        self.value = default if value is None else value
+        self.value = value if value is not None else default  # type: ignore
         self.hidden = hidden
         self.default = default
         self.name = name  # for debugging purposes
 
         self.validate()
 
-    def setter(self, value: Any) -> None:
+    def setter(self, value: T) -> None:
         """Set the value of the entry."""
         self.value = value
 
-    def getter(self) -> Any:
+    def getter(self) -> T:
         """Get the value of the entry."""
         return self.value
 
@@ -117,7 +126,7 @@ class EntityMetadataEntry(MCType):
     @override
     @classmethod
     @final
-    def deserialize(cls, buf: Buffer) -> EntityMetadataEntry:
+    def deserialize(cls, buf: Buffer) -> EntityMetadataEntry[T]:
         """Deserialize the entity metadata entry.
 
         :param buf: The buffer to read from.
@@ -128,7 +137,7 @@ class EntityMetadataEntry(MCType):
         return cls(index=index, value=value)
 
 
-class ProxyEntityMetadataEntry(MCType):
+class ProxyEntityMetadataEntry(MCType, Generic[T, T_2]):
     """A proxy entity metadata entry which is used to designate a part of a metadata entry in a human-readable format.
 
     For example, this can be used to represent a certain mask for a ByteEME entry.
@@ -136,11 +145,11 @@ class ProxyEntityMetadataEntry(MCType):
 
     ENTRY_TYPE: ClassVar[int] = None  # type: ignore
 
-    bound_entry: EntityMetadataEntry
+    bound_entry: EntityMetadataEntry[T_2]
 
     __slots__ = ("bound_entry",)
 
-    def __init__(self, bound_entry: EntityMetadataEntry, *args: Any, **kwargs: Any):
+    def __init__(self, bound_entry: EntityMetadataEntry[T_2], *args: Any, **kwargs: Any):
         self.bound_entry = bound_entry
         self.validate()
 
@@ -150,55 +159,43 @@ class ProxyEntityMetadataEntry(MCType):
 
     @override
     @classmethod
-    def deserialize(cls, buf: Buffer) -> ProxyEntityMetadataEntry:
+    def deserialize(cls, buf: Buffer) -> ProxyEntityMetadataEntry[T, T_2]:
         raise NotImplementedError("Proxy entity metadata entries cannot be deserialized.")
 
     @abstractmethod
-    def setter(self, value: Any) -> None:
+    def setter(self, value: T) -> None:
         """Set the value of the entry by modifying the bound entry."""
 
     @abstractmethod
-    def getter(self) -> Any:
+    def getter(self) -> T:
         """Get the value of the entry by reading the bound entry."""
 
     def validate(self) -> None:
         """Validate that the proxy metadata entry has valid values."""
 
 
-EntityDefault = TypeVar("EntityDefault")
+@define
+class DefaultEntityMetadataEntryDeclaration(Generic[T]):
+    """Class used to pass the default metadata to the entity metadata."""
 
-
-class _DefaultEntityMetadataEntry:
     m_default: Any
-    m_type: type[EntityMetadataEntry]
+    m_type: type[EntityMetadataEntry[T]]
     m_index: int
 
-    __slots__ = ("m_default", "m_type")
 
-
-def entry(entry_type: type[EntityMetadataEntry], value: EntityDefault) -> EntityDefault:
+def entry(entry_type: type[EntityMetadataEntry[T]], value: T) -> T:
     """Create a entity metadata entry with the given value.
 
     :param entry_type: The type of the entry.
     :param default: The default value of the entry.
     :return: The default entity metadata entry.
     """
-
-    class DefaultEntityMetadataEntry(_DefaultEntityMetadataEntry):
-        m_default = value
-        m_type = entry_type
-        m_index = -1
-
-        __slots__ = ()
-
     # This will be taken care of by EntityMetadata
-    return DefaultEntityMetadataEntry  # type: ignore
+    return DefaultEntityMetadataEntryDeclaration(m_default=value, m_type=entry_type, m_index=-1)  # type: ignore
 
 
-ProxyInitializer = TypeVar("ProxyInitializer")
-
-
-class _ProxyEntityMetadataEntry:
+@define
+class ProxyEntityMetadataEntryDeclaration(Generic[T, T_2]):
     """Class used to pass the bound entry and additional arguments to the proxy entity metadata entry.
 
     Explanation:
@@ -212,21 +209,19 @@ class _ProxyEntityMetadataEntry:
      This is set by the EntityMetadataCreator.
     """
 
-    m_bound_entry: EntityMetadataEntry
+    m_bound_entry: EntityMetadataEntry[T_2]
     m_args: tuple[Any]
     m_kwargs: dict[str, Any]
-    m_type: type[ProxyEntityMetadataEntry]
+    m_type: type[ProxyEntityMetadataEntry[T, T_2]]
     m_bound_index: int
-
-    __slots__ = ("m_bound_entry", "m_args", "m_kwargs", "m_type", "m_bound_index")
 
 
 def proxy(
-    bound_entry: EntityDefault,  # type: ignore # Used only once but I prefer to keep the type hint
-    proxy: type[ProxyEntityMetadataEntry],
+    bound_entry: T_2,  # This will in fact be an EntityMetadataEntry, but treated as a T_2 during type checking
+    proxy: type[ProxyEntityMetadataEntry[T, T_2]],
     *args: Any,
     **kwargs: Any,
-) -> ProxyInitializer:  # type: ignore
+) -> T:
     """Initialize the proxy entity metadata entry with the given bound entry and additional arguments.
 
     :param bound_entry: The bound entry.
@@ -236,22 +231,16 @@ def proxy(
 
     :return: The proxy entity metadata entry initializer.
     """
-    if not isinstance(bound_entry, type):
+    if not isinstance(bound_entry, DefaultEntityMetadataEntryDeclaration):
         raise TypeError("The bound entry must be an entity metadata entry type.")
-    if not issubclass(bound_entry, _DefaultEntityMetadataEntry):
-        raise TypeError("The bound entry must be an entity metadata entry.")
 
-    class ProxyEntityMetadataEntry(_ProxyEntityMetadataEntry):
-        m_bound_entry = bound_entry  # type: ignore # This will be taken care of by EntityMetadata
-        m_args = args
-        m_kwargs = kwargs
-        m_type = proxy
-
-        m_bound_index = -1
-
-        __slots__ = ()
-
-    return ProxyEntityMetadataEntry  # type: ignore
+    return ProxyEntityMetadataEntryDeclaration(  # type: ignore
+        m_bound_entry=bound_entry,  # type: ignore
+        m_args=args,
+        m_kwargs=kwargs,
+        m_type=proxy,
+        m_bound_index=-1,
+    )
 
 
 @dataclass_transform(kw_only_default=True)  # field_specifiers=(entry, proxy))
@@ -265,10 +254,16 @@ class EntityMetadataCreator(ABCMeta):
     ```
     """
 
-    m_defaults: ClassVar[dict[str, type[_DefaultEntityMetadataEntry | _ProxyEntityMetadataEntry]]]
+    m_defaults: ClassVar[
+        dict[
+            str,
+            DefaultEntityMetadataEntryDeclaration[Any]
+            | ProxyEntityMetadataEntryDeclaration[Any, EntityMetadataEntry[Any]],
+        ]
+    ]
     m_index: ClassVar[dict[int, str]]
     m_metadata: ClassVar[
-        dict[str, EntityMetadataEntry | ProxyEntityMetadataEntry]
+        dict[str, EntityMetadataEntry[Any] | ProxyEntityMetadataEntry[Any, EntityMetadataEntry[Any]]]
     ]  # This is not an actual classvar, but I
     # Do not want it to appear in the __init__ signature
 
@@ -309,7 +304,8 @@ class EntityMetadataCreator(ABCMeta):
             if default is None:
                 raise ValueError(f"Default value for {name} is not set. Use the entry() or proxy() functions.")
             # Check if we have a default entry
-            if isinstance(default, type) and issubclass(default, _DefaultEntityMetadataEntry):
+            if isinstance(default, DefaultEntityMetadataEntryDeclaration):
+                default = cast(DefaultEntityMetadataEntryDeclaration[Any], default)
                 # Set the index of the entry
                 default.m_index = current_index
 
@@ -321,7 +317,8 @@ class EntityMetadataCreator(ABCMeta):
 
                 # Increment the index
                 current_index += 1
-            elif isinstance(default, type) and issubclass(default, _ProxyEntityMetadataEntry):
+            elif isinstance(default, ProxyEntityMetadataEntryDeclaration):
+                default = cast(ProxyEntityMetadataEntryDeclaration[Any, EntityMetadataEntry[Any]], default)
                 # Find the bound entry
                 if id(default.m_bound_entry) not in bound_index:
                     raise ValueError(f"Bound entry for {name} is not set.")
@@ -364,14 +361,16 @@ class EntityMetadata(MCType, metaclass=EntityMetadataCreator):
             raise ValueError(
                 "EntityMetadata does not accept positional arguments. Specify all metadata entries by name."
             )
-        self.m_metadata: dict[str, EntityMetadataEntry | ProxyEntityMetadataEntry] = {}
+        self.m_metadata: dict[
+            str, EntityMetadataEntry[Any] | ProxyEntityMetadataEntry[Any, EntityMetadataEntry[Any]]
+        ] = {}
         for name, default in self.m_defaults.items():
-            if issubclass(default, _DefaultEntityMetadataEntry):
+            if isinstance(default, DefaultEntityMetadataEntryDeclaration):
                 self.m_metadata[name] = default.m_type(index=default.m_index, default=default.m_default, name=name)
-            elif issubclass(default, _ProxyEntityMetadataEntry):  # type: ignore # We want to check anyways
+            elif isinstance(default, ProxyEntityMetadataEntryDeclaration):  # type: ignore # Check anyway
                 # Bound entry
                 bound_name = self.m_index[default.m_bound_index]
-                bound_entry = cast(EntityMetadataEntry, self.m_metadata[bound_name])
+                bound_entry = cast(EntityMetadataEntry[Any], self.m_metadata[bound_name])
                 self.m_metadata[name] = default.m_type(bound_entry, *default.m_args, **default.m_kwargs)
             else:  # pragma: no cover
                 raise ValueError(f"Invalid default value for {name}. Use the entry() or proxy() functions.")  # noqa: TRY004
@@ -383,6 +382,7 @@ class EntityMetadata(MCType, metaclass=EntityMetadataCreator):
 
     @override
     def __setattr__(self, name: str, value: Any) -> None:
+        """Any is used here because the type will be discovered statically by other means (dataclass_transform)."""
         if name != "m_metadata" and hasattr(self, "m_metadata") and name in self.m_metadata:
             self.m_metadata[name].setter(value)
         else:
@@ -390,6 +390,10 @@ class EntityMetadata(MCType, metaclass=EntityMetadataCreator):
 
     @override
     def __getattribute__(self, name: str) -> Any:
+        """Get the value of the metadata entry.
+
+        .. seealso:: :meth:`__setattr__`
+        """
         if name != "m_metadata" and hasattr(self, "m_metadata") and name in self.m_metadata:
             return self.m_metadata[name].getter()
         return super().__getattribute__(name)
