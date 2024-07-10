@@ -87,6 +87,20 @@ pytz = {version = ">=2015.7", markers = "python_version < \"3.9\""}
 dev = ["freezegun (>=1.0,<2.0)", "pytest (>=6.0)", "pytest-cov"]
 
 [[package]]
+name = "basedpyright"
+version = "1.13.3"
+description = "static type checking for Python (but based)"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "basedpyright-1.13.3-py3-none-any.whl", hash = "sha256:3162c5a5f4fc99f9d53d76cbd8e24d31ad4b28b4fb26a58ab8be6e8b634c99a7"},
+    {file = "basedpyright-1.13.3.tar.gz", hash = "sha256:728d7098250db8d18bc4b48df8f93dfd9c79d155c3c99d41256a6caa6a21232e"},
+]
+
+[package.dependencies]
+nodejs-wheel-binaries = ">=20.13.1"
+
+[[package]]
 name = "beautifulsoup4"
 version = "4.12.3"
 description = "Screen-scraping library"
@@ -813,6 +827,22 @@ files = [
 setuptools = "*"
 
 [[package]]
+name = "nodejs-wheel-binaries"
+version = "20.15.1"
+description = "unoffical Node.js package"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "nodejs_wheel_binaries-20.15.1-py2.py3-none-macosx_10_15_x86_64.whl", hash = "sha256:a04537555f59e53021f8a2b07fa7aaac29d7793b7fae7fbf561bf9a859f4c67a"},
+    {file = "nodejs_wheel_binaries-20.15.1-py2.py3-none-macosx_11_0_arm64.whl", hash = "sha256:b5ff04efa56a3fcd1fd09b30f5236c12bd84c10fcb222f3c0e04e1d497342b70"},
+    {file = "nodejs_wheel_binaries-20.15.1-py2.py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:29c3e172e3fde3c13e7509312c81700736304dbd250745d87f00e7506065f3a5"},
+    {file = "nodejs_wheel_binaries-20.15.1-py2.py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9740f7456a43cb09521a1ac93a4355dc8282c41420f2d61ff631a01f39e2aa18"},
+    {file = "nodejs_wheel_binaries-20.15.1-py2.py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:bf5e239676efabb2fbaeff2f36d0bad8e2379f260ef44e13ef2151d037e40af3"},
+    {file = "nodejs_wheel_binaries-20.15.1-py2.py3-none-win_amd64.whl", hash = "sha256:624936171b1aa2e1cc6d1718b1caa089e943b54df16568fa2f4576d145ac279a"},
+    {file = "nodejs_wheel_binaries-20.15.1.tar.gz", hash = "sha256:b2f25b4f0e9a827ae1af8218ab13a385e279c236faf7b7c821e969bb8f6b25e8"},
+]
+
+[[package]]
 name = "packaging"
 version = "24.1"
 description = "Core utilities for Python packages"
@@ -943,24 +973,6 @@ files = [
 
 [package.extras]
 windows-terminal = ["colorama (>=0.4.6)"]
-
-[[package]]
-name = "pyright"
-version = "1.1.371"
-description = "Command line wrapper for pyright"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "pyright-1.1.371-py3-none-any.whl", hash = "sha256:cce52e42ff73943243e7e5e24f2a59dee81b97d99f4e3cf97370b27e8a1858cd"},
-    {file = "pyright-1.1.371.tar.gz", hash = "sha256:777b508b92dda2db476214c400ce043aad8d8f3dd0e10d284c96e79f298308b5"},
-]
-
-[package.dependencies]
-nodeenv = ">=1.6.0"
-
-[package.extras]
-all = ["twine (>=3.4.1)"]
-dev = ["twine (>=3.4.1)"]
 
 [[package]]
 name = "pytest"
@@ -1554,4 +1566,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4"
-content-hash = "820345752be92c8ca39ae9b1e6baaeb13bfa124d89549cd07c7389aa4183c09c"
+content-hash = "d98b6afc6e82a2c2a07dea71bbdb6ba3152db3b3886da901c94d211b9eaf9c97"

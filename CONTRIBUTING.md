@@ -53,8 +53,8 @@ poetry install
 Note that you will want to re-run this command each time our dependencies are updated, to stay in sync with the project.
 
 After that, the environment will contain all of the dependencies, including various executable programs, such as
-`pyright`. One of these executable programs is also `python`, which is the python interpreter for this environment,
-capable of interacting with all of the installed libraries.
+`basedpyright`. One of these executable programs is also `python`, which is the python interpreter for this
+environment, capable of interacting with all of the installed libraries.
 
 You will now need to make your terminal use the programs from this environment, rather than any global versions that you
 may have installed, so that you can use the tools in it when working on the project. Some IDEs/editors are capable of
@@ -396,10 +396,13 @@ to run the code. So many times, you'll see issues before actually testing things
 a lot of cases, type checkers can even uncover many things that our unit tests wouldn't find.
 
 There are many python type-checkers available, the most notable ones being `mypy` and `pyright`. We decided to use
-`pyright`, because it has great support for many newer typing features. Pyright can be used from the terminal as a
-stand-alone linter-like checker, by simply running `pyright .` (from within an activated virtual environment). But just
-like with linters, you should ideally just [include it into your editor directly](#editor-integration). We also run
-pyright automatically, as a part of [pre-commit](#pre-commit).
+`pyright`, because it has great support for many newer typing features. Specifically, this project actually uses
+`basedpyright`, which is a fork of pyright, that adds in some extra checks and features from Pylance (vscode
+extension).
+
+Pyright can be used from the terminal as a stand-alone linter-like checker, by simply running `basedpyright .` (from
+within an activated virtual environment). But just like with linters, you should ideally just [include it into your
+editor directly](#editor-integration). We also run pyright automatically, as a part of [pre-commit](#pre-commit).
 
 ## Pre-commit
 
@@ -427,7 +430,7 @@ Even though in most cases enforcing linting before each commit is what we want, 
 to commit some code which doesn't pass these checks. This can happen for example after a merge, or as a result of
 making a single purpose small commit without yet worrying about linters. In these cases, you can use the `--no-verify`
 flag when making a commit, telling git to skip all of the pre-commit hooks and commit normally. You can also only skip
-a specific hook(s), by setting `SKIP` environmental variable (e.g. `SKIP=pyright`, or
+a specific hook(s), by setting `SKIP` environmental variable (e.g. `SKIP=basedpyright`, or
 `SKIP=ruff-linter,ruff-formatter,slotscheck`), the names of the individual hooks are their ids, you can find those in
 the configuration file for pre-commit.
 
@@ -444,20 +447,16 @@ the amount of rules we have, and especially if you're not used to following many
 mistakes. Because of that, we heavily recommend that you integrate these tools into your IDE/editor directly. Most
 editors will support integration will all of these tools, so you shouldn't have any trouble doing this.
 
-If you're using neovim, I would recommend setting up LSP (Language Server Protocol), and installing Pyright, as it has
-language server support built into it. Same thing goes with `ruff`, which has an LSP implementation
+If you're using neovim, I would recommend setting up LSP (Language Server Protocol), and installing basedpyright, as it
+has language server support built into it. Same thing goes with `ruff`, which has an LSP implementation
 [`ruff-lsp`](https://github.com/astral-sh/ruff-lsp). As for slotscheck, there isn't currently any good way to integrate
 it directly, so you will need to rely on pre-commit, or run it manually. However, slotscheck violations are fairly
 rare.
 
 On vscode, you can simply install the following extensions:
 
-- [pylance (pyright)](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
+- [BasedPyright](https://marketplace.visualstudio.com/items?itemName=detachhead.basedpyright)
 - [ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
-
-Note that with Pylance, you will also need to enable the type checking mode, by setting
-`"python.analysis.typeCheckingMode": "basic"` in `settings.json`. You can use `.vscode/settings.json` for per-project
-settings, to only enable type-checking for this project, or enable it globally in your user settings).
 
 (Similarly to neovim, there is no extension available for slotscheck, however violations are fairly rare, and it should
 be enough to have it run with pre-commit.)
