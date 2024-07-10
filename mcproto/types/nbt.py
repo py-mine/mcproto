@@ -366,12 +366,13 @@ class NBTag(MCType, NBTagConvertible):
             )
 
         # Case 2 : schema is a dictionary
+        payload: list[NBTag] = []
         if isinstance(schema, dict):
             # We can unpack the dictionary and create a CompoundNBT tag
             if not isinstance(data, dict):
                 raise TypeError(f"Expected a dictionary, but found a different type ({type(data).__name__}).")
+
             # Iterate over the dictionary
-            payload: list[NBTag] = []
             for key, value in data.items():
                 # Recursive calls
                 payload.append(NBTag.from_object(value, schema[key], name=key))
@@ -384,13 +385,11 @@ class NBTag(MCType, NBTagConvertible):
         # as there are only dicts, or only lists in the schema
         if not isinstance(data, list):
             raise TypeError(f"Expected a list, but found {type(data).__name__}.")
-        payload: list[NBTag] = []
         if len(schema) == 1:
             # We have two cases here, either the schema supports an unknown number of elements of a single type ...
             children_schema = schema[0]
-            for item in data:
-                # No name in list items
-                payload.append(NBTag.from_object(item, children_schema))
+            # No name in list items
+            payload = [NBTag.from_object(item, children_schema) for item in data]
             return ListNBT(payload, name=name)
 
         # ... or the schema is a list of schemas
