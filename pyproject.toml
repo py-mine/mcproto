@@ -117,7 +117,6 @@ reportUnsafeMultipleInheritance = false     # likely will be enabled
 reportAssignmentType = false                # likely will be enabled
 reportMissingSuperCall = false              # likely will be enabled
 reportIncompatibleVariableOverride = false  # likely will be enabled
-reportAbstractUsage = false                 # likely will be enabled
 reportIgnoreCommentWithoutRule = false      # likely will be enabled (but only if enableTypeIgnoreComments remains disabled)
 
 

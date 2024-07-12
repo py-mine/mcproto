@@ -813,7 +813,7 @@ def test_data_conversions():
 def test_init_nbtag_directly():
     """Test initializing NBTag directly."""
     with pytest.raises(TypeError):
-        NBTag(0)  # type: ignore # I know, that's what I'm testing
+        NBTag(0)  # pyright: ignore[reportAbstractUsage] # I know, that's what I'm testing
 
 
 @pytest.mark.parametrize(
