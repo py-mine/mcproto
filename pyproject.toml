@@ -80,6 +80,7 @@ poetry-dynamic-versioning = ">=1.4.0,<1.5"
 taskipy = "^1.10.4"
 
 [tool.basedpyright]
+pythonPlatform = "All"
 pythonVersion = "3.8"
 typeCheckingMode = "standard"
 
