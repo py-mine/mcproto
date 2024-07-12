@@ -634,7 +634,7 @@ class TestBaseAsyncWriter(writer_tests_cls[WrappedAsyncWriter]):
     @override
     @classmethod
     def setup_class(cls):
-        cls.writer = WrappedAsyncWriter()  # type: ignore
+        cls.writer = WrappedAsyncWriter()  # pyright: ignore[reportAttributeAccessIssue]
 
 
 class TestBaseAsyncReader(reader_tests_cls[WrappedAsyncReader]):
@@ -643,7 +643,7 @@ class TestBaseAsyncReader(reader_tests_cls[WrappedAsyncReader]):
     @override
     @classmethod
     def setup_class(cls):
-        cls.reader = WrappedAsyncReader()  # type: ignore
+        cls.reader = WrappedAsyncReader()  # pyright: ignore[reportAttributeAccessIssue]
 
 
 # endregion
