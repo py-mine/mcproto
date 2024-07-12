@@ -8,7 +8,7 @@ from collections.abc import Callable, Coroutine
 from typing import Any, ClassVar, Generic, NamedTuple, TypeVar
 
 import pytest
-from typing_extensions import ParamSpec, TypeGuard, override
+from typing_extensions import ParamSpec, TypeIs, override
 
 from mcproto.buffer import Buffer
 from mcproto.utils.abc import Serializable
@@ -170,13 +170,13 @@ class CustomMockMixin(UnpropagatingMockMixin[T_Mock], Generic[T_Mock]):
 
     spec_set = None
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: object):
         if "spec_set" in kwargs:
             self.spec_set = kwargs.pop("spec_set")
         super().__init__(spec_set=self.spec_set, **kwargs)  # pyright: ignore[reportCallIssue]  # Mixin class, this __init__ is valid
 
 
-def isexception(obj: object) -> TypeGuard[type[Exception] | TestExc]:
+def isexception(obj: object) -> TypeIs[type[Exception] | TestExc]:
     """Check if the object is an exception."""
     return (isinstance(obj, type) and issubclass(obj, Exception)) or isinstance(obj, TestExc)
 
