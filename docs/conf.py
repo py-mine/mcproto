@@ -201,7 +201,7 @@ def override_towncrier_draft_format() -> None:
     orig_f = sphinxcontrib.towncrier.ext._nodes_from_document_markup_source  # pyright: ignore[reportPrivateUsage]
 
     def override_f(
-        state: statemachine.State,
+        state: statemachine.State,  # pyright: ignore[reportMissingTypeArgument] # arg not specified in orig_f either
         markup_source: str,
     ) -> list[nodes.Node]:
         markup_source = markup_source.replace("## Version Unreleased changes", "## Unreleased changes")

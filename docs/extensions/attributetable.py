@@ -4,7 +4,7 @@ import importlib
 import inspect
 import re
 from collections.abc import Sequence
-from typing import NamedTuple
+from typing import Any, NamedTuple
 
 from docutils import nodes
 from sphinx import addnodes
@@ -283,7 +283,7 @@ def class_results_to_node(key: str, elements: Sequence[TableElement]) -> Attribu
     return AttributeTableColumn("", title, ul)
 
 
-def setup(app: Sphinx) -> dict:
+def setup(app: Sphinx) -> dict[str, Any]:
     app.add_directive("attributetable", PyAttributeTable)
     app.add_node(AttributeTable, html=(visit_attributetable_node, depart_attributetable_node))
     app.add_node(AttributeTableColumn, html=(visit_attributetablecolumn_node, depart_attributetablecolumn_node))

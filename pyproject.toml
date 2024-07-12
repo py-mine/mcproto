@@ -109,7 +109,6 @@ reportUninitializedInstanceVariable = false # until https://github.com/DetachHea
 reportUnnecessaryTypeIgnoreComment = false  # temporary
 reportCallIssue = false                     # likely will be enabled
 reportMissingParameterType = false          # likely will be enabled (although ruff does cover this)
-reportMissingTypeArgument = false           # likely will be enabled
 reportUnnecessaryIsInstance = false         # likely will be enabled
 reportAttributeAccessIssue = false          # likely will be enabled
 reportUnsafeMultipleInheritance = false     # likely will be enabled

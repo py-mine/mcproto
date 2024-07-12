@@ -160,7 +160,7 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
         return self.child_mock_type(**kwargs)
 
 
-class CustomMockMixin(UnpropagatingMockMixin):
+class CustomMockMixin(UnpropagatingMockMixin[T_Mock], Generic[T_Mock]):
     """Provides common functionality for our custom mock types.
 
     * Stops propagation of same ``spec_set`` restricted mock in child mocks
