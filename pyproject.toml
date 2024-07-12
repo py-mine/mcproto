@@ -82,23 +82,46 @@ taskipy = "^1.10.4"
 [tool.basedpyright]
 pythonPlatform = "All"
 pythonVersion = "3.8"
-typeCheckingMode = "standard"
+typeCheckingMode = "all"
 
-reportUntypedFunctionDecorator = "error"
-reportUntypedClassDecorator = "error"
-reportUntypedNamedTuple = "error"
-reportTypeCommentUsage = "error"
-reportConstantRedefinition = "error"
-reportDeprecated = "warning"
-reportIncompatibleMethodOverride = "error"
-reportOverlappingOverload = "error"
-reportUnnecessaryIsInstance = "error"
-reportUnnecessaryCast = "error"
-reportUnnecessaryComparison = "error"
-reportUnnecessaryContains = "error"
-reportUnnecessaryTypeIgnoreComment = "error"
-reportImplicitOverride = "error"
-reportShadowedImports = "error"
+# Diagnostic behavior settings
+strictListInference = false
+strictDictionaryInference = false
+strictSetInference = false
+analyzeUnannotatedFunctions = true
+strictParameterNoneValue = true
+enableTypeIgnoreComments = true    # consider disabling
+deprecateTypingAliases = true
+enableExperimentalFeatures = false
+disableBytesTypePromotions = false # consider enabling
+
+# Diagnostic rules
+reportAny = false
+reportImplicitStringConcatenation = false
+reportUnreachable = "information"
+reportUnknownArgumentType = false           # consider enabling
+reportUnknownVariableType = false           # consider enabling
+reportUnknownMemberType = false             # consider enabling
+reportUnknownParameterType = false          # consider enabling
+reportUnknownLambdaType = false             # consider enabling
+reportMissingTypeStubs = "information"      # consider bumping to warning/error
+reportUninitializedInstanceVariable = false # until https://github.com/DetachHead/basedpyright/issues/491
+reportUnnecessaryTypeIgnoreComment = false  # temporary
+reportUnusedCallResult = false              # likely will be enabled
+reportCallIssue = false                     # likely will be enabled
+reportMissingParameterType = false          # likely will be enabled (although ruff does cover this)
+reportMissingTypeArgument = false           # likely will be enabled
+reportUnnecessaryIsInstance = false         # likely will be enabled
+reportAttributeAccessIssue = false          # likely will be enabled
+reportUnsafeMultipleInheritance = false     # likely will be enabled
+reportAssignmentType = false                # likely will be enabled
+reportUnusedVariable = false                # consider enabling
+reportPrivateUsage = false                  # likely will be enabled
+reportMissingSuperCall = false              # likely will be enabled
+reportIncompatibleVariableOverride = false  # likely will be enabled
+reportAbstractUsage = false                 # likely will be enabled
+reportIgnoreCommentWithoutRule = false      # likely will be enabled (but only if enableTypeIgnoreComments remains disabled)
+
 
 [tool.ruff]
 target-version = "py38"
