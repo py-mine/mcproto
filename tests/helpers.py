@@ -5,7 +5,7 @@ import inspect
 import re
 import unittest.mock
 from collections.abc import Callable, Coroutine
-from typing import Any, Generic, NamedTuple, TypeVar
+from typing import Any, ClassVar, Generic, NamedTuple, TypeVar
 
 import pytest
 from typing_extensions import ParamSpec, TypeGuard, override
@@ -63,7 +63,7 @@ class SynchronizedMixin:
     type checkers won't know that they exist here, because of the dynamic nature of this implementation).
     """
 
-    _WRAPPED_ATTRIBUTE: str
+    _WRAPPED_ATTRIBUTE: ClassVar[str]
 
     @override
     def __getattribute__(self, __name: str) -> Any:

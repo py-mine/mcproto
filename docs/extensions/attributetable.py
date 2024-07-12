@@ -4,7 +4,7 @@ import importlib
 import inspect
 import re
 from collections.abc import Sequence
-from typing import Any, NamedTuple
+from typing import Any, ClassVar, NamedTuple
 
 from docutils import nodes
 from sphinx import addnodes
@@ -90,11 +90,11 @@ _name_parser_regex = re.compile(r"(?P<module>[\w.]+\.)?(?P<name>\w+)")
 
 
 class PyAttributeTable(SphinxDirective):
-    has_content = False
-    required_arguments = 1
-    optional_arguments = 0
-    final_argument_whitespace = False
-    option_spec: OptionSpec = {}  # type: ignore # noqa: RUF012 # (from original impl)
+    has_content: ClassVar[bool] = False
+    required_arguments: ClassVar[int] = 1
+    optional_arguments: ClassVar[int] = 0
+    final_argument_whitespace: ClassVar[bool] = False
+    option_spec: ClassVar[OptionSpec | None] = {}
 
     def parse_name(self, content: str) -> tuple[str, str]:
         match = _name_parser_regex.match(content)
