@@ -357,7 +357,7 @@ class NBTag(MCType, NBTagConvertible):
                 raise TypeError("Expected a list of integers, but a non-integer element was found.")
             data = cast(Union[bytes, str, int, float, "list[int]"], data)
             # Create the tag with the data and the name
-            return schema(data, name=name)  # type: ignore # The schema is a subclass of NBTag
+            return schema(data, name=name)  # pyright: ignore[reportCallIssue] # The schema is a subclass of NBTag
 
         # Sanity check : Verify that all type schemas have been handled
         if not isinstance(schema, (list, tuple, dict)):

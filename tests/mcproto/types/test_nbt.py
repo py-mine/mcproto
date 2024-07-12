@@ -815,7 +815,7 @@ def test_init_nbtag_directly():
     # TODO: Check if this test really is relevant
     # Isn't this basically just testing stdlib ABCs?
     with pytest.raises(TypeError):
-        _ = NBTag(0)  # pyright: ignore[reportAbstractUsage] # I know, that's what I'm testing
+        _ = NBTag(0)  # pyright: ignore[reportAbstractUsage,reportCallIssue] # I know, that's what I'm testing
 
 
 @pytest.mark.parametrize(

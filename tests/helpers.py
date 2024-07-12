@@ -173,7 +173,7 @@ class CustomMockMixin(UnpropagatingMockMixin[T_Mock], Generic[T_Mock]):
     def __init__(self, **kwargs):
         if "spec_set" in kwargs:
             self.spec_set = kwargs.pop("spec_set")
-        super().__init__(spec_set=self.spec_set, **kwargs)  # type: ignore # Mixin class, this __init__ is valid
+        super().__init__(spec_set=self.spec_set, **kwargs)  # pyright: ignore[reportCallIssue]  # Mixin class, this __init__ is valid
 
 
 def isexception(obj: object) -> TypeGuard[type[Exception] | TestExc]:
