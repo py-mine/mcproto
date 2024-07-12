@@ -112,7 +112,6 @@ reportMissingParameterType = false          # likely will be enabled (although r
 reportUnnecessaryIsInstance = false         # likely will be enabled
 reportAttributeAccessIssue = false          # likely will be enabled
 reportUnsafeMultipleInheritance = false     # likely will be enabled
-reportAssignmentType = false                # likely will be enabled
 reportMissingSuperCall = false              # likely will be enabled
 reportIgnoreCommentWithoutRule = false      # likely will be enabled (but only if enableTypeIgnoreComments remains disabled)
 
