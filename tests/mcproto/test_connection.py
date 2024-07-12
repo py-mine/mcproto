@@ -13,7 +13,7 @@ from tests.helpers import CustomMockMixin
 from tests.mcproto.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMock, WriteFunctionMock
 
 
-class MockSocket(CustomMockMixin[MagicMock], MagicMock):
+class MockSocket(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[reportUnsafeMultipleInheritance]
     """Mock version of a socket (synchronous), using our mocked writer and reader methods.
 
     See :class:`tests.mcproto.protocol.helpers.ReadFunctionMock` and
@@ -53,7 +53,7 @@ class MockSocket(CustomMockMixin[MagicMock], MagicMock):
         """Mock version of shutdown, without any real implementation."""
 
 
-class MockStreamWriter(CustomMockMixin[MagicMock], MagicMock):
+class MockStreamWriter(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[reportUnsafeMultipleInheritance]]
     """Mock version of :class:`asyncio.StreamWriter` using our mocked writer method."""
 
     spec_set = asyncio.StreamWriter
@@ -77,7 +77,7 @@ class MockStreamWriter(CustomMockMixin[MagicMock], MagicMock):
         self._closed = True
 
 
-class MockStreamReader(CustomMockMixin[MagicMock], MagicMock):
+class MockStreamReader(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[reportUnsafeMultipleInheritance]]
     """Mock version of :class:`asyncio.StreamReader` using our mocked reader method."""
 
     spec_set = asyncio.StreamReader

@@ -108,7 +108,6 @@ reportMissingTypeStubs = "information"      # consider bumping to warning/error
 reportUninitializedInstanceVariable = false # until https://github.com/DetachHead/basedpyright/issues/491
 reportUnnecessaryTypeIgnoreComment = false  # temporary
 reportMissingParameterType = false          # likely will be enabled (although ruff does cover this)
-reportUnsafeMultipleInheritance = false     # likely will be enabled
 reportMissingSuperCall = false              # likely will be enabled
 reportIgnoreCommentWithoutRule = false      # likely will be enabled (but only if enableTypeIgnoreComments remains disabled)
 
