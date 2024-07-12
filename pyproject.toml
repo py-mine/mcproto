@@ -116,7 +116,6 @@ reportAttributeAccessIssue = false          # likely will be enabled
 reportUnsafeMultipleInheritance = false     # likely will be enabled
 reportAssignmentType = false                # likely will be enabled
 reportUnusedVariable = false                # consider enabling
-reportPrivateUsage = false                  # likely will be enabled
 reportMissingSuperCall = false              # likely will be enabled
 reportIncompatibleVariableOverride = false  # likely will be enabled
 reportAbstractUsage = false                 # likely will be enabled

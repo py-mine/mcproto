@@ -357,6 +357,8 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
     @property
     def socket(self) -> socket.socket:
         """Obtain the underlying socket behind the :class:`~asyncio.Transport`."""
+        # TODO: This should also have pyright: ignore[reportPrivateUsage]
+        # See: https://github.com/DetachHead/basedpyright/issues/494
         return self.writer.transport._sock  # type: ignore
 
 

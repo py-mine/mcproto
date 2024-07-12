@@ -198,7 +198,7 @@ def override_towncrier_draft_format() -> None:
     from docutils import statemachine
     from sphinx.util.nodes import nodes
 
-    orig_f = sphinxcontrib.towncrier.ext._nodes_from_document_markup_source
+    orig_f = sphinxcontrib.towncrier.ext._nodes_from_document_markup_source  # pyright: ignore[reportPrivateUsage]
 
     def override_f(
         state: statemachine.State,
@@ -216,7 +216,7 @@ def override_towncrier_draft_format() -> None:
 
         return orig_f(state, markup_source)
 
-    sphinxcontrib.towncrier.ext._nodes_from_document_markup_source = override_f
+    sphinxcontrib.towncrier.ext._nodes_from_document_markup_source = override_f  # pyright: ignore[reportPrivateUsage]
 
 
 mock_autodoc()

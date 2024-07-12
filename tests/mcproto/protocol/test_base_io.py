@@ -281,7 +281,7 @@ class WriterTests(abc, generic[T_WRITER]):
     )
     def test_write_varuint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
         """Test writing varuints results in correct bytes."""
-        self.writer._write_varuint(number)
+        self.writer._write_varuint(number)  # pyright: ignore[reportPrivateUsage]
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.parametrize(
@@ -296,7 +296,7 @@ class WriterTests(abc, generic[T_WRITER]):
     def test_write_varuint_out_of_range(self, write_value: int, max_bits: int):
         """Test writing out of range varuints raises :exc:`ValueError`."""
         with pytest.raises(ValueError):
-            self.writer._write_varuint(write_value, max_bits=max_bits)
+            self.writer._write_varuint(write_value, max_bits=max_bits)  # pyright: ignore[reportPrivateUsage]
 
     @pytest.mark.parametrize(
         ("number", "expected_bytes"),
@@ -475,7 +475,7 @@ class ReaderTests(abc, generic[T_READER]):
     def test_read_varuint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
         """Test reading varuint bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
-        assert self.reader._read_varuint() == expected_value
+        assert self.reader._read_varuint() == expected_value  # pyright: ignore[reportPrivateUsage]
 
     @pytest.mark.parametrize(
         ("read_bytes", "max_bits"),
@@ -488,7 +488,7 @@ class ReaderTests(abc, generic[T_READER]):
         """Test reading out-of-range varuints raises :exc:`IOError`."""
         read_mock.combined_data = bytearray(read_bytes)
         with pytest.raises(IOError):
-            self.reader._read_varuint(max_bits=max_bits)
+            self.reader._read_varuint(max_bits=max_bits)  # pyright: ignore[reportPrivateUsage]
 
     @pytest.mark.parametrize(
         ("read_bytes", "expected_value"),
