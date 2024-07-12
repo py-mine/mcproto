@@ -330,7 +330,7 @@ def gen_serializable_test(
         def test_validation(self, kwargs: dict[str, Any], exc: TestExc):
             """Test validation of the object."""
             with pytest.raises(exc.exception, match=exc.match) as exc_info:
-                cls(**kwargs)
+                _ = cls(**kwargs)
 
             # If exc.kwargs is not None, check them against the exception
             if exc.kwargs is not None:
@@ -348,7 +348,7 @@ def gen_serializable_test(
             """Test deserialization error handling."""
             buf = Buffer(content)
             with pytest.raises(exc.exception, match=exc.match) as exc_info:
-                cls.deserialize(buf)
+                _ = cls.deserialize(buf)
 
             # If exc.kwargs is not None, check them against the exception
             if exc.kwargs is not None:

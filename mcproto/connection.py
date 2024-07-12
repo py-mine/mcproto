@@ -294,7 +294,9 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
     @override
     def _write(self, data: bytes) -> None:
-        self.socket.send(data)
+        # TODO: This returns the amount of bytes sent, which isn't necessarily same as len(data)
+        # We'll probably want to handle incomplete sends
+        _ = self.socket.send(data)
 
     @override
     def _close(self) -> None:
@@ -391,7 +393,8 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
     @override
     def _write(self, data: bytes) -> None:
-        self.socket.sendto(data, self.address)
+        # TODO: Same issue as with TCP connections, we'll probably want to handle incomplete sends
+        _ = self.socket.sendto(data, self.address)
 
     @override
     def _close(self) -> None:

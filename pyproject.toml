@@ -107,7 +107,6 @@ reportUnknownLambdaType = false             # consider enabling
 reportMissingTypeStubs = "information"      # consider bumping to warning/error
 reportUninitializedInstanceVariable = false # until https://github.com/DetachHead/basedpyright/issues/491
 reportUnnecessaryTypeIgnoreComment = false  # temporary
-reportUnusedCallResult = false              # likely will be enabled
 reportCallIssue = false                     # likely will be enabled
 reportMissingParameterType = false          # likely will be enabled (although ruff does cover this)
 reportMissingTypeArgument = false           # likely will be enabled

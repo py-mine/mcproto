@@ -709,7 +709,7 @@ def test_from_object_morecases():
 def test_from_object_error(data: Any, schema: Any, error: type[Exception], error_msg: str):
     """Test from_object with erroneous data."""
     with pytest.raises(error, match=error_msg):
-        NBTag.from_object(data, schema)
+        _ = NBTag.from_object(data, schema)
 
 
 def test_from_object_more_errors():
@@ -718,7 +718,7 @@ def test_from_object_more_errors():
     schema = ByteNBT
     data = {"test": 0}
     with pytest.raises(ValueError):
-        NBTag.from_object(data, schema, name="othername")
+        _ = NBTag.from_object(data, schema, name="othername")
 
     class CustomType:
         def to_nbt(self, name: str = "") -> NBTag:
@@ -726,7 +726,7 @@ def test_from_object_more_errors():
 
     # Wrong data type
     with pytest.raises(TypeError):
-        NBTag.from_object(0, CustomType)
+        _ = NBTag.from_object(0, CustomType)
 
 
 def test_to_object_morecases():
@@ -786,13 +786,13 @@ def test_to_object_morecases():
     assert LongArrayNBT([0, 1, 2]).to_object() == [0, 1, 2]
 
     with pytest.raises(TypeError):
-        NBTag.to_object(CompoundNBT([]))
+        _ = NBTag.to_object(CompoundNBT([]))
 
     with pytest.raises(TypeError):
-        ListNBT([CompoundNBT([]), ListNBT([])]).to_object(include_schema=True)
+        _ = ListNBT([CompoundNBT([]), ListNBT([])]).to_object(include_schema=True)
 
     with pytest.raises(TypeError):
-        ListNBT([IntNBT(0), ShortNBT(0)]).to_object(include_schema=True)
+        _ = ListNBT([IntNBT(0), ShortNBT(0)]).to_object(include_schema=True)
 
 
 def test_data_conversions():
@@ -812,8 +812,10 @@ def test_data_conversions():
 
 def test_init_nbtag_directly():
     """Test initializing NBTag directly."""
+    # TODO: Check if this test really is relevant
+    # Isn't this basically just testing stdlib ABCs?
     with pytest.raises(TypeError):
-        NBTag(0)  # pyright: ignore[reportAbstractUsage] # I know, that's what I'm testing
+        _ = NBTag(0)  # pyright: ignore[reportAbstractUsage] # I know, that's what I'm testing
 
 
 @pytest.mark.parametrize(
@@ -838,4 +840,4 @@ def test_wrong_type(buffer_content: str, tag_type: type[NBTag]):
     """Test read_from with wrong tag type in the buffer."""
     buffer = Buffer(bytearray.fromhex(buffer_content))
     with pytest.raises(TypeError):
-        tag_type.read_from(buffer, with_name=False)
+        _ = tag_type.read_from(buffer, with_name=False)

@@ -291,5 +291,5 @@ def setup(app: Sphinx) -> dict:
     app.add_node(AttributeTableBadge, html=(visit_attributetablebadge_node, depart_attributetablebadge_node))
     app.add_node(AttributeTableItem, html=(visit_attributetable_item_node, depart_attributetable_item_node))
     app.add_node(AttributeTablePlaceholder)
-    app.connect("doctree-resolved", process_attributetable)
+    _ = app.connect("doctree-resolved", process_attributetable)
     return {"parallel_read_safe": True}

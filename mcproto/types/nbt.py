@@ -775,7 +775,7 @@ class StringNBT(NBTag):
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
         # Check that the string is valid UTF-8
         try:
-            self.payload.encode("utf-8")
+            _ = self.payload.encode("utf-8")
         except UnicodeEncodeError as exc:
             raise ValueError("Invalid UTF-8 string.") from exc
 

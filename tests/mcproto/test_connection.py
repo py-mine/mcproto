@@ -119,7 +119,7 @@ class TestTCPSyncConnection:
         conn = self.make_connection(data)
 
         with pytest.raises(IOError):
-            conn.read(10)
+            _ = conn.read(10)
 
     def test_encrypted_read(self):
         """Test reading encrypted data with enabled encryption properly decrypts the data."""
@@ -207,7 +207,7 @@ class TestTCPAsyncConnection:
         conn = self.make_connection(data)
 
         with pytest.raises(IOError):
-            await conn.read(10)
+            _ = await conn.read(10)
 
     async def test_encrypted_read(self):
         """Test reading encrypted data with enabled encryption properly decrypts the data."""
