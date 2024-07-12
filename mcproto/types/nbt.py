@@ -533,7 +533,7 @@ class _NumberNBTag(NBTag, RequiredParamsABCMixin):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, int):  # type: ignore
+        if not isinstance(self.payload, int):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected an int, but found {type(self.payload).__name__}.")
         int_min = -(1 << (self.DATA_SIZE * 8 - 1))
         int_max = (1 << (self.DATA_SIZE * 8 - 1)) - 1
@@ -634,7 +634,7 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, (int, float)):  # type: ignore # We want to check anyway
+        if not isinstance(self.payload, (int, float)):  # pyright: ignore[reportUnnecessaryIsInstance] # We want to check anyway
             raise TypeError(f"Expected a float, but found {type(self.payload).__name__}.")
 
 
@@ -769,7 +769,7 @@ class StringNBT(NBTag):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, str):  # type: ignore
+        if not isinstance(self.payload, str):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a str, but found {type(self.payload).__name__}.")
         if len(self.payload) > 32767:
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
@@ -885,9 +885,9 @@ class ListNBT(NBTag):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, list):  # type: ignore
+        if not isinstance(self.payload, list):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a list, but found {type(self.payload).__name__}.")
-        if not all(isinstance(tag, NBTag) for tag in self.payload):  # type: ignore # We want to check anyway
+        if not all(isinstance(tag, NBTag) for tag in self.payload):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError("All items in a list must be NBTags.")
         if not self.payload:
             return
@@ -1000,9 +1000,9 @@ class CompoundNBT(NBTag):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, list):  # type: ignore
+        if not isinstance(self.payload, list):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a list, but found {type(self.payload).__name__}.")
-        if not all(isinstance(tag, NBTag) for tag in self.payload):  # type: ignore
+        if not all(isinstance(tag, NBTag) for tag in self.payload):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError("All items in a compound must be NBTags.")
         if not all(tag.name for tag in self.payload):
             raise ValueError("All tags in a compound must be named.")
@@ -1044,9 +1044,9 @@ class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, list):  # type: ignore
+        if not isinstance(self.payload, list):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a list, but found {type(self.payload).__name__}.")
-        if not all(isinstance(item, int) for item in self.payload):  # type: ignore
+        if not all(isinstance(item, int) for item in self.payload):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError("All items in an integer array must be integers.")
         if any(
             item < -(1 << (self.DATA_SIZE * 8 - 1)) or item >= 1 << (self.DATA_SIZE * 8 - 1) for item in self.payload
