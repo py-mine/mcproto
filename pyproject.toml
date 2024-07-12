@@ -284,7 +284,7 @@ exclude-modules = '''
 [tool.taskipy.tasks]
 precommit = "pre-commit install"
 lint = "pre-commit run --all-files"
-basedpyright = "basedpyright ."
+basedpyright = "basedpyright --warnings ."
 ruff = "ruff check --fix ."
 ruff-format = "ruff format ."
 slotscheck = "slotscheck -m mcproto"

@@ -47,7 +47,7 @@ repos:
       - id: basedpyright
         name: Based Pyright
         description: Run basedpyright type checker
-        entry: poetry run basedpyright
+        entry: poetry run basedpyright --warnings
         language: system
         types: [python]
         pass_filenames: false # pyright runs for the entire project, it can't run for single files
