@@ -385,7 +385,7 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
     def _read(self, length: int | None = None) -> bytearray:
         result = bytearray()
         while len(result) == 0:
-            received_data, server_addr = self.socket.recvfrom(self.BUFFER_SIZE)
+            received_data, _server_addr = self.socket.recvfrom(self.BUFFER_SIZE)
             result.extend(received_data)
         return result
 
@@ -419,7 +419,7 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
     async def _read(self, length: int | None = None) -> bytearray:
         result = bytearray()
         while len(result) == 0:
-            received_data, server_addr = await asyncio.wait_for(self.stream.recv(), timeout=self.timeout)
+            received_data, _server_addr = await asyncio.wait_for(self.stream.recv(), timeout=self.timeout)
             result.extend(received_data)
         return result
 
