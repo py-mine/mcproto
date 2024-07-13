@@ -91,7 +91,7 @@ strictSetInference = false
 analyzeUnannotatedFunctions = true
 strictParameterNoneValue = true
 enableTypeIgnoreComments = true
-deprecateTypingAliases = true
+deprecateTypingAliases = true      # only applies for python 3.9+
 enableExperimentalFeatures = false
 disableBytesTypePromotions = true
 
