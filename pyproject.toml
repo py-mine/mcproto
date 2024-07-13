@@ -106,7 +106,7 @@ reportUnknownParameterType = false          # consider enabling
 reportUnknownLambdaType = false             # consider enabling
 reportMissingTypeStubs = "information"      # consider bumping to warning/error
 reportUninitializedInstanceVariable = false # until https://github.com/DetachHead/basedpyright/issues/491
-reportMissingParameterType = false          # likely will be enabled (although ruff does cover this)
+reportMissingParameterType = false          # ruff's flake8-annotations (ANN) already covers this + gives us more control
 reportMissingSuperCall = false              # likely will be enabled
 
 
