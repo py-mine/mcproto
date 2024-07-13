@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 from packaging.version import parse as parse_version
-from typing_extensions import override
+from typing_extensions import Any, override
 
 if sys.version_info >= (3, 11):
     from tomllib import load as toml_parse
@@ -110,7 +110,7 @@ autoclass_content = "both"
 autodoc_member_order = "bysource"
 
 # Default options for all autodoc directives
-autodoc_default_options = {
+autodoc_default_options: dict[str, Any] = {
     "members": True,
     "undoc-members": True,
     "show-inheritance": True,
@@ -198,10 +198,10 @@ def override_towncrier_draft_format() -> None:
     from docutils import statemachine
     from sphinx.util.nodes import nodes
 
-    orig_f = sphinxcontrib.towncrier.ext._nodes_from_document_markup_source  # pyright: ignore[reportPrivateUsage]
+    orig_f = sphinxcontrib.towncrier.ext._nodes_from_document_markup_source  # pyright: ignore[reportPrivateUsage,reportUnknownMemberType,reportUnknownVariableType]
 
     def override_f(
-        state: statemachine.State,  # pyright: ignore[reportMissingTypeArgument] # arg not specified in orig_f either
+        state: statemachine.State,  # pyright: ignore[reportMissingTypeArgument,reportUnknownParameterType] # arg not specified in orig_f either
         markup_source: str,
     ) -> list[nodes.Node]:
         markup_source = markup_source.replace("## Version Unreleased changes", "## Unreleased changes")
@@ -212,9 +212,9 @@ def override_towncrier_draft_format() -> None:
             markup_source = markup_source[:-3]
 
         markup_source = markup_source.rstrip(" \n")
-        markup_source = m2r2.M2R()(markup_source)
+        markup_source = m2r2.M2R()(markup_source)  # pyright: ignore[reportUnknownVariableType]
 
-        return orig_f(state, markup_source)
+        return orig_f(state, markup_source)  # pyright: ignore[reportUnknownArgumentType]
 
     sphinxcontrib.towncrier.ext._nodes_from_document_markup_source = override_f  # pyright: ignore[reportPrivateUsage]
 

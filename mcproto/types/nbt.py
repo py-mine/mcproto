@@ -330,32 +330,49 @@ class NBTag(MCType, NBTagConvertible):
         :param name: The name of the NBT tag.
         :return: The NBT tag created from the python object.
         """
+        # TODO: There are a lot of isinstance checks for dict/list, however, the FromObjectType/FromObjectSchema
+        # type alias declares a Sequence/Mapping type for these collections. The isinstance checks here should
+        # probably be replaced with these types (they should support runtime comparison).
+
+        # TODO: Consider splitting this function up into smaller functions, that each parse a specific type of schema
+        # i.e. _from_object_dict, _from_object_list, _from_object_tag, ...
+
         # Case 0 : schema is an object with a `to_nbt` method (could be a subclass of NBTag for all we know, as long
         # as the data is an instance of the schema it will work)
         if isinstance(schema, type) and hasattr(schema, "to_nbt") and isinstance(data, schema):
             return data.to_nbt(name=name)
 
+        # used later, declared explicitly since pyright can't infer this
+        # (recursive types aren't properly supported yet)
+        value: FromObjectType
+
         # Case 1 : schema is a NBTag subclass
         if isinstance(schema, type) and issubclass(schema, NBTag):
             if schema in (CompoundNBT, ListNBT):
                 raise ValueError("Use a list or a dictionary in the schema to create a CompoundNBT or a ListNBT.")
+
             # Check if the data contains the name (if it is a dictionary)
             if isinstance(data, dict):
+                data = cast("dict[str, FromObjectType]", data)  # recursive type, pyright can't infer
                 if len(data) != 1:
                     raise ValueError("Expected a dictionary with a single key-value pair.")
                 # We also check if the name isn't already set
                 if name:
                     raise ValueError("The name is already set.")
+
                 key, value = next(iter(data.items()))
                 # Recursive call to go to the next part
                 return NBTag.from_object(value, schema, name=key)
+
             # Else we check if the data can be a payload for the tag
             if not isinstance(data, (bytes, str, int, float, list)):
                 raise TypeError(f"Expected one of (bytes, str, int, float, list), but found {type(data).__name__}.")
+
             # Check if the data is a list of integers
-            if isinstance(data, list) and not all(isinstance(item, int) for item in data):
+            if isinstance(data, list) and not all(isinstance(item, int) for item in data):  # pyright: ignore[reportUnknownVariableType]
                 raise TypeError("Expected a list of integers, but a non-integer element was found.")
             data = cast(Union[bytes, str, int, float, "list[int]"], data)
+
             # Create the tag with the data and the name
             return schema(data, name=name)  # pyright: ignore[reportCallIssue] # The schema is a subclass of NBTag
 
@@ -368,9 +385,11 @@ class NBTag(MCType, NBTagConvertible):
         # Case 2 : schema is a dictionary
         payload: list[NBTag] = []
         if isinstance(schema, dict):
+            schema = cast("dict[str, FromObjectSchema]", schema)  # recursive type, pyright can't infer
             # We can unpack the dictionary and create a CompoundNBT tag
             if not isinstance(data, dict):
                 raise TypeError(f"Expected a dictionary, but found a different type ({type(data).__name__}).")
+            data = cast("dict[str, FromObjectType]", data)  # recursive type, pyright can't infer
 
             # Iterate over the dictionary
             for key, value in data.items():
@@ -383,8 +402,11 @@ class NBTag(MCType, NBTagConvertible):
         # We need to check if every element in the schema has the same type
         # but keep in mind that dict and list are also valid types, as long
         # as there are only dicts, or only lists in the schema
+        schema = cast("Sequence[FromObjectSchema]", schema)  # recursive type, pyright can't infer
         if not isinstance(data, list):
             raise TypeError(f"Expected a list, but found {type(data).__name__}.")
+        data = cast("list[FromObjectType]", data)  # recursive type, pyright can't infer
+
         if len(schema) == 1:
             # We have two cases here, either the schema supports an unknown number of elements of a single type ...
             children_schema = schema[0]
@@ -402,7 +424,7 @@ class NBTag(MCType, NBTagConvertible):
         # Check that the schema only has one type of elements
         first_schema = schema[0]
         # Dict/List case
-        if isinstance(first_schema, (list, dict)) and not all(isinstance(item, type(first_schema)) for item in schema):
+        if isinstance(first_schema, (list, dict)) and not all(isinstance(item, type(first_schema)) for item in schema):  # pyright: ignore[reportUnknownArgumentType]
             raise TypeError(f"Expected a list of lists or dictionaries, but found a different type ({schema=}).")
         # NBTag case
         # Ignore branch coverage, `schema` will never be an empty list here
@@ -875,7 +897,7 @@ class ListNBT(NBTag):
             if not isinstance(first, (dict, list)):  # pragma: no cover
                 raise TypeError(f"The schema must contain either a dict or a list. Found {first!r}")
             # This will take care of ensuring either everything is a dict or a list
-            if not all(isinstance(schema, type(first)) for schema in subschemas):  # pragma: no cover
+            if not all(isinstance(schema, type(first)) for schema in subschemas):  # pyright: ignore[reportUnknownArgumentType]  # pragma: no cover
                 raise TypeError(f"All items in the list must have the same type. Found {subschemas!r}")
             return result, subschemas
         return result

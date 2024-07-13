@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import cast
+
 import pytest
 
 from mcproto.types.chat import ChatMessage, RawChatMessage, RawChatMessageDict
@@ -8,20 +10,23 @@ from tests.helpers import gen_serializable_test
 
 @pytest.mark.parametrize(
     ("raw", "expected_dict"),
-    [
-        (
-            {"text": "A Minecraft Server"},
-            {"text": "A Minecraft Server"},
-        ),
-        (
-            "A Minecraft Server",
-            {"text": "A Minecraft Server"},
-        ),
-        (
-            [{"text": "hello", "bold": True}, {"text": "there"}],
-            {"extra": [{"text": "hello", "bold": True}, {"text": "there"}]},
-        ),
-    ],
+    cast(
+        "list[tuple[RawChatMessage, RawChatMessageDict]]",
+        [
+            (
+                {"text": "A Minecraft Server"},
+                {"text": "A Minecraft Server"},
+            ),
+            (
+                "A Minecraft Server",
+                {"text": "A Minecraft Server"},
+            ),
+            (
+                [{"text": "hello", "bold": True}, {"text": "there"}],
+                {"extra": [{"text": "hello", "bold": True}, {"text": "there"}]},
+            ),
+        ],
+    ),
 )
 def test_as_dict(raw: RawChatMessage, expected_dict: RawChatMessageDict):
     """Test converting raw ChatMessage input into dict produces expected dict."""
