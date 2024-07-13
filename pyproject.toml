@@ -127,8 +127,6 @@ ignore = [
   "D301", # Use r""" if any backslashes in a docstring
   "D417", # Missing argument descrition in the docstring
 
-  "ANN002", # Missing type annotation for *args
-  "ANN003", # Missing type annotation for **kwargs
   "ANN204", # Missing return type annotation for special method
   "ANN401", # Dynamically typed expressions (typing.Any) disallowed
 
