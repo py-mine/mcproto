@@ -41,16 +41,14 @@ def deprecation_warn(
     if isinstance(removal_version, str):
         removal_version = Version(removal_version)
 
-    if isinstance(__package__, str):
-        try:
-            _project_version = importlib.metadata.version(__package__)
-        except importlib.metadata.PackageNotFoundError:
-            # v0.0.0 will never mark things as already deprecated (removal_version will always be newer)
-            project_version = Version(major=0, minor=0, patch=0)
-        else:
-            project_version = Version(_project_version)
-    else:
+    try:
+        _project_version = importlib.metadata.version("mcproto")
+    except importlib.metadata.PackageNotFoundError:
+        # v0.0.0 will never mark things as already deprecated (removal_version will always be newer)
+        warnings.warn("Failed to get mcproto project version, assuming v0.0.0", category=RuntimeWarning, stacklevel=1)
         project_version = Version(major=0, minor=0, patch=0)
+    else:
+        project_version = Version(_project_version)
 
     already_deprecated = project_version >= removal_version
 
