@@ -100,7 +100,6 @@ reportAny = false
 reportImplicitStringConcatenation = false
 reportUnreachable = "information"
 reportMissingTypeStubs = "information"      # consider bumping to warning/error
-reportUnknownLambdaType = false             # consider enabling
 reportUninitializedInstanceVariable = false # until https://github.com/DetachHead/basedpyright/issues/491
 reportMissingParameterType = false          # ruff's flake8-annotations (ANN) already covers this + gives us more control
 
