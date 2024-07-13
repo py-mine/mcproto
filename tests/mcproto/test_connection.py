@@ -30,10 +30,12 @@ class MockSocket(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[repo
         self._closed = False
 
     @override
-    def send(self, data: bytearray) -> None:
+    def send(self, data: bytes | bytearray) -> None:
         """Mock version of send method, raising :exc:`OSError` if the socket was closed."""
         if self._closed:
             raise OSError(errno.EBADF, "Bad file descriptor")
+        if isinstance(data, bytearray):
+            data = bytes(data)
         return self._send(data)
 
     @override
@@ -65,10 +67,12 @@ class MockStreamWriter(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignor
         self._closed = False
 
     @override
-    def write(self, data: bytearray) -> None:
+    def write(self, data: bytes | bytearray) -> None:
         """Mock version of write method, raising :exc:`OSError` if the writer was closed."""
         if self._closed:
             raise OSError(errno.EBADF, "Bad file descriptor")
+        if isinstance(data, bytearray):
+            data = bytes(data)
         return self._write(data)
 
     @override
@@ -124,8 +128,8 @@ class TestTCPSyncConnection:
     def test_encrypted_read(self):
         """Test reading encrypted data with enabled encryption properly decrypts the data."""
         # The encryption is done with AES/CFB8 stream cipher
-        key = bytearray.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
-        plaintext_data = bytearray.fromhex("1077656c6c2068656c6c6f207468657265")
+        key = bytes.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+        plaintext_data = bytes.fromhex("1077656c6c2068656c6c6f207468657265")
         encrypted_data = bytearray.fromhex("1ee5262f2df60b7262bed1ee27a3056184")
 
         conn = self.make_connection(encrypted_data)
@@ -145,8 +149,8 @@ class TestTCPSyncConnection:
     def test_encrypted_write(self):
         """Test writing plaintext data with enabled encryption encrypts the data before sending."""
         # The encryption is done with AES/CFB8 stream cipher
-        key = bytearray.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
-        plaintext_data = bytearray.fromhex("1077656c6c2068656c6c6f207468657265")
+        key = bytes.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+        plaintext_data = bytes.fromhex("1077656c6c2068656c6c6f207468657265")
         encrypted_data = bytearray.fromhex("1ee5262f2df60b7262bed1ee27a3056184")
 
         conn = self.make_connection()
@@ -212,8 +216,8 @@ class TestTCPAsyncConnection:
     async def test_encrypted_read(self):
         """Test reading encrypted data with enabled encryption properly decrypts the data."""
         # The encryption is done with AES/CFB8 stream cipher
-        key = bytearray.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
-        plaintext_data = bytearray.fromhex("1077656c6c2068656c6c6f207468657265")
+        key = bytes.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+        plaintext_data = bytes.fromhex("1077656c6c2068656c6c6f207468657265")
         encrypted_data = bytearray.fromhex("1ee5262f2df60b7262bed1ee27a3056184")
 
         conn = self.make_connection(encrypted_data)
@@ -233,8 +237,8 @@ class TestTCPAsyncConnection:
     async def test_encrypted_write(self):
         """Test writing plaintext data with enabled encryption encrypts the data before sending."""
         # The encryption is done with AES/CFB8 stream cipher
-        key = bytearray.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
-        plaintext_data = bytearray.fromhex("1077656c6c2068656c6c6f207468657265")
+        key = bytes.fromhex("f71e3033d4c0fc6aadee4417831b5c3e")
+        plaintext_data = bytes.fromhex("1077656c6c2068656c6c6f207468657265")
         encrypted_data = bytearray.fromhex("1ee5262f2df60b7262bed1ee27a3056184")
 
         conn = self.make_connection()

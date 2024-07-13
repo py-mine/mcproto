@@ -34,7 +34,7 @@ class SyncWriter(BaseSyncWriter):
     """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncWriter` ABC."""
 
     @override
-    def write(self, data: bytes) -> None:
+    def write(self, data: bytes | bytearray) -> None:
         """Concrete implementation of abstract write method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
@@ -59,7 +59,7 @@ class SyncReader(BaseSyncReader):
     """Testable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncReader` ABC."""
 
     @override
-    def read(self, length: int) -> bytearray:
+    def read(self, length: int) -> bytes:
         """Concrete implementation of abstract read method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
@@ -84,7 +84,7 @@ class AsyncWriter(BaseAsyncWriter):
     """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseAsyncWriter` ABC."""
 
     @override
-    async def write(self, data: bytes) -> None:
+    async def write(self, data: bytes | bytearray) -> None:
         """Concrete implementation of abstract write method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
@@ -109,7 +109,7 @@ class AsyncReader(BaseAsyncReader):
     """Testable concrete implementation of BaseAsyncReader ABC."""
 
     @override
-    async def read(self, length: int) -> bytearray:
+    async def read(self, length: int) -> bytes:
         """Concrete implementation of abstract read method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods

@@ -82,7 +82,7 @@ class BaseAsyncWriter(ABC):
     __slots__ = ()
 
     @abstractmethod
-    async def write(self, data: bytes, /) -> None:
+    async def write(self, data: bytes | bytearray, /) -> None:
         """Underlying write method, sending/storing the data.
 
         All of the writer functions will eventually call this method.
@@ -148,7 +148,7 @@ class BaseAsyncWriter(ABC):
         val = to_twos_complement(value, bits=64)
         await self._write_varuint(val, max_bits=64)
 
-    async def write_bytearray(self, data: bytes, /) -> None:
+    async def write_bytearray(self, data: bytes | bytearray, /) -> None:
         """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
         await self.write_varint(len(data))
         await self.write(data)
@@ -199,7 +199,7 @@ class BaseSyncWriter(ABC):
     __slots__ = ()
 
     @abstractmethod
-    def write(self, data: bytes, /) -> None:
+    def write(self, data: bytes | bytearray, /) -> None:
         """Underlying write method, sending/storing the data.
 
         All of the writer functions will eventually call this method.
@@ -265,7 +265,7 @@ class BaseSyncWriter(ABC):
         val = to_twos_complement(value, bits=64)
         self._write_varuint(val, max_bits=64)
 
-    def write_bytearray(self, data: bytes, /) -> None:
+    def write_bytearray(self, data: bytes | bytearray, /) -> None:
         """Write an arbitrary sequence of bytes, prefixed with a varint of it's size."""
         self.write_varint(len(data))
         self.write(data)
@@ -320,7 +320,7 @@ class BaseAsyncReader(ABC):
     __slots__ = ()
 
     @abstractmethod
-    async def read(self, length: int, /) -> bytearray:
+    async def read(self, length: int, /) -> bytes:
         """Underlying read method, obtaining the raw data.
 
         All of the reader functions will eventually call this method.
@@ -398,7 +398,7 @@ class BaseAsyncReader(ABC):
         unsigned_num = await self._read_varuint(max_bits=64)
         return from_twos_complement(unsigned_num, bits=64)
 
-    async def read_bytearray(self, /) -> bytearray:
+    async def read_bytearray(self, /) -> bytes:
         """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
         length = await self.read_varint()
         return await self.read(length)
@@ -459,7 +459,7 @@ class BaseSyncReader(ABC):
     __slots__ = ()
 
     @abstractmethod
-    def read(self, length: int, /) -> bytearray:
+    def read(self, length: int, /) -> bytes:
         """Underlying read method, obtaining the raw data.
 
         All of the reader functions will eventually call this method.
@@ -537,7 +537,7 @@ class BaseSyncReader(ABC):
         unsigned_num = self._read_varuint(max_bits=64)
         return from_twos_complement(unsigned_num, bits=64)
 
-    def read_bytearray(self) -> bytearray:
+    def read_bytearray(self) -> bytes:
         """Read an arbitrary sequence of bytes, prefixed with a varint of it's size."""
         length = self.read_varint()
         return self.read(length)

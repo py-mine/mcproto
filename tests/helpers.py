@@ -273,7 +273,7 @@ def gen_serializable_test(
         result = f"{i:02d}] : "  # the first [ is added by pytest
         if isinstance(param, bytes):
             result += repr(param[:length]) + "..." if len(param) > (length + 3) else repr(param)
-        elif isinstance(param, dict):
+        elif isinstance(param, dict):  # pyright: ignore[reportUnnecessaryIsInstance]
             begin = ", ".join(f"{k}={v!r}" for k, v in param.items())
             result += begin[:length] + "..." if len(begin) > (length + 3) else begin
         else:

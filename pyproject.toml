@@ -93,7 +93,7 @@ strictParameterNoneValue = true
 enableTypeIgnoreComments = true
 deprecateTypingAliases = true
 enableExperimentalFeatures = false
-disableBytesTypePromotions = false # consider enabling
+disableBytesTypePromotions = true
 
 # Diagnostic rules
 reportAny = false

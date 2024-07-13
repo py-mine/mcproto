@@ -717,7 +717,9 @@ class ByteArrayNBT(NBTag):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, (bytearray, bytes)):
+        # TODO: There's an explicit conversion to bytes in __attrs_post_init__, so payload
+        # should never be bytearray. Only bytes should be probably valid here.
+        if not isinstance(self.payload, (bytearray, bytes)):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a bytes, but found {type(self.payload).__name__}.")
 
 
