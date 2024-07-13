@@ -143,8 +143,6 @@ ignore = [
   "D416", # Section name should end with a colon
   "D417", # Missing argument descrition in the docstring
 
-  "ANN002", # Missing type annotation for *args
-  "ANN003", # Missing type annotation for **kwargs
   "ANN101", # Missing type annotation for self in method
   "ANN102", # Missing type annotation for cls in classmethod
   "ANN204", # Missing return type annotation for special method
