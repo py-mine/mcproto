@@ -13,6 +13,8 @@ from mcproto.types.nbt import (
     DoubleNBT,
     EndNBT,
     FloatNBT,
+    FromObjectSchema,
+    FromObjectType,
     IntArrayNBT,
     IntNBT,
     ListNBT,
@@ -477,7 +479,7 @@ def test_nbt_bigfile():
     data = bytes.fromhex(data)
     buffer = Buffer(data)
 
-    expected_object = {  # Name ! Level
+    expected_object: FromObjectType = {  # Name ! Level
         "longTest": 9223372036854775807,
         "shortTest": 32767,
         "stringTest": "HELLO WORLD THIS IS A TEST STRING ÅÄÖ!",
@@ -499,7 +501,7 @@ def test_nbt_bigfile():
         ),
         "doubleTest": 0.4921875,
     }
-    expected_schema = {
+    expected_schema: FromObjectSchema = {
         "longTest": LongNBT,
         "shortTest": ShortNBT,
         "stringTest": StringNBT,
