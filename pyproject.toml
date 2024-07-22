@@ -34,7 +34,7 @@ asyncio-dgram = "^2.1.2"
 typing-extensions = "^4.4.0"
 semantic-version = "^2.10.0"
 httpx = "^0.24.1"
-cryptography = ">=41.0.3,<43.0.0"
+cryptography = ">=41.0.3,<44.0.0"
 attrs = "^23.2.0"
 
 [tool.poetry.group.dev.dependencies]
