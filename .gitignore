@@ -20,8 +20,8 @@ htmlcov/
 .coverage*
 coverage.xml
 
-# Sphinx documentation
-docs/_build/
+# Mkdocs documentation
+site/
 
 # Pyenv local version information
 .python-version

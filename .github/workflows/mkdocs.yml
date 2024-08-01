@@ -1,0 +1,82 @@
+---
+name: MkDocs
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: "${{ steps.app-token.outputs.token }}"
+
+      # Make the github application be the committer
+      # (see: https://stackoverflow.com/a/74071223 on how to obtain the committer email)
+      - name: Setup git config
+        run: |
+          git config --global user.name "py-mine-ci-bot"
+          git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
+
+      - name: Setup poetry
+        id: poetry_setup
+        uses: ItsDrike/setup-poetry@v1
+        with:
+          python-version: 3.12
+          install-args: "--only main,docs"
+
+      - name: Generate docs directory hash
+        run: |
+          docs_dir_hash="$(find "./docs" -type f -exec sha256sum {} + | sort | sha256sum | awk '{print $1}')"
+          echo "docs_dir_hash=$docs_hash" >> $GITHUB_ENV
+
+      - name: Restore MkDocs cache
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key:
+            "mkdocs-material-${{ steps.poetry_setup.outputs.python-version }}-\
+            ${{ hashFiles('./poetry.lock') }}-${{ hashFiles('./mkdocs.yml') }}-\
+            ${{ env.docs_dir_hash }}"
+          restore-keys: "mkdocs-material-${{ steps.poetry_setup.outputs.python-version }}-"
+
+      - name: Build the documentation
+        run: poetry run mkdocs build
+
+      - name: Deploy preview
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./site
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Deploy production
+        if: ${{ github.event_name == 'push' }}
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ./site
+          clean-exclude: pr-preview/
+          token: ${{ steps.app-token.outputs.token }}
