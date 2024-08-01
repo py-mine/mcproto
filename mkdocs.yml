@@ -1,0 +1,69 @@
+site_name: MCPROTO
+site_url: https://py-mine.github.io/mcproto
+
+repo_url: https://github.com/py-mine/mcproto
+repo_name: py-mine/mcproto
+
+nav:
+  - Home: index.md
+
+theme:
+  name: material
+  logo: assets/py-mine_logo.png
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: black
+      accent: black
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: black
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - content.tabs.link
+    - content.code.copy
+    - content.action.edit
+    - search.highlight
+    - search.share
+    - search.suggest
+    - navigation.footer
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - toc.follow
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
