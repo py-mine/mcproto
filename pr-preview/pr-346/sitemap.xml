@@ -35,4 +35,14 @@
          <lastmod>2024-08-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/contributing/making_a_pr/</loc>
+         <lastmod>2024-08-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/contributing/reporting_a_bug/</loc>
+         <lastmod>2024-08-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>
