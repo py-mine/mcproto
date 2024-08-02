@@ -5,6 +5,9 @@ repos:
       - id: check-merge-conflict
       - id: check-toml # For pyproject.toml
       - id: check-yaml # For workflows
+        # Only parse the files for syntax, don't do full load.
+        # We need this because of mkdocs.yml, which uses some custom tags to perform dynamic imports from python.
+        args: ["--unsafe"]
       - id: end-of-file-fixer
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]

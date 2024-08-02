@@ -14,6 +14,10 @@ nav:
       - Code of Conduct: code_of_conduct.md
       - Attributions: attribution.md
       - License: license.md
+      - Contributing:
+          - Reporting a bug: contributing/reporting_a_bug.md
+          - Asking a question: https://github.com/py-mine/mcproto/discussions
+          - Making a pull request: contributing/making_a_pr.md
 
 theme:
   name: material
@@ -70,6 +74,9 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.snippets
   - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true
 
