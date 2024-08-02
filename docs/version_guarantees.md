@@ -12,7 +12,8 @@ it can be hard to discern what can be considered a breaking change, and what isn
 
 First thing to keep in mind is that breaking changes only apply to **publicly documented functions and classes**. If
 it's not listed in the documentation here, it's an internal feature, that isn't considered a part of the public API,
-and thus is bound to change. This includes documented attributes that start with an underscore.
+and thus is bound to change. This includes documented attributes that start with an underscore and documented API
+that is explicitly marked as internal.
 
 !!! note
 
@@ -23,7 +24,7 @@ and thus is bound to change. This includes documented attributes that start with
 - Changing the default parameter value of a function to something else.
 - Renaming (or removing) a function without an alias to the old function.
 - Adding or removing parameters of a function.
-- Removing deprecated alias to a renamed function
+- Removing deprecated alias to a renamed function.
 
 ## Examples of Non-Breaking Changes
 
@@ -31,7 +32,7 @@ and thus is bound to change. This includes documented attributes that start with
 - Renaming (or removing) private underscored attributes.
 - Adding an element into `__slots__` of a data class.
 - Changing the behavior of a function to fix a bug.
-- Changes in the typing behavior of the library.
+- Changes in the typing definitions of the public API.
 - Changes in the documentation.
 - Modifying the internal protocol connection handling.
 - Updating the dependencies to a newer version, major or otherwise.
