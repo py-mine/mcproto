@@ -256,6 +256,7 @@ source = ["mcproto"]
 package = "mcproto"
 directory = "changes"
 template = "changes/.template.rst"
+ignore = [".template.rst"]
 filename = "CHANGELOG.md"
 issue_format = "[#{issue}](https://github.com/py-mine/mcproto/issues/{issue})"
 orphan_prefix = "+" # Use '+' instead of number for fragments not connected to any PR
