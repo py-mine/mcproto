@@ -1,7 +1,11 @@
 ---
 name: Unit-Tests
 
-on: workflow_call
+on:
+  workflow_call:
+    secrets:
+      CC_TEST_REPORTER_ID:
+        required: true
 
 jobs:
   unit-tests:
