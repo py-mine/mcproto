@@ -5,4 +5,29 @@
          <lastmod>2024-08-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/changelog/</loc>
+         <lastmod>2024-08-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/code_of_conduct/</loc>
+         <lastmod>2024-08-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/installation/</loc>
+         <lastmod>2024-08-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/license/</loc>
+         <lastmod>2024-08-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/version_guarantees/</loc>
+         <lastmod>2024-08-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>
