@@ -1,0 +1,1655 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/guides/">
+      
+      
+        <link rel="prev" href="../making_a_pr/">
+      
+      
+        <link rel="next" href="installation/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+    
+    
+      
+        <title>Contributing guides & guidelines - MCPROTO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#contributing-guides-guidelines" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MCPROTO" class="md-header__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+      
+  <img src="../../assets/py-mine_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MCPROTO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Contributing guides &amp; guidelines
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/py-mine/mcproto" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    py-mine/mcproto
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../installation/" class="md-tabs__link">
+          
+  
+    
+  
+  Installation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../code_of_conduct/" class="md-tabs__link">
+          
+  
+    
+  
+  Community
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MCPROTO" class="md-nav__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+      
+  <img src="../../assets/py-mine_logo.png" alt="logo">
+
+    </a>
+    MCPROTO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/py-mine/mcproto" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    py-mine/mcproto
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Installation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../version_guarantees/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Version Guarantees
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Community
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Community
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../code_of_conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../attribution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Attributions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reporting_a_bug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reporting a bug
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/py-mine/mcproto/discussions" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Asking a question
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../making_a_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Making a pull request
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  <span class="md-ellipsis">
+    Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="style_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Style Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="type_hints/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Type hinting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="precommit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pre-commit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="great_commits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Great commits
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="unit_tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unit Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="deprecations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deprecations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/index.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="contributing-guides-guidelines">Contributing guides &amp; guidelines<a class="headerlink" href="#contributing-guides-guidelines" title="Permanent link">&para;</a></h1>
+<div class="admonition bug">
+<p class="admonition-title">Work In Progress</p>
+<p>This page is still being written. The content below (if any) may change.</p>
+</div>
+<!-- This include is temporary -->
+
+<h1 id="contributing-guidelines">Contributing Guidelines<a class="headerlink" href="#contributing-guidelines" title="Permanent link">&para;</a></h1>
+<p>This project is fully open-sourced and new contributions are welcome!</p>
+<p>However know that we value the quality of the code we maintain and distribute, and you will need to adhere to some code
+quality standards which we define. Your PR may get rejected on the basis of a contributor failing to follow these
+guidelines.</p>
+<h2 id="the-golden-rules-of-contributing">The Golden Rules of Contributing<a class="headerlink" href="#the-golden-rules-of-contributing" title="Permanent link">&para;</a></h2>
+<p>We recommend you adhere to most of these rules in pretty much every project, even if it doesn't require you to. These
+rules can often make your life much easier, make debugging quicker and keep the commit history cleaner.</p>
+<ol>
+<li><strong>Lint before you push.</strong> We have multiple code linting rules, which define our general style of the code-base.
+   These are generally enforced through certain tools, which you are expected to run before every push, and ideally
+   before every commit. The specifics of our linting will be mentioned <a href="#style-guide">later</a></li>
+<li><strong>Make great commits.</strong> Great commits should be atomic (do one thing only and do it well), with a commit message
+   explaining what was done, and why. More on this in <a href="#making-great-commits">here</a>.</li>
+<li><strong>Make an issue before the PR.</strong> If you think there's something that should be added to the project, or you
+   found some issue or something which could be improved, consider making an issue before committing a lot of time to
+   create a PR. This can help you save a lot of time in case we'd decide that the feature doesn't adhere to our vision
+   of the project's future, or isn't something which we would be willing/able to maintain. Even though we won't
+   actively enforce this rule, and for some small obvious features, or bug-fixes making an issue may be an overkill,
+   for bigger changes, an issue can save you a lot of time implementing something which may not even be wanted in the
+   project, and therefore won't get accepted.</li>
+<li><strong>Don't open a pull request if you aren't assigned to the issue.</strong> If you want to work on some existing GitHub
+   issue, it is always better to ask a maintainer to assign you to this issue. If there's already someone assigned to
+   an issue, consider offering to collaborate with that person, rather than ignoring his work and doing it on your own.
+   This method can help avoid having multiple people working on the exact same thing at the same time, without knowing
+   about each other, which will often lead to multiple approaches solving the same thing, only one of which can be
+   accepted (usually from the person who was originally assigned).</li>
+<li><strong>Use assets licensed for public use.</strong> Whenever a static asset such as images/video files/audio or even code is
+   added, they must have a compatible license with our projects.</li>
+<li><strong>Use draft pull requests if you aren't done yet.</strong> If your PR isn't ready to be reviewed yet, mark it as draft.
+   This is further described in <a href="#work-in-progress-prs">this section</a></li>
+<li><strong>Follow our <a href="./CODE-OF-CONDUCT.md">Code of Conduct</a>.</strong></li>
+</ol>
+<h2 id="project-installation">Project installation<a class="headerlink" href="#project-installation" title="Permanent link">&para;</a></h2>
+<p>This project uses <a href="https://python-poetry.org/docs/"><code>poetry</code></a>. It's a tool for managing python virtual environments. If
+you haven't heard of those, they're essentially a mini installation of python used purely for the project you're working
+on (as opposed to using a single global python installation for everything, which is prone to conflicts, as different
+projects might need different versions of the same package). Follow the linked documentation for installation
+instructions.</p>
+<p>Once installed, you will want to create a new environment for mcproto, with all of it's dependencies installed. To do
+that, enter the clonned repository in your terminal, and run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>poetry<span class="w"> </span>install
+</code></pre></div>
+<p>Note that you will want to re-run this command each time our dependencies are updated, to stay in sync with the project.</p>
+<p>After that, the environment will contain all of the dependencies, including various executable programs, such as
+<code>basedpyright</code>. One of these executable programs is also <code>python</code>, which is the python interpreter for this
+environment, capable of interacting with all of the installed libraries.</p>
+<p>You will now need to make your terminal use the programs from this environment, rather than any global versions that you
+may have installed, so that you can use the tools in it when working on the project. Some IDEs/editors are capable of
+doing this for you automatically when you open the project. If yours isn't, you can run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>poetry<span class="w"> </span>shell
+</code></pre></div>
+<p>You can then start your IDE from the terminal, after you ran this command, and it should pick up the python environment
+created by poetry.</p>
+<p>You can also just prefix any command with <code>poetry run</code> (e.g. <code>poetry run python</code>) to use the executable from the
+environment, without activating it, however you will almost always want to activate the environment instead.</p>
+<p>For more info about poetry, make sure to check their amazing official documentation: <code>https://python-poetry.org/docs/</code>,
+these include installation instructions, explain how to add new dependencies to the project, or how to remove some, and
+everything else you'd need to know.</p>
+<h2 id="style-guide">Style Guide<a class="headerlink" href="#style-guide" title="Permanent link">&para;</a></h2>
+<p>For clarity and readability, adhering to a consistent code style across the whole project is very important. It is not
+unusual that style adjustments will be requested in pull requests.</p>
+<p>It is always a good practice to review the style of the existing code-base before adding something new, and adhere to
+that established style. That applies even if it isn't the style you generally prefer, however if you think a code style
+change of some kind would be justified, feel free to open an issue about it and tell us what exactly should be changed,
+and why you think this change is important. If you want to, you can also ask to be assigned to the issue and work on
+changing the style in the code-base in your own PR. (Hey you may even get to edit this section!)</p>
+<blockquote>
+<p>A style guide is about consistency. Consistency with this style guide is important. Consistency within a project is
+more important. Consistency within one module or function is the most important.</p>
+<p>However, know when to be inconsistent -- sometimes style guide recommendations just aren't applicable. When in doubt,
+use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask!
+— <a href="https://peps.python.org/pep-0008/">PEP 8, the general Style Guide for Python Code</a></p>
+</blockquote>
+<h3 id="automatic-linting">Automatic linting<a class="headerlink" href="#automatic-linting" title="Permanent link">&para;</a></h3>
+<p>As there is a lot of various styling rules we adhere to in our code base, and obviously, describing all of them in a
+style guide here would just take way too long, and it would be impossible to remember anyway. For that reason, we use
+automated tools to help us catch any style violation without manual review!</p>
+<p>Currently, these are the tools we use for code style enforcement:</p>
+<ul>
+<li><a href="https://beta.ruff.rs/docs/"><code>ruff</code></a>: General python linter, formatter and import sorter</li>
+<li><a href="https://slotscheck.readthedocs.io/en/latest/"><code>slotscheck</code></a>: Enforces the presence of <code>__slots__</code> in classes</li>
+</ul>
+<p>You can read more about them individually in the sections below. It is important that you familiarize yourself with
+these tools, and their standalone usage, but it would of course be very annoying to have to run the commands to run
+these tools manually, so while there will be instructions on how to do that, you should pretty much always prefer
+direct IDE/editor integration, which is mentioned <a href="#editor-integration">here</a>, and make use of
+<a href="#pre-commit">pre-commit</a>.</p>
+<h4 id="ruff-linter-formatter">Ruff linter &amp; Formatter<a class="headerlink" href="#ruff-linter-formatter" title="Permanent link">&para;</a></h4>
+<p>Ruff is an all-in-one linter &amp; formatter solution, which aims to replace the previously very popular
+<a href="https://flake8.pycqa.org/en/latest/"><code>flake8</code></a> linter, <a href="https://pycqa.github.io/isort/"><code>isort</code></a> import sorter and
+<a href="https://black.readthedocs.io/en/stable/"><code>black</code></a> formatter. Ruff is faster (written in rust! 🦀) and includes most of
+the popular flake8 extensions directly. It is almost 1:1 compatible with black, which means the way it formats code is
+pretty much the same, with only some very subtle differences.</p>
+<p>You can check the ruff configuration we're using in <a href="./pyproject.toml"><code>pyproject.toml</code></a> file, under the <code>[tool.ruff]</code>
+category (and it's subcategories), you can find the enabled linter rules there, and some more specific configuration,
+like line length, python version, individual ignored lint rules, and ignored files.</p>
+<p>To run <code>ruff</code> <strong>linter</strong> on the code, you can use <code>ruff check .</code> command, while in the project's root directory (from
+an activated poetry environment, alternatively <code>poetry run ruff .</code>). Ruff also supports some automatic fixes to many
+violations it founds, to enable fixing, you can use <code>ruff check --fix</code>. This will also run the <code>isort</code> integration.</p>
+<p>If you find a rule violation in your code somewhere, and you don't understand what that rule's purpose is, <code>ruff</code> evens
+supports running <code>ruff rule [rule id]</code> (for example <code>ruff rule ANN401</code>). These explanations are in markdown, so I'd
+recommend using a markdown renderer such as <a href="https://github.com/charmbracelet/glow"><code>glow</code></a> (on Arch linux, you can
+install it with: <code>pacman -S glow</code>) and piping the output into it for a much nicer reading experience: <code>ruff rule ANN401
+| glow</code>.</p>
+<p>To run <code>ruff</code> <strong>formatter</strong> on the code, you can simply execute <code>ruff format .</code> command (also needs an activated poetry
+environment). This will automatically format all files in the code-base.</p>
+<h4 id="slotscheck">Slotscheck<a class="headerlink" href="#slotscheck" title="Permanent link">&para;</a></h4>
+<p>Slotscheck is a utility/linter that enforces the proper use of <code>__slots__</code> in our python classes. This is important for
+memory-optimization reasons, and it also improves the general performance when accessing/working with attributes of
+slotted classes.</p>
+<p>If you're unsure how slots work / what they are, there is a very nice explanation of them in the official python wiki:
+<a href="https://wiki.python.org/moin/UsingSlots">here</a>.</p>
+<p>To run slotscheck, you can simply execute <code>slotscheck -m mcproto</code> from an activated poetry environment (or
+<code>poetry run slotscheck -m mcproto</code>).</p>
+<h3 id="use-of-__all__">Use of <code>__all__</code><a class="headerlink" href="#use-of-__all__" title="Permanent link">&para;</a></h3>
+<p>Consider a python module like the below:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span> <span class="nn">foo</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">bar</span> <span class="kn">import</span> <span class="n">do_bar</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">def</span> <span class="nf">do_foobar</span><span class="p">():</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">foo</span><span class="o">.</span><span class="n">do_foo</span><span class="p">()</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">do_bar</span><span class="p">()</span>
+</code></pre></div>
+<p>If someone were to import it with <code>from module_above import *</code>, they'd import <code>foo</code>, <code>do_bar</code> and <code>do_foobar</code>. However
+that's kind of weird, in most cases, we don't actually want our imports to be included in a wildcard import like this.
+For that reason, we can define a special variable called <code>__all__</code>, that specifies all of the things that should
+actually be included with a wildcard import like this.</p>
+<p>It is our convention to set this variable right below the imports, like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">foo</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">bar</span> <span class="kn">import</span> <span class="n">do_bar</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;do_foobar&quot;</span><span class="p">]</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">def</span> <span class="nf">do_foobar</span><span class="p">():</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">foo</span><span class="o">.</span><span class="n">do_foo</span><span class="p">()</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">do_bar</span><span class="p">()</span>
+</code></pre></div>
+<p>With that, we've explicitly specified what functions/classes should be considered a part of this file, and are expected
+to be imported, with all of the rest being considered private and only used in this file internally. (Though it doesn't
+mean that the unspecified objects actually can't be imported, it just means they won't be imported with a wildcard <code>*</code>
+import. So running <code>from module_above import foo</code> would work, even though <code>from module_above import *</code> wouldn't include
+<code>foo</code>.)</p>
+<p>Note that generally, in vast majority of cases, wildcard imports shouldn't be used and instead we should be explicit so
+that we know where our dependencies come from. The actual primary reason we specify <code>__all__</code> in our files is to
+immediately show which parts of that file should be considered public, and which are internal to the file.</p>
+<h3 id="docstring-formatting-directive">Docstring formatting directive<a class="headerlink" href="#docstring-formatting-directive" title="Permanent link">&para;</a></h3>
+<p>The <code>ruff</code> linter uses various rules from the <code>flake8-docstrings</code> rule-set to enforce a specific standardized docstring
+formatting. However, these rules will only enforce the basic structure of docstrings, and where they need to be
+specified. In addition to these rules, it is important to mention the rules on the style of the content in the
+docstrings themselves.</p>
+<p>Specifically, we follow Sphinx, and the docstrings should be written in the restructuredtext format. Sphinx supports
+various directives that allow specifying notes, describe how to add citations, references to other
+functions/documentation, how to add tables and a bunch of other things. You can read up on these guidelines in the
+official Sphinx documentation: <a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/">here</a></p>
+<p>The use of this style is important, as many editors recognize it, and can show you properly formatted descriptions on
+functions or other types of objects upon hovering on them. This format is also useful for automatic generation of
+documentation using Sphinx, as it's much easier and more comfortable to simply add the descriptions for each function
+directly in the code, than having to replicate it manually in the standalone source code for the project's
+documentation, and keep it up to date as new changes to the code are introduced. That said, there are some standalone
+files used for documentation, and these are actually also written in reStructuredText format, so what you'll learn here
+will carry over to writing / changing those.</p>
+<p>Below is a quick example that demonstrates some of how this code style can look. This showcases both the general style
+of our docstrings, and the use of restructuredtext in them. However, it is heavily recommended that you read up on this
+in the linked documentation, to know what markup is available and how to use it. You can also see a bunch of examples
+from the existing code in this code-base, if you just want a better quick glance.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">donut</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Short one-line description of the function.&quot;&quot;&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">def</span> <span class="nf">pineapple</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;One-line description of the function telling us what it&#39;s about.</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="sd">    Detailed multiline description.</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="sd">    This may include the full explanation of how this function should be used.</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="sd">    We can also have multiple sections like this.</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="sd">    For example to include further use instruction with some examples or perhaps</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="sd">    with an explanation of how the function works, if it&#39;s relevant.</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add two numbers together.</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="sd">    :param x: Number 1 (numerator).</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="sd">    :param y: Number 2 (denominator).</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="sd">    :return: Result of ``x / y`` addition.</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="sd">    :raises ZeroDivisionError: If ``y`` is 0.</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="k">def</span> <span class="nf">basic_rest</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;My funtcion teaches you about some basic reST formatting.</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="sd">    Some types of text formatting in restructuredtext (reST) are very similar to</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="sd">    those supported in markdown, for example, **this text will be bold**, *This</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="sd">    text will be emphasised (italic)*.</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="sd">    One important difference between reST and markdown is the use of double backquotes</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="sd">    to include inline code (literals), instead of just a single backquote: ``code``.</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="sd">    * This is a bulleted list.</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="sd">    * It has three items, the second one has a nested list.</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="sd">      * This is a nested list.</span>
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="sd">      * It has two items.</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="sd">    * This is the third item, continuing the parent list.</span>
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="sd">    1. This is a numbered list</span>
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="sd">    2. It has two items.</span>
+<a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>
+<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a><span class="sd">    #. This is a numbered list</span>
+<a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="sd">    #. It has two items too.</span>
+<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>
+<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="sd">    .. versionadded:: 2.5</span>
+<a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="sd">    .. deprecated:: 3.1</span>
+<a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a><span class="sd">       Use :func:`coconut` instead.</span>
+<a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="sd">    .. versionremoved:: 4.0</span>
+<a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="sd">       The :func:`coconut` is more flexible, and should be used instead.</span>
+<a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="sd">       This function will be removed in an upcomming major release.</span>
+<a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a><span class="sd">    .. note::</span>
+<a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="sd">        This is a note directive, it will show up nicely formatted in the</span>
+<a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="sd">        documentation.</span>
+<a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="sd">    .. warning::</span>
+<a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a><span class="sd">        This is a warning directive. It may contain some important info about</span>
+<a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a><span class="sd">        this function, and should be used instead of the note directive, if you&#39;re</span>
+<a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a><span class="sd">        describing some information regarding security.</span>
+<a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a>
+<a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="k">def</span> <span class="nf">hyperlinks</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;This function teaches you about hyperlinks</span>
+<a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a>
+<a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a><span class="sd">    Restructured text also supports hyperlinks. For named links, you can use:</span>
+<a id="__codelineno-4-67" name="__codelineno-4-67" href="#__codelineno-4-67"></a><span class="sd">    `Link text &lt;https://domain.invalid&gt;`_. For inline links, that just show the URL,</span>
+<a id="__codelineno-4-68" name="__codelineno-4-68" href="#__codelineno-4-68"></a><span class="sd">    you can simply use: `&lt;https://domain.invalid&gt;`_.</span>
+<a id="__codelineno-4-69" name="__codelineno-4-69" href="#__codelineno-4-69"></a>
+<a id="__codelineno-4-70" name="__codelineno-4-70" href="#__codelineno-4-70"></a><span class="sd">    You can also separate the link and target definition, like this: `my link`_.</span>
+<a id="__codelineno-4-71" name="__codelineno-4-71" href="#__codelineno-4-71"></a>
+<a id="__codelineno-4-72" name="__codelineno-4-72" href="#__codelineno-4-72"></a><span class="sd">    .. _my link: https://domain.invalid</span>
+<a id="__codelineno-4-73" name="__codelineno-4-73" href="#__codelineno-4-73"></a>
+<a id="__codelineno-4-74" name="__codelineno-4-74" href="#__codelineno-4-74"></a><span class="sd">    .. deprecated: 2.5</span>
+<a id="__codelineno-4-75" name="__codelineno-4-75" href="#__codelineno-4-75"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-4-76" name="__codelineno-4-76" href="#__codelineno-4-76"></a>
+<a id="__codelineno-4-77" name="__codelineno-4-77" href="#__codelineno-4-77"></a><span class="k">def</span> <span class="nf">reference</span><span class="p">(</span><span class="n">param</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-4-78" name="__codelineno-4-78" href="#__codelineno-4-78"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;This teaches you about references.</span>
+<a id="__codelineno-4-79" name="__codelineno-4-79" href="#__codelineno-4-79"></a>
+<a id="__codelineno-4-80" name="__codelineno-4-80" href="#__codelineno-4-80"></a><span class="sd">    You will often need to refer to external (or internal) functions, classes or</span>
+<a id="__codelineno-4-81" name="__codelineno-4-81" href="#__codelineno-4-81"></a><span class="sd">    other things in your docstrings. To do so, you can follow this guide:</span>
+<a id="__codelineno-4-82" name="__codelineno-4-82" href="#__codelineno-4-82"></a>
+<a id="__codelineno-4-83" name="__codelineno-4-83" href="#__codelineno-4-83"></a><span class="sd">    * To refer to the parameter/argument that this function takes, simply use ``param``.</span>
+<a id="__codelineno-4-84" name="__codelineno-4-84" href="#__codelineno-4-84"></a><span class="sd">    * To refer to another class, use :class:`MyClass`.</span>
+<a id="__codelineno-4-85" name="__codelineno-4-85" href="#__codelineno-4-85"></a><span class="sd">    * To refer to another function, use :func:`my_func`.</span>
+<a id="__codelineno-4-86" name="__codelineno-4-86" href="#__codelineno-4-86"></a><span class="sd">    * To refer to another method, in the class this method is in, use :meth:`my_method`.</span>
+<a id="__codelineno-4-87" name="__codelineno-4-87" href="#__codelineno-4-87"></a><span class="sd">    * To refer to an attribute of the class this method is in, use :attr:`my_attr`</span>
+<a id="__codelineno-4-88" name="__codelineno-4-88" href="#__codelineno-4-88"></a><span class="sd">    * To refer to a constant, use :const:`FOOBAR`.</span>
+<a id="__codelineno-4-89" name="__codelineno-4-89" href="#__codelineno-4-89"></a><span class="sd">    * To refer to an exception, use :exc:`FoobarError`.</span>
+<a id="__codelineno-4-90" name="__codelineno-4-90" href="#__codelineno-4-90"></a><span class="sd">    * To refer to an object, use :obj:`my_object`.</span>
+<a id="__codelineno-4-91" name="__codelineno-4-91" href="#__codelineno-4-91"></a>
+<a id="__codelineno-4-92" name="__codelineno-4-92" href="#__codelineno-4-92"></a><span class="sd">    If you need to refer to objects defined outside of this file, you can use the</span>
+<a id="__codelineno-4-93" name="__codelineno-4-93" href="#__codelineno-4-93"></a><span class="sd">    fully qualified path to them, like: :class:`my_module.foo.bar.MyClass`. This</span>
+<a id="__codelineno-4-94" name="__codelineno-4-94" href="#__codelineno-4-94"></a><span class="sd">    will show to full path in the documentation too though, if you don&#39;t want that,</span>
+<a id="__codelineno-4-95" name="__codelineno-4-95" href="#__codelineno-4-95"></a><span class="sd">    you can also use: :class:`~my_module.foo.bar.MyClass`, which will only show up</span>
+<a id="__codelineno-4-96" name="__codelineno-4-96" href="#__codelineno-4-96"></a><span class="sd">    as ``MyClass`` in the final docs.</span>
+<a id="__codelineno-4-97" name="__codelineno-4-97" href="#__codelineno-4-97"></a>
+<a id="__codelineno-4-98" name="__codelineno-4-98" href="#__codelineno-4-98"></a><span class="sd">    You can also refer to entire modules: :mod:`itertools`. Since ``itertools`` is</span>
+<a id="__codelineno-4-99" name="__codelineno-4-99" href="#__codelineno-4-99"></a><span class="sd">    actually a part of the standard library, sphinx can even produce links that go</span>
+<a id="__codelineno-4-100" name="__codelineno-4-100" href="#__codelineno-4-100"></a><span class="sd">    back to Python&#39;s official docs for the ``itertools`` modules.</span>
+<a id="__codelineno-4-101" name="__codelineno-4-101" href="#__codelineno-4-101"></a>
+<a id="__codelineno-4-102" name="__codelineno-4-102" href="#__codelineno-4-102"></a><span class="sd">    You can even refer to PEPs, like the :PEP:`287`.</span>
+<a id="__codelineno-4-103" name="__codelineno-4-103" href="#__codelineno-4-103"></a>
+<a id="__codelineno-4-104" name="__codelineno-4-104" href="#__codelineno-4-104"></a><span class="sd">    .. seealso::</span>
+<a id="__codelineno-4-105" name="__codelineno-4-105" href="#__codelineno-4-105"></a><span class="sd">        This directive can be used to refer to some other documentation or external</span>
+<a id="__codelineno-4-106" name="__codelineno-4-106" href="#__codelineno-4-106"></a><span class="sd">        documents.</span>
+<a id="__codelineno-4-107" name="__codelineno-4-107" href="#__codelineno-4-107"></a>
+<a id="__codelineno-4-108" name="__codelineno-4-108" href="#__codelineno-4-108"></a><span class="sd">        It can be useful to put your references in, instead of just having them in</span>
+<a id="__codelineno-4-109" name="__codelineno-4-109" href="#__codelineno-4-109"></a><span class="sd">        the docstring&#39;s text directly.</span>
+<a id="__codelineno-4-110" name="__codelineno-4-110" href="#__codelineno-4-110"></a>
+<a id="__codelineno-4-111" name="__codelineno-4-111" href="#__codelineno-4-111"></a><span class="sd">        One such reference that can be useful here is the Sphinx documentation of the</span>
+<a id="__codelineno-4-112" name="__codelineno-4-112" href="#__codelineno-4-112"></a><span class="sd">        Python Domain, that details all of these modules. An interesting detail about</span>
+<a id="__codelineno-4-113" name="__codelineno-4-113" href="#__codelineno-4-113"></a><span class="sd">        this domain is that it&#39;s actually included and used by default, that&#39;s why in</span>
+<a id="__codelineno-4-114" name="__codelineno-4-114" href="#__codelineno-4-114"></a><span class="sd">        the documentation, you may see ``:py:func:`` while in these examples, we simply</span>
+<a id="__codelineno-4-115" name="__codelineno-4-115" href="#__codelineno-4-115"></a><span class="sd">        used ``:func:``.</span>
+<a id="__codelineno-4-116" name="__codelineno-4-116" href="#__codelineno-4-116"></a>
+<a id="__codelineno-4-117" name="__codelineno-4-117" href="#__codelineno-4-117"></a><span class="sd">        You can find this documentation</span>
+<a id="__codelineno-4-118" name="__codelineno-4-118" href="#__codelineno-4-118"></a><span class="sd">        `here &lt;https://www.sphinx-doc.org/en/master/usage/domains/python.html&gt;_`</span>
+<a id="__codelineno-4-119" name="__codelineno-4-119" href="#__codelineno-4-119"></a><span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div>
+<p>Another general rule of thumb when writing docstrings is to generally stick to using an imperative mood.</p>
+<p>Imperative mood is a certain grammatical form of writing that expresses a clear command to do something.</p>
+<p><strong>Use:</strong> "Build a player object."
+<strong>Don't use:</strong> "Returns a player object."</p>
+<p>Present tense defines that the work being done is now, in the present, rather than in the past or future.</p>
+<p><strong>Use:</strong> "Build a player object."
+<strong>Don't use:</strong> "Built a player object." or "Will build a player object."</p>
+<h2 id="type-hinting">Type hinting<a class="headerlink" href="#type-hinting" title="Permanent link">&para;</a></h2>
+<p><a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> formally specifies type hints for Python. You can specify type
+hints for a function, in addition to just parameter names, allowing you to quickly understand what kind of parameter
+this is. Most IDEs/editors will even be able to recognize these type hints, and provide auto-completion based on them.
+For example, if you type hint a parameter as <code>list</code>, an editor can suggest list methods like <code>join</code> or <code>append</code>. Many
+editors will even show you the type hint on the argument in the function's signature, when you're trying to call it,
+along with the parameter name making it really easy to understand what you're supposed to pass without even looking at
+the docstring.</p>
+<p>For example, an untyped function can look like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Divide the two given arguments.&quot;&quot;&quot;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+</code></pre></div>
+<p>With type-annotations, the function looks like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Divide the two given arguments.&quot;&quot;&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+</code></pre></div>
+<p>Thankfully python type-hinting is fairly easy to understand, but if you do want to see some rather interesting
+resources for a bit more advanced concepts such as type variables or some more complex types like <code>typing.Callable</code>,
+we've compiled a quick list of really amazing resources about these type hinting practice.</p>
+<ul>
+<li>Python documentation from <code>typing</code> library: <a href="https://docs.python.org/3/library/typing.html">https://docs.python.org/3/library/typing.html</a></li>
+<li>MyPy documentation (very extensive but quite beginner friendly): <a href="https://mypy.readthedocs.io/en/stable/">https://mypy.readthedocs.io/en/stable/</a></li>
+<li>Decorator Factory blog about typing: <a href="https://decorator-factory.github.io/typing-tips/">https://decorator-factory.github.io/typing-tips/</a></li>
+<li>Typing Generics (advanced): <a href="https://itsdrike.com/posts/typing-generics/">https://itsdrike.com/posts/typing-generics/</a></li>
+</ul>
+<h3 id="enforcing-type-hints-type-checker">Enforcing type hints - Type checker<a class="headerlink" href="#enforcing-type-hints-type-checker" title="Permanent link">&para;</a></h3>
+<p>Even though the type hints can be pretty useful in knowing what the function variables are expected to be and they also
+provide better auto-completion, if we're not careful, we could soon end up violating our own type specifications,
+because by default python doesn't enforce these type-hints in any way. To python, they're not much more than comments.</p>
+<p>To make sure that our code-base really is correct type-wise, we use a tool that looks at the code statically (similarly
+to a linter), and analyzes the types, finding any inconsistencies. Using a type-checker can be very beneficial,
+especially to bigger projects, as it can quickly catch mistakes we made based on purely the types, without even having
+to run the code. So many times, you'll see issues before actually testing things out (with unit-tests, or manually). In
+a lot of cases, type checkers can even uncover many things that our unit tests wouldn't find.</p>
+<p>There are many python type-checkers available, the most notable ones being <code>mypy</code> and <code>pyright</code>. We decided to use
+<code>pyright</code>, because it has great support for many newer typing features. Specifically, this project actually uses
+<code>basedpyright</code>, which is a fork of pyright, that adds in some extra checks and features from Pylance (vscode
+extension).</p>
+<p>Pyright can be used from the terminal as a stand-alone linter-like checker, by simply running <code>basedpyright .</code> (from
+within an activated virtual environment). But just like with linters, you should ideally just <a href="#editor-integration">include it into your
+editor directly</a>. We also run pyright automatically, as a part of <a href="#pre-commit">pre-commit</a>.</p>
+<h2 id="pre-commit">Pre-commit<a class="headerlink" href="#pre-commit" title="Permanent link">&para;</a></h2>
+<p>Now that you've seen the linters, formatters, type-checkers and other tools that we use in the project, you might be
+wondering whether you're really expected to run all of those commands manually, after each change. And of course, no,
+you're not, that would be really annoying, and you'd probably also often just forget to do that.</p>
+<p>So, instead of that, we use a tool called <code>pre-commit</code>, which creates a <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">git
+hook</a>, that will automatically run before each commit you
+make. That means each time when you make a commit, all of these tools will run over the code you updated, and if any of
+these linters detects an issue, the commit will be aborted, and you will see which linter failed, and it's output
+telling you why.</p>
+<p>To install pre-commit as a git hook all you need to do is to run <code>pre-commit install</code> from an activated poetry
+environment, installing it into the git repository as a hook running before every commit. That said, you can also run
+pre-commit without having to install it (or without having to make a commit, even if installed). To do that, simply
+execute: <code>pre-commit run --all-files</code>. Note that the installed hook will only run the linters on the files that were
+updated in the commit, while using the command directly will run it on the whole project.</p>
+<p>You can find pre-commit's configuration the <a href="./.pre-commit-config.yaml"><code>.pre-commit-config.yaml</code></a> file, where we
+define which tools should be ran and how. Currently, pre-commit runs ruff linter, ruff formatter, slotscheck and
+pyright, but also a checker for some issues in TOML/YAML files.</p>
+<p>Even though in most cases enforcing linting before each commit is what we want, there are some situations where we need
+to commit some code which doesn't pass these checks. This can happen for example after a merge, or as a result of
+making a single purpose small commit without yet worrying about linters. In these cases, you can use the <code>--no-verify</code>
+flag when making a commit, telling git to skip all of the pre-commit hooks and commit normally. You can also only skip
+a specific hook(s), by setting <code>SKIP</code> environmental variable (e.g. <code>SKIP=basedpyright</code>, or
+<code>SKIP=ruff-linter,ruff-formatter,slotscheck</code>), the names of the individual hooks are their ids, you can find those in
+the configuration file for pre-commit.</p>
+<p>However this kind of verification skipping should be used sparingly. We value a clean history which consistently follows
+our linting guidelines, and making commits with linting issues only leads to more commits, fixing those issues later. If
+you really do need to skip the linters though, you should then wait until you create another commit fixing the issues
+before pushing the code to github, to avoid needlessly failing the automated workflows, which run pre-commit themselves
+(amongst other things).</p>
+<h2 id="editor-integration">Editor Integration<a class="headerlink" href="#editor-integration" title="Permanent link">&para;</a></h2>
+<p>Even with pre-commit, it would still be very annoying to have to only run the linters during the commit, because with
+the amount of rules we have, and especially if you're not used to following many of them, you will make a lot of
+mistakes. Because of that, we heavily recommend that you integrate these tools into your IDE/editor directly. Most
+editors will support integration will all of these tools, so you shouldn't have any trouble doing this.</p>
+<p>If you're using neovim, I would recommend setting up LSP (Language Server Protocol), and installing basedpyright, as it
+has language server support built into it. Same thing goes with <code>ruff</code>, which has an LSP implementation
+<a href="https://github.com/astral-sh/ruff-lsp"><code>ruff-lsp</code></a>. As for slotscheck, there isn't currently any good way to integrate
+it directly, so you will need to rely on pre-commit, or run it manually. However, slotscheck violations are fairly
+rare.</p>
+<p>On vscode, you can simply install the following extensions:</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=detachhead.basedpyright">BasedPyright</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff">ruff</a></li>
+</ul>
+<p>(Similarly to neovim, there is no extension available for slotscheck, however violations are fairly rare, and it should
+be enough to have it run with pre-commit.)</p>
+<h2 id="making-great-commits">Making Great Commits<a class="headerlink" href="#making-great-commits" title="Permanent link">&para;</a></h2>
+<p>A well-structured git log is key to a project's maintainability; it provides insight into when and why things were done
+for future maintainers of the project.</p>
+<p>Commits should be as narrow in scope as possible. Commits that span hundreds of lines across multiple unrelated
+functions and/or files are very hard for maintainers to follow. After about a week, they'll probably be hard for you to
+follow too.</p>
+<p>Please also avoid making a lot minor commits for fixing test failures or linting errors. Instead, run the linters before
+you push, ideally with <a href="#pre-commit">pre-commit</a>.</p>
+<p>We've compiled a few resources on making good commits:</p>
+<ul>
+<li><a href="https://itsdrike.com/posts/great-commits/">https://itsdrike.com/posts/great-commits/</a></li>
+<li><a href="https://chris.beams.io/posts/git-commit/">https://chris.beams.io/posts/git-commit/</a></li>
+<li><a href="https://dhwthompson.com/2019/my-favourite-git-commit">https://dhwthompson.com/2019/my-favourite-git-commit</a></li>
+<li><a href="https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message">https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message</a></li>
+<li><a href="https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html</a></li>
+</ul>
+<h2 id="work-in-progress-prs">Work in Progress PRs<a class="headerlink" href="#work-in-progress-prs" title="Permanent link">&para;</a></h2>
+<p>Whenever you add a pull request that isn't yet ready to be reviewed and merged, you can mark it as a draft. This
+provides both visual and functional indicator that the PR isn't yet ready to be reviewed and merged.</p>
+<p>This feature should be utilized instead of the traditional method of prepending <code>[WIP]</code> to the PR title.</p>
+<p>Methods of marking PR as a draft:</p>
+<ol>
+<li>When creating it</li>
+</ol>
+<p><img alt="image" src="https://user-images.githubusercontent.com/20902250/94499351-bc736e80-01fc-11eb-8e99-a7863dd1428a.png" /></p>
+<ol>
+<li>After it was created</li>
+</ol>
+<p><img alt="image" src="https://user-images.githubusercontent.com/20902250/94499276-8930df80-01fc-11eb-9292-7f0c6101b995.png" /></p>
+<p>For more info, check the GitHub's documentation about this feature
+<a href="https://github.blog/2019-02-14-introducing-draft-pull-requests/">here</a></p>
+<h2 id="dont-reinvent-the-wheel">Don't reinvent the wheel<a class="headerlink" href="#dont-reinvent-the-wheel" title="Permanent link">&para;</a></h2>
+<p>We're an open-sourced project, and like most other open-sourced projects, we depend on other projects that already
+implemented many things which we need in our code. It doesn't make a lot of sense to try and implement everything from
+the bottom, when there already are perfectly reasonable and working implementations made.</p>
+<p>In most of the cases, this will mean using some libraries which can simply be added to our <a href="./pyproject.toml">project's
+dependencies</a> which is maintained with poetry, which you can read more about in <a href="#project-installation">this
+section</a>.</p>
+<p>Libraries aren't the only way to make use of the existing open-source code that's already out there. Another
+thing which we can often do is simply directly copy open-source code into our project. However always make sure that
+before even considering to paste someones code into ours, you have the right to do so given to you by the code's
+author. This could be a directly given permission, but in most of cases, it will be an open-source license allowing
+anyone to use the code it applies to as long as the conditions of that license are followed.</p>
+<p>We all stand on the shoulders of giants even just by using the python language. There were some very smart people
+behind implementing this language or the libraries that our project uses and they deserve the credit for their hard
+work as their license specifies. To do this, we use the <a href="./ATTRIBUTION.txt"><code>ATTRIBUTION.txt</code></a> file.</p>
+<p>This project is released under the LGPL v3 license and this means we can utilize the code of LGPL v3 libraries as well
+as the permissive licenses (such as MIT, Apache or BSD licenses), it also means that when you contribute to our
+project, you agree that your contributions may appear on other projects accordingly to the LGPL license (however you
+may choose to later publish your code under any other license).</p>
+<p>LGPL v3 is a "copy-left" license, which ensures that your code will always remain open-sourced and it will never be
+relicensed (unless you give your permission as the copyright holder of your code). If for some reason you don't want to
+contribute under a copy-left license but rather under MIT, or other permissive license, you are free to do so, just
+mention whatever parts you added in the attribution file with your license's full-text with a copyright notice that
+includes your name and a link to the original source (if you just made that code up, instead of a link to the original
+source, you can just include a link to your GitHub profile, or just use your git email address.)</p>
+<ul>
+<li>How software licenses work: <a href="https://itsdrike.com/posts/software-licenses/">https://itsdrike.com/posts/software-licenses/</a></li>
+<li>GitHub's docs on licenses: <a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository">https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository</a></li>
+</ul>
+<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h2>
+<p>It is important for the users to know what has changed in between the release versions, for that reason, we keep
+a changelog, which is handled by a library called <code>towncrier</code>. Information about how this changelog works in detail is
+described in it's own file at: <a href="./changes/README.md"><code>./changes/README.md</code></a>.</p>
+<p>Do make sure to read this file, as we generally require a changelog fragment file to be added with each pull request.
+A PR without this file will NOT be accepted (unless there is a reason not to include a changelog - like for minor
+fixes, or other exceptions).</p>
+<h2 id="unit-tests">Unit-Tests<a class="headerlink" href="#unit-tests" title="Permanent link">&para;</a></h2>
+<p>To ensure that our project will work correctly with any new changes made to it, we use automated unit-tests which test
+the individual functions in our code with some sample inputs for correct outputs. Unit-testing is explained in better
+detail in it's own file at <a href="./tests/README.md"><code>./tests/README.md</code></a>.</p>
+<h2 id="deprecations">Deprecations<a class="headerlink" href="#deprecations" title="Permanent link">&para;</a></h2>
+<p>The removal or rename of anything that is a part of the public API must go through a deprecation process. This will
+ensure that users won't be surprised when we eventually remove some features, and their code won't end up broken after
+an update. Instead, a deprecated call should produce a warning about the deprecation, where the user is informed at
+which version will the accessed object be removed. Until then, the object must have the same old behavior and shouldn't
+break existing code-bases.</p>
+<p>The project already contains some internal utilities that can help up mark something as deprecated easily, here's a few
+quick examples of these utilities in practice:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Old version:</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine_power</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">engine_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fuel_tank_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">engine_power</span> <span class="o">=</span> <span class="n">engine_power</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">engine_type</span> <span class="o">=</span> <span class="n">engine_type</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fuel_tank_size</span> <span class="o">=</span> <span class="n">fuel_tank_size</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># New version, with deprecations preventing old code from breaking:</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="kn">from</span> <span class="nn">mcproto.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">fuel_tank_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fuel_tank_size</span> <span class="o">=</span> <span class="n">fuel_tank_size</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;2.0.0&quot;</span><span class="p">,</span> <span class="n">replacement</span><span class="o">=</span><span class="s2">&quot;engine.power&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>    <span class="nd">@property</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="k">def</span> <span class="nf">engine_power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">power</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;2.0.0&quot;</span><span class="p">,</span> <span class="n">replacement</span><span class="o">=</span><span class="s2">&quot;engine.type&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>    <span class="nd">@property</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>    <span class="k">def</span> <span class="nf">engine_power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">type</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Old version:</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">def</span> <span class="nf">print_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">add_version</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;The value &quot;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="k">if</span> <span class="n">add_version</span><span class="p">:</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>        <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;for version </span><span class="si">{</span><span class="n">PROJECT_VERSION</span><span class="si">}</span><span class="s2"> &quot;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;is: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1"># New version, with deprecation</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="kn">from</span> <span class="nn">mcproto.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecation_warn</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="k">def</span> <span class="nf">print_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">add_version</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;The value &quot;</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="k">if</span> <span class="n">add_version</span><span class="p">:</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>        <span class="n">deprecation_warn</span><span class="p">(</span><span class="n">obj_name</span><span class="o">=</span><span class="s2">&quot;add_version argument&quot;</span><span class="p">,</span> <span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>        <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;for version </span><span class="si">{</span><span class="n">PROJECT_VERSION</span><span class="si">}</span><span class="s2"> &quot;</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>    <span class="n">txt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;is: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="c1"># New version, after version 4.0.0 (with deprecations removed):</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="k">def</span> <span class="nf">print_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The value is: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="changes-to-this-arrangement">Changes to this Arrangement<a class="headerlink" href="#changes-to-this-arrangement" title="Permanent link">&para;</a></h2>
+<p>We tried to design our specifications in a really easy and comprehensive way so that they're understandable to
+everyone, but of course from a point of someone who already has some established standards, they'll usually always
+think that their standards are the best standards, even though there may actually be a better way to do some things.
+For this reason, we're always open to reconsidering these standards if there's a good enough reason for it.</p>
+<p>After all every project will inevitably evolve over time, and these guidelines are no different. This document and the
+standards it holds are open to pull requests and changes by the contributors, just make sure that this document is
+always in sync with the codebase, which means that if you want to propose some syntactic change, you also change it
+everywhere in the codebase so that the whole project will actually follow the newly proposed standards.</p>
+<p>If you do believe that you have something valuable to add or change, please don't hesitate to do so in a PR (of course,
+after you opened an issue, as with every proposed feature by a non-core developer).</p>
+<h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
+<p>This could be a lot to remember at once, but you can use this document as a resource while writing the code for our
+repository and cross-check that your styling is following our guidelines and that you're practicing the rules that
+we've set here.</p>
+<p>This document was inspired by
+<a href="https://github.com/python-discord/bot/blob/master/CONTRIBUTING.md">Python Discord's CONTRIBUTING agreement.</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../making_a_pr/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Making a pull request">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Making a pull request
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Installation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Installation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
