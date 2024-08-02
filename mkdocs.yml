@@ -12,6 +12,7 @@ nav:
       - Changelog: changelog.md
   - Community:
       - Code of Conduct: code_of_conduct.md
+      - Attributions: attribution.md
       - License: license.md
 
 theme:
