@@ -6,6 +6,9 @@ repo_name: py-mine/mcproto
 
 nav:
   - Home: index.md
+  - Installation:
+      - Installation: installation.md
+      - Version Guarantees: version_guarantees.md
 
 theme:
   name: material
