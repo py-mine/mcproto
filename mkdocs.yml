@@ -10,6 +10,9 @@ nav:
       - Installation: installation.md
       - Version Guarantees: version_guarantees.md
       - Changelog: changelog.md
+  - Community:
+      - Code of Conduct: code_of_conduct.md
+      - License: license.md
 
 theme:
   name: material
