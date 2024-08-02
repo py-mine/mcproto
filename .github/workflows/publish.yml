@@ -132,3 +132,49 @@ jobs:
       # This uses PyPI's trusted publishing, so no token is required
       - name: Release to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish-docs:
+    name: "Publish release docs"
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Generate token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: "${{ steps.app-token.outputs.token }}"
+
+      - name: Fetch gh-pages branch
+        run: git fetch origin gh-pages
+
+      # Make the github application be the committer
+      # (see: https://stackoverflow.com/a/74071223 on how to obtain the committer email)
+      - name: Setup git config
+        run: |
+          git config --global user.name "py-mine-ci-bot"
+          git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
+
+      - name: Setup poetry
+        id: poetry_setup
+        uses: ItsDrike/setup-poetry@v1
+        with:
+          python-version: 3.12
+          install-args: "--only main,docs,release-ci"
+
+      - name: Set version with dynamic versioning
+        run: poetry run poetry-dynamic-versioning
+
+      - name: Build the documentation (mike)
+        run: poetry run mike deploy  --update-aliases "$(poetry version --short)" release
+
+      - name: Deploy docs - release
+        run: git push origin gh-pages

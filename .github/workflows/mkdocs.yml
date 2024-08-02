@@ -31,6 +31,9 @@ jobs:
         with:
           token: "${{ steps.app-token.outputs.token }}"
 
+      - name: Fetch gh-pages branch
+        run: git fetch origin gh-pages
+
       # Make the github application be the committer
       # (see: https://stackoverflow.com/a/74071223 on how to obtain the committer email)
       - name: Setup git config
@@ -45,25 +48,11 @@ jobs:
           python-version: 3.12
           install-args: "--only main,docs"
 
-      - name: Generate docs directory hash
-        run: |
-          docs_dir_hash="$(find "./docs" -type f -exec sha256sum {} + | sort | sha256sum | awk '{print $1}')"
-          echo "docs_dir_hash=$docs_hash" >> $GITHUB_ENV
-
-      - name: Restore MkDocs cache
-        uses: actions/cache@v4
-        with:
-          path: .cache
-          key:
-            "mkdocs-material-${{ steps.poetry_setup.outputs.python-version }}-\
-            ${{ hashFiles('./poetry.lock') }}-${{ hashFiles('./mkdocs.yml') }}-\
-            ${{ env.docs_dir_hash }}"
-          restore-keys: "mkdocs-material-${{ steps.poetry_setup.outputs.python-version }}-"
-
-      - name: Build the documentation
+      - name: Build the documentation (mkdocs - PR preview)
+        if: ${{ github.event_name == 'pull_request' }}
         run: poetry run mkdocs build
 
-      - name: Deploy preview
+      - name: Deploy docs - PR preview
         if: ${{ github.event_name == 'pull_request' }}
         uses: rossjrw/pr-preview-action@v1
         with:
@@ -72,11 +61,10 @@ jobs:
           umbrella-dir: pr-preview
           token: ${{ steps.app-token.outputs.token }}
 
-      - name: Deploy production
+      - name: Build the documentation (mike)
         if: ${{ github.event_name == 'push' }}
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: ./site
-          clean-exclude: pr-preview/
-          token: ${{ steps.app-token.outputs.token }}
+        run: poetry run mike deploy latest
+
+      - name: Deploy docs - latest
+        if: ${{ github.event_name == 'push' }}
+        run: git push origin gh-pages

@@ -65,6 +65,7 @@ poetry-dynamic-versioning = ">=1.4.0,<1.8"
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.0"
 mkdocs-material = "^9.5.30"
+mike = "^2.1.2"
 
 [tool.poetry.group.docs-ci]
 optional = true
