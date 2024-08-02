@@ -18,6 +18,16 @@ nav:
           - Reporting a bug: contributing/reporting_a_bug.md
           - Asking a question: https://github.com/py-mine/mcproto/discussions
           - Making a pull request: contributing/making_a_pr.md
+      - Guides:
+          - contributing/guides/index.md
+          - Installation: contributing/guides/installation.md
+          - Style Guide: contributing/guides/style_guide.md
+          - Type hinting: contributing/guides/type_hints.md
+          - Pre-commit: contributing/guides/precommit.md
+          - Great commits: contributing/guides/great_commits.md
+          - Changelog: contributing/guides/changelog.md
+          - Unit Tests: contributing/guides/unit_tests.md
+          - Deprecations: contributing/guides/deprecations.md
 
 theme:
   name: material
