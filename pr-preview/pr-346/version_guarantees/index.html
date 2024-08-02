@@ -1104,7 +1104,8 @@ there is an incompatible (breaking) change made to the public API. However due t
 it can be hard to discern what can be considered a breaking change, and what isn't.</p>
 <p>First thing to keep in mind is that breaking changes only apply to <strong>publicly documented functions and classes</strong>. If
 it's not listed in the documentation here, it's an internal feature, that isn't considered a part of the public API,
-and thus is bound to change. This includes documented attributes that start with an underscore.</p>
+and thus is bound to change. This includes documented attributes that start with an underscore and documented API
+that is explicitly marked as internal.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The examples below are non-exhaustive.</p>
@@ -1114,7 +1115,7 @@ and thus is bound to change. This includes documented attributes that start with
 <li>Changing the default parameter value of a function to something else.</li>
 <li>Renaming (or removing) a function without an alias to the old function.</li>
 <li>Adding or removing parameters of a function.</li>
-<li>Removing deprecated alias to a renamed function</li>
+<li>Removing deprecated alias to a renamed function.</li>
 </ul>
 <h2 id="examples-of-non-breaking-changes">Examples of Non-Breaking Changes<a class="headerlink" href="#examples-of-non-breaking-changes" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1122,7 +1123,7 @@ and thus is bound to change. This includes documented attributes that start with
 <li>Renaming (or removing) private underscored attributes.</li>
 <li>Adding an element into <code>__slots__</code> of a data class.</li>
 <li>Changing the behavior of a function to fix a bug.</li>
-<li>Changes in the typing behavior of the library.</li>
+<li>Changes in the typing definitions of the public API.</li>
 <li>Changes in the documentation.</li>
 <li>Modifying the internal protocol connection handling.</li>
 <li>Updating the dependencies to a newer version, major or otherwise.</li>
