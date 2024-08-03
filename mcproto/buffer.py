@@ -17,12 +17,12 @@ class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
         self.pos = 0
 
     @override
-    def write(self, data: bytes) -> None:
+    def write(self, data: bytes | bytearray) -> None:
         """Write/Store given ``data`` into the buffer."""
         self.extend(data)
 
     @override
-    def read(self, length: int) -> bytearray:
+    def read(self, length: int) -> bytes:
         """Read data stored in the buffer.
 
         Reading data doesn't remove that data, rather that data is treated as already read, and
@@ -52,7 +52,7 @@ class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
             )
 
         try:
-            return self[self.pos : end]
+            return bytes(self[self.pos : end])
         finally:
             self.pos = end
 
@@ -83,11 +83,11 @@ class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
         """
         self.pos = 0
 
-    def flush(self) -> bytearray:
+    def flush(self) -> bytes:
         """Read all of the remaining data in the buffer and clear it out."""
         data = self[self.pos : len(self)]
         self.clear()
-        return data
+        return bytes(data)
 
     @property
     def remaining(self) -> int:
