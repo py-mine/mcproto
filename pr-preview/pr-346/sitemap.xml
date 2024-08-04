@@ -46,7 +46,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/docstrings/</loc>
+         <lastmod>2024-08-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/great-commits/</loc>
+         <lastmod>2024-08-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/other-tools/</loc>
          <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
