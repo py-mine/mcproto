@@ -758,6 +758,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automated-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated checks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Review
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#giving-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      Giving Feedback
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1132,6 +1165,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automated-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated checks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Review
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#giving-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      Giving Feedback
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1214,6 +1280,61 @@ provides both visual and functional indicator that the PR isn't yet ready to be 
 <p><img alt="image" src="../../assets/draft-pr-unmark.png" width="600" /></p>
 <h2 id="contributing-guidelines">Contributing guidelines<a class="headerlink" href="#contributing-guidelines" title="Permanent link">&para;</a></h2>
 <p>In order to make a successful contribution, it is <strong>required</strong> that you get familiar with our <a href="../guides/">contributing guidelines</a>.</p>
+<h2 id="automated-checks">Automated checks<a class="headerlink" href="#automated-checks" title="Permanent link">&para;</a></h2>
+<p>The project includes various CI workflows that will run automatically for your pull request after every push and check
+your changed with various tools. These tools are here to ensure that our contributing guidelines are met and ensure
+good code quality of your PR.</p>
+<p>That said, you shouldn't rely on these CI workflows to let you know if you made a mistake, instead, you should run
+these tools on your own machine during the development. Many of these tools can fix the violations for you
+automatically and it will generally be a better experience for you. Running these tools locally will also prevent a
+bunch of "Fix the CI" commits, which just clutter the git history.</p>
+<p>Make sure to read our <a href="../guides/">contributing guidelines</a> thoroughly, as they describe how to use these tools
+and even how to have them run automatically before each commit, so you won't forget.</p>
+<p>Passing the CI workflows is a requirement in order to get your pull request merged. If a maintainer sees a PR that's
+marked as ready for review, but isn't passing the CI, we'll often refrain from even reviewing it, as we consider it
+incomplete. If you have a technical reason why your PR can't pass the CI, let us know in the PR description or a
+comment.</p>
+<h2 id="code-review">Code Review<a class="headerlink" href="#code-review" title="Permanent link">&para;</a></h2>
+<p>All pull requests will need to be reviewed by at least one team member before merging. The reviewer will provide
+feedback and suggestions for improvement.</p>
+<p>Once a reviewer approves your pull request, it can be merged into the <code>main</code> branch.</p>
+<details class="question">
+<summary>How do I request a review?</summary>
+<p>Request a review from a team member by <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review">assigning them as a reviewer</a> to your pull request.</p>
+<p>However, you can also just wait until we get to your PR, you don't need to assign a reviewer unless you want
+someone specific to review. Just make sure that your PR is marked as ready for review and not draft.</p>
+</details>
+<h3 id="giving-feedback">Giving Feedback<a class="headerlink" href="#giving-feedback" title="Permanent link">&para;</a></h3>
+<p>If you wish, you can also provide some feedback on other PRs. Doing so is a great way to fill the time while you're
+waiting for your PR to be reviewed by us and you're also speeding up the process, as it reduces the amount of time
+we'd have to spend reviewing those other PRs before getting to yours.</p>
+<p>When reviewing a pull request, aim to be constructive and specific. Highlight areas that need improvement and suggest
+potential solutions. If you have any questions on concerns about something in the code, don't hesitate to ask the
+author for clarification.</p>
+<p>Focus on the following aspects during a code review:</p>
+<ul>
+<li>Correctness and functionality</li>
+<li>Code quality and readability</li>
+<li>Adherence to the project guidelines</li>
+</ul>
+<details class="example">
+<summary>Good Code Review Feedback</summary>
+<p>Here are some examples of a good code review feedback:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>- Great work on the new function! The implementation looks good overall.
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>- The tests cover most of the functionality, but it&#39;s are missing a test case for edge case X. Could you add a test for that?
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>- The logic in the new function is somewhat complex. Consider breaking it into smaller functions for better clarity.
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>- The new feature is well-implemented, but it would be great to add more inline comments to explain the logic, as
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  it isn&#39;t trivial to understand.
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>- There&#39;s a small typo in the docstring. Could you correct it?
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>- The configuration settings are hard-coded. Can you move them to a configuration file to make it easier to manage?
+</code></pre></div>
+</details>
+<p>Always be respectful and considerate when giving feedback. Remember that the goal is to improve the code and help the
+author grow as a developer.</p>
+<div class="admonition success">
+<p class="admonition-title">Be Positive</p>
+<p>Don't forget to acknowledge the positive aspects of the contribution as well!</p>
+</div>
 
 
 

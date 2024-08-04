@@ -73,6 +73,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#type-hints" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -858,6 +863,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Type hinting
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -868,6 +886,94 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#regular-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regular python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-hints_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type-Hints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime behavior
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enforcing-type-hints-type-checkers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enforcing type hints - Type Checkers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basedpyright" class="md-nav__link">
+    <span class="md-ellipsis">
+      BasedPyright
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BasedPyright">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#editor-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Editor Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#great-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Great resources
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1032,6 +1138,85 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#regular-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regular python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-hints_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type-Hints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime behavior
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enforcing-type-hints-type-checkers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enforcing type hints - Type Checkers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basedpyright" class="md-nav__link">
+    <span class="md-ellipsis">
+      BasedPyright
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BasedPyright">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#editor-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Editor Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#great-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Great resources
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1054,12 +1239,105 @@
   
 
 
-  <h1>Type hinting</h1>
-
-<div class="admonition bug">
-<p class="admonition-title">Work In Progress</p>
-<p>This page is still being written. The content below (if any) may change.</p>
+<h1 id="type-hints">Type Hints<a class="headerlink" href="#type-hints" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+<p>This article explains what python type-hints are, how they can be enforced with the use of type checkers and the
+type checker of our choice: <strong>basedpyright</strong> and it's editor integration.</p>
+</details>
+<p>Most people only know python as a dynamically typed language, that doesn't offer any kind of type safety. In the very
+days of python, this was true, however today, things are a bit different. Even though Python on it's own is still a
+dynamically typed language, it does actually support specifying "type hints" which can even be enforced by external
+tools called "type checkers". With those, we can achieve a (mostly) type safe experience while using Python.</p>
+<h2 id="regular-python">Regular python<a class="headerlink" href="#regular-python" title="Permanent link">&para;</a></h2>
+<p>In regular python, as most people know it, you might end up writing a function like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</code></pre></div>
+<p>In this code, you have no idea what the type of <code>x</code> and <code>y</code> arguments should be. So, even though you may have intended
+for this function to only work with numbers (ints), it's actually entirely possible to use it with something else. For
+example, running <code>add("hello", "world)</code> will return <code>"helloworld"</code> because the <code>+</code> operator works on strings too.</p>
+<p>The point is, there's nothing telling you what the type of these parameters should be, and that could lead to
+misunderstandings. Even though in some cases, you can figure out what the type should these variables have purely based
+on their name alongside the name of the function, in most cases, it's not that easy. It often requires looking through
+the docs, or going over the actual source code of such function.</p>
+<p>Annoyingly, python won't even prevent you from passing in types that are definitely incorrect, like: <code>add(1, "hi")</code>.
+Running this would cause a <code>TypeError</code>, but unless you have unit-tests that actually run that code, you won't find out
+about this bug until it actually causes an issue and at that point, it might already be too late, since your code has
+crashed a production app.</p>
+<p>Clearly then, this isn't ideal.</p>
+<h2 id="type-hints_1">Type-Hints<a class="headerlink" href="#type-hints_1" title="Permanent link">&para;</a></h2>
+<p>While python doesn't require it, there is in fact a way to add a "<strong>hint</strong>" that indicates what <strong>type</strong> should a given
+variable have. So, when we take the function from above, adding type-hints to it would result in something like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</code></pre></div>
+<p>We've now made the types very explicit to the programmer, which means they'll no longer need to spend a bunch of time
+looking through the implementation of that function, or going through the documentation just to know how to use this
+function. Instead, the type hints will tell just you.</p>
+<p>This is incredibly useful, because most editors will be able to pick up these type hints, and show them to you while
+calling the function, so you know what to pass right away, without even having to look at the function definition where
+the type-hints are defined.</p>
+<p>Not only that, specifying a type-hint will greatly improve the development experience in your editor / IDE, because
+you'll get much better auto-completion. The thing is, if you have a parameter like <code>x</code>, but your editor doesn't know
+what type it should have, it can't really help you if you start typing <code>x.remove</code>, looking for the <code>removeprefix</code>
+function. However, if you tell your editor that <code>x</code> is a string (<code>x: str</code>), it will now be able to go through all of
+the methods that strings have, and show you those that start with <code>remove</code> (being <code>removeprefix</code> and <code>removesuffix</code>).</p>
+<p>This makes type-hints great at saving you time while developing, even though you have to do some additional work when
+specifying them.</p>
+<h2 id="runtime-behavior">Runtime behavior<a class="headerlink" href="#runtime-behavior" title="Permanent link">&para;</a></h2>
+<p>Even though type-hints are a part of the Python language, the interpreter doesn't actually care about them. That means
+that the interpreter doesn't do any optimizations or checking when you're running your code, even if you have a
+function like <code>add</code> that we have added type-hints to, code like <code>add(1, "hi")</code> will not cause any immediate errors.</p>
+<p>Most editors are configured very loosely when it comes to type-hints. That means they will show you these hints when
+you're working with the function, but they won't produce warnings when you pass in the wrong thing. That's why they're
+called "type hints", they're only hints that can help you out, but they aren't actually enforced.</p>
+<h2 id="enforcing-type-hints-type-checkers">Enforcing type hints - Type Checkers<a class="headerlink" href="#enforcing-type-hints-type-checkers" title="Permanent link">&para;</a></h2>
+<p>Even though python on it's own indeed doesn't enforce the type-hints you specify, there are tools that can run "static"
+checks against your code. A static check is a check that works with your code in it's textual form. It will read the
+contents of your python files without actually running that file and analyze it purely based on that text content.</p>
+<p>Using these tools will allow you to analyze your code for typing mistakes before you ever even run your program. That
+means having a function call like <code>add(1, "hi")</code> anywhere in your code would be detected and reported as an issue.</p>
+<p>There is a bunch of these tools available for python, but the most common ones are
+<a href="https://github.com/microsoft/pyright"><code>pyright</code></a> and <a href="https://mypy.readthedocs.io/en/stable/"><code>mypy</code></a>.</p>
+<h2 id="basedpyright">BasedPyright<a class="headerlink" href="#basedpyright" title="Permanent link">&para;</a></h2>
+<p>The type checker that we use in our code-base is <a href="https://docs.basedpyright.com/"><strong>basedpyright</strong></a>. It's a fork of
+pyright which adds some extra checks and features and focuses more on the open-source community, than the
+official Microsoft owned Pyright.</p>
+<h3 id="editor-integration">Editor Integration<a class="headerlink" href="#editor-integration" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">VSCode</label><label for="__tabbed_1_2">Neovim</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>On vscode, you can simply install the <a href="https://marketplace.visualstudio.com/items?itemName=detachhead.basedpyright">BasedPyright extension</a> from the marketplace.</p>
+<p>Note that this extension does collide with the commonly used <strong>Pylance</strong> extension, which is installed
+automatically alongside the <strong>Python</strong> extension and provide intellisense for Python. The reason BasedPyright
+collides with this extension is that Pylance actually uses pyright as a language server in the background, and as
+we mentioned, basedpyright is an alternative, so using both would cause duplicate errors. This means that you will
+need to disable Pylance, at least within our codebase.</p>
 </div>
+<div class="tabbed-block">
+<p>If you're using Neovim, I would recommend setting up LSP (Language Server Protocol) and installing basedpyright, as
+it has language server support built into it. You can achieve this with the <a href="https://github.com/neovim/nvim-lspconfig"><code>lspconfig</code></a> plugin.
+You can then use <a href="https://github.com/williamboman/mason-lspconfig.nvim"><code>mason-lspconfig</code></a> to install <code>basedpyright</code>, or manually
+configure <code>lspconfig</code> and use your system-wide <code>basedpyright</code> executable.</p>
+</div>
+</div>
+</div>
+<h2 id="great-resources">Great resources<a class="headerlink" href="#great-resources" title="Permanent link">&para;</a></h2>
+<p>While type hinting might seem very simple from the examples shown above, there is actually a fair bit to it, and if you
+never worked within a type checked code-base, you should definitely check out some of these resources, which go over
+the basics.</p>
+<ul>
+<li><a href="https://dev.to/decorator_factory/type-hints-in-python-tutorial-3pel">Getting started with type hints in Python</a> - a
+  blog post / tutorial by decorator-factory.</li>
+<li><a href="https://docs.basedpyright.com/#/type-concepts">Basics of static typing</a> - part of the BasedPyright documentation</li>
+<li><a href="https://mypy.readthedocs.io/en/stable/">Mypy documentation</a> - very extensive documentation on various typing
+  concepts. (Some things are mypy focused, but most things will cary over to basedpyright too)</li>
+<li><a href="https://docs.python.org/3/library/typing.html">Python documentation for the <code>typing</code> module</a> - Python's standard
+  library contains a <code>typing</code> module, which holds a bunch of useful structures that we often use while working with
+  type-hints.</li>
+<li><a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> - formal specification of type hints for the Python langauge</li>
+</ul>
 
 
 
