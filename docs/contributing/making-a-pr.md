@@ -21,7 +21,7 @@ issues. If you find anything interesting there that you'd wish to work on, leave
 like: "I'd like to work on this".
 
 Even if you do have an idea already, we heavily recommend (though not require) that you first make an issue, this can
-be a [bug report](./reporting_a_bug.md), but also a feature request, or something else. Once you made the issue, leave
+be a [bug report](./reporting-a-bug.md), but also a feature request, or something else. Once you made the issue, leave
 a: "I'd like to work on this" comment on it.
 
 Eventually, a maintainer will get back to you and you will be assigned to the issue. By getting assigned, you reserve
