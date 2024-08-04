@@ -22,10 +22,12 @@ nav:
           - contributing/guides/index.md
           - Setting things up: contributing/guides/setup.md
           - Style Guide: contributing/guides/style-guide.md
+          - Docstring formatting: contributing/guides/docstrings.md
           - Type hinting: contributing/guides/type-hints.md
           - Pre-commit: contributing/guides/precommit.md
-          - Great commits: contributing/guides/great-commits.md
+          - Other tools: contributing/guides/other-tools.md
           - Changelog: contributing/guides/changelog.md
+          - Great commits: contributing/guides/great-commits.md
           - Unit Tests: contributing/guides/unit-tests.md
           - Deprecations: contributing/guides/deprecations.md
 
