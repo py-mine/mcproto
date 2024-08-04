@@ -63,3 +63,75 @@ Once your work is done and you think the PR is ready to be merged, mark it as **
 ## Contributing guidelines
 
 In order to make a successful contribution, it is **required** that you get familiar with our [contributing guidelines](./guides/index.md).
+
+## Automated checks
+
+The project includes various CI workflows that will run automatically for your pull request after every push and check
+your changed with various tools. These tools are here to ensure that our contributing guidelines are met and ensure
+good code quality of your PR.
+
+That said, you shouldn't rely on these CI workflows to let you know if you made a mistake, instead, you should run
+these tools on your own machine during the development. Many of these tools can fix the violations for you
+automatically and it will generally be a better experience for you. Running these tools locally will also prevent a
+bunch of "Fix the CI" commits, which just clutter the git history.
+
+Make sure to read our [contributing guidelines](./guides/index.md) thoroughly, as they describe how to use these tools
+and even how to have them run automatically before each commit, so you won't forget.
+
+Passing the CI workflows is a requirement in order to get your pull request merged. If a maintainer sees a PR that's
+marked as ready for review, but isn't passing the CI, we'll often refrain from even reviewing it, as we consider it
+incomplete. If you have a technical reason why your PR can't pass the CI, let us know in the PR description or a
+comment.
+
+## Code Review
+
+All pull requests will need to be reviewed by at least one team member before merging. The reviewer will provide
+feedback and suggestions for improvement.
+
+Once a reviewer approves your pull request, it can be merged into the `main` branch.
+
+??? question "How do I request a review?"
+
+    Request a review from a team member by [assigning them as a reviewer][assigning-pr-reviewer] to your pull request.
+
+    However, you can also just wait until we get to your PR, you don't need to assign a reviewer unless you want
+    someone specific to review. Just make sure that your PR is marked as ready for review and not draft.
+
+[assigning-pr-reviewer]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review
+
+### Giving Feedback
+
+If you wish, you can also provide some feedback on other PRs. Doing so is a great way to fill the time while you're
+waiting for your PR to be reviewed by us and you're also speeding up the process, as it reduces the amount of time
+we'd have to spend reviewing those other PRs before getting to yours.
+
+When reviewing a pull request, aim to be constructive and specific. Highlight areas that need improvement and suggest
+potential solutions. If you have any questions on concerns about something in the code, don't hesitate to ask the
+author for clarification.
+
+Focus on the following aspects during a code review:
+
+- Correctness and functionality
+- Code quality and readability
+- Adherence to the project guidelines
+
+??? example "Good Code Review Feedback"
+
+    Here are some examples of a good code review feedback:
+
+    ```
+    - Great work on the new function! The implementation looks good overall.
+    - The tests cover most of the functionality, but it's are missing a test case for edge case X. Could you add a test for that?
+    - The logic in the new function is somewhat complex. Consider breaking it into smaller functions for better clarity.
+    - The new feature is well-implemented, but it would be great to add more inline comments to explain the logic, as
+      it isn't trivial to understand.
+    - There's a small typo in the docstring. Could you correct it?
+    - The configuration settings are hard-coded. Can you move them to a configuration file to make it easier to manage?
+    ```
+
+Always be respectful and considerate when giving feedback. Remember that the goal is to improve the code and help the
+author grow as a developer.
+
+!!! success "Be Positive"
+
+    Don't forget to acknowledge the positive aspects of the contribution as well!
