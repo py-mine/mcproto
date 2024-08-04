@@ -73,6 +73,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#style-guide" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -812,6 +817,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Style Guide
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -822,6 +840,82 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#automatic-linting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic linting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Automatic linting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ruff-linter-formatter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ruff linter &amp; formatter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ruff linter & formatter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formatter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formatter
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-style-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other style guidelines
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -986,6 +1080,73 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#automatic-linting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatic linting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Automatic linting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ruff-linter-formatter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ruff linter &amp; formatter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ruff linter & formatter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formatter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formatter
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-style-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other style guidelines
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1008,12 +1169,95 @@
   
 
 
-  <h1>Style Guide</h1>
-
 <div class="admonition bug">
 <p class="admonition-title">Work In Progress</p>
 <p>This page is still being written. The content below (if any) may change.</p>
 </div>
+<h1 id="style-guide">Style Guide<a class="headerlink" href="#style-guide" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+<p>This page describes how we use <code>ruff</code> to enforce a consistent code style in our project.</p>
+</details>
+<p>For clarity and readability, adhering to a consistent code style across the whole project is very important. It is not
+unusual that style adjustments will be requested in pull requests.</p>
+<p>It is always a good practice to review the style of the existing code-base before and to adhere to that established
+style before adding something new. That applies even if it isn't the code style you generally prefer. (That said, if
+you think a code style change of some kind would be justified, feel free to open an issue about it and tell us why.)</p>
+<div class="admonition quote">
+<p class="admonition-title">Quote</p>
+<p>A style guide is about consistency. Consistency with this style guide is important. Consistency within a project
+is more important. Consistency within one module or function is the most important.</p>
+<p>However, know when to be inconsistent -- sometimes style guide recommendations just aren't applicable. When in
+doubt, use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask!</p>
+<p>— <a href="https://peps.python.org/pep-0008/">PEP 8, the general Style Guide for Python Code</a></p>
+</div>
+<h2 id="automatic-linting">Automatic linting<a class="headerlink" href="#automatic-linting" title="Permanent link">&para;</a></h2>
+<p>As there is a lot of various code style rules we adhere to in our code base, describing all of them here would take way
+too long and it would be impossible to remember anyway. For that reason, we use automated tools to help us catch any
+code style violations automatically.</p>
+<p>Currently, we use <a href="https://beta.ruff.rs/docs/"><code>ruff</code></a> to enforce most of our code style requirements. That said, we do
+have some other tools that check the correctness of the code, we will describe those later.</p>
+<h3 id="ruff-linter-formatter">Ruff linter &amp; formatter<a class="headerlink" href="#ruff-linter-formatter" title="Permanent link">&para;</a></h3>
+<p>Ruff is an all-in-one linter &amp; formatter solution, which aims to replace three previously very popular tools into a
+single package:</p>
+<ul>
+<li><a href="https://flake8.pycqa.org/en/latest/"><code>flake8</code></a> linter</li>
+<li><a href="https://pycqa.github.io/isort/"><code>isort</code></a> import sorter</li>
+<li><a href="https://black.readthedocs.io/en/stable/"><code>black</code></a> auto-formatter</li>
+</ul>
+<details class="question">
+<summary>Why pick ruff over the combination of these tools?</summary>
+<p>There were multiple reasons why we chose ruff instead of using the above tools individually, here's just some of
+them:</p>
+<ul>
+<li>Ruff is faster (written in rust! <img alt="🦀" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f980.svg" title=":crab:" />)</li>
+<li>A single tool is more convenient than 3 separate ones</li>
+<li>Ruff includes a lot of flake8 plugins with some great lint rules</li>
+<li>Ruff has a great community and is slowly managing to overtake these individual projects</li>
+<li>If you're already used to flake8, you'll feel right at home with ruff, it even has the same error codes (mostly)!</li>
+</ul>
+</details>
+<p>You can check the ruff configuration we're using in <code>pyproject.toml</code> file, under the <code>[tool.ruff]</code> category (and it's
+subcategories). You can find which linter rules are enabled and which we choose to exclude, some file-specific
+overrides where the rules apply differently and a bunch of other configuration options.</p>
+<h4 id="linter">Linter<a class="headerlink" href="#linter" title="Permanent link">&para;</a></h4>
+<p>To run ruff linter on the code, open the terminal in the project's root directory and run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ruff<span class="w"> </span>check<span class="w"> </span>.
+</code></pre></div>
+<div class="admonition note">
+<p>Don't forget to <a href="../setup/#activating-the-environment">activate</a> the poetry virtual environment before running
+ruff.</p>
+</div>
+<p>Ruff is really smart and it can often automatically fix some of the style violations it found. To make ruff do that,
+you can add the <code>--fix</code> flag to the command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ruff<span class="w"> </span>check<span class="w"> </span>--fix<span class="w"> </span>.
+</code></pre></div>
+<p>If you got a rule violation in your code and you don't understand what the rule's purpose is supposed to be / why we
+enforce it, you can use Ruff to show you some details about that rule. The explanation that ruff will give you will
+often even contain code examples. To achieve this, simply run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ruff<span class="w"> </span>rule<span class="w"> </span><span class="o">[</span>rule-id<span class="o">]</span>
+</code></pre></div>
+<p>With the <code>[rule-id]</code> being the rule you're interested in, for example <code>UP038</code>.</p>
+<details class="tip">
+<summary>Use glow to render the markdown syntax from ruff rule command</summary>
+<p>The <code>ruff rule</code> command will output the rule explanation in markdown, however, since you're running this comand
+in a terminal, there won't be any helpful syntax highlighting for that by default.</p>
+<p>That's why I'd recommend using a markdown render such as <a href="https://github.com/charmbracelet/glow"><code>glow</code></a>. With
+it, you can pipe the output from ruff into it and have it produce a fancy colored output, that's much easier to
+read: <code>ruff rule UP038 | glow</code>.</p>
+</details>
+<p>Alternatively, you can also find the rules and their description in the <a href="https://docs.astral.sh/ruff/rules/">ruff
+documentation</a>.</p>
+<h4 id="formatter">Formatter<a class="headerlink" href="#formatter" title="Permanent link">&para;</a></h4>
+<p>On top of being an amazing linter, ruff is also an automatic code formatter. That means ruff can actually make your
+code follow a proper and style automatically! It will just take your original unformatted (but valid) python code and
+edit it to meet our configured code style for you.</p>
+<p>To make ruff format your code, simply run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ruff<span class="w"> </span>format<span class="w"> </span>.
+</code></pre></div>
+<h2 id="other-style-guidelines">Other style guidelines<a class="headerlink" href="#other-style-guidelines" title="Permanent link">&para;</a></h2>
+<p>While <code>ruff</code> can do a lot, it can't do everything. There are still some guidelines that you will need to read over and
+apply manually. You will find these guides on the next pages of this documentation.</p>
 
 
 
