@@ -63,7 +63,7 @@ practices before.
 
 Every page in this contributing guides category has an abstract at the top, summarizing its content. This allows you to
 quickly determine if you are already familiar with the topic or, if you're re-reading, to quickly recall what the page
-covers.
+covers. Feel free to skip any guide pages if you're already familiar with what they cover.
 
 We believe these guides will be beneficial to you beyond our codebase, as they promote good coding practices and help
 make your code cleaner. You will likely be able to apply much of the knowledge you gain here to your own projects.
