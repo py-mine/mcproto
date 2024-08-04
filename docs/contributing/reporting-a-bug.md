@@ -144,4 +144,4 @@ Of course, you are welcome to start working on the issue even before being offic
 aware that sometimes we choose not to fix certain bugs for specific reasons. In such cases, your work might not end up
 being used.
 
-Before starting your work though, make sure to also read our [pull request guide](./making_a_pr.md).
+Before starting your work though, make sure to also read our [pull request guide](./making-a-pr.md).

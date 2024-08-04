@@ -8,25 +8,25 @@ nav:
   - Home: index.md
   - Installation:
       - Installation: installation.md
-      - Version Guarantees: version_guarantees.md
+      - Version Guarantees: version-guarantees.md
       - Changelog: changelog.md
   - Community:
-      - Code of Conduct: code_of_conduct.md
+      - Code of Conduct: code-of-conduct.md
       - Attributions: attribution.md
       - License: license.md
       - Contributing:
-          - Reporting a bug: contributing/reporting_a_bug.md
+          - Reporting a bug: contributing/reporting-a-bug.md
           - Asking a question: https://github.com/py-mine/mcproto/discussions
-          - Making a pull request: contributing/making_a_pr.md
+          - Making a pull request: contributing/making-a-pr.md
       - Guides:
           - contributing/guides/index.md
           - Installation: contributing/guides/installation.md
-          - Style Guide: contributing/guides/style_guide.md
-          - Type hinting: contributing/guides/type_hints.md
+          - Style Guide: contributing/guides/style-guide.md
+          - Type hinting: contributing/guides/type-hints.md
           - Pre-commit: contributing/guides/precommit.md
-          - Great commits: contributing/guides/great_commits.md
+          - Great commits: contributing/guides/great-commits.md
           - Changelog: contributing/guides/changelog.md
-          - Unit Tests: contributing/guides/unit_tests.md
+          - Unit Tests: contributing/guides/unit-tests.md
           - Deprecations: contributing/guides/deprecations.md
 
 theme:
