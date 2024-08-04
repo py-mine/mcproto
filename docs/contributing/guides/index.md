@@ -13,6 +13,31 @@ This documentation will also include various guides that tell you how to set up 
 the automated tools that we use to improve our coding experience and enforce a bunch of the code style rules quickly
 and without the need for human review.
 
+## The Golden Rules of Contributing
+
+These are the general rules which you should follow when contributing. You can glance over these and then go over the
+individual guides one by one, or use the references in these rules to get to the specific guide page explaining the
+rule.
+
+!!! note
+
+    This list serves as a quick-reference rather than a full guide. Some of our guidelines aren't directly linked in
+    these references at all and we heavily encourage you to go over each of the guide pages in the order they're listed
+    in the docs.
+
+1. **Lint before you push.** We have multiple code linting rules, which define our general style of the code-base.
+   These are often enforced through certain tools, which you are expected to run before every push and ideally even
+   before every commit. The specifics of our linting rules are mentioned in our [style guide](./style-guide.md).
+   Running all of these tools manually before every commit would however be quite annoying, so we use
+   [pre-commit](./precommit.md).
+2. **Make great commits.** Great commits should be atomic (do one thing only and do it well), with a commit message
+   that explaining what was done, and why. More on this [here](./great-commits.md).
+3. **Make an issue before the PR.** Before you start working on your PR, open an issue and let us know what you're
+   planning. We described this further in our [making a PR guide](../making-a-pr.md##get-assigned-to-the-issue).
+4. **Use assets licensed for public use.** Whenever you're adding a static asset (e.g. images/video files/audio or
+   even code) that isn't owned/written by you, make sure it has a compatible license with our projects.
+5. **Follow our [Code of Conduct](../../community/code-of-conduct.md)**
+
 ## Changes to these guidelines
 
 While we're confident and happy with the current code style and tooling, we acknowledge that change is inevitable. New
