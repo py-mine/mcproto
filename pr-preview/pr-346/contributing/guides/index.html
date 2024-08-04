@@ -993,6 +993,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#the-golden-rules-of-contributing" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Golden Rules of Contributing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#changes-to-these-guidelines" class="md-nav__link">
     <span class="md-ellipsis">
       Changes to these guidelines
@@ -1053,6 +1062,30 @@ follow.</p>
 <p>This documentation will also include various guides that tell you how to set up our project for development and explain
 the automated tools that we use to improve our coding experience and enforce a bunch of the code style rules quickly
 and without the need for human review.</p>
+<h2 id="the-golden-rules-of-contributing">The Golden Rules of Contributing<a class="headerlink" href="#the-golden-rules-of-contributing" title="Permanent link">&para;</a></h2>
+<p>These are the general rules which you should follow when contributing. You can glance over these and then go over the
+individual guides one by one, or use the references in these rules to get to the specific guide page explaining the
+rule.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This list serves as a quick-reference rather than a full guide. Some of our guidelines aren't directly linked in
+these references at all and we heavily encourage you to go over each of the guide pages in the order they're listed
+in the docs.</p>
+</div>
+<ol>
+<li><strong>Lint before you push.</strong> We have multiple code linting rules, which define our general style of the code-base.
+   These are often enforced through certain tools, which you are expected to run before every push and ideally even
+   before every commit. The specifics of our linting rules are mentioned in our <a href="style-guide/">style guide</a>.
+   Running all of these tools manually before every commit would however be quite annoying, so we use
+   <a href="precommit/">pre-commit</a>.</li>
+<li><strong>Make great commits.</strong> Great commits should be atomic (do one thing only and do it well), with a commit message
+   that explaining what was done, and why. More on this <a href="great-commits/">here</a>.</li>
+<li><strong>Make an issue before the PR.</strong> Before you start working on your PR, open an issue and let us know what you're
+   planning. We described this further in our <a href="../making-a-pr/##get-assigned-to-the-issue">making a PR guide</a>.</li>
+<li><strong>Use assets licensed for public use.</strong> Whenever you're adding a static asset (e.g. images/video files/audio or
+   even code) that isn't owned/written by you, make sure it has a compatible license with our projects.</li>
+<li><strong>Follow our <a href="../../community/code-of-conduct/">Code of Conduct</a></strong></li>
+</ol>
 <h2 id="changes-to-these-guidelines">Changes to these guidelines<a class="headerlink" href="#changes-to-these-guidelines" title="Permanent link">&para;</a></h2>
 <p>While we're confident and happy with the current code style and tooling, we acknowledge that change is inevitable. New
 tools are constantly being developed, and we have already made significant updates to our code style in the past.</p>
@@ -1071,7 +1104,7 @@ strongly encourage you to review them, especially if you haven't worked with the
 practices before.</p>
 <p>Every page in this contributing guides category has an abstract at the top, summarizing its content. This allows you to
 quickly determine if you are already familiar with the topic or, if you're re-reading, to quickly recall what the page
-covers.</p>
+covers. Feel free to skip any guide pages if you're already familiar with what they cover.</p>
 <p>We believe these guides will be beneficial to you beyond our codebase, as they promote good coding practices and help
 make your code cleaner. You will likely be able to apply much of the knowledge you gain here to your own projects.</p>
 <h2 id="disclaimer">Disclaimer<a class="headerlink" href="#disclaimer" title="Permanent link">&para;</a></h2>
