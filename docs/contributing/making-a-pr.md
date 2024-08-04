@@ -33,6 +33,18 @@ Of course, you are welcome to start working on the issue even before being offic
 aware that sometimes, we may choose not to pursue a certain feature / bugfix. In such cases, your work might not end up
 being used, which would be a shame.
 
+!!! note "Minor tasks don't need an issue"
+
+    While we generally do encourage contributors to first create an issue and get assigned to it first. If you're
+    just fixing a typo, improving the wording, or making some minor optimizations to the code, you can safely skip
+    this step.
+
+    The point of encouraging issues is to prevent needlessly wasting people's time. However, with these minor tasks,
+    it might actually take you longer to create a full issue about the problem than it would to just submit a fix.
+
+    There's therefore no point in cluttering the issue tracker with a bunch of small issues that can often be
+    changed in just a few minutes.
+
 ## Work in Progress PRs
 
 Whenever you open a pull request that isn't yet ready to be reviewed and merged, you can mark it as a **draft**. This
