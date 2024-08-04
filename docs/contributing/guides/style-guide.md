@@ -25,6 +25,11 @@ you think a code style change of some kind would be justified, feel free to open
 
     — [PEP 8, the general Style Guide for Python Code](https://peps.python.org/pep-0008/)
 
+??? tip "Check out the PEP8 song"
+
+    The [Python Discord](https://www.pythondiscord.com/) community have made an amazing song about PEP8, check it out
+    [here](https://www.youtube.com/watch?v=hgI0p1zf31k)!
+
 ## Automatic linting
 
 As there is a lot of various code style rules we adhere to in our code base, describing all of them here would take way
