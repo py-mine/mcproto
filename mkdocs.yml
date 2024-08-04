@@ -20,7 +20,7 @@ nav:
           - Making a pull request: contributing/making-a-pr.md
       - Guides:
           - contributing/guides/index.md
-          - Installation: contributing/guides/installation.md
+          - Setting things up: contributing/guides/setup.md
           - Style Guide: contributing/guides/style-guide.md
           - Type hinting: contributing/guides/type-hints.md
           - Pre-commit: contributing/guides/precommit.md
