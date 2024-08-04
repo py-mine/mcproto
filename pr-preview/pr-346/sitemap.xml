@@ -2,92 +2,92 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://py-mine.github.io/mcproto/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/attribution/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/community/attribution/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/changelog/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/community/code-of-conduct/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/code_of_conduct/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/community/license/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/installation/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/contributing/making-a-pr/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/license/</loc>
-         <lastmod>2024-08-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/version_guarantees/</loc>
-         <lastmod>2024-08-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/making_a_pr/</loc>
-         <lastmod>2024-08-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/reporting_a_bug/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/contributing/reporting-a-bug/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/changelog/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/deprecations/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/guides/great_commits/</loc>
-         <lastmod>2024-08-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/guides/installation/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/great-commits/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/precommit/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/guides/style_guide/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/setup/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/guides/type_hints/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/style-guide/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/guides/unit_tests/</loc>
-         <lastmod>2024-08-02</lastmod>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/type-hints/</loc>
+         <lastmod>2024-08-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/unit-tests/</loc>
+         <lastmod>2024-08-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/installation/</loc>
+         <lastmod>2024-08-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/installation/changelog/</loc>
+         <lastmod>2024-08-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/installation/version-guarantees/</loc>
+         <lastmod>2024-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

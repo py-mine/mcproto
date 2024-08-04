@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/type_hints/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/setup/">
       
       
-        <link rel="prev" href="../style_guide/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../precommit/">
+        <link rel="next" href="../style-guide/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Type hinting - MCPROTO</title>
+        <title>Setting things up - MCPROTO</title>
       
     
     
@@ -73,6 +73,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#setting-up-the-project" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -108,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Type hinting
+              Setting things up
             
           </span>
         </div>
@@ -267,7 +272,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../../code_of_conduct/" class="md-tabs__link">
+        <a href="../../../community/code-of-conduct/" class="md-tabs__link">
           
   
     
@@ -360,6 +365,8 @@
     
       
         
+          
+        
       
         
       
@@ -380,16 +387,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../installation/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Installation
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
@@ -399,25 +414,6 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Installation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -426,7 +422,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../version_guarantees/" class="md-nav__link">
+      <a href="../../../installation/version-guarantees/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -447,7 +443,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
+      <a href="../../../installation/changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -532,7 +528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../code_of_conduct/" class="md-nav__link">
+      <a href="../../../community/code-of-conduct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -553,7 +549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../attribution/" class="md-nav__link">
+      <a href="../../../community/attribution/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -574,7 +570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../license/" class="md-nav__link">
+      <a href="../../../community/license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -646,7 +642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reporting_a_bug/" class="md-nav__link">
+      <a href="../../reporting-a-bug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -688,7 +684,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../making_a_pr/" class="md-nav__link">
+      <a href="../../making-a-pr/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -791,18 +787,130 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Setting things up
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    Installation
+    Setting things up
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-requisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-requisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Poetry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dependency installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activating-the-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activating the environment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keeping-your-dependencies-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keeping your dependencies up to date
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poetry-dependency-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Poetry dependency groups
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uninstalling-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uninstalling dependencies
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -815,7 +923,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../style_guide/" class="md-nav__link">
+      <a href="../style-guide/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -833,17 +941,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../type-hints/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -852,7 +953,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -886,7 +986,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../great_commits/" class="md-nav__link">
+      <a href="../great-commits/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -928,7 +1028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../unit_tests/" class="md-nav__link">
+      <a href="../unit-tests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -995,6 +1095,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-requisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-requisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Poetry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dependency installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activating-the-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Activating the environment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keeping-your-dependencies-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keeping your dependencies up to date
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poetry-dependency-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Poetry dependency groups
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing dependencies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uninstalling-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uninstalling dependencies
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1009,7 +1191,7 @@
                   
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/type_hints.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/setup.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1017,12 +1199,124 @@
   
 
 
-  <h1>Type hinting</h1>
-
 <div class="admonition bug">
 <p class="admonition-title">Work In Progress</p>
 <p>This page is still being written. The content below (if any) may change.</p>
 </div>
+<h1 id="setting-up-the-project">Setting up the project<a class="headerlink" href="#setting-up-the-project" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+<p>This guide describes the very basics of setting up our project.</p>
+<p>It explains how to use <code>poetry</code> to install the python dependencies for the project. After which it goes over using
+poetry (activating the virtual environment, keeping the dependencies up to date as we update them, adding /
+removing dependencies and poetry dependency group).</p>
+</details>
+<h2 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permanent link">&para;</a></h2>
+<p>A basic knowledge of <a href="https://docs.github.com/en/get-started/start-your-journey/about-github-and-git">git and GitHub</a>, alongside working within the terminal and running commands is a
+requirement to work on this project.</p>
+<h2 id="poetry">Poetry<a class="headerlink" href="#poetry" title="Permanent link">&para;</a></h2>
+<p>This project uses <a href="https://python-poetry.org/docs/"><code>poetry</code></a>. Poetry is a tool for managing python dependencies in a
+reproducible way, ensuring that everyone is using the same versions. It creates virtual environments for each project,
+which ensures that your global dependencies won't clash with the project.</p>
+<details class="question">
+<summary>More about virtual environments</summary>
+<p>A python virtual environment is essentially a separate mini installation of python used purely for the project
+you're working on (as opposed to using your system-wide python installation for everything).</p>
+<p>The reason we do this is to avoid dependency conflicts. Consder this: Our project needs library "foo" at version
+2.5.2, however, you also have another unrelated project, that also needs the "foo" library, but this project didn't
+yet update this dependency, and requires an older version of this library: 1.2.0. This is a problem, because our
+project won't work with a version that old, we're using some of the new features of that library, similarly, your
+project won't work with a newer version though.</p>
+<p>With a virtual environment, both projects will have their own isolated python installation, that only contains the
+dependencies listed for that project, avoiding any conflicts completely.</p>
+<p>You can create virtual environments manually, with the built-in <code>venv</code> python module, but poetry makes this much
+simpler. If you want to find out more about virutal environments, check the <a href="https://docs.python.org/3/library/venv.html">official python
+documentation</a>.</p>
+</details>
+<p>This means you will need to have poetry installed on your system to run our project. To do so, just follow their
+<a href="https://python-poetry.org/docs/#installation">official documentation</a>.</p>
+<h2 id="dependency-installation">Dependency installation<a class="headerlink" href="#dependency-installation" title="Permanent link">&para;</a></h2>
+<p>Once installed, you will want to create a new environment for our project, with all of our dependencies installed. Open
+a terminal in the project's directory and run the following command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>poetry<span class="w"> </span>install
+</code></pre></div>
+<p>After running this command, the virtual environment will be populated with all of the dependencies that you will need
+for running &amp; developing the project.</p>
+<h2 id="activating-the-environment">Activating the environment<a class="headerlink" href="#activating-the-environment" title="Permanent link">&para;</a></h2>
+<p>The virtual environment that you just created will contain a bunch of executable programs, such as <code>ruff</code> (our linter).
+One of those executable programs is also <code>python</code>, which is the python interpreter for this environment, capable of
+using all of those dependencies installed in that environment.</p>
+<p>By default, when you run the <code>python</code> command, your machine will use the system-wide python installation though and the
+executables present in this environment will not be runnable at all. In order to make your terminal use the programs
+from this environment, instead of the global ones, you will need to "activate" the environment.</p>
+<p>Some IDEs/editors are capable of doing this automatically when you open the project, if your editor supports that, you
+should configure it to do so.</p>
+<details class="question">
+<summary>Configuring VSCode to use the poetry environment</summary>
+<p>TODO</p>
+</details>
+<p>If your IDE doesn't have that option, or you just wish to work from the terminal, you can instead run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>poetry<span class="w"> </span>shell
+</code></pre></div>
+<p>Now you can start the IDE from your terminal, which should make it work within the poetry python environment.</p>
+<div class="admonition tip">
+<p class="admonition-title">Execute a single command inside the virtual environment</p>
+<p>If you just want to urn a single command from the venv, without necessarily having to activate the environment
+(often useful in scripts), poetry provides a quick and simple way to do so. All you need to do is prefix any such
+command with <code>poetry run</code> (e.g. <code>poetry run ruff</code>).</p>
+</div>
+<h2 id="keeping-your-dependencies-up-to-date">Keeping your dependencies up to date<a class="headerlink" href="#keeping-your-dependencies-up-to-date" title="Permanent link">&para;</a></h2>
+<p>We often update the dependencies of mcproto to keep them up to date. Whenever we make such an update, you will need to
+update your virtual environment to prevent it from going out of date. An out of date environment could mean that you're
+using older versions of some libraries and what will run on your machine might not match what will run on other
+machines with the dependencies updated.</p>
+<p>Thankfully, poetry makes updating the dependencies very easy as all you have to do is re-run the installation command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>poetry<span class="w"> </span>install
+</code></pre></div>
+<p>It can sometimes be hard to know when you need to run the install command, in most cases, even if we did update
+something and you're still on an older version, nothing significant will actually happen, however, the moment you start
+seeing some errors when you try to run the project, or inconsistencies with the continuous integration workflows from
+your local runs, it's a good indication that your dependencies are probably out of date.</p>
+<p>Ideally, you should run this command as often as possible, if there aren't any new changes, it will simply exit
+instantly. You should be especially careful when switching git branches, as dependencies might have been changed (most
+likely a new dependency was introduced, or an old one got removed), so consider running this command whenever you
+switch to another branch, unless you know that branch didn't make any changes to the project dependencies.</p>
+<h2 id="poetry-dependency-groups">Poetry dependency groups<a class="headerlink" href="#poetry-dependency-groups" title="Permanent link">&para;</a></h2>
+<p>Poetry has a really cool way of splitting up the dependencies that projects need into multiple groups. For example, you
+can have a group of dependencies for linting &amp; autoformatting, another group for documentation support, unit-testing,
+for releasing the project, etc.</p>
+<p>To see which dependencies belong to which group, you can check the <code>pyproject.toml</code> file for the
+<code>[tool.poetry.group.GROUP_NAME.dependencies]</code> sections.</p>
+<p>By default, <code>poetry install</code> will install all non-optional dependency groups. That means all development
+dependencies you should need will get installed.</p>
+<p>The reason why we use groups is because in some of our automated workflows, we don't always need all of the project
+dependencies and we can save time by only installing the group(s) that we need. It also provides a clean way to quickly
+see which dependencies are being used for what.</p>
+<p>The most important group is the <code>main</code> group. This group contains all runtime dependencies, which means without these
+dependencies, the project wouldn't be runnable at all. It is these libraries that will become the dependencies of our
+library when we make a release on PyPI.</p>
+<h2 id="installing-dependencies">Installing dependencies<a class="headerlink" href="#installing-dependencies" title="Permanent link">&para;</a></h2>
+<p>During the development, you may sometimes want to introduce a new library to the project, to do this, you will first
+need to decide which dependency group it should belong to. To do this, identify whether this new dependency will be
+required to run the project, or if it's just some tool / utility that's necessary only during the development.</p>
+<p>If it's a runtime dependency, all you need to do is run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>poetry<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
+</code></pre></div>
+<p>This will add the dependency to the <code>main</code> group.</p>
+<p>However, if you're working with a development dependency, you will want to go over the dependency groups we have (from
+<code>pyproject.toml</code>) and decide where it should belong. Once you figured that out, you can run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>poetry<span class="w"> </span>add<span class="w"> </span>--group<span class="w"> </span><span class="o">[</span>group-name<span class="o">]</span><span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sometimes, it might make sense to include the same dependency in multiple groups. (Though this is usually quite
+rare.)</p>
+</div>
+<h2 id="uninstalling-dependencies">Uninstalling dependencies<a class="headerlink" href="#uninstalling-dependencies" title="Permanent link">&para;</a></h2>
+<p>Similarly, we sometimes stop needing a certain dependency. Uninstalling is a very similar process to installation.
+First, find which group you want to remove this dependency from and then run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>poetry<span class="w"> </span>remove<span class="w"> </span>--group<span class="w"> </span><span class="o">[</span>group-name<span class="o">]</span><span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
+</code></pre></div>
 
 
 
@@ -1060,7 +1354,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../style_guide/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Style Guide">
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Contributing guides &amp;amp; guidelines">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1070,20 +1364,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Style Guide
+                Contributing guides &amp; guidelines
               </div>
             </div>
           </a>
         
         
           
-          <a href="../precommit/" class="md-footer__link md-footer__link--next" aria-label="Next: Pre-commit">
+          <a href="../style-guide/" class="md-footer__link md-footer__link--next" aria-label="Next: Style Guide">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Pre-commit
+                Style Guide
               </div>
             </div>
             <div class="md-footer__button md-icon">

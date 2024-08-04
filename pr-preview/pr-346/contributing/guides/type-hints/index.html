@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/code_of_conduct/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/type-hints/">
       
       
-        <link rel="prev" href="../changelog/">
+        <link rel="prev" href="../style-guide/">
       
       
-        <link rel="next" href="../attribution/">
+        <link rel="next" href="../precommit/">
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
-        <title>Code of Conduct - MCPROTO</title>
+        <title>Type hinting - MCPROTO</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,7 +48,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -73,11 +73,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#code-of-conduct" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -94,9 +89,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="MCPROTO" class="md-header__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+    <a href="../../.." title="MCPROTO" class="md-header__button md-logo" aria-label="MCPROTO" data-md-component="logo">
       
-  <img src="../assets/py-mine_logo.png" alt="logo">
+  <img src="../../../assets/py-mine_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -113,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Code of Conduct
+              Type hinting
             
           </span>
         </div>
@@ -231,7 +226,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
     
@@ -250,7 +245,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../installation/" class="md-tabs__link">
+        <a href="../../../installation/" class="md-tabs__link">
           
   
     
@@ -272,7 +267,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../../../community/code-of-conduct/" class="md-tabs__link">
           
   
     
@@ -313,9 +308,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="MCPROTO" class="md-nav__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+    <a href="../../.." title="MCPROTO" class="md-nav__button md-logo" aria-label="MCPROTO" data-md-component="logo">
       
-  <img src="../assets/py-mine_logo.png" alt="logo">
+  <img src="../../../assets/py-mine_logo.png" alt="logo">
 
     </a>
     MCPROTO
@@ -342,7 +337,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -365,6 +360,8 @@
     
       
         
+          
+        
       
         
       
@@ -385,16 +382,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../installation/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Installation
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
@@ -404,25 +409,6 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Installation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -431,7 +417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../version_guarantees/" class="md-nav__link">
+      <a href="../../../installation/version-guarantees/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -452,7 +438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../changelog/" class="md-nav__link">
+      <a href="../../../installation/changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -534,30 +520,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Code of Conduct
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../community/code-of-conduct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -566,98 +532,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#harassment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Harassment
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plagiarism" class="md-nav__link">
-    <span class="md-ellipsis">
-      Plagiarism
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#generally-inappropriate-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      Generally inappropriate behavior
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#scope" class="md-nav__link">
-    <span class="md-ellipsis">
-      Scope
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enforcement-responsibilities" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enforcement Responsibilities
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reporting-a-code-of-conduct-violation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reporting a Code of Conduct violation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sources
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -670,7 +544,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../attribution/" class="md-nav__link">
+      <a href="../../../community/attribution/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -691,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../license/" class="md-nav__link">
+      <a href="../../../community/license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -763,7 +637,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/reporting_a_bug/" class="md-nav__link">
+      <a href="../../reporting-a-bug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -805,7 +679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/making_a_pr/" class="md-nav__link">
+      <a href="../../making-a-pr/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -831,8 +705,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -867,16 +743,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../contributing/guides/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -893,7 +769,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_5">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -909,11 +785,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/guides/installation/" class="md-nav__link">
+      <a href="../setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Installation
+    Setting things up
   </span>
   
 
@@ -930,7 +806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/guides/style_guide/" class="md-nav__link">
+      <a href="../style-guide/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -948,10 +824,17 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../contributing/guides/type_hints/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -960,6 +843,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -972,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/guides/precommit/" class="md-nav__link">
+      <a href="../precommit/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -993,7 +877,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/guides/great_commits/" class="md-nav__link">
+      <a href="../great-commits/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1014,7 +898,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/guides/changelog/" class="md-nav__link">
+      <a href="../changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1035,7 +919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/guides/unit_tests/" class="md-nav__link">
+      <a href="../unit-tests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1056,7 +940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/guides/deprecations/" class="md-nav__link">
+      <a href="../deprecations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1102,88 +986,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#harassment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Harassment
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plagiarism" class="md-nav__link">
-    <span class="md-ellipsis">
-      Plagiarism
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#generally-inappropriate-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      Generally inappropriate behavior
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#scope" class="md-nav__link">
-    <span class="md-ellipsis">
-      Scope
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enforcement-responsibilities" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enforcement Responsibilities
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reporting-a-code-of-conduct-violation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reporting a Code of Conduct violation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sources
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      License
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -1198,7 +1000,7 @@
                   
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/code_of_conduct.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/type-hints.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1206,133 +1008,12 @@
   
 
 
-<h1 id="code-of-conduct">Code of Conduct<a class="headerlink" href="#code-of-conduct" title="Permanent link">&para;</a></h1>
-<p>This code of conduct outlines our expectations for the people involved with this project. We, as members, contributors
-and leaders are committed to providing a welcoming and inspiring project that anyone can easily join, expecting
-a harassment-free experience, as described in this code of conduct.</p>
-<p>This code of conduct is here to ensure we provide a welcoming and inspiring project that anyone can easily join,
-expecting a harassment-free experience, as described in this code of conduct.</p>
-<p>The goal of this document is to set the overall tone for our community. It is here to outline some of the things you
-can and can't do if you wish to participate in our community. However it is not here to serve as a rule-book with
-a complete set of things you can't do, social conduct differs from situation to situation, and person to person, but we
-should do our best to try and provide a good experience to everyone, in every situation.</p>
-<p>We value many things beyond just technical expertise, including collaboration and supporting others within our
-community. Providing a positive experience for others can have a much more significant impact than simply providing the
-correct answer.</p>
-<h2 id="harassment">Harassment<a class="headerlink" href="#harassment" title="Permanent link">&para;</a></h2>
-<p>We share a common understanding of what constitutes harassment as it applies to a professional setting. Although this
-list cannot be exhaustive, we explicitly honor diversity in age, gender, culture, ethnicity, language, national origin,
-political beliefs, profession, race, religion, sexual orientation, socioeconomic status, disability and personal
-appearance. We will not tolerate discrimination based on any of the protected characteristics above, including some
-that may not have been explicitly mentioned here. We consider discrimination of any kind to be unacceptable and
-immoral.</p>
-<p>Harassment includes, but is not limited to:</p>
-<ul>
-<li>Offensive comments (or "jokes") related to any of the above mentioned attributes.</li>
-<li>Deliberate "outing"/"doxing" of any aspect of a person's identity, such as physical or electronic address, without
-  their explicit consent, except as necessary to protect others from intentional abuse.</li>
-<li>Unwelcome comments regarding a person's lifestyle choices and practices, including those related to food, health,
-  parenting, drugs and employment.</li>
-<li>Deliberate misgendering. This includes deadnaming or persistently using a pronoun that does not correctly reflect a
-  person's gender identity. You must address people by the name they give you when not addressing them by their
-  username or handle.</li>
-<li>Threats of violence, both physical and psychological.</li>
-<li>Incitement of violence towards any individual, including encouraging a person to engage in self-harm.</li>
-<li>Publication of non-harassing private communication.</li>
-<li>Pattern of inappropriate social conduct, such as requesting/assuming inappropriate levels of intimacy with others, or
-  excessive teasing after a request to stop.</li>
-<li>Continued one-on-one communication after requests to cease.</li>
-<li>Sabotage of someone else's work or intentionally hindering someone else's performance.</li>
-</ul>
-<h2 id="plagiarism">Plagiarism<a class="headerlink" href="#plagiarism" title="Permanent link">&para;</a></h2>
-<p>Plagiarism is the re-use of someone else's work (eg: binary content such as images, textual content such as an article,
-but also source code, or any other copyrightable resources) without the permission or a license right from the author.
-Claiming someone else's work as your own is not just immoral and disrespectful to the author, but also illegal in most
-countries. You should always follow the authors wishes, and give credit where credit is due.</p>
-<p>If we found that you've <strong>intentionally</strong> attempted to add plagiarized content to our code-base, you will likely end up
-being permanently banned from any future contributions to this project's repository. We will of course also do our best
-to remove, or properly attribute this plagiarized content as quickly as possible.</p>
-<p>An unintentional attempt at plagiarism will not be punished as harshly, but nevertheless, it is your responsibility as
-a contributor to check where the code you're submitting comes from, and so repeated submission of such content, even
-after you were warned might still get you banned.</p>
-<p>Please note that an online repository that has no license is presumed to only be source-available, NOT open-source.
-Meaning that this work is protected by author's copyright, automatically imposed over it, and without any license
-extending that copyright, you have no rights to use such code. So know that you can't simply take some source-code,
-even though it's published publicly. This code may be available to be seen by anyone, but that does not mean it's also
-available to be used by anyone in other projects.</p>
-<p>Another important note to keep in mind is that even if some project has an open-source license, that license may have
-conditions which are incompatible with our codebase (such as requiring all of the code that links to this new part to
-also be licensed under the same license, which our code-base is not currently under). That is why it's necessary to
-understand a license before using code available under it. Simple attribution often isn't everything that the license
-requires.</p>
-<details class="tip">
-<summary>Learn more about software licensing</summary>
-<p>If you are new to software licensing, you can check out <a href="https://itsdrike.com/posts/software-licenses/">this</a>
-article, which does a good job at explaining the basics.</p>
-</details>
-<h2 id="generally-inappropriate-behavior">Generally inappropriate behavior<a class="headerlink" href="#generally-inappropriate-behavior" title="Permanent link">&para;</a></h2>
-<p>Outside of just harassment and plagiarism, there are countless other behaviors which we consider unacceptable, as they
-may be offensive, and discourage people from engaging with our community.</p>
-<p><strong>Examples of generally inappropriate behavior:</strong></p>
-<ul>
-<li>The use of sexualized language or imagery of any kind</li>
-<li>The use of inappropriate images, including in an account's avatar</li>
-<li>The use of inappropriate language, including in an account's nickname</li>
-<li>Any spamming, flamming, baiting or other attention-stealing behavior</li>
-<li>Discussing topics that are overly polarizing, sensitive, or incite arguments.</li>
-<li>Responding with "RTFM", "just google it" or similar response to help requests</li>
-<li>Other conduct which could be reasonably considered inappropriate</li>
-</ul>
-<p><strong>Examples of generally appropriate behavior:</strong></p>
-<ul>
-<li>Being kind and courteous to others</li>
-<li>Collaborating with other community members</li>
-<li>Gracefully accepting constructive criticism</li>
-<li>Using welcoming and inclusive language</li>
-<li>Showing empathy towards other community members</li>
-</ul>
-<h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
-<p>This Code of Conduct applies within all community spaces, including this repository itself, conversations on any
-platforms officially connected to this project (such as in GitHub issues, emails or platforms like discord). It also
-applies when an individual is officially representing the community in public spaces. Examples of representing our
-community include using an official social media account, or acting as an appointed representative at an online or
-offline event.</p>
-<p>All members involved with the project are expected to follow this Code of Conduct, no matter their position in the
-project's hierarchy, this Code of Conduct applies equally to contributors, maintainers and people seeking
-help/reporting bugs, etc.</p>
-<h2 id="enforcement-responsibilities">Enforcement Responsibilities<a class="headerlink" href="#enforcement-responsibilities" title="Permanent link">&para;</a></h2>
-<p>Whenever a participant has made a mistake, we expect them to take responsibility for their actions. If someone has been
-harmed or offended, it is our responsibility to listen carefully and respectfully, and to do our best to right the
-wrong.</p>
-<p>Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take
-appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening,
-offensive, harmful, or otherwise undesirable.</p>
-<p>Community leaders have the right and responsibility to remove, edit or reject comments, commits, code, wiki edits,
-issues and other contributions within the enforcement scope that are not aligned to this Code of Conduct, and will
-communicate reasons for moderation decisions when appropriate.</p>
-<p>If you have experienced or witnessed unacceptable behavior constituting a code of conduct violation or have any other
-code of conduct concerns, please let us know and we will do our best to resolve this issue.</p>
-<h2 id="reporting-a-code-of-conduct-violation">Reporting a Code of Conduct violation<a class="headerlink" href="#reporting-a-code-of-conduct-violation" title="Permanent link">&para;</a></h2>
-<p>If you think that someone is violating the Code of Conduct, you can report it to any repository maintainer, either by
-email or through a Discord DM. You should avoid using public channels for reporting these violations, and instead do so
-in private discussion with a maintainer.</p>
-<h2 id="sources">Sources<a class="headerlink" href="#sources" title="Permanent link">&para;</a></h2>
-<p>The open-source community has an incredible amount of resources that people have freely provided to others and we all
-depend on these projects in many ways. This code of conduct article is no exception and there were many open source
-projects that has helped bring this code of conduct to existence. For that reason, we'd like to thank all of these
-communities and projects for keeping their content open and available to everyone, but most notably we'd like to thank
-the projects with established codes of conduct and diversity statements that we used as our inspiration. Below is the
-list these projects:</p>
-<ul>
-<li>Python: <a href="https://www.python.org/community/diversity/">https://www.python.org/community/diversity/</a></li>
-<li>Contributor Covenant: <a href="https://www.contributor-covenant.org/">https://www.contributor-covenant.org/</a></li>
-<li>Rust-lang: <a href="https://www.rust-lang.org/policies/code-of-conduct">https://www.rust-lang.org/policies/code-of-conduct</a></li>
-<li>Code Fellows: <a href="https://github.com/codefellows/code-of-conduct">https://github.com/codefellows/code-of-conduct</a></li>
-<li>Python Discord: <a href="https://www.pythondiscord.com/pages/code-of-conduct/">https://www.pythondiscord.com/pages/code-of-conduct/</a></li>
-</ul>
-<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
-<p>All content of this page is licensed under a Creative Commons Attributions license.</p>
-<p>For more information about this license, see: <a href="https://creativecommons.org/licenses/by/3.0/">https://creativecommons.org/licenses/by/3.0/</a></p>
+  <h1>Type hinting</h1>
+
+<div class="admonition bug">
+<p class="admonition-title">Work In Progress</p>
+<p>This page is still being written. The content below (if any) may change.</p>
+</div>
 
 
 
@@ -1370,7 +1051,7 @@ list these projects:</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../changelog/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Changelog">
+          <a href="../style-guide/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Style Guide">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1380,20 +1061,20 @@ list these projects:</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Changelog
+                Style Guide
               </div>
             </div>
           </a>
         
         
           
-          <a href="../attribution/" class="md-footer__link md-footer__link--next" aria-label="Next: Attributions">
+          <a href="../precommit/" class="md-footer__link md-footer__link--next" aria-label="Next: Pre-commit">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Attributions
+                Pre-commit
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1427,10 +1108,10 @@ list these projects:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>
