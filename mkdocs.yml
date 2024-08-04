@@ -7,13 +7,13 @@ repo_name: py-mine/mcproto
 nav:
   - Home: index.md
   - Installation:
-      - Installation: installation.md
-      - Version Guarantees: version-guarantees.md
-      - Changelog: changelog.md
+      - Installation: installation/index.md
+      - Version Guarantees: installation/version-guarantees.md
+      - Changelog: installation/changelog.md
   - Community:
-      - Code of Conduct: code-of-conduct.md
-      - Attributions: attribution.md
-      - License: license.md
+      - Code of Conduct: community/code-of-conduct.md
+      - Attributions: community/attribution.md
+      - License: community/license.md
       - Contributing:
           - Reporting a bug: contributing/reporting-a-bug.md
           - Asking a question: https://github.com/py-mine/mcproto/discussions
