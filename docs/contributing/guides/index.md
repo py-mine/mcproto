@@ -1,9 +1,50 @@
 # Contributing guides & guidelines
 
-!!! bug "Work In Progress"
+Welcome to the contributing guides & guidelines for mcproto. This documentation is intended for our contributors,
+interested in writing or modifying mcproto itself. If you just wish to use mcproto in your project, you can safely skip
+this section.
 
-    This page is still being written. The content below (if any) may change.
+Mcproto is a relatively large project and maintaining it is no easy task. With a project like that, consistency and
+good code quality becomes very important to keep the code-base readable and bug-free. To achieve this, we have put
+together these guidelines that will explain the code style and coding practices that we expect our contributors to
+follow.
 
-<!-- This include is temporary -->
+This documentation will also include various guides that tell you how to set up our project for development and explain
+the automated tools that we use to improve our coding experience and enforce a bunch of the code style rules quickly
+and without the need for human review.
 
---8<-- "CONTRIBUTING.md"
+## Changes to these guidelines
+
+While we're confident and happy with the current code style and tooling, we acknowledge that change is inevitable. New
+tools are constantly being developed, and we have already made significant updates to our code style in the past.
+
+Every project evolves over time, and these guidelines are no exception. This documentation is open to pull requests and
+changes from contributors. Just ensure that any updates to this document are in sync with the codebase. If you propose
+a code style change, you must apply that change throughout the codebase to maintain internal consistency.
+
+If you believe you have something valuable to add or change, please submit a pull request. For major style changes, we
+strongly encourage you to open an issue first, as we may not always agree with significant alterations. For minor
+clarity improvements or typo fixes, opening an issue isn't necessary.
+
+We tried to design our specifications to be straightforward and comprehensive, but we might not always succeed, as
+we're doing so from our perspective of already having extensive background knowledge. Therefore, we welcome any clarity
+improvements to the documentation. If you think you can explain something better, please contribute.
+
+## Footnotes
+
+We understand that going through all of these guidelines can be time-consuming and a lot to remember. However, we
+strongly encourage you to review them, especially if you haven't worked with these tools or followed such best
+practices before.
+
+Every page in this contributing guides category has an abstract at the top, summarizing its content. This allows you to
+quickly determine if you are already familiar with the topic or, if you're re-reading, to quickly recall what the page
+covers.
+
+We believe these guides will be beneficial to you beyond our codebase, as they promote good coding practices and help
+make your code cleaner. You will likely be able to apply much of the knowledge you gain here to your own projects.
+
+## Disclaimer
+
+These documents were inspired by [Python Discord's CONTRIBUTING agreement.][pydis-contributing]
+
+[pydis-contributing]: https://github.com/python-discord/bot/blob/master/CONTRIBUTING.md
