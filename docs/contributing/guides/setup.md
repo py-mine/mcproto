@@ -17,7 +17,13 @@
 A basic knowledge of [git and GitHub][git-and-github], alongside working within the terminal and running commands is a
 requirement to work on this project.
 
+This guide assumes you have already [forked][github-forking] our repository, [clonned it][git-cloning] to your
+computer and created your own [git branch][git-branches] to work on.
+
 [git-and-github]: https://docs.github.com/en/get-started/start-your-journey/about-github-and-git
+[github-forking]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo
+[git-cloning]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+[git-branches]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches
 
 ## Poetry
 
