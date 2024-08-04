@@ -11,7 +11,7 @@ Before opening a new issue with your bug report, please do the following things:
 ### Upgrade to latest version
 
 Chances are that the bug you discovered was already fixed in a subsequent version. Thus, before reporting an issue,
-ensure that you're running the [latest version](../changelog.md) of mcproto.
+ensure that you're running the [latest version](../installation/changelog.md) of mcproto.
 
 !!! warning "Bug fixes are not backported"
 
@@ -123,8 +123,8 @@ correctly. If the issue persists, you can reopen the issue and let us know.
 !!! warning "Issues are fixed on the main branch"
 
       Do note that when we close an issue, it means that we have fixed your bug in the `main` branch of the repository.
-      That doesn't necessarily mean the fix has been released on PyPI yet, so you might still need to wait for the
-      next release. Alternatively, you can also try the [git installation](../installation.md#latest-git-version) to
+      That doesn't necessarily mean the fix has been released on PyPI yet, so you might still need to wait for the next
+      release. Alternatively, you can also try the [git installation](../installation/index.md#latest-git-version) to
       get the project right from that latest `main` branch.
 
 ### Attempt to solve it yourself
