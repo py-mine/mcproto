@@ -30,9 +30,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: "${{ steps.app-token.outputs.token }}"
-
-      - name: Fetch gh-pages branch
-        run: git fetch origin gh-pages
+          # Fetch the entire git history (all branches + tags)
+          # We do this because the docs use git describe, which requires having all
+          # the commits up to the latest version tag.
+          # We also need the gh-pages branch to push the docs to.
+          fetch-depth: 0
 
       # Make the github application be the committer
       # (see: https://stackoverflow.com/a/74071223 on how to obtain the committer email)
