@@ -66,6 +66,7 @@ poetry-dynamic-versioning = ">=1.4.0,<1.8"
 mkdocs = "^1.6.0"
 mkdocs-material = "^9.5.30"
 mike = "^2.1.2"
+markdown-exec = { extras = ["ansi"], version = "^1.9.3" }
 
 [tool.poetry.group.docs-ci]
 optional = true
@@ -188,12 +189,9 @@ ignore = [
   "ANN",  # flake8-annotations
   "S101", # Use of assert
 ]
-"docs/conf.py" = [
-  "INP", # allow implicit namespace (pep 420)
-]
-"docs/extensions/*" = [
-  "D",   # pydocstyle
-  "INP", # allow implicit namespace (pep 420)
+"docs/scripts/*" = [
+  "INP",  # allow implicit namespace (pep 420)
+  "T201", # allow prints
 ]
 ".github/scripts/*" = [
   "D",   # pydocstyle
