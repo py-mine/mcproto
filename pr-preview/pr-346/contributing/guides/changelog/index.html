@@ -1368,18 +1368,18 @@ look there.</p>
 </code></pre></div>
 <div class="highlight"><span class="filename">changes/179.docs.md</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Enforce presence of docstrings everywhere with pydocstyle. This also adds docstring to all functions and classes that didn&#39;t already have one. Minor improvements for consistency were also made to some existing docstrings.
 </code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span> <strong>Slightly on the longer side, but it's justified</strong> (sometimes, it's
+<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span> <strong>Slightly on the longer side, but it's justified</strong> (Sometimes, it's
 important to explain the issue that this fixes, so that users know that it was there)</p>
 <div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Fix behavior of the <span class="sb">`mcproto.utils.deprecation`</span> module, which was incorrectly always using a fallback version, assuming mcproto is at version 0.0.0. This then could&#39;ve meant that using a deprecated feature that is past the specified deprecation (removal) version still only resulted in a deprecation warning, as opposed to a full runtime error.
 </code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span> <strong>With an extra note about the breaking change</strong> (adding some extra
+<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span> <strong>With an extra note about the breaking change</strong> (Adding some extra
 description isn't always bad, especially for explaining how a breaking change affects existing code)</p>
 <div class="highlight"><span class="filename">changes/130.breaking.md</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    This is a breaking change as <span class="sb">`LoginEncryptionPacket`</span>&#39;s <span class="sb">`__init__`</span> method now uses &quot;shared_secret&quot; keyword only
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    argument, not &quot;shared_key&quot;. Every initialization call to this packet needs to be updated.
 </code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span> <strong>With a list of subchanges that were made</strong> (be careful with this one
+<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59 21 7Z"/></svg></span> <strong>With a list of subchanges that were made</strong> (Be careful with this one
 though, make sure you don't over-do it)</p>
 <div class="highlight"><span class="filename">changes/129.feature.md</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Added a system for handling Minecraft authentication
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
@@ -1388,45 +1388,49 @@ though, make sure you don't over-do it)</p>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Microsoft OAuth2 system (Xbox live) for migrated i.e. Microsoft accounts
 </code></pre></div>
 <h3 id="examples-of-bad-changelog-fragment-files">Examples of bad changelog fragment files<a class="headerlink" href="#examples-of-bad-changelog-fragment-files" title="Permanent link">&para;</a></h3>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Unclear</strong> (but what does this class do?)</p>
+<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Unclear</strong> (But what does this class do?)</p>
 <div class="highlight"><span class="filename">changes/123.feature.md</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Update <span class="sb">`Buffer`</span> class.
 </code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Bad category</strong> (this is a feature, not a bugfix)</p>
+<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Bad category</strong> (This is a feature, not a bugfix)</p>
 <div class="highlight"><span class="filename">changes/161.bugfix.md</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Add support for encryption. Connection classes now have <span class="sb">`enable_encryption`</span> method, and some encryption related functions were added into a new mcproto.encryption module.
+</code></pre></div>
+<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Starts with dash</strong> (Sometimes, it can feel natural to start your changelog
+entry with a <code>-</code>, as it is a list item in the final changelog, however, this dash will already be added automatically)</p>
+<div class="highlight"><span class="filename">changes/171.feature.md</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">-</span><span class="w"> </span>  Add <span class="sb">`Account.check`</span> function, to verify that the access token in use is valid, and the data the Account instance has matches the data minecraft API has.
 </code></pre></div>
 <p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Wrapped first line</strong> (Splitting up the first line into multiple lines is
 something we often do in markdown, because it should still be rendered as a single line, however, because of how
 towncrier merges these fragments, using multiple lines will cause issues and the changelog won't be formatter
 correctly! Further blocks can have wrapped lines.)</p>
-<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Fix behavior of the <span class="sb">`mcproto.utils.deprecation`</span> module, which was incorrectly always using a fallback version, assuming
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>mcproto is at version 0.0.0. This then could&#39;ve meant that using a deprecated feature that is past the specified
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>deprecation (removal) version still only resulted in a deprecation warning, as opposed to a full runtime error.
+<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Fix behavior of the <span class="sb">`mcproto.utils.deprecation`</span> module, which was incorrectly always using a fallback version, assuming
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>mcproto is at version 0.0.0. This then could&#39;ve meant that using a deprecated feature that is past the specified
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>deprecation (removal) version still only resulted in a deprecation warning, as opposed to a full runtime error.
 </code></pre></div>
 <p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>No indent in description</strong> (Sometimes, we want to add additional
 description to our changelog entry. When doing so, we need to make sure that the description block is indented with 4
 spaces and there is a blank line after the first / title line.)</p>
-<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>This is a breaking change as <span class="sb">`LoginEncryptionPacket`</span>&#39;s <span class="sb">`__init__`</span> method now uses &quot;shared_secret&quot; keyword only
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>argument, not &quot;shared_key&quot;. Every initialization call to this packet needs to be updated.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Way too long</strong> (this should've been the PR description)</p>
-<div class="highlight"><span class="filename">changes/161.bugfix.md</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Introduce support for encryption handling.
+<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    Most servers (even offline ones) usually send an EncryptionRequest packet during the LOGIN state, with a public
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    (RSA) key that the client is expected to use to encrypt a randomly generated shared secret, to send back to the
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    server in EncryptionResponse packet. After that, all further communication is encrypted with this shared secret.
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    The encryption used is a AES/CFB8 stream cipher. That means the encrypted ciphertext will have the same amount
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    of bytes as the original plaintext, allowing us to still trust our reader/writer methods that rely on reading
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    specific amounts of bytes, even if their content don&#39;t make sense.
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    This directly uses the base connection classes and adds enable_encryption method to them, which after getting
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>    called will automatically encrypt/decrypt any incomming/outcomming data.
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    This additionally also changes the LoginEncryptionRequest packet class, and makes the public key attribute
-<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>    actually hold an RSA public key (from the cryptography library), instead of just the received bytes. This is
-<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>    then much more useful to work with later on. This is a breaking change.
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>This is a breaking change as <span class="sb">`LoginEncryptionPacket`</span>&#39;s <span class="sb">`__init__`</span> method now uses &quot;shared_secret&quot; keyword only
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>argument, not &quot;shared_key&quot;. Every initialization call to this packet needs to be updated.
+</code></pre></div>
+<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Way too long</strong> (This should've been the PR description)</p>
+<div class="highlight"><span class="filename">changes/161.bugfix.md</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Introduce support for encryption handling.
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    Most servers (even offline ones) usually send an EncryptionRequest packet during the LOGIN state, with a public
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    (RSA) key that the client is expected to use to encrypt a randomly generated shared secret, to send back to the
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    server in EncryptionResponse packet. After that, all further communication is encrypted with this shared secret.
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    The encryption used is a AES/CFB8 stream cipher. That means the encrypted ciphertext will have the same amount
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    of bytes as the original plaintext, allowing us to still trust our reader/writer methods that rely on reading
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    specific amounts of bytes, even if their content don&#39;t make sense.
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    This directly uses the base connection classes and adds enable_encryption method to them, which after getting
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    called will automatically encrypt/decrypt any incomming/outcomming data.
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    This additionally also changes the LoginEncryptionRequest packet class, and makes the public key attribute
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>    actually hold an RSA public key (from the cryptography library), instead of just the received bytes. This is
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>    then much more useful to work with later on. This is a breaking change.
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Verify if your changelog works</p>
@@ -1434,6 +1438,11 @@ spaces and there is a blank line after the first / title line.)</p>
 request. This documentation will include a preview of the changelog with all unreleased changes in the
 <a href="../../../installation/changelog/">changelog</a> page. You can take a look there to make sure that your change
 fragment(s) resulted in the proper output.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Internal changes</p>
+<p>We're a bit more forgiving when it comes to describing your change if your change is in the <code>internal</code> category, as
+end users don't need to read those. Changes in this category can be a bit less descriptive.</p>
 </div>
 <h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
 <ul>
