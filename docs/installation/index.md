@@ -4,23 +4,65 @@
 
 Mcproto is available on [PyPI](https://pypi.org/project/mcproto) and can be installed like any other python library with:
 
-=== "pip"
+=== ":simple-python: pip"
 
     ```bash
     pip install mcproto
     ```
 
-=== "poetry"
+    <div class="result" markdown>
+
+    [pip](https://pip.pypa.io/en/stable/) is the main package installer for Python.
+
+    </div>
+
+=== ":simple-poetry: poetry"
 
     ```bash
     poetry add mcproto
     ```
 
-=== "rye"
+    <div class="result" markdown>
+
+    [Poetry](https://python-poetry.org/) is an all-in-one solution for Python project management.
+
+    </div>
+
+=== ":simple-rye: rye"
 
     ```bash
     rye add mcproto
     ```
+
+    <div class="result" markdown>
+
+    [Rye](https://rye.astral.sh/) is an all-in-one solution for Python project management, written in Rust.
+
+    </div>
+
+=== ":simple-ruff: uv"
+
+    ```bash
+    uv pip install mcproto
+    ```
+
+    <div class="result" markdown>
+
+    [uv](https://github.com/astral-sh/uv) is an ultra fast dependency resolver and package installer, written in Rust.
+
+    </div>
+
+=== ":simple-pdm: pdm"
+
+    ```bash
+    pdm add mcproto
+    ```
+
+    <div class="result" markdown>
+
+    [PDM](https://pdm-project.org/en/latest/) is an all-in-one solution for Python project management.
+
+    </div>
 
 ## Latest (git) version
 
@@ -36,20 +78,62 @@ you'll want.
 
 To install the latest mcproto version directly from the `main` git branch, use:
 
-=== "pip"
+=== ":simple-python: pip"
 
     ```bash
     pip install 'mcproto@git+https://github.com/py-mine/mcproto@main'
     ```
 
-=== "poetry"
+    <div class="result" markdown>
+
+    [pip](https://pip.pypa.io/en/stable/) is the main package installer for Python.
+
+    </div>
+
+=== ":simple-poetry: poetry"
 
     ```bash
     poetry add 'git+https://github.com/py-mine/mcproto#main'
     ```
 
-=== "rye"
+    <div class="result" markdown>
+
+    [Poetry](https://python-poetry.org/) is an all-in-one solution for Python project management.
+
+    </div>
+
+=== ":simple-rye: rye"
 
     ```bash
     rye add mcproto --git='https://github.com/py-mine/mcproto' --branch main
     ```
+
+    <div class="result" markdown>
+
+    [Rye](https://rye.astral.sh/) is an all-in-one solution for Python project management, written in Rust.
+
+    </div>
+
+=== ":simple-ruff: uv"
+
+    ```bash
+    uv pip install 'mcproto@git+https://github.com/py-mine/mcproto@main'
+    ```
+
+    <div class="result" markdown>
+
+    [uv](https://github.com/astral-sh/uv) is an ultra fast dependency resolver and package installer, written in Rust.
+
+    </div>
+
+=== ":simple-pdm: pdm"
+
+    ```bash
+    pdm add "git+https://github.com/py-mine/mcproto@main"
+    ```
+
+    <div class="result" markdown>
+
+    [PDM](https://pdm-project.org/en/latest/) is an all-in-one solution for Python project management.
+
+    </div>
