@@ -1,12 +1,13 @@
-.. api/types documentation master file
+.. Types Documentation
 
-=======================
-API Types Documentation
-=======================
+Types Documentation
+==================================
 
-Welcome to the API Types documentation! This documentation provides information about the various types used in the API.
+This folder contains the documentation for various types used in the project.
 
 .. toctree::
     :maxdepth: 2
 
+    general.rst
     nbt.rst
+    entity_metadata.rst
