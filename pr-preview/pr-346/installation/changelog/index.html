@@ -48,6 +48,10 @@
       
     
     
+      <link rel="stylesheet" href="../../assets/_markdown_exec_pyodide.css">
+    
+      <link rel="stylesheet" href="../../assets/_markdown_exec_ansi.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -1469,39 +1473,56 @@
 <div class="admonition danger">
 <p>Major and minor releases also include the changes specified in prior development releases.</p>
 </div>
-<div class="admonition bug">
-<p class="admonition-title">Missing unreleased changes</p>
-<p>This changelog doesn't contain any unreleased (pending) changes, even if they are present in this version of the
-project documentation already. If you are interested in knowing what these changes are, you can take a look at the
-<a href="https://github.com/py-mine/mcproto/tree/main/changes"><code>changes/</code></a> directory of the project.</p>
-<p>In the future, we want to display these changes properly in this documentation, however, doing so requires running
-a command dynamically, and showing it's output here, which we currently don't support.</p>
-<!-- TODO: Find a way to fix this. -->
-</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  <span class="n">File</span> <span class="s2">&quot;/home/runner/.cache/pypoetry/virtualenvs/mcproto-NhYgOv7e-py3.12/lib/python3.12/site-packages/markdown_exec/formatters/python.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">71</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_run_python</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">exec_python</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">code_block_id</span><span class="p">,</span> <span class="n">exec_globals</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  <span class="n">File</span> <span class="s2">&quot;/home/runner/.cache/pypoetry/virtualenvs/mcproto-NhYgOv7e-py3.12/lib/python3.12/site-packages/markdown_exec/formatters/_exec_python.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">8</span><span class="p">,</span> <span class="ow">in</span> <span class="n">exec_python</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">exec</span><span class="p">(</span><span class="n">compiled</span><span class="p">,</span> <span class="n">exec_globals</span><span class="p">)</span>  <span class="c1"># noqa: S102</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  <span class="n">File</span> <span class="s2">&quot;&lt;code block: n1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">62</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">get_changelog</span><span class="p">(</span><span class="n">get_project_version</span><span class="p">()))</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                         <span class="o">^^^^^^^^^^^^^^^^^^^^^</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  <span class="n">File</span> <span class="s2">&quot;&lt;code block: n1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">21</span><span class="p">,</span> <span class="ow">in</span> <span class="n">get_project_version</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>  <span class="c1"># noqa: S603</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>            <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  <span class="n">File</span> <span class="s2">&quot;/opt/hostedtoolcache/Python/3.12.4/x64/lib/python3.12/subprocess.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">571</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="k">raise</span> <span class="n">CalledProcessError</span><span class="p">(</span><span class="n">retcode</span><span class="p">,</span> <span class="n">process</span><span class="o">.</span><span class="n">args</span><span class="p">,</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span> <span class="n">Command</span> <span class="s1">&#39;[&#39;</span><span class="n">git</span><span class="s1">&#39;, &#39;</span><span class="n">describe</span><span class="s1">&#39;, &#39;</span><span class="o">--</span><span class="n">tags</span><span class="s1">&#39;, &#39;</span><span class="o">--</span><span class="n">abbrev</span><span class="o">=</span><span class="mi">5</span><span class="s1">&#39;]&#39;</span> <span class="n">returned</span> <span class="n">non</span><span class="o">-</span><span class="n">zero</span> <span class="n">exit</span> <span class="n">status</span> <span class="mf">128.</span>
+</code></pre></div>
 <h2 id="version-050-2023-08-10">Version 0.5.0 (2023-08-10)<a class="headerlink" href="#version-050-2023-08-10" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-changes">Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p><a href="https://github.com/py-mine/mcproto/issues/130">#130</a>: Renamed "shared_key" field to "shared_secret" in <code>LoginEncryptionPacket</code>, following the official terminology.</p>
+<ul>
+<li>This is a breaking change, <code>LoginEncryptionPacket</code>'s <code>__init__</code> method now uses "shared_secret" keyword only argument, not "shared_key".</li>
+</ul>
 </li>
 <li>
-<p>This is a breaking change, <code>LoginEncryptionPacket</code>'s <code>__init__</code> method now uses "shared_secret" keyword only argument, not "shared_key".</p>
-</li>
-<li><a href="https://github.com/py-mine/mcproto/issues/130">#130</a>: The <code>LoginStart</code> packet now contains a (required) UUID field (which can be explicitly set to <code>None</code>).</li>
+<p><a href="https://github.com/py-mine/mcproto/issues/130">#130</a>: The <code>LoginStart</code> packet now contains a (required) UUID field (which can be explicitly set to <code>None</code>).</p>
+<ul>
 <li>For some reason, this field was not added when the login packets were introduced initially, and while the UUID field can indeed be omitted in some cases (it is an optional filed), in vast majority of cases, it will be present, and we should absolutely support it.</li>
 <li>As this is a new required field, the <code>__init__</code> function of <code>LoginStart</code> now also expects this <code>uuid</code> keyword argument to be present, making this a breaking change.</li>
-<li><a href="https://github.com/py-mine/mcproto/issues/159">#159</a>: Fix packet compression handling in the interaction methods.</li>
 </ul>
+</li>
+<li>
+<p><a href="https://github.com/py-mine/mcproto/issues/159">#159</a>: Fix packet compression handling in the interaction methods.</p>
 <p>This fixes a bug that didn't allow for specifying an exact compression threshold that the server specified in <code>LoginSetCompression</code> packet, and instead only allowing to toggle between compression on/off, which doesn't really work as server doesn't expect compression for packets below that threshold.</p>
 <ul>
 <li><code>sync_write_packet</code>, <code>async_write_pakcet</code>, <code>sync_read_packet</code> and <code>async_read_packet</code> functions now take <code>compression_threshold</code> instead of <code>compressed</code> bool flag</li>
-<li><a href="https://github.com/py-mine/mcproto/issues/161">#161</a>: <code>LoginEncryptionRequest</code> now uses <code>cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey</code> to hold the public key, instead of just pure <code>bytes</code>. Encoding and decoding of this key happens automatically during serialize/deserialize. This is a breaking change for anyone relying on the <code>public_key</code> field from this packet being <code>bytes</code>, and for anyone initializing this packet directly with <code>__init__</code>, which now expects <code>RSAPublicKey</code> instance instead.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/py-mine/mcproto/issues/161">#161</a>: <code>LoginEncryptionRequest</code> now uses <code>cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey</code> to hold the public key, instead of just pure <code>bytes</code>. Encoding and decoding of this key happens automatically during serialize/deserialize. This is a breaking change for anyone relying on the <code>public_key</code> field from this packet being <code>bytes</code>, and for anyone initializing this packet directly with <code>__init__</code>, which now expects <code>RSAPublicKey</code> instance instead.</p>
+</li>
 </ul>
 <h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="https://github.com/py-mine/mcproto/issues/129">#129</a>: Added a system for handling Minecraft authentication</li>
+<li><a href="https://github.com/py-mine/mcproto/issues/129">#129</a>: Added a system for handling Minecraft authentication<ul>
 <li>Yggdrasil system for unmigrated i.e. non-Microsoft accounts (supportng Minecraft accounts, and the really old Mojang accounts)</li>
 <li>Microsoft OAuth2 system (Xbox live) for migrated i.e. Microsoft accounts</li>
+</ul>
+</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/160">#160</a>: Re-export the packet classes (or any other objects) from the gamestate modules (<code>mcproto.packets.handshaking</code>/<code>mcproto.packets.login</code>/...) directly. Allowing simpler imports (<code>from mcproto.packets.login import LoginStart</code> instead of <code>from mcproto.packets.login.login import LoginStart</code>)</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/161">#161</a>: Add support for encryption. Connection classes now have <code>enable_encryption</code> method, and some encryption related functions were added into a new <code>mcproto.encryption</code> module.</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/168">#168</a>: Add multiplayer related functionalities for requesting and checking joins for original (bought) minecraft accounts. This allows us to join online servers.</li>
@@ -1509,8 +1530,10 @@ a command dynamically, and showing it's output here, which we currently don't su
 </ul>
 <h3 id="bugfixes">Bugfixes<a class="headerlink" href="#bugfixes" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="https://github.com/py-mine/mcproto/issues/130">#130</a>: <code>LoginEncryptionResponse</code> now includes the <code>server_id</code> field. This field was previously hard-coded to 20 spaces (blank value), which is what all minecraft clients on minecraft 1.7.x or higher do, however with older versions, this field is set to 20 random characters, which we should respect.</li>
+<li><a href="https://github.com/py-mine/mcproto/issues/130">#130</a>: <code>LoginEncryptionResponse</code> now includes the <code>server_id</code> field. This field was previously hard-coded to 20 spaces (blank value), which is what all minecraft clients on minecraft 1.7.x or higher do, however with older versions, this field is set to 20 random characters, which we should respect.<ul>
 <li>This is not a breaking change, as <code>server_id</code> will default to <code>None</code> in <code>LoginEncryptionResponse</code>'s <code>__init__</code>, meaning any existing code utilizing this packet will still work. It is purely an additional option.</li>
+</ul>
+</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/167">#167</a>: Fix packet reading/writing when compression is enabled (use zlib as expected, instead of gzip which we were using before)</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/170">#170</a>: Preserve the call parameters and overloads in the typing signature of <code>mcproto.packets.packet_map.generate_packet_map</code> function. (This wasn't the case before, since <code>functools.lru_cache</code> doesn't preserve this data). Note that this loses on the typing information about the cache itself, as now it will appear to be a regular uncached function to the type-checker. We deemed this approach better to the alternative of no typing info for call arguments or overloads, but preserving cache info.</li>
 </ul>
@@ -1521,12 +1544,14 @@ a command dynamically, and showing it's output here, which we currently don't su
 <li><a href="https://github.com/py-mine/mcproto/issues/141">#141</a>: Move installation instructions from README to Installation docs page</li>
 <li>
 <p><a href="https://github.com/py-mine/mcproto/issues/144">#144</a>: Add attributetable internal sphinx extension for showing all attributes and methods for specified classes.</p>
+<ul>
+<li>This adds <code>attributetable</code> sphinx directive, which can be used before autodoc directive. This will create the attribute table, which will get dynamically moved right below the class definition from autodoc (using javascript).</li>
+<li>This extension was implemented by <a href="https://github.com/Rapptz/discord.py/blob/2fdbe59376d736483cd1226e674e609433877af4/docs/extensions/attributetable.py">discord.py</a>, this is just re-using that code, with some modifications to fit our code style and to fit the documentation design (furo theme).</li>
+</ul>
 </li>
 <li>
-<p>This adds <code>attributetable</code> sphinx directive, which can be used before autodoc directive. This will create the attribute table, which will get dynamically moved right below the class definition from autodoc (using javascript).</p>
+<p>Updated contributing guidelines (restructure and rewrite some categories, to make it more readable)</p>
 </li>
-<li>This extension was implemented by <a href="https://github.com/Rapptz/discord.py/blob/2fdbe59376d736483cd1226e674e609433877af4/docs/extensions/attributetable.py">discord.py</a>, this is just re-using that code, with some modifications to fit our code style and to fit the documentation design (furo theme).</li>
-<li>Updated contributing guidelines (restructure and rewrite some categories, to make it more readable)</li>
 </ul>
 <h3 id="internal-changes">Internal Changes<a class="headerlink" href="#internal-changes" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1534,10 +1559,8 @@ a command dynamically, and showing it's output here, which we currently don't su
 <li><a href="https://github.com/py-mine/mcproto/issues/153">#153</a>: Replace flake8 linter with ruff (mostly equivalent, but much faster and configurable from pyproject.toml)</li>
 <li>
 <p><a href="https://github.com/py-mine/mcproto/issues/154">#154</a>: Enforce various new ruff linter rules:</p>
-</li>
-<li>
-<p><strong>PGH:</strong> pygrep-hooks (replaces pre-commit version)</p>
-</li>
+<ul>
+<li><strong>PGH:</strong> pygrep-hooks (replaces pre-commit version)</li>
 <li><strong>PL:</strong> pylint (bunch of typing related linter rules)</li>
 <li><strong>UP:</strong> pyupgrade (forces use of the newest possible standards, depending on target version)</li>
 <li><strong>RET:</strong> flake8-return (various linter rules related to function returns)</li>
@@ -1547,21 +1570,25 @@ a command dynamically, and showing it's output here, which we currently don't su
 <li><strong>PTH:</strong> flake8-use-pathlib (always prefer pathlib alternatives to the os ones)</li>
 <li><strong>RUF:</strong> ruff custom rules (various additional rules created by the ruff linter team)</li>
 </ul>
+</li>
+</ul>
 <hr />
 <h2 id="version-040-2023-06-11">Version 0.4.0 (2023-06-11)<a class="headerlink" href="#version-040-2023-06-11" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-changes_1">Breaking Changes<a class="headerlink" href="#breaking-changes_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="https://github.com/py-mine/mcproto/issues/41">#41</a>: Rename <code>mcproto.packets.abc</code> to <code>mcproto.packets.packet</code></li>
-<li><a href="https://github.com/py-mine/mcproto/issues/116">#116</a>: Restructure the project, moving to a single protocol version model</li>
+<li><a href="https://github.com/py-mine/mcproto/issues/116">#116</a>: Restructure the project, moving to a single protocol version model<ul>
 <li>This change does NOT have a deprecation period, and will very likely break most existing code-bases. However this change is necessary, as multi-version support was unsustainable (see issue #45 for more details)</li>
 <li>Any packets and types will no longer be present in versioned folders (mcproto.packets.v757.xxx), but rather be directly in the parent directory (mcproto.packets.xxx).</li>
 <li>This change doesn't affect manual communication with the server, connection, and basic IO writers/readers remain the same.</li>
+</ul>
+</li>
 </ul>
 <hr />
 <h2 id="version-030-2023-06-08">Version 0.3.0 (2023-06-08)<a class="headerlink" href="#version-030-2023-06-08" title="Permanent link">&para;</a></h2>
 <h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="https://github.com/py-mine/mcproto/issues/54">#54</a>: Add support for LOGIN state packets</li>
+<li><a href="https://github.com/py-mine/mcproto/issues/54">#54</a>: Add support for LOGIN state packets<ul>
 <li><code>LoginStart</code></li>
 <li><code>LoginEncryptionRequest</code></li>
 <li><code>LoginEncryptionResponse</code></li>
@@ -1570,6 +1597,8 @@ a command dynamically, and showing it's output here, which we currently don't su
 <li><code>LoginPluginRequest</code></li>
 <li><code>LoginPluginResponse</code></li>
 <li><code>LoginSetCompression</code></li>
+</ul>
+</li>
 </ul>
 <h3 id="bugfixes_1">Bugfixes<a class="headerlink" href="#bugfixes_1" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1584,10 +1613,12 @@ a command dynamically, and showing it's output here, which we currently don't su
 <li><a href="https://github.com/py-mine/mcproto/issues/28">#28</a>: Use furo theme for the documentation</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/34">#34</a>: Add version guarantees page</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/40">#40</a>: Move code of conduct to the docs.</li>
-<li>Improve readability of the changelog readme (changes/README.md)</li>
+<li>Improve readability of the changelog readme (changes/README.md)<ul>
 <li>Mention taskipy <code>changelog-preview</code> shorthand command</li>
 <li>Add category headers splitting things up, for better readability</li>
 <li>Explain how to express multiple changes related to a single goal in a changelog fragment.</li>
+</ul>
+</li>
 <li>Include <code>CHANGELOG.md</code> file in project's distribution files.</li>
 </ul>
 <h3 id="internal-changes_1">Internal Changes<a class="headerlink" href="#internal-changes_1" title="Permanent link">&para;</a></h3>
@@ -1605,9 +1636,11 @@ a command dynamically, and showing it's output here, which we currently don't su
 <h2 id="version-020-2022-12-30">Version 0.2.0 (2022-12-30)<a class="headerlink" href="#version-020-2022-12-30" title="Permanent link">&para;</a></h2>
 <h3 id="features_2">Features<a class="headerlink" href="#features_2" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="https://github.com/py-mine/mcproto/issues/14">#14</a>: Add <code>__slots__</code> to most classes in the project</li>
+<li><a href="https://github.com/py-mine/mcproto/issues/14">#14</a>: Add <code>__slots__</code> to most classes in the project<ul>
 <li>All connection classes are now slotted</li>
 <li>Classes in <code>mcproto.utils.abc</code> are now slotted</li>
+</ul>
+</li>
 <li>Separate packet interaction functions into <code>mcproto.packets.interactions</code>, (though they're reexported in
   <code>mcproto.packets</code>, so no breaking changes)</li>
 </ul>
@@ -1625,12 +1658,14 @@ a command dynamically, and showing it's output here, which we currently don't su
 </ul>
 <h3 id="internal-changes_2">Internal Changes<a class="headerlink" href="#internal-changes_2" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="https://github.com/py-mine/mcproto/issues/6">#6</a>: Rework deprecation system</li>
+<li><a href="https://github.com/py-mine/mcproto/issues/6">#6</a>: Rework deprecation system<ul>
 <li>Drop support for date-based deprecations, versions work better</li>
 <li>Provide <code>deprecation_warn</code> function, which emits warnings directly, no need for a decorator</li>
 <li>Add a <code>SemanticVersion</code> class, supporting version comparisons</li>
 <li>If the project's version is already higher than the specified deprecation removal version, raise a DeprecationWarning
-    as a full exception (rather than just a warning).</li>
+  as a full exception (rather than just a warning).</li>
+</ul>
+</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/7">#7</a>: Add towncrier for managing changelog</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/14">#14</a>: Add slotscheck, ensuring <code>__slots__</code> are defined properly everywhere.</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/14">#14</a>: Make <code>typing-extensions</code> a runtime dependency and use it directly, don't rely on <code>if typing.TYPE_CHECKING</code> blocks.</li>
@@ -1742,6 +1777,8 @@ releases, or git commit history directly.</em></p>
     
     
       <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../assets/_markdown_exec_pyodide.js"></script>
       
     
   </body>
