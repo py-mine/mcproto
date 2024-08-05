@@ -1,3 +1,7 @@
+!!! bug "Work In Progress"
+
+    This page is missing a guide on ruff editor integration
+
 # Style Guide
 
 ???+ abstract
@@ -112,6 +116,10 @@ To make ruff format your code, simply run:
 ```bash
 ruff format .
 ```
+
+### Editor integration
+
+TODO
 
 ## Other style guidelines
 
