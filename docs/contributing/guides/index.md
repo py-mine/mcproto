@@ -33,7 +33,7 @@ rule.
 2. **Make great commits.** Great commits should be atomic (do one thing only and do it well), with a commit message
    that explaining what was done, and why. More on this [here](./great-commits.md).
 3. **Make an issue before the PR.** Before you start working on your PR, open an issue and let us know what you're
-   planning. We described this further in our [making a PR guide](../making-a-pr.md##get-assigned-to-the-issue).
+   planning. We described this further in our [making a PR guide](../making-a-pr.md#get-assigned-to-the-issue).
 4. **Use assets licensed for public use.** Whenever you're adding a static asset (e.g. images/video files/audio or
    even code) that isn't owned/written by you, make sure it has a compatible license with our projects.
 5. **Follow our [Code of Conduct](../../community/code-of-conduct.md)**
