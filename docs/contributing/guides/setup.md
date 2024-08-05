@@ -20,8 +20,8 @@ requirement to work on this project.
 This guide assumes you have already [forked][github-forking] our repository, [clonned it][git-cloning] to your
 computer and created your own [git branch][git-branches] to work on.
 
-If you wish to work from an already forked repository, make sure to check out the main branch and do a [`git pull`] to
-get your fork up to date. Now create your new branch.
+If you wish to work from an already forked repository, make sure to check out the main branch and do a [`git
+pull`][git-pull] to get your fork up to date. Now create your new branch.
 
 [git-and-github]: https://docs.github.com/en/get-started/start-your-journey/about-github-and-git
 [github-forking]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo
