@@ -53,7 +53,7 @@ slotscheck = ">=0.16.1,<0.20.0"
 basedpyright = "^1.13.3"
 
 [tool.poetry.group.release.dependencies]
-towncrier = "==23.11" # temporary pin, as 24.7 is incompatible with sphinxcontrib-towncrier
+towncrier = "==24.7.1" # temporary pin, as 24.7 is incompatible with sphinxcontrib-towncrier
 
 [tool.poetry.group.release-ci]
 optional = true
