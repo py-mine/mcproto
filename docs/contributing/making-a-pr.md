@@ -1,3 +1,7 @@
+!!! bug "Work In Progress"
+
+    This page is missing a guide on writing a good PR body
+
 # Pull Requests
 
 Welcome! If you're interested in contributing to mcproto, you've come to the right place. mcproto is an open-source
@@ -44,6 +48,10 @@ being used, which would be a shame.
 
     There's therefore no point in cluttering the issue tracker with a bunch of small issues that can often be
     changed in just a few minutes.
+
+## Pull Request Body
+
+TODO
 
 ## Work in Progress PRs
 

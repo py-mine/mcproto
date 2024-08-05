@@ -1,6 +1,6 @@
 !!! bug "Work In Progress"
 
-    This page is still being written. The content below (if any) may change.
+    This page is missing a guide on configuring vscode to pick up poetry environment.
 
 # Setting up the project
 
