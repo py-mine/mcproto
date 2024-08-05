@@ -1006,13 +1006,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fragment-contents" class="md-nav__link">
+  <a href="#writing-good-changelog-fragments" class="md-nav__link">
     <span class="md-ellipsis">
-      Fragment contents
+      Writing good changelog fragments
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Fragment contents">
+    <nav class="md-nav" aria-label="Writing good changelog fragments">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1197,13 +1197,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fragment-contents" class="md-nav__link">
+  <a href="#writing-good-changelog-fragments" class="md-nav__link">
     <span class="md-ellipsis">
-      Fragment contents
+      Writing good changelog fragments
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Fragment contents">
+    <nav class="md-nav" aria-label="Writing good changelog fragments">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1262,6 +1262,12 @@
 
 
 <h1 id="changelog-fragments">Changelog fragments<a class="headerlink" href="#changelog-fragments" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+<p>This page describes our use of <code>towncrier</code> for the project's changelog. It explains the different changelog
+categories, the process of creating changelog fragment files and generating a changelog preview. Additionally, the
+page contains a guide on writing good changelog fragments.</p>
+</details>
 <p>Our project contains a changelog which tracks all notable changes for easy and quick reference to both users and our
 contributors.</p>
 <p>To maintain our changelog, we're using <a href="https://towncrier.readthedocs.io/en/stable/"><code>towncrier</code></a>, which allows us to
@@ -1349,7 +1355,7 @@ that automatically.</p>
 </details>
 <p>To make this a bit easier, there is a taskipy task running the command above, so you can just use <code>poetry run task
 changelog-preview</code> to see the changelog, if you don't like remembering new commands.</p>
-<h2 id="fragment-contents">Fragment contents<a class="headerlink" href="#fragment-contents" title="Permanent link">&para;</a></h2>
+<h2 id="writing-good-changelog-fragments">Writing good changelog fragments<a class="headerlink" href="#writing-good-changelog-fragments" title="Permanent link">&para;</a></h2>
 <p>Fragment files follow the same markdown syntax as our documentation.</p>
 <p>The contents of a fragment file should describe the change that you've made in a quick and general way. That said, the
 change descriptions can be a bit more verbose than just the PR title, but only if it's necessary. Keep in mind that
@@ -1409,13 +1415,13 @@ correctly! Further blocks can have wrapped lines.)</p>
 <p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>No indent in description</strong> (Sometimes, we want to add additional
 description to our changelog entry. When doing so, we need to make sure that the description block is indented with 4
 spaces and there is a blank line after the first / title line.)</p>
-<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
+<div class="highlight"><span class="filename">changes/330.breaking.md</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>This is a breaking change as <span class="sb">`LoginEncryptionPacket`</span>&#39;s <span class="sb">`__init__`</span> method now uses &quot;shared_secret&quot; keyword only
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>argument, not &quot;shared_key&quot;. Every initialization call to this packet needs to be updated.
 </code></pre></div>
 <p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg></span> <strong>Way too long</strong> (This should've been the PR description)</p>
-<div class="highlight"><span class="filename">changes/161.bugfix.md</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Introduce support for encryption handling.
+<div class="highlight"><span class="filename">changes/161.feature.md</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Introduce support for encryption handling.
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    Most servers (even offline ones) usually send an EncryptionRequest packet during the LOGIN state, with a public
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    (RSA) key that the client is expected to use to encrypt a randomly generated shared secret, to send back to the
