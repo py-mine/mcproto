@@ -1,6 +1,6 @@
 # Bug reports
 
-Mcproto is an actively maintained project that we constantly strive to improve. With a project of this siez and
+Mcproto is an actively maintained project that we constantly strive to improve. With a project of this size and
 complexity, bugs may occur. If you think you have discovered a bug, you can help us by submitting an issue to our
 public [issue tracker](https://github.com/py-mine/mcproto/issues), following this guide.
 
