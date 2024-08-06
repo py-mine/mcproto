@@ -4,7 +4,11 @@ site_url: https://py-mine.github.io/mcproto
 repo_url: https://github.com/py-mine/mcproto
 repo_name: py-mine/mcproto
 
-watch: [LICENSE.txt, LICENSE-THIRD-PARTY.txt, ATTRIBUTION.md, CHANGELOG.md, changes]
+watch:
+  [LICENSE.txt, LICENSE-THIRD-PARTY.txt, ATTRIBUTION.md, CHANGELOG.md, changes]
+
+exclude_docs: |
+  LICENSE.md
 
 nav:
   - Home: index.md
