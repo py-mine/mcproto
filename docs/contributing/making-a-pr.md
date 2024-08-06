@@ -4,7 +4,7 @@
 
 # Pull Requests
 
-Welcome! If you're interested in contributing to mcproto, you've come to the right place. mcproto is an open-source
+Welcome! If you're interested in contributing to mcproto, you've come to the right place. Mcproto is an open-source
 project, and we welcome contributions from anyone eager to help out.
 
 To contribute, you can create a [pull request](https://docs.github.com/en/pull-requests) on our GitHub repository.
