@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#great-commits" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -946,6 +951,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Great commits
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -956,6 +974,199 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#commit-message-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commit Message Guidelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commit Message Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-than-just-the-first-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      More than just the first line
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-atomic-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make "atomic" commits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Make "atomic" commits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partial-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partial adds
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#avoid-fixing-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avoid fixing commits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Avoid fixing commits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#force-pushing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Force pushing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Force pushing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#force-pushing-on-pr-feature-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Force pushing on PR feature branches
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Benefits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-generally-improved-development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      A generally improved development workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#easier-bug-hunting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Easier bug hunting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-git-blame" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enhanced git blame
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efficient-cherry-picking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Efficient cherry picking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streamlined-pull-request-reviews" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streamlined pull request reviews
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#footnotes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Footnotes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1036,6 +1247,190 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#commit-message-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commit Message Guidelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commit Message Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-than-just-the-first-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      More than just the first line
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-atomic-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make "atomic" commits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Make "atomic" commits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partial-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partial adds
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#avoid-fixing-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avoid fixing commits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Avoid fixing commits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#force-pushing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Force pushing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Force pushing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#force-pushing-on-pr-feature-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Force pushing on PR feature branches
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Benefits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-generally-improved-development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      A generally improved development workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#easier-bug-hunting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Easier bug hunting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-git-blame" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enhanced git blame
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efficient-cherry-picking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Efficient cherry picking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streamlined-pull-request-reviews" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streamlined pull request reviews
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#footnotes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Footnotes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1058,12 +1453,274 @@
   
 
 
-  <h1>Great commits</h1>
-
-<div class="admonition bug">
-<p class="admonition-title">Work In Progress</p>
-<p>This page is still being written. The content below (if any) may change.</p>
+<h1 id="great-commits">Great Commits<a class="headerlink" href="#great-commits" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+<p>This guide describes how to make good commits that are helpful to maintainers, debuggable and readable when going
+over the <code>git log</code>, or <code>git blame</code>.</p>
+<p>It explains the purpose of a commit message and it's structure, goes over the importance of making commits
+"atomic" and the practice of partial staging, mentions why and how to avoid making a lot of fixing commits,
+describes force pushing after modifying the git history, alongside it's downsides and finally, it explains why
+these practices are worth following and how they make the developer's life easier.</p>
+</details>
+<p>A well-structured git log is crucial for a project's maintainability, providing insight into changes as a reference for
+future maintainers (or old forgetful ones, <em>like me</em>). Here, we outline the best practices for making good commits in
+our project.</p>
+<h2 id="commit-message-guidelines">Commit Message Guidelines<a class="headerlink" href="#commit-message-guidelines" title="Permanent link">&para;</a></h2>
+<h3 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h3>
+<p>Every commit should represent a change in the source code. The commit message should not only describe <strong>what</strong> was
+changed but also <strong>why</strong> it was necessary and what it achieves.</p>
+<h3 id="more-than-just-the-first-line">More than just the first line<a class="headerlink" href="#more-than-just-the-first-line" title="Permanent link">&para;</a></h3>
+<p>Many developers are uesd to commiting changes with a simple <code>git commit -m "My message"</code>, and while this is enough and
+it's perfectly fine in many cases, sometimes you just need more space to describe what a change truly achieves.</p>
+<p>Surprisingly, many people don't even know that they can make a commit that has more in it's message than just the
+title/first line. That then leads to poorly documented changes, because single line sometimes just isn't enough.</p>
+<p>To create a commit with a bigger commit message, you can simply run the <code>git commit</code> command without the <code>-m</code> argument.
+This should open a temporary file in your text editor (<code>$EDITOR</code>), in which you can write out your commit message in
+full.</p>
+<details class="tip">
+<summary>Use git commit by default</summary>
+<p>I’d actually recommend making the simple <code>git commit</code> the default way you make new commits, since it invites you to
+write more about it, by just seeing that you have that space available. We usually don’t even know what exactly
+we’ll write in our new commit message before getting to typing it out, and knowing you have that extra space if you
+need it will naturally lead to using it, even if you didn’t know you needed it ahead of time.</p>
+</details>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>That said, not every commit requires both a subject and a body. Sometimes, a change may be so simple, that no
+further context is necessary. With those changes, including a body would just be a waste of the readers time. For
+example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Fix typo in README
+</code></pre></div>
+<p>This message doesn't need anything extra. Some people like to include what the typo was, but if you want to know
+that, you can just look at the actual changes that commit made. There's a whole bunch of ways to do that with git,
+like <code>git show</code>, <code>git diff</code> or <code>git log --patch</code>. So while in some cases, having extra context can be very
+valuable, you also shouldn't overdo it.</p>
 </div>
+<h3 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h3>
+<p>Git commits should be written in a very specific way. There’s a few rules to follow:</p>
+<ol>
+<li><strong>Subject Line:</strong><ul>
+<li><strong>Limit to 50 characters</strong> (This isn't a hard limit, but try not to go much longer. This limit ensures
+  readability and forces the author to thing about the most concise way to explain what's going on. Hint: If you're
+  having trouble summarizing, you might be committing too much at once)</li>
+<li><strong>A single sentence</strong> (The summary should be a single sentence, multiple probably wouldn't fit into the character
+  limit anyways)</li>
+<li><strong>Capitalize the first letter</strong></li>
+<li><strong>Don't end with a period</strong> (A period will only waste one of your precious 50 characters for the summary and
+  it's not very useful context wise)</li>
+<li><strong>Use imperative mood</strong> (Imperative mood means “written as if giving a command/instruction” i.e.: “Add support
+  for X”, not “I added support for X” or “Support for X was added”, as a rule of thumb, a subject message should be
+  able to complete the sentence: “If implemented, this commit will …”)</li>
+</ul>
+</li>
+<li><strong>Body:</strong><ul>
+<li><strong>Separate the body from the subject line with a blank line</strong> (Not doing so would make git think your summary
+  spans across multiple lines, rather than it being a body)</li>
+<li><strong>Wrap at 72 characters</strong> (Commits are often printed into the terminal with the <code>git log</code> command. If the output
+  isn't wrapped, going over the terminals width can cause a pretty messy output. The recommended maximum width for terminal text output is 80 characters, but git tools can often add indents, so 72 characters is a sensible maximum)</li>
+<li><strong>Avoid implementation details</strong> (The diff shows the "how", focus on the "what" and "why")</li>
+</ul>
+</li>
+</ol>
+<p>Git commits can use markdown, most other programs will understand it and it's a great way to bring in some more
+style, improving the readability. In fact, if you view the commit from a site like GitHub, it will automatically
+render any markdown in the commit for you.</p>
+<details class="example" open="open">
+<summary>Example commit</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Summarize changes in around 50 characters or less
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>More detailed explanatory text, if necessary. Wrap it to about 72
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>characters or so. In some contexts, the first line is treated as the
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>subject of the commit and the rest of the text as the body. The
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>blank line separating the summary from the body is critical (unless
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>you omit the body entirely); various tools like <span class="sb">`log`</span>, <span class="sb">`shortlog`</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>and <span class="sb">`rebase`</span> can get confused if you run the two together.
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>Explain the problem that this commit is solving. Focus on why you
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>are making this change as opposed to how (the code explains that).
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>Are there side effects or other unintuitive consequences of this
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>change? Here&#39;s the place to explain them.
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>Further paragraphs come after blank lines.
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="k">-</span><span class="w"> </span>Bullet points are okay too
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="k">-</span><span class="w"> </span>They&#39;re very useful for listing something
+</code></pre></div>
+</details>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 5.5a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.298 7.298 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4M4 9a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3v2H4m1-4a1 1 0 0 1-1-1 1 1 0 0 1 1-1h5v2H5m-2 8a1 1 0 0 1-1-1 1 1 0 0 1 1-1h4v2H3Z"/></svg></span> <strong>Stretch goal</strong> – Include relevant <strong>keywords</strong> to make your commits easily searchable (e.g. the
+name of the class/function you modified).</p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 5.5a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.298 7.298 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4M4 9a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3v2H4m1-4a1 1 0 0 1-1-1 1 1 0 0 1 1-1h5v2H5m-2 8a1 1 0 0 1-1-1 1 1 0 0 1 1-1h4v2H3Z"/></svg></span> <strong>Stretch goal #2</strong> – Keep it <strong>engaging</strong>! Provide some interesting context or debug processes to
+make the commit history both more informative and fun to read.</p>
+<h2 id="make-atomic-commits">Make "atomic" commits<a class="headerlink" href="#make-atomic-commits" title="Permanent link">&para;</a></h2>
+<div class="admonition quote">
+<p class="admonition-title">Definition</p>
+<p><em>Atomic: of or forming a single irreducible unit or component in a larger system.</em></p>
+</div>
+<p>The term “atomic commit” means that the commit is only representing a single change, that can’t be further reduced into
+multiple commits, i.e. this commit only handles a single change. Ideally, it should be possible to sum up the changes
+that a good commit makes in a single sentence.</p>
+<p>That said, the irreducibility should only apply to the change itself, obviously, making a commit for every line of code
+wouldn’t be very clean. Having a commit only change a small amount of code isn’t what makes it atomic. While the commit
+certainly can be small, it can just as well be a commit that’s changing thousands of lines. (That said, you should have
+some really good justification for it if you’re actually making commits that big.)</p>
+<p>The important thing is that the commit is only responsible for addressing a single change. A counter-example would be a
+commit that adds a new feature, but also fixes a bug you found while implementing this feature, and also improves the
+formatting of some other function, that you encountered along the way. With atomic commits, all of these actions would
+get their own standalone commits, as they’re unrelated to each other, and describe several different changes.</p>
+<p>Note that making atomic commits isn't just about splitting thins up to only represent single changes, indeed, while
+they should only represent the smallest possible change, it should also be a “complete” change. This means that a
+commit responsible for changing how some function works in order to improve performance should ideally also update the
+documentation, make the necessary adjustments to unit-tests so they still pass, and update all of the references to
+this updated function to work properly after this change.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Summary</p>
+<p>So, an atomic commit is a commit representing a single (ideally an irreducible) change, that’s fully implemented
+and integrates well with the rest of the codebase.</p>
+</div>
+<h3 id="partial-adds">Partial adds<a class="headerlink" href="#partial-adds" title="Permanent link">&para;</a></h3>
+<p>Many people tend to always simply use <code>git add -A</code> (or <code>git add .</code>), to stage all of the changes they made, and then
+create a commit with it all. Sometimes, you might not even stage the changes and choose to use <code>git commit -a</code>, to
+quickly commit everything.</p>
+<p>In an ideal world, where you only made the changes you needed to make for this single atomic commit, this would work
+pretty well, and while sometimes this is the case, in many cases, you might've also fixed a bug or a typo that you
+noticed while working on your changes, or already implemented something else, that doesn't fit into your single atomic
+commit that you now wish to make.</p>
+<p>In this case, it can be very useful to know that you can instead make a "partial" add, and only stage those changes
+that belong to the commit. In some cases, all that you'll need is to only stage some specific files, which you can do
+with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>add<span class="w"> </span>path/to/some/file<span class="w"> </span>path/to/other/file
+</code></pre></div>
+<p>That said, in most cases, you're left with a single file that contains multiple changes. When this happens, you can use
+the <code>-p</code>/<code>--patch</code> flag:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>add<span class="w"> </span>-p<span class="w"> </span>path/to/file
+</code></pre></div>
+<p>Git will then let you interactively go over every "hunk" (a chunk of code, with changes close to each other) and let
+you decide whether to accept it (hence staging that single hunk), split it into more chunks, skip it (avoids staging
+this hunk) or even modify it in your editor, allowing you to remove the intertwined code from multiple changes, so that
+your commit will really only perform a single change.</p>
+<div class="admonition tip">
+<p class="admonition-title">Use --patch more often</p>
+<p>This git feature has slowly became one of my favorite tools, and I use it almost every time I need to commit
+something, even if I don't need to change or skip things, since it also allows me to quickly review the changes
+I'm making, before they make it into a commit.</p>
+</div>
+<h2 id="avoid-fixing-commits">Avoid fixing commits<a class="headerlink" href="#avoid-fixing-commits" title="Permanent link">&para;</a></h2>
+<p>A very common occurrence I see in a ton of different projects is people making sequences of commits that go like:</p>
+<ul>
+<li>Fix bug X</li>
+<li>Actually fix bug X</li>
+<li>Fix typo in variable name</li>
+<li>Sort imports</li>
+<li>Follow lint rules</li>
+<li>Run auto-formatter</li>
+</ul>
+<p>While people can obviously mess up sometimes, and just not get something right on the first try, a fixing commit is
+rarely a good way to solve that.</p>
+<p>Instead of making a new commit, you can actually just amend the original. To do this, we can use the <code>git commit
+--amned</code>, which will add your staged changes into the previous commit, even allowing you to change the message of that
+old commit.</p>
+<p>Not only that, if you've already made another commit, but now found something that needs changing in the commit before
+that, you can use interactive rebase with <code>git rebase -i HEAD~3</code>, allowing you to change the last 3 commits, or even
+completely remove some of those commits.</p>
+<p>For more on history rewriting, I'd recommend checking the <a href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">official git
+documentation</a>.</p>
+<h3 id="force-pushing">Force pushing<a class="headerlink" href="#force-pushing" title="Permanent link">&para;</a></h3>
+<p>Changing history is a great tool to clean up after yourself, but it works best with local changes, i.e. with changes
+you haven't yet pushed.</p>
+<p>If you're changing git history after you've already pushed, you will find that pushing again will not work, giving you
+a message like "updates were rejected because the remote contains work that you do not have locally".</p>
+<p>To resolve this issue, it is possible to make a "force push" with <code>git push --force</code> command. Running this will push
+your branch to the remote (to GitHub) regardless of what was in the remote already, hence overriding it.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Force pushing becomes risky if others have already pulled the branch you are working on. If you overwrite the
+branch with a force push, it can lead to several issues:</p>
+<ul>
+<li><strong>Lost Work:</strong> Collaborators may have pushed to your branch already, following it's existing git history.
+  However, after your force-push, their changes would be ereased from the remote. <strong>Make sure you pull / rebase
+  from the remote before you make a force-push.</strong></li>
+<li><strong>Complex conflicts:</strong> If someone else has pulled your branch and did some changes that they didn't yet push
+  before you force-pushed, suddenly, their git history is now no longer in sync. Resolving conflicts like that is
+  possible, but it can be very annoying.</li>
+<li><strong>Harder reviews:</strong> When reviewing your code, we sometimes like going over the individual commits to understand
+  your individual (atomic) changes better. It's often a lot easier to look at and review 10 different atomic
+  changes individually, that together form a PR than it would be to look at all of them at once. By force-pushing,
+  you're changing the commit history, making the changes to the code that we already reviewed. This is partially
+  GitHub's fault though, for not providing an easier way of showing these changes across force-pushes.</li>
+</ul>
+</div>
+<h4 id="force-pushing-on-pr-feature-branches">Force pushing on PR feature branches<a class="headerlink" href="#force-pushing-on-pr-feature-branches" title="Permanent link">&para;</a></h4>
+<p>In our project, we do allow force pushing on your individual feature branches that you use for your PR. This
+flexibility enables you to clean up your commit history and refine your changes before they are merged into the main
+branch. However, it's important to note that many other projects may not permit force pushing due to the risks
+involved. Always check the contributing guidelines of the project you are working on.</p>
+<div class="admonition tip">
+<p class="admonition-title">Best practices</p>
+<p>To mitigate the risks associated with force pushing, consider following these best practices:</p>
+<ul>
+<li><strong>Push less often:</strong> Try to limit of othen you push changes to the remote repository in general. Aim to push only
+  when you are satisfied with the set of changes you have. This reduces the likelihood of needing to force-push a
+  lot.</li>
+<li><strong>Force push quickly:</strong> If you do need to force-push, try to do so as quickly as possible. The more time that has
+  passed since your normal push, the more likely it is that someone have already clonned/pulled your changes. If a
+  force push was made within just a few seconds of the original push (and it only overwrites the changes from that
+  last push), it's not very likely that someone will have those changes pulled already, so you probably won't break
+  anyone's local version.</li>
+<li><strong>Pull before changing history:</strong> Make absolutely certain that you don't override anyone's changes with your
+  force-push. Sometimes, maintainers can create new commits in your branch, other times, that can even be you by
+  modifying something from GitHub, or clicking on the apply suggestion button from a code-review. By pulling before
+  you start changing history, you can make sure that you won't erease these changes and they'll remain a part of
+  your modified history.</li>
+</ul>
+</div>
+<h2 id="benefits">Benefits<a class="headerlink" href="#benefits" title="Permanent link">&para;</a></h2>
+<p>Now that you've seen some of the best practices to follow when making new commits, let's talk a bit about why we follow
+these practices and what benefits we can gain from them.</p>
+<h3 id="a-generally-improved-development-workflow">A generally improved development workflow<a class="headerlink" href="#a-generally-improved-development-workflow" title="Permanent link">&para;</a></h3>
+<p>Speaking from my personal experience, I can confidently say that learning how to make good git commits, specifically
+the practice of making atomic commits will make you a better programmer overall. That might sound surprising, but it's
+really true.</p>
+<p>The reason is that it forces you to only tackle one issue at a time. This naturally helps you to think about how to
+split your problem into several smaller (atomic) subproblems and make commits addressing those single parts. This is
+actually one of very well known approaches to problem-solving, called the "divide and conquer" method, where you split
+your problem into really small, trivially simple chunks that you solve one by one.</p>
+<h3 id="easier-bug-hunting">Easier bug hunting<a class="headerlink" href="#easier-bug-hunting" title="Permanent link">&para;</a></h3>
+<p>Bugs in code are pretty much inevitable, even for the most experienced of developers. Sometimes, we just don't realise
+how certain part of the code-base will interact with another part, or we're just careless as we try and build something
+fast.</p>
+<p>The most annoying bugs are those that aren't discovered immediately during development. These bugs can require a lot of
+work to track down. With a good git log, filled with a lot of small commits, where each commit leaves the code-base in
+a usable state, you can make this process a lot simpler!</p>
+<p>Git has a command specifically for this: <code>git bisect</code>. It will first make you mark 2 commits, a good one and a bad one,
+after which it will perform a binary search, checking out the commits in between these two as you try and replicate the
+bug on each. This will quickly lead you to the specific commit that introduced this bug, without having to do any code
+debugging at all.</p>
+<p>The great advantage here is that users reporting bugs can often perform git bisects too, even without having to know
+much about development and the structure of our code-base and if the identified commit is small enough, the issue is
+often apparent just from looking at the diff. Even for bigger commits though, they can be often reverted to quickly fix
+the issue and give developers time to focus on actually resolving it, while using it's diff as a reference.</p>
+<h3 id="enhanced-git-blame">Enhanced git blame<a class="headerlink" href="#enhanced-git-blame" title="Permanent link">&para;</a></h3>
+<p>Clear commit messages can be very useful for understanding certain parts of the code. Git provides a tool called <code>git
+blame</code>, which can show you which commit is responsible for adding a specific line into the code-base. From there, you
+can then take a look at that commit specifically and see it's title &amp; description to further understand that change,
+along with the rest of the diff to give you proper context for how that line worked with the rest of the code.</p>
+<p>This can often be a great tool when refactoring, as sometimes it can be quite unclear why something is done the way it
+is and commits can sometimes help explain that.</p>
+<h3 id="efficient-cherry-picking">Efficient cherry picking<a class="headerlink" href="#efficient-cherry-picking" title="Permanent link">&para;</a></h3>
+<p>In some cases, it can be useful to carry over certain change (commit) from one place to another. This process is called
+cherry-picking (<code>git cherry-pick</code>), which will copy a commit and apply it's diff elsewhere. With atomic commits, this
+will often work without any further adjustments, since each commit should itself leave you with a functioning project.</p>
+<h3 id="streamlined-pull-request-reviews">Streamlined pull request reviews<a class="headerlink" href="#streamlined-pull-request-reviews" title="Permanent link">&para;</a></h3>
+<p>Reviewers can often better understand and verify changes by examining your well-structured commits, improving the
+review process.</p>
+<h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
+<p>This guide took <strong>heavy</strong> inspiration from this article: <a href="https://itsdrike.com/posts/great-commits/">https://itsdrike.com/posts/great-commits/</a>.</p>
+<div class="admonition quote">
+<p class="admonition-title">Quote</p>
+<p>P.S. It's not plagiarism if the original was written by me :P</p>
+</div>
+<p>See the original article's sources for proper attributions.</p>
 
 
 
