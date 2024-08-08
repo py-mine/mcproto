@@ -90,6 +90,19 @@ The type checker that we use in our code-base is [**basedpyright**](https://docs
 pyright which adds some extra checks and features and focuses more on the open-source community, than the
 official Microsoft owned Pyright.
 
+### Running BasedPyright
+
+To run BasedPyright on the code-base, you can use the following command:
+
+```bash
+basedpyright .
+```
+
+!!! note ""
+
+    You will need to run this from an [activated](./setup.md#activating-the-environment) poetry environment while
+    in the project's root directory.
+
 ### Editor Integration
 
 === "VSCode"
