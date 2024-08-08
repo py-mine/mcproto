@@ -147,9 +147,3 @@ list these projects:
 - Rust-lang: <https://www.rust-lang.org/policies/code-of-conduct>
 - Code Fellows: <https://github.com/codefellows/code-of-conduct>
 - Python Discord: <https://www.pythondiscord.com/pages/code-of-conduct/>
-
-## License
-
-All content of this page is licensed under a Creative Commons Attributions license.
-
-For more information about this license, see: <https://creativecommons.org/licenses/by/3.0/>
