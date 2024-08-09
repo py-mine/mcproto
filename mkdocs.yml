@@ -30,7 +30,7 @@ nav:
           - Style Guide: contributing/guides/style-guide.md
           - Docstring formatting: contributing/guides/docstrings.md
           - Type hinting: contributing/guides/type-hints.md
-          - Other tools: contributing/guides/other-tools.md
+          - Slotscheck: contributing/guides/slotscheck.md
           - Pre-commit: contributing/guides/precommit.md
           - Changelog: contributing/guides/changelog.md
           - Great commits: contributing/guides/great-commits.md
