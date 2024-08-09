@@ -297,7 +297,7 @@ retest = "pytest -v --last-failed"
 test-nocov = "pytest -v --no-cov --failed-first"
 retest-nocov = "pytest -v --no-cov --last-failed"
 changelog-preview = "towncrier build --draft --version next"
-docs = "sphinx-build -b dirhtml -d ./docs/_build/doctrees -W -E -T --keep-going ./docs ./docs/_build/html"
+docs = "mkdocs serve"
 
 [tool.poetry-dynamic-versioning]
 enable = true
