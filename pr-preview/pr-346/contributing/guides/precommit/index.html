@@ -1200,7 +1200,7 @@
 <summary>Abstract</summary>
 <p>This guide explains what is pre-commit and how to set it up as a git hook that will run automatically before your
 commits. It also describes how to run pre-commit manually from the CLI, how to skip some or all of the individual
-checks it performs and where it's configuration file is.</p>
+checks it performs, what happens when hooks edit files and where it's configuration file is.</p>
 </details>
 <p>Now that you've seen the linters, formatters, type-checkers and other tools that we use in the project, you might be
 wondering whether you're really expected to run all of those commands manually, after each change. And of course, no,
@@ -1214,15 +1214,13 @@ telling you why.</p>
 <p>To install pre-commit as a git hook all you need to do is to run:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pre-commit<span class="w"> </span>install
 </code></pre></div>
-<div class="admonition note">
-<p>Don't forget to <a href="../setup/#activating-the-environment">activate</a> the poetry virtual environment before running.</p>
-</div>
 <p>This will install pre-commit as a git hook into your git repository, which will mean it will run automatically before
 every new commit you make.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Pre-commit itself will be installed via poetry, which means you will need to have an activated poetry environment
-whenever you make a new commit, otherwise, the pre-commit git hook will fail with command not found.</p>
+<p>Pre-commit itself will be installed via poetry, which means you will need to have an
+<a href="../setup/#activating-the-environment">activated</a> poetry environment whenever you make a new commit, otherwise,
+the pre-commit git hook will fail with command not found.</p>
 </div>
 <h2 id="hooks-that-modify-files">Hooks that modify files<a class="headerlink" href="#hooks-that-modify-files" title="Permanent link">&para;</a></h2>
 <p>Sometimes, hooks can end up modifying your files, for example the ruff format hook may do so if your file wasn't
