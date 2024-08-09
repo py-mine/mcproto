@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/other-tools/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/slotscheck/">
       
       
         <link rel="prev" href="../type-hints/">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Other tools - MCPROTO</title>
+        <title>Slotscheck - MCPROTO</title>
       
     
     
@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#slotscheck" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -112,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Other tools
+              Slotscheck
             
           </span>
         </div>
@@ -883,16 +888,75 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Slotscheck
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    Other tools
+    Slotscheck
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-slotscheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is slotscheck
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-slotscheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to use slotscheck
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-slotscheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring slotscheck
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1036,6 +1100,43 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-slotscheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is slotscheck
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-slotscheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to use slotscheck
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-slotscheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring slotscheck
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1050,7 +1151,7 @@
                   
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/other-tools.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/slotscheck.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1058,13 +1159,62 @@
   
 
 
-  <h1>Other tools</h1>
-
-<div class="admonition bug">
-<p class="admonition-title">Work In Progress</p>
-<p>This page is still being written. The content below (if any) may change.</p>
+<h1 id="slotscheck">Slotscheck<a class="headerlink" href="#slotscheck" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+<p>This page explains how we enforce the proper use of <code>__slots__</code> on our classes with <code>slotscheck</code> tool. We go over
+what slotted classes, what slotscheck enforces, how to run slotscheck and how to configure it.</p>
+</details>
+<p>On top of the tools you already saw (ruff &amp; basedpyright), we also have one more tool that performs static analysis on
+our code: <a href="https://slotscheck.readthedocs.io/en/latest/"><strong>slotscheck</strong></a>.</p>
+<h2 id="what-is-slotscheck">What is slotscheck<a class="headerlink" href="#what-is-slotscheck" title="Permanent link">&para;</a></h2>
+<p>Slotscheck is a tool that focuses on enforcing proper use of <code>__slots__</code> on classes.</p>
+<details class="question" open="open">
+<summary>What are slotted classes</summary>
+<p>If you aren't familiar with slotted classes, you should check the <a href="https://wiki.python.org/moin/UsingSlots">official
+documentation</a>. That said, if you just want a quick overview:</p>
+<ul>
+<li>Slots allow you to explicitly declare all member attributes of a class (e.g. declaring <code>__slots__ = ("a", "b")</code>
+  will make the class instances only contain variables <code>a</code> and <code>b</code>, trying to set any other attribute will result
+  in an <code>AttributeError</code>).</li>
+<li>The reason we like using slots is the efficiency they come with. Slotted classes use up less RAM and offer
+  a faster attribute access.</li>
+</ul>
+<p>Example of a slotted class:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span> <span class="nc">FooBar</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">foo</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bar</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="n">foo</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">bar</span> <span class="o">=</span> <span class="n">bar</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">x</span> <span class="o">=</span> <span class="n">FooBar</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">x</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># AttributeError</span>
+</code></pre></div>
+</details>
+<p>With a low level project like mcproto, efficiency is important and <code>__slots__</code> offer such efficiency at a very low cost
+(of simply defining them).</p>
+<p>The purpose of <code>slotscheck</code> is to check that our slotted classes are using <code>__slots__</code> properly, as sometimes, it is
+easy to make mistakes, which result in losing a lot of the efficiency that slots provide. Issues that slotscheck
+detects:</p>
+<ul>
+<li>Detect broken slots inheritance</li>
+<li>Detect overlapping slots</li>
+<li>Detect duplicate slots</li>
+</ul>
+<h2 id="how-to-use-slotscheck">How to use slotscheck<a class="headerlink" href="#how-to-use-slotscheck" title="Permanent link">&para;</a></h2>
+<p>To run slotscheck on the codebase, you can use the following command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>slotscheck<span class="w"> </span>-m<span class="w"> </span>mcproto
+</code></pre></div>
+<div class="admonition note">
+<p>Make you have an <a href="../setup/#activating-the-environment">activated</a> poetry virtual environment and you're in
+the project's root directory.</p>
 </div>
-<!-- TODO: Describe slotscheck -->
+<h2 id="configuring-slotscheck">Configuring slotscheck<a class="headerlink" href="#configuring-slotscheck" title="Permanent link">&para;</a></h2>
+<p>Sometimes, you may want to ignore certain files from being checked. To do so, you can modify the slotscheck
+configuration in <code>pyproject.toml</code>, under the <code>[tool.slotscheck]</code> option. That said, doing so should be very rare and
+you should have a very good reason to ignore your file instead of fixing the underlying issue.</p>
 
 
 

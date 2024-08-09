@@ -56,17 +56,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/guides/other-tools/</loc>
-         <lastmod>2024-08-09</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/precommit/</loc>
          <lastmod>2024-08-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/setup/</loc>
+         <lastmod>2024-08-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/slotscheck/</loc>
          <lastmod>2024-08-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
