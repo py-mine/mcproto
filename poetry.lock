@@ -88,13 +88,13 @@ dev = ["freezegun (>=1.0,<2.0)", "pytest (>=6.0)", "pytest-cov"]
 
 [[package]]
 name = "basedpyright"
-version = "1.14.0"
+version = "1.17.0"
 description = "static type checking for Python (but based)"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "basedpyright-1.14.0-py3-none-any.whl", hash = "sha256:ca29ae9c9dd04d718866b9d3cc737a31f084ce954a9afc9f00eafac9419e0046"},
-    {file = "basedpyright-1.14.0.tar.gz", hash = "sha256:ebbbb44484e269c441d48129bf43619aa8ff54966706e13732cd4412408d1477"},
+    {file = "basedpyright-1.17.0-py3-none-any.whl", hash = "sha256:a7e070be5d3930223df0a435590932fbc114242b7f8d1723c5d717754e7a3b4e"},
+    {file = "basedpyright-1.17.0.tar.gz", hash = "sha256:79e2740156a040fdc68e4372940f40694375ef7e4a0ca70bacf8910af08717e0"},
 ]
 
 [package.dependencies]
