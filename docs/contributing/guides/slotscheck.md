@@ -64,6 +64,10 @@ slotscheck -m mcproto
 
 ## Configuring slotscheck
 
-Sometimes, you may want to ignore certain files from being checked. To do so, you can modify the slotscheck
-configuration in `pyproject.toml`, under the `[tool.slotscheck]` option. That said, doing so should be very rare and
-you should have a very good reason to ignore your file instead of fixing the underlying issue.
+Sometimes, you may want to ignore certain files from being checked. To do so,
+you can modify the [slotscheck configuration][slotscheck-config] in
+`pyproject.toml`, under the `[tool.slotscheck]` option. That said, doing so
+should be very rare and you should have a very good reason to ignore your file
+instead of fixing the underlying issue.
+
+[slotscheck-config]: https://slotscheck.readthedocs.io/en/latest/configuration.html
