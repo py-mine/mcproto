@@ -98,6 +98,7 @@ reportUnnecessaryContains = "error"
 reportUnnecessaryTypeIgnoreComment = "error"
 reportImplicitOverride = "error"
 reportShadowedImports = "error"
+disableBytesTypePromotions = false           # allow bytes -> bytearray promotions
 
 [tool.ruff]
 target-version = "py38"
