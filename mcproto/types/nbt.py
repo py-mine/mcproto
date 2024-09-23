@@ -357,7 +357,7 @@ class NBTag(MCType, NBTagConvertible):
                 raise TypeError("Expected a list of integers, but a non-integer element was found.")
             data = cast(Union[bytes, str, int, float, "list[int]"], data)
             # Create the tag with the data and the name
-            return schema(data, name=name)  # type: ignore # The schema is a subclass of NBTag
+            return schema(data, name=name)  # pyright: ignore[reportCallIssue] # The schema is a subclass of NBTag
 
         # Sanity check : Verify that all type schemas have been handled
         if not isinstance(schema, (list, tuple, dict)):
@@ -508,7 +508,7 @@ class _NumberNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # type: ignore
+    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # pyright: ignore[reportAssignmentType]
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: int
@@ -533,7 +533,7 @@ class _NumberNBTag(NBTag, RequiredParamsABCMixin):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, int):  # type: ignore
+        if not isinstance(self.payload, int):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected an int, but found {type(self.payload).__name__}.")
         int_min = -(1 << (self.DATA_SIZE * 8 - 1))
         int_max = (1 << (self.DATA_SIZE * 8 - 1)) - 1
@@ -595,7 +595,7 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[FLOAT_FORMATS_TYPE] = NotImplemented  # type: ignore
+    STRUCT_FORMAT: ClassVar[FLOAT_FORMATS_TYPE] = NotImplemented  # pyright: ignore[reportAssignmentType]
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: float
@@ -634,7 +634,7 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, (int, float)):  # type: ignore # We want to check anyway
+        if not isinstance(self.payload, (int, float)):  # pyright: ignore[reportUnnecessaryIsInstance] # We want to check anyway
             raise TypeError(f"Expected a float, but found {type(self.payload).__name__}.")
 
 
@@ -717,7 +717,9 @@ class ByteArrayNBT(NBTag):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, (bytearray, bytes)):
+        # TODO: There's an explicit conversion to bytes in __attrs_post_init__, so payload
+        # should never be bytearray. Only bytes should be probably valid here.
+        if not isinstance(self.payload, (bytearray, bytes)):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a bytes, but found {type(self.payload).__name__}.")
 
 
@@ -769,13 +771,13 @@ class StringNBT(NBTag):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, str):  # type: ignore
+        if not isinstance(self.payload, str):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a str, but found {type(self.payload).__name__}.")
         if len(self.payload) > 32767:
             raise ValueError("Maximum character limit for writing strings is 32767 characters.")
         # Check that the string is valid UTF-8
         try:
-            self.payload.encode("utf-8")
+            _ = self.payload.encode("utf-8")
         except UnicodeEncodeError as exc:
             raise ValueError("Invalid UTF-8 string.") from exc
 
@@ -885,9 +887,9 @@ class ListNBT(NBTag):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, list):  # type: ignore
+        if not isinstance(self.payload, list):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a list, but found {type(self.payload).__name__}.")
-        if not all(isinstance(tag, NBTag) for tag in self.payload):  # type: ignore # We want to check anyway
+        if not all(isinstance(tag, NBTag) for tag in self.payload):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError("All items in a list must be NBTags.")
         if not self.payload:
             return
@@ -1000,9 +1002,9 @@ class CompoundNBT(NBTag):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, list):  # type: ignore
+        if not isinstance(self.payload, list):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a list, but found {type(self.payload).__name__}.")
-        if not all(isinstance(tag, NBTag) for tag in self.payload):  # type: ignore
+        if not all(isinstance(tag, NBTag) for tag in self.payload):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError("All items in a compound must be NBTags.")
         if not all(tag.name for tag in self.payload):
             raise ValueError("All tags in a compound must be named.")
@@ -1016,7 +1018,7 @@ class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # type: ignore
+    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # pyright: ignore[reportAssignmentType]
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: list[int]
@@ -1044,9 +1046,9 @@ class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.payload, list):  # type: ignore
+        if not isinstance(self.payload, list):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected a list, but found {type(self.payload).__name__}.")
-        if not all(isinstance(item, int) for item in self.payload):  # type: ignore
+        if not all(isinstance(item, int) for item in self.payload):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError("All items in an integer array must be integers.")
         if any(
             item < -(1 << (self.DATA_SIZE * 8 - 1)) or item >= 1 << (self.DATA_SIZE * 8 - 1) for item in self.payload

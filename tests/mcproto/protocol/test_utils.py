@@ -50,7 +50,7 @@ def test_to_twos_complement_negative(number: int, bits: int, expected_out: int):
 def test_to_twos_complement_range(number: int, bits: int):
     """Test conversion to two's complement format for out of range numbers raises :exc:`ValueError`."""
     with pytest.raises(ValueError, match="out of range"):
-        to_twos_complement(number, bits)
+        _ = to_twos_complement(number, bits)
 
 
 @pytest.mark.parametrize(
@@ -96,4 +96,4 @@ def test_from_twos_complement_negative(number: int, bits: int, expected_out: int
 def test_from_twos_complement_range(number: int, bits: int):
     """Test conversion from two's complement format for out of range numbers raises :exc:`ValueError`."""
     with pytest.raises(ValueError, match="out of range"):
-        from_twos_complement(number, bits)
+        _ = from_twos_complement(number, bits)

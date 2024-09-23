@@ -32,7 +32,7 @@ def test_no_data_read():
     """Reading more data than available should raise IOError."""
     buf = Buffer(b"Blip")
     with pytest.raises(IOError):
-        buf.read(len(buf) + 1)
+        _ = buf.read(len(buf) + 1)
 
 
 def test_reset():
@@ -55,7 +55,7 @@ def test_clear():
 def test_clear_resets_position():
     """Clearing should reset reading position for new data to be read."""
     buf = Buffer(b"abcdef")
-    buf.read(3)
+    _ = buf.read(3)
     buf.clear()
     buf.write(b"012345")
     data = buf.read(3)
@@ -65,7 +65,7 @@ def test_clear_resets_position():
 def test_clear_read_only():
     """Clearing should allow just removing the already read data."""
     buf = Buffer(b"0123456789")
-    buf.read(5)
+    _ = buf.read(5)
     buf.clear(only_already_read=True)
     assert buf == bytearray(b"56789")
 
@@ -82,7 +82,7 @@ def test_remainig():
     """Buffer should report correct amount of remaining bytes to be read."""
     buf = Buffer(b"012345")  # 6 bytes to be read
     assert buf.remaining == 6
-    buf.read(2)
+    _ = buf.read(2)
     assert buf.remaining == 4
     buf.clear()
     assert buf.remaining == 0

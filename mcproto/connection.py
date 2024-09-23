@@ -95,19 +95,22 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
         raise NotImplementedError
 
     @override
-    def write(self, data: bytes, /) -> None:
+    def write(self, data: bytes | bytearray, /) -> None:
         """Send given ``data`` over the connection.
 
         Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
         this might also perform an encryption of the input data.
         """
+        if not isinstance(data, bytes):
+            data = bytes(data)
+
         if self.encryption_enabled:
             data = self.encryptor.update(data)
 
         return self._write(data)
 
     @abstractmethod
-    def _read(self, length: int, /) -> bytearray:
+    def _read(self, length: int, /) -> bytes:
         """Receive raw data from this specific connection.
 
         :param length:
@@ -118,7 +121,7 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
         raise NotImplementedError
 
     @override
-    def read(self, length: int, /) -> bytearray:
+    def read(self, length: int, /) -> bytes:
         """Receive data sent through the connection.
 
         Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
@@ -132,7 +135,7 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
         data = self._read(length)
 
         if self.encryption_enabled:
-            return bytearray(self.decryptor.update(data))
+            return self.decryptor.update(data)
         return data
 
     def __enter__(self) -> Self:
@@ -209,19 +212,22 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
         raise NotImplementedError
 
     @override
-    async def write(self, data: bytes, /) -> None:
+    async def write(self, data: bytes | bytearray, /) -> None:
         """Send given ``data`` over the connection.
 
         Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
         this might also perform an encryption of the input data.
         """
+        if not isinstance(data, bytes):
+            data = bytes(data)
+
         if self.encryption_enabled:
             data = self.encryptor.update(data)
 
         return await self._write(data)
 
     @abstractmethod
-    async def _read(self, length: int, /) -> bytearray:
+    async def _read(self, length: int, /) -> bytes:
         """Receive raw data from this specific connection.
 
         :param length:
@@ -232,7 +238,7 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
         raise NotImplementedError
 
     @override
-    async def read(self, length: int, /) -> bytearray:
+    async def read(self, length: int, /) -> bytes:
         """Receive data sent through the connection.
 
         Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
@@ -246,7 +252,7 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
         data = await self._read(length)
 
         if self.encryption_enabled:
-            return bytearray(self.decryptor.update(data))
+            return self.decryptor.update(data)
         return data
 
     async def __aenter__(self) -> Self:
@@ -275,7 +281,7 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
         return cls(sock)
 
     @override
-    def _read(self, length: int) -> bytearray:
+    def _read(self, length: int) -> bytes:
         result = bytearray()
         while len(result) < length:
             new = self.socket.recv(length - len(result))
@@ -290,11 +296,13 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
                 )
             result.extend(new)
 
-        return result
+        return bytes(result)
 
     @override
     def _write(self, data: bytes) -> None:
-        self.socket.send(data)
+        # TODO: This returns the amount of bytes sent, which isn't necessarily same as len(data)
+        # We'll probably want to handle incomplete sends
+        _ = self.socket.send(data)
 
     @override
     def _close(self) -> None:
@@ -328,7 +336,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
         return cls(reader, writer, timeout)
 
     @override
-    async def _read(self, length: int) -> bytearray:
+    async def _read(self, length: int) -> bytes:
         result = bytearray()
         while len(result) < length:
             new = await asyncio.wait_for(self.reader.read(length - len(result)), timeout=self.timeout)
@@ -343,7 +351,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
                 )
             result.extend(new)
 
-        return result
+        return bytes(result)
 
     @override
     async def _write(self, data: bytes) -> None:
@@ -357,7 +365,9 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
     @property
     def socket(self) -> socket.socket:
         """Obtain the underlying socket behind the :class:`~asyncio.Transport`."""
-        return self.writer.transport._sock  # type: ignore
+        # TODO: This should also have pyright: ignore[reportPrivateUsage]
+        # See: https://github.com/DetachHead/basedpyright/issues/494
+        return self.writer.transport._sock  # pyright: ignore[reportAttributeAccessIssue]
 
 
 class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
@@ -380,16 +390,17 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
         return cls(sock, address)
 
     @override
-    def _read(self, length: int | None = None) -> bytearray:
+    def _read(self, length: int | None = None) -> bytes:
         result = bytearray()
         while len(result) == 0:
-            received_data, server_addr = self.socket.recvfrom(self.BUFFER_SIZE)
+            received_data, _server_addr = self.socket.recvfrom(self.BUFFER_SIZE)
             result.extend(received_data)
-        return result
+        return bytes(result)
 
     @override
     def _write(self, data: bytes) -> None:
-        self.socket.sendto(data, self.address)
+        # TODO: Same issue as with TCP connections, we'll probably want to handle incomplete sends
+        _ = self.socket.sendto(data, self.address)
 
     @override
     def _close(self) -> None:
@@ -414,12 +425,12 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
         return cls(stream, timeout)
 
     @override
-    async def _read(self, length: int | None = None) -> bytearray:
+    async def _read(self, length: int | None = None) -> bytes:
         result = bytearray()
         while len(result) == 0:
-            received_data, server_addr = await asyncio.wait_for(self.stream.recv(), timeout=self.timeout)
+            received_data, _server_addr = await asyncio.wait_for(self.stream.recv(), timeout=self.timeout)
             result.extend(received_data)
-        return result
+        return bytes(result)
 
     @override
     async def _write(self, data: bytes) -> None:
