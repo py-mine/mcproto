@@ -33,8 +33,11 @@ jobs:
         run: |
           poetry run task test
 
+      - name: Normalize coverage
+        shell: bash
+        run: |
           python .github/scripts/normalize_coverage.py
-          mv .coverage .coverage.${{ matrix.platform }}.${{ matrix.python-version }}
+          mv -v .coverage .coverage.${{ matrix.platform }}.${{ matrix.python-version }}
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
