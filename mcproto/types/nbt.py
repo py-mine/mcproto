@@ -508,7 +508,7 @@ class _NumberNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # type: ignore
+    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: int
@@ -595,7 +595,7 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[FLOAT_FORMATS_TYPE] = NotImplemented  # type: ignore
+    STRUCT_FORMAT: ClassVar[FLOAT_FORMATS_TYPE] = NotImplemented
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: float
@@ -1016,7 +1016,7 @@ class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # type: ignore
+    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: list[int]
