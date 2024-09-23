@@ -38,12 +38,14 @@ jobs:
         run: |
           python .github/scripts/normalize_coverage.py
           mv -v .coverage .coverage.${{ matrix.platform }}.${{ matrix.python-version }}
+          pwd
+          ls -la
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage.${{ matrix.platform }}.${{ matrix.python-version }}
-          path: .coverage.${{ matrix.platform }}.${{ matrix.python-version }}
+          path: ./.coverage.${{ matrix.platform }}.${{ matrix.python-version }}
           retention-days: 1
           if-no-files-found: error
 
