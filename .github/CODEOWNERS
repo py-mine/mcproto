@@ -5,7 +5,6 @@
 .github/dependabot.yml      @ItsDrike
 .github/workflows/**        @ItsDrike
 .github/scripts/**          @ItsDrike
-.codeclimate.yml
 
 # Meta (config files for the repo itself)
 .github/CODEOWNERS          @ItsDrike
