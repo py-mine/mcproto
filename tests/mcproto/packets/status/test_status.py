@@ -26,6 +26,6 @@ gen_serializable_test(
     ],
     validation_fail=[
         # Unserializable data for JSON
-        (({"data": object()},), ValueError),
+        (({"data": object()},), TypeError),
     ],
 )

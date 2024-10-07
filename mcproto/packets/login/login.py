@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import ClassVar, cast, final
 
-from attrs import define
+from attrs import define, field
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat, load_der_public_key
@@ -10,7 +10,7 @@ from typing_extensions import Self, override
 
 from mcproto.buffer import Buffer
 from mcproto.packets.packet import ClientBoundPacket, GameState, ServerBoundPacket
-from mcproto.types.chat import ChatMessage
+from mcproto.types.chat import JSONTextComponent
 from mcproto.types.uuid import UUID
 
 __all__ = [
@@ -33,7 +33,8 @@ class LoginStart(ServerBoundPacket):
     Initialize the LoginStart packet.
 
     :param username: Username of the client who sent the request.
-    :param uuid: UUID of the player logging in (if the player doesn't have a UUID, this can be ``None``)
+    :param uuid: UUID of the player logging in (unused by the server)
+    :type uuid: :class:`~mcproto.types.UUID`
     """
 
     PACKET_ID: ClassVar[int] = 0x00
@@ -70,16 +71,9 @@ class LoginEncryptionRequest(ClientBoundPacket):
     PACKET_ID: ClassVar[int] = 0x01
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    public_key: RSAPublicKey
-    verify_token: bytes
-    server_id: str | None = None
-
-    @override
-    def __attrs_post_init__(self) -> None:
-        if self.server_id is None:
-            self.server_id = " " * 20
-
-        super().__attrs_post_init__()
+    public_key: RSAPublicKey = field()
+    verify_token: bytes = field()
+    server_id: str | None = field(default=" " * 20)
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -143,7 +137,9 @@ class LoginSuccess(ClientBoundPacket):
     Initialize the LoginSuccess packet.
 
     :param uuid: The UUID of the connecting player/client.
+    :type uuid: :class:`~mcproto.types.UUID`
     :param username: The username of the connecting player/client.
+    :type username: str
     """
 
     PACKET_ID: ClassVar[int] = 0x02
@@ -178,7 +174,7 @@ class LoginDisconnect(ClientBoundPacket):
     PACKET_ID: ClassVar[int] = 0x00
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
-    reason: ChatMessage
+    reason: JSONTextComponent
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
@@ -187,7 +183,7 @@ class LoginDisconnect(ClientBoundPacket):
     @override
     @classmethod
     def _deserialize(cls, buf: Buffer, /) -> Self:
-        reason = ChatMessage.deserialize(buf)
+        reason = JSONTextComponent.deserialize(buf)
         return cls(reason)
 
 
@@ -240,7 +236,7 @@ class LoginPluginResponse(ServerBoundPacket):
     GAME_STATE: ClassVar[GameState] = GameState.LOGIN
 
     message_id: int
-    data: bytes | None
+    data: bytes | None = None
 
     @override
     def serialize_to(self, buf: Buffer) -> None:

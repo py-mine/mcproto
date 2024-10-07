@@ -178,10 +178,6 @@ gen_serializable_test(
         (b"\x05\x00", IOError),
         (b"\x05", IOError),
     ],
-    validation_fail=[
-        # Wrong type
-        (("1.5", "a"), TypeError),
-    ],
 )
 
 gen_serializable_test(
@@ -229,10 +225,6 @@ gen_serializable_test(
         (b"\x07\x00\x01a\x00\x00\x00\xff", IOError),
         # Negative length
         (b"\x07\x00\x01a\xff\xff\xff\xff", ValueError),
-    ],
-    validation_fail=[
-        # Wrong type
-        ((1, "a"), TypeError),
     ],
 )
 
@@ -452,7 +444,7 @@ def test_intarray_negative_length():
 def test_nbt_helloworld():
     """Test serialization/deserialization of a simple NBT tag.
 
-    Source data: https://wiki.vg/NBT#Example.
+    Source data: <https://wiki.vg/NBT#Example>.
     """
     data = bytearray.fromhex("0a000b68656c6c6f20776f726c640800046e616d65000942616e616e72616d6100")
     buffer = Buffer(data)
@@ -471,7 +463,7 @@ def test_nbt_bigfile():
     """Test serialization/deserialization of a big NBT tag.
 
     Slighly modified from the source data to also include a IntArrayNBT and a LongArrayNBT.
-    Source data: https://wiki.vg/NBT#Example.
+    Source data: <https://wiki.vg/NBT#Example>.
     """
     data = "0a00054c6576656c0400086c6f6e67546573747fffffffffffffff02000973686f7274546573747fff08000a737472696e6754657374002948454c4c4f20574f524c4420544849532049532041205445535420535452494e4720c385c384c39621050009666c6f6174546573743eff1832030007696e74546573747fffffff0a00146e657374656420636f6d706f756e6420746573740a000368616d0800046e616d65000648616d70757305000576616c75653f400000000a00036567670800046e616d6500074567676265727405000576616c75653f00000000000c000f6c6973745465737420286c6f6e672900000005000000000000000b000000000000000c000000000000000d000000000000000e7fffffffffffffff0b000e6c697374546573742028696e7429000000047fffffff7ffffffe7ffffffd7ffffffc0900136c697374546573742028636f6d706f756e64290a000000020800046e616d65000f436f6d706f756e642074616720233004000a637265617465642d6f6e000001265237d58d000800046e616d65000f436f6d706f756e642074616720233104000a637265617465642d6f6e000001265237d58d0001000862797465546573747f07006562797465417272617954657374202874686520666972737420313030302076616c756573206f6620286e2a6e2a3235352b6e2a3729253130302c207374617274696e672077697468206e3d302028302c2036322c2033342c2031362c20382c202e2e2e2929000003e8003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a0630003e2210080a162c4c12462004564e505c0e2e5828024a3830323e54103a0a482c1a12142036561c502a0e60585a02183862320c54423a3c485e1a44145236241c1e2a4060265a34180662000c2242083c165e4c44465204244e1e5c402e2628344a063005000a646f75626c65546573743efc000000"  # noqa: E501
     data = bytes.fromhex(data)
@@ -839,3 +831,60 @@ def test_wrong_type(buffer_content: str, tag_type: type[NBTag]):
     buffer = Buffer(bytearray.fromhex(buffer_content))
     with pytest.raises(TypeError):
         tag_type.read_from(buffer, with_name=False)
+
+
+def test_nbt_sets():
+    """Test that NBTags behave correctly in dict and sets to be used as keys."""
+    tag1 = ByteNBT(0, "tag")
+    tag2 = ByteNBT(1, "tag2")
+    tag3 = ByteNBT(0, "tag")
+    tag4 = ByteNBT(1, "tag")
+
+    byte_set: set[NBTag] = {tag1, tag2}
+    assert tag1 in byte_set
+    assert tag2 in byte_set
+
+    byte_set.add(tag3)
+    assert tag3 in byte_set
+    assert len(byte_set) == 2
+
+    byte_set.add(tag4)
+    assert tag4 in byte_set
+    assert len(byte_set) == 3
+
+    byte_dict: dict[NBTag, int] = {tag1: 0, tag2: 1}
+    assert tag1 in byte_dict
+    assert tag2 in byte_dict
+
+    byte_dict[tag3] = 2
+    assert tag3 in byte_dict
+    assert len(byte_dict) == 2
+    assert byte_dict[tag1] == 2
+    assert byte_dict[tag3] == 2
+
+
+def test_nbt_compound_set():
+    """Test that CompoundNBT behave correctly in dict and sets to be used as keys."""
+    tag1 = ByteNBT(0, "tag")
+    tag2 = ByteNBT(1, "tag2")
+    tag3 = ByteNBT(0, "tag")
+    tag4 = ByteNBT(1, "tag4")
+
+    compound1 = CompoundNBT([tag1, tag2], "compound")
+    compound2 = CompoundNBT([tag3, tag4], "compound2")
+    compound3 = CompoundNBT([tag3, tag2], "compound")
+
+    compound_set: set[NBTag] = {compound1, compound2}
+    assert compound1 in compound_set
+    assert compound2 in compound_set
+    assert len(compound_set) == 2
+
+    assert compound3 in compound_set
+    assert len(compound_set) == 2
+
+    compound_set.add(compound3)  # Should hash to the same value as compound1
+    assert len(compound_set) == 2
+
+    compound4 = CompoundNBT([tag2, tag1], "compound")
+    assert compound4 in compound_set
+    assert len(compound_set) == 2

@@ -12,9 +12,12 @@ from __future__ import annotations
 import datetime
 import sys
 from pathlib import Path
+from typing import Any
 
 from packaging.version import parse as parse_version
 from typing_extensions import override
+
+from mcproto.types.entity.metadata import DefaultEntityMetadataEntryDeclaration, ProxyEntityMetadataEntryDeclaration
 
 if sys.version_info >= (3, 11):
     from tomllib import load as toml_parse
@@ -116,6 +119,19 @@ autodoc_default_options = {
     "show-inheritance": True,
     "exclude-members": "__dict__,__weakref__",
 }
+
+
+def autodoc_skip_member(app: Any, what: str, name: str, obj: Any, skip: bool, options: Any) -> bool:
+    """Skip EntityMetadataEntry class fields as they are already documented in the docstring."""
+    if isinstance(obj, (DefaultEntityMetadataEntryDeclaration, ProxyEntityMetadataEntryDeclaration)):
+        return True
+    return skip
+
+
+def setup(app: Any) -> None:
+    """Set up the Sphinx app."""
+    app.connect("autodoc-skip-member", autodoc_skip_member)
+
 
 # -- sphinx.ext.autosectionlabel ---------------
 

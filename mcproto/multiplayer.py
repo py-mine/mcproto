@@ -140,7 +140,7 @@ def compute_server_hash(server_id: str, shared_secret: bytes, server_public_key:
     need to know the encryption key (``shared_secret``). A proxy can capture this key, as the client
     sends it over to the server in :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet,
     however it is sent encrypted. The client performs this encryption with a public key, which it got
-    from the server, in :class:`mcproto.packets.login.login.LoginEncryptionRequest` packet.
+    from the server, in :class:`~mcproto.packets.login.login.LoginEncryptionRequest` packet.
 
     That mans that for a proxy to be able to actually obtain this shared secret value, it would need to
     be able to capture the encryption response, and decrypt the shared secret value. That means it would
