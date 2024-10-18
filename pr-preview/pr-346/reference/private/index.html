@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/type-hints/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/reference/private/">
       
       
-        <link rel="prev" href="../docstrings/">
+        <link rel="prev" href="../public/packets/">
       
       
-        <link rel="next" href="../slotscheck/">
+        <link rel="next" href="abc/">
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.41">
     
     
       
-        <title>Type hinting - MCPROTO</title>
+        <title>Private API Reference - MCPROTO</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.0253249f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,13 +48,13 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/_markdown_exec_pyodide.css">
+      <link rel="stylesheet" href="../../assets/_markdown_exec_pyodide.css">
     
-      <link rel="stylesheet" href="../../../assets/_markdown_exec_ansi.css">
+      <link rel="stylesheet" href="../../assets/_markdown_exec_ansi.css">
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#type-hints" class="md-skip">
+        <a href="#private-api-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -100,9 +100,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="MCPROTO" class="md-header__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+    <a href="../.." title="MCPROTO" class="md-header__button md-logo" aria-label="MCPROTO" data-md-component="logo">
       
-  <img src="../../../assets/py-mine_logo.png" alt="logo">
+  <img src="../../assets/py-mine_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Type hinting
+              Private API Reference
             
           </span>
         </div>
@@ -237,7 +237,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
     
@@ -256,7 +256,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../installation/" class="md-tabs__link">
+        <a href="../../installation/" class="md-tabs__link">
           
   
     
@@ -276,7 +276,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../usage/" class="md-tabs__link">
+        <a href="../../usage/" class="md-tabs__link">
           
   
     
@@ -292,13 +292,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../../community/code-of-conduct/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../community/code-of-conduct/" class="md-tabs__link">
           
   
     
@@ -318,7 +316,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../reference/public/protocol/" class="md-tabs__link">
+        <a href="../public/protocol/" class="md-tabs__link">
           
   
     
@@ -334,11 +332,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../reference/private/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
     
@@ -379,9 +379,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="MCPROTO" class="md-nav__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+    <a href="../.." title="MCPROTO" class="md-nav__button md-logo" aria-label="MCPROTO" data-md-component="logo">
       
-  <img src="../../../assets/py-mine_logo.png" alt="logo">
+  <img src="../../assets/py-mine_logo.png" alt="logo">
 
     </a>
     MCPROTO
@@ -408,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -455,7 +455,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../installation/" class="md-nav__link ">
+            <a href="../../installation/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -488,7 +488,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../installation/version-guarantees/" class="md-nav__link">
+      <a href="../../installation/version-guarantees/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -509,7 +509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../installation/changelog/" class="md-nav__link">
+      <a href="../../installation/changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -562,7 +562,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../usage/" class="md-nav__link ">
+            <a href="../../usage/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -595,7 +595,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../usage/authentication/" class="md-nav__link">
+      <a href="../../usage/authentication/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -620,10 +620,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -640,22 +638,19 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -666,7 +661,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Community
@@ -680,7 +675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../community/code-of-conduct/" class="md-nav__link">
+      <a href="../../community/code-of-conduct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -701,7 +696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../community/attribution/" class="md-nav__link">
+      <a href="../../community/attribution/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -722,7 +717,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../community/license/" class="md-nav__link">
+      <a href="../../community/license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -756,20 +751,17 @@
       
       
         
-          
-          
-        
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
         
           
-          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -794,7 +786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reporting-a-bug/" class="md-nav__link">
+      <a href="../../contributing/reporting-a-bug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -836,7 +828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../making-a-pr/" class="md-nav__link">
+      <a href="../../contributing/making-a-pr/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -862,8 +854,6 @@
                 
   
   
-    
-  
   
   
     
@@ -898,22 +888,19 @@
       
       
         
-          
-          
-        
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../contributing/guides/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -924,13 +911,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_5">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -946,7 +933,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup/" class="md-nav__link">
+      <a href="../../contributing/guides/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -967,7 +954,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../style-guide/" class="md-nav__link">
+      <a href="../../contributing/guides/style-guide/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -988,7 +975,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docstrings/" class="md-nav__link">
+      <a href="../../contributing/guides/docstrings/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1006,30 +993,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Type hinting
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../contributing/guides/type-hints/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1038,104 +1005,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#regular-python" class="md-nav__link">
-    <span class="md-ellipsis">
-      Regular python
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#type-hints_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Type-Hints
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#runtime-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      Runtime behavior
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enforcing-type-hints-type-checkers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enforcing type hints - Type Checkers
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#basedpyright" class="md-nav__link">
-    <span class="md-ellipsis">
-      BasedPyright
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="BasedPyright">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#running-basedpyright" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running BasedPyright
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#editor-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Editor Integration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#great-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Great resources
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1148,7 +1017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../slotscheck/" class="md-nav__link">
+      <a href="../../contributing/guides/slotscheck/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1169,7 +1038,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../precommit/" class="md-nav__link">
+      <a href="../../contributing/guides/precommit/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1190,7 +1059,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../changelog/" class="md-nav__link">
+      <a href="../../contributing/guides/changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1211,7 +1080,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../great-commits/" class="md-nav__link">
+      <a href="../../contributing/guides/great-commits/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1232,7 +1101,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../unit-tests/" class="md-nav__link">
+      <a href="../../contributing/guides/unit-tests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1253,7 +1122,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deprecations/" class="md-nav__link">
+      <a href="../../contributing/guides/deprecations/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1343,7 +1212,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/public/protocol/" class="md-nav__link">
+      <a href="../public/protocol/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1364,7 +1233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/public/authentication/" class="md-nav__link">
+      <a href="../public/authentication/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1385,7 +1254,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/public/encryption/" class="md-nav__link">
+      <a href="../public/encryption/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1406,7 +1275,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/public/multiplayer/" class="md-nav__link">
+      <a href="../public/multiplayer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1427,7 +1296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/public/types/" class="md-nav__link">
+      <a href="../public/types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1448,7 +1317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/public/packets/" class="md-nav__link">
+      <a href="../public/packets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1473,6 +1342,8 @@
       
   
   
+    
+  
   
   
     
@@ -1495,21 +1366,24 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../reference/private/" class="md-nav__link ">
+            <a href="./" class="md-nav__link md-nav__link--active">
               
   
   <span class="md-ellipsis">
@@ -1520,13 +1394,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+              <label class="md-nav__link md-nav__link--active" for="__nav_6" id="__nav_6_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Private API Reference
@@ -1542,7 +1416,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/private/abc/" class="md-nav__link">
+      <a href="abc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1563,7 +1437,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/private/deprecation/" class="md-nav__link">
+      <a href="deprecation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1584,7 +1458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/private/authentication/" class="md-nav__link">
+      <a href="authentication/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1605,7 +1479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/private/protocol/" class="md-nav__link">
+      <a href="protocol/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1626,7 +1500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference/private/types/" class="md-nav__link">
+      <a href="types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1667,92 +1541,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#regular-python" class="md-nav__link">
-    <span class="md-ellipsis">
-      Regular python
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#type-hints_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Type-Hints
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#runtime-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      Runtime behavior
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enforcing-type-hints-type-checkers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enforcing type hints - Type Checkers
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#basedpyright" class="md-nav__link">
-    <span class="md-ellipsis">
-      BasedPyright
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="BasedPyright">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#running-basedpyright" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running BasedPyright
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#editor-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Editor Integration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#great-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Great resources
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1766,7 +1554,7 @@
                   
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/type-hints.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/reference/private/index.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1774,113 +1562,16 @@
   
 
 
-<h1 id="type-hints">Type Hints<a class="headerlink" href="#type-hints" title="Permanent link">&para;</a></h1>
-<details class="abstract" open="open">
-<summary>Abstract</summary>
-<p>This article explains what python type-hints are, how they can be enforced with the use of type checkers and the
-type checker of our choice: <strong>basedpyright</strong> and it's editor integration.</p>
-</details>
-<p>Most people only know python as a dynamically typed language, that doesn't offer any kind of type safety. In the very
-days of python, this was true, however today, things are a bit different. Even though Python on it's own is still a
-dynamically typed language, it does actually support specifying "type hints" which can even be enforced by external
-tools called "type checkers". With those, we can achieve a (mostly) type safe experience while using Python.</p>
-<h2 id="regular-python">Regular python<a class="headerlink" href="#regular-python" title="Permanent link">&para;</a></h2>
-<p>In regular python, as most people know it, you might end up writing a function like this:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-</code></pre></div>
-<p>In this code, you have no idea what the type of <code>x</code> and <code>y</code> arguments should be. So, even though you may have intended
-for this function to only work with numbers (ints), it's actually entirely possible to use it with something else. For
-example, running <code>add("hello", "world)</code> will return <code>"helloworld"</code> because the <code>+</code> operator works on strings too.</p>
-<p>The point is, there's nothing telling you what the type of these parameters should be, and that could lead to
-misunderstandings. Even though in some cases, you can figure out what the type should these variables have purely based
-on their name alongside the name of the function, in most cases, it's not that easy. It often requires looking through
-the docs, or going over the actual source code of such function.</p>
-<p>Annoyingly, python won't even prevent you from passing in types that are definitely incorrect, like: <code>add(1, "hi")</code>.
-Running this would cause a <code>TypeError</code>, but unless you have unit-tests that actually run that code, you won't find out
-about this bug until it actually causes an issue and at that point, it might already be too late, since your code has
-crashed a production app.</p>
-<p>Clearly then, this isn't ideal.</p>
-<h2 id="type-hints_1">Type-Hints<a class="headerlink" href="#type-hints_1" title="Permanent link">&para;</a></h2>
-<p>While python doesn't require it, there is in fact a way to add a "<strong>hint</strong>" that indicates what <strong>type</strong> should a given
-variable have. So, when we take the function from above, adding type-hints to it would result in something like this:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-</code></pre></div>
-<p>We've now made the types very explicit to the programmer, which means they'll no longer need to spend a bunch of time
-looking through the implementation of that function, or going through the documentation just to know how to use this
-function. Instead, the type hints will tell just you.</p>
-<p>This is incredibly useful, because most editors will be able to pick up these type hints, and show them to you while
-calling the function, so you know what to pass right away, without even having to look at the function definition where
-the type-hints are defined.</p>
-<p>Not only that, specifying a type-hint will greatly improve the development experience in your editor / IDE, because
-you'll get much better auto-completion. The thing is, if you have a parameter like <code>x</code>, but your editor doesn't know
-what type it should have, it can't really help you if you start typing <code>x.remove</code>, looking for the <code>removeprefix</code>
-function. However, if you tell your editor that <code>x</code> is a string (<code>x: str</code>), it will now be able to go through all of
-the methods that strings have, and show you those that start with <code>remove</code> (being <code>removeprefix</code> and <code>removesuffix</code>).</p>
-<p>This makes type-hints great at saving you time while developing, even though you have to do some additional work when
-specifying them.</p>
-<h2 id="runtime-behavior">Runtime behavior<a class="headerlink" href="#runtime-behavior" title="Permanent link">&para;</a></h2>
-<p>Even though type-hints are a part of the Python language, the interpreter doesn't actually care about them. That means
-that the interpreter doesn't do any optimizations or checking when you're running your code, even if you have a
-function like <code>add</code> that we have added type-hints to, code like <code>add(1, "hi")</code> will not cause any immediate errors.</p>
-<p>Most editors are configured very loosely when it comes to type-hints. That means they will show you these hints when
-you're working with the function, but they won't produce warnings when you pass in the wrong thing. That's why they're
-called "type hints", they're only hints that can help you out, but they aren't actually enforced.</p>
-<h2 id="enforcing-type-hints-type-checkers">Enforcing type hints - Type Checkers<a class="headerlink" href="#enforcing-type-hints-type-checkers" title="Permanent link">&para;</a></h2>
-<p>Even though python on it's own indeed doesn't enforce the type-hints you specify, there are tools that can run "static"
-checks against your code. A static check is a check that works with your code in it's textual form. It will read the
-contents of your python files without actually running that file and analyze it purely based on that text content.</p>
-<p>Using these tools will allow you to analyze your code for typing mistakes before you ever even run your program. That
-means having a function call like <code>add(1, "hi")</code> anywhere in your code would be detected and reported as an issue.</p>
-<p>There is a bunch of these tools available for python, but the most common ones are
-<a href="https://github.com/microsoft/pyright"><code>pyright</code></a> and <a href="https://mypy.readthedocs.io/en/stable/"><code>mypy</code></a>.</p>
-<h2 id="basedpyright">BasedPyright<a class="headerlink" href="#basedpyright" title="Permanent link">&para;</a></h2>
-<p>The type checker that we use in our code-base is <a href="https://docs.basedpyright.com/"><strong>basedpyright</strong></a>. It's a fork of
-pyright which adds some extra checks and features and focuses more on the open-source community, than the
-official Microsoft owned Pyright.</p>
-<h3 id="running-basedpyright">Running BasedPyright<a class="headerlink" href="#running-basedpyright" title="Permanent link">&para;</a></h3>
-<p>To run BasedPyright on the code-base, you can use the following command:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>basedpyright<span class="w"> </span>.
-</code></pre></div>
-<div class="admonition note">
-<p>You will need to run this from an <a href="../setup/#activating-the-environment">activated</a> poetry environment while
-in the project's root directory.</p>
+<h1 id="private-api-reference">Private API Reference<a class="headerlink" href="#private-api-reference" title="Permanent link">&para;</a></h1>
+<p>This is the reference documentation page for <strong>private</strong> mcproto API.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Private here means that the functions/classes documented here are only meant to be used internally by the library,
+<strong>you shouldn't use these in your code</strong> if you're just a user of this library. This page is here mainly as a
+reference for contributors and for providing proper linkable references. The backwards compatibility of these
+components will not be guarranteed, which means breaking changes may be introduced between patch versinos without
+any warnings.</p>
 </div>
-<h3 id="editor-integration">Editor Integration<a class="headerlink" href="#editor-integration" title="Permanent link">&para;</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">VSCode</label><label for="__tabbed_1_2">Neovim</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>On vscode, you can simply install the <a href="https://marketplace.visualstudio.com/items?itemName=detachhead.basedpyright">BasedPyright extension</a> from the marketplace.</p>
-<p>Note that this extension does collide with the commonly used <strong>Pylance</strong> extension, which is installed
-automatically alongside the <strong>Python</strong> extension and provide intellisense for Python. The reason BasedPyright
-collides with this extension is that Pylance actually uses pyright as a language server in the background, and as
-we mentioned, basedpyright is an alternative, so using both would cause duplicate errors. This means that you will
-need to disable Pylance, at least within our codebase.</p>
-</div>
-<div class="tabbed-block">
-<p>If you're using Neovim, I would recommend setting up LSP (Language Server Protocol) and installing basedpyright, as
-it has language server support built into it. You can achieve this with the <a href="https://github.com/neovim/nvim-lspconfig"><code>lspconfig</code></a> plugin.
-You can then use <a href="https://github.com/williamboman/mason-lspconfig.nvim"><code>mason-lspconfig</code></a> to install <code>basedpyright</code>, or manually
-configure <code>lspconfig</code> and use your system-wide <code>basedpyright</code> executable.</p>
-</div>
-</div>
-</div>
-<h2 id="great-resources">Great resources<a class="headerlink" href="#great-resources" title="Permanent link">&para;</a></h2>
-<p>While type hinting might seem very simple from the examples shown above, there is actually a fair bit to it, and if you
-never worked within a type checked code-base, you should definitely check out some of these resources, which go over
-the basics.</p>
-<ul>
-<li><a href="https://dev.to/decorator_factory/type-hints-in-python-tutorial-3pel">Getting started with type hints in Python</a> - a
-  blog post / tutorial by decorator-factory.</li>
-<li><a href="https://docs.basedpyright.com/#/type-concepts">Basics of static typing</a> - part of the BasedPyright documentation</li>
-<li><a href="https://mypy.readthedocs.io/en/stable/">Mypy documentation</a> - very extensive documentation on various typing
-  concepts. (Some things are mypy focused, but most things will cary over to basedpyright too)</li>
-<li><a href="https://docs.python.org/3/library/typing.html">Python documentation for the <code>typing</code> module</a> - Python's standard
-  library contains a <code>typing</code> module, which holds a bunch of useful structures that we often use while working with
-  type-hints.</li>
-<li><a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> - formal specification of type hints for the Python langauge</li>
-</ul>
 
 
 
@@ -1918,7 +1609,7 @@ the basics.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../docstrings/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Docstring formatting">
+          <a href="../public/packets/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Packets">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1928,20 +1619,20 @@ the basics.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Docstring formatting
+                Packets
               </div>
             </div>
           </a>
         
         
           
-          <a href="../slotscheck/" class="md-footer__link md-footer__link--next" aria-label="Next: Slotscheck">
+          <a href="abc/" class="md-footer__link md-footer__link--next" aria-label="Next: ABCs">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Slotscheck
+                ABCs
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1975,12 +1666,12 @@ the basics.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
       
-        <script src="../../../assets/_markdown_exec_pyodide.js"></script>
+        <script src="../../assets/_markdown_exec_pyodide.js"></script>
       
     
   </body>
