@@ -67,7 +67,8 @@ mkdocs = "^1.6.0"
 mkdocs-material = "^9.5.30"
 mike = "^2.1.2"
 markdown-exec = { extras = ["ansi"], version = "^1.9.3" }
-towncrier = ">=23,<24.7"                                  # temporary pin, as 24.7 is incompatible with sphinxcontrib-towncrier
+towncrier = ">=23,<24.7"                                          # temporary pin, as 24.7 is incompatible with sphinxcontrib-towncrier
+mkdocstrings-python = { version = "^1.12.1", python = ">3.9,<4" }
 
 [tool.poetry.group.docs-ci]
 optional = true
