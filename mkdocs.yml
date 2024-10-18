@@ -16,6 +16,9 @@ nav:
       - Installation: installation/index.md
       - Version Guarantees: installation/version-guarantees.md
       - Changelog: installation/changelog.md
+  - Usage:
+      - usage/index.md
+      - Authentication: usage/authentication.md
   - Community:
       - Code of Conduct: community/code-of-conduct.md
       - Attributions: community/attribution.md
