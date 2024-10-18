@@ -67,6 +67,7 @@ mkdocs-material = "^9.5.30"
 mike = "^2.1.2"
 markdown-exec = { extras = ["ansi"], version = "^1.9.3" }
 towncrier = "==24.7.1"
+mkdocstrings-python = { version = "^1.12.1", python = ">3.9,<4" }
 
 [tool.poetry.group.docs-ci]
 optional = true
