@@ -36,6 +36,20 @@ nav:
           - Great commits: contributing/guides/great-commits.md
           - Unit Tests: contributing/guides/unit-tests.md
           - Deprecations: contributing/guides/deprecations.md
+  - API Reference:
+      - Protocol: reference/public/protocol.md
+      - Authentication: reference/public/authentication.md
+      - Encryption: reference/public/encryption.md
+      - Multiplayer: reference/public/multiplayer.md
+      - Types: reference/public/types.md
+      - Packets: reference/public/packets.md
+  - Private API Reference:
+      - reference/private/index.md
+      - ABCs: reference/private/abc.md
+      - Deprecation: reference/private/deprecation.md
+      - Authentication: reference/private/authentication.md
+      - Protocol: reference/private/protocol.md
+      - Types: reference/private/types.md
 
 theme:
   name: material
@@ -105,6 +119,34 @@ plugins:
   - mike:
       canonical_version: "latest"
       version_selector: true
+  - mkdocstrings:
+      enable_inventory: true
+      default_handler: python
+      handlers:
+        python:
+          options:
+            docstring_options:
+              ignore_init_summary: true
+            show_root_heading: false
+            show_root_toc_entry: false
+            show_source: false
+            docstring_style: sphinx
+            relative_crossrefs: true
+            scoped_crossrefs: true
+            show_signature_annotations: true
+            signature_crossrefs: true
+            separate_signature: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            parameter_headings: true
+            show_object_full_path: true
+            docstring_section_style: table
+          import:
+            - url: https://docs.python.org/3.13/objects.inv
+              domains: [std, py]
+            - https://typing-extensions.readthedocs.io/en/latest/objects.inv
+            - https://cryptography.io/en/stable/objects.inv
+            - https://python-semanticversion.readthedocs.io/en/stable/objects.inv
 
 extra:
   version:
