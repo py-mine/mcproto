@@ -15,13 +15,12 @@ Applies to:
         - .github/workflows/fragment-check.yml: Entire file
         - .github/workflows/prepare-release.yml: Workflow heavily inspired by original
         - .github/scripts/normalize_coverage.py: Entire file
-        - docs/_static/extra.css: Entire file
     - Copyright (c) 2015-present Rapptz
       All rights reserved.
-        - docs/pages/version_guarantees.rst: Entire file
-        - docs/_static/extra.css: Attribute table related config
-        - docs/_static/extra.js: Attribute table related functionality
-        - docs/extensions/attributetable.py: Entire file
+        - docs/installation/version-guarantees.rst: Entire file
+    - Copyright (c) 2016-2024 Martin Donath
+      All rights reserved
+         - docs/contributing/reporting-a-bug.md: Majority of the file
 ---------------------------------------------------------------------------------------------------
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
