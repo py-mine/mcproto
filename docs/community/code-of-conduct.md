@@ -19,17 +19,17 @@ correct answer.
 ## Harassment
 
 We share a common understanding of what constitutes harassment as it applies to a professional setting. Although this
-list cannot be exhaustive, we explicitly honor diversity in age, gender, culture, ethnicity, language, national origin,
-political beliefs, profession, race, religion, sexual orientation, socioeconomic status, disability and personal
-appearance. We will not tolerate discrimination based on any of the protected characteristics above, including some
-that may not have been explicitly mentioned here. We consider discrimination of any kind to be unacceptable and
-immoral.
+list cannot be exhaustive, we explicitly honor the following "protected attributes": **diversity in age, gender,
+culture, ethnicity, language, national origin, political beliefs, profession, race, religion, sexual orientation,
+socioeconomic status, disability and personal appearance**. We will not tolerate discrimination based on any of the
+protected characteristics above, including some that may not have been explicitly mentioned here. We consider
+discrimination of any kind to be unacceptable and immoral.
 
 Harassment includes, but is not limited to:
 
 - Offensive comments (or "jokes") related to any of the above mentioned attributes.
 - Deliberate "outing"/"doxing" of any aspect of a person's identity, such as physical or electronic address, without
-  their explicit consent, except as necessary to protect others from intentional abuse.
+  their explicit consent, except as necessary means to protect others from intentional abuse.
 - Unwelcome comments regarding a person's lifestyle choices and practices, including those related to food, health,
   parenting, drugs and employment.
 - Deliberate misgendering. This includes deadnaming or persistently using a pronoun that does not correctly reflect a
