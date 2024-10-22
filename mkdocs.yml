@@ -53,6 +53,7 @@ nav:
       - Authentication: reference/private/authentication.md
       - Protocol: reference/private/protocol.md
       - Types: reference/private/types.md
+      - Packets: reference/private/packets.md
 
 theme:
   name: material
