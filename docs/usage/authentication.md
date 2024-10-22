@@ -227,15 +227,15 @@ This method of authentication doesn't require any special app registrations, how
 as you need to enter your login and password directly.
 
 ```python
-  import httpx
-  from mcproto.auth.yggdrasil import YggdrasilAccount
+import httpx
+from mcproto.auth.yggdrasil import YggdrasilAccount
 
-  LOGIN = "mail@example.com"
-  PASSWORD = "my_password"
+LOGIN = "mail@example.com"
+PASSWORD = "my_password"
 
-  async def authenticate() -> YggdrasilAccount:
-      async with httpx.AsyncClient() as client:
-          return YggdrasilAccount.authenticate(client, login=LOGIN, password=PASSWORD)
+async def authenticate() -> YggdrasilAccount:
+    async with httpx.AsyncClient() as client:
+        return YggdrasilAccount.authenticate(client, login=LOGIN, password=PASSWORD)
 ```
 
 The Account instance you will obtain here will contain a refresh token, and a shorter lived access token, received from
