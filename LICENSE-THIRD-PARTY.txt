@@ -47,6 +47,7 @@ Applies to:
     - Copyright (c) 2021, Timothée Mazzucotelli
       All rights reserved.
         - docs/css/mkdocstrings.css: Entire file
+        - docs/css/material.css: Entire file
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
