@@ -1,5 +1,11 @@
 # Packets
 
+!!! bug "Pending rewrite of this page"
+
+    This page will be rewritten in the near future and split it into multiple pages for the individual game states,
+    with the play state possibly being subdivided into even more pages. Currently, this page shows all implemented
+    packets in mcproto. This split will happen once play state packets are introduced.
+
 ## Base classes and interaction functions
 
 ::: mcproto.packets
