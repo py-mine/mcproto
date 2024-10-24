@@ -39,7 +39,7 @@ nav:
           - Changelog: contributing/guides/changelog.md
           - Great commits: contributing/guides/great-commits.md
           - Unit Tests: contributing/guides/unit-tests.md
-          - Deprecations: contributing/guides/deprecations.md
+          - Breaking Changes: contributing/guides/breaking-changes.md
   - API Reference:
       - Protocol: reference/public/protocol.md
       - Authentication: reference/public/authentication.md
