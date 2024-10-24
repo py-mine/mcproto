@@ -15,7 +15,7 @@ nav:
   - Home: index.md
   - Installation:
       - Installation: installation/index.md
-      - Version Guarantees: installation/version-guarantees.md
+      - Versioning Model: installation/versioning-model.md
       - Changelog: installation/changelog.md
   - Usage:
       - usage/index.md
