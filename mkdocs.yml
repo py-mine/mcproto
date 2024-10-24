@@ -37,10 +37,10 @@ nav:
           - Slotscheck: contributing/guides/slotscheck.md
           - Pre-commit: contributing/guides/precommit.md
           - Changelog: contributing/guides/changelog.md
-          - Great commits: contributing/guides/great-commits.md
-          - Unit Tests: contributing/guides/unit-tests.md
           - Breaking Changes: contributing/guides/breaking-changes.md
+          - Unit Tests: contributing/guides/unit-tests.md
           - Documentation: contributing/guides/documentation.md
+          - Great commits: contributing/guides/great-commits.md
   - API Reference:
       - Protocol: reference/public/protocol.md
       - Authentication: reference/public/authentication.md
