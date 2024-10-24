@@ -6,27 +6,34 @@
     change, what is a deprecation, how to mark something as deprecated and explains when a function should be
     deprecated. Finally, it mentions how to properly communicate breaking chagnges and deprecations to end users.
 
+!!! note "Pre-Requisites"
+
+    Before reading this page, make sure to familiarize yourself with our [versioning
+    model](../../installation/versioning-model.md)
+
+
 ## What is a breaking change
 
-A breaking change is a change in the code that causes previously working functionality to break in a way that requires
-developers to modify their existing code. We have a list of examples detailing what we consider as a breaking change in
-the [version guarantees page](../../installation/version-guarantees.md#examples-of-breaking-changes), and it is crucial
-that you familiarize yourself with it.
+A breaking change is a modification that requires developers to adjust their code due to alterations that break
+previously working functionality. This includes changes such as altering method signatures, changing return types, or
+removing classes or functions without prior warning.
 
-!!! important
+We follow [semantic versioning](https://semver.org) to manage breaking changes. That means, **major** version
+increments (e.g., from `3.x.x` to `4.0.0`) indicate breaking changes. It’s essential that users can rely on **minor** and
+**patch** versions (e.g., `3.1.0` or `3.0.1`) being backwards-compatible with the first major release (`3.0.0`).
 
-    Breaking changes should be **avoided** whenever possible, as they disrupt users by forcing immediate updates to their
-    codebase.
+When introducing changes, aim to implement them in a non-breaking way. Breaking changes should be **avoided** whenever
+possible. If a breaking change is absolutely necessary, strive to transition gradually through **deprecations**.
 
-    When introducing changes, aim to implement them in a non-breaking way. If a breaking change is absolutely
-    necessary, strive to transition gradually through deprecations.
+Refer to the [versioning model page](../../installation/versioning-model.md#examples-of-breaking-changes) for some
+examples of what constitutes a breaking change.
 
 ## What is a deprecation
 
 A deprecation signals that a particular part of the code (commonly a function, class, or argument) should no longer be
 used because it is outdated, inefficient, or replaced by better alternatives. Deprecations are a **temporary** measure
-to guide developers toward newer practices, while giving them time to adjust their code without causing immediate
-disruptions.
+to guide developers toward **transitioning** to newer practices, while giving them time to adjust their code without
+causing immediate disruptions.
 
 Deprecations act as a soft warning: they indicate that the deprecated feature will eventually be removed, but for now,
 it remains usable with a runtime deprecation warning. This gives developers enough time to adapt before the removal
@@ -34,8 +41,13 @@ takes place in a future major release.
 
 It’s essential to understand that deprecations are not permanent — every deprecated feature has a defined removal
 version, beyond which it will no longer exist. Typically, the removal happens in the next major version after the
-deprecation was announced. For example, if a feature is deprecated in version 3.x, it will usually be removed in
-version 4.0.0.
+deprecation was announced. For example, if a feature is deprecated in version `3.x`, it will usually be removed in
+version `4.0.0`.
+
+!!! info "Recap"
+
+    Deprecations help to avoid **immediate breaking changes** by offering a **grace period** for users to update their
+    code before the feature is entirely removed in the next major release.
 
 Deprecations are primarily used for:
 
@@ -43,6 +55,14 @@ Deprecations are primarily used for:
 - **Renaming functions, arguments, or classes** to align with better conventions.
 - **Adjusting method signatures**, such as adding required arguments or removing old ones.
 - **Changing behaviors** that can’t be applied retroactively without introducing errors.
+
+!!! important "Deprecating protocol changes"
+
+    Deprecations are **not used for protocol-related changes**, as the Minecraft protocol evolves independently of
+    mcproto’s internal development. For these types of changes, mcproto will introduce a major version bump and require
+    users to update.
+
+    *That said, these changes are still considered as breaking, and will need to be documented as such.*
 
 !!! note
 
