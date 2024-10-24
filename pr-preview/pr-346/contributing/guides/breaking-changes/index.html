@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/deprecations/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/breaking-changes/">
       
       
         <link rel="prev" href="../unit-tests/">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Deprecations - MCPROTO</title>
+        <title>Breaking Changes - MCPROTO</title>
       
     
     
@@ -54,6 +54,12 @@
     
       <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
+      <link rel="stylesheet" href="../../../css/mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/material.css">
+    
+      <link rel="stylesheet" href="../../../css/admoditions.css">
+    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -78,6 +84,11 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#breaking-changes-deprecations" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -114,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deprecations
+              Breaking Changes
             
           </span>
         </div>
@@ -888,6 +899,8 @@
       
         
       
+        
+      
     
     
       
@@ -1136,17 +1149,172 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Breaking Changes
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    Deprecations
+    Breaking Changes
   </span>
   
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-breaking-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a breaking change
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-deprecation" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a deprecation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-deprecate" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to deprecate
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to deprecate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removal-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removal version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-rename" class="md-nav__link">
+    <span class="md-ellipsis">
+      Function rename
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-removal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class removal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argument-removal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Argument removal
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicating breaking changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-deprecations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicating deprecations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Documentation
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1572,6 +1740,118 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-breaking-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a breaking change
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-deprecation" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a deprecation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-deprecate" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to deprecate
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to deprecate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removal-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removal version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-rename" class="md-nav__link">
+    <span class="md-ellipsis">
+      Function rename
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-removal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class removal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argument-removal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Argument removal
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicating breaking changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-deprecations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicating deprecations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1586,7 +1866,7 @@
                   
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/deprecations.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/breaking-changes.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1594,11 +1874,214 @@
   
 
 
-  <h1>Deprecations</h1>
-
-<div class="admonition bug">
-<p class="admonition-title">Work In Progress</p>
-<p>This page is still being written. The content below (if any) may change.</p>
+<h1 id="breaking-changes-deprecations">Breaking changes &amp; Deprecations<a class="headerlink" href="#breaking-changes-deprecations" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+<p>This page describes how we handle breaking changes and deprecations in the project. It clarifies what is a breaking
+change, what is a deprecation, how to mark something as deprecated and explains when a function should be
+deprecated. Finally, it mentions how to properly communicate breaking chagnges and deprecations to end users.</p>
+</details>
+<h2 id="what-is-a-breaking-change">What is a breaking change<a class="headerlink" href="#what-is-a-breaking-change" title="Permanent link">&para;</a></h2>
+<p>A breaking change is a change in the code that causes previously working functionality to break in a way that requires
+developers to modify their existing code. We have a list of examples detailing what we consider as a breaking change in
+the <a href="../../../installation/version-guarantees/#examples-of-breaking-changes">version guarantees page</a>, and it is crucial
+that you familiarize yourself with it.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Breaking changes should be <strong>avoided</strong> whenever possible, as they disrupt users by forcing immediate updates to their
+codebase.</p>
+<p>When introducing changes, aim to implement them in a non-breaking way. If a breaking change is absolutely
+necessary, strive to transition gradually through deprecations.</p>
+</div>
+<h2 id="what-is-a-deprecation">What is a deprecation<a class="headerlink" href="#what-is-a-deprecation" title="Permanent link">&para;</a></h2>
+<p>A deprecation signals that a particular part of the code (commonly a function, class, or argument) should no longer be
+used because it is outdated, inefficient, or replaced by better alternatives. Deprecations are a <strong>temporary</strong> measure
+to guide developers toward newer practices, while giving them time to adjust their code without causing immediate
+disruptions.</p>
+<p>Deprecations act as a soft warning: they indicate that the deprecated feature will eventually be removed, but for now,
+it remains usable with a runtime deprecation warning. This gives developers enough time to adapt before the removal
+takes place in a future major release.</p>
+<p>It’s essential to understand that deprecations are not permanent — every deprecated feature has a defined removal
+version, beyond which it will no longer exist. Typically, the removal happens in the next major version after the
+deprecation was announced. For example, if a feature is deprecated in version 3.x, it will usually be removed in
+version 4.0.0.</p>
+<p>Deprecations are primarily used for:</p>
+<ul>
+<li><strong>Phasing out old functions, classes, or methods</strong> in favor of improved alternatives.</li>
+<li><strong>Renaming functions, arguments, or classes</strong> to align with better conventions.</li>
+<li><strong>Adjusting method signatures</strong>, such as adding required arguments or removing old ones.</li>
+<li><strong>Changing behaviors</strong> that can’t be applied retroactively without introducing errors.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sometimes, it isn't possible/feasible to deprecate something, as the new change is so different from the original
+that a breaking change is the only option. That said, this should be a rare case and you should always first do
+your best to think about how to deprecate something before deciding on just marking your change as breaking.</p>
+</div>
+<h2 id="how-to-deprecate">How to deprecate<a class="headerlink" href="#how-to-deprecate" title="Permanent link">&para;</a></h2>
+<p>We have two custom function to mark something as deprecated, both of these live in the <code>mcproto.utils.deprecation</code>
+module:</p>
+<ul>
+<li><code>deprecation_warn</code>: This function triggers a deprecation warning immediately after it is called, alerting developers
+    to the pending removal.</li>
+<li><code>deprecated</code>: This decorator function marks a function as deprecated. It triggers a deprecation warning each time the
+    decorated function is called. Internally, this ultimately just calls <code>deprecation_warn</code>.</li>
+</ul>
+<h3 id="removal-version">Removal version<a class="headerlink" href="#removal-version" title="Permanent link">&para;</a></h3>
+<p>These functions take a removal version as an argument, which should be specified as a <a href="https://semver.org/">semantic
+version</a> string. Generally, you'll just want to put the next major version of the library here (so
+if you're currently on <code>3.5.2</code> you'll want to specify the removal version as <code>4.0.0</code>; You always want to bump the first
+/ major version number.)</p>
+<p>The <code>deprecation_warn</code> function will usually just show a warning, however, if the current version of the library
+surpasses the removal version, it will instead throw a runtime error, making it unusable. In most cases, people
+shouldn't ever face this, as once the new major version is released, all deprecations with that removal version should
+be removed, but it's a nice way to ensure the proper behavior, just in case we'd forget, allowing us to remove them
+later on in a patch version without breaking the semantic versioning model.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The removal version is a <strong>required</strong> argument, as we want to make sure that deprecated code doesn't stay in our
+codebase forever. Deprecations should always be a temporary step toward the eventual removal of a feature.</p>
+<p>If there is a valid reason to extend the deprecation period, you can push back the removal version, keeping the old
+or compatibility code longer and incrementing the major version number in the argument accordingly.</p>
+<p>However, we should <strong>never</strong> shorten the deprecation period, as that would defeat the purpose of giving developers
+enough time to adapt to the change. Reducing the deprecation time could result in unexpected breakage for users
+relying on the deprecated feature.</p>
+</div>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="function-rename">Function rename<a class="headerlink" href="#function-rename" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">mcproto.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nd">@deprecated</span><span class="p">(</span><span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">,</span> <span class="n">replacement</span><span class="o">=</span><span class="s2">&quot;new_function&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">def</span> <span class="nf">old_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  <span class="o">...</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">def</span> <span class="nf">new_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  <span class="o">...</span>
+</code></pre></div>
+<h4 id="class-removal">Class removal<a class="headerlink" href="#class-removal" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@deprecated</span><span class="p">(</span><span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">,</span> <span class="n">extra_msg</span><span class="o">=</span><span class="s2">&quot;Optional extra message&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  <span class="o">...</span>
+</code></pre></div>
+<h4 id="argument-removal">Argument removal<a class="headerlink" href="#argument-removal" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">mcproto.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecation_warn</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">def</span> <span class="nf">old_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  <span class="o">...</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">def</span> <span class="nf">new_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  <span class="k">if</span> <span class="n">z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">deprecation_warn</span><span class="p">(</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>      <span class="n">obj_name</span><span class="o">=</span><span class="s2">&quot;z (new_function argument)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>      <span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>      <span class="n">replacement</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>      <span class="n">extra_msg</span><span class="o">=</span><span class="s2">&quot;Optional extra message, like a reason for removal&quot;</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="p">)</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>  <span class="o">...</span>  <span class="c1"># this logic should still support working with z, just like it did in the old impl</span>
+</code></pre></div>
+<h2 id="communicating-breaking-changes">Communicating breaking changes<a class="headerlink" href="#communicating-breaking-changes" title="Permanent link">&para;</a></h2>
+<p><strong>Breaking changes necessitate clear communication</strong>, as they directly impact users by forcing updates to their
+codebases. It’s essential to ensure that users are well-informed about any breaking changes introduced in the project.
+This is achieved through the project’s changelog.</p>
+<p><strong>Every breaking change must be documented using a 'breaking' type changelog fragment.</strong> When writing the fragment,
+adhere to the following guidelines:</p>
+<ul>
+<li>Specify <strong>what</strong> was deprecated with a fully qualified name (e.g. <code>module.submodule.MyClass.deprecated_method</code>).</li>
+<li>Suggest an <strong>alternative</strong>, if applicable, and explain any necessary <strong>migration steps</strong>.</li>
+<li>Briefly document <strong>why</strong> the deprecation was made (without going into excessive detail).</li>
+<li>Prioritize <strong>clarity and good wording</strong></li>
+</ul>
+<p>These entries are critical, as they are likely to be read by end-users of our library (programmers but
+non-contributors). Keep this in mind when crafting breaking change fragments.</p>
+<div class="admonition warning">
+<p class="admonition-title">Every breaking change needs its own entry</p>
+<p>If your pull request introduces multiple breaking changes across different components, you must create individual
+changelog entries for each change.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example of a good breaking changelog fragment</p>
+<p>Suppose a library changes the return type of a function from a list to a set. This type change would be difficult
+to deprecate because the change affects existing code that relies on the specific return type.</p>
+<div class="highlight"><span class="filename">changes/521.breaking.md</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Change return type of <span class="sb">`mcproto.utils.get_items`</span> from <span class="sb">`list[str]`</span> to <span class="sb">`set[str]`</span>.
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    This change was made to improve performance and ensure unique item retrieval.
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    The previous behavior of returning duplicates in a list has been removed,
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    which may impact existing code that relies on the previous return type.
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    Users should adjust their code to handle the new return type accordingly.
+</code></pre></div>
+<p>Even though it’s technically feasible to implement this as a non-breaking change - such as by creating a new
+function or adding a boolean flag to control the return type, these approaches may not suit our use case. For
+instance, if we were to introduce a boolean flag, we would need to set it to <code>False</code> by default and show
+deprecation warnings to users unless they explicitly set the flag to <code>True</code>.</p>
+<p>Eventually, when the deprecation period is over, the flag becomes pointless, but removing support for it would
+necessitate yet another round of deprecation for the flag itself, forcing users to revert to using the function
+without it. This approach could frustrate users and create unnecessary complexity.</p>
+<p>When considering non-breaking changes, it’s crucial to evaluate potential complications like these. If you opt for
+a breaking change, be sure to include similar reasoning in your pull request description to help convey the
+rationale behind the decision.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Removing deprecations</p>
+<p>We consider deprecation removals as a breaking change, which means that these removals also need to be documented.
+That said, it is sufficient for these removals to be documented in a single changelog fragment. These removals
+alongside with writing the fragment will be performed by the project maintainers at the time of the release.</p>
+</div>
+<h2 id="communicating-deprecations">Communicating deprecations<a class="headerlink" href="#communicating-deprecations" title="Permanent link">&para;</a></h2>
+<p>Even though a deprecation doesn’t immediately break code, it signals an upcoming change and it's essential to communicate
+this clearly to the users of our project. We achieve this through the project's changelog.</p>
+<details class="tip" open="open">
+<summary>Benefits of tracking deprecations in changelog</summary>
+<p>While runtime deprecation warnings provide immediate feedback upon updating the library, it can often be beneficial
+to give users a chance to plan ahead before updating the library, especially for projects that perform automatic
+dependency updates through CI, which may not check for warnings, leading to deprecation warnings reaching
+production.</p>
+<p>Additionally, it's often easy for people to miss/overlook the warnings if they're not looking for them in the CLI
+output, or if their project already produces some other warnings, making ours blend in.</p>
+<p>By clearly documenting deprecations, we enable users to identify deprecated features before upgrading, allowing
+them to address issues proactively or at least prepare for changes.</p>
+<p>A changelog entry serves as a permanent, versioned record of changes, providing detailed explanations of why a
+feature is deprecated, what the recommended replacements are. It's a place where people may look for clarification
+on why something was removed, or in search of migration steps after seeing the deprecation warning.</p>
+</details>
+<p><strong>Every deprecation must be documented using a 'deprecation' type changelog fragment.</strong> When writing the fragment,
+similar guidelines to writing breaking changelog fragments apply:</p>
+<div class="annotate">
+<ul>
+<li>Provide the <strong>removal version</strong> i.e. version in which the deprecated feature will be removed (e.g. <code>4.0.0</code>). (1)</li>
+<li>Specify <strong>what</strong> was deprecated with a fully qualified name (e.g. <code>module.submodule.MyClass.deprecated_method</code>).</li>
+<li>Suggest an <strong>alternative</strong>, if applicable, and explain any necessary <strong>migration steps</strong>.</li>
+<li>Briefly document <strong>why</strong> the deprecation was made (without going into excessive detail).</li>
+<li>Prioritize <strong>clarity and good wording</strong></li>
+</ul>
+</div>
+<ol>
+<li>This point is specific to deprecations, it's the only additional point in comparison to the breaking changes
+   guidelines.</li>
+</ol>
+<p>These entries form the second most important part of the changelog, likely to be read by end-users. Keep this in mind
+when crafting deprecation fragments.</p>
+<div class="admonition warning">
+<p class="admonition-title">Every deprecated component needs it's own entry</p>
+<p>Just like with breaking changes, if your're deprecating multiple different components, you
+must make multiple changelog entries, one for each deprecation.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example of a good deprecation changelog fragment</p>
+<p>Suppose we used a simple string configuration parameter but introduced a more flexible configuration object to
+allow for future extensions and better validation. This would be a good candidate for deprecation rather than an
+immediate breaking change.</p>
+<div class="highlight"><span class="filename">changes/521.deprecation.md</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Deprecate string-based <span class="sb">`mcproto.utils.connect`</span> configuration attribute in favor of <span class="sb">`mcproto.utils.ConnectionConfig`</span>.
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    The new <span class="sb">`ConnectionConfig`</span> object offers more flexibility by allowing users to specify multiple options (like
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    timeouts, retries, etc.) in a structured way, instead of relying on a string. Users are encouraged to migrate
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    to this object when calling <span class="sb">`mcproto.utils.connect`</span> to take full advantage of future improvements and
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    additional connection parameters.
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>The string-based configuration support will be removed in version <span class="sb">`4.0.0`</span>.
+</code></pre></div>
 </div>
 
 
@@ -1675,6 +2158,10 @@
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Mcproto Documentation &copy; 2024 by <a href="mailto:itsdrike@protonmail.com">ItsDrike</a>
+    </div>
   
   
     Made with
