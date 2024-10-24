@@ -1766,7 +1766,7 @@ followed! This means that <strong>breaking changes can occur in minor version bu
 still strictly for bugfixes, and will not include any features or breaking changes.</p>
 </div>
 <p>This library follows <a href="https://semver.org">semantic versioning model</a>, which means the major version is updated every time
-there is an incompatible (breaking) change made to the public API. In addition to semantic versioning, Mcproto has
+there is an incompatible (breaking) change made to the public API. In addition to semantic versioning, mcproto has
 unique versioning practices related to new Minecraft releases.</p>
 <h2 id="versioning-model-for-minecraft-releases">Versioning Model for Minecraft Releases<a class="headerlink" href="#versioning-model-for-minecraft-releases" title="Permanent link">&para;</a></h2>
 <p>Mcproto aims to always be compatible with the <strong>latest Minecraft protocol implementation</strong>, updating the library as
@@ -1780,7 +1780,7 @@ on the changes made in the library itself.</p>
 <p class="admonition-title">Recap</p>
 <ul>
 <li><strong>Minecraft Updates</strong>: When a new version of Minecraft is released and introduces breaking changes to the
-    protocol, Mcproto will increment its major version (e.g., from <code>1.x.x</code> to <code>2.0.0</code>).</li>
+    protocol, mcproto will increment its major version (e.g., from <code>1.x.x</code> to <code>2.0.0</code>).</li>
 <li><strong>Non-breaking Protocol Changes</strong>: If a Minecraft update introduces new features or protocol adjustments that do
     not break the existing public API, we may opt to release a minor version (e.g., from <code>1.0.x</code> to <code>1.1.0</code>).</li>
 <li><strong>Non-protocol Major Releases</strong>: Major releases may also happen due to significant internal changes or
@@ -1789,7 +1789,7 @@ on the changes made in the library itself.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>While Mcproto strives to stay updated with Minecraft releases, this project is maintained by unpaid volunteers. We do
+<p>While mcproto strives to stay updated with Minecraft releases, this project is maintained by unpaid volunteers. We do
 our best to release updates in a timely manner after a new Minecraft version, but delays may occur.</p>
 </div>
 <h2 id="examples-of-breaking-changes">Examples of Breaking Changes<a class="headerlink" href="#examples-of-breaking-changes" title="Permanent link">&para;</a></h2>
@@ -1809,7 +1809,7 @@ public API and are subject to change without warning.</p>
 <p>The examples above are non-exhaustive.</p>
 </div>
 <h2 id="examples-of-non-breaking-changes">Examples of Non-Breaking Changes<a class="headerlink" href="#examples-of-non-breaking-changes" title="Permanent link">&para;</a></h2>
-<p>The following changes are considered non-breaking under Mcproto’s versioning model:</p>
+<p>The following changes are considered non-breaking under mcproto’s versioning model:</p>
 <div class="annotate">
 <ul>
 <li>Changing function's name, while providing a deprecated alias.</li>
@@ -1828,7 +1828,7 @@ public API and are subject to change without warning.</p>
    case, that's on you, and it's probably time to rethink your life choices.</li>
 </ol>
 <h2 id="special-considerations">Special Considerations<a class="headerlink" href="#special-considerations" title="Permanent link">&para;</a></h2>
-<p>Given that Mcproto is tied closely to the evolving Minecraft protocol, we may have to make breaking changes more
+<p>Given that mcproto is tied closely to the evolving Minecraft protocol, we may have to make breaking changes more
 frequently than a typical Python library.</p>
 <p>While we aim to provide deprecation warnings for changes, particularly in <strong>protocol-independent core library
 features</strong>,
@@ -1840,9 +1840,8 @@ to deprecate old behavior</strong>, giving users time to transition smoothly bef
 <h2 id="communicating-deprecations">Communicating deprecations<a class="headerlink" href="#communicating-deprecations" title="Permanent link">&para;</a></h2>
 <p>When a feature is deprecated, we will notify users through:</p>
 <ul>
-<li><strong>warnings in the code</strong> (via <code>DeprecationWarning</code>): These warnings will contain details about <strong>what was
-  deprecated</strong>, including a <strong>replacement option</strong> (if there is one) and a version number for when this deprecation
-  will be removed..</li>
+<li><strong>Warnings in the code</strong> (via <code>DeprecationWarning</code>): These warnings will contain details about what was deprecated,
+  including a replacement option (if there is one) and a version number for when this deprecation will be removed.</li>
 <li><strong>Detailed notes in the release changelog</strong>: This includes any migration instructions and a brief reason for
   deprecation.</li>
 </ul>
