@@ -494,11 +494,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../installation/version-guarantees/" class="md-nav__link">
+      <a href="../../../installation/versioning-model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Version Guarantees
+    Versioning Model
   </span>
   
 
@@ -1881,30 +1881,39 @@
 change, what is a deprecation, how to mark something as deprecated and explains when a function should be
 deprecated. Finally, it mentions how to properly communicate breaking chagnges and deprecations to end users.</p>
 </details>
-<h2 id="what-is-a-breaking-change">What is a breaking change<a class="headerlink" href="#what-is-a-breaking-change" title="Permanent link">&para;</a></h2>
-<p>A breaking change is a change in the code that causes previously working functionality to break in a way that requires
-developers to modify their existing code. We have a list of examples detailing what we consider as a breaking change in
-the <a href="../../../installation/version-guarantees/#examples-of-breaking-changes">version guarantees page</a>, and it is crucial
-that you familiarize yourself with it.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>Breaking changes should be <strong>avoided</strong> whenever possible, as they disrupt users by forcing immediate updates to their
-codebase.</p>
-<p>When introducing changes, aim to implement them in a non-breaking way. If a breaking change is absolutely
-necessary, strive to transition gradually through deprecations.</p>
+<div class="admonition note">
+<p class="admonition-title">Pre-Requisites</p>
+<p>Before reading this page, make sure to familiarize yourself with our <a href="../../../installation/versioning-model/">versioning
+model</a></p>
 </div>
+<h2 id="what-is-a-breaking-change">What is a breaking change<a class="headerlink" href="#what-is-a-breaking-change" title="Permanent link">&para;</a></h2>
+<p>A breaking change is a modification that requires developers to adjust their code due to alterations that break
+previously working functionality. This includes changes such as altering method signatures, changing return types, or
+removing classes or functions without prior warning.</p>
+<p>We follow <a href="https://semver.org">semantic versioning</a> to manage breaking changes. That means, <strong>major</strong> version
+increments (e.g., from <code>3.x.x</code> to <code>4.0.0</code>) indicate breaking changes. It’s essential that users can rely on <strong>minor</strong> and
+<strong>patch</strong> versions (e.g., <code>3.1.0</code> or <code>3.0.1</code>) being backwards-compatible with the first major release (<code>3.0.0</code>).</p>
+<p>When introducing changes, aim to implement them in a non-breaking way. Breaking changes should be <strong>avoided</strong> whenever
+possible. If a breaking change is absolutely necessary, strive to transition gradually through <strong>deprecations</strong>.</p>
+<p>Refer to the <a href="../../../installation/versioning-model/#examples-of-breaking-changes">versioning model page</a> for some
+examples of what constitutes a breaking change.</p>
 <h2 id="what-is-a-deprecation">What is a deprecation<a class="headerlink" href="#what-is-a-deprecation" title="Permanent link">&para;</a></h2>
 <p>A deprecation signals that a particular part of the code (commonly a function, class, or argument) should no longer be
 used because it is outdated, inefficient, or replaced by better alternatives. Deprecations are a <strong>temporary</strong> measure
-to guide developers toward newer practices, while giving them time to adjust their code without causing immediate
-disruptions.</p>
+to guide developers toward <strong>transitioning</strong> to newer practices, while giving them time to adjust their code without
+causing immediate disruptions.</p>
 <p>Deprecations act as a soft warning: they indicate that the deprecated feature will eventually be removed, but for now,
 it remains usable with a runtime deprecation warning. This gives developers enough time to adapt before the removal
 takes place in a future major release.</p>
 <p>It’s essential to understand that deprecations are not permanent — every deprecated feature has a defined removal
 version, beyond which it will no longer exist. Typically, the removal happens in the next major version after the
-deprecation was announced. For example, if a feature is deprecated in version 3.x, it will usually be removed in
-version 4.0.0.</p>
+deprecation was announced. For example, if a feature is deprecated in version <code>3.x</code>, it will usually be removed in
+version <code>4.0.0</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Recap</p>
+<p>Deprecations help to avoid <strong>immediate breaking changes</strong> by offering a <strong>grace period</strong> for users to update their
+code before the feature is entirely removed in the next major release.</p>
+</div>
 <p>Deprecations are primarily used for:</p>
 <ul>
 <li><strong>Phasing out old functions, classes, or methods</strong> in favor of improved alternatives.</li>
@@ -1912,6 +1921,13 @@ version 4.0.0.</p>
 <li><strong>Adjusting method signatures</strong>, such as adding required arguments or removing old ones.</li>
 <li><strong>Changing behaviors</strong> that can’t be applied retroactively without introducing errors.</li>
 </ul>
+<div class="admonition important">
+<p class="admonition-title">Deprecating protocol changes</p>
+<p>Deprecations are <strong>not used for protocol-related changes</strong>, as the Minecraft protocol evolves independently of
+mcproto’s internal development. For these types of changes, mcproto will introduce a major version bump and require
+users to update.</p>
+<p><em>That said, these changes are still considered as breaking, and will need to be documented as such.</em></p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Sometimes, it isn't possible/feasible to deprecate something, as the new change is so different from the original

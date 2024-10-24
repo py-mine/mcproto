@@ -543,11 +543,11 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/version-guarantees/" class="md-nav__link">
+      <a href="installation/versioning-model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Version Guarantees
+    Versioning Model
   </span>
   
 
@@ -1687,6 +1687,14 @@
 <p>Mcproto is a python library that provides various low level interactions with the Minecraft protocol. It attempts to be
 a full wrapper around the Minecraft protocol, which means it could be used as a basis for Minecraft bots written in
 python, or even full python server implementations.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Mcproto only covers the <strong>latest minecraft protocol implementation</strong>, updating with each full minecraft release
+(not including snapshots!). Using mcproto for older versions of minecraft is not officially supported, if you need
+to do so, you will want to use an older version of mcproto, but note that <strong>no bug fixes or features will be
+backported</strong> to these older versions.</p>
+<p><em>For more information on versioning and update practices, see our <a href="installation/versioning-model/">Versioning Practices</a>.</em></p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This library is still heavily Work-In-Progress, which means a lot of things can still change and some features may

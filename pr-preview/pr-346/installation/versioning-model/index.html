@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/installation/version-guarantees/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/installation/versioning-model/">
       
       
         <link rel="prev" href="../">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Version Guarantees - MCPROTO</title>
+        <title>Versioning Model - MCPROTO</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#version-guarantees" class="md-skip">
+        <a href="#versioning-practices-guarantees" class="md-skip">
           Skip to content
         </a>
       
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Version Guarantees
+              Versioning Model
             
           </span>
         </div>
@@ -512,7 +512,7 @@
           
   
   <span class="md-ellipsis">
-    Version Guarantees
+    Versioning Model
   </span>
   
 
@@ -523,7 +523,7 @@
         
   
   <span class="md-ellipsis">
-    Version Guarantees
+    Versioning Model
   </span>
   
 
@@ -545,6 +545,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#versioning-model-for-minecraft-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versioning Model for Minecraft Releases
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples-of-breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
       Examples of Breaking Changes
@@ -557,6 +566,24 @@
   <a href="#examples-of-non-breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
       Examples of Non-Breaking Changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#special-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Special Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-deprecations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicating deprecations
     </span>
   </a>
   
@@ -1658,6 +1685,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#versioning-model-for-minecraft-releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versioning Model for Minecraft Releases
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples-of-breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
       Examples of Breaking Changes
@@ -1670,6 +1706,24 @@
   <a href="#examples-of-non-breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
       Examples of Non-Breaking Changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#special-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Special Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-deprecations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicating deprecations
     </span>
   </a>
   
@@ -1690,7 +1744,7 @@
                   
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/installation/version-guarantees.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/installation/versioning-model.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1698,7 +1752,13 @@
   
 
 
-<h1 id="version-guarantees">Version Guarantees<a class="headerlink" href="#version-guarantees" title="Permanent link">&para;</a></h1>
+<h1 id="versioning-practices-guarantees">Versioning Practices &amp; Guarantees<a class="headerlink" href="#versioning-practices-guarantees" title="Permanent link">&para;</a></h1>
+<div class="admonition bug">
+<p class="admonition-title">Work In Progress</p>
+<p>This page is missing an explanation on how to figure out which minecraft version a given mcproto version is for.
+This is because we currenly don't have any way to do so, once this will be decided on, it should be documented
+here.</p>
+</div>
 <div class="admonition danger">
 <p class="admonition-title">Pre-release phase</p>
 <p>Mcproto is currently in the pre-release phase (pre v1.0.0). During this phase, these guarantees will NOT be
@@ -1706,33 +1766,85 @@ followed! This means that <strong>breaking changes can occur in minor version bu
 still strictly for bugfixes, and will not include any features or breaking changes.</p>
 </div>
 <p>This library follows <a href="https://semver.org">semantic versioning model</a>, which means the major version is updated every time
-there is an incompatible (breaking) change made to the public API. However due to the fairly dynamic nature of Python,
-it can be hard to discern what can be considered a breaking change, and what isn't.</p>
-<p>First thing to keep in mind is that breaking changes only apply to <strong>publicly documented functions and classes</strong>. If
-it's not listed in the documentation here, it's an internal feature, that isn't considered a part of the public API,
-and thus is bound to change. This includes documented attributes that start with an underscore and documented API
-that is explicitly marked as internal.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The examples below are non-exhaustive.</p>
+there is an incompatible (breaking) change made to the public API. In addition to semantic versioning, Mcproto has
+unique versioning practices related to new Minecraft releases.</p>
+<h2 id="versioning-model-for-minecraft-releases">Versioning Model for Minecraft Releases<a class="headerlink" href="#versioning-model-for-minecraft-releases" title="Permanent link">&para;</a></h2>
+<p>Mcproto aims to always be compatible with the <strong>latest Minecraft protocol implementation</strong>, updating the library as
+soon as possible after each <strong>full Minecraft release</strong> (snapshots are not supported).</p>
+<p>Typically, a new Minecraft release will result in a major version bump for mcproto, since protocol changes are often
+breaking in nature. That said, it is not impossible for a new Minecraft release not to include breaking changes, in
+this case, we will not perform this version bump.</p>
+<p>However, there may be cases where we release a major version that does not correspond to a Minecraft update, depending
+on the changes made in the library itself.</p>
+<div class="admonition info">
+<p class="admonition-title">Recap</p>
+<ul>
+<li><strong>Minecraft Updates</strong>: When a new version of Minecraft is released and introduces breaking changes to the
+    protocol, Mcproto will increment its major version (e.g., from <code>1.x.x</code> to <code>2.0.0</code>).</li>
+<li><strong>Non-breaking Protocol Changes</strong>: If a Minecraft update introduces new features or protocol adjustments that do
+    not break the existing public API, we may opt to release a minor version (e.g., from <code>1.0.x</code> to <code>1.1.0</code>).</li>
+<li><strong>Non-protocol Major Releases</strong>: Major releases may also happen due to significant internal changes or
+    improvements in the library that are independent of Minecraft protocol updates.</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>While Mcproto strives to stay updated with Minecraft releases, this project is maintained by unpaid volunteers. We do
+our best to release updates in a timely manner after a new Minecraft version, but delays may occur.</p>
 </div>
 <h2 id="examples-of-breaking-changes">Examples of Breaking Changes<a class="headerlink" href="#examples-of-breaking-changes" title="Permanent link">&para;</a></h2>
+<p>First thing to keep in mind is that breaking changes only apply to <strong>publicly documented API</strong>. Internal features,
+including any attributes that start with an underscore or those explicitly mentioned as internal are not a part of the
+public API and are subject to change without warning.</p>
+<p>Here are examples of what constitutes a breaking change:</p>
 <ul>
 <li>Changing the default parameter value of a function to something else.</li>
-<li>Renaming (or removing) a function without an alias to the old function.</li>
+<li>Renaming (or removing) a function without deprecation</li>
 <li>Adding or removing parameters of a function.</li>
 <li>Removing deprecated alias to a renamed function.</li>
+<li>Protocol changes that affect how public methods or classes behave.</li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The examples above are non-exhaustive.</p>
+</div>
 <h2 id="examples-of-non-breaking-changes">Examples of Non-Breaking Changes<a class="headerlink" href="#examples-of-non-breaking-changes" title="Permanent link">&para;</a></h2>
+<p>The following changes are considered non-breaking under Mcproto’s versioning model:</p>
+<div class="annotate">
 <ul>
 <li>Changing function's name, while providing a deprecated alias.</li>
-<li>Renaming (or removing) private underscored attributes.</li>
-<li>Adding an element into <code>__slots__</code> of a data class.</li>
-<li>Changing the behavior of a function to fix a bug.</li>
+<li>Renaming (or removing) internal attributes or methods, such as those prefixed with an underscore.</li>
+<li>Adding new functionality that doesn’t interfere with existing function signatures or behavior.</li>
+<li>Changing the behavior of a function to fix a bug. (1)</li>
 <li>Changes in the typing definitions of the public API.</li>
 <li>Changes in the documentation.</li>
 <li>Modifying the internal protocol connection handling.</li>
+<li>Adding an element into <code>__slots__</code> of a data class.</li>
 <li>Updating the dependencies to a newer version, major or otherwise.</li>
+</ul>
+</div>
+<ol>
+<li>This only includes changes that don't affect users in a breaking way, unless you're relying on the bug—in which
+   case, that's on you, and it's probably time to rethink your life choices.</li>
+</ol>
+<h2 id="special-considerations">Special Considerations<a class="headerlink" href="#special-considerations" title="Permanent link">&para;</a></h2>
+<p>Given that Mcproto is tied closely to the evolving Minecraft protocol, we may have to make breaking changes more
+frequently than a typical Python library.</p>
+<p>While we aim to provide deprecation warnings for changes, particularly in <strong>protocol-independent core library
+features</strong>,
+there are certain limitations due to the nature of Minecraft protocol updates. When a major update is released as a
+result of a Minecraft protocol change, <strong>we will not provide deprecations for affected features</strong>, as the protocol itself
+has changed in a way that necessitates immediate adaptation.</p>
+<p>However, for <strong>internal major updates</strong> that are independent of Minecraft protocol changes, <strong>we will make every effort
+to deprecate old behavior</strong>, giving users time to transition smoothly before removing legacy functionality.</p>
+<h2 id="communicating-deprecations">Communicating deprecations<a class="headerlink" href="#communicating-deprecations" title="Permanent link">&para;</a></h2>
+<p>When a feature is deprecated, we will notify users through:</p>
+<ul>
+<li><strong>warnings in the code</strong> (via <code>DeprecationWarning</code>): These warnings will contain details about <strong>what was
+  deprecated</strong>, including a <strong>replacement option</strong> (if there is one) and a version number for when this deprecation
+  will be removed..</li>
+<li><strong>Detailed notes in the release changelog</strong>: This includes any migration instructions and a brief reason for
+  deprecation.</li>
 </ul>
 
 
