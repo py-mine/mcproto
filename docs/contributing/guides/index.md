@@ -61,9 +61,11 @@ We understand that going through all of these guidelines can be time-consuming a
 strongly encourage you to review them, especially if you haven't worked with these tools or followed such best
 practices before.
 
-Every page in this contributing guides category has an abstract at the top, summarizing its content. This allows you to
-quickly determine if you are already familiar with the topic or, if you're re-reading, to quickly recall what the page
-covers. Feel free to skip any guide pages if you're already familiar with what they cover.
+!!! tip
+
+    Every page in this contributing guides category has an abstract at the top, summarizing its content. This allows
+    you to quickly determine if you are already familiar with the topic or, if you're re-reading, to quickly recall
+    what the page covers. Feel free to skip any guide pages if you're already familiar with what they cover.
 
 We believe these guides will be beneficial to you beyond our codebase, as they promote good coding practices and help
 make your code cleaner. You will likely be able to apply much of the knowledge you gain here to your own projects.
