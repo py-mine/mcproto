@@ -40,6 +40,7 @@ nav:
           - Great commits: contributing/guides/great-commits.md
           - Unit Tests: contributing/guides/unit-tests.md
           - Breaking Changes: contributing/guides/breaking-changes.md
+          - Documentation: contributing/guides/documentation.md
   - API Reference:
       - Protocol: reference/public/protocol.md
       - Authentication: reference/public/authentication.md
