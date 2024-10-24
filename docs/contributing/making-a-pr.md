@@ -11,7 +11,7 @@ To contribute, you can create a [pull request](https://docs.github.com/en/pull-r
 Your pull request will then be reviewed by our maintainers, and once approved, it will be merged into the main
 repository. Contributions can include bug fixes, documentation updates, or new features.
 
-!!! danger "Code quality requirements"
+!!! important "Code quality requirements"
 
     While we encourage and appreciate contributions, maintaining high code quality is crucial to us. That means you
     will need to adhere to our code quality standards. Contributions may be rejected if they do not meet these
