@@ -102,6 +102,7 @@ theme:
 extra_css:
   - css/mkdocstrings.css
   - css/material.css
+  - css/admoditions.css
 
 markdown_extensions:
   - admonition
