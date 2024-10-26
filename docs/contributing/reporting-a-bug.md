@@ -106,8 +106,8 @@ have 2 choices:
 
 If you don't wish to solve the bug yourself, all that remains is waiting for us to handle it.
 
-Please understand that we are all volunteers here and we work on the project simply the fun of it. This means that we
-may sometimes have other priorities in life or we just want to work on some more interesting tasks first. It might
+Please understand that we are all volunteers here and we work on the project simply for the fun of it. This means that
+we may sometimes have other priorities in life or we just want to work on some more interesting tasks first. It might
 therefore take a while for us to get to your bug (don't worry though, in most cases, we're pretty quick). Even if
 things are slower, we kindly ask you to avoid posting comments like "Any progress on this?" as they are not helpful and
 create unnecessary clutter in the discussion.

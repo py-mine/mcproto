@@ -6,8 +6,8 @@
     over the `git log`, or `git blame`.
 
     It explains the purpose of a commit message and it's structure, goes over the importance of making commits
-    "atomic" and the practice of partial staging, mentions why and how to avoid making a lot of fixing commits,
-    describes force pushing after modifying the git history, alongside it's downsides and finally, it explains why
+    "atomic" and the practice of partial staging. Additionally, it also mentions why and how to avoid making a lot of
+    fixing commits, describes the practice of force pushing, alongside it's downsides and finally, it explains why
     these practices are worth following and how they make the developer's life easier.
 
 A well-structured git log is crucial for a project's maintainability, providing insight into changes as a reference for
@@ -61,7 +61,7 @@ Git commits should be written in a very specific way. There’s a few rules to f
 
 1. **Subject Line:**
     - **Limit to 50 characters** (This isn't a hard limit, but try not to go much longer. This limit ensures
-      readability and forces the author to thing about the most concise way to explain what's going on. Hint: If you're
+      readability and forces the author to think about the most concise way to explain what's going on. Hint: If you're
       having trouble summarizing, you might be committing too much at once)
     - **A single sentence** (The summary should be a single sentence, multiple probably wouldn't fit into the character
       limit anyways)
@@ -153,16 +153,17 @@ pretty well, and while sometimes this is the case, in many cases, you might've a
 noticed while working on your changes, or already implemented something else, that doesn't fit into your single atomic
 commit that you now wish to make.
 
-In this case, it can be very useful to know that you can instead make a "partial" add, and only stage those changes
-that belong to the commit. In some cases, all that you'll need is to only stage some specific files, which you can do
-with:
+In this case, it can be very useful to know that you can instead make a "partial" add, only staging those changes that
+belong to the commit.
+
+In some cases, it will be sufficient to simpy stage specific files, which you can do with:
 
 ```bash
 git add path/to/some/file path/to/other/file
 ```
 
-That said, in most cases, you're left with a single file that contains multiple changes. When this happens, you can use
-the `-p`/`--patch` flag:
+That said, in most cases, you're left with a single file that contains multiple unrelated changes. When this happens,
+you can use the `-p`/`--patch` flag:
 
 ```bash
 git add -p path/to/file
@@ -220,7 +221,7 @@ your branch to the remote (to GitHub) regardless of what was in the remote alrea
     Force pushing becomes risky if others have already pulled the branch you are working on. If you overwrite the
     branch with a force push, it can lead to several issues:
 
-    - **Lost Work:** Collaborators may have pushed to your branch already, following it's existing git history.
+    - **Lost work:** Collaborators may have pushed to your branch already, following it's existing git history.
       However, after your force-push, their changes would be ereased from the remote. **Make sure you pull / rebase
       from the remote before you make a force-push.**
     - **Complex conflicts:** If someone else has pulled your branch and did some changes that they didn't yet push
