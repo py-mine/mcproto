@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/reference/private/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/usage/packet-communication/">
       
       
-        <link rel="prev" href="../public/packets/">
+        <link rel="prev" href="../first-steps/">
       
       
-        <link rel="next" href="abc/">
+        <link rel="next" href="../authentication/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Private API Reference - MCPROTO</title>
+        <title>Packet Communication - MCPROTO</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#private-api-reference" class="md-skip">
+        <a href="#packet-communication" class="md-skip">
           Skip to content
         </a>
       
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Private API Reference
+              Packet Communication
             
           </span>
         </div>
@@ -278,11 +278,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../usage/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -322,7 +324,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../public/protocol/" class="md-tabs__link">
+        <a href="../../reference/public/protocol/" class="md-tabs__link">
           
   
     
@@ -338,13 +340,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../reference/private/" class="md-tabs__link">
           
   
     
@@ -540,6 +540,8 @@
       
   
   
+    
+  
   
   
     
@@ -558,21 +560,24 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../usage/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -583,13 +588,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Usage
@@ -605,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/first-steps/" class="md-nav__link">
+      <a href="../first-steps/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -623,10 +628,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../usage/packet-communication/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Packet Communication
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -635,6 +660,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#obtaining-the-packet-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      Obtaining the packet map
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-packets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using packets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-packets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sending packets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#receiving-packets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Receiving packets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requesting-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requesting status
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -647,7 +737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/authentication/" class="md-nav__link">
+      <a href="../authentication/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1287,7 +1377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../public/protocol/" class="md-nav__link">
+      <a href="../../reference/public/protocol/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1308,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../public/authentication/" class="md-nav__link">
+      <a href="../../reference/public/authentication/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1329,7 +1419,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../public/encryption/" class="md-nav__link">
+      <a href="../../reference/public/encryption/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1350,7 +1440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../public/multiplayer/" class="md-nav__link">
+      <a href="../../reference/public/multiplayer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1371,7 +1461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../public/types/" class="md-nav__link">
+      <a href="../../reference/public/types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1392,7 +1482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../public/packets/" class="md-nav__link">
+      <a href="../../reference/public/packets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1417,8 +1507,6 @@
       
   
   
-    
-  
   
   
     
@@ -1443,24 +1531,21 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../reference/private/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1471,13 +1556,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_6" id="__nav_6_label" tabindex="">
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Private API Reference
@@ -1493,7 +1578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="abc/" class="md-nav__link">
+      <a href="../../reference/private/abc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1514,7 +1599,7 @@
   
   
     <li class="md-nav__item">
-      <a href="deprecation/" class="md-nav__link">
+      <a href="../../reference/private/deprecation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1535,7 +1620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="authentication/" class="md-nav__link">
+      <a href="../../reference/private/authentication/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1556,7 +1641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="protocol/" class="md-nav__link">
+      <a href="../../reference/private/protocol/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1577,7 +1662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="types/" class="md-nav__link">
+      <a href="../../reference/private/types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1598,7 +1683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="packets/" class="md-nav__link">
+      <a href="../../reference/private/packets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1639,6 +1724,59 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#obtaining-the-packet-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      Obtaining the packet map
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-packets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using packets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-packets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sending packets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#receiving-packets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Receiving packets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requesting-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requesting status
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1652,7 +1790,7 @@
                   
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/reference/private/index.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/usage/packet-communication.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1660,16 +1798,157 @@
   
 
 
-<h1 id="private-api-reference">Private API Reference<a class="headerlink" href="#private-api-reference" title="Permanent link">&para;</a></h1>
-<p>This is the reference documentation page for <strong>private</strong> mcproto API.</p>
+<h1 id="packet-communication">Packet communication<a class="headerlink" href="#packet-communication" title="Permanent link">&para;</a></h1>
+<p>This guide explains how to communicate with the server using our packet classes. It will go over the same example from
+<a href="../first-steps/">previous page</a>, showing how to obtain the server status, but instead of using the low level
+interactions, this guide will simplify a lot of that logic with the use of packet classes.</p>
 <div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Private here means that the functions/classes documented here are only meant to be used internally by the library,
-<strong>you shouldn't use these in your code</strong> if you're just a user of this library. This page is here mainly as a
-reference for contributors and for providing proper linkable references. The backwards compatibility of these
-components will not be guarranteed, which means breaking changes may be introduced between patch versinos without
-any warnings.</p>
+<p class="admonition-title">Packets Target the Latest Minecraft Version</p>
+<p>Mcproto's packet classes are designed to support the <strong>latest Minecraft release</strong>. While packets in the handshaking
+and status game states usually remain compatible across versions, mcproto does NOT guarantee cross-version packet
+compatibility. Using packets in the play game state, for example, will very likely lead to compatibility issues if
+you're working with older Minecraft versions.</p>
+<p>Only the low level interactions are guaranteed to remain compatible across protocol updates, if you need support
+for and older minecraft version, consider downgrading to an older version of mcproto, or using the low level
+interactions.</p>
 </div>
+<h2 id="obtaining-the-packet-map">Obtaining the packet map<a class="headerlink" href="#obtaining-the-packet-map" title="Permanent link">&para;</a></h2>
+<p>Every packet has a unique ID based on its direction (client to server or server to client) and game state (such as
+status, handshaking, login, or play). This ID lets us recognize packet types in different situations, which is crucial
+for correctly receiving packets.</p>
+<p>To make this process easier, mcproto provides a packet map—essentially a dictionary mapping packet IDs to packet
+classes. Here’s how to generate a packet map:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">mcproto.packets</span> <span class="kn">import</span> <span class="n">generate_packet_map</span><span class="p">,</span> <span class="n">GameState</span><span class="p">,</span> <span class="n">PacketDirection</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">STATUS_CLIENTBOUND_MAP</span> <span class="o">=</span> <span class="n">generate_packet_map</span><span class="p">(</span><span class="n">PacketDirection</span><span class="o">.</span><span class="n">CLIENTBOUND</span><span class="p">,</span> <span class="n">GameState</span><span class="o">.</span><span class="n">STATUS</span><span class="p">)</span>
+</code></pre></div>
+<p>Printing <code>STATUS_CLIENTBOUND_MAP</code> would display something like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    0: &lt;class &#39;mcproto.packets.status.status.StatusResponse&#39;&gt;
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    1: &lt;class &#39;mcproto.packets.status.ping.PingPong&#39;&gt;,
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>}
+</code></pre></div>
+<p>Telling us that in the STATUS gamestate, for the clientbound direction, these are the only packet we can receive,
+and mapping the actual packet classes for every supported packet ID number.</p>
+<h2 id="using-packets">Using packets<a class="headerlink" href="#using-packets" title="Permanent link">&para;</a></h2>
+<p>The first packet we send to the server is always a <strong>Handshake</strong> packet. This is the only packet in the entire
+handshaking state, and it's a "gateway", after which we get moved to a different state, in our case, that will be the
+STATUS state.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">mcproto.packets.handshaking.handshake</span> <span class="kn">import</span> <span class="n">Handshake</span><span class="p">,</span> <span class="n">NextState</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">my_handshake</span> <span class="o">=</span> <span class="n">Handshake</span><span class="p">(</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="c1"># Once again, we use an old protocol version so that even older servers will respond</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">protocol_version</span><span class="o">=</span><span class="mi">47</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">server_address</span><span class="o">=</span><span class="s2">&quot;mc.hypixel.net&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">server_port</span><span class="o">=</span><span class="mi">25565</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">next_state</span><span class="o">=</span><span class="n">NextState</span><span class="o">.</span><span class="n">STATUS</span><span class="p">,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</code></pre></div>
+<p>That's it! We've now constructed a full handshake packet with all of the data it should contain. You might remember
+from the previous low-level example, that we originally had to look at the protocol specification, find the handshake
+packet and construct it's data as a Buffer with all of these variables.</p>
+<p>With these packet classes, you can simply follow your editor's autocompletion to see what this packet requires, pass it
+in and the data will be constructed for you from these attributes, without constantly cross-checking with the wiki.</p>
+<p>For completion, let's also construct the status request packet that we were sending to instruct the server to send us
+back the status response packet.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">mcproto.packets.status.status</span> <span class="kn">import</span> <span class="n">StatusRequest</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">my_status_request</span> <span class="o">=</span> <span class="n">StatusRequest</span><span class="p">()</span>
+</code></pre></div>
+<p>This one was even easier, as the status request packet alone doesn't contain any special data, it's just a request to
+the server to send us some data back.</p>
+<h2 id="sending-packets">Sending packets<a class="headerlink" href="#sending-packets" title="Permanent link">&para;</a></h2>
+<p>To actually send out a packet to the server, we'll need to create a connection, and use mcproto's <code>async_write_packet</code>
+function, responsible for sending packets. Let's see it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">mcproto.packets</span> <span class="kn">import</span> <span class="n">async_write_packet</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">mcproto.connection</span> <span class="kn">import</span> <span class="n">TCPAsyncConnection</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">ip</span> <span class="o">=</span> <span class="s2">&quot;mc.hypixel.net&quot;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">port</span> <span class="o">=</span> <span class="mi">25565</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="k">async</span> <span class="k">with</span> <span class="p">(</span><span class="k">await</span> <span class="n">TCPAsyncConnection</span><span class="o">.</span><span class="n">make_client</span><span class="p">((</span><span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="c1"># Let&#39;s send the handshake packet that we&#39;ve created in the example before</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="k">await</span> <span class="n">async_write_packet</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">my_handshake</span><span class="p">)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="c1"># Followed by the status request</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="k">await</span> <span class="n">async_write_packet</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">my_status_request</span><span class="p">)</span>
+</code></pre></div>
+<p>Much easier than the manual version, isn't it?</p>
+<h2 id="receiving-packets">Receiving packets<a class="headerlink" href="#receiving-packets" title="Permanent link">&para;</a></h2>
+<p>Alright, we might now know how to send a packet, but how do we receive one?</p>
+<p>Let's see, but this time, let's also try out using the synchronous connection, just for fun:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">mcproto.connection</span> <span class="kn">import</span> <span class="n">TCPSyncConnection</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># With a synchronous connection, comes synchronous reader/writer functions</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span> <span class="nn">mcproto.packets</span> <span class="kn">import</span> <span class="n">sync_read_packet</span><span class="p">,</span> <span class="n">sync_write_packet</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># We&#39;ll also need the packet classes from the status game-state</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="kn">from</span> <span class="nn">mcproto.packets.status.status</span> <span class="kn">import</span> <span class="n">StatusResponse</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="kn">from</span> <span class="nn">mcproto.packets.status.ping</span> <span class="kn">import</span> <span class="n">PingPong</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">ip</span> <span class="o">=</span> <span class="s2">&quot;mc.hypixel.net&quot;</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">port</span> <span class="o">=</span> <span class="mi">25565</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="k">with</span> <span class="n">TCPSyncConnection</span><span class="o">.</span><span class="n">make_client</span><span class="p">((</span><span class="s2">&quot;mc.hypixel.net&quot;</span><span class="p">,</span> <span class="mi">25565</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>        <span class="c1"># First, send the handshake &amp; status request, just like before, but synchronously</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>        <span class="k">await</span> <span class="n">sync_write_packet</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">my_handshake</span><span class="p">)</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>        <span class="k">await</span> <span class="n">sync_write_packet</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">my_status_request</span><span class="p">)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>        <span class="c1"># To read a packet, we&#39;ll also need to have the packet map, telling us which IDs represent</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>        <span class="c1"># which actual packet types. Let&#39;s pass in the map that we&#39;ve constructed before:</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>        <span class="n">packet</span> <span class="o">=</span> <span class="n">sync_read_packet</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">STATUS_CLIENTBOUND_MAP</span><span class="p">)</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="c1"># Now that we&#39;ve got back the packet, we no longer need the connection, we won&#39;t be sending</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>    <span class="c1"># anything else, so let&#39;s get out of the context manager.</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>    <span class="c1"># Finally, let&#39;s handle the received packet:</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">packet</span><span class="p">,</span> <span class="n">StatusResponse</span><span class="p">):</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>        <span class="o">...</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">packet</span><span class="p">,</span> <span class="n">PingPong</span><span class="p">):</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>        <span class="o">...</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Impossible, there are no other client bound packets in the STATUS game state&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="requesting-status">Requesting status<a class="headerlink" href="#requesting-status" title="Permanent link">&para;</a></h2>
+<p>Alright, so let's actually try to put all of this knowledge together, and create something meaningful. Let's replicate
+the status obtaining logic from the manual example, but with these new packet classes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">mcproto.connection</span> <span class="kn">import</span> <span class="n">TCPAsyncConnection</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">mcproto.packets</span> <span class="kn">import</span> <span class="n">async_write_packet</span><span class="p">,</span> <span class="n">async_read_packet</span><span class="p">,</span> <span class="n">generate_packet_map</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">mcproto.packets.packet</span> <span class="kn">import</span> <span class="n">PacketDirection</span><span class="p">,</span> <span class="n">GameState</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">from</span> <span class="nn">mcproto.packets.handshaking.handshake</span> <span class="kn">import</span> <span class="n">Handshake</span><span class="p">,</span> <span class="n">NextState</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kn">from</span> <span class="nn">mcproto.packets.status.status</span> <span class="kn">import</span> <span class="n">StatusRequest</span><span class="p">,</span> <span class="n">StatusResponse</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">STATUS_CLIENTBOUND_MAP</span> <span class="o">=</span> <span class="n">generate_packet_map</span><span class="p">(</span><span class="n">PacketDirection</span><span class="o">.</span><span class="n">CLIENTBOUND</span><span class="p">,</span> <span class="n">GameState</span><span class="o">.</span><span class="n">STATUS</span><span class="p">)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">handshake_packet</span> <span class="o">=</span> <span class="n">Handshake</span><span class="p">(</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        <span class="n">protocol_version</span><span class="o">=</span><span class="mi">47</span><span class="p">,</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="n">server_address</span><span class="o">=</span><span class="n">ip</span><span class="p">,</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>        <span class="n">server_port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="n">next_state</span><span class="o">=</span><span class="n">NextState</span><span class="o">.</span><span class="n">STATUS</span><span class="p">,</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="p">)</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="n">status_req_packet</span> <span class="o">=</span> <span class="n">StatusRequest</span><span class="p">()</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>    <span class="k">async</span> <span class="k">with</span> <span class="p">(</span><span class="k">await</span> <span class="n">TCPAsyncConnection</span><span class="o">.</span><span class="n">make_client</span><span class="p">((</span><span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>        <span class="c1"># We start out at HANDSHAKING game state</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>        <span class="k">await</span> <span class="n">async_write_packet</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">handshake_packet</span><span class="p">)</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>        <span class="c1"># After sending the handshake, we told the server to now move us into the STATUS game state</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>        <span class="k">await</span> <span class="n">async_write_packet</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">status_req_packet</span><span class="p">)</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>        <span class="c1"># Since we&#39;re still in STATUS game state, we use the status packet map when reading</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>        <span class="n">packet</span> <span class="o">=</span> <span class="k">await</span> <span class="n">async_read_packet</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">STATUS_CLIENTBOUND_MAP</span><span class="p">)</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>    <span class="c1"># Now, we should always first make sure it really is the packet we expected</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">packet</span><span class="p">,</span> <span class="n">StatusResponse</span><span class="p">):</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;We&#39;ve got an unexpected packet back: </span><span class="si">{</span><span class="n">packet</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>    <span class="c1"># Since we know we really are dealing with a status response, let&#39;s get out it&#39;s data, and return it</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>    <span class="c1"># this is the same JSON data that we obtained from the first example with the manual interactions</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>    <span class="k">return</span> <span class="n">packet</span><span class="o">.</span><span class="n">data</span>
+</code></pre></div>
+<p>As you can see, this approach is more convenient and eliminates much of the manual packet handling, letting you focus
+on higher-level logic!</p>
 
 
 
@@ -1707,7 +1986,7 @@ any warnings.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../public/packets/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Packets">
+          <a href="../first-steps/" class="md-footer__link md-footer__link--prev" aria-label="Previous: First steps">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1717,20 +1996,20 @@ any warnings.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Packets
+                First steps
               </div>
             </div>
           </a>
         
         
           
-          <a href="abc/" class="md-footer__link md-footer__link--next" aria-label="Next: ABCs">
+          <a href="../authentication/" class="md-footer__link md-footer__link--next" aria-label="Next: Authentication">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                ABCs
+                Authentication
               </div>
             </div>
             <div class="md-footer__button md-icon">
