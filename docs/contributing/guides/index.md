@@ -5,7 +5,7 @@ interested in writing or modifying mcproto itself. If you just wish to use mcpro
 this section.
 
 Mcproto is a relatively large project and maintaining it is no easy task. With a project like that, consistency and
-good code quality becomes very important to keep the code-base readable and bug-free. To achieve this, we have put
+good code quality become very important to keep the code-base readable and bug-free. To achieve this, we have put
 together these guidelines that will explain the code style and coding practices that we expect our contributors to
 follow.
 
