@@ -87,19 +87,25 @@ Given that mcproto is tied closely to the evolving Minecraft protocol, we may ha
 frequently than a typical Python library.
 
 While we aim to provide deprecation warnings for changes, particularly in **protocol-independent core library
-features**,
-there are certain limitations due to the nature of Minecraft protocol updates. When a major update is released as a
-result of a Minecraft protocol change, **we will not provide deprecations for affected features**, as the protocol itself
-has changed in a way that necessitates immediate adaptation.
+features**, there are certain limitations due to the nature of Minecraft protocol updates. When a major update is
+released as a result of a Minecraft protocol change, **we will not provide deprecations for affected features**, as the
+protocol itself has changed in a way that necessitates immediate adaptation.
 
 However, for **internal major updates** that are independent of Minecraft protocol changes, **we will make every effort
 to deprecate old behavior**, giving users time to transition smoothly before removing legacy functionality.
 
-## Communicating deprecations
+Specifically, the protocol dependant code includes code in `mcproto.packets` and `mcproto.types` packages. Lower level
+protocol abstractions present in `mcproto.protocol`, `mcproto.buffer`, `mcproto.connection`, `mcproto.encryption`,
+`mcproto.multiplayer` and `mcproto.auth` will go through proper deprecations. This should allow you to safely use these
+lower level features to communicate to servers at any protocol version.
+
+## Communicating deprecations & breaking changes
+
+When a breaking change occurs, you will always find it listed at the top of the changelog. Here, will also find
+detailed notes about any migration instructions and a brief reason for the change.
 
 When a feature is deprecated, we will notify users through:
 
 - **Warnings in the code** (via `DeprecationWarning`): These warnings will contain details about what was deprecated,
   including a replacement option (if there is one) and a version number for when this deprecation will be removed.
-- **Detailed notes in the release changelog**: This includes any migration instructions and a brief reason for
-  deprecation.
+- **Entries in the changelog**: This includes any migration instructions and a brief reason for deprecation.
