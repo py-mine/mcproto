@@ -19,6 +19,8 @@ nav:
       - Changelog: installation/changelog.md
   - Usage:
       - usage/index.md
+      - First steps: usage/first-steps.md
+      - Packet Communication: usage/packet-communication.md
       - Authentication: usage/authentication.md
   - Community:
       - Code of Conduct: community/code-of-conduct.md
