@@ -15,10 +15,11 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Games/Entertainment",
   "Topic :: Software Development :: Libraries",
   "Topic :: Software Development :: Libraries :: Python Modules",
@@ -29,7 +30,7 @@ include = ["CHANGELOG.md"]
 packages = [{ include = "mcproto" }]
 
 [tool.poetry.dependencies]
-python = ">=3.8.1,<4"
+python = ">=3.9,<4"
 asyncio-dgram = "^2.1.2"
 typing-extensions = "^4.4.0"
 semantic-version = "^2.10.0"
@@ -80,7 +81,7 @@ poetry-dynamic-versioning = ">=1.4.0,<1.5"
 taskipy = "^1.10.4"
 
 [tool.basedpyright]
-pythonVersion = "3.8"
+pythonVersion = "3.9"
 typeCheckingMode = "standard"
 
 reportUntypedFunctionDecorator = "error"
@@ -101,7 +102,7 @@ reportShadowedImports = "error"
 disableBytesTypePromotions = false           # allow bytes -> bytearray promotions
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py39"
 line-length = 119
 
 [tool.ruff.lint]

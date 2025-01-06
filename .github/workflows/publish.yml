@@ -24,7 +24,7 @@ jobs:
       - name: Setup poetry
         uses: ItsDrike/setup-poetry@v1
         with:
-          python-version: 3.11
+          python-version: 3.13
           install-args: "--only release-ci"
 
       - name: Set version with dynamic versioning
