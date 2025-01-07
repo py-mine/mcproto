@@ -11,8 +11,8 @@ from mcproto.packets.packet import GameState, ServerBoundPacket
 from mcproto.protocol.base_io import StructFormat
 
 __all__ = [
-    "NextState",
     "Handshake",
+    "NextState",
 ]
 
 

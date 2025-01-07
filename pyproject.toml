@@ -114,7 +114,6 @@ ignore = [
   "CPY", # flake8-copyright
   "EM",  # flake8-errmsg
   "SLF", # flake8-self
-  "TCH", # flake8-type-checking
   "ARG", # flake8-unused-arguments
   "TD",  # flake8-todos
   "FIX", # flake8-fixme
@@ -141,17 +140,15 @@ ignore = [
 
   "ANN002", # Missing type annotation for *args
   "ANN003", # Missing type annotation for **kwargs
-  "ANN101", # Missing type annotation for self in method
-  "ANN102", # Missing type annotation for cls in classmethod
   "ANN204", # Missing return type annotation for special method
   "ANN401", # Dynamically typed expressions (typing.Any) disallowed
 
   "SIM102", # use a single if statement instead of nested if statements
   "SIM108", # Use ternary operator {contents} instead of if-else-block
 
-  "TCH001", # Move application imports used only for annotations into a type-checking block
-  "TCH002", # Move 3rd-party imports used only for annotations into a type-checking block
-  "TCH003", # Move standard library imports used only for annotations into a type-checking block
+  "TC001", # Move application imports used only for annotations into a type-checking block
+  "TC002", # Move 3rd-party imports used only for annotations into a type-checking block
+  "TC003", # Move standard library imports used only for annotations into a type-checking block
 
   "TD002", # Missing author in TODO
   "TD003", # Missing issue link on the line following this TODO
