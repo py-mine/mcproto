@@ -61,6 +61,6 @@ class StatusResponse(ClientBoundPacket):
     def validate(self) -> None:
         # Ensure the data is serializable to JSON
         try:
-            json.dumps(self.data)
+            _ = json.dumps(self.data)
         except TypeError as exc:
             raise ValueError("Data is not serializable to JSON.") from exc

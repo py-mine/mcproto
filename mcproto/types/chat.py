@@ -83,14 +83,16 @@ class ChatMessage(MCType):
 
     @override
     def validate(self) -> None:
-        if not isinstance(self.raw, (dict, list, str)):  # type: ignore[unreachable]
+        if not isinstance(self.raw, (dict, list, str)):  # pyright: ignore[reportUnnecessaryIsInstance]
             raise TypeError(f"Expected `raw` to be a dict, list or str, got {self.raw!r} instead")
+
         if isinstance(self.raw, dict):  # We want to keep it this way for readability
             if "text" not in self.raw and "extra" not in self.raw:
                 raise AttributeError("Expected `raw` to have either 'text' or 'extra' key, got neither")
+
         if isinstance(self.raw, list):
             for elem in self.raw:
-                if not isinstance(elem, dict):  # type: ignore[unreachable]
+                if not isinstance(elem, dict):  # pyright: ignore[reportUnnecessaryIsInstance]
                     raise TypeError(f"Expected `raw` to be a list of dicts, got {elem!r} instead")
                 if "text" not in elem and "extra" not in elem:
                     raise AttributeError(

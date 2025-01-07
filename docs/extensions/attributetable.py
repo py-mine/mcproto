@@ -4,7 +4,7 @@ import importlib
 import inspect
 import re
 from collections.abc import Sequence
-from typing import NamedTuple
+from typing import Any, ClassVar, NamedTuple
 
 from docutils import nodes
 from sphinx import addnodes
@@ -90,11 +90,11 @@ _name_parser_regex = re.compile(r"(?P<module>[\w.]+\.)?(?P<name>\w+)")
 
 
 class PyAttributeTable(SphinxDirective):
-    has_content = False
-    required_arguments = 1
-    optional_arguments = 0
-    final_argument_whitespace = False
-    option_spec: OptionSpec = {}  # type: ignore # noqa: RUF012 # (from original impl)
+    has_content: ClassVar[bool] = False
+    required_arguments: ClassVar[int] = 1
+    optional_arguments: ClassVar[int] = 0
+    final_argument_whitespace: ClassVar[bool] = False
+    option_spec: ClassVar[OptionSpec | None] = {}
 
     def parse_name(self, content: str) -> tuple[str, str]:
         match = _name_parser_regex.match(content)
@@ -283,7 +283,7 @@ def class_results_to_node(key: str, elements: Sequence[TableElement]) -> Attribu
     return AttributeTableColumn("", title, ul)
 
 
-def setup(app: Sphinx) -> dict:
+def setup(app: Sphinx) -> dict[str, Any]:
     app.add_directive("attributetable", PyAttributeTable)
     app.add_node(AttributeTable, html=(visit_attributetable_node, depart_attributetable_node))
     app.add_node(AttributeTableColumn, html=(visit_attributetablecolumn_node, depart_attributetablecolumn_node))
@@ -291,5 +291,5 @@ def setup(app: Sphinx) -> dict:
     app.add_node(AttributeTableBadge, html=(visit_attributetablebadge_node, depart_attributetablebadge_node))
     app.add_node(AttributeTableItem, html=(visit_attributetable_item_node, depart_attributetable_item_node))
     app.add_node(AttributeTablePlaceholder)
-    app.connect("doctree-resolved", process_attributetable)
+    _ = app.connect("doctree-resolved", process_attributetable)
     return {"parallel_read_safe": True}

@@ -90,4 +90,6 @@ gen_serializable_test(
 
 
 if __name__ == "__main__":
-    ToyClass(1, "hello").serialize()
+    # TODO: What's the point of this?
+    # Do we really expect this file to be ran directly?
+    _ = ToyClass(1, "hello").serialize()

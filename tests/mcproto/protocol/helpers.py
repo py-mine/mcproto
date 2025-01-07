@@ -33,7 +33,7 @@ class WriteFunctionMock(Mock):
             raise AssertionError(f"Write function mock expected data {data!r}, but was {self.call_data!r}")
 
 
-class WriteFunctionAsyncMock(WriteFunctionMock, AsyncMock):
+class WriteFunctionAsyncMock(WriteFunctionMock, AsyncMock):  # pyright: ignore[reportUnsafeMultipleInheritance]
     """Asynchronous mock write function, storing the written data."""
 
 
@@ -71,5 +71,5 @@ class ReadFunctionMock(Mock):
             )
 
 
-class ReadFunctionAsyncMock(ReadFunctionMock, AsyncMock):
+class ReadFunctionAsyncMock(ReadFunctionMock, AsyncMock):  # pyright: ignore[reportUnsafeMultipleInheritance]
     """Asynchronous mock read function, giving pre-defined data."""

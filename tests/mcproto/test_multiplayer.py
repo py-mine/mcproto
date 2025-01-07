@@ -147,7 +147,7 @@ async def test_join_check_invalid(httpx_mock: HTTPXMock):
 
     async with httpx.AsyncClient() as client:
         with pytest.raises(UserJoinCheckFailedError) as exc_info:
-            await join_check(client, client_username, server_hash, client_ip)
+            _ = await join_check(client, client_username, server_hash, client_ip)
 
         exc = exc_info.value
         assert exc.client_username == client_username

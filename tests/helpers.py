@@ -5,10 +5,10 @@ import inspect
 import re
 import unittest.mock
 from collections.abc import Callable, Coroutine
-from typing import Any, Generic, NamedTuple, TypeVar
+from typing import Any, ClassVar, Generic, NamedTuple, TypeVar
 
 import pytest
-from typing_extensions import ParamSpec, TypeGuard, override
+from typing_extensions import ParamSpec, TypeIs, override
 
 from mcproto.buffer import Buffer
 from mcproto.utils.abc import Serializable
@@ -63,7 +63,7 @@ class SynchronizedMixin:
     type checkers won't know that they exist here, because of the dynamic nature of this implementation).
     """
 
-    _WRAPPED_ATTRIBUTE: str
+    _WRAPPED_ATTRIBUTE: ClassVar[str]
 
     @override
     def __getattribute__(self, /, name: str) -> Any:
@@ -160,7 +160,7 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
         return self.child_mock_type(**kwargs)
 
 
-class CustomMockMixin(UnpropagatingMockMixin):
+class CustomMockMixin(UnpropagatingMockMixin[T_Mock], Generic[T_Mock]):
     """Provides common functionality for our custom mock types.
 
     * Stops propagation of same ``spec_set`` restricted mock in child mocks
@@ -170,13 +170,13 @@ class CustomMockMixin(UnpropagatingMockMixin):
 
     spec_set = None
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: object):
         if "spec_set" in kwargs:
             self.spec_set = kwargs.pop("spec_set")
-        super().__init__(spec_set=self.spec_set, **kwargs)  # type: ignore # Mixin class, this __init__ is valid
+        super().__init__(spec_set=self.spec_set, **kwargs)  # pyright: ignore[reportCallIssue]  # Mixin class, this __init__ is valid
 
 
-def isexception(obj: object) -> TypeGuard[type[Exception] | TestExc]:
+def isexception(obj: object) -> TypeIs[type[Exception] | TestExc]:
     """Check if the object is an exception."""
     return (isinstance(obj, type) and issubclass(obj, Exception)) or isinstance(obj, TestExc)
 
@@ -273,7 +273,7 @@ def gen_serializable_test(
         result = f"{i:02d}] : "  # the first [ is added by pytest
         if isinstance(param, bytes):
             result += repr(param[:length]) + "..." if len(param) > (length + 3) else repr(param)
-        elif isinstance(param, dict):
+        elif isinstance(param, dict):  # pyright: ignore[reportUnnecessaryIsInstance]
             begin = ", ".join(f"{k}={v!r}" for k, v in param.items())
             result += begin[:length] + "..." if len(begin) > (length + 3) else begin
         else:
@@ -330,7 +330,7 @@ def gen_serializable_test(
         def test_validation(self, kwargs: dict[str, Any], exc: TestExc):
             """Test validation of the object."""
             with pytest.raises(exc.exception, match=exc.match) as exc_info:
-                cls(**kwargs)
+                _ = cls(**kwargs)
 
             # If exc.kwargs is not None, check them against the exception
             if exc.kwargs is not None:
@@ -348,7 +348,7 @@ def gen_serializable_test(
             """Test deserialization error handling."""
             buf = Buffer(content)
             with pytest.raises(exc.exception, match=exc.match) as exc_info:
-                cls.deserialize(buf)
+                _ = cls.deserialize(buf)
 
             # If exc.kwargs is not None, check them against the exception
             if exc.kwargs is not None:

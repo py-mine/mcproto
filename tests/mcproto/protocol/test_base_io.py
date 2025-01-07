@@ -4,7 +4,7 @@ import platform
 import struct
 import sys
 from abc import ABC, abstractmethod
-from typing import Any, Generic, TYPE_CHECKING, TypeVar, Union
+from typing import Any, Generic, TYPE_CHECKING, TypeVar, Union, cast
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -34,7 +34,7 @@ class SyncWriter(BaseSyncWriter):
     """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncWriter` ABC."""
 
     @override
-    def write(self, data: bytes) -> None:
+    def write(self, data: bytes | bytearray) -> None:
         """Concrete implementation of abstract write method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
@@ -59,7 +59,7 @@ class SyncReader(BaseSyncReader):
     """Testable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncReader` ABC."""
 
     @override
-    def read(self, length: int) -> bytearray:
+    def read(self, length: int) -> bytes:
         """Concrete implementation of abstract read method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
@@ -84,7 +84,7 @@ class AsyncWriter(BaseAsyncWriter):
     """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseAsyncWriter` ABC."""
 
     @override
-    async def write(self, data: bytes) -> None:
+    async def write(self, data: bytes | bytearray) -> None:
         """Concrete implementation of abstract write method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
@@ -109,7 +109,7 @@ class AsyncReader(BaseAsyncReader):
     """Testable concrete implementation of BaseAsyncReader ABC."""
 
     @override
-    async def read(self, length: int) -> bytearray:
+    async def read(self, length: int) -> bytes:
         """Concrete implementation of abstract read method.
 
         Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
@@ -161,8 +161,8 @@ class WrappedAsyncWriter(SynchronizedMixin):
 # endregion
 # region: Abstract test classes
 
-T_WRITER = TypeVar("T_WRITER", bound=Union[BaseSyncWriter, BaseAsyncWriter])
-T_READER = TypeVar("T_READER", bound=Union[BaseSyncReader, BaseAsyncReader])
+T_WRITER = TypeVar("T_WRITER", bound=Union[SyncWriter, WrappedAsyncWriter])
+T_READER = TypeVar("T_READER", bound=Union[SyncReader, WrappedAsyncReader])
 
 
 # Pytest doesn't like test classes having __new__ in older python versions
@@ -179,7 +179,10 @@ else:
 class WriterTests(abc, generic[T_WRITER]):
     """Collection of tests for both sync and async versions of the writer."""
 
-    writer: T_WRITER
+    # This is actually T_WRITER, however that wipes out the typing information
+    # since there's __getattribute__ -> Any. We can afford to lie here and use
+    # casts to the typevar when we do need the distinction.
+    writer: SyncWriter
 
     @classmethod
     @abstractmethod
@@ -190,7 +193,7 @@ class WriterTests(abc, generic[T_WRITER]):
     @pytest.fixture
     def method_mock(self) -> Mock | AsyncMock:
         """Obtain the appropriate type of mock, supporting both sync and async modes."""
-        if isinstance(self.writer, BaseSyncWriter):
+        if isinstance(cast(T_WRITER, self.writer), BaseSyncWriter):
             return Mock
         return AsyncMock
 
@@ -201,7 +204,7 @@ class WriterTests(abc, generic[T_WRITER]):
         This returned function takes in the name of the function to patch, and returns the mock object.
         This mock object will either be Mock, or AsyncMock instance, depending on whether we're in async or sync mode.
         """
-        if isinstance(self.writer, SyncWriter):
+        if isinstance(cast(T_WRITER, self.writer), SyncWriter):
             patch_path = "mcproto.protocol.base_io.BaseSyncWriter"
             mock_type = Mock
         else:
@@ -218,7 +221,11 @@ class WriterTests(abc, generic[T_WRITER]):
     @pytest.fixture
     def write_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the write function with a mock which is returned."""
-        mock_f = WriteFunctionMock() if isinstance(self.writer, BaseSyncWriter) else WriteFunctionAsyncMock()
+        mock_f = (
+            WriteFunctionMock()
+            if isinstance(cast(T_WRITER, self.writer), BaseSyncWriter)
+            else WriteFunctionAsyncMock()
+        )
         monkeypatch.setattr(self.writer.__class__, "write", mock_f)
         return mock_f
 
@@ -281,7 +288,7 @@ class WriterTests(abc, generic[T_WRITER]):
     )
     def test_write_varuint(self, number: int, expected_bytes: list[int], write_mock: WriteFunctionMock):
         """Test writing varuints results in correct bytes."""
-        self.writer._write_varuint(number)
+        self.writer._write_varuint(number)  # pyright: ignore[reportPrivateUsage]
         write_mock.assert_has_data(bytearray(expected_bytes))
 
     @pytest.mark.parametrize(
@@ -296,7 +303,7 @@ class WriterTests(abc, generic[T_WRITER]):
     def test_write_varuint_out_of_range(self, write_value: int, max_bits: int):
         """Test writing out of range varuints raises :exc:`ValueError`."""
         with pytest.raises(ValueError):
-            self.writer._write_varuint(write_value, max_bits=max_bits)
+            self.writer._write_varuint(write_value, max_bits=max_bits)  # pyright: ignore[reportPrivateUsage]
 
     @pytest.mark.parametrize(
         ("number", "expected_bytes"),
@@ -372,14 +379,14 @@ class WriterTests(abc, generic[T_WRITER]):
         """Test writing non-``None`` value writes ``True`` and runs the writer function."""
         mock_v = Mock()
         mock_f = method_mock()
-        self.writer.write_optional(mock_v, mock_f)
+        _ = self.writer.write_optional(mock_v, mock_f)
         mock_f.assert_called_once_with(mock_v)
         write_mock.assert_has_data(bytearray([1]))
 
     def test_write_optional_false(self, method_mock: Mock | AsyncMock, write_mock: WriteFunctionMock):
         """Test writing ``None`` value should write ``False`` and skip running the writer function."""
         mock_f = method_mock()
-        self.writer.write_optional(None, mock_f)
+        _ = self.writer.write_optional(None, mock_f)
         mock_f.assert_not_called()
         write_mock.assert_has_data(bytearray([0]))
 
@@ -387,7 +394,10 @@ class WriterTests(abc, generic[T_WRITER]):
 class ReaderTests(abc, generic[T_READER]):
     """Collection of tests for both sync and async versions of the reader."""
 
-    reader: T_READER
+    # This is actually T_READER, however that wipes out the typing information
+    # since there's __getattribute__ -> Any. We can afford to lie here and use
+    # casts to the typevar when we do need the distinction.
+    reader: SyncReader
 
     @classmethod
     @abstractmethod
@@ -398,7 +408,7 @@ class ReaderTests(abc, generic[T_READER]):
     @pytest.fixture
     def method_mock(self) -> Mock | AsyncMock:
         """Obtain the appropriate type of mock, supporting both sync and async modes."""
-        if isinstance(self.reader, BaseSyncReader):
+        if isinstance(cast(T_READER, self.reader), BaseSyncReader):
             return Mock
         return AsyncMock
 
@@ -409,7 +419,7 @@ class ReaderTests(abc, generic[T_READER]):
         This returned function takes in the name of the function to patch, and returns the mock object.
         This mock object will either be Mock, or AsyncMock instance, depending on whether we're in async or sync mode.
         """
-        if isinstance(self.reader, SyncReader):
+        if isinstance(cast(T_READER, self.reader), SyncReader):
             patch_path = "mcproto.protocol.base_io.BaseSyncReader"
             mock_type = Mock
         else:
@@ -426,7 +436,7 @@ class ReaderTests(abc, generic[T_READER]):
     @pytest.fixture
     def read_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the read function with a mock which is returned."""
-        mock_f = ReadFunctionMock() if isinstance(self.reader, SyncReader) else ReadFunctionAsyncMock()
+        mock_f = ReadFunctionMock() if isinstance(cast(T_READER, self.reader), SyncReader) else ReadFunctionAsyncMock()
         monkeypatch.setattr(self.reader.__class__, "read", mock_f)
         yield mock_f
         # Run this assertion after the test, to ensure that all specified data
@@ -475,7 +485,7 @@ class ReaderTests(abc, generic[T_READER]):
     def test_read_varuint(self, read_bytes: list[int], expected_value: int, read_mock: ReadFunctionMock):
         """Test reading varuint bytes results in correct values."""
         read_mock.combined_data = bytearray(read_bytes)
-        assert self.reader._read_varuint() == expected_value
+        assert self.reader._read_varuint() == expected_value  # pyright: ignore[reportPrivateUsage]
 
     @pytest.mark.parametrize(
         ("read_bytes", "max_bits"),
@@ -488,7 +498,7 @@ class ReaderTests(abc, generic[T_READER]):
         """Test reading out-of-range varuints raises :exc:`IOError`."""
         read_mock.combined_data = bytearray(read_bytes)
         with pytest.raises(IOError):
-            self.reader._read_varuint(max_bits=max_bits)
+            _ = self.reader._read_varuint(max_bits=max_bits)  # pyright: ignore[reportPrivateUsage]
 
     @pytest.mark.parametrize(
         ("read_bytes", "expected_value"),
@@ -569,20 +579,20 @@ class ReaderTests(abc, generic[T_READER]):
         """Test reading a UTF string too big raises an IOError."""
         read_mock.combined_data = bytearray(read_bytes)
         with pytest.raises(IOError):
-            self.reader.read_utf()
+            _ = self.reader.read_utf()
 
     def test_read_optional_true(self, method_mock: Mock | AsyncMock, read_mock: ReadFunctionMock):
         """Test reading optional runs reader function when first bool is ``True``."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([1])
-        self.reader.read_optional(mock_f)
+        _ = self.reader.read_optional(mock_f)
         mock_f.assert_called_once_with()
 
     def test_read_optional_false(self, method_mock: Mock | AsyncMock, read_mock: ReadFunctionMock):
         """Test reading optional doesn't run reader function when first bool is ``False``."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([0])
-        self.reader.read_optional(mock_f)
+        _ = self.reader.read_optional(mock_f)
         mock_f.assert_not_called()
 
 
@@ -596,8 +606,8 @@ if sys.version_info > (3, 9) or TYPE_CHECKING:
     reader_tests_cls = ReaderTests
 else:
     # boy this is cursed
-    writer_tests_cls = {SyncWriter: WriterTests, AsyncWriter: WriterTests}
-    reader_tests_cls = {SyncReader: ReaderTests, AsyncReader: ReaderTests}
+    writer_tests_cls = {SyncWriter: WriterTests, WrappedAsyncWriter: WriterTests}
+    reader_tests_cls = {SyncReader: ReaderTests, WrappedAsyncReader: ReaderTests}
 
 
 class TestBaseSyncWriter(writer_tests_cls[SyncWriter]):
@@ -618,22 +628,22 @@ class TestBaseSyncReader(reader_tests_cls[SyncReader]):
         cls.reader = SyncReader()
 
 
-class TestBaseAsyncWriter(writer_tests_cls[AsyncWriter]):
+class TestBaseAsyncWriter(writer_tests_cls[WrappedAsyncWriter]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
 
     @override
     @classmethod
     def setup_class(cls):
-        cls.writer = WrappedAsyncWriter()  # type: ignore
+        cls.writer = WrappedAsyncWriter()  # pyright: ignore[reportAttributeAccessIssue]
 
 
-class TestBaseAsyncReader(reader_tests_cls[AsyncReader]):
+class TestBaseAsyncReader(reader_tests_cls[WrappedAsyncReader]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
 
     @override
     @classmethod
     def setup_class(cls):
-        cls.reader = WrappedAsyncReader()  # type: ignore
+        cls.reader = WrappedAsyncReader()  # pyright: ignore[reportAttributeAccessIssue]
 
 
 # endregion

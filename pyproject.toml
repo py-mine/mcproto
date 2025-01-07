@@ -81,25 +81,36 @@ poetry-dynamic-versioning = ">=1.4.0,<1.5"
 taskipy = "^1.10.4"
 
 [tool.basedpyright]
+pythonPlatform = "All"
 pythonVersion = "3.9"
-typeCheckingMode = "standard"
+typeCheckingMode = "all"
 
-reportUntypedFunctionDecorator = "error"
-reportUntypedClassDecorator = "error"
-reportUntypedNamedTuple = "error"
-reportTypeCommentUsage = "error"
-reportConstantRedefinition = "error"
-reportDeprecated = "warning"
-reportIncompatibleMethodOverride = "error"
-reportOverlappingOverload = "error"
-reportUnnecessaryIsInstance = "error"
-reportUnnecessaryCast = "error"
-reportUnnecessaryComparison = "error"
-reportUnnecessaryContains = "error"
-reportUnnecessaryTypeIgnoreComment = "error"
-reportImplicitOverride = "error"
-reportShadowedImports = "error"
-disableBytesTypePromotions = false           # allow bytes -> bytearray promotions
+# Diagnostic behavior settings
+strictListInference = false
+strictDictionaryInference = false
+strictSetInference = false
+analyzeUnannotatedFunctions = true
+strictParameterNoneValue = true
+enableTypeIgnoreComments = true
+deprecateTypingAliases = true      # only applies for python 3.9+
+enableExperimentalFeatures = false
+disableBytesTypePromotions = true
+
+# Diagnostic rules
+reportAny = false
+reportExplicitAny = false
+reportImplicitStringConcatenation = false
+reportUnreachable = "hint"
+reportUnusedParameter = "hint"
+reportUnannotatedClassAttribute = false
+reportUnknownArgumentType = false           # consider enabling
+reportUnknownVariableType = false           # consider enabling
+reportUnknownMemberType = false             # consider enabling
+reportUnknownParameterType = false          # consider enabling
+reportUnknownLambdaType = false             # consider enabling
+reportMissingTypeStubs = "information"      # consider bumping to warning/error
+reportUninitializedInstanceVariable = false # until https://github.com/DetachHead/basedpyright/issues/491
+reportMissingParameterType = false          # ruff's flake8-annotations (ANN) already covers this + gives us more control
 
 [tool.ruff]
 target-version = "py39"
@@ -284,7 +295,7 @@ exclude-modules = '''
 [tool.taskipy.tasks]
 precommit = "pre-commit install"
 lint = "pre-commit run --all-files"
-basedpyright = "basedpyright ."
+basedpyright = "basedpyright --warnings ."
 ruff = "ruff check --fix ."
 ruff-format = "ruff format ."
 slotscheck = "slotscheck -m mcproto"
