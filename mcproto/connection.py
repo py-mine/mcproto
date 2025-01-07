@@ -278,7 +278,7 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         sock = socket.create_connection(address, timeout=timeout)
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        return cls(sock)
+        return cls(sock)  # pyright: ignore[reportArgumentType] # pyright doesn't understand the generic
 
     @override
     def _read(self, length: int) -> bytes:
@@ -333,7 +333,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         conn = asyncio.open_connection(address[0], address[1])
         reader, writer = await asyncio.wait_for(conn, timeout=timeout)
-        return cls(reader, writer, timeout)
+        return cls(reader, writer, timeout)  # pyright: ignore[reportArgumentType] # pyright doesn't understand the generic
 
     @override
     async def _read(self, length: int) -> bytes:
@@ -387,7 +387,7 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(timeout)
-        return cls(sock, address)
+        return cls(sock, address)  # pyright: ignore[reportArgumentType] # pyright doesn't understand the generic
 
     @override
     def _read(self, length: int | None = None) -> bytes:
@@ -422,7 +422,7 @@ class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
         conn = asyncio_dgram.connect(address)
         stream = await asyncio.wait_for(conn, timeout=timeout)
-        return cls(stream, timeout)
+        return cls(stream, timeout)  # pyright: ignore[reportArgumentType] # pyright doesn't understand the generic
 
     @override
     async def _read(self, length: int | None = None) -> bytes:

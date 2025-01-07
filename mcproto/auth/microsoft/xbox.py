@@ -9,6 +9,7 @@ from typing_extensions import override
 __all__ = [
     "XSTSErrorType",
     "XSTSRequestError",
+    "XboxData",
     "xbox_auth",
 ]
 

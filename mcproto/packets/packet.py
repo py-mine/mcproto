@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from enum import IntEnum
 from typing import ClassVar
@@ -35,7 +35,7 @@ class PacketDirection(IntEnum):
     CLIENTBOUND = 1
 
 
-class Packet(Serializable, RequiredParamsABCMixin):
+class Packet(Serializable, RequiredParamsABCMixin, ABC):
     """Base class for all packets."""
 
     _REQUIRED_CLASS_VARS: ClassVar[Sequence[str]] = ["PACKET_ID", "GAME_STATE"]
@@ -60,13 +60,13 @@ class Packet(Serializable, RequiredParamsABCMixin):
         raise NotImplementedError
 
 
-class ServerBoundPacket(Packet):
+class ServerBoundPacket(Packet, ABC):
     """Packet bound to a server (Client -> Server)."""
 
     __slots__ = ()
 
 
-class ClientBoundPacket(Packet):
+class ClientBoundPacket(Packet, ABC):
     """Packet bound to a client (Server -> Client)."""
 
     __slots__ = ()

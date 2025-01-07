@@ -4,7 +4,7 @@ import importlib
 import pkgutil
 from collections.abc import Iterator, Mapping, Sequence
 from types import MappingProxyType, ModuleType
-from typing import Literal, NamedTuple, NoReturn, TYPE_CHECKING, overload
+from typing import Literal, NamedTuple, NoReturn, TYPE_CHECKING, cast, overload
 
 from mcproto.packets.packet import ClientBoundPacket, GameState, Packet, PacketDirection, ServerBoundPacket
 
@@ -65,6 +65,7 @@ def _walk_submodules(module: ModuleType) -> Iterator[WalkableModuleData]:
         for member_name in member_names:
             if not isinstance(member_name, str):
                 raise TypeError(f"Module {module_info.name!r}'s __all__ contains non-string item.")
+        member_names = cast(Sequence[str], member_names)
 
         yield WalkableModuleData(imported_module, module_info, member_names)
 

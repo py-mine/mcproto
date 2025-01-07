@@ -1,7 +1,11 @@
 ---
 name: Unit-Tests
 
-on: workflow_call
+on:
+  workflow_call:
+    secrets:
+      CC_TEST_REPORTER_ID:
+        required: true
 
 jobs:
   unit-tests:
@@ -11,7 +15,7 @@ jobs:
       fail-fast: false # Allows for matrix sub-jobs to fail without cancelling the rest
       matrix:
         platform: [ubuntu-latest, windows-latest]
-        python-version: ["3.8", "3.12"]
+        python-version: ["3.9", "3.13"]
 
     steps:
       - name: Checkout repository
@@ -28,53 +32,6 @@ jobs:
         shell: bash
         run: |
           poetry run task test
-
-          python .github/scripts/normalize_coverage.py
-          mv .coverage .coverage.${{ matrix.platform }}.${{ matrix.python-version }}
-
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage.${{ matrix.platform }}.${{ matrix.python-version }}
-          path: .coverage.${{ matrix.platform }}.${{ matrix.python-version }}
-          retention-days: 1
-          if-no-files-found: error
-
-  upload-coverage:
-    needs: [unit-tests]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup poetry
-        id: poetry_setup
-        uses: ItsDrike/setup-poetry@v1
-        with:
-          python-version: 3.12
-          install-args: "--no-root --only test"
-
-      - name: Download all coverage artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: coverage.*
-          merge-multiple: true # support downloading multiple artifacts to same dir
-
-      # Combine all of the coverage files (for each os, python version - from matrix)
-      # into a single coverage file (.coverage), and produce a final (combined) coverage report.
-      - name: Combine coverage
-        run: |
-          coverage combine
-          coverage xml
-          coverage report
-
-      - name: Upload coverage to codeclimate
-        uses: paambaati/codeclimate-action@v8.0.0
-        env:
-          CC_TEST_REPORTER_ID: 0ec6191ea237656410b90dded9352a5b16d68f8d86d60ea8944abd41d532e869
-        with:
-          coverageLocations: .coverage.xml:coverage.py
 
   tests-done:
     needs: [unit-tests]

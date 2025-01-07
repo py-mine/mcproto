@@ -532,7 +532,7 @@ def test_nbt_bigfile():
 
     def check_equality(self: object, other: object) -> bool:
         """Check if two objects are equal, with deep epsilon check for floats."""
-        if type(self) != type(other):
+        if type(self) is not type(other):
             return False
         if isinstance(self, dict):
             self = cast("dict[Any, Any]", self)

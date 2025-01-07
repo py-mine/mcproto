@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from collections.abc import Iterator, Mapping, Sequence
 from enum import IntEnum
 from typing import ClassVar, Protocol, Union, cast, final, runtime_checkable
@@ -180,7 +180,7 @@ FromObjectSchema: TypeAlias = Union[
 """Represents the type of a schema, used to define how an object should be converted to an NBT tag(s)."""
 
 
-class NBTag(MCType, NBTagConvertible):
+class NBTag(MCType, NBTagConvertible, ABC):
     """Base class for NBT tags.
 
     In MC v1.20.2+ the type and name of the root tag is not written to the buffer, and unless specified,
@@ -508,7 +508,7 @@ class _NumberNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # pyright: ignore[reportAssignmentType]
+    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: int
@@ -595,7 +595,7 @@ class _FloatingNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[FLOAT_FORMATS_TYPE] = NotImplemented  # pyright: ignore[reportAssignmentType]
+    STRUCT_FORMAT: ClassVar[FLOAT_FORMATS_TYPE] = NotImplemented
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: float
@@ -1018,7 +1018,7 @@ class _NumberArrayNBTag(NBTag, RequiredParamsABCMixin):
 
     _REQUIRED_CLASS_VARS = ("STRUCT_FORMAT", "DATA_SIZE")
 
-    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented  # pyright: ignore[reportAssignmentType]
+    STRUCT_FORMAT: ClassVar[INT_FORMATS_TYPE] = NotImplemented
     DATA_SIZE: ClassVar[int] = NotImplemented
 
     payload: list[int]

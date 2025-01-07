@@ -190,14 +190,14 @@ class WriterTests(abc, generic[T_WRITER]):
         """Initialize writer instance to be tested."""
         ...
 
-    @pytest.fixture()
+    @pytest.fixture
     def method_mock(self) -> Mock | AsyncMock:
         """Obtain the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(cast(T_WRITER, self.writer), BaseSyncWriter):
             return Mock
         return AsyncMock
 
-    @pytest.fixture()
+    @pytest.fixture
     def autopatch(self, monkeypatch: pytest.MonkeyPatch):
         """Create a simple function, supporting patching both sync/async writer functions with appropriate mocks.
 
@@ -218,7 +218,7 @@ class WriterTests(abc, generic[T_WRITER]):
 
         return autopatch
 
-    @pytest.fixture()
+    @pytest.fixture
     def write_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the write function with a mock which is returned."""
         mock_f = (
@@ -405,14 +405,14 @@ class ReaderTests(abc, generic[T_READER]):
         """Initialize reader instance to be tested."""
         ...
 
-    @pytest.fixture()
+    @pytest.fixture
     def method_mock(self) -> Mock | AsyncMock:
         """Obtain the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(cast(T_READER, self.reader), BaseSyncReader):
             return Mock
         return AsyncMock
 
-    @pytest.fixture()
+    @pytest.fixture
     def autopatch(self, monkeypatch: pytest.MonkeyPatch):
         """Create a simple function, supporting patching both sync/async reader functions with appropriate mocks.
 
@@ -433,7 +433,7 @@ class ReaderTests(abc, generic[T_READER]):
 
         return autopatch
 
-    @pytest.fixture()
+    @pytest.fixture
     def read_mock(self, monkeypatch: pytest.MonkeyPatch):
         """Monkeypatch the read function with a mock which is returned."""
         mock_f = ReadFunctionMock() if isinstance(cast(T_READER, self.reader), SyncReader) else ReadFunctionAsyncMock()

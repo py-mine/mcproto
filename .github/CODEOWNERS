@@ -1,11 +1,15 @@
 # If a PR changes a file that has a code owner specified, this code owner
 # is automatically requested a review from
 
-# GitHub CI
+# GitHub / External CI
 .github/dependabot.yml      @ItsDrike
 .github/workflows/**        @ItsDrike
 .github/scripts/**          @ItsDrike
-.codeclimate.yml
+
+# Local CI / tool configurations
+.editorconfig               @ItsDrike
+.gitignore                  @ItsDrike
+.pre-commit-config.yml      @ItsDrike
 
 # Meta (config files for the repo itself)
 .github/CODEOWNERS          @ItsDrike

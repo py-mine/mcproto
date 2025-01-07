@@ -15,10 +15,11 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Games/Entertainment",
   "Topic :: Software Development :: Libraries",
   "Topic :: Software Development :: Libraries :: Python Modules",
@@ -29,13 +30,13 @@ include = ["CHANGELOG.md"]
 packages = [{ include = "mcproto" }]
 
 [tool.poetry.dependencies]
-python = ">=3.8.1,<4"
+python = ">=3.9,<4"
 asyncio-dgram = "^2.1.2"
 typing-extensions = "^4.4.0"
 semantic-version = "^2.10.0"
 httpx = "^0.24.1"
-cryptography = ">=41.0.3,<43.0.0"
-attrs = "^23.2.0"
+cryptography = ">=41.0.3,<44.0.0"
+attrs = ">=23.2,<25.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = ">=2.18.1,<4.0.0"
@@ -53,7 +54,7 @@ slotscheck = ">=0.16.1,<0.20.0"
 basedpyright = "^1.13.3"
 
 [tool.poetry.group.release.dependencies]
-towncrier = ">=22.12,<24.0"
+towncrier = ">=23,<24.7" # temporary pin, as 24.7 is incompatible with sphinxcontrib-towncrier
 
 [tool.poetry.group.release-ci]
 optional = true
@@ -81,7 +82,7 @@ taskipy = "^1.10.4"
 
 [tool.basedpyright]
 pythonPlatform = "All"
-pythonVersion = "3.8"
+pythonVersion = "3.9"
 typeCheckingMode = "all"
 
 # Diagnostic behavior settings
@@ -97,20 +98,22 @@ disableBytesTypePromotions = true
 
 # Diagnostic rules
 reportAny = false
+reportExplicitAny = false
 reportImplicitStringConcatenation = false
 reportUnreachable = "information"
+reportUnusedParameter = "information"
 reportUnknownArgumentType = false           # consider enabling
 reportUnknownVariableType = false           # consider enabling
 reportUnknownMemberType = false             # consider enabling
 reportUnknownParameterType = false          # consider enabling
 reportUnknownLambdaType = false             # consider enabling
+reportUnannotatedClassAttribute = false     # consider enabling
 reportMissingTypeStubs = "information"      # consider bumping to warning/error
 reportUninitializedInstanceVariable = false # until https://github.com/DetachHead/basedpyright/issues/491
 reportMissingParameterType = false          # ruff's flake8-annotations (ANN) already covers this + gives us more control
 
-
 [tool.ruff]
-target-version = "py38"
+target-version = "py39"
 line-length = 119
 
 [tool.ruff.lint]
@@ -122,7 +125,6 @@ ignore = [
   "CPY", # flake8-copyright
   "EM",  # flake8-errmsg
   "SLF", # flake8-self
-  "TCH", # flake8-type-checking
   "ARG", # flake8-unused-arguments
   "TD",  # flake8-todos
   "FIX", # flake8-fixme
@@ -149,17 +151,15 @@ ignore = [
 
   "ANN002", # Missing type annotation for *args
   "ANN003", # Missing type annotation for **kwargs
-  "ANN101", # Missing type annotation for self in method
-  "ANN102", # Missing type annotation for cls in classmethod
   "ANN204", # Missing return type annotation for special method
   "ANN401", # Dynamically typed expressions (typing.Any) disallowed
 
   "SIM102", # use a single if statement instead of nested if statements
   "SIM108", # Use ternary operator {contents} instead of if-else-block
 
-  "TCH001", # Move application imports used only for annotations into a type-checking block
-  "TCH002", # Move 3rd-party imports used only for annotations into a type-checking block
-  "TCH003", # Move standard library imports used only for annotations into a type-checking block
+  "TC001", # Move application imports used only for annotations into a type-checking block
+  "TC002", # Move 3rd-party imports used only for annotations into a type-checking block
+  "TC003", # Move standard library imports used only for annotations into a type-checking block
 
   "TD002", # Missing author in TODO
   "TD003", # Missing issue link on the line following this TODO
@@ -266,6 +266,7 @@ source = ["mcproto"]
 package = "mcproto"
 directory = "changes"
 template = "changes/.template.rst"
+ignore = [".template.rst"]
 filename = "CHANGELOG.md"
 issue_format = "[#{issue}](https://github.com/py-mine/mcproto/issues/{issue})"
 orphan_prefix = "+" # Use '+' instead of number for fragments not connected to any PR
