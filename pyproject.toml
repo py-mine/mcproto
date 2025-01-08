@@ -45,7 +45,7 @@ taskipy = "^1.10.4"
 [tool.poetry.group.test.dependencies]
 pytest = "^7.3.1"
 pytest-asyncio = ">=0.21,<0.24"
-pytest-cov = ">=3,<6"
+pytest-cov = ">=3,<7"
 pytest-httpx = { version = ">=0.23.1,<0.25.0", python = ">=3.9,<4" }
 
 [tool.poetry.group.lint.dependencies]
