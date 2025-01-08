@@ -22,6 +22,7 @@ nav:
       - First steps: usage/first-steps.md
       - Packet Communication: usage/packet-communication.md
       - Authentication: usage/authentication.md
+  - FAQ: faq.md
   - Community:
       - Code of Conduct: community/code-of-conduct.md
       - Attributions: community/attribution.md
