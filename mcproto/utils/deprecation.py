@@ -6,7 +6,7 @@ from collections.abc import Callable
 from functools import wraps
 from typing import TypeVar
 
-from semantic_version import Version
+from packaging.version import Version
 from typing_extensions import ParamSpec, Protocol
 
 __all__ = ["deprecated", "deprecation_warn"]
@@ -46,7 +46,7 @@ def deprecation_warn(
     except importlib.metadata.PackageNotFoundError:
         # v0.0.0 will never mark things as already deprecated (removal_version will always be newer)
         warnings.warn("Failed to get mcproto project version, assuming v0.0.0", category=RuntimeWarning, stacklevel=1)
-        project_version = Version(major=0, minor=0, patch=0)
+        project_version = Version("0.0.0")
     else:
         project_version = Version(_project_version)
 
