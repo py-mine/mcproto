@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import platform
 import struct
-import sys
 from abc import ABC, abstractmethod
-from typing import Any, Generic, TYPE_CHECKING, TypeVar, Union, cast
+from typing import Any, Generic, TypeVar, Union, cast
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -165,18 +164,7 @@ T_WRITER = TypeVar("T_WRITER", bound=Union[SyncWriter, WrappedAsyncWriter])
 T_READER = TypeVar("T_READER", bound=Union[SyncReader, WrappedAsyncReader])
 
 
-# Pytest doesn't like test classes having __new__ in older python versions
-# this is very hacky workaround, to have pytest recognize these classes when
-# running on these older versions.
-if sys.version_info > (3, 9) or TYPE_CHECKING:
-    abc = ABC
-    generic = Generic
-else:
-    abc = type("abc", (), {})
-    generic = {T_WRITER: type("X", (), {}), T_READER: type("Y", (), {})}  # so generic indeed
-
-
-class WriterTests(abc, generic[T_WRITER]):
+class WriterTests(ABC, Generic[T_WRITER]):
     """Collection of tests for both sync and async versions of the writer."""
 
     # This is actually T_WRITER, however that wipes out the typing information
@@ -391,7 +379,7 @@ class WriterTests(abc, generic[T_WRITER]):
         write_mock.assert_has_data(bytearray([0]))
 
 
-class ReaderTests(abc, generic[T_READER]):
+class ReaderTests(ABC, Generic[T_READER]):
     """Collection of tests for both sync and async versions of the reader."""
 
     # This is actually T_READER, however that wipes out the typing information
@@ -600,17 +588,7 @@ class ReaderTests(abc, generic[T_READER]):
 # region: Concrete test classes
 
 
-# Pytest workaround, see the comment above in a similar location.
-if sys.version_info > (3, 9) or TYPE_CHECKING:
-    writer_tests_cls = WriterTests
-    reader_tests_cls = ReaderTests
-else:
-    # boy this is cursed
-    writer_tests_cls = {SyncWriter: WriterTests, WrappedAsyncWriter: WriterTests}
-    reader_tests_cls = {SyncReader: ReaderTests, WrappedAsyncReader: ReaderTests}
-
-
-class TestBaseSyncWriter(writer_tests_cls[SyncWriter]):
+class TestBaseSyncWriter(WriterTests[SyncWriter]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncWriter`."""
 
     @override
@@ -619,7 +597,7 @@ class TestBaseSyncWriter(writer_tests_cls[SyncWriter]):
         cls.writer = SyncWriter()
 
 
-class TestBaseSyncReader(reader_tests_cls[SyncReader]):
+class TestBaseSyncReader(ReaderTests[SyncReader]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
 
     @override
@@ -628,7 +606,7 @@ class TestBaseSyncReader(reader_tests_cls[SyncReader]):
         cls.reader = SyncReader()
 
 
-class TestBaseAsyncWriter(writer_tests_cls[WrappedAsyncWriter]):
+class TestBaseAsyncWriter(WriterTests[WrappedAsyncWriter]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
 
     @override
@@ -637,7 +615,7 @@ class TestBaseAsyncWriter(writer_tests_cls[WrappedAsyncWriter]):
         cls.writer = WrappedAsyncWriter()  # pyright: ignore[reportAttributeAccessIssue]
 
 
-class TestBaseAsyncReader(reader_tests_cls[WrappedAsyncReader]):
+class TestBaseAsyncReader(ReaderTests[WrappedAsyncReader]):
     """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
 
     @override
