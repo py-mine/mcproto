@@ -54,7 +54,7 @@ class Handshake(ServerBoundPacket):
     @override
     def serialize_to(self, buf: Buffer) -> None:
         """Serialize the packet."""
-        self.next_state = cast(NextState, self.next_state)  # Handled by the __attrs_post_init__ method
+        self.next_state = cast("NextState", self.next_state)  # Handled by the __attrs_post_init__ method
         buf.write_varint(self.protocol_version)
         buf.write_utf(self.server_address)
         buf.write_value(StructFormat.USHORT, self.server_port)

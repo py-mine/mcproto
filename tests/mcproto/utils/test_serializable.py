@@ -39,7 +39,7 @@ class ToyClass(Serializable):
     @override
     def serialize_to(self, buf: Buffer):
         """Write the object to a buffer."""
-        self.b = cast(str, self.b)  # Handled by the __attrs_post_init__ method
+        self.b = cast("str", self.b)  # Handled by the __attrs_post_init__ method
         buf.write_varint(self.a)
         buf.write_utf(self.b)
 
@@ -58,7 +58,7 @@ class ToyClass(Serializable):
         """Validate the object's attributes."""
         if self.a == 0:
             raise ZeroDivisionError("a must be non-zero")
-        self.b = cast(str, self.b)  # Handled by the __attrs_post_init__ method
+        self.b = cast("str", self.b)  # Handled by the __attrs_post_init__ method
         if len(self.b) > 10:
             raise ValueError("b must be less than 10 characters")
 
