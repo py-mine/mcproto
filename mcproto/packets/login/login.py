@@ -84,7 +84,7 @@ class LoginEncryptionRequest(ClientBoundPacket):
 
     @override
     def serialize_to(self, buf: Buffer) -> None:
-        self.server_id = cast(str, self.server_id)
+        self.server_id = cast("str", self.server_id)
 
         public_key_raw = self.public_key.public_bytes(encoding=Encoding.DER, format=PublicFormat.SubjectPublicKeyInfo)
         buf.write_utf(self.server_id)
@@ -100,7 +100,7 @@ class LoginEncryptionRequest(ClientBoundPacket):
 
         # Key type is determined by the passed key itself, we know in our case, it will
         # be an RSA public key, so we explicitly type-cast here.
-        public_key = cast(RSAPublicKey, load_der_public_key(public_key_raw, default_backend()))
+        public_key = cast("RSAPublicKey", load_der_public_key(public_key_raw, default_backend()))
 
         return cls(server_id=server_id, public_key=public_key, verify_token=verify_token)
 

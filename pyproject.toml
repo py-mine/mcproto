@@ -172,6 +172,7 @@ ignore = [
   "PLR2004", # Using unnamed numerical constants
   "PGH003",  # Using specific rule codes in type ignores
   "E731",    # Don't asign a lambda expression, use a def
+  "A005",    # Module name shadows a stdlib module
 
   # Redundant rules with ruff-format:
   "E111",   # Indentation of a non-multiple of 4 spaces
