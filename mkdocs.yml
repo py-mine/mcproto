@@ -36,7 +36,6 @@ nav:
           - contributing/guides/index.md
           - Setting things up: contributing/guides/setup.md
           - Style Guide: contributing/guides/style-guide.md
-          - Docstring formatting: contributing/guides/docstrings.md
           - Type hinting: contributing/guides/type-hints.md
           - Slotscheck: contributing/guides/slotscheck.md
           - Pre-commit: contributing/guides/precommit.md
@@ -44,6 +43,7 @@ nav:
           - Breaking Changes: contributing/guides/breaking-changes.md
           - Unit Tests: contributing/guides/unit-tests.md
           - Documentation: contributing/guides/documentation.md
+          - Docstring formatting: contributing/guides/docstrings.md
           - Great commits: contributing/guides/great-commits.md
   - API Reference:
       - Protocol: reference/protocol.md
