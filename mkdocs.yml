@@ -46,20 +46,12 @@ nav:
           - Documentation: contributing/guides/documentation.md
           - Great commits: contributing/guides/great-commits.md
   - API Reference:
-      - Protocol: reference/public/protocol.md
-      - Authentication: reference/public/authentication.md
-      - Encryption: reference/public/encryption.md
-      - Multiplayer: reference/public/multiplayer.md
-      - Types: reference/public/types.md
-      - Packets: reference/public/packets.md
-  - Private API Reference:
-      - reference/private/index.md
-      - ABCs: reference/private/abc.md
-      - Deprecation: reference/private/deprecation.md
-      - Authentication: reference/private/authentication.md
-      - Protocol: reference/private/protocol.md
-      - Types: reference/private/types.md
-      - Packets: reference/private/packets.md
+      - Protocol: reference/protocol.md
+      - Authentication: reference/authentication.md
+      - Encryption: reference/encryption.md
+      - Multiplayer: reference/multiplayer.md
+      - Types: reference/types.md
+      - Packets: reference/packets.md
 
 theme:
   name: material
