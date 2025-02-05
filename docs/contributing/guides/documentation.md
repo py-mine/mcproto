@@ -1,5 +1,10 @@
 # Writing documentation
 
+???+ abstract
+
+    This guide describes how to write the documentation for this project (like the docs for the page you're reading
+    right now). It contains several useful links for `mkdocs` documentation and for the various extensions that we use.
+
 Our documentation page is generated from markdown files in the `docs/` directory, using
 [`mkdocs`](https://www.mkdocs.org/) with [`mkdocs-material`](https://squidfunk.github.io/mkdocs-material/).
 
