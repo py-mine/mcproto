@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/reference/private/abc/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/reference/encryption/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../authentication/">
       
       
-        <link rel="next" href="../deprecation/">
+        <link rel="next" href="../multiplayer/">
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.2">
     
     
       
-        <title>ABCs - MCPROTO</title>
+        <title>Encryption - MCPROTO</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.d7758b05.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,19 +48,19 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/_markdown_exec_pyodide.css">
+      <link rel="stylesheet" href="../../assets/_markdown_exec_pyodide.css">
     
-      <link rel="stylesheet" href="../../../assets/_markdown_exec_ansi.css">
+      <link rel="stylesheet" href="../../assets/_markdown_exec_ansi.css">
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../css/mkdocstrings.css">
+      <link rel="stylesheet" href="../../css/mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../css/material.css">
+      <link rel="stylesheet" href="../../css/material.css">
     
-      <link rel="stylesheet" href="../../../css/admoditions.css">
+      <link rel="stylesheet" href="../../css/admoditions.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#utility-abstract-base-classes" class="md-skip">
+        <a href="#encryption-utilities" class="md-skip">
           Skip to content
         </a>
       
@@ -106,9 +106,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="MCPROTO" class="md-header__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+    <a href="../.." title="MCPROTO" class="md-header__button md-logo" aria-label="MCPROTO" data-md-component="logo">
       
-  <img src="../../../assets/py-mine_logo.png" alt="logo">
+  <img src="../../assets/py-mine_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ABCs
+              Encryption
             
           </span>
         </div>
@@ -222,7 +222,7 @@
         <a href="https://github.com/py-mine/mcproto" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
     py-mine/mcproto
@@ -243,7 +243,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
     
@@ -262,7 +262,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../installation/" class="md-tabs__link">
+        <a href="../../installation/" class="md-tabs__link">
           
   
     
@@ -282,7 +282,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../usage/" class="md-tabs__link">
+        <a href="../../usage/" class="md-tabs__link">
           
   
     
@@ -300,7 +300,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../faq/" class="md-tabs__link">
+      <a href="../../faq/" class="md-tabs__link">
         
   
     
@@ -319,32 +319,12 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../community/code-of-conduct/" class="md-tabs__link">
+        <a href="../../community/code-of-conduct/" class="md-tabs__link">
           
   
     
   
   Community
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../public/protocol/" class="md-tabs__link">
-          
-  
-    
-  
-  API Reference
 
         </a>
       </li>
@@ -361,12 +341,12 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="../protocol/" class="md-tabs__link">
           
   
     
   
-  Private API Reference
+  API Reference
 
         </a>
       </li>
@@ -402,9 +382,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="MCPROTO" class="md-nav__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+    <a href="../.." title="MCPROTO" class="md-nav__button md-logo" aria-label="MCPROTO" data-md-component="logo">
       
-  <img src="../../../assets/py-mine_logo.png" alt="logo">
+  <img src="../../assets/py-mine_logo.png" alt="logo">
 
     </a>
     MCPROTO
@@ -414,7 +394,7 @@
       <a href="https://github.com/py-mine/mcproto" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
     py-mine/mcproto
@@ -431,11 +411,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Home
+    
   </span>
   
 
@@ -478,11 +459,12 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../installation/" class="md-nav__link ">
+            <a href="../../installation/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
     Installation
+    
   </span>
   
 
@@ -511,11 +493,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../installation/versioning-model/" class="md-nav__link">
+      <a href="../../installation/versioning-model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Versioning Model
+    
   </span>
   
 
@@ -532,11 +515,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../installation/changelog/" class="md-nav__link">
+      <a href="../../installation/changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Changelog
+    
   </span>
   
 
@@ -589,11 +573,12 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../usage/" class="md-nav__link ">
+            <a href="../../usage/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
     Usage
+    
   </span>
   
 
@@ -622,11 +607,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../usage/first-steps/" class="md-nav__link">
+      <a href="../../usage/first-steps/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     First steps
+    
   </span>
   
 
@@ -643,11 +629,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../usage/packet-communication/" class="md-nav__link">
+      <a href="../../usage/packet-communication/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Packet Communication
+    
   </span>
   
 
@@ -664,11 +651,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../usage/authentication/" class="md-nav__link">
+      <a href="../../usage/authentication/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Authentication
+    
   </span>
   
 
@@ -692,11 +680,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../faq/" class="md-nav__link">
+      <a href="../../faq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     FAQ
+    
   </span>
   
 
@@ -744,6 +733,7 @@
   
   <span class="md-ellipsis">
     Community
+    
   </span>
   
 
@@ -764,11 +754,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../community/code-of-conduct/" class="md-nav__link">
+      <a href="../../community/code-of-conduct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Code of Conduct
+    
   </span>
   
 
@@ -785,11 +776,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../community/attribution/" class="md-nav__link">
+      <a href="../../community/attribution/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Attributions
+    
   </span>
   
 
@@ -806,11 +798,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../community/license/" class="md-nav__link">
+      <a href="../../community/license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     License
+    
   </span>
   
 
@@ -857,6 +850,7 @@
   
   <span class="md-ellipsis">
     Contributing
+    
   </span>
   
 
@@ -877,11 +871,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/reporting-a-bug/" class="md-nav__link">
+      <a href="../../contributing/reporting-a-bug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Reporting a bug
+    
   </span>
   
 
@@ -903,6 +898,7 @@
   
   <span class="md-ellipsis">
     Asking a question
+    
   </span>
   
 
@@ -919,11 +915,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/making-a-pr/" class="md-nav__link">
+      <a href="../../contributing/making-a-pr/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Making a pull request
+    
   </span>
   
 
@@ -940,11 +937,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/security-policy/" class="md-nav__link">
+      <a href="../../contributing/security-policy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Security Policy
+    
   </span>
   
 
@@ -1014,11 +1012,12 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../contributing/guides/" class="md-nav__link ">
+            <a href="../../contributing/guides/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
     Guides
+    
   </span>
   
 
@@ -1047,11 +1046,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/setup/" class="md-nav__link">
+      <a href="../../contributing/guides/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Setting things up
+    
   </span>
   
 
@@ -1068,11 +1068,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/style-guide/" class="md-nav__link">
+      <a href="../../contributing/guides/style-guide/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Style Guide
+    
   </span>
   
 
@@ -1089,32 +1090,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/docstrings/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Docstring formatting
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../contributing/guides/type-hints/" class="md-nav__link">
+      <a href="../../contributing/guides/type-hints/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Type hinting
+    
   </span>
   
 
@@ -1131,11 +1112,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/slotscheck/" class="md-nav__link">
+      <a href="../../contributing/guides/slotscheck/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Slotscheck
+    
   </span>
   
 
@@ -1152,11 +1134,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/precommit/" class="md-nav__link">
+      <a href="../../contributing/guides/precommit/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Pre-commit
+    
   </span>
   
 
@@ -1173,11 +1156,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/changelog/" class="md-nav__link">
+      <a href="../../contributing/guides/changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Changelog
+    
   </span>
   
 
@@ -1194,11 +1178,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/breaking-changes/" class="md-nav__link">
+      <a href="../../contributing/guides/breaking-changes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Breaking Changes
+    
   </span>
   
 
@@ -1215,11 +1200,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/unit-tests/" class="md-nav__link">
+      <a href="../../contributing/guides/unit-tests/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Unit Tests
+    
   </span>
   
 
@@ -1236,11 +1222,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/documentation/" class="md-nav__link">
+      <a href="../../contributing/guides/documentation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Documentation
+    
   </span>
   
 
@@ -1257,11 +1244,34 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/guides/great-commits/" class="md-nav__link">
+      <a href="../../contributing/guides/docstrings-and-reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docstrings and API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/guides/great-commits/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Great commits
+    
   </span>
   
 
@@ -1290,203 +1300,12 @@
       
   
   
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    API Reference
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            API Reference
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../public/protocol/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Protocol
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../public/authentication/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Authentication
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../public/encryption/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Encryption
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../public/multiplayer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Multiplayer
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../public/types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Types
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../public/packets/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Packets
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
   
     
     
-      
-        
-          
-        
       
         
       
@@ -1515,35 +1334,70 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
   
   <span class="md-ellipsis">
-    Private API Reference
+    API Reference
+    
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
-            Private API Reference
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Protocol
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authentication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1566,7 +1420,8 @@
           
   
   <span class="md-ellipsis">
-    ABCs
+    Encryption
+    
   </span>
   
 
@@ -1577,7 +1432,8 @@
         
   
   <span class="md-ellipsis">
-    ABCs
+    Encryption
+    
   </span>
   
 
@@ -1599,86 +1455,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.RequiredParamsABCMixin" class="md-nav__link">
+  <a href="#mcproto.encryption.decrypt_token_and_secret" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;RequiredParamsABCMixin
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;decrypt_token_and_secret
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label=" RequiredParamsABCMixin">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.RequiredParamsABCMixin.__new__" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__new__
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable" class="md-nav__link">
+  <a href="#mcproto.encryption.encrypt_token_and_secret" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Serializable
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" Serializable">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.__attrs_post_init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__attrs_post_init__
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;encrypt_token_and_secret
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.deserialize" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#mcproto.encryption.generate_rsa_key" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;deserialize
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_rsa_key
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.serialize" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#mcproto.encryption.generate_shared_secret" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;serialize
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_shared_secret
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.serialize_to" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#mcproto.encryption.generate_verify_token" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;serialize_to
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_verify_token
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.validate" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;validate
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1698,53 +1515,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../deprecation/" class="md-nav__link">
+      <a href="../multiplayer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Deprecation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../authentication/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Authentication
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../protocol/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Protocol
+    Multiplayer
+    
   </span>
   
 
@@ -1766,6 +1542,7 @@
   
   <span class="md-ellipsis">
     Types
+    
   </span>
   
 
@@ -1787,6 +1564,7 @@
   
   <span class="md-ellipsis">
     Packets
+    
   </span>
   
 
@@ -1830,86 +1608,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.RequiredParamsABCMixin" class="md-nav__link">
+  <a href="#mcproto.encryption.decrypt_token_and_secret" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;RequiredParamsABCMixin
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;decrypt_token_and_secret
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label=" RequiredParamsABCMixin">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.RequiredParamsABCMixin.__new__" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__new__
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable" class="md-nav__link">
+  <a href="#mcproto.encryption.encrypt_token_and_secret" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Serializable
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" Serializable">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.__attrs_post_init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;__attrs_post_init__
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;encrypt_token_and_secret
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.deserialize" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#mcproto.encryption.generate_rsa_key" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;deserialize
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_rsa_key
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.serialize" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#mcproto.encryption.generate_shared_secret" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;serialize
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_shared_secret
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.serialize_to" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#mcproto.encryption.generate_verify_token" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;serialize_to
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;generate_verify_token
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mcproto.utils.abc.Serializable.validate" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;validate
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1927,8 +1666,9 @@
                 
                   
 
+
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/reference/private/abc.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/reference/encryption.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1936,8 +1676,9 @@
   
 
 
-<h1 id="utility-abstract-base-classes">Utility Abstract Base Classes<a class="headerlink" href="#utility-abstract-base-classes" title="Permanent link">&para;</a></h1>
-<p>These are some internal ABC classes that we utilize in various places.</p>
+<h1 id="encryption-utilities">Encryption utilities<a class="headerlink" href="#encryption-utilities" title="Permanent link">&para;</a></h1>
+<p>The following components are used for encryption related interacions (generally needed during the communication with
+the server, after an encryption request during the login process)</p>
 
 
 <div class="doc doc-object doc-module">
@@ -1963,137 +1704,25 @@
 
 
 
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="mcproto.utils.abc.RequiredParamsABCMixin" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">mcproto.utils.abc.RequiredParamsABCMixin</span>
-
-
-<a href="#mcproto.utils.abc.RequiredParamsABCMixin" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-    <div class="doc doc-contents ">
-
-
-        <p>Mixin class to ABCs that require certain attributes to be set in order to allow initialization.</p>
-<p>This class performs a similar check to what :class:<code>~abc.ABC</code> already does with abstractmethods,
-but for class variables. The required class variable names are set with :attr:<code>._REQUIRED_CLASS_VARS</code>
-class variable, which itself is automatically required.</p>
-<p>Just like with ABCs, this doesn't prevent creation of classes without these required class vars
-defined, only initialization is prevented. This is done to allow creation of a more specific, but
-still abstract class.</p>
-<p>Additionally, you can also define :attr:<code>._REQUIRED_CLASS_VARS_NO_MRO</code> class var, holding names of
-class vars which should be defined on given class directly. That means inheritance will be ignored
-so even if a subclass defines the required class var, unless the latest class also defines it, this
-check will fail.</p>
-<p>This is often useful for classes that are expected to be slotted, as each subclass will need to define
-<code>__slots__</code>, otherwise a <code>__dict__</code> will automatically be made for it. However this is entirely
-optional, and if :attr:<code>._REQUIRED_CLASS_VARS_NO_MRO</code> isn't set, this check is skipped.</p>
-
-
-
-
-
-
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="mcproto.utils.abc.RequiredParamsABCMixin.__new__" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">mcproto.utils.abc.RequiredParamsABCMixin.__new__</span>
+<h2 id="mcproto.encryption.decrypt_token_and_secret" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">mcproto.encryption.decrypt_token_and_secret</span>
 
 
-<a href="#mcproto.utils.abc.RequiredParamsABCMixin.__new__" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="fm">__new__</span><span class="p">(</span><span class="o">*</span><span class="nf">a</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3.13/library/typing.html#typing.Any">Any</a></span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3.13/library/typing.html#typing.Any">Any</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="typing_extensions.Self" href="https://typing-extensions.readthedocs.io/en/latest/index.html#typing_extensions.Self">Self</a></span>
+<a href="#mcproto.encryption.decrypt_token_and_secret" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">decrypt_token_and_secret</span><span class="p">(</span><span class="n">private_key</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey" href="https://cryptography.io/en/stable/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey">RSAPrivateKey</a></span><span class="p">,</span> <span class="n">verification_token</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">,</span> <span class="n">shared_secret</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Enforce required parameters being set for each instance of the concrete classes.</p>
-
-    </div>
-
-</div>
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="mcproto.utils.abc.Serializable" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">mcproto.utils.abc.Serializable</span>
-
-
-<a href="#mcproto.utils.abc.Serializable" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-external" title="abc.ABC" href="https://docs.python.org/3.13/library/abc.html#abc.ABC">ABC</a></code></p>
-
-
-        <p>Base class for any type that should be (de)serializable into/from :class:<code>~mcproto.Buffer</code> data.</p>
-<p>Any class that inherits from this class and adds parameters should use the :func:<code>~mcproto.utils.abc.define</code>
-decorator.</p>
-
-
-
-
-
-
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="mcproto.utils.abc.Serializable.__attrs_post_init__" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">mcproto.utils.abc.Serializable.__attrs_post_init__</span>
-
-
-<a href="#mcproto.utils.abc.Serializable.__attrs_post_init__" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__attrs_post_init__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Run the validation method after the object is initialized.</p>
-<p>This function is responsible for conversion/transformation of given values right after initialization (often
-for example to convert an int initialization param into a specific enum variant)</p>
-<p>.. note::
-    If you override this method, make sure to call the superclass method at some point to ensure that the
-    validation is run.</p>
+        <p>Decrypts the verification token and shared secret with the server's private key.</p>
+<p>:param private_key: The RSA private key generated by the server
+:param verification_token: The verification token encrypted and sent by the client
+:param shared_secret: The shared secret encrypted and sent by the client
+:return: A tuple containing (decrypted token, decrypted secret)</p>
 
     </div>
 
@@ -2102,22 +1731,21 @@ for example to convert an int initialization param into a specific enum variant)
 <div class="doc doc-object doc-function">
 
 
-<h3 id="mcproto.utils.abc.Serializable.deserialize" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">mcproto.utils.abc.Serializable.deserialize</span>
+<h2 id="mcproto.encryption.encrypt_token_and_secret" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">mcproto.encryption.encrypt_token_and_secret</span>
 
 
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
-  </span>
-
-<a href="#mcproto.utils.abc.Serializable.deserialize" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">deserialize</span><span class="p">(</span><span class="n">buf</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="mcproto.buffer.Buffer" href="../../public/protocol/#mcproto.buffer.Buffer">Buffer</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="typing_extensions.Self" href="https://typing-extensions.readthedocs.io/en/latest/index.html#typing_extensions.Self">Self</a></span>
+<a href="#mcproto.encryption.encrypt_token_and_secret" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">encrypt_token_and_secret</span><span class="p">(</span><span class="n">public_key</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey" href="https://cryptography.io/en/stable/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey">RSAPublicKey</a></span><span class="p">,</span> <span class="n">verification_token</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">,</span> <span class="n">shared_secret</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Construct the object from a :class:<code>~mcproto.Buffer</code> (transmittable sequence of bytes).</p>
+        <p>Encrypts the verification token and shared secret with the server's public key.</p>
+<p>:param public_key: The RSA public key provided by the server
+:param verification_token: The verification token provided by the server
+:param shared_secret: The generated shared secret
+:return: A tuple containing (encrypted token, encrypted secret)</p>
 
     </div>
 
@@ -2126,17 +1754,22 @@ for example to convert an int initialization param into a specific enum variant)
 <div class="doc doc-object doc-function">
 
 
-<h3 id="mcproto.utils.abc.Serializable.serialize" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">mcproto.utils.abc.Serializable.serialize</span>
+<h2 id="mcproto.encryption.generate_rsa_key" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">mcproto.encryption.generate_rsa_key</span>
 
 
-<a href="#mcproto.utils.abc.Serializable.serialize" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">serialize</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="mcproto.buffer.Buffer" href="../../public/protocol/#mcproto.buffer.Buffer">Buffer</a></span>
+<a href="#mcproto.encryption.generate_rsa_key" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">generate_rsa_key</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey" href="https://cryptography.io/en/stable/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey">RSAPrivateKey</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Represent the object as a :class:<code>~mcproto.Buffer</code> (transmittable sequence of bytes).</p>
+        <p>Generate a random RSA key pair for server.</p>
+<p>This key pair will be used for :class:<code>~mcproto.packets.login.login.LoginEncryptionRequest</code> packet,
+where the client will be sent the public part of this key pair, which will be used to encrypt the
+shared secret (and verification token) sent in :class:<code>~mcproto.packets.login.login.LoginEncryptionResponse</code>
+packet. The server will then use the private part of this key pair to decrypt that.</p>
+<p>This will be a 1024-bit RSA key pair.</p>
 
     </div>
 
@@ -2145,21 +1778,20 @@ for example to convert an int initialization param into a specific enum variant)
 <div class="doc doc-object doc-function">
 
 
-<h3 id="mcproto.utils.abc.Serializable.serialize_to" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">mcproto.utils.abc.Serializable.serialize_to</span>
+<h2 id="mcproto.encryption.generate_shared_secret" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">mcproto.encryption.generate_shared_secret</span>
 
 
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-  </span>
-
-<a href="#mcproto.utils.abc.Serializable.serialize_to" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">serialize_to</span><span class="p">(</span><span class="n">buf</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="mcproto.buffer.Buffer" href="../../public/protocol/#mcproto.buffer.Buffer">Buffer</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<a href="#mcproto.encryption.generate_shared_secret" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">generate_shared_secret</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Write the object to a :class:<code>~mcproto.Buffer</code>.</p>
+        <p>Generate a random shared secret for client.</p>
+<p>This secret will be sent to the server in :class:<code>~mcproto.packets.login.login.LoginEncryptionResponse</code> packet,
+and used to encrypt all future communication afterwards.</p>
+<p>This will be symetric encryption using AES/CFB8 stream cipher. And this shared secret will be 16-bytes long.</p>
 
     </div>
 
@@ -2168,33 +1800,25 @@ for example to convert an int initialization param into a specific enum variant)
 <div class="doc doc-object doc-function">
 
 
-<h3 id="mcproto.utils.abc.Serializable.validate" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">mcproto.utils.abc.Serializable.validate</span>
+<h2 id="mcproto.encryption.generate_verify_token" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">mcproto.encryption.generate_verify_token</span>
 
 
-<a href="#mcproto.utils.abc.Serializable.validate" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">validate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<a href="#mcproto.encryption.generate_verify_token" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">generate_verify_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Validate the object's attributes, raising an exception if they are invalid.</p>
-<p>By default, this method does nothing. Override it in your subclass to add validation logic.</p>
-<p>.. note::
-    This method is called by :meth:<code>~mcproto.utils.abc.Serializable.__attrs_post_init__</code></p>
+        <p>Generate a random verify token.</p>
+<p>This token will be sent by the server in :class:<code>~mcproto.packets.login.login.LoginEncryptionRequest</code>, to be
+encrypted by the client as a form of verification.</p>
+<p>This token doesn't need to be cryptographically secure, it's just a sanity check that
+the client has encrypted the data correctly.</p>
 
     </div>
 
 </div>
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
 
 
 
@@ -2240,7 +1864,7 @@ for example to convert an int initialization param into a specific enum variant)
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Private API Reference">
+          <a href="../authentication/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Authentication">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2250,20 +1874,20 @@ for example to convert an int initialization param into a specific enum variant)
                 Previous
               </span>
               <div class="md-ellipsis">
-                Private API Reference
+                Authentication
               </div>
             </div>
           </a>
         
         
           
-          <a href="../deprecation/" class="md-footer__link md-footer__link--next" aria-label="Next: Deprecation">
+          <a href="../multiplayer/" class="md-footer__link md-footer__link--next" aria-label="Next: Multiplayer">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Deprecation
+                Multiplayer
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2301,12 +1925,12 @@ for example to convert an int initialization param into a specific enum variant)
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f13b1293.min.js"></script>
       
-        <script src="../../../assets/_markdown_exec_pyodide.js"></script>
+        <script src="../../assets/_markdown_exec_pyodide.js"></script>
       
     
   </body>

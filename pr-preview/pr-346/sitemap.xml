@@ -2,162 +2,134 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://py-mine.github.io/mcproto/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/faq/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/community/attribution/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/community/code-of-conduct/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/community/license/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/making-a-pr/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/reporting-a-bug/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/security-policy/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/breaking-changes/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/changelog/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/contributing/guides/docstrings/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <loc>https://py-mine.github.io/mcproto/contributing/guides/docstrings-and-reference/</loc>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/documentation/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/great-commits/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/precommit/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/setup/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/slotscheck/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/style-guide/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/type-hints/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/contributing/guides/unit-tests/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/installation/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/installation/changelog/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/installation/versioning-model/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/reference/private/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <loc>https://py-mine.github.io/mcproto/reference/authentication/</loc>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/reference/private/abc/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <loc>https://py-mine.github.io/mcproto/reference/encryption/</loc>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/reference/private/authentication/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <loc>https://py-mine.github.io/mcproto/reference/multiplayer/</loc>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/reference/private/deprecation/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <loc>https://py-mine.github.io/mcproto/reference/packets/</loc>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/reference/private/packets/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <loc>https://py-mine.github.io/mcproto/reference/protocol/</loc>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
-         <loc>https://py-mine.github.io/mcproto/reference/private/protocol/</loc>
-         <lastmod>2025-01-08</lastmod>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/reference/private/types/</loc>
-         <lastmod>2025-01-08</lastmod>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/reference/public/authentication/</loc>
-         <lastmod>2025-01-08</lastmod>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/reference/public/encryption/</loc>
-         <lastmod>2025-01-08</lastmod>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/reference/public/multiplayer/</loc>
-         <lastmod>2025-01-08</lastmod>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/reference/public/packets/</loc>
-         <lastmod>2025-01-08</lastmod>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/reference/public/protocol/</loc>
-         <lastmod>2025-01-08</lastmod>
-    </url>
-    <url>
-         <loc>https://py-mine.github.io/mcproto/reference/public/types/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <loc>https://py-mine.github.io/mcproto/reference/types/</loc>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/usage/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/usage/authentication/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/usage/first-steps/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
     <url>
          <loc>https://py-mine.github.io/mcproto/usage/packet-communication/</loc>
-         <lastmod>2025-01-08</lastmod>
+         <lastmod>2025-02-05</lastmod>
     </url>
 </urlset>
