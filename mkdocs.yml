@@ -6,7 +6,14 @@ repo_url: https://github.com/py-mine/mcproto
 repo_name: py-mine/mcproto
 
 watch:
-  [LICENSE.txt, LICENSE-THIRD-PARTY.txt, ATTRIBUTION.md, SECURITY.md, CHANGELOG.md, changes]
+  [
+    LICENSE.txt,
+    LICENSE-THIRD-PARTY.txt,
+    ATTRIBUTION.md,
+    SECURITY.md,
+    CHANGELOG.md,
+    changes,
+  ]
 
 exclude_docs: |
   LICENSE.md
