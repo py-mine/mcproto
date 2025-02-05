@@ -50,7 +50,7 @@ nav:
           - Breaking Changes: contributing/guides/breaking-changes.md
           - Unit Tests: contributing/guides/unit-tests.md
           - Documentation: contributing/guides/documentation.md
-          - Docstring formatting: contributing/guides/docstrings.md
+          - Docstrings and API Reference: contributing/guides/docstrings-and-reference.md
           - Great commits: contributing/guides/great-commits.md
   - API Reference:
       - Protocol: reference/protocol.md

@@ -2,7 +2,7 @@
 
     This page is still being written. The content below (if any) may change.
 
-# Docstring formatting directive
+# Docstrings and API reference
 
 As was already briefly mentioned in the [documentation](./documentation.md) section, we're using
 [mkdocstrings](https://mkdocstrings.github.io/), which is an extension of `mkdocs` that is able to automatically
@@ -19,13 +19,12 @@ consistent style, that `griffe` can understand.
 In our case, we use the [Google style](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) for
 writing docstrings.
 
-## Google Style docstrings
+## Google Style docstrings formatting
 
 While you should ideally just read over the [official
 specification](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) (don't worry, it's actually
-quite readable; well, other than the white theme)
-
-That said, you can also take a quick glance through some of these examples below, that quickly demonstrate the style.
+quite readable; well, other than the white theme), you can also take a quick glance through some of these examples
+below, that quickly demonstrate the style.
 
 ```python
 def deal_damage(entity: Entity, damage: int) -> None:
@@ -109,4 +108,59 @@ class Cat:
         Once fed, the cat will no longer be hungry.
         """
         self.is_hungry = False
+
+DEFAULT_HP = 500
+"""This is the default value for the amount of health points that each entity will have."""
 ```
+
+!!! tip "Further reading"
+
+    - Like mentioned above, you can take a look over the [official Google style guide
+      spec](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings)
+    - Griffe also has a [docstring recommendations
+      page](https://mkdocstrings.github.io/griffe/guide/users/recommendations/docstrings/), where you can find a bunch
+      of examples that showcase the various places where you can use docstrings.
+    - On top of the general docstring recommendations, griffe also has a bit more detailed [reference
+      page](https://mkdocstrings.github.io/griffe/reference/docstrings/#google-style) that further demonstrates some of
+      the things that will and won't work.
+
+### Cross-References
+
+If you need to refer to some object (function/class/attribute/...) from you docstring, you will need to follow the
+[mkdocstrings cross-references syntax](https://mkdocstrings.github.io/usage/#cross-references). Generally, it will look
+something like this:
+
+```python title="mcproto/module_b.py"
+from mcproto.module_a import custom_object
+
+def bar(obj): ...
+
+def foo():
+    """Do the foo.
+
+    This function does the foo by utilizing the [`bar`][mcproto.module_b.bar] method,
+    to which the [`custom_object`][mcproto.module_a.custom_object] is passed.
+    """
+    bar(custom_object)
+```
+
+The references need to point to an object that is included in the docs (documented in API reference pages). **You will
+need to use the fully qualified name**. (You can't just use `[bar][bar]`, even if `bar` is defined in the same scope
+within the code. You will still need `[bar][mcproto.module_b.bar]`.) Sadly, while relative cross-references are
+supported, [mkdocstrings gates them for sponsors
+only](https://mkdocstrings.github.io/python/usage/configuration/docstrings/#relative_crossrefs), at least until a
+funding goal is reached.
+
+## Writing API Reference
+
+On top of just learning about how to write docstrings, you will need to understand how to write the docs for the API
+reference. Currently, most of our API reference docs work by simply recursively including the whole module, so you
+likely won't need to touch it unless you're adding new modules (files). That said, sometimes, it might be useful to
+document something from the docs directly, rather than just from docstrings.
+
+Rather than rewriting what's already really well explained, we'll instead just point you towards the [mkdocstrings
+documentation](https://mkdocstrings.github.io/usage/).
+
+Finally, before including something into the docs, make sure it makes sense as a part of your Public API. When deciding
+this, you might find this [Griffe
+guide](https://mkdocstrings.github.io/griffe/guide/users/recommendations/public-apis/) to be helpful.

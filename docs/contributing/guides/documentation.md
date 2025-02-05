@@ -20,4 +20,4 @@ some more life to the docs, but aren't something that you'd need to work with al
 it out though, so that you know what's available.
 
 Finally, for generating our API reference page, we're using [mkdocstrings](https://mkdocstrings.github.io/). More on
-that in the [docstrings](./docstrings.md) guide though.
+that in the [docstrings and reference](./docstrings-and-reference.md) guide though.
