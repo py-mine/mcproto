@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/docstrings-and-reference/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/api-reference/">
       
       
         <link rel="prev" href="../documentation/">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Docstrings and API Reference - MCPROTO</title>
+        <title>API Reference - MCPROTO</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#docstrings-and-api-reference" class="md-skip">
+        <a href="#api-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Docstrings and API Reference
+              API Reference
             
           </span>
         </div>
@@ -1270,7 +1270,7 @@
           
   
   <span class="md-ellipsis">
-    Docstrings and API Reference
+    API Reference
     
   </span>
   
@@ -1282,7 +1282,7 @@
         
   
   <span class="md-ellipsis">
-    Docstrings and API Reference
+    API Reference
     
   </span>
   
@@ -1341,6 +1341,15 @@
   <a href="#writing-api-reference" class="md-nav__link">
     <span class="md-ellipsis">
       Writing API Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      What to document
     </span>
   </a>
   
@@ -1654,6 +1663,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#what-to-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      What to document
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1670,7 +1688,7 @@
 
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/docstrings-and-reference.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/api-reference.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1682,7 +1700,14 @@
 <p class="admonition-title">Work In Progress</p>
 <p>This page is still being written. The content below (if any) may change.</p>
 </div>
-<h1 id="docstrings-and-api-reference">Docstrings and API reference<a class="headerlink" href="#docstrings-and-api-reference" title="Permanent link">&para;</a></h1>
+<h1 id="api-reference">API reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+</details>
+<p>This page contains the guide on documenting the code that will appear in the API reference section of this
+documentation. It goes over the technology and libraries that we use to generate this API reference docs, details the
+docstring style we use, mentions how to add something into the API reference (like new modules) and details what
+should and shouldn't be documented here.</p>
 <p>As was already briefly mentioned in the <a href="../documentation/">documentation</a> section, we're using
 <a href="https://mkdocstrings.github.io/">mkdocstrings</a>, which is an extension of <code>mkdocs</code> that is able to automatically
 generate documentation from the source code.</p>
@@ -1831,6 +1856,7 @@ likely won't need to touch it unless you're adding new modules (files). That sai
 document something from the docs directly, rather than just from docstrings.</p>
 <p>Rather than rewriting what's already really well explained, we'll instead just point you towards the <a href="https://mkdocstrings.github.io/usage/">mkdocstrings
 documentation</a>.</p>
+<h2 id="what-to-document">What to document<a class="headerlink" href="#what-to-document" title="Permanent link">&para;</a></h2>
 <p>Finally, before including something into the docs, make sure it makes sense as a part of your Public API. When deciding
 this, you might find this <a href="https://mkdocstrings.github.io/griffe/guide/users/recommendations/public-apis/">Griffe
 guide</a> to be helpful.</p>
