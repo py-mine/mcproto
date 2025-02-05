@@ -135,9 +135,9 @@ plugins:
       version_selector: true
   - mkdocstrings:
       enable_inventory: true
-      default_handler: python
+      default_handler: python_xref
       handlers:
-        python:
+        python_xref:
           options:
             docstring_options:
               ignore_init_summary: true

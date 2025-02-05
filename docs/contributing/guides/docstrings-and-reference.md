@@ -144,12 +144,21 @@ def foo():
     bar(custom_object)
 ```
 
-The references need to point to an object that is included in the docs (documented in API reference pages). **You will
-need to use the fully qualified name**. (You can't just use `[bar][bar]`, even if `bar` is defined in the same scope
-within the code. You will still need `[bar][mcproto.module_b.bar]`.) Sadly, while relative cross-references are
-supported, [mkdocstrings gates them for sponsors
+The references need to point to an object that is included in the docs (documented in API reference pages).
+
+### Relative Cross-References
+
+While relative cross-references are supported by mkdocstrings, they are [gated for sponsors
 only](https://mkdocstrings.github.io/python/usage/configuration/docstrings/#relative_crossrefs), at least until a
 funding goal is reached.
+
+For that reason, we're using an alternative handler to `mkdocstrings-python`:
+[`mkdocstrings-python-xref`](https://github.com/analog-garage/mkdocstrings-python-xref). This handler uses
+`mkdocstrings-python` internally, while extending it to provide support for relative cross-references. It is expected
+that once relative cross-refs come to mainline `mkdocstrings-python`, this alternative handler will be dropped.
+
+To use relative cross-references, check the [mkdocstrings-python-xref
+documentation](https://analog-garage.github.io/mkdocstrings-python-xref).
 
 ## Writing API Reference
 
