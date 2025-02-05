@@ -6,10 +6,10 @@
 
 ???+ abstract
 
-This page contains the guide on documenting the code that will appear in the API reference section of this
-documentation. It goes over the technology and libraries that we use to generate this API reference docs, details the
-docstring style we use, mentions how to add something into the API reference (like new modules) and details what
-should and shouldn't be documented here.
+    This page contains the guide on documenting the code that will appear in the API reference section of this
+    documentation. It goes over the technology and libraries that we use to generate this API reference docs, details
+    the docstring style we use, mentions how to add something into the API reference (like new modules) and details what
+    should and shouldn't be documented here.
 
 As was already briefly mentioned in the [documentation](./documentation.md) section, we're using
 [mkdocstrings](https://mkdocstrings.github.io/), which is an extension of `mkdocs` that is able to automatically
