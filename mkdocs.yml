@@ -60,6 +60,7 @@ nav:
       - Multiplayer: reference/multiplayer.md
       - Types: reference/types.md
       - Packets: reference/packets.md
+      - ABC: reference/abc.md
 
 theme:
   name: material
