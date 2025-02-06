@@ -162,6 +162,7 @@ plugins:
             - https://typing-extensions.readthedocs.io/en/latest/objects.inv
             - https://cryptography.io/en/stable/objects.inv
             - https://python-semanticversion.readthedocs.io/en/stable/objects.inv
+            - https://www.attrs.org/en/stable/objects.inv
 
 extra:
   version:
