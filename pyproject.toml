@@ -68,8 +68,9 @@ mkdocs-material = "^9.5.30"
 mike = "^2.1.2"
 markdown-exec = { extras = ["ansi"], version = "^1.9.3" }
 towncrier = ">=23,<24.7"                                  # temporary pin, as 24.7 is incompatible with sphinxcontrib-towncrier
-mkdocstrings = "0.27.0"
-mkdocstrings-python = "1.13.0"
+mkdocs-autorefs = "1.2.0"                                 # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
+mkdocstrings = "0.27.0"                                   # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
+mkdocstrings-python = "1.13.0"                            # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
 mkdocstrings-python-xref = "^1.6.2"
 
 [tool.poetry.group.docs-ci]
