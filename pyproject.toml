@@ -63,15 +63,15 @@ optional = true
 poetry-dynamic-versioning = ">=1.4.0,<1.8"
 
 [tool.poetry.group.docs.dependencies]
-sphinx = ">=6.2.1,<8.0.0"
-tomli = { version = "^2.0.1", python = "<3.11" }
-m2r2 = "^0.3.3.post2"
-packaging = ">=23.1,<25.0"
-sphinx-autodoc-typehints = ">=1.23,<3.0"
-sphinx-copybutton = "^0.5.2"
-furo = ">=2022.12.7"
-sphinxcontrib-towncrier = ">=0.3.2,<0.5.0"
-pytest = "^7.3.1"                                # Required to import the gen_test_serializable function to list it in the docs
+mkdocs = "^1.6.0"
+mkdocs-material = "^9.5.30"
+mike = "^2.1.2"
+markdown-exec = { extras = ["ansi"], version = "^1.9.3" }
+towncrier = ">=23,<24.7"                                  # temporary pin, as 24.7 is incompatible with sphinxcontrib-towncrier
+mkdocs-autorefs = "1.2.0"                                 # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
+mkdocstrings = "0.27.0"                                   # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
+mkdocstrings-python = "1.13.0"                            # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
+mkdocstrings-python-xref = "^1.6.2"
 
 [tool.poetry.group.docs-ci]
 optional = true
@@ -194,12 +194,9 @@ ignore = [
   "ANN",  # flake8-annotations
   "S101", # Use of assert
 ]
-"docs/conf.py" = [
-  "INP", # allow implicit namespace (pep 420)
-]
-"docs/extensions/*" = [
-  "D",   # pydocstyle
-  "INP", # allow implicit namespace (pep 420)
+"docs/scripts/*" = [
+  "INP",  # allow implicit namespace (pep 420)
+  "T201", # allow prints
 ]
 ".github/scripts/*" = [
   "D",   # pydocstyle
@@ -304,7 +301,7 @@ retest = "pytest -v --last-failed"
 test-nocov = "pytest -v --no-cov --failed-first"
 retest-nocov = "pytest -v --no-cov --last-failed"
 changelog-preview = "towncrier build --draft --version next"
-docs = "sphinx-build -b dirhtml -d ./docs/_build/doctrees -W -E -T --keep-going ./docs ./docs/_build/html"
+docs = "mkdocs serve"
 
 [tool.poetry-dynamic-versioning]
 enable = true
