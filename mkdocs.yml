@@ -13,6 +13,7 @@ watch:
     SECURITY.md,
     CHANGELOG.md,
     changes,
+    mcproto,
   ]
 
 exclude_docs: |
