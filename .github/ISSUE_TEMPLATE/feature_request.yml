@@ -1,6 +1,6 @@
 name: Feature request
 description: Got a cool idea you would like implemented? Share it with us!
-labels: ["type: feature"]
+labels: ["t: feature"]
 
 body:
   - type: textarea
