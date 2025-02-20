@@ -75,7 +75,8 @@ Git commits should be written in a very specific way. There’s a few rules to f
     - **Separate the body from the subject line with a blank line** (Not doing so would make git think your summary
       spans across multiple lines, rather than it being a body)
     - **Wrap at 72 characters** (Commits are often printed into the terminal with the `git log` command. If the output
-      isn't wrapped, going over the terminals width can cause a pretty messy output. The recommended maximum width for terminal text output is 80 characters, but git tools can often add indents, so 72 characters is a sensible maximum)
+      isn't wrapped, going over the terminals width can cause a pretty messy output. The recommended maximum width for
+      terminal text output is 80 characters, but git tools can often add indents, so 72 characters is a sensible maximum)
     - **Avoid implementation details** (The diff shows the "how", focus on the "what" and "why")
 
 Git commits can use markdown, most other programs will understand it and it's a great way to bring in some more
@@ -184,12 +185,12 @@ your commit will really only perform a single change.
 
 A very common occurrence I see in a ton of different projects is people making sequences of commits that go like:
 
--   Fix bug X
--   Actually fix bug X
--   Fix typo in variable name
--   Sort imports
--   Follow lint rules
--   Run auto-formatter
+- Fix bug X
+- Actually fix bug X
+- Fix typo in variable name
+- Sort imports
+- Follow lint rules
+- Run auto-formatter
 
 While people can obviously mess up sometimes, and just not get something right on the first try, a fixing commit is
 rarely a good way to solve that.
@@ -203,7 +204,7 @@ that, you can use interactive rebase with `git rebase -i HEAD~3`, allowing you t
 completely remove some of those commits.
 
 For more on history rewriting, I'd recommend checking the [official git
-documentation](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History).
+documentation][git-history-rewriting].
 
 ### Force pushing
 
@@ -324,3 +325,5 @@ This guide took **heavy** inspiration from this article: <https://itsdrike.com/p
     P.S. It's not plagiarism if the original was written by me :P
 
 See the original article's sources for proper attributions.
+
+[git-history-rewriting]: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History

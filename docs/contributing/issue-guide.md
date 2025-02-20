@@ -1,8 +1,8 @@
-# Bug reports
+# Bug Reports & Feature Requests
 
-Mcproto is an actively maintained project that we constantly strive to improve. With a project of this size and
-complexity, bugs may occur. If you think you have discovered a bug, you can help us by submitting an issue to our
-public [issue tracker](https://github.com/py-mine/mcproto/issues), following this guide.
+Mcproto is an actively maintained project, and we welcome contributions in the form of both bug reports and feature
+requests. This guide will help you understand how to effectively submit an issue, whether it's reporting a bug or
+proposing a new feature.
 
 ## Before creating an issue
 
@@ -11,19 +11,27 @@ Before opening a new issue with your bug report, please do the following things:
 ### Upgrade to latest version
 
 Chances are that the bug you discovered was already fixed in a subsequent version. Thus, before reporting an issue,
-ensure that you're running the [latest version](../installation/changelog.md) of mcproto.
+ensure that you're running the [latest version][changelog] of mcproto.
 
 !!! warning "Bug fixes are not backported"
 
     Please understand that only bugs that occur in the latest version of mcproto will be addressed. Also, to reduce
     duplicate efforts, fixes cannot be backported to earlier versions.
 
+    Please understand that only bugs that occur in the latest version will be addressed. Also, to reduce duplicate
+    efforts, fixes cannot be backported to earlier versions, except as a hotfix to the latest version, diverging from
+    the not yet finished features, even if already in the `main` branch.
+
+    Due to the nature of our [versioning], that might mean that if you require an older version of minecraft protocol,
+    you might be stuck with an older, buggy version of this library.
+
 ### Search for existing issues
 
-It's possible that the issue you're having was already reported. Please take some time and search the existing issues
-in the GitHub repository for your problem. If you do find an existing issue that matches the problem you're having,
-simply leave a :thumbsup: reaction instead (avoid commenting "I have this issue too" or similar, as that ultimately
-just clutters the discussion in that issue, but if you do think that you have something meaningful to add, please do).
+It's possible that the issue you're having was already reported. Please take some time and search the [existing
+issues][issue tracker] in the GitHub repository for your problem. If you do find an existing issue that matches the
+problem you're having, simply leave a :thumbsup: reaction instead (avoid commenting "I have this issue too" or similar,
+as that ultimately just clutters the discussion in that issue, but if you do think that you have something meaningful to
+add, please do).
 
 !!! note
 
@@ -31,18 +39,30 @@ just clutters the discussion in that issue, but if you do think that you have so
     remove the `is:open` part to search all issues, not just the opened ones. It's possible that we seen this issue
     before, but closed the issue as something that we're unable to fix.
 
+In case you found a relevant issue, however, it has already been closed as implemented (not as declined / not planned),
+but the bug / proposed feature is still somehow relevant, don't be worried to drop a comment on this older issue, we
+will get notifications for those too. That said, if you think there is sufficient new context now, it might also make
+sense to open a new issue instead, but make sure to at least mention the old issue if you choose this route.
+
 ## Creating a new issue
 
 At this point, when you still haven't found a solution to your problem, we encourage you to create an issue.
-To do so, you can click [here][open-bug-issue].
 
-[open-bug-issue]: https://github.com/py-mine/mcproto/issues/new?labels=type%3A+bug&template=bug_report.yml
+We have some issue-templates ready, to make sure that you include all of the necessary things we need to know:
+
+- For a **bug report**, you can click [here][open bug issue].
+- For a **feature request**, you can instead click [here][open feature issue].
+
+If you prefer, you can also [open a blank issue][open blank issue]. This will allow you to avoid having to follow the
+issue templates above. This might be useful if your issue doesn't cleanly fit into either of these two, or if you prefer
+to use your own categories and structure for the issue. That said, make please still make sure to include all of the
+relevant details when you do so.
 
 ## Writing good bug reports
 
-We have a GitHub issue template set up, which will guide you towards telling us everything that we need to know.
-However, for the best results, keep reading through this section. In here, we'll explain how a well formatted issue
-should look like in general and what it should contain.
+Generally, the GitHub issue template should guide you towards telling us everything that we need to know. However, for
+the best results, keep reading through this section. In here, we'll explain how a well formatted issue should look like
+in general and what it should contain.
 
 ### Issue Title
 
@@ -93,39 +113,55 @@ Focus on creating a simple and small code snippet that we can run to see the bug
 snippets or whole files just for the purpose of the reproducible example, do your best to reduce the amount of code as
 much as you can and try to avoid using external dependencies in the snippet (except for mcproto of course).
 
-Sometimes, the bug can't be described in terms of code snippets, such as when reporting a mistake in the documentation,
-in that case, provide a link to the documentation or whatever other relevant that will allows us to see the bug with
-minimal effort.
+??? tip "How to include code-snippets (markdown)"
+
+    In case you're not yet familiar with the syntax, GitHub issues use `markdown` format, which means you can use some
+    nice custom formatting to make the text appear distinct. One of these formatting options is a source-code block /
+    code snippet. To include one, you will want to use the following syntax:
+
+    ````markdown
+    ```language
+    your code
+    it can be multiline
+    ```
+    ````
+
+    Note that the symbols used here aren't single quotes (`'`), they're backticks: `` ` ``.
+    On an english keyboard, you can type these using the key right below escape (also used for tildes: `~`).
+
+    The `language` controls how the code will be highlighted. For python, you can use `python`, for yaml, `yaml`, etc.
+
+Sometimes, the bug can't be described in terms of code snippets, such as when reporting a mistake in the documentation.
+In that case, provide a link to the documentation or whatever other relevant things that will allows us to see the bug
+with minimal effort. In certain cases, it might even be fine to leave the reproduction steps section empty.
 
 ## Next steps
 
-Once you submit the issue, the main part of reporting a bug is done, but things aren't completely over yet. You now
-have 2 choices:
+Once the issue is submitted, you have 2 options:
 
-### Wait for us to get to the problem
+### Wait for us to address it
 
-If you don't wish to solve the bug yourself, all that remains is waiting for us to handle it.
-
-Please understand that we are all volunteers here and we work on the project simply for the fun of it. This means that
-we may sometimes have other priorities in life or we just want to work on some more interesting tasks first. It might
-therefore take a while for us to get to your bug (don't worry though, in most cases, we're pretty quick). Even if
-things are slower, we kindly ask you to avoid posting comments like "Any progress on this?" as they are not helpful and
-create unnecessary clutter in the discussion.
+We will try to review your issue as soon as possible. Please be patient though, as this is an open-source project
+maintained by volunteers, who work on it simply for the fun of it. This means that we may sometimes have other
+priorities in life or we just want to work on some more interesting tasks first. It might therefore take a while for us
+to get to your issue, but we try and do our best to respond reasonably quickly, when we can. Even when things are
+slower, we kindly ask you to avoid posting comments like "Any progress on this?" as they are not helpful and only create
+unnecessary clutter in the discussion.
 
 When we do address your issue, we might need further information from you. GitHub has a notification system, so once we
 respond, you will be notified there. Note that, by default, these notifications might not be forwarded to your email or
 elsewhere, so please check GitHub periodically for updates.
 
-Finally, when we fix your bug, we will mark the issue as closed (GitHub will notify you of this too). Once that
-happens, your bug should be fixed, but we appreciate it if you take the time to verify that everything is working
-correctly. If the issue persists, you can reopen the issue and let us know.
+Finally, when we address your issue, we will mark the issue as closed (GitHub will notify you of this too). Once that
+happens, your bug should be fixed / feature implemented, but we appreciate it if you take the time to verify that
+everything is working correctly. If something is still wrong, you can reopen the issue and let us know.
 
 !!! warning "Issues are fixed on the main branch"
 
       Do note that when we close an issue, it means that we have fixed your bug in the `main` branch of the repository.
       That doesn't necessarily mean the fix has been released on PyPI yet, so you might still need to wait for the next
-      release. Alternatively, you can also try the [git installation](../installation/index.md#latest-git-version) to
-      get the project right from that latest `main` branch.
+      release. Alternatively, you can also try the [git installation] to get the project right from that latest `main`
+      branch.
 
 ### Attempt to solve it yourself
 
@@ -144,4 +180,13 @@ Of course, you are welcome to start working on the issue even before being offic
 aware that sometimes we choose not to fix certain bugs for specific reasons. In such cases, your work might not end up
 being used.
 
-Before starting your work though, make sure to also read our [pull request guide](./making-a-pr.md).
+Before starting your work though, make sure to also read our [pull request guide].
+
+[changelog]: ../meta/changelog.md
+[versioning]: ../meta/versioning.md
+[issue tracker]: https://github.com/py-mine/mcproto/issues
+[open bug issue]: https://github.com/py-mine/mcproto/issues/new?labels=type%3A+bug&template=bug_report.yml
+[open feature issue]: https://github.com/py-mine/mcproto/issues/new?labels
+[open blank issue]: https://github.com/py-mine/mcproto/issues/new?template=Blank+issue
+[git installation]: ../installation.md#latest-git-version
+[pull request guide]: ./making-a-pr.md

@@ -9,9 +9,9 @@
 Our project contains a changelog which tracks all notable changes for easy and quick reference to both users and our
 contributors.
 
-To maintain our changelog, we're using [`towncrier`](https://towncrier.readthedocs.io/en/stable/), which allows us to
-create **fragment files**, which each contains a single changelog entry. Once a new release is created, all of
-these fragments will be used to create a changelog for that new release.
+To maintain our changelog, we're using [`towncrier`][towncrier], which allows us to create **fragment files**, which
+each contains a single changelog entry. Once a new release is created, all of these fragments will be used to create a
+changelog for that new release.
 
 We generally require every pull request to to include a new changelog fragment, summarizing what it does.
 
@@ -28,15 +28,15 @@ format: `{pull_request_number}.{type}.md`.
 
 Possible fragment types are:
 
--   **`feature`**: New feature that affects the public API.
--   **`bugfix`**: A bugfix, which was affecting the public API.
--   **`docs`**: Change to the documentation, or updates to public facing docstrings
--   **`breaking`**: Signifying a breaking change of some part of the project's public API, which could cause issues for
-    end-users updating to this version. (Includes deprecation removals.)
--   **`deprecation`**: Signifying a newly deprecated feature, scheduled for eventual removal.
--   **`internal`** Fully internal change that doesn't affect the public API, but is significant enough to be mentioned,
-    likely because it affects project contributors. (Such as a new linter rule, change in code style, significant change
-    in internal API, ...)
+- **`feature`**: New feature that affects the public API.
+- **`bugfix`**: A bugfix, which was affecting the public API.
+- **`docs`**: Change to the documentation, or updates to public facing docstrings
+- **`breaking`**: Signifying a breaking change of some part of the project's public API, which could cause issues for
+  end-users updating to this version. (Includes deprecation removals.)
+- **`deprecation`**: Signifying a newly deprecated feature, scheduled for eventual removal.
+- **`internal`** Fully internal change that doesn't affect the public API, but is significant enough to be mentioned,
+  likely because it affects project contributors. (Such as a new linter rule, change in code style, significant change
+  in internal API, ...)
 
 ## Create fragments with commands
 
@@ -192,7 +192,7 @@ Add support for encryption. Connection classes now have `enable_encryption` meth
 entry with a `-`, as it is a list item in the final changelog, however, this dash will already be added automatically)
 
 ```markdown title="changes/171.feature.md"
--   Add `Account.check` function, to verify that the access token in use is valid, and the data the Account instance has matches the data minecraft API has.
+- Add `Account.check` function, to verify that the access token in use is valid, and the data the Account instance has matches the data minecraft API has.
 ```
 
 :material-close:{ style="color: #EF5350" } **Wrapped first line** (Splitting up the first line into multiple lines is
@@ -241,9 +241,8 @@ Introduce support for encryption handling.
 !!! tip "Verify if your changelog works"
 
     Our CI will automatically build the documentation for your PR and post a link to it as a comment in the pull
-    request. This documentation will include a preview of the changelog with all unreleased changes in the
-    [changelog](../../installation/changelog.md) page. You can take a look there to make sure that your change
-    fragment(s) resulted in the proper output.
+    request. This documentation will include a preview of the changelog with all unreleased changes in the [changelog]
+    page. You can take a look there to make sure that your change fragment(s) resulted in the proper output.
 
 !!! note "Internal changes"
 
@@ -252,5 +251,9 @@ Introduce support for encryption handling.
 
 ## Footnotes
 
--   See <https://keepachangelog.com> for more info about why and how to properly maintain a changelog
--   For more info about `towncrier`, check out it's [documentation](https://towncrier.readthedocs.io/en/latest/tutorial.html)
+- See <https://keepachangelog.com> for more info about why and how to properly maintain a changelog
+- For more info about `towncrier`, check out it's [documentation][towncrier-tutorial]
+
+[towncrier]: https://towncrier.readthedocs.io/en/stable/
+[towncrier-tutorial]: https://towncrier.readthedocs.io/en/stable/tutorial.html
+[changelog]: ../../meta/changelog.md

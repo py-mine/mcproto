@@ -27,16 +27,15 @@ rule.
 
 1. **Lint before you push.** We have multiple code linting rules, which define our general style of the code-base.
    These are often enforced through certain tools, which you are expected to run before every push and ideally even
-   before every commit. The specifics of our linting rules are mentioned in our [style guide](./style-guide.md).
-   Running all of these tools manually before every commit would however be quite annoying, so we use
-   [pre-commit](./precommit.md).
+   before every commit. The specifics of our linting rules are mentioned in our [style guide]. Running all of these
+   tools manually before every commit would however be quite annoying, so we use [pre-commit].
 2. **Make great commits.** Great commits should be atomic (do one thing only and do it well), with a commit message
-   that explaining what was done, and why. More on this [here](./great-commits.md).
+   that explaining what was done, and why. More on this [here][great-commits].
 3. **Make an issue before the PR.** Before you start working on your PR, open an issue and let us know what you're
-   planning. We described this further in our [making a PR guide](../making-a-pr.md#get-assigned-to-the-issue).
+   planning. We described this further in our [making a PR guide][issue-before-pr].
 4. **Use assets licensed for public use.** Whenever you're adding a static asset (e.g. images/video files/audio or
    even code) that isn't owned/written by you, make sure it has a compatible license with our projects.
-5. **Follow our [Code of Conduct](../../community/code-of-conduct.md)**
+5. **Follow our [Code of Conduct]**
 
 ## Changes to these guidelines
 
@@ -74,4 +73,9 @@ make your code cleaner. You will likely be able to apply much of the knowledge y
 
 These documents were inspired by [Python Discord's CONTRIBUTING agreement.][pydis-contributing]
 
+[style guide]: ./style-guide.md
+[pre-commit]: ./precommit.md
+[great-commits]: ./great-commits.md
+[issue-before-pr]: ../making-a-pr.md#get-assigned-to-the-issue
+[Code of Conduct]: ../../meta/code-of-conduct.md
 [pydis-contributing]: https://github.com/python-discord/bot/blob/master/CONTRIBUTING.md

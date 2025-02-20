@@ -12,7 +12,7 @@
     followed! This means that **breaking changes can occur in minor version bumps**. That said, micro version bumps are
     still strictly for bugfixes, and will not include any features or breaking changes.
 
-This library follows [semantic versioning model](https://semver.org), which means the major version is updated every time
+This library follows [semantic versioning model][semver], which means the major version is updated every time
 there is an incompatible (breaking) change made to the public API. In addition to semantic versioning, mcproto has
 unique versioning practices related to new Minecraft releases.
 
@@ -109,3 +109,5 @@ When a feature is deprecated, we will notify users through:
 - **Warnings in the code** (via `DeprecationWarning`): These warnings will contain details about what was deprecated,
   including a replacement option (if there is one) and a version number for when this deprecation will be removed.
 - **Entries in the changelog**: This includes any migration instructions and a brief reason for deprecation.
+
+[semver]: https://semver.org

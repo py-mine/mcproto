@@ -82,11 +82,11 @@ Using these tools will allow you to analyze your code for typing mistakes before
 means having a function call like `add(1, "hi")` anywhere in your code would be detected and reported as an issue.
 
 There is a bunch of these tools available for python, but the most common ones are
-[`pyright`](https://github.com/microsoft/pyright) and [`mypy`](https://mypy.readthedocs.io/en/stable/).
+[`pyright`][pyright] and [`mypy`][mypy].
 
 ## BasedPyright
 
-The type checker that we use in our code-base is [**basedpyright**](https://docs.basedpyright.com/). It's a fork of
+The type checker that we use in our code-base is [**basedpyright**][basedpyright]. It's a fork of
 pyright which adds some extra checks and features and focuses more on the open-source community, than the
 official Microsoft owned Pyright.
 
@@ -100,7 +100,7 @@ basedpyright .
 
 !!! note ""
 
-    You will need to run this from an [activated](./setup.md#activating-the-environment) poetry environment while
+    You will need to run this from an [activated][activate-venv] poetry environment while
     in the project's root directory.
 
 ### Editor Integration
@@ -122,10 +122,6 @@ basedpyright .
     You can then use [`mason-lspconfig`][neovim-mason-lspconfig-plugin] to install `basedpyright`, or manually
     configure `lspconfig` and use your system-wide `basedpyright` executable.
 
-[basedpyright-vscode-ext]: https://marketplace.visualstudio.com/items?itemName=detachhead.basedpyright
-[neovim-lspconfig]: https://github.com/neovim/nvim-lspconfig
-[neovim-mason-lspconfig-plugin]: https://github.com/williamboman/mason-lspconfig.nvim
-
 ## Great resources
 
 While type hinting might seem very simple from the examples shown above, there is actually a fair bit to it, and if you
@@ -141,3 +137,11 @@ the basics.
   library contains a `typing` module, which holds a bunch of useful structures that we often use while working with
   type-hints.
 - [PEP 484](https://www.python.org/dev/peps/pep-0484/) - formal specification of type hints for the Python langauge
+
+[pyright]: https://github.com/microsoft/pyright
+[mypy]: https://mypy.readthedocs.io/en/stable/
+[basedpyright]: https://docs.basedpyright.com/
+[activate-venv]: ./setup.md#activating-the-environment
+[basedpyright-vscode-ext]: https://marketplace.visualstudio.com/items?itemName=detachhead.basedpyright
+[neovim-lspconfig]: https://github.com/neovim/nvim-lspconfig
+[neovim-mason-lspconfig-plugin]: https://github.com/williamboman/mason-lspconfig.nvim

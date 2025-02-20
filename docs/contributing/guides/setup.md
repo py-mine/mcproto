@@ -23,15 +23,9 @@ computer and created your own [git branch][git-branches] to work on.
 If you wish to work from an already forked repository, make sure to check out the main branch and do a [`git
 pull`][git-pull] to get your fork up to date. Now create your new branch.
 
-[git-and-github]: https://docs.github.com/en/get-started/start-your-journey/about-github-and-git
-[github-forking]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo
-[git-cloning]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
-[git-branches]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches
-[git-pull]: https://github.com/git-guides/git-pull
-
 ## Poetry
 
-This project uses [`poetry`](https://python-poetry.org/docs/). Poetry is a tool for managing python dependencies in a
+This project uses [`poetry`][poetry]. Poetry is a tool for managing python dependencies in a
 reproducible way, ensuring that everyone is using the same versions. It creates virtual environments for each project,
 which ensures that your global dependencies won't clash with the project.
 
@@ -53,10 +47,8 @@ which ensures that your global dependencies won't clash with the project.
     simpler. If you want to find out more about virutal environments, check the [official python
     documentation][venv-docs].
 
-[venv-docs]: https://docs.python.org/3/library/venv.html
-
 This means you will need to have poetry installed on your system to run our project. To do so, just follow their
-[official documentation](https://python-poetry.org/docs/#installation).
+[official documentation][poetry-installation].
 
 ## Dependency installation
 
@@ -178,3 +170,12 @@ First, find which group you want to remove this dependency from and then run:
 ```bash
 poetry remove --group [group-name] [name-of-your-dependency]
 ```
+
+[git-and-github]: https://docs.github.com/en/get-started/start-your-journey/about-github-and-git
+[github-forking]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo
+[git-cloning]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+[git-branches]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches
+[git-pull]: https://github.com/git-guides/git-pull
+[poetry]: https://python-poetry.org/docs/
+[poetry-installation]: https://python-poetry.org/docs/#installation
+[venv-docs]: https://docs.python.org/3/library/venv.html

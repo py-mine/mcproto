@@ -7,9 +7,9 @@
 Welcome! If you're interested in contributing to mcproto, you've come to the right place. Mcproto is an open-source
 project, and we welcome contributions from anyone eager to help out.
 
-To contribute, you can create a [pull request](https://docs.github.com/en/pull-requests) on our GitHub repository.
-Your pull request will then be reviewed by our maintainers, and once approved, it will be merged into the main
-repository. Contributions can include bug fixes, documentation updates, or new features.
+To contribute, you can create a [pull request] on our GitHub repository. Your pull request will then be reviewed by our
+maintainers, and once approved, it will be merged into the main repository. Contributions can include bug fixes,
+documentation updates, or new features.
 
 !!! important "Code quality requirements"
 
@@ -24,9 +24,9 @@ have something in mind if you're reading this, however, if you don't, you're alw
 issues, that don't yet have anyone assigned. If you find anything interesting there that you'd wish to work on, leave a
 comment on that issue with something like: "I'd like to work on this".
 
-Even if you do have an idea already, we heavily recommend (though not require) that you first make an issue, this can
-be a [bug report](./reporting-a-bug.md), but also a feature request, or something else. Once you made the issue, leave
-a: "I'd like to work on this" comment on it.
+Even if you do have an idea already, we heavily recommend (though not require) that you first make an issue, this can be
+a [bug report], but also a feature request, or something else. Once you made the issue, leave a: "I'd like to work on
+this" comment on it.
 
 Eventually, a maintainer will get back to you and you will be assigned to the issue. Being assigned is a soft approval
 from us, giving you the green light to start coding. By getting assigned, you also reserve the right to work on that
@@ -70,7 +70,7 @@ Once your work is done and you think the PR is ready to be merged, mark it as **
 
 ## Contributing guidelines
 
-In order to make a successful contribution, it is **required** that you get familiar with our [contributing guidelines](./guides/index.md).
+In order to make a successful contribution, it is **required** that you get familiar with our [contributing guidelines].
 
 ## Automated checks
 
@@ -83,8 +83,8 @@ these tools on your own machine during the development. Many of these tools can 
 automatically and it will generally be a better experience for you. Running these tools locally will also prevent a
 bunch of "Fix the CI" commits, which just clutter the git history.
 
-Make sure to read our [contributing guidelines](./guides/index.md) thoroughly, as they describe how to use these tools
-and even how to have them run automatically before each commit, so you won't forget.
+Make sure to read our [contributing guidelines] thoroughly, as they describe how to use these tools and even how to have
+them run automatically before each commit, so you won't forget.
 
 Passing the CI workflows is a requirement in order to get your pull request merged. If a maintainer sees a PR that's
 marked as ready for review, but isn't passing the CI, we'll often refrain from even reviewing it, as we consider it
@@ -100,12 +100,10 @@ Once a reviewer approves your pull request, it can be merged into the `main` bra
 
 ??? question "How do I request a review?"
 
-    Request a review from a team member by [assigning them as a reviewer][assigning-pr-reviewer] to your pull request.
+    Request a review from a team member by [assigning them as a reviewer][assigning pr reviewer] to your pull request.
 
     However, you can also just wait until we get to your PR, you don't need to assign a reviewer unless you want
     someone specific to review. Just make sure that your PR is marked as ready for review and not draft.
-
-[assigning-pr-reviewer]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review
 
 ### Giving Feedback
 
@@ -143,3 +141,8 @@ author grow as a developer.
 !!! success "Be Positive"
 
     Don't forget to acknowledge the positive aspects of the contribution as well!
+
+[pull request]: https://docs.github.com/en/pull-requests
+[bug report]: ./issue-guide.md
+[contributing guidelines]: ./guides/index.md
+[assigning pr reviewer]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review

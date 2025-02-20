@@ -17,7 +17,7 @@ will use to obtain an access token.
 
 We know this is annoying, but it's a necessary step, as Microsoft only allows these applications to request OAuth2
 authentication, and to avoid potential abuse, we can't really just use our registered application (like with say
-[MultiMC](https://github.com/MultiMC/Launcher)), as this token would have to be embedded into our source-code, and
+[MultiMC]), as this token would have to be embedded into our source-code, and
 since this is python, that would mean just including it here in plain text, and because mcproto is a low level library
 that can be used for any kind of interactions, we can't trust that you won't abuse this token.
 
@@ -25,9 +25,9 @@ Instead, everyone using mcproto should register a new application, and get their
 that uses mcproto in the back.
 
 To create a new application, follow these steps (this is a simplified guide, for a full guide, feel free to check the
-[Microsoft documentation](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)):
+[Microsoft documentation][azure-app-registration]):
 
-1. Go to the [Azure portal](https://portal.azure.com/#home) and log in (create an account if you need to).
+1. Go to the [Azure portal] and log in (create an account if you need to).
 2. Search for and select **Azure Active Directory**.
 3. On the left navbar, under **Manage** section, click on **App registrations**.
 4. Click on **New registration** on top navbar.
@@ -49,7 +49,7 @@ and the **Directory (Tenant) ID** for [Registering the application with Minecraf
 If you ever need to access this application again, follow these steps (as Microsoft Azure is pretty unintuitive, we
 document this too):
 
-1. Go to the [Azure portal](https://portal.azure.com/#home) and log in.
+1. Go to the [Azure portal] and log in.
 2. Click on **Azure Active Directory** (if you can't find it on the main page, you can use the search).
 3. On the left navbar, under **Manage** section, click on **App registrations**.
 4. Click on **View all applications from personal account** (assuming you registered the app from a personal account).
@@ -77,7 +77,7 @@ More annoyingly you will additionally also need to provide an **associated websi
 mcproto, I just used the GitHub URL). Lastly, you'll want to describe why you need access to this API in the
 **Justification** section.
 
-Visit the [Mojang article](https://help.minecraft.net/hc/en-us/articles/16254801392141) describing this process. There
+Visit the [Mojang article][mojang-api-review-article] describing this process. There
 is also a link to the form to fill out.
 
 ### The code
@@ -256,3 +256,8 @@ case, you'll need to go through the full login again.
 If your minecraft account is still using the (really old) Mojang authentication, you can simply follow the non-migrated
 guide, as it will work with these legacy accounts too, the only change you will need to make is to use your username,
 instead of an email.
+
+[MultiMC]: https://github.com/MultiMC/Launcher
+[azure-app-registration]: https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
+[azure portal]: https://portal.azure.com/#home
+[mojang-api-review-article]: https://help.minecraft.net/hc/en-us/articles/16254801392141

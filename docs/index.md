@@ -1,6 +1,6 @@
 ---
 hide:
-  - navigation
+    - navigation
 ---
 
 # Home
@@ -23,9 +23,11 @@ python, or even full python server implementations.
     to do so, you will want to use an older version of mcproto, but note that **no bug fixes or features will be
     backported** to these older versions.
 
-    *For more information on versioning and update practices, see our [Versioning Practices](./installation/versioning-model.md).*
+    *For more information on versioning and update practices, see our [Versioning Practices][versioning].*
 
 !!! warning
 
     This library is still heavily Work-In-Progress, which means a lot of things can still change and some features may
     be missing or incomplete. Using the library for production applications at it's current state isn't recommended.
+
+[versioning]: meta/versioning.md

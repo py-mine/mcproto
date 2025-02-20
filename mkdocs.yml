@@ -21,25 +21,24 @@ exclude_docs: |
 
 nav:
   - Home: index.md
-  - Installation:
-      - Installation: installation/index.md
-      - Versioning Model: installation/versioning-model.md
-      - Changelog: installation/changelog.md
+  - Installation: installation.md
   - Usage:
       - usage/index.md
       - First steps: usage/first-steps.md
       - Packet Communication: usage/packet-communication.md
       - Authentication: usage/authentication.md
   - FAQ: faq.md
-  - Community:
-      - Code of Conduct: community/code-of-conduct.md
-      - Attributions: community/attribution.md
-      - License: community/license.md
-      - Contributing:
-          - Reporting a bug: contributing/reporting-a-bug.md
-          - Asking a question: https://github.com/py-mine/mcproto/discussions
-          - Making a pull request: contributing/making-a-pr.md
-          - Security Policy: contributing/security-policy.md
+  - Meta:
+      - Getting help: meta/support.md
+      - Versioning Model: meta/versioning.md
+      - Changelog: meta/changelog.md
+      - Code of Conduct: meta/code-of-conduct.md
+      - Attributions: meta/attribution.md
+      - License: meta/license.md
+  - Contributing:
+      - Bugs & Feature requests: contributing/issue-guide.md
+      - Making a pull request: contributing/making-a-pr.md
+      - Security Policy: contributing/security-policy.md
       - Guides:
           - contributing/guides/index.md
           - Setting things up: contributing/guides/setup.md

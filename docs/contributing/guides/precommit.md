@@ -10,11 +10,10 @@ Now that you've seen the linters, formatters, type-checkers and other tools that
 wondering whether you're really expected to run all of those commands manually, after each change. And of course, no,
 you're not, that would be really annoying, and you'd probably also often just forget to do that.
 
-So, instead of that, we use a tool called [`pre-commit`](https://pre-commit.com/), which creates a [git
-hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), that will automatically run before each commit you
-make. That means each time when you make a commit, all of these tools will run over the code you updated, and if any of
-these linters detects an issue, the commit will be aborted, and you will see which linter failed, and it's output
-telling you why.
+So, instead of that, we use a tool called [`pre-commit`][pre-commit], which creates a [git hook][git-hooks], that will
+automatically run before each commit you make. That means each time when you make a commit, all of these tools will run
+over the code you updated, and if any of these linters detects an issue, the commit will be aborted, and you will see
+which linter failed, and it's output telling you why.
 
 ## Installing pre-commit
 
@@ -29,9 +28,9 @@ every new commit you make.
 
 !!! warning
 
-    Pre-commit itself will be installed via poetry, which means you will need to have an
-    [activated](./setup.md#activating-the-environment) poetry environment whenever you make a new commit, otherwise,
-    the pre-commit git hook will fail with command not found.
+    Pre-commit itself will be installed via poetry, which means you will need to have an [activated][activate-venv]
+    poetry environment whenever you make a new commit, otherwise, the pre-commit git hook will fail with command not
+    found.
 
 ## Hooks that modify files
 
@@ -40,10 +39,10 @@ already formatted by ruff. When this happens, the hook itself will fail, which w
 point, you will be left with the original changes still staged, but some files may have been modified, which means
 you'll want to `git add` those again, staging these automatic modifications and then make the commit again.
 
-Note that in case you were only committing a [partial change](./great-commits.md#partial-adds), which means you still
-had some parts of the file unstaged, pre-commit will not modify the files for you. Instead, the hook will just fail,
-leaving the rest up to you. You should now run the formatter yourself and perform another partial add, updating the
-staged changes to be compliant.
+Note that in case you were only committing a [partial change][partial-git-add], which means you still had some parts of
+the file unstaged, pre-commit will not modify the files for you. Instead, the hook will just fail, leaving the rest up
+to you. You should now run the formatter yourself and perform another partial add, updating the staged changes to be
+compliant.
 
 ## Running manually
 
@@ -105,3 +104,8 @@ SKIP="check-toml,slotscheck,basedpyright" git commit -m "My partially checked co
 You can find pre-commit's configuration the `.pre-commit-config.yaml` file, where we define which tools should be ran
 and how. Currently, pre-commit runs ruff linter, ruff formatter, slotscheck and basedpyright, but also a checker for
 some issues in TOML/YAML files.
+
+[pre-commit]: https://pre-commit.com/
+[git-hooks]: https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks
+[activate-venv]: ./setup.md#activating-the-environment
+[partial-git-add]: ./great-commits.md#partial-adds

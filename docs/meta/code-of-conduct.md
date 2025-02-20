@@ -55,7 +55,8 @@ If we find that you've **intentionally** attempted to add plagiarized content to
 remove, or properly attribute this plagiarized content as quickly as possible.
 
 Unintentional plagiarism will not be punished as harshly, but nevertheless, it is your responsibility as a contributor
-to check where the code you're submitting comes from, and so, repeated submissions of such content, even after warnings, may still result in a ban.
+to check where the code you're submitting comes from, and so, repeated submissions of such content, even after warnings,
+may still result in a ban.
 
 ### Understanding code licensing
 

@@ -6,7 +6,7 @@
     what slotted classes, what slotscheck enforces, how to run slotscheck and how to configure it.
 
 On top of the tools you already saw (ruff & basedpyright), we also have one more tool that performs static analysis on
-our code: [**slotscheck**](https://slotscheck.readthedocs.io/en/latest/).
+our code: [**slotscheck**][slotscheck].
 
 ## What is slotscheck
 
@@ -14,8 +14,8 @@ Slotscheck is a tool that focuses on enforcing proper use of `__slots__` on clas
 
 ???+ question "What are slotted classes"
 
-    If you aren't familiar with slotted classes, you should check the [official
-    documentation](https://wiki.python.org/moin/UsingSlots). That said, if you just want a quick overview:
+    If you aren't familiar with slotted classes, you should check the [official documentation][slots-docs]. That said,
+    if you just want a quick overview:
 
     - Slots allow you to explicitly declare all member attributes of a class (e.g. declaring `__slots__ = ("a", "b")`
       will make the class instances only contain variables `a` and `b`, trying to set any other attribute will result
@@ -59,8 +59,7 @@ slotscheck -m mcproto
 
 !!! note ""
 
-    Make you have an [activated](./setup.md#activating-the-environment) poetry virtual environment and you're in
-    the project's root directory.
+    Make you have an [activated][activate-venv] poetry virtual environment and you're in the project's root directory.
 
 ## Configuring slotscheck
 
@@ -70,4 +69,7 @@ you can modify the [slotscheck configuration][slotscheck-config] in
 should be very rare and you should have a very good reason to ignore your file
 instead of fixing the underlying issue.
 
+[slotscheck]: https://slotscheck.readthedocs.io/en/latest/
+[slots-docs]: https://wiki.python.org/moin/UsingSlots
+[activate-venv]: ./setup.md#activating-the-environment
 [slotscheck-config]: https://slotscheck.readthedocs.io/en/latest/configuration.html

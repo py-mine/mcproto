@@ -1,8 +1,13 @@
+---
+hide:
+    - navigation
+---
+
 # Installation
 
 ## PyPI (stable) version
 
-Mcproto is available on [PyPI](https://pypi.org/project/mcproto) and can be installed like any other python library with:
+Mcproto is available on [PyPI][mcproto-pypi] and can be installed like any other python library with:
 
 === ":simple-python: pip"
 
@@ -12,7 +17,7 @@ Mcproto is available on [PyPI](https://pypi.org/project/mcproto) and can be inst
 
     <div class="result" markdown>
 
-    [pip](https://pip.pypa.io/en/stable/) is the main package installer for Python.
+    [pip] is the main package installer for Python.
 
     </div>
 
@@ -24,7 +29,7 @@ Mcproto is available on [PyPI](https://pypi.org/project/mcproto) and can be inst
 
     <div class="result" markdown>
 
-    [Poetry](https://python-poetry.org/) is an all-in-one solution for Python project management.
+    [Poetry] is an all-in-one solution for Python project management.
 
     </div>
 
@@ -36,7 +41,7 @@ Mcproto is available on [PyPI](https://pypi.org/project/mcproto) and can be inst
 
     <div class="result" markdown>
 
-    [Rye](https://rye.astral.sh/) is an all-in-one solution for Python project management, written in Rust.
+    [Rye] is an all-in-one solution for Python project management, written in Rust.
 
     </div>
 
@@ -48,7 +53,7 @@ Mcproto is available on [PyPI](https://pypi.org/project/mcproto) and can be inst
 
     <div class="result" markdown>
 
-    [uv](https://github.com/astral-sh/uv) is an ultra fast dependency resolver and package installer, written in Rust.
+    [uv] is an ultra fast dependency resolver and package installer, written in Rust.
 
     </div>
 
@@ -60,7 +65,7 @@ Mcproto is available on [PyPI](https://pypi.org/project/mcproto) and can be inst
 
     <div class="result" markdown>
 
-    [PDM](https://pdm-project.org/en/latest/) is an all-in-one solution for Python project management.
+    [PDM] is an all-in-one solution for Python project management.
 
     </div>
 
@@ -86,7 +91,7 @@ To install the latest mcproto version directly from the `main` git branch, use:
 
     <div class="result" markdown>
 
-    [pip](https://pip.pypa.io/en/stable/) is the main package installer for Python.
+    [pip] is the main package installer for Python.
 
     </div>
 
@@ -98,7 +103,7 @@ To install the latest mcproto version directly from the `main` git branch, use:
 
     <div class="result" markdown>
 
-    [Poetry](https://python-poetry.org/) is an all-in-one solution for Python project management.
+    [Poetry] is an all-in-one solution for Python project management.
 
     </div>
 
@@ -110,7 +115,7 @@ To install the latest mcproto version directly from the `main` git branch, use:
 
     <div class="result" markdown>
 
-    [Rye](https://rye.astral.sh/) is an all-in-one solution for Python project management, written in Rust.
+    [Rye] is an all-in-one solution for Python project management, written in Rust.
 
     </div>
 
@@ -122,7 +127,7 @@ To install the latest mcproto version directly from the `main` git branch, use:
 
     <div class="result" markdown>
 
-    [uv](https://github.com/astral-sh/uv) is an ultra fast dependency resolver and package installer, written in Rust.
+    [uv] is an ultra fast dependency resolver and package installer, written in Rust.
 
     </div>
 
@@ -134,6 +139,13 @@ To install the latest mcproto version directly from the `main` git branch, use:
 
     <div class="result" markdown>
 
-    [PDM](https://pdm-project.org/en/latest/) is an all-in-one solution for Python project management.
+    [PDM] is an all-in-one solution for Python project management.
 
     </div>
+
+[mcproto-pypi]: https://pypi.org/project/mcproto
+[pip]: https://pip.pypa.io/en/stable/
+[Poetry]: https://python-poetry.org/
+[Rye]: https://rye.astral.sh/
+[uv]: https://github.com/astral-sh/uv
+[PDM]: https://pdm-project.org/en/latest/

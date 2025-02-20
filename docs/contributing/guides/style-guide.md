@@ -23,12 +23,12 @@ you think a code style change of some kind would be justified, feel free to open
     However, know when to be inconsistent -- sometimes style guide recommendations just aren't applicable. When in
     doubt, use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask!
 
-    — [PEP 8, the general Style Guide for Python Code](https://peps.python.org/pep-0008/)
+    — [PEP 8, the general Style Guide for Python Code][pep8]
 
 ??? tip "Check out the PEP8 song"
 
-    The [Python Discord](https://www.pythondiscord.com/) community have made an amazing song about PEP8, check it out
-    [here](https://www.youtube.com/watch?v=hgI0p1zf31k)!
+    The [Python Discord][python discord] community have made an amazing song about PEP8, check it out
+    [here][pep8-song]!
 
 ## Automatic linting
 
@@ -36,7 +36,7 @@ As there is a lot of various code style rules we adhere to in our code base, des
 too long and it would be impossible to remember anyway. For that reason, we use automated tools to help us catch any
 code style violations automatically.
 
-Currently, we use [`ruff`](https://beta.ruff.rs/docs/) to enforce most of our code style requirements. That said, we do
+Currently, we use [`ruff`][ruff] to enforce most of our code style requirements. That said, we do
 have some other tools that check the correctness of the code, we will describe those later.
 
 ### Ruff linter & formatter
@@ -44,9 +44,9 @@ have some other tools that check the correctness of the code, we will describe t
 Ruff is an all-in-one linter & formatter solution, which aims to replace three previously very popular tools into a
 single package:
 
-- [`flake8`](https://flake8.pycqa.org/en/latest/) linter
-- [`isort`](https://pycqa.github.io/isort/) import sorter
-- [`black`](https://black.readthedocs.io/en/stable/) auto-formatter
+- [`flake8`][flake8] linter
+- [`isort`][isort] import sorter
+- [`black`][black] auto-formatter
 
 ??? question "Why pick ruff over the combination of these tools?"
 
@@ -73,8 +73,7 @@ ruff check .
 
 !!! note ""
 
-    Don't forget to [activate](./setup.md#activating-the-environment) the poetry virtual environment before running
-    ruff.
+    Don't forget to [activate][activate-venv] the poetry virtual environment before running ruff.
 
 Ruff is really smart and it can often automatically fix some of the style violations it found. To make ruff do that,
 you can add the `--fix` flag to the command:
@@ -98,12 +97,12 @@ With the `[rule-id]` being the rule you're interested in, for example `UP038`.
     The `ruff rule` command will output the rule explanation in markdown, however, since you're running this comand
     in a terminal, there won't be any helpful syntax highlighting for that by default.
 
-    That's why I'd recommend using a markdown render such as [`glow`](https://github.com/charmbracelet/glow). With
+    That's why I'd recommend using a markdown render such as [`glow`][glow]. With
     it, you can pipe the output from ruff into it and have it produce a fancy colored output, that's much easier to
     read: `ruff rule UP038 | glow`.
 
 Alternatively, you can also find the rules and their description in the [ruff
-documentation](https://docs.astral.sh/ruff/rules/).
+documentation][ruff-rules].
 
 #### Formatter
 
@@ -125,3 +124,14 @@ TODO
 
 While `ruff` can do a lot, it can't do everything. There are still some guidelines that you will need to read over and
 apply manually. You will find these guides on the next pages of this documentation.
+
+[pep8]: https://peps.python.org/pep-0008/
+[python discord]: https://www.pythondiscord.com/
+[pep8-song]: https://www.youtube.com/watch?v=hgI0p1zf31k
+[ruff]: https://beta.ruff.rs/docs/
+[flake8]: https://flake8.pycqa.org/en/latest/
+[isort]: https://pycqa.github.io/isort/
+[black]: https://black.readthedocs.io/en/stable/
+[activate-venv]: ./setup.md#activating-the-environment
+[glow]: https://github.com/charmbracelet/glow
+[ruff-rules]: https://docs.astral.sh/ruff/rules/

@@ -8,9 +8,7 @@
 
 !!! note "Pre-Requisites"
 
-    Before reading this page, make sure to familiarize yourself with our [versioning
-    model](../../installation/versioning-model.md)
-
+    Before reading this page, make sure to familiarize yourself with our [versioning model]
 
 ## What is a breaking change
 
@@ -18,15 +16,14 @@ A breaking change is a modification that requires developers to adjust their cod
 previously working functionality. This includes changes such as altering method signatures, changing return types, or
 removing classes or functions without prior warning.
 
-We follow [semantic versioning](https://semver.org) to manage breaking changes. That means, **major** version
-increments (e.g., from `3.x.x` to `4.0.0`) indicate breaking changes. It’s essential that users can rely on **minor** and
-**patch** versions (e.g., `3.1.0` or `3.0.1`) being backwards-compatible with the first major release (`3.0.0`).
+We follow [semantic versioning] to manage breaking changes. That means, **major** version increments (e.g., from `3.x.x`
+to `4.0.0`) indicate breaking changes. It’s essential that users can rely on **minor** and **patch** versions (e.g.,
+`3.1.0` or `3.0.1`) being backwards-compatible with the first major release (`3.0.0`).
 
 When introducing changes, aim to implement them in a non-breaking way. Breaking changes should be **avoided** whenever
 possible. If a breaking change is absolutely necessary, strive to transition gradually through **deprecations**.
 
-Refer to the [versioning model page](../../installation/versioning-model.md#examples-of-breaking-changes) for some
-examples of what constitutes a breaking change.
+Refer to the [versioning model page][breaking-changes] for some examples of what constitutes a breaking change.
 
 ## What is a deprecation
 
@@ -76,16 +73,15 @@ We have two custom function to mark something as deprecated, both of these live 
 module:
 
 - `deprecation_warn`: This function triggers a deprecation warning immediately after it is called, alerting developers
-    to the pending removal.
+  to the pending removal.
 - `deprecated`: This decorator function marks a function as deprecated. It triggers a deprecation warning each time the
-    decorated function is called. Internally, this ultimately just calls `deprecation_warn`.
+  decorated function is called. Internally, this ultimately just calls `deprecation_warn`.
 
 ### Removal version
 
-These functions take a removal version as an argument, which should be specified as a [semantic
-version](https://semver.org/) string. Generally, you'll just want to put the next major version of the library here (so
-if you're currently on `3.5.2` you'll want to specify the removal version as `4.0.0`; You always want to bump the first
-/ major version number.)
+These functions take a removal version as an argument, which should be specified as a [semantic version][semantic versioning] string. Generally, you'll just want to put the next major version of the library here (so if you're
+currently on `3.5.2` you'll want to specify the removal version as `4.0.0`; You always want to bump the first / major
+version number.)
 
 The `deprecation_warn` function will usually just show a warning, however, if the current version of the library
 surpasses the removal version, it will instead throw a runtime error, making it unusable. In most cases, people
@@ -267,3 +263,7 @@ when crafting deprecation fragments.
 
         - The string-based configuration support will be removed in version `4.0.0`.
     ```
+
+[versioning model]: ../../meta/versioning.md
+[semantic versioning]: https://semver.org
+[breaking-changes]: ../../meta/versioning.md#examples-of-breaking-changes
