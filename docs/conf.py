@@ -206,11 +206,7 @@ def override_towncrier_draft_format() -> None:
     ) -> list[nodes.Node]:
         markup_source = markup_source.replace("## Version Unreleased changes", "## Unreleased changes")
         markup_source = markup_source.rstrip(" \n")
-
-        # Alternative to 3.9+ str.removesuffix
-        if markup_source.endswith("---"):
-            markup_source = markup_source[:-3]
-
+        markup_source = markup_source.removesuffix("---")
         markup_source = markup_source.rstrip(" \n")
         markup_source = m2r2.M2R()(markup_source)
 
