@@ -1,14 +1,10 @@
 from __future__ import annotations
 
-import sys
-from typing import TYPE_CHECKING
 from unittest.mock import Mock
 
 import httpx
 import pytest
-
-if sys.version_info > (3, 9) or TYPE_CHECKING:
-    from pytest_httpx import HTTPXMock
+from pytest_httpx import HTTPXMock
 
 from mcproto.multiplayer import (
     JoinAcknowledgeData,
@@ -24,7 +20,6 @@ from mcproto.multiplayer import (
 from tests.mcproto.test_encryption import RSA_PUBLIC_KEY
 
 
-@pytest.mark.skipif(sys.version_info < (3, 9), reason="requires 3.9+ for pytest-httpx dependency")
 async def test_join_request_valid(httpx_mock: HTTPXMock) -> None:
     """Test making a join request, getting back a valid response."""
     httpx_mock.add_response(
@@ -42,7 +37,6 @@ async def test_join_request_valid(httpx_mock: HTTPXMock) -> None:
         await join_request(client, account, server_hash)
 
 
-@pytest.mark.skipif(sys.version_info < (3, 9), reason="requires 3.9+ for pytest-httpx dependency")
 @pytest.mark.parametrize(
     ("status_code", "err_msg", "err_type"),
     [
@@ -81,7 +75,6 @@ async def test_join_request_invalid(
         assert exc.err_type is err_type
 
 
-@pytest.mark.skipif(sys.version_info < (3, 9), reason="requires 3.9+ for pytest-httpx dependency")
 @pytest.mark.parametrize(
     ("client_ip"),
     [
@@ -127,7 +120,6 @@ async def test_join_check_valid(client_ip, httpx_mock: HTTPXMock):
     assert ret_data == ack_data
 
 
-@pytest.mark.skipif(sys.version_info < (3, 9), reason="requires 3.9+ for pytest-httpx dependency")
 async def test_join_check_invalid(httpx_mock: HTTPXMock):
     """Test making a join check, getting back an invalid response."""
     client_username = "ItsDrike"
