@@ -55,7 +55,7 @@ def visit_attributetabletitle_node(self: HTML5Translator, node: AttributeTableTi
 
 
 def visit_attributetablebadge_node(self: HTML5Translator, node: AttributeTableBadge) -> None:
-    attributes = {
+    attributes: dict[str, Any] = {
         "class": "py-attribute-table-badge",
         "title": node["badge-type"],
     }
@@ -153,7 +153,7 @@ class PyAttributeTable(SphinxDirective):
 def build_lookup_table(env: BuildEnvironment) -> dict[str, list[str]]:
     # Given an environment, load up a lookup table of
     # full-class-name: objects
-    result = {}
+    result: dict[str, list[str]] = {}
     domain = env.domains["py"]
 
     ignored = {
@@ -285,11 +285,11 @@ def class_results_to_node(key: str, elements: Sequence[TableElement]) -> Attribu
 
 def setup(app: Sphinx) -> dict[str, Any]:
     app.add_directive("attributetable", PyAttributeTable)
-    app.add_node(AttributeTable, html=(visit_attributetable_node, depart_attributetable_node))
-    app.add_node(AttributeTableColumn, html=(visit_attributetablecolumn_node, depart_attributetablecolumn_node))
-    app.add_node(AttributeTableTitle, html=(visit_attributetabletitle_node, depart_attributetabletitle_node))
-    app.add_node(AttributeTableBadge, html=(visit_attributetablebadge_node, depart_attributetablebadge_node))
-    app.add_node(AttributeTableItem, html=(visit_attributetable_item_node, depart_attributetable_item_node))
-    app.add_node(AttributeTablePlaceholder)
-    _ = app.connect("doctree-resolved", process_attributetable)
+    app.add_node(AttributeTable, html=(visit_attributetable_node, depart_attributetable_node))  # pyright: ignore[reportUnknownMemberType]
+    app.add_node(AttributeTableColumn, html=(visit_attributetablecolumn_node, depart_attributetablecolumn_node))  # pyright: ignore[reportUnknownMemberType]
+    app.add_node(AttributeTableTitle, html=(visit_attributetabletitle_node, depart_attributetabletitle_node))  # pyright: ignore[reportUnknownMemberType]
+    app.add_node(AttributeTableBadge, html=(visit_attributetablebadge_node, depart_attributetablebadge_node))  # pyright: ignore[reportUnknownMemberType]
+    app.add_node(AttributeTableItem, html=(visit_attributetable_item_node, depart_attributetable_item_node))  # pyright: ignore[reportUnknownMemberType]
+    app.add_node(AttributeTablePlaceholder)  # pyright: ignore[reportUnknownMemberType]
+    _ = app.connect("doctree-resolved", process_attributetable)  # pyright: ignore[reportUnknownMemberType]
     return {"parallel_read_safe": True}
