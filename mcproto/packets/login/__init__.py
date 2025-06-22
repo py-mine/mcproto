@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from mcproto.packets.login.login import (
+    LoginAcknowledged,
     LoginDisconnect,
     LoginEncryptionRequest,
     LoginEncryptionResponse,
@@ -12,6 +13,7 @@ from mcproto.packets.login.login import (
 )
 
 __all__ = [
+    "LoginAcknowledged",
     "LoginDisconnect",
     "LoginEncryptionRequest",
     "LoginEncryptionResponse",
