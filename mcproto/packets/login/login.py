@@ -14,6 +14,7 @@ from mcproto.types.chat import ChatMessage
 from mcproto.types.uuid import UUID
 
 __all__ = [
+    "LoginAcknowledged",
     "LoginDisconnect",
     "LoginEncryptionRequest",
     "LoginEncryptionResponse",
@@ -284,3 +285,25 @@ class LoginSetCompression(ClientBoundPacket):
     def _deserialize(cls, buf: Buffer, /) -> Self:
         threshold = buf.read_varint()
         return cls(threshold)
+
+
+@final
+@define
+class LoginAcknowledged(ServerBoundPacket):
+    """Sent by client to acknowledge LoginSuccess from server. (Client -> Server).
+
+    This packet has no fields - it's just an empty acknowledgment.
+    """
+
+    PACKET_ID: ClassVar[int] = 0x03
+    GAME_STATE: ClassVar[GameState] = GameState.LOGIN
+
+    @override
+    def serialize_to(self, buf: Buffer) -> None:
+        """Serialize the packet (no data to serialize)."""
+
+    @override
+    @classmethod
+    def _deserialize(cls, buf: Buffer, /) -> Self:
+        """Deserialize the packet (no data to deserialize)."""
+        return cls()
