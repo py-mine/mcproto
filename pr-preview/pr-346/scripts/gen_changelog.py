@@ -18,7 +18,7 @@ def get_project_version() -> str:
     followed by the number of commits since that tag, and the latest commit hash.
     (e.g. v0.5.0-166-g26b88)
     """
-    proc = subprocess.run(  # noqa: S603
+    proc = subprocess.run(
         ["git", "describe", "--tags", "--abbrev=5"],  # noqa: S607
         capture_output=True,
         check=True,
