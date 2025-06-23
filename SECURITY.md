@@ -1,5 +1,3 @@
-# Security Policy
-
 ## Reporting Security Vulnerabilities
 
 **We urge you not to file a bug report in the GitHub issue tracker, since they are open for anyone to see**
@@ -15,5 +13,5 @@ of the people below:
 
 - **ItsDrike** (project maintainer and owner)
     - **Email:** `itsdrike@protonmail.com`
-    - **Discord:** `ItsDrike#5359` (however you will need to join the [py-mine discord](https://discord.gg/C2wX7zduxC) too,
-      as I might not answer to message requests from people I don't share a server with.)
+    - **Discord:** `ItsDrike` (however you will need to join the [py-mine discord](https://discord.gg/C2wX7zduxC) too,
+        as I might not answer to message requests from people I don't share a server with.)

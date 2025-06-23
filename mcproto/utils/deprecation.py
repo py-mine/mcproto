@@ -26,17 +26,18 @@ def deprecation_warn(
     """Produce an appropriate deprecation warning given the parameters.
 
     If the currently installed project version is already past the specified deprecation version,
-    a :exc:`DeprecationWarning` will be raised as a full exception. Otherwise it will just get emitted
-    as a warning.
+    a [`DeprecationWarning`][DeprecationWarning] will be raised as a full exception. Otherwise it
+    will just get emitted as a warning.
 
     The deprecation message used will be constructed based on the input parameters.
 
-    :param obj_name: Name of the object that got deprecated (such as ``my_function``).
-    :param removal_version:
-        Version at which this object should be considered as deprecated and should no longer be used.
-    :param replacement: A new alternative to this (now deprecated) object.
-    :param extra_msg: Additional message included in the deprecation warning/exception at the end.
-    :param stack_level: Stack level at which the warning is emitted.
+    Args:
+        obj_name: Name of the object that got deprecated (such as `my_function`).
+        removal_version:
+            Version at which this object should be considered as deprecated and should no longer be used.
+        replacement: A new alternative to this (now deprecated) object.
+        extra_msg: Additional message included in the deprecation warning/exception at the end.
+        stack_level: Stack level at which the warning is emitted.
     """
     if isinstance(removal_version, str):
         removal_version = Version(removal_version)
@@ -83,24 +84,25 @@ def deprecated(
 ) -> DecoratorFunction:
     """Mark an object as deprecated.
 
-    Decorator version of :func:`.deprecation_warn` function.
+    Decorator version of [`deprecation_warn`][..] function.
 
     If the currently installed project version is already past the specified deprecation version,
-    a :exc:`DeprecationWarning` will be raised as a full exception. Otherwise it will just get emitted
-    as a warning.
+    a [`DeprecationWarning`][DeprecationWarning] will be raised as a full exception. Otherwise it
+    will just get emitted as a warning.
 
     The deprecation message used will be constructed based on the input parameters.
 
-    :param display_name:
-        Name of the object that got deprecated (such as ``my_function``).
+    Args:
+        display_name:
+            Name of the object that got deprecated (such as `my_function`).
 
-        By default, the object name is obtained automatically from ``__qualname__`` (falling back
-        to ``__name__``) of the decorated object. Setting this explicitly will override this obtained
-        name and the ``display_name`` will be used instead.
-    :param removal_version:
-        Version at which this object should be considered as deprecated and should no longer be used.
-    :param replacement: A new alternative to this (now deprecated) object.
-    :param extra_msg: Additional message included in the deprecation warning/exception at the end.
+            By default, the object name is obtained automatically from `__qualname__` (falling back
+            to `__name__`) of the decorated object. Setting this explicitly will override this obtained
+            name and the `display_name` will be used instead.
+        removal_version:
+            Version at which this object should be considered as deprecated and should no longer be used.
+        replacement: A new alternative to this (now deprecated) object.
+        extra_msg: Additional message included in the deprecation warning/exception at the end.
     """
 
     def inner(func: Callable[P, R]) -> Callable[P, R]:

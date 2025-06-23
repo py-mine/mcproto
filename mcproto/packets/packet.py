@@ -93,11 +93,12 @@ class InvalidPacketContentError(IOError):
     ) -> None:
         """Initialize the error class.
 
-        :param packet_id: Identified packet ID.
-        :param game_state: Game state of the identified packet.
-        :param direction: Packet direction of the identified packet.
-        :param buffer: Buffer received for deserialization, that failed to parse.
-        :param message: Reason for the failure.
+        Args:
+            packet_id: Identified packet ID.
+            game_state: Game state of the identified packet.
+            direction: Packet direction of the identified packet.
+            buffer: Buffer received for deserialization, that failed to parse.
+            message: Reason for the failure.
         """
         self.packet_id = packet_id
         self.game_state = game_state

@@ -46,12 +46,13 @@ T_Packet = TypeVar("T_Packet", bound=Packet)
 def _serialize_packet(packet: Packet, *, compression_threshold: int = -1) -> Buffer:
     """Serialize the internal packet data, along with it's packet id.
 
-    :param packet: The packet to serialize.
-    :param compression_threshold:
-        A threshold for the packet length (in bytes), which if surpassed compression should
-        be enabeld. To disable compression, set this to -1. Note that when enabled, even if
-        the threshold isn't crossed, the packet format will be different than with compression
-        disabled.
+    Args:
+        packet: The packet to serialize.
+        compression_threshold:
+            A threshold for the packet length (in bytes), which if surpassed compression should
+            be enabled. To disable compression, set this to -1. Note that when enabled, even if
+            the threshold isn't crossed, the packet format will be different than with compression
+            disabled.
     """
     packet_data = packet.serialize()
 
@@ -85,17 +86,18 @@ def _deserialize_packet(
 ) -> T_Packet:
     """Deserialize the packet id and it's internal data.
 
-    :param packet_map:
-        A mapping of packet id (int) -> packet. Should hold all possible packets for the
-        current gamestate and direction. See :func:`~mcproto.packets.packet_map.generate_packet_map`
-    :param compressed:
-        Boolean flag, if compression is enabled, it should be set to ``True``, ``False`` otherwise.
+    Args:
+        packet_map:
+            A mapping of packet id (int) -> packet. Should hold all possible packets for the
+            current gamestate and direction. See [`generate_packet_map`][mcproto.packets.packet_map.]
+        compressed:
+            Boolean flag, if compression is enabled, it should be set to `True`, `False` otherwise.
 
-        You can get this based on :class:`~mcproto.packets.login.login.LoginSetCompression` packet,
-        which will contain a compression threshold value. This threshold is only useful when writing
-        the packets, for reading, we don't care about the specific threshold, we only need to know
-        whether compression is enabled or not. That is, if the threshold is set to a non-negative
-        number, this should be ``True``.
+            You can get this based on [`LoginSetCompression`][mcproto.packets.login.login.] packet,
+            which will contain a compression threshold value. This threshold is only useful when writing
+            the packets, for reading, we don't care about the specific threshold, we only need to know
+            whether compression is enabled or not. That is, if the threshold is set to a non-negative
+            number, this should be `True`.
     """
     if compressed:
         data_length = buf.read_varint()
@@ -116,15 +118,16 @@ def sync_write_packet(
     *,
     compression_threshold: int = -1,
 ) -> None:
-    """Write given ``packet``.
+    """Write given `packet`.
 
-    :param writer: The connection/writer to send this packet to.
-    :param packet: The packet to be sent.
-    :param compression_threshold:
-        A threshold packet length, whcih if crossed compression should be enabled.
+    Args:
+        writer: The connection/writer to send this packet to.
+        packet: The packet to be sent.
+        compression_threshold:
+            A threshold packet length, which if crossed compression should be enabled.
 
-        You can get this number from :class:`~mcproto.packets.login.login.LoginSetCompression` packet.
-        If this packet wasn't sent by the server, set this to -1 (default).
+            You can get this number from [`LoginSetCompression`][mcproto.packets.login.login.] packet.
+            If this packet wasn't sent by the server, set this to -1 (default).
     """
     data_buf = _serialize_packet(packet, compression_threshold=compression_threshold)
     writer.write_bytearray(data_buf)
@@ -136,15 +139,16 @@ async def async_write_packet(
     *,
     compression_threshold: int = -1,
 ) -> None:
-    """Write given ``packet``.
+    """Write given `packet`.
 
-    :param writer: The connection/writer to send this packet to.
-    :param packet: The packet to be sent.
-    :param compression_threshold:
-        A threshold packet length, whcih if crossed compression should be enabled.
+    Args:
+        writer: The connection/writer to send this packet to.
+        packet: The packet to be sent.
+        compression_threshold:
+            A threshold packet length, which if crossed compression should be enabled.
 
-        You can get this number from :class:`~mcproto.packets.login.login.LoginSetCompression` packet.
-        If this packet wasn't sent by the server, set this to -1 (default).
+            You can get this number from [`LoginSetCompression`][mcproto.packets.login.login.] packet.
+            If this packet wasn't sent by the server, set this to -1 (default).
     """
     data_buf = _serialize_packet(packet, compression_threshold=compression_threshold)
     await writer.write_bytearray(data_buf)
@@ -158,22 +162,23 @@ def sync_read_packet(
 ) -> T_Packet:
     """Read a packet.
 
-    :param reader: The connection/reader to receive this packet from.
-    :param packet_map:
-        A mapping of packet id (number) -> Packet (class).
+    Args:
+        reader: The connection/reader to receive this packet from.
+        packet_map:
+            A mapping of packet id (number) -> Packet (class).
 
-        This mapping should contain all of the packets for the current gamestate and direction.
-        See :func:`~mcproto.packets.packet_map.generate_packet_map`
-    :param compression_threshold:
-        A threshold packet length, whcih if crossed compression should be enabled.
+            This mapping should contain all of the packets for the current gamestate and direction.
+            See [`generate_packet_map`][mcproto.packets.packet_map.]
+        compression_threshold:
+            A threshold packet length, which if crossed compression should be enabled.
 
-        You can get this number from :class:`~mcproto.packets.login.login.LoginSetCompression` packet.
-        If this packet wasn't sent by the server, set this to -1 (default).
+            You can get this number from [`LoginSetCompression`][mcproto.packets.login.login.] packet.
+            If this packet wasn't sent by the server, set this to -1 (default).
 
-        Note that during reading, we don't actually need to know the specific threshold, just
-        whether or not is is non-negative (whether compression is enabled), as the packet format
-        fundamentally changes when it is. That means you can pass any positive number here to
-        enable compresison, regardess of what it actually is.
+            Note that during reading, we don't actually need to know the specific threshold, just
+            whether or not is is non-negative (whether compression is enabled), as the packet format
+            fundamentally changes when it is. That means you can pass any positive number here to
+            enable compression, regardless of what it actually is.
     """
     # The packet format fundamentally changes when compression_threshold is non-negative (enabeld)
     # We only care about the sepcific threshold when writing though, for reading (deserialization),
@@ -192,22 +197,23 @@ async def async_read_packet(
 ) -> T_Packet:
     """Read a packet.
 
-    :param reader: The connection/reader to receive this packet from.
-    :param packet_map:
-        A mapping of packet id (number) -> Packet (class).
+    Args:
+        reader: The connection/reader to receive this packet from.
+        packet_map:
+            A mapping of packet id (number) -> Packet (class).
 
-        This mapping should contain all of the packets for the current gamestate and direction.
-        See :func:`~mcproto.packets.packet_map.generate_packet_map`
-    :param compression_threshold:
-        A threshold packet length, whcih if crossed compression should be enabled.
+            This mapping should contain all of the packets for the current gamestate and direction.
+            See [`generate_packet_map`][mcproto.packets.packet_map.]
+        compression_threshold:
+            A threshold packet length, which if crossed compression should be enabled.
 
-        You can get this number from :class:`~mcproto.packets.login.login.LoginSetCompression` packet.
-        If this packet wasn't sent by the server, set this to -1 (default).
+            You can get this number from [`LoginSetCompression`][mcproto.packets.login.login.] packet.
+            If this packet wasn't sent by the server, set this to -1 (default).
 
-        Note that during reading, we don't actually need to know the specific threshold, just
-        whether or not is is non-negative (whether compression is enabled), as the packet format
-        fundamentally changes when it is. That means you can pass any positive number here to
-        enable compresison, regardess of what it actually is.
+            Note that during reading, we don't actually need to know the specific threshold, just
+            whether or not is is non-negative (whether compression is enabled), as the packet format
+            fundamentally changes when it is. That means you can pass any positive number here to
+            enable compression, regardless of what it actually is.
     """
     # The packet format fundamentally changes when compression_threshold is non-negative (enabeld)
     # We only care about the sepcific threshold when writing though, for reading (deserialization),

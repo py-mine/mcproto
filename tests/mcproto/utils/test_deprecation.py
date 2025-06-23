@@ -10,10 +10,10 @@ from mcproto.utils.deprecation import deprecated, deprecation_warn
 
 
 def _patch_project_version(monkeypatch: pytest.MonkeyPatch, version: str | None):
-    """Patch the project version reported by importlib.metadata.version.
+    """Patch the project version reported by `importlib.metadata.version`.
 
     This is used to simulate different project versions for testing purposes.
-    If ``version`` is ``None``, a :exc:`~importlib.metadata.PackageNotFoundError` will be raised
+    If `version` is `None`, a [`PackageNotFoundError`][?importlib.metadata.] will be raised
     when trying to get the project version.
     """
     orig_version_func = importlib.metadata.version

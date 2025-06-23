@@ -37,7 +37,8 @@ class StatusResponse(ClientBoundPacket):
 
     Initialize the StatusResponse packet.
 
-    :param data: JSON response data sent back to the client.
+    Args:
+        data: JSON response data sent back to the client.
     """
 
     PACKET_ID: ClassVar[int] = 0x00

@@ -24,7 +24,7 @@ class CustomError(Exception):
 @final
 @define(init=True)
 class ToyClass(Serializable):
-    """Toy class for testing demonstrating the use of gen_serializable_test on `Serializable`."""
+    """Toy class for testing demonstrating the use of `gen_serializable_test` on `Serializable`."""
 
     a: int
     b: str | int

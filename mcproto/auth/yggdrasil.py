@@ -167,7 +167,7 @@ class YggdrasilAccount(Account):
         """Check if the access token is (still) usable for authentication with a Minecraft server.
 
         If this method fails, the stored access token is no longer usable for for authentcation
-        with a Minecraft server, but should still be good enough for :meth:`refresh`.
+        with a Minecraft server, but should still be good enough for [`refresh`][..].
 
         This mainly happens when one has used another client (e.g. another launcher).
         """
@@ -190,8 +190,9 @@ class YggdrasilAccount(Account):
     async def authenticate(cls, client: httpx.AsyncClient, login: str, password: str) -> Self:
         """Authenticate using the Yggdrasil system (for non-Microsoft accounts).
 
-        :param login: E-Mail of your Minecraft account, or username for (really old) Mojang accounts.
-        :param password: Plaintext account password.
+        Args:
+            login: E-Mail of your Minecraft account, or username for (really old) Mojang accounts.
+            password: Plaintext account password.
         """
         # Any random string, we use a random v4 uuid, needs to remain same in further communications
         client_token = str(uuid4())
@@ -227,8 +228,9 @@ class YggdrasilAccount(Account):
     async def signout(self, client: httpx.AsyncClient, username: str, password: str) -> None:
         """Sign out using the Yggdrasil system (for non-Microsoft accounts).
 
-        :param login: E-Mail of your Minecraft account, or username for (really old) Mojang accounts.
-        :param password: Plaintext account password.
+        Args:
+            login: E-Mail of your Minecraft account, or username for (really old) Mojang accounts.
+            password: Plaintext account password.
         """
         payload = {
             "username": username,

@@ -14,18 +14,19 @@ class WriteFunctionMock(Mock):
 
     @override
     def __call__(self, data: bytes) -> None:
-        """Override mock's ``__call__`` to extend our :attr:`.combined_data` bytearray.
+        """Override mock's `__call__` to extend our `combined_data` bytearray.
 
         This allows us to keep track of exactly what data was written by the mocked write function
-        in total, rather than only having tools like :meth:`.assert_called_with`, which might let us
-        get the data from individual calls, but not the combined data, which is what we'll need.
+        in total, rather than only having tools like [`assert_called_with`][?unittest.mock.Mock.],
+        which might let us get the data from individual calls, but not the combined data, which is
+        what we'll need.
         """
         self.combined_data.extend(data)
         return super().__call__(data)
 
     @override
     def assert_has_data(self, data: bytearray, ensure_called: bool = True) -> None:
-        """Ensure that the combined write data by the mocked function matches expected ``data``."""
+        """Ensure that the combined write data by the mocked function matches expected `data`."""
         if ensure_called:
             self.assert_called()
 
@@ -48,10 +49,10 @@ class ReadFunctionMock(Mock):
 
     @override
     def __call__(self, length: int) -> bytearray:
-        """Override mock's __call__ to make it return part of our :attr:`.combined_data` bytearray.
+        """Override mock's `__call__` to make it return part of our `combined_data` bytearray.
 
         This allows us to make the return value always be the next requested part (length) of
-        the :attr:`.combined_data`. It would be difficult to replicate this with regular mocks,
+        the `combined_data`. It would be difficult to replicate this with regular mocks,
         because some functions can end up making multiple read calls, and each time the result
         needs to be different (the next part).
         """
@@ -61,7 +62,7 @@ class ReadFunctionMock(Mock):
 
     @override
     def assert_read_everything(self, ensure_called: bool = True) -> None:
-        """Ensure that the passed :attr:`.combined_data` was fully read and depleted."""
+        """Ensure that the passed `combined_data` was fully read and depleted."""
         if ensure_called:
             self.assert_called()
 
