@@ -5,8 +5,9 @@ mentioned in `LICENSE-THIRD-PARTY.txt`, not in here. This file isn't meant to se
 and it's licenses, but rather to give proper credit where it is due, and to shout out a few amazing projects that
 allowed mcproto to exist in the first place.
 
-- **wiki.vg** (<https://wiki.vg>): An absolutely amazing community driven wiki that documents how the minecraft protocol is
-  structured and the changes that occur between the protocol versions.
+- **Minecraft wiki (<https://minecraft.wiki/w/Java_Edition_protocol/>)** (previously `wiki.vg`): An absolutely amazing
+  community driven wiki that documents how the minecraft protocol is structured and the changes that occur between the
+  protocol versions.
 - **PyMine-Net**: The project that was the main inspiration to this project, being a separation of the minecraft
   networking tooling used in PyMine-Server, which is an attempt at implementing a fully working minecraft server purely
   in python. However, this project is no longer maintained, and so mcproto was created to be it's replacement.
