@@ -335,9 +335,9 @@ def gen_serializable_test(
             # If exc.kwargs is not None, check them against the exception
             if exc.kwargs is not None:
                 for key, value in exc.kwargs.items():
-                    assert value == getattr(
-                        exc_info.value, key
-                    ), f"{key}: {value!r} != {getattr(exc_info.value, key)!r}"
+                    assert value == getattr(exc_info.value, key), (
+                        f"{key}: {value!r} != {getattr(exc_info.value, key)!r}"
+                    )
 
         @pytest.mark.parametrize(
             ("content", "exc"),
@@ -353,9 +353,9 @@ def gen_serializable_test(
             # If exc.kwargs is not None, check them against the exception
             if exc.kwargs is not None:
                 for key, value in exc.kwargs.items():
-                    assert value == getattr(
-                        exc_info.value, key
-                    ), f"{key}: {value!r} != {getattr(exc_info.value, key)!r}"
+                    assert value == getattr(exc_info.value, key), (
+                        f"{key}: {value!r} != {getattr(exc_info.value, key)!r}"
+                    )
 
     if len(parameters) == 0:
         # If there are no serialization tests, remove them

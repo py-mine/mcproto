@@ -448,6 +448,10 @@ class NBTag(MCType, NBTagConvertible, ABC):
         return f"{type(self).__name__}({self.payload!r})"
 
     @override
+    def __hash__(self) -> int:
+        return hash((type(self), self.name, self.payload))
+
+    @override
     def to_nbt(self, name: str = "") -> NBTag:
         """Convert the object to an NBT tag.
 
@@ -994,6 +998,10 @@ class CompoundNBT(NBTag):
         if len(self.payload) != len(other.payload):
             return False
         return all(tag in other.payload for tag in self.payload)
+
+    # Hash implementation is consistent with the parent class, even though
+    # we're overriding __eq__
+    __hash__ = NBTag.__hash__
 
     @property
     @override

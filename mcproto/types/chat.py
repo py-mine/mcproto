@@ -70,6 +70,10 @@ class ChatMessage(MCType):
         return self.raw == other.raw
 
     @override
+    def __hash__(self) -> int:
+        return hash(self.raw)
+
+    @override
     def serialize_to(self, buf: Buffer) -> None:
         txt = json.dumps(self.raw)
         buf.write_utf(txt)
