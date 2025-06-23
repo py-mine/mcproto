@@ -103,14 +103,15 @@ reportImplicitStringConcatenation = false
 reportUnreachable = "hint"
 reportUnusedParameter = "hint"
 reportUnannotatedClassAttribute = false
-reportUnknownArgumentType = false           # consider enabling
-reportUnknownVariableType = false           # consider enabling
-reportUnknownMemberType = false             # consider enabling
-reportUnknownParameterType = false          # consider enabling
-reportUnknownLambdaType = false             # consider enabling
-reportMissingTypeStubs = "information"      # consider bumping to warning/error
-reportUninitializedInstanceVariable = false # until https://github.com/DetachHead/basedpyright/issues/491
-reportMissingParameterType = false          # ruff's flake8-annotations (ANN) already covers this + gives us more control
+reportUnknownArgumentType = false             # consider enabling
+reportUnknownVariableType = false             # consider enabling
+reportUnknownMemberType = false               # consider enabling
+reportUnknownParameterType = false            # consider enabling
+reportUnknownLambdaType = false               # consider enabling
+reportMissingTypeStubs = "information"        # consider bumping to warning/error
+reportUninitializedInstanceVariable = false   # until https://github.com/DetachHead/basedpyright/issues/491
+reportIncompatibleUnannotatedOverride = false # until https://github.com/DetachHead/basedpyright/issues/1349
+reportMissingParameterType = false            # ruff's flake8-annotations (ANN) already covers this + gives us more control
 
 [tool.ruff]
 target-version = "py39"
