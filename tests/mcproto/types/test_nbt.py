@@ -494,8 +494,9 @@ def test_nbt_bigfile():
             {"name": "Compound tag #1", "created-on": 1264099775885},
         ],
         "byteTest": 127,
-        "byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, "
-        "starting with n=0 (0, 62, 34, 16, 8, ...))": bytes((n * n * 255 + n * 7) % 100 for n in range(1000)),
+        "byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, starting with n=0 (0, 62, 34, 16, 8, ...))": bytes(
+            (n * n * 255 + n * 7) % 100 for n in range(1000)
+        ),
         "doubleTest": 0.4921875,
     }
     expected_schema = {

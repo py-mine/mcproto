@@ -65,7 +65,7 @@ def _walk_submodules(module: ModuleType) -> Iterator[WalkableModuleData]:
         for member_name in member_names:
             if not isinstance(member_name, str):
                 raise TypeError(f"Module {module_info.name!r}'s __all__ contains non-string item.")
-        member_names = cast(Sequence[str], member_names)
+        member_names = cast("Sequence[str]", member_names)
 
         yield WalkableModuleData(imported_module, module_info, member_names)
 

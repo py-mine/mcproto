@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from mcproto.packets.login.login import (
+    LoginAcknowledged,
     LoginDisconnect,
     LoginEncryptionRequest,
     LoginEncryptionResponse,
@@ -138,6 +139,19 @@ gen_serializable_test(
         (
             (2,),
             bytes.fromhex("02"),
+        ),
+    ],
+)
+
+# LoginAcknowledged
+gen_serializable_test(
+    context=globals(),
+    cls=LoginAcknowledged,
+    fields=[],
+    serialize_deserialize=[
+        (
+            (),
+            b"",
         ),
     ],
 )
