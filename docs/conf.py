@@ -13,7 +13,12 @@ import datetime
 import sys
 from pathlib import Path
 
+import m2r2
+import sphinxcontrib.towncrier.ext
+from docutils import statemachine
 from packaging.version import parse as parse_version
+from sphinx.ext import autodoc
+from sphinx.util.nodes import nodes
 from typing_extensions import override
 
 if sys.version_info >= (3, 11):
@@ -170,7 +175,6 @@ def mock_autodoc() -> None:
 
     See also https://stackoverflow.com/a/75041544/20952782.
     """
-    from sphinx.ext import autodoc
 
     class MockedClassDocumenter(autodoc.ClassDocumenter):
         @override
@@ -193,11 +197,6 @@ def override_towncrier_draft_format() -> None:
     this doesn't look well with the version set to "Unreleased changes", so this function
     also removes this "Version " prefix.
     """
-    import m2r2
-    import sphinxcontrib.towncrier.ext
-    from docutils import statemachine
-    from sphinx.util.nodes import nodes
-
     orig_f = sphinxcontrib.towncrier.ext._nodes_from_document_markup_source  # pyright: ignore[reportPrivateUsage]
 
     def override_f(
