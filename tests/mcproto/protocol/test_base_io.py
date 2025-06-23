@@ -179,7 +179,7 @@ class WriterTests(ABC, Generic[T_WRITER]):
         ...
 
     @pytest.fixture
-    def method_mock(self) -> Mock | AsyncMock:
+    def method_mock(self) -> type[Mock | AsyncMock]:
         """Obtain the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(cast("T_WRITER", self.writer), BaseSyncWriter):
             return Mock
@@ -394,7 +394,7 @@ class ReaderTests(ABC, Generic[T_READER]):
         ...
 
     @pytest.fixture
-    def method_mock(self) -> Mock | AsyncMock:
+    def method_mock(self) -> type[Mock | AsyncMock]:
         """Obtain the appropriate type of mock, supporting both sync and async modes."""
         if isinstance(cast("T_READER", self.reader), BaseSyncReader):
             return Mock

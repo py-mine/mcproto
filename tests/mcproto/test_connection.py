@@ -115,7 +115,7 @@ class TestTCPSyncConnection:
         out = conn.read(5)
 
         assert out == data
-        conn.socket._recv.assert_read_everything()
+        conn.socket._recv.assert_read_everything()  # pyright: ignore[reportPrivateUsage]
 
     def test_read_more_data_than_sent(self):
         """Test reading more data than available raises :exc:`IOError`."""
@@ -144,7 +144,7 @@ class TestTCPSyncConnection:
 
         conn.write(data)
 
-        conn.socket._send.assert_has_data(data)
+        conn.socket._send.assert_has_data(data)  # pyright: ignore[reportPrivateUsage]
 
     def test_encrypted_write(self):
         """Test writing plaintext data with enabled encryption encrypts the data before sending."""
@@ -157,14 +157,14 @@ class TestTCPSyncConnection:
         conn.enable_encryption(key)
 
         conn.write(plaintext_data)
-        conn.socket._send.assert_has_data(encrypted_data)
+        conn.socket._send.assert_has_data(encrypted_data)  # pyright: ignore[reportPrivateUsage]
 
     def test_socket_close(self):
         """Test close method closes the underlying socket."""
         conn = self.make_connection()
 
         conn.close()
-        assert conn.socket._closed is True
+        assert conn.socket._closed is True  # pyright: ignore[reportPrivateUsage]
 
     def test_socket_close_contextmanager(self):
         """Test using connection as context manager closes the underlying socket afterwards."""
@@ -174,7 +174,7 @@ class TestTCPSyncConnection:
             pass
 
         # Internal socket gets closed once context manager is exited
-        assert conn.socket._closed is True
+        assert conn.socket._closed is True  # pyright: ignore[reportPrivateUsage]
 
         # Can't reopen closed connection
         with pytest.raises(OSError):  # noqa: SIM117
@@ -203,7 +203,7 @@ class TestTCPAsyncConnection:
         out = await conn.read(5)
 
         assert out == data
-        conn.reader._read.assert_read_everything()
+        conn.reader._read.assert_read_everything()  # pyright: ignore[reportPrivateUsage]
 
     async def test_read_more_data_than_sent(self):
         """Test reading more data than available raises :exc:`IOError`."""
@@ -232,7 +232,7 @@ class TestTCPAsyncConnection:
 
         await conn.write(data)
 
-        conn.writer._write.assert_has_data(data)
+        conn.writer._write.assert_has_data(data)  # pyright: ignore[reportPrivateUsage]
 
     async def test_encrypted_write(self):
         """Test writing plaintext data with enabled encryption encrypts the data before sending."""
@@ -245,14 +245,14 @@ class TestTCPAsyncConnection:
         conn.enable_encryption(key)
 
         await conn.write(plaintext_data)
-        conn.writer._write.assert_has_data(encrypted_data)
+        conn.writer._write.assert_has_data(encrypted_data)  # pyright: ignore[reportPrivateUsage]
 
     async def test_socket_close(self):
         """Test close method closes the underlying socket."""
         conn = self.make_connection()
 
         await conn.close()
-        assert conn.writer._closed is True
+        assert conn.writer._closed is True  # pyright: ignore[reportPrivateUsage]
 
     async def test_socket_close_contextmanager(self):
         """Test using connection as context manager closes the underlying socket afterwards."""
@@ -262,7 +262,7 @@ class TestTCPAsyncConnection:
             pass
 
         # Internal writer gets closed once context manager is exited
-        assert conn.writer._closed is True
+        assert conn.writer._closed is True  # pyright: ignore[reportPrivateUsage]
 
         # Can't reopen closed connection
         with pytest.raises(OSError):
