@@ -63,14 +63,11 @@ optional = true
 poetry-dynamic-versioning = ">=1.4.0,<1.8"
 
 [tool.poetry.group.docs.dependencies]
-mkdocs = "^1.6.0"
+mkdocs = "^1.6.1"
 mkdocs-material = "^9.5.30"
 mike = "^2.1.2"
 markdown-exec = { extras = ["ansi"], version = "^1.9.3" }
-mkdocs-autorefs = "1.2.0"                                 # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
-mkdocstrings = "0.27.0"                                   # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
-mkdocstrings-python = "1.13.0"                            # temporary pin for https://github.com/analog-garage/mkdocstrings-python-xref/issues/29
-mkdocstrings-python-xref = "^1.6.2"
+mkdocstrings-python-betterrefs = "^1.0.2"
 towncrier = "^24.7.0"
 
 [tool.poetry.group.docs-ci]
