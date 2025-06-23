@@ -16,8 +16,8 @@ from tests.mcproto.protocol.helpers import ReadFunctionAsyncMock, ReadFunctionMo
 class MockSocket(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[reportUnsafeMultipleInheritance]
     """Mock version of a socket (synchronous), using our mocked writer and reader methods.
 
-    See :class:`tests.mcproto.protocol.helpers.ReadFunctionMock` and
-    :class:`tests.mcproto.protocol.helpers.WriteFunctionMock`.
+    See [`ReadFunctionMock`][tests.mcproto.protocol.helpers.] and
+    [`WriteFunctionMock`][tests.mcproto.protocol.helpers.].
     """
 
     spec_set = socket.socket
@@ -31,7 +31,7 @@ class MockSocket(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[repo
 
     @override
     def send(self, data: bytes | bytearray) -> None:
-        """Mock version of send method, raising :exc:`OSError` if the socket was closed."""
+        """Mock version of send method, raising [`OSError`][OSError] if the socket was closed."""
         if self._closed:
             raise OSError(errno.EBADF, "Bad file descriptor")
         if isinstance(data, bytearray):
@@ -40,14 +40,14 @@ class MockSocket(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[repo
 
     @override
     def recv(self, length: int) -> bytearray:
-        """Mock version of recv method, raising :exc:`OSError` if the socket was closed."""
+        """Mock version of recv method, raising [`OSError`][OSError] if the socket was closed."""
         if self._closed:
             raise OSError(errno.EBADF, "Bad file descriptor")
         return self._recv(length)
 
     @override
     def close(self) -> None:
-        """Mock version of close method, setting :attr:`_closed` bool flag."""
+        """Mock version of close method, setting `_closed` bool flag."""
         self._closed = True
 
     @override
@@ -56,7 +56,7 @@ class MockSocket(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[repo
 
 
 class MockStreamWriter(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[reportUnsafeMultipleInheritance]]
-    """Mock version of :class:`asyncio.StreamWriter` using our mocked writer method."""
+    """Mock version of [`asyncio.StreamWriter`][asyncio.StreamWriter] using our mocked writer method."""
 
     spec_set = asyncio.StreamWriter
 
@@ -68,7 +68,7 @@ class MockStreamWriter(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignor
 
     @override
     def write(self, data: bytes | bytearray) -> None:
-        """Mock version of write method, raising :exc:`OSError` if the writer was closed."""
+        """Mock version of write method, raising [`OSError`][OSError] if the writer was closed."""
         if self._closed:
             raise OSError(errno.EBADF, "Bad file descriptor")
         if isinstance(data, bytearray):
@@ -77,12 +77,12 @@ class MockStreamWriter(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignor
 
     @override
     def close(self) -> None:
-        """Mock version of close method, setting :attr:`_closed` bool flag."""
+        """Mock version of close method, setting `_closed` bool flag."""
         self._closed = True
 
 
 class MockStreamReader(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[reportUnsafeMultipleInheritance]]
-    """Mock version of :class:`asyncio.StreamReader` using our mocked reader method."""
+    """Mock version of [`asyncio.StreamReader`][asyncio.StreamReader] using our mocked reader method."""
 
     spec_set = asyncio.StreamReader
 
@@ -101,7 +101,7 @@ class TestTCPSyncConnection:
     """Collection of tests for the synchronous TCP connection class."""
 
     def make_connection(self, read_data: bytearray | None = None) -> TCPSyncConnection[MockSocket]:
-        """Create a new connection class using the :class:`MockSocket` class."""
+        """Create a new connection class using the [`MockSocket`][(m).] class."""
         if read_data is not None:
             read_data = read_data.copy()
 
@@ -118,7 +118,7 @@ class TestTCPSyncConnection:
         conn.socket._recv.assert_read_everything()  # pyright: ignore[reportPrivateUsage]
 
     def test_read_more_data_than_sent(self):
-        """Test reading more data than available raises :exc:`IOError`."""
+        """Test reading more data than available raises [`IOError`][IOError]."""
         data = bytearray("test", "utf-8")
         conn = self.make_connection(data)
 
@@ -189,7 +189,7 @@ class TestTCPAsyncConnection:
         self,
         read_data: bytearray | None = None,
     ) -> TCPAsyncConnection[MockStreamReader, MockStreamWriter]:
-        """Create a new connection class using the :class:`MockStreamReader` and :class:`MockStreamWriter` classes."""
+        """Create a new connection class using [`MockStreamReader`][(m).] and [`MockStreamWriter`][(m).] classes."""
         if read_data is not None:
             read_data = read_data.copy()
 
@@ -206,7 +206,7 @@ class TestTCPAsyncConnection:
         conn.reader._read.assert_read_everything()  # pyright: ignore[reportPrivateUsage]
 
     async def test_read_more_data_than_sent(self):
-        """Test reading more data than available raises :exc:`IOError`."""
+        """Test reading more data than available raises [`IOError`][IOError]."""
         data = bytearray("test", "utf-8")
         conn = self.make_connection(data)
 

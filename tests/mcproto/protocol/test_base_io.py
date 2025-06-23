@@ -30,20 +30,20 @@ from tests.mcproto.protocol.helpers import (
 
 
 class SyncWriter(BaseSyncWriter):
-    """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncWriter` ABC."""
+    """Initializable concrete implementation of [`BaseSyncWriter`][mcproto.protocol.base_io.] ABC."""
 
     @override
     def write(self, data: bytes | bytearray) -> None:
         """Concrete implementation of abstract write method.
 
-        Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
+        Since [`ABC`][?abc.] classes can't be initialized if they have any abstract methods
         which weren't overridden with a concrete implementations, this is a fake implementation,
         without any actual logic, purely to allow the initialization of this class.
 
-        This method is expected to be mocked using :class:`~tests.mcproto.protocol.helpers.WriteFunctionMock`
+        This method is expected to be mocked using [`WriteFunctionMock`][tests.mcproto.protocol.helpers.]
         if it's supposed to get called during testing.
 
-        If this method gets called without being mocked, it will raise :exc:`NotImplementedError`.
+        If this method gets called without being mocked, it will raise [`NotImplementedError`][NotImplementedError].
         """
         raise NotImplementedError(
             "This concrete override of abstract write method isn't intended for actual use!\n"
@@ -55,20 +55,20 @@ class SyncWriter(BaseSyncWriter):
 
 
 class SyncReader(BaseSyncReader):
-    """Testable concrete implementation of :class:`~mcproto.protocol.base_io.BaseSyncReader` ABC."""
+    """Testable concrete implementation of [`BaseSyncReader`][mcproto.protocol.base_io.] ABC."""
 
     @override
     def read(self, length: int) -> bytes:
         """Concrete implementation of abstract read method.
 
-        Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
+        Since [`ABC`][?abc.] classes can't be initialized if they have any abstract methods
         which weren't overridden with a concrete implementations, this is a fake implementation,
         without any actual logic, purely to allow the initialization of this class.
 
-        This method is expected to be mocked using :class:`~tests.mcproto.protocol.helpers.ReadFunctionMock`
+        This method is expected to be mocked using [`ReadFunctionMock`][tests.mcproto.protocol.helpers.]
         if it's supposed to get called during testing.
 
-        If this method gets called without being mocked, it will raise :exc:`NotImplementedError`.
+        If this method gets called without being mocked, it will raise [`NotImplementedError`][NotImplementedError].
         """
         raise NotImplementedError(
             "This concrete override of abstract read method isn't intended for actual use!\n"
@@ -80,20 +80,20 @@ class SyncReader(BaseSyncReader):
 
 
 class AsyncWriter(BaseAsyncWriter):
-    """Initializable concrete implementation of :class:`~mcproto.protocol.base_io.BaseAsyncWriter` ABC."""
+    """Initializable concrete implementation of [`BaseAsyncWriter`][mcproto.protocol.base_io.] ABC."""
 
     @override
     async def write(self, data: bytes | bytearray) -> None:
         """Concrete implementation of abstract write method.
 
-        Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
+        Since [`ABC`][?abc.] classes can't be initialized if they have any abstract methods
         which weren't overridden with a concrete implementations, this is a fake implementation,
         without any actual logic, purely to allow the initialization of this class.
 
-        This method is expected to be mocked using :class:`~tests.mcproto.protocol.helpers.WriteFunctionAsyncMock`
+        This method is expected to be mocked using [`WriteFunctionAsyncMock`][tests.mcproto.protocol.helpers.]
         if it's supposed to get called during testing.
 
-        If this method gets called without being mocked, it will raise :exc:`NotImplementedError`.
+        If this method gets called without being mocked, it will raise [`NotImplementedError`][NotImplementedError]
         """
         raise NotImplementedError(
             "This concrete override of abstract write method isn't intended for actual use!\n"
@@ -105,20 +105,20 @@ class AsyncWriter(BaseAsyncWriter):
 
 
 class AsyncReader(BaseAsyncReader):
-    """Testable concrete implementation of BaseAsyncReader ABC."""
+    """Initializable concrete implementation of [`BaseAsyncReader`][mcproto.protocol.base_io.] ABC."""
 
     @override
     async def read(self, length: int) -> bytes:
         """Concrete implementation of abstract read method.
 
-        Since :class:`abc.ABC` classes can't be initialized if they have any abstract methods
+        Since [`ABC`][?abc.] classes can't be initialized if they have any abstract methods
         which weren't overridden with a concrete implementations, this is a fake implementation,
         without any actual logic, purely to allow the initialization of this class.
 
-        This method is expected to be mocked using :class:`~tests.mcproto.protocol.helpers.ReadFunctionAsyncMock`
+        This method is expected to be mocked using [`ReadFunctionAsyncMock`][tests.mcproto.protocol.helpers.]
         if it's supposed to get called during testing.
 
-        If this method gets called without being mocked, it will raise :exc:`NotImplementedError`.
+        If this method gets called without being mocked, it will raise [`NotImplementedError`][NotImplementedError].
         """
         raise NotImplementedError(
             "This concrete override of abstract read method isn't intended for actual use!\n"
@@ -134,9 +134,9 @@ class AsyncReader(BaseAsyncReader):
 
 
 class WrappedAsyncReader(SynchronizedMixin):
-    """Wrapped synchronous implementation of asynchronous :class:`.AsyncReader` class.
+    """Wrapped synchronous implementation of asynchronous [`AsyncReader`][(m).] class.
 
-    This essentially mimics :class:`~mcproto.protocol.base_io.BaseSyncReader`.
+    This essentially mimics [`BaseSyncReader`][mcproto.protocol.base_io.].
     """
 
     _WRAPPED_ATTRIBUTE = "_reader"
@@ -146,9 +146,9 @@ class WrappedAsyncReader(SynchronizedMixin):
 
 
 class WrappedAsyncWriter(SynchronizedMixin):
-    """Wrapped synchronous implementation of asynchronous :class:`.AsyncWriter` class.
+    """Wrapped synchronous implementation of asynchronous [`AsyncWriter`][(m).] class.
 
-    This essentially mimics :class:`~mcproto.protocol.base_io.BaseSyncWriter`.
+    This essentially mimics [`BaseSyncWriter`][mcproto.protocol.base_io.].
     """
 
     _WRAPPED_ATTRIBUTE = "_writer"
@@ -255,7 +255,7 @@ class WriterTests(ABC, Generic[T_WRITER]):
         fmt: INT_FORMATS_TYPE,
         value: Any,
     ):
-        """Test writing out of range values for the given format raises :exc:`struct.error`."""
+        """Test writing out of range values for the given format raises `struct.error`."""
         with pytest.raises(struct.error):
             self.writer.write_value(fmt, value)
 
@@ -289,7 +289,7 @@ class WriterTests(ABC, Generic[T_WRITER]):
         ],
     )
     def test_write_varuint_out_of_range(self, write_value: int, max_bits: int):
-        """Test writing out of range varuints raises :exc:`ValueError`."""
+        """Test writing out of range varuints raises `ValueError`."""
         with pytest.raises(ValueError):
             self.writer._write_varuint(write_value, max_bits=max_bits)  # pyright: ignore[reportPrivateUsage]
 
@@ -359,12 +359,12 @@ class WriterTests(ABC, Generic[T_WRITER]):
 
     @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
     def test_write_utf_limit(self, write_mock: WriteFunctionMock):
-        """Test writing a UTF string too big raises a :exc:`ValueError`."""
+        """Test writing a UTF string too big raises a `ValueError`."""
         with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
             self.writer.write_utf("a" * (32768))
 
     def test_write_optional_true(self, method_mock: Mock | AsyncMock, write_mock: WriteFunctionMock):
-        """Test writing non-``None`` value writes ``True`` and runs the writer function."""
+        """Test writing non-`None` value writes `True` and runs the writer function."""
         mock_v = Mock()
         mock_f = method_mock()
         _ = self.writer.write_optional(mock_v, mock_f)
@@ -372,7 +372,7 @@ class WriterTests(ABC, Generic[T_WRITER]):
         write_mock.assert_has_data(bytearray([1]))
 
     def test_write_optional_false(self, method_mock: Mock | AsyncMock, write_mock: WriteFunctionMock):
-        """Test writing ``None`` value should write ``False`` and skip running the writer function."""
+        """Test writing `None` value should write `False` and skip running the writer function."""
         mock_f = method_mock()
         _ = self.writer.write_optional(None, mock_f)
         mock_f.assert_not_called()
@@ -485,7 +485,7 @@ class ReaderTests(ABC, Generic[T_READER]):
         ],
     )
     def test_read_varuint_out_of_range(self, read_bytes: list[int], max_bits: int, read_mock: ReadFunctionMock):
-        """Test reading out-of-range varuints raises :exc:`IOError`."""
+        """Test reading out-of-range varuints raises `IOError`."""
         read_mock.combined_data = bytearray(read_bytes)
         with pytest.raises(IOError):
             _ = self.reader._read_varuint(max_bits=max_bits)  # pyright: ignore[reportPrivateUsage]
@@ -572,14 +572,14 @@ class ReaderTests(ABC, Generic[T_READER]):
             _ = self.reader.read_utf()
 
     def test_read_optional_true(self, method_mock: Mock | AsyncMock, read_mock: ReadFunctionMock):
-        """Test reading optional runs reader function when first bool is ``True``."""
+        """Test reading optional runs reader function when first bool is `True`."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([1])
         _ = self.reader.read_optional(mock_f)
         mock_f.assert_called_once_with()
 
     def test_read_optional_false(self, method_mock: Mock | AsyncMock, read_mock: ReadFunctionMock):
-        """Test reading optional doesn't run reader function when first bool is ``False``."""
+        """Test reading optional doesn't run reader function when first bool is `False`."""
         mock_f = method_mock()
         read_mock.combined_data = bytearray([0])
         _ = self.reader.read_optional(mock_f)
@@ -591,7 +591,7 @@ class ReaderTests(ABC, Generic[T_READER]):
 
 
 class TestBaseSyncWriter(WriterTests[SyncWriter]):
-    """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncWriter`."""
+    """Tests for individual write methods implemented in [`BaseSyncWriter`][mcproto.protocol.base_io.]."""
 
     @override
     @classmethod
@@ -600,7 +600,7 @@ class TestBaseSyncWriter(WriterTests[SyncWriter]):
 
 
 class TestBaseSyncReader(ReaderTests[SyncReader]):
-    """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
+    """Tests for individual write methods implemented in [`BaseSyncReader`][mcproto.protocol.base_io.]."""
 
     @override
     @classmethod
@@ -609,7 +609,7 @@ class TestBaseSyncReader(ReaderTests[SyncReader]):
 
 
 class TestBaseAsyncWriter(WriterTests[WrappedAsyncWriter]):
-    """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
+    """Tests for individual write methods implemented in [`BaseSyncReader`][mcproto.protocol.base_io.]."""
 
     @override
     @classmethod
@@ -618,7 +618,7 @@ class TestBaseAsyncWriter(WriterTests[WrappedAsyncWriter]):
 
 
 class TestBaseAsyncReader(ReaderTests[WrappedAsyncReader]):
-    """Tests for individual write methods implemented in :class:`~mcproto.protocol.base_io.BaseSyncReader`."""
+    """Tests for individual write methods implemented in [`BaseSyncReader`][mcproto.protocol.base_io.]."""
 
     @override
     @classmethod

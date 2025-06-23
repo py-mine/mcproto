@@ -48,7 +48,7 @@ def test_to_twos_complement_negative(number: int, bits: int, expected_out: int):
     ],
 )
 def test_to_twos_complement_range(number: int, bits: int):
-    """Test conversion to two's complement format for out of range numbers raises :exc:`ValueError`."""
+    """Test conversion to two's complement format for out of range numbers raises `ValueError`."""
     with pytest.raises(ValueError, match="out of range"):
         _ = to_twos_complement(number, bits)
 
@@ -94,6 +94,6 @@ def test_from_twos_complement_negative(number: int, bits: int, expected_out: int
     ],
 )
 def test_from_twos_complement_range(number: int, bits: int):
-    """Test conversion from two's complement format for out of range numbers raises :exc:`ValueError`."""
+    """Test conversion from two's complement format for out of range numbers raises `ValueError`."""
     with pytest.raises(ValueError, match="out of range"):
         _ = from_twos_complement(number, bits)

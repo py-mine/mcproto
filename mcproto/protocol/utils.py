@@ -4,11 +4,12 @@ __all__ = ["from_twos_complement", "to_twos_complement"]
 
 
 def to_twos_complement(number: int, bits: int) -> int:
-    """Convert a given ``number`` into twos complement format of given amount of ``bits``.
+    """Convert a given `number` into twos complement format of given amount of `bits`.
 
-    :raises ValueError:
-        Given ``number`` is out of range, and can't be converted into twos complement format, since
-        it wouldn't fit into the given amount of ``bits``.
+    Raises:
+        ValueError:
+            Given `number` is out of range, and can't be converted into twos complement format, since
+            it wouldn't fit into the given amount of `bits`.
     """
     value_max = 1 << (bits - 1)
     value_min = value_max * -1
@@ -21,11 +22,12 @@ def to_twos_complement(number: int, bits: int) -> int:
 
 
 def from_twos_complement(number: int, bits: int) -> int:
-    """Convert a given ``number`` from twos complement format of given amount of ``bits``.
+    """Convert a given `number` from twos complement format of given amount of `bits`.
 
-    :raises ValueError:
-        Given ``number`` doesn't fit into given amount of ``bits``. This likely means that you're using
-        the wrong number, or that the number was converted into twos complement with higher amount of ``bits``.
+    Raises:
+        ValueError:
+            Given `number` doesn't fit into given amount of `bits`. This likely means that you're using
+            the wrong number, or that the number was converted into twos complement with higher amount of `bits`.
     """
     value_max = (1 << bits) - 1
     if number < 0 or number > value_max:

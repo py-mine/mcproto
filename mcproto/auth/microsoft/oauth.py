@@ -107,13 +107,13 @@ class MicrosoftOauthResponseData(TypedDict):
 async def microsoft_oauth_request(client: httpx.AsyncClient, client_id: str) -> MicrosoftOauthRequestData:
     """Initiate Microsoft Oauth2 flow.
 
-    This requires a ``client_id``, which can be obtained by creating an application on
-    `Microsoft Azure <https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app>`_,
+    This requires a `client_id`, which can be obtained by creating an application on
+    [Microsoft Azure](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app),
     with 'Allow public client flows' set to 'Yes' (can be set from the 'Authentication' tab).
 
     This will create a device id, used to identify our request and a user code, which the user can manually enter to
-    https://www.microsoft.com/link and confirm, after that, :func:`microsoft_oauth_authenticate` should be called,
-    with the returend device id as an argument.
+    <https://www.microsoft.com/link> and confirm, after that, [`microsoft_oauth_authenticate`][..] should be called,
+    with the returned device id as an argument.
     """
     data = {"client_id": client_id, "scope": "XboxLive.signin offline_access"}
     res = await client.post(f"{MICROSOFT_OAUTH_URL}/devicecode", data=data)
@@ -129,9 +129,9 @@ async def microsoft_oauth_authenticate(
 ) -> MicrosoftOauthResponseData:
     """Complete Microsoft Oauth2 flow and authenticate.
 
-    This functon should be called after :func:`microsoft_oauth_request`. If the user has authorized the request,
-    we will get an access token back, allowing us to perform certain actions on behaf of the microsoft user that
-    has authorized this request. Alternatively, this function will fal with :exc:`MicrosoftOauthResponseError`.
+    This function should be called after [`microsoft_oauth_request`][..]. If the user has authorized the request,
+    we will get an access token back, allowing us to perform certain actions on behalf of the microsoft user that
+    has authorized this request. Alternatively, this function will fail with [`MicrosoftOauthResponseError`][..].
     """
     data = {
         "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
@@ -153,7 +153,7 @@ async def microsoft_oauth_authenticate(
 async def full_microsoft_oauth(client: httpx.AsyncClient, client_id: str) -> MicrosoftOauthResponseData:
     """Perform full Microsoft Oauth2 sequence, waiting for user to authenticated (from the browser).
 
-    See :func:`microsoft_oauth_request` (OAuth2 start) and :func:`microsoft_oauth_authenticate` (OAuth2 end).
+    See [`microsoft_oauth_request`][..] (OAuth2 start) and [`microsoft_oauth_authenticate`][..] (OAuth2 end).
     """
     request_data = await microsoft_oauth_request(client, client_id)
 

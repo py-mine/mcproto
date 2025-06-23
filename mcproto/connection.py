@@ -40,18 +40,19 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
         self.encryption_enabled = False
 
     def enable_encryption(self, shared_secret: bytes) -> None:
-        """Enable encryption for this connection, using the ``shared_secret``.
+        """Enable encryption for this connection, using the `shared_secret`.
 
         After calling this method, the reading and writing process for this connection
         will be altered, and any future communication will be encrypted/decrypted there.
 
         You will need to call this method after sending the
-        :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet.
+        [`LoginEncryptionResponse`][mcproto.packets.login.login.] packet.
 
-        :param shared_secret:
-            This is the cipher key for the AES symetric cipher used for the encryption.
+        Args:
+            shared_secret:
+                This is the cipher key for the AES symetric cipher used for the encryption.
 
-            See :func:`mcproto.encryption.generate_shared_secret`.
+                See [`generate_shared_secret`][mcproto.encryption.].
         """
         # Ensure the `shared_secret` is an instance of the bytes class, not any
         # subclass. This is needed since the cryptography library calls some C
@@ -69,13 +70,16 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     @classmethod
     @abstractmethod
     def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection (Client -> Server) to given server ``address``.
+        """Construct a client connection (Client -> Server) to given server `address`.
 
-        :param address: Address of the server to connection to.
-        :param timeout:
-            Amount of seconds to wait for the connection to be established.
-            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
-            This timeout is then also used for any further data receiving.
+        Args:
+            address: Address of the server to connection to.
+            timeout:
+                Amount of seconds to wait for the connection to be established.
+
+                If a connection can't be established within this time, [`TimeoutError`][TimeoutError] will be raised.
+
+                This timeout is then also used for any further data receiving.
         """
         raise NotImplementedError
 
@@ -91,14 +95,14 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
 
     @abstractmethod
     def _write(self, data: bytes, /) -> None:
-        """Send raw ``data`` through this specific connection."""
+        """Send raw `data` through this specific connection."""
         raise NotImplementedError
 
     @override
     def write(self, data: bytes | bytearray, /) -> None:
-        """Send given ``data`` over the connection.
+        """Send given `data` over the connection.
 
-        Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
+        Depending on `encryption_enabled` flag (set from [`enable_encryption`][..]),
         this might also perform an encryption of the input data.
         """
         if not isinstance(data, bytes):
@@ -113,10 +117,11 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     def _read(self, length: int, /) -> bytes:
         """Receive raw data from this specific connection.
 
-        :param length:
-            Amount of bytes to be received. If the requested amount can't be received
-            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
-            will be raised.
+        Args:
+            length:
+                Amount of bytes to be received. If the requested amount can't be received
+                (server didn't send that much data/server didn't send any data), an
+                [`IOError`][IOError] will be raised.
         """
         raise NotImplementedError
 
@@ -124,13 +129,14 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
     def read(self, length: int, /) -> bytes:
         """Receive data sent through the connection.
 
-        Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
+        Depending on `encryption_enabled` flag (set from [`enable_encryption`][..]),
         this might also perform a decryption of the received data.
 
-        :param length:
-            Amount of bytes to be received. If the requested amount can't be received
-            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
-            will be raised.
+        Args:
+            length:
+                Amount of bytes to be received. If the requested amount can't be received
+                (server didn't send that much data/server didn't send any data), an
+                [`IOError`][IOError] will be raised.
         """
         data = self._read(length)
 
@@ -157,18 +163,19 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
         self.encryption_enabled = False
 
     def enable_encryption(self, shared_secret: bytes) -> None:
-        """Enable encryption for this connection, using the ``shared_secret``.
+        """Enable encryption for this connection, using the `shared_secret`.
 
         After calling this method, the reading and writing process for this connection
         will be altered, and any future communication will be encrypted/decrypted there.
 
         You will need to call this method after sending the
-        :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet.
+        [`LoginEncryptionResponse`][mcproto.packets.login.login.] packet.
 
-        :param shared_secret:
-            This is the cipher key for the AES symetric cipher used for the encryption.
+        Args:
+            shared_secret:
+                This is the cipher key for the AES symetric cipher used for the encryption.
 
-            See :func:`mcproto.encryption.generate_shared_secret`.
+                See [`generate_shared_secret`][mcproto.encryption.].
         """
         # Ensure the `shared_secret` is an instance of the bytes class, not any
         # subclass. This is needed since the cryptography library calls some C
@@ -186,13 +193,16 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
     @classmethod
     @abstractmethod
     async def make_client(cls, address: tuple[str, int], timeout: float) -> Self:
-        """Construct a client connection (Client -> Server) to given server ``address``.
+        """Construct a client connection (Client -> Server) to given server `address`.
 
-        :param address: Address of the server to connection to.
-        :param timeout:
-            Amount of seconds to wait for the connection to be established.
-            If connection can't be established within this time, :exc:`TimeoutError` will be raised.
-            This timeout is then also used for any further data receiving.
+        Args:
+            address: Address of the server to connection to.
+            timeout:
+                Amount of seconds to wait for the connection to be established.
+
+                If a connection can't be established within this time, [`TimeoutError`][TimeoutError] will be raised.
+
+                This timeout is then also used for any further data receiving.
         """
         raise NotImplementedError
 
@@ -208,14 +218,14 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
 
     @abstractmethod
     async def _write(self, data: bytes, /) -> None:
-        """Send raw ``data`` through this specific connection."""
+        """Send raw `data` through this specific connection."""
         raise NotImplementedError
 
     @override
     async def write(self, data: bytes | bytearray, /) -> None:
-        """Send given ``data`` over the connection.
+        """Send given `data` over the connection.
 
-        Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
+        Depending on `encryption_enabled` flag (set from [`enable_encryption`][..]),
         this might also perform an encryption of the input data.
         """
         if not isinstance(data, bytes):
@@ -230,10 +240,11 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
     async def _read(self, length: int, /) -> bytes:
         """Receive raw data from this specific connection.
 
-        :param length:
-            Amount of bytes to be received. If the requested amount can't be received
-            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
-            will be raised.
+        Args:
+            length:
+                Amount of bytes to be received. If the requested amount can't be received
+                (server didn't send that much data/server didn't send any data), an
+                [`IOError`][IOError] will be raised.
         """
         raise NotImplementedError
 
@@ -241,13 +252,14 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
     async def read(self, length: int, /) -> bytes:
         """Receive data sent through the connection.
 
-        Depending on :attr:`encryption_enabled` flag (set from :meth:`enable_encryption`),
+        Depending on `encryption_enabled` flag (set from [`enable_encryption`][..]),
         this might also perform a decryption of the received data.
 
-        :param length:
-            Amount of bytes to be received. If the requested amount can't be received
-            (server didn't send that much data/server didn't send any data), an :exc:`IOError`
-            will be raised.
+        Args:
+            length:
+                Amount of bytes to be received. If the requested amount can't be received
+                (server didn't send that much data/server didn't send any data), an
+                [`IOError`][IOError] will be raised.
         """
         data = await self._read(length)
 
@@ -265,7 +277,7 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
 
 
 class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
-    """Synchronous connection using a TCP :class:`~socket.socket`."""
+    """Synchronous connection using a TCP [`socket`][?socket.]."""
 
     __slots__ = ("socket",)
 
@@ -318,7 +330,7 @@ class TCPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
 
 class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER]):
-    """Asynchronous TCP connection using :class:`~asyncio.StreamWriter` and :class:`~asyncio.StreamReader`."""
+    """Asynchronous TCP connection using [`StreamWriter`][?asyncio.] and [`StreamReader`][?asyncio.]."""
 
     __slots__ = ("reader", "timeout", "writer")
 
@@ -364,14 +376,14 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
 
     @property
     def socket(self) -> socket.socket:
-        """Obtain the underlying socket behind the :class:`~asyncio.Transport`."""
+        """Obtain the underlying socket behind the [`Transport`][?asyncio.]."""
         # TODO: This should also have pyright: ignore[reportPrivateUsage]
         # See: https://github.com/DetachHead/basedpyright/issues/494
         return self.writer.transport._sock  # pyright: ignore[reportAttributeAccessIssue]
 
 
 class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
-    """Synchronous connection using a UDP :class:`~socket.socket`."""
+    """Synchronous connection using a UDP [`socket`][?socket.]."""
 
     __slots__ = ("address", "socket")
 
@@ -408,7 +420,7 @@ class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
 
 
 class UDPAsyncConnection(AsyncConnection, Generic[T_DATAGRAM_CLIENT]):
-    """Asynchronous UDP connection using :class:`~asyncio_dgram.DatagramClient`."""
+    """Asynchronous UDP connection using `asyncio_dgram.DatagramClient`."""
 
     __slots__ = ("stream", "timeout")
 

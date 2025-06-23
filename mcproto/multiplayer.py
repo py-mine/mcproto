@@ -26,7 +26,7 @@ SESSION_SERVER_URL = "https://sessionserver.mojang.com"
 
 
 class UserJoinRequestErrorKind(str, Enum):
-    """Enum for various different kinds of exceptions that can occur during :func:`join_request`."""
+    """Enum for various different kinds of exceptions that can occur during [`join_request`][..]."""
 
     BANNED_FROM_MULTIPLAYER = "User with has been banned from multiplayer."
     XBOX_MULTIPLAYER_DISABLED = "User's Xbox profile has multiplayer disabled."
@@ -44,11 +44,11 @@ class UserJoinRequestErrorKind(str, Enum):
 
 
 class UserJoinRequestFailedError(Exception):
-    """Exception raised when :func:`join_request` fails.
+    """Exception raised when [`join_request`][..] fails.
 
-    This can be caused by various reasons. See: :class:`UserJoinRequestErrorKind` enum class.
-    The most likely case for this error is invalid authentication token, or the user being
-    banned from multiplayer.
+    This can be caused by various reasons. See: [`UserJoinRequestErrorKind`][..] enum class,
+    containing all the possible reasons. The most likely case for this error is invalid
+    authentication token, or the user being banned from multiplayer.
     """
 
     def __init__(self, exc: httpx.HTTPStatusError):
@@ -82,14 +82,14 @@ class UserJoinRequestFailedError(Exception):
 
 
 class UserJoinCheckFailedError(Exception):
-    """Exception raised when :func:`join_check` fails.
+    """Exception raised when [`join_check`][..] fails.
 
     This signifies that the Minecraft session API server didn't contain a join request for the
     `server_hash` and `client_username`, and it therefore didn't acknowledge the join.
 
     This means the user didn't confirm this join with Minecraft API (didn't call
-    :func:`join_request`), hence the validity of this account can't be verified. The server
-    should kick the user and end the join flow.
+    [`join_request`][..]), hence the validity of this account can't be verified.
+    The server should kick the user and end the join flow.
     """
 
     def __init__(self, response: httpx.Response, client_username: str, server_hash: str, client_ip: str | None):
@@ -107,7 +107,7 @@ class UserJoinCheckFailedError(Exception):
 
 
 class JoinAcknowledgeProperty(TypedDict):
-    """Skin blob data from :class:`JoinAcknowledgeData`."""
+    """Skin blob data from [`JoinAcknowledgeData`][..]."""
 
     name: str
     value: str
@@ -115,10 +115,10 @@ class JoinAcknowledgeProperty(TypedDict):
 
 
 class JoinAcknowledgeData(TypedDict):
-    """Response from :func:`join_check` (hasJoined minecraft API endpoint).
+    """Response from [`join_check`][..] (hasJoined minecraft API endpoint).
 
-    This response contains information on the user has submitted the :func:`join_request`.
-    (uuid, name, and player skin properties)
+    This response contains information on the user has submitted the
+    [`join_request`][..]. (uuid, name, and player skin properties)
     """
 
     id: str
@@ -129,18 +129,19 @@ class JoinAcknowledgeData(TypedDict):
 def compute_server_hash(server_id: str, shared_secret: bytes, server_public_key: RSAPublicKey) -> str:
     """Compute a hash to be sent as 'serverId' field to Mojang session server.
 
-    This function is used for :func:`join_request` and :func:`join_check` functions, which require
+    This function is used for [`join_request`][..] and [`join_check`][..] functions, which require
     this hash value.
 
-    This SHA1 hash is computed based on the ``server_id``, ``server_public_key`` and ``shared_secret``.
+    This SHA1 hash is computed based on the `server_id`, `server_public_key` and `shared_secret`.
     Together, these values ensure that there can't be any middle-man listening in after encryption is
     established.
 
     This is because a middle man/proxy who would want to listed into the encrypted communication would
-    need to know the encryption key (``shared_secret``). A proxy can capture this key, as the client
-    sends it over to the server in :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet,
+    need to know the encryption key (`shared_secret`). A proxy can capture this key, as the client
+    sends it over to the server in [`LoginEncryptionResponse`][mcproto.packets.login.login.] packet,
     however it is sent encrypted. The client performs this encryption with a public key, which it got
-    from the server, in :class:`mcproto.packets.login.login.LoginEncryptionRequest` packet.
+    from the server, in [`LoginEncryptionRequest`][mcproto.packets.login.login.]
+    packet.
 
     That mans that for a proxy to be able to actually obtain this shared secret value, it would need to
     be able to capture the encryption response, and decrypt the shared secret value. That means it would
@@ -185,23 +186,24 @@ async def join_request(client: httpx.AsyncClient, account: Account, server_hash:
     """Inform the Mojang session server about this new user join.
 
     This function is called by the client, when joining an online mode (non-warez) server. This is
-    required and the server will check that this request was indeed made (:func:`join_check`).
+    required and the server will check that this request was indeed made ([`join_check`][..]).
 
     This request should be performed after receiving the
-    :class:`~mcproto.packets.login.login.LoginEncryptionRequest` packet, but before sending the
-    :class:`~mcproto.packets.login.login.LoginEncryptionResponse`.
+    [`LoginEncryptionRequest`][mcproto.packets.login.login.] packet, but before sending the
+    [`LoginEncryptionResponse`][mcproto.packets.login.login.].
 
-    Performing this request requires an :class:`~mcproto.auth.account.Account` instance, as this request
+    Performing this request requires an [`Account`][mcproto.auth.account.] instance, as this request
     is here to ensure that only original Minceraft accounts (officially bought accounts) can join.
 
-    This request uses a ``server_hash`` to identify which server is the client attempting to join. This
+    This request uses a `server_hash` to identify which server is the client attempting to join. This
     hash is composed of various values, which together serve as a way to prevent any MITMA (man in the
-    middle attacks). To obtain this hash, see :func:`compute_server_hash`. This function's docstring
+    middle attacks). To obtain this hash, see [`compute_server_hash`][..]. This function's docstring
     also includes description for why and how this prevents a MITMA.
 
-    :param client: HTTPX async client to make the HTTP request with.
-    :param account: Instance of an account containing the minecraft token necessary for this request.
-    :param server_hash: SHA1 hash of the server (see :func:`compute_server_hash`)
+    Args:
+        client: HTTPX async client to make the HTTP request with.
+        account: Instance of an account containing the minecraft token necessary for this request.
+        server_hash: SHA1 hash of the server (see [`compute_server_hash`][..])
     """
     payload = {
         "accessToken": account.access_token,
@@ -231,30 +233,31 @@ async def join_check(
 
     This function is called by the server in online mode (non-warez), to verify that the joining client
     really does have an official minecraft account. The client will first inform the server about this
-    join request (:func:`join_request`), server then runs this check confirming the client is who they
+    join request ([`join_request`][..]), server then runs this check confirming the client is who they
     say they are.
 
     This request should be performed after receiving the after receiving the
-    :class:`~mcproto.packets.login.login.LoginEncryptionResponse` packet.
+    [`LoginEncryptionResponse`][mcproto.packets.login.login.] packet.
 
-    This request uses a ``server_hash``, this is the value under which the client has submitted their
+    This request uses a `server_hash`, this is the value under which the client has submitted their
     join request, and we'll now be checking for that submission with that same value. This is a hash
     composed of various values, which together serve as a way to prevent any MITMA (man in the middle
-    attacks). To obtain this hash, see :func:`compute_server_hash`. This function's docstring also
+    attacks). To obtain this hash, see [`compute_server_hash`][..]. This function's docstring also
     includes description for why and how this prevents a MITMA.
 
-    :param client: HTTPX async client to make the HTTP request with.
-    :param client_username:
-        Must match joining the username of the joining client (case sensitive).
+    Args:
+        client: HTTPX async client to make the HTTP request with.
+        client_username:
+            Must match joining the username of the joining client (case sensitive).
 
-        Note: This is the in-game nickname of the selected profile, not Mojang account name
-        (which is never sent to the server). Servers should use the name in "name" field which was
-        received in the :class:`~mcproto.packets.login.login.LoginStart` packet.
-    :param server_hash: SHA1 hash of the server (see :func:`compute_server_hash`)
-    :param client_ip:
-        IP address of the connecting player (optional)
+            Note: This is the in-game nickname of the selected profile, not Mojang account name
+            (which is never sent to the server). Servers should use the name in "name" field which was
+            received in the [`LoginStart`][mcproto.packets.login.login.] packet.
+        server_hash: SHA1 hash of the server (see [`compute_server_hash`][..])
+        client_ip:
+            IP address of the connecting player (optional)
 
-        Servers only include this when 'prevent-proxy-connections' is set to true in server.properties
+            Servers only include this when 'prevent-proxy-connections' is set to true in server.properties
     """
     params = {"username": client_username, "serverId": server_hash}
     if client_ip is not None:

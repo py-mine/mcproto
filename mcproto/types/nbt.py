@@ -35,8 +35,7 @@ __all__ = [
 """
 Implementation of the NBT (Named Binary Tag) format used in Minecraft as described in the NBT specification
 
-Source : `Minecraft NBT Spec <https://web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt>`_
-
+Source: [Minecraft NBT Spec](https://web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt)
 Named Binary Tag specification
 
 NBT (Named Binary Tag) is a tag based binary format designed to carry large amounts of binary data with smaller
@@ -47,7 +46,7 @@ A Named Tag has the following format:
 
     byte tagType
     TAG_String name
-    [payload]
+    \\[payload\\]
 
 * The tagType is a single byte defining the contents of the payload of the tag.
 * The name is a descriptive name, and can be anything (eg "cat", "banana", "Hello World!").
@@ -57,8 +56,6 @@ A Named Tag has the following format:
 
 Note that ONLY Named Tags carry the name and tagType data. Explicitly identified Tags (such as TAG_String)
 only contains the payload.
-
-.. seealso:: :class:`NBTagType`
 """
 
 # region NBT Specification
@@ -74,8 +71,8 @@ class NBTagType(IntEnum):
     """
     This tag is used to mark the end of a list. It doesn't carry any payload, and it cannot be named!
 
-    If this type appears where a Named Tag is expected, the name is assumed to be ``""``.
-    (In other words, this Tag is always just a single ``0x00`` byte when named, and nothing in all other cases)
+    If this type appears where a Named Tag is expected, the name is assumed to be `""`.
+    (In other words, this Tag is always just a single `0x00` byte when named, and nothing in all other cases)
     """
 
     BYTE = 1
@@ -154,8 +151,11 @@ class NBTagConvertible(Protocol):
     def to_nbt(self, name: str = "") -> NBTag:
         """Convert the object to an NBT tag.
 
-        :param name: The name of the tag.
-        :return: The NBT tag created from the object.
+        Args:
+            name: The name of the tag.
+
+        Returns:
+            The NBT tag created from the object.
         """
         raise NotImplementedError("Derived classes need to implement this method.")
 
@@ -193,13 +193,15 @@ class NBTag(MCType, NBTagConvertible, ABC):
     def serialize(self, with_type: bool = True, with_name: bool = True) -> Buffer:
         """Serialize the NBT tag to a new buffer.
 
-        :param with_type:
-            Whether to include the type of the tag in the serialization. (Passed to :meth:`_write_header`)
-        :param with_name:
-            Whether to include the name of the tag in the serialization. (Passed to :meth:`_write_header`)
-        :return: The buffer containing the serialized NBT tag.
+        Args:
+            with_type: Whether to include the type of the tag in the serialization. (Passed to [`_write_header`][..])
+            with_name: Whether to include the name of the tag in the serialization. (Passed to [`_write_header`][..])
 
-        .. note:: The ``with_type`` and ``with_name`` parameters only control the first level of serialization.
+        Returns;
+            The buffer containing the serialized NBT tag.
+
+        Note:
+            The `with_type` and `with_name` parameters only control the first level of serialization.
         """
         buf = Buffer()
         self.serialize_to(buf, with_name=with_name, with_type=with_type)
@@ -210,14 +212,16 @@ class NBTag(MCType, NBTagConvertible, ABC):
     def deserialize(cls, buf: Buffer, with_name: bool = True, with_type: bool = True) -> NBTag:
         """Deserialize the NBT tag.
 
-        :param buf: The buffer to read from.
-        :param with_name: Whether to read the name of the tag. (Passed to :meth:`_read_header`)
-        :param with_type: Whether to read the type of the tag. (Passed to :meth:`_read_header`)
-        :return:
+        Args:
+            buf: The buffer to read from.
+            with_name: Whether to read the name of the tag. (Passed to [`_read_header`][..])
+            with_type: Whether to read the type of the tag. (Passed to [`_read_header`][..])
+
+        Returns:
             The deserialized NBT tag.
 
             This tag will be an instance of the class, that is associated with the tag type
-            obtained from :meth:`_read_header` (see: :const:`ASSOCIATED_TYPES`).
+            obtained from [`_read_header`][..] (see: [`ASSOCIATED_TYPES`][(m).]).
         """
         name, tag_type = cls._read_header(buf, with_name=with_name, read_type=with_type)
 
@@ -234,11 +238,13 @@ class NBTag(MCType, NBTagConvertible, ABC):
     def serialize_to(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Serialize the NBT tag to a buffer.
 
-        :param buf: The buffer to write to.
-        :param with_type: Whether to include the type of the tag in the serialization.
-        :param with_name: Whether to include the name of the tag in the serialization.
+        Args:
+            buf: The buffer to write to.
+            with_type: Whether to include the type of the tag in the serialization.
+            with_name: Whether to include the name of the tag in the serialization.
 
-        .. seealso:: :meth:`serialize`
+        See Also:
+            [`serialize`][..]
         """
         raise NotImplementedError
 
@@ -247,17 +253,18 @@ class NBTag(MCType, NBTagConvertible, ABC):
     def read_from(cls, buf: Buffer, with_type: bool = True, with_name: bool = True) -> NBTag:
         """Read the NBT tag from the buffer.
 
-        Implementation shortcut used in :meth:`deserialize`. (Subclasses can override this, avoiding some
-        repetition when compared to overriding ``deserialize`` directly.)
+        Implementation shortcut used in [`deserialize`][..]. (Subclasses can override this, avoiding some
+        repetition when compared to overriding `deserialize` directly.)
         """
         raise NotImplementedError
 
     def _write_header(self, buf: Buffer, with_type: bool = True, with_name: bool = True) -> None:
         """Write the header of the NBT tag to the buffer.
 
-        :param buf: The buffer to write to.
-        :param with_type: Whether to include the type of the tag in the serialization.
-        :param with_name: Whether to include the name of the tag in the serialization.
+        Args:
+            buf: The buffer to write to.
+            with_type: Whether to include the type of the tag in the serialization.
+            with_name: Whether to include the name of the tag in the serialization.
         """
         if with_type:
             tag_type = _get_tag_type(self)
@@ -269,18 +276,22 @@ class NBTag(MCType, NBTagConvertible, ABC):
     def _read_header(cls, buf: Buffer, read_type: bool = True, with_name: bool = True) -> tuple[str, NBTagType]:
         """Read the header of the NBT tag.
 
-        :param buf: The buffer to read from.
-        :param read_type: Whether to read the type of the tag from the buffer.
-            * If ``True``, the tag type will be read from the buffer
-            * If ``False`` and called from a subclass, the tag type will be inferred from the subclass.
-            * If ``False`` and called from the base class, the tag type will be TAG_Compound.
-        :param with_name: Whether to read the name of the tag. If set to ``False``, the tag will have the name ``""``.
+        Args:
+            buf: The buffer to read from.
+            read_type:
+                Whether to read the type of the tag from the buffer.
 
-        :return: A tuple containing the name and the tag type.
+                * If `True`, the tag type will be read from the buffer
+                * If `False` and called from a subclass, the tag type will be inferred from the subclass.
+                * If `False` and called from the base class, the tag type will be TAG_Compound.
+            with_name: Whether to read the name of the tag. If set to `False`, the tag will have the name `""`.
 
-        .. note::
-            It is possible that this function reads nothing from the buffer if both ``with_name`` and
-            ``read_type`` are set to ``False``.
+        Returns:
+            A tuple containing the name and the tag type.
+
+        Note:
+            It is possible that this function reads nothing from the buffer if both `with_name` and
+            `read_type` are set to `False`.
         """
         if read_type:
             try:
@@ -303,32 +314,35 @@ class NBTag(MCType, NBTagConvertible, ABC):
     def from_object(data: FromObjectType, schema: FromObjectSchema, name: str = "") -> NBTag:
         """Create an NBT tag from a python object and a schema.
 
-        :param data:
-            The python object to create the NBT tag from.
-        :param schema:
-            The schema used to create the NBT tags.
+        Args:
+            data: The python object to create the NBT tag from.
+            schema:
+                The schema used to create the NBT tags.
 
-            This is a description of the types of the ``data`` in the python object.
-            It can be a subclass of :class:`NBTag` (e.g. :class:`IntNBT`, :class:`StringNBT`, :class:`CompoundNBT`,
-            etc.), a :class:`dict`, a :class:`list`, a :class:`tuple`, or a class that has a `to_nbt` method.
+                This is a description of the types of the `data` in the python object.
+                It can be a subclass of [`NBTag`][(m).] (e.g. [`IntNBT`][(m).], [`StringNBT`][(m).],
+                [`CompoundNBT`][(m).], etc.), a [`dict`][dict], a [`list`][list], a [`tuple`][tuple], or any
+                class that has a `to_nbt` method.
 
-            Example of schema:
+                Example of schema:
 
-            .. code-block:: python
+                    ```python
+                    schema = {
+                        "string": StringNBT,
+                        "list_of_floats": [FloatNBT],
+                        "list_of_compounds": [{
+                            "key": StringNBT,
+                            "value": IntNBT,
+                        }],
+                        "list_of_lists": [[IntNBT], [StringNBT]],
+                    }
+                    ```
 
-                schema = {
-                    "string": StringNBT,
-                    "list_of_floats": [FloatNBT],
-                    "list_of_compounds": [{
-                        "key": StringNBT,
-                        "value": IntNBT,
-                    }],
-                    "list_of_lists": [[IntNBT], [StringNBT]],
-                }
+                    This would be translated into a [`CompoundNBT`][(m).].
+            name: The name of the NBT tag.
 
-            This would be translated into a :class:`CompoundNBT`.
-        :param name: The name of the NBT tag.
-        :return: The NBT tag created from the python object.
+        Returns:
+            The NBT tag created from the python object.
         """
         # Case 0 : schema is an object with a `to_nbt` method (could be a subclass of NBTag for all we know, as long
         # as the data is an instance of the schema it will work)
@@ -420,11 +434,14 @@ class NBTag(MCType, NBTagConvertible, ABC):
     ) -> PayloadType | Mapping[str, PayloadType] | tuple[PayloadType | Mapping[str, PayloadType], FromObjectSchema]:
         """Convert the NBT tag to a python object.
 
-        :param include_schema: Whether to return a schema describing the types of the original tag.
-        :param include_name: Whether to include the name of the tag in the output.
-            If the tag has no name, the name will be set to "".
+        Args:
+            include_schema: Whether to return a schema describing the types of the original tag.
+            include_name:
+                Whether to include the name of the tag in the output.
 
-        :return:
+                If the tag has no name, the name will be set to `""`.
+
+        Returns:
             Either of:
                 * A python object representing the payload of the tag. (default)
                 * A dictionary containing the name associated with a python object representing the payload of the tag.
@@ -455,7 +472,8 @@ class NBTag(MCType, NBTagConvertible, ABC):
     def to_nbt(self, name: str = "") -> NBTag:
         """Convert the object to an NBT tag.
 
-        .. warning:: This is already an NBT tag, so it will modify the name of the tag and return itself.
+        Warning:
+            This is already an NBT tag, so it will modify the name of the tag and return itself.
         """
         self.name = name
         return self
@@ -980,11 +998,14 @@ class CompoundNBT(NBTag):
     def __eq__(self, other: object) -> bool:
         """Check equality between two CompoundNBT tags.
 
-        :param other: The other CompoundNBT tag to compare to.
+        Args:
+            other: The other CompoundNBT tag to compare to.
 
-        :return: True if the tags are equal, False otherwise.
+        Returns:
+            True if the tags are equal, False otherwise.
 
-        .. note:: The order of the tags is not guaranteed, but the names of the tags must match. This function assumes
+        Note:
+            The order of the tags is not guaranteed, but the names of the tags must match. This function assumes
             that there are no duplicate tags in the compound.
         """
         # The order of the tags is not guaranteed

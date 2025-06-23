@@ -53,10 +53,11 @@ class Account:
     async def check(self, client: httpx.AsyncClient) -> None:
         """Check with minecraft API whether the account information stored is valid.
 
-        :raises MismatchedAccountInfoError:
-            If the information received from the minecraft API didn't match the information currently
-            stored in the account instance.
-        :raises InvalidAccountAccessTokenError: If the access token is not valid.
+        Raises:
+            MismatchedAccountInfoError:
+                If the information received from the minecraft API didn't match the information currently
+                stored in the account instance.
+            InvalidAccountAccessTokenError: If the access token is not valid.
         """
         res = await client.get(
             f"{MINECRAFT_API_URL}/minecraft/profile",

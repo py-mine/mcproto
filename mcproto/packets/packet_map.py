@@ -40,13 +40,13 @@ class WalkableModuleData(NamedTuple):
 
 
 def _walk_submodules(module: ModuleType) -> Iterator[WalkableModuleData]:
-    """Find all submodules of given module, that specify ``__all__``.
+    """Find all submodules of given module, that specify `__all__`.
 
-    If a submodule that doesn't define ``__all__`` is found, it will be skipped, as we don't
+    If a submodule that doesn't define `__all__` is found, it will be skipped, as we don't
     consider it walkable. (This is important, as we'll later need to go over all variables in
-    these modules, and without ``__all__`` we wouldn't know what to go over. Simply using all
+    these modules, and without `__all__` we wouldn't know what to go over. Simply using all
     defined variables isn't viable, as that would also include imported things, potentially
-    causing the same object to appear more than once. This makes ``__all__`` a requirement.)
+    causing the same object to appear more than once. This makes `__all__` a requirement.)
     """
 
     def on_error(name: str) -> NoReturn:
@@ -71,16 +71,17 @@ def _walk_submodules(module: ModuleType) -> Iterator[WalkableModuleData]:
 
 
 def _walk_module_packets(module_data: WalkableModuleData) -> Iterator[type[Packet]]:
-    """Find all packet classes specified in module's ``__all__``.
+    """Find all packet classes specified in module's `__all__`.
 
-    :return:
-        Iterator yielding every packet class defined in ``__all__`` of given module.
-        These objects are obtained directly using ``getattr`` from the imported module.
+    Returns:
+        Iterator yielding every packet class defined in `__all__` of given module.
+        These objects are obtained directly using `getattr` from the imported module.
 
-    :raises TypeError:
-        Raised when an attribute defined in ``__all__`` can't be obtained using ``getattr``.
-        This would suggest the module has incorrectly defined ``__all__``, as it includes values
-        that aren't actually defined in the module.
+    Raises:
+        TypeError:
+            Raised when an attribute defined in `__all__` can't be obtained using `getattr`.
+            This would suggest the module has incorrectly defined `__all__`, as it includes values
+            that aren't actually defined in the module.
     """
     for member_name in module_data.member_names:
         try:
@@ -109,13 +110,13 @@ def generate_packet_map(
 
 @lru_cache
 def generate_packet_map(direction: PacketDirection, state: GameState) -> Mapping[int, type[Packet]]:
-    """Dynamically generated a packet map for given ``direction`` and ``state``.
+    """Dynamically generated a packet map for given `direction` and `state`.
 
     This generation is done by dynamically importing all of the modules containing these packets,
-    filtering them to only contain those pacekts with the specified parameters, and storing those
+    filtering them to only contain those packets with the specified parameters, and storing those
     into a dictionary, using the packet id as key, and the packet class itself being the value.
 
-    As this fucntion is likely to be called quite often, and it uses dynamic importing to obtain
+    As this function is likely to be called quite often, and it uses dynamic importing to obtain
     the packet classes, this function is cached, which means the logic only actually runs once,
     after which, for the same arguments, the same dict will be returned.
     """

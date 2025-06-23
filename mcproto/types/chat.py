@@ -44,7 +44,7 @@ class ChatMessage(MCType):
     __slots__ = ("raw",)
 
     def as_dict(self) -> RawChatMessageDict:
-        """Convert received ``raw`` into a stadard :class:`dict` form."""
+        """Convert received `raw` into a standard [`dict`][dict] form."""
         if isinstance(self.raw, list):
             return RawChatMessageDict(extra=self.raw)
         if isinstance(self.raw, str):
@@ -60,9 +60,10 @@ class ChatMessage(MCType):
     def __eq__(self, other: object) -> bool:
         """Check equality between two chat messages.
 
-        ..warning: This is purely using the `raw` field, which means it's possible that
-        a chat message that appears the same, but was representing in a different way
-        will fail this equality check.
+        Warning:
+            This is purely using the `raw` field, which means it's possible that a chat
+            message that appears the same, but was representing in a different way will
+            fail this equality check.
         """
         if not isinstance(other, ChatMessage):
             return NotImplemented
