@@ -502,14 +502,14 @@ files = [
 
 [[package]]
 name = "dunamai"
-version = "1.23.1"
+version = "1.25.0"
 description = "Dynamic version generation"
 optional = false
 python-versions = ">=3.5"
 groups = ["docs-ci", "release-ci"]
 files = [
-    {file = "dunamai-1.23.1-py3-none-any.whl", hash = "sha256:2611b0b9105a5797149ef82f4968a01dd912bdac857d49fc06856a4cfa58cf78"},
-    {file = "dunamai-1.23.1.tar.gz", hash = "sha256:0b5712fc63bfb235263d912bfc5eb84590ba2201bb737268d25a5dbad7085489"},
+    {file = "dunamai-1.25.0-py3-none-any.whl", hash = "sha256:7f9dc687dd3256e613b6cc978d9daabfd2bb5deb8adc541fc135ee423ffa98ab"},
+    {file = "dunamai-1.25.0.tar.gz", hash = "sha256:a7f8360ea286d3dbaf0b6a1473f9253280ac93d619836ad4514facb70c0719d1"},
 ]
 
 [package.dependencies]
@@ -943,18 +943,18 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "poetry-dynamic-versioning"
-version = "1.8.2"
+version = "1.9.0"
 description = "Plugin for Poetry to enable dynamic versioning based on VCS tags"
 optional = false
 python-versions = "<4.0,>=3.7"
 groups = ["docs-ci", "release-ci"]
 files = [
-    {file = "poetry_dynamic_versioning-1.8.2-py3-none-any.whl", hash = "sha256:3758a0b12228230ce384fbb303948c5e405e1d33c3bbe1ba71144c15f5e7a8de"},
-    {file = "poetry_dynamic_versioning-1.8.2.tar.gz", hash = "sha256:d14de13d426ac28e98f4519aac7f4aa857e7b97ad9d7a4c72293377033065f44"},
+    {file = "poetry_dynamic_versioning-1.9.0-py3-none-any.whl", hash = "sha256:0c65adf9b55e312fe1b49b5d0516a1bb61fdc4067f7ca64cdf1ed553df892fc5"},
+    {file = "poetry_dynamic_versioning-1.9.0.tar.gz", hash = "sha256:e54329743f05b677be976eaaa90ca4c269818e6f75d62eef8fd5af4576af7e7e"},
 ]
 
 [package.dependencies]
-dunamai = ">=1.23.0,<2.0.0"
+dunamai = ">=1.25.0,<2.0.0"
 jinja2 = ">=2.11.1,<4"
 tomlkit = ">=0.4"
 
@@ -1674,4 +1674,4 @@ test = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-it
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<4"
-content-hash = "136b7b04ae04dde42733bed8e23bfed4ac4e6c888d056e88c41b9ec8ab3fc45e"
+content-hash = "8b042c7f64dd7d4aa597c2ec9f14f26d7396599a524624c013921e8310683872"
