@@ -943,14 +943,14 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "poetry-dynamic-versioning"
-version = "1.9.0"
+version = "1.9.1"
 description = "Plugin for Poetry to enable dynamic versioning based on VCS tags"
 optional = false
 python-versions = "<4.0,>=3.7"
 groups = ["docs-ci", "release-ci"]
 files = [
-    {file = "poetry_dynamic_versioning-1.9.0-py3-none-any.whl", hash = "sha256:0c65adf9b55e312fe1b49b5d0516a1bb61fdc4067f7ca64cdf1ed553df892fc5"},
-    {file = "poetry_dynamic_versioning-1.9.0.tar.gz", hash = "sha256:e54329743f05b677be976eaaa90ca4c269818e6f75d62eef8fd5af4576af7e7e"},
+    {file = "poetry_dynamic_versioning-1.9.1-py3-none-any.whl", hash = "sha256:65a0c814e6d30d4807734a3c34edf261fd7cc3b340dbd23b6a33ee41f7d0b547"},
+    {file = "poetry_dynamic_versioning-1.9.1.tar.gz", hash = "sha256:d6e7b9df817aa2ca4946cd695c6c89e1379d2e6c640f008a9b6170d081a9da48"},
 ]
 
 [package.dependencies]
