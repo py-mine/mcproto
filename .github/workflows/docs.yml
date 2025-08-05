@@ -17,6 +17,9 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  PYTHON_VERSION: "3.13"
+
 jobs:
   mkdocs:
     runs-on: ubuntu-latest
@@ -50,17 +53,22 @@ jobs:
           git config --global user.name "py-mine-ci-bot"
           git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
 
-      - name: Setup poetry
-        id: poetry_setup
-        uses: ItsDrike/setup-poetry@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: 3.12
-          install-args: "--only main,docs"
+          version: "latest"
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-suffix: "docs"
+
+      - name: Install dependencies
+        run: |
+          uv sync --no-default-groups --group docs
 
       # PRs (both 1st and 3rd party)
       - name: Build the documentation (mkdocs)
         if: github.event_name == 'pull_request'
-        run: poetry run mkdocs build
+        run: mkdocs build
 
       # 1st party PRs
       - name: Deploy docs - PR preview
@@ -77,7 +85,7 @@ jobs:
       # Push to main (1st party)
       - name: Build the documentation (mike)
         if: github.event_name == 'push'
-        run: poetry run mike deploy latest
+        run: mike deploy latest
 
       # Push to main (1st party)
       - name: Deploy docs - latest

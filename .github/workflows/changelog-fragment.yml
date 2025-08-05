@@ -11,6 +11,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  PYTHON_VERSION: "3.13"
+
 jobs:
   check-fragment-added:
     if: github.event.pull_request.user.type != 'Bot' && !contains(github.event.pull_request.labels.*.name, 'skip-fragment-check')
@@ -24,11 +27,17 @@ jobs:
           # needs a non-shallow clone.
           fetch-depth: 0
 
-      - name: Setup poetry
-        uses: ItsDrike/setup-poetry@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: 3.11
-          install-args: "--no-root --only release"
+          version: "latest"
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-suffix: "changelog"
+
+      - name: Install dependencies
+        run: |
+          uv sync --no-default-groups --no-install-project --group release
 
       - name: Check if changelog fragment was added
         run: |
