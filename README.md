@@ -14,4 +14,4 @@ python, or even full python server implementations.
 > Currently, the library is still work in progress and very incomplete, so while contributions are welcome, fair warning
 > that using mcproto in production isn't recommended.
 
-For more info, check our our [documentation](https://py-mine.github.io/mcproto).
+For more info, check our [documentation](https://py-mine.github.io/mcproto).
