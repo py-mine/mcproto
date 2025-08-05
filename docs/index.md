@@ -1,9 +1,26 @@
 ---
 hide:
     - navigation
+    - toc
 ---
 
 # Home
+
+<style>
+    /*
+     * Use a smaller max-width (since we don't have toc nor navigation sidebars, the content expands a lot, beyond
+     * certain point, this starts to look kinda bad, set a smaller max width to handle this)
+     */
+    .md-grid {
+        max-width: 1300px;
+    }
+
+    /* Hide the h1 title */
+    .md-typeset h1,
+    .md-content__button {
+        display: none;
+    }
+</style>
 
 <div style="display: flex; align-items: center; font-size: 75px; font-weight: bold; color: lightgray;">
     <img src="./assets/py-mine_logo.png" width=100 alt="Logo">
