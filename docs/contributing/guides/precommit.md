@@ -28,8 +28,8 @@ every new commit you make.
 
 !!! warning
 
-    Pre-commit itself will be installed via poetry, which means you will need to have an [activated][activate-venv]
-    poetry environment whenever you make a new commit, otherwise, the pre-commit git hook will fail with command not
+    Pre-commit itself will be installed via uv, which means you will need to have an [activated][activate-venv]
+    virtual environment whenever you make a new commit, otherwise, the pre-commit git hook will fail with command not
     found.
 
 ## Hooks that modify files

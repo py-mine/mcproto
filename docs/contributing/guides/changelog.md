@@ -115,8 +115,8 @@ To preview the latest changelog, run `towncrier build --draft --version latest`.
     You will never need to run `towncrier` without the `--draft` flag, as our CI workflows for project releasing handle
     that automatically.
 
-To make this a bit easier, there is a taskipy task running the command above, so you can just use `poetry run task
-changelog-preview` to see the changelog, if you don't like remembering new commands.
+To make this a bit easier, there is a poe command running the command above, so you can just use `poe changelog-preview`
+to see the changelog, if you don't like remembering new commands.
 
 ## Writing good changelog fragments
 

@@ -100,8 +100,8 @@ basedpyright .
 
 !!! note ""
 
-    You will need to run this from an [activated][activate-venv] poetry environment while
-    in the project's root directory.
+    You will need to run this from an [activated][activate-venv] vertual environment while in the project's root
+    directory.
 
 ### Editor Integration
 

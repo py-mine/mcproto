@@ -4,9 +4,9 @@
 
     This guide describes the very basics of setting up our project.
 
-    It explains how to use `poetry` to install the python dependencies for the project. After which it goes over using
-    poetry (activating the virtual environment, keeping the dependencies up to date as we update them, adding /
-    removing dependencies and poetry dependency group).
+    It explains how to use `uv` to install the python dependencies for the project. After which it goes over using uv
+    (activating the virtual environment, keeping the dependencies up to date as we update them, adding / removing
+    dependencies and dependency groups).
 
 ## Pre-requisites
 
@@ -19,11 +19,11 @@ computer and created your own [git branch][git-branches] to work on.
 If you wish to work from an already forked repository, make sure to check out the main branch and do a [`git
 pull`][git-pull] to get your fork up to date. Now create your new branch.
 
-## Poetry
+## UV
 
-This project uses [`poetry`][poetry]. Poetry is a tool for managing python dependencies in a
-reproducible way, ensuring that everyone is using the same versions. It creates virtual environments for each project,
-which ensures that your global dependencies won't clash with the project.
+This project uses [`uv`][uv]. Uv is a tool for managing python dependencies in a reproducible way, ensuring that
+everyone is using the same versions. It creates virtual environments for each project, which ensures that your global
+dependencies won't clash with the project.
 
 ??? question "More about virtual environments"
 
@@ -39,12 +39,12 @@ which ensures that your global dependencies won't clash with the project.
     With a virtual environment, both projects will have their own isolated python installation, that only contains the
     dependencies listed for that project, avoiding any conflicts completely.
 
-    You can create virtual environments manually, with the built-in `venv` python module, but poetry makes this much
+    You can create virtual environments manually, with the built-in `venv` python module, but uv makes this much
     simpler. If you want to find out more about virutal environments, check the [official python
     documentation][venv-docs].
 
-This means you will need to have poetry installed on your system to run our project. To do so, just follow their
-[official documentation][poetry-installation].
+This means you will need to have uv installed on your system to run our project. To do so, just follow their
+[official documentation][uv-installation].
 
 ## Dependency installation
 
@@ -52,7 +52,7 @@ Once installed, you will want to create a new environment for our project, with 
 a terminal in the project's directory and run the following command:
 
 ```bash
-poetry install
+uv sync
 ```
 
 After running this command, the virtual environment will be populated with all of the dependencies that you will need
@@ -74,16 +74,17 @@ should configure it to do so.
 If your IDE doesn't have that option, or you just wish to work from the terminal, you can instead run:
 
 ```bash
-poetry shell
+# On Linux:
+. .venv/bin/activate
 ```
 
-Now you can start the IDE from your terminal, which should make it work within the poetry python environment.
+Now you can start the IDE from your terminal, which should make it work within the uv python environment.
 
 !!! tip "Execute a single command inside the virtual environment"
 
     If you just want to run a single command from the venv, without necessarily having to activate the environment
-    (often useful in scripts), poetry provides a quick and simple way to do so. All you need to do is prefix any such
-    command with `poetry run` (e.g. `poetry run ruff`).
+    (often useful in scripts), uv provides a quick and simple way to do so. All you need to do is prefix any such
+    command with `uv run` (e.g. `uv run ruff check`).
 
 ## Keeping your dependencies up to date
 
@@ -92,10 +93,10 @@ update your virtual environment to prevent it from going out of date. An out of 
 using older versions of some libraries and what will run on your machine might not match what will run on other
 machines with the dependencies updated.
 
-Thankfully, poetry makes updating the dependencies very easy as all you have to do is re-run the installation command:
+Thankfully, uv makes updating the dependencies very easy as all you have to do is re-run the installation command:
 
 ```bash
-poetry install
+uv install
 ```
 
 It can sometimes be hard to know when you need to run the install command, in most cases, even if we did update
@@ -108,51 +109,53 @@ instantly. You should be especially careful when switching git branches, as depe
 likely a new dependency was introduced, or an old one got removed), so consider running this command whenever you
 switch to another branch, unless you know that branch didn't make any changes to the project dependencies.
 
-## Poetry dependency groups
+## Dependency groups
 
-Poetry has a really cool way of splitting up the dependencies that projects need into multiple groups. For example, you
-can have a group of dependencies for linting & autoformatting, another group for documentation support, unit-testing,
-for releasing the project, etc.
+Uv has a really cool way of splitting up the dependencies that projects need into multiple groups. For example, you can
+have a group of dependencies for linting & autoformatting, another group for documentation support, unit-testing, for
+releasing the project, etc.
 
-To see which dependencies belong to which group, you can check the `pyproject.toml` file for the
-`[tool.poetry.group.GROUP_NAME.dependencies]` sections.
+To see which dependencies belong to which group, you can check the `pyproject.toml` file for the `[dependency-groups]`
+section.
 
-By default, `poetry install` will install all non-optional dependency groups. That means all development
-dependencies you should need will get installed.
+By default, `uv sync` will install all default dependency groups and the project's primary dependencies. For us, that
+means all development dependencies you should need will get installed.
 
 The reason why we use groups is because in some of our automated workflows, we don't always need all of the project
 dependencies and we can save time by only installing the group(s) that we need. It also provides a clean way to quickly
 see which dependencies are being used for what.
 
-The most important group is the `main` group. This group contains all runtime dependencies, which means without these
-dependencies, the project wouldn't be runnable at all. It is these libraries that will become the dependencies of our
+The actual runtime dependencies for the project are present directly in `[project]`, under the `dependencies` key. These
+are dependencies without which the project wouldn't be runnable at all. These will become the dependencies of our
 library when we make a release on PyPI.
 
-## Installing dependencies
+## Installing new dependencies
 
-During the development, you may sometimes want to introduce a new library to the project, to do this, you will first
+During the development, you may sometimes want to introduce a new dependency to the project, to do this, you will first
 need to decide which dependency group it should belong to. To do this, identify whether this new dependency will be
 required to run the project, or if it's just some tool / utility that's necessary only during the development.
 
 If it's a runtime dependency, all you need to do is run:
 
 ```bash
-poetry add [name-of-your-dependency]
+uv add [name-of-your-dependency]
 ```
 
-This will add the dependency to the `main` group.
+This will add the dependency to `[project.dependencies]`.
 
 However, if you're working with a development dependency, you will want to go over the dependency groups we have (from
 `pyproject.toml`) and decide where it should belong. Once you figured that out, you can run:
 
 ```bash
-poetry add --group [group-name] [name-of-your-dependency]
+uv add --group [group-name] [name-of-your-dependency]
 ```
 
 !!! note
 
     Sometimes, it might make sense to include the same dependency in multiple groups. (Though this is usually quite
-    rare.)
+    rare.) If this is the case, you can use the command above, however, make sure to edit the `pyproject.toml` file
+    manually afterwards, removing the version specification from one of those groups (we only want to keep the version
+    info around once).
 
 ## Uninstalling dependencies
 
@@ -160,7 +163,9 @@ Similarly, we sometimes stop needing a certain dependency. Uninstalling is a ver
 First, find which group you want to remove this dependency from and then run:
 
 ```bash
-poetry remove --group [group-name] [name-of-your-dependency]
+uv remove --group [group-name] [name-of-your-dependency]
+# or, if it's a runtime dependency, simply:
+uv remove [name-of-your-dependency]
 ```
 
 [git-and-github]: https://docs.github.com/en/get-started/start-your-journey/about-github-and-git
@@ -168,6 +173,6 @@ poetry remove --group [group-name] [name-of-your-dependency]
 [git-cloning]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 [git-branches]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches
 [git-pull]: https://github.com/git-guides/git-pull
-[poetry]: https://python-poetry.org/docs/
-[poetry-installation]: https://python-poetry.org/docs/#installation
+[uv]: https://docs.astral.sh/uv/
+[uv-installation]: https://docs.astral.sh/uv/getting-started/installation/
 [venv-docs]: https://docs.python.org/3/library/venv.html

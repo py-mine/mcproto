@@ -35,28 +35,26 @@ friendly and it's generally easier to use.
 
 ## Running tests
 
-When running the tests, you should always be in an activated virtual environment (or use `poetry run` to run commands
-for the tests from within the environment).
+When running the tests, you should always be in an activated virtual environment.
 
-To make things simpler, we made a few shortcuts/aliases using taskipy:
+To make things simpler, we made a few shortcuts/aliases using `poe`:
 
-- `poetry run task test-nocov` will run all unit-tests using `pytest`.
-- `poetry run task test` will run `pytest` with `pytest-cov`, collecting code coverage information
-- `poetry run task test tests/test_foobar.py` will run specific test
-- `poetry run task retest` will rerun only previously failed tests
+- `poe test` will run all unit-tests using `pytest` and collect code coverage information
+- `poe test tests/test_foobar.py` will run specific test
+- `poe retest` will rerun only previously failed tests
 
 When actively developing, you'll most likely only be working on some portion of the code-base, and as the result, you
 won't need to run the entire test suite, instead you can only run tests for a specific file with
 
 ```sh
-poetry run task test /path/to/test.py
+poe test /path/to/test.py
 ```
 
 When you are done and are preparing to commit and push your code, it's a good idea to run the entire test suite as a
 sanity check that you haven't accidentally introduced some unexpected bugs:
 
 ```sh
-poetry run task test
+poe task test
 ```
 
 ## Writing tests
