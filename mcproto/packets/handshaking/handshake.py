@@ -17,7 +17,7 @@ __all__ = [
 
 
 class NextState(IntEnum):
-    """Enum of all possible next game states we can transition to from the :class:`Handshake` packet."""
+    """Enum of all possible next game states we can transition to from the [`Handshake`][(m).] packet."""
 
     STATUS = 1
     LOGIN = 2
@@ -30,10 +30,11 @@ class Handshake(ServerBoundPacket):
 
     Initialize the Handshake packet.
 
-    :param protocol_version: Protocol version number to be used.
-    :param server_address: The host/address the client is connecting to.
-    :param server_port: The port the client is connecting to.
-    :param next_state: The next state for the server to move into.
+    Args:
+        protocol_version: Protocol version number to be used.
+        server_address: The host/address the client is connecting to.
+        server_port: The port the client is connecting to.
+        next_state: The next state for the server to move into.
     """
 
     PACKET_ID: ClassVar[int] = 0x00

@@ -1,0 +1,85 @@
+---
+name: MkDocs
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  # The requested write permissions will only be followed on 1st party triggers
+  # on 3rd party PRs (from forks), github will drop these permissions to read.
+  contents: write
+  pull-requests: write
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: app-token
+        if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push'
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # We should get a token that allows us to push to the repo when the workflow ran
+          # as 1st party (not from a forked PR). From 3rd parties, the token will be an
+          # empty string (as the token generation step was skipped), so pushing won't work.
+          token: "${{ steps.app-token.outputs.token }}"
+          # Fetch the entire git history (all branches + tags)
+          # We do this because the docs use git describe, which requires having all
+          # the commits up to the latest version tag.
+          # We also need the gh-pages branch to push the docs to.
+          fetch-depth: 0
+
+      # Make the github application be the committer
+      # (see: https://stackoverflow.com/a/74071223 on how to obtain the committer email)
+      - name: Setup git config
+        if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push'
+        run: |
+          git config --global user.name "py-mine-ci-bot"
+          git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
+
+      - name: Setup poetry
+        id: poetry_setup
+        uses: ItsDrike/setup-poetry@v1
+        with:
+          python-version: 3.12
+          install-args: "--only main,docs"
+
+      # PRs (both 1st and 3rd party)
+      - name: Build the documentation (mkdocs)
+        if: github.event_name == 'pull_request'
+        run: poetry run mkdocs build
+
+      # 1st party PRs
+      - name: Deploy docs - PR preview
+        if: >
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./site
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          token: ${{ steps.app-token.outputs.token }}
+
+      # Push to main (1st party)
+      - name: Build the documentation (mike)
+        if: github.event_name == 'push'
+        run: poetry run mike deploy latest
+
+      # Push to main (1st party)
+      - name: Deploy docs - latest
+        if: github.event_name == 'push'
+        run: git push origin gh-pages

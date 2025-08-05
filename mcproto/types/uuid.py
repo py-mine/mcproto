@@ -15,8 +15,8 @@ __all__ = ["UUID"]
 class UUID(uuid.UUID, MCType):
     """Minecraft UUID type.
 
-    In order to support potential future changes in protocol version, and implement McType,
-    this is a custom subclass, however it is currently compatible with the stdlib's `uuid.UUID`.
+    In order to support potential future changes in protocol version, and implement [`MCType`][mcproto.types.abc.],
+    this is a custom subclass, however it is currently compatible with the stdlib's [`UUID`][?uuid.].
     """
 
     __slots__ = ()

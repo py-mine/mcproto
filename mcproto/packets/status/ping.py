@@ -19,9 +19,10 @@ class PingPong(ClientBoundPacket, ServerBoundPacket):
 
     Initialize the PingPong packet.
 
-    :param payload:
-        Random number to test out the connection. Ideally, this number should be quite big,
-        however it does need to fit within the limit of a signed long long (-2 ** 63 to 2 ** 63 - 1).
+    Args:
+        payload:
+            Random number to test out the connection. Ideally, this number should be quite big,
+            however it does need to fit within the limit of a signed long long (-2 ** 63 to 2 ** 63 - 1).
     """
 
     PACKET_ID: ClassVar[int] = 0x01

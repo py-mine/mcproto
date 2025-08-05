@@ -31,8 +31,8 @@ def synchronize(f: Callable[P, Coroutine[Any, Any, T]]) -> Callable[P, T]:
     """Take an asynchronous function, and return a synchronous alternative.
 
     This is needed because we sometimes want to test asynchronous behavior in a synchronous test function,
-    where we can't simply await something. This function uses `asyncio.run` and generates a wrapper
-    around the original asynchronous function, that awaits the result in a blocking synchronous way,
+    where we can't simply await something. This function uses [`asyncio.run`][asyncio.run] and generates a
+    wrapper around the original asynchronous function, that awaits the result in a blocking synchronous way,
     returning the obtained value.
     """
 
@@ -45,18 +45,18 @@ def synchronize(f: Callable[P, Coroutine[Any, Any, T]]) -> Callable[P, T]:
 class SynchronizedMixin:
     """Class acting as another wrapped object, with all async methods synchronized.
 
-    This class needs :attr:`._WRAPPED_ATTRIBUTE` class variable to be set as the name of the internally
+    This class needs [`_WRAPPED_ATTRIBUTE`][.] class variable to be set as the name of the internally
     held attribute, holding the object we'll be wrapping around.
 
     Child classes of this mixin will have their lookup logic changed, to instead perform a lookup
     on the wrapped attribute. Only if that lookup fails, we fallback to this class, meaning if both
     the wrapped attribute and this class have some attribute defined, the attribute from the wrapped
-    object is returned. The only exceptions to this are lookup of the ``_WRAPPED_ATTRIBUTE`` variable,
-    and of the attribute name stored under the ``_WRAPPED_ATTRIBUTE`` (the wrapped object).
+    object is returned. The only exceptions to this are lookup of the `_WRAPPED_ATTRIBUTE` variable,
+    and of the attribute name stored under the `_WRAPPED_ATTRIBUTE` (the wrapped object).
 
     If the attribute held by the wrapped object is an asynchronous function, instead of returning it
-    directly, the :func:`.synchronize` function will be called, returning a wrapped synchronous
-    alternative for the requested async function.
+    directly, the [`synchronize`][(m).] function will be called, returning a wrapped synchronous alternative
+    for the requested async function.
 
     This is useful when we need to quickly create a synchronous alternative to a class holding async methods.
     However it isn't useful in production, since will cause typing issues (attributes will be accessible, but
@@ -69,8 +69,8 @@ class SynchronizedMixin:
     def __getattribute__(self, /, name: str) -> Any:
         """Return attributes of the wrapped object, if the attribute is a coroutine function, synchronize it.
 
-        The only exception to this behavior is getting the :attr:`._WRAPPED_ATTRIBUTE` variable itself, or the
-        attribute named as the content of the ``_WRAPPED_ATTRIBUTE`` variable. All other attribute access will
+        The only exception to this behavior is getting the [`_WRAPPED_ATTRIBUTE`][..] variable itself, or the
+        attribute named as the content of the `_WRAPPED_ATTRIBUTE` variable. All other attribute access will
         be delegated to the wrapped attribute. If the wrapped object doesn't have given attribute, the lookup
         will fallback to regular lookup for variables belonging to this class.
         """
@@ -91,9 +91,9 @@ class SynchronizedMixin:
     def __setattr__(self, /, name: str, value: object) -> None:
         """Allow for changing attributes of the wrapped object.
 
-        * If wrapped object isn't yet set, fall back to :meth:`~object.__setattr__` of this class.
+        * If wrapped object isn't yet set, fall back to [`__setattr__`][?object.] of this class.
         * If wrapped object doesn't already contain the attribute we want to set, also fallback to this class.
-        * Otherwise, run ``__setattr__`` on it to update it.
+        * Otherwise, run `__setattr__` on it to update it.
         """
         try:
             wrapped = getattr(self, self._WRAPPED_ATTRIBUTE)
@@ -107,29 +107,29 @@ class SynchronizedMixin:
 
 
 class UnpropagatingMockMixin(Generic[T_Mock]):
-    """Provides common functionality for our :class:`~unittest.mock.Mock` classes.
+    """Provides common functionality for our [`Mock`][unittest.mock.] classes.
 
     By default, mock objects propagate themselves by returning a new instance of the same mock
     class, with same initialization attributes. This is done whenever we're accessing new
     attributes that mock class.
 
     This propagation makes sense for simple mocks without any additional restrictions, however when
-    dealing with limited mocks to some ``spec_set``, it doesn't usually make sense to propagate
-    those same ``spec_set`` restrictions, since we generally don't have attributes/methods of a
+    dealing with limited mocks to some `spec_set`, it doesn't usually make sense to propagate
+    those same `spec_set` restrictions, since we generally don't have attributes/methods of a
     class be of/return the same class.
 
     This mixin class stops this propagation, and instead returns instances of specified mock class,
-    defined in :attr:`.child_mock_type` class variable, which is by default set to
-    :class:`~unittest.mock.MagicMock`, as it can safely represent most objects.
+    defined in [`child_mock_type`][.] class variable, which is by default set to [`MagicMock`][unittest.mock.],
+    as it can safely represent most objects.
 
-    .. note:
+    Note:
         This propagation handling will only be done for the mock classes that inherited from this
-        mixin class. That means if the :attr:`.child_mock_type` is one of the regular mock classes,
+        mixin class. That means if the [`child_mock_type`][.] is one of the regular mock classes,
         and the mock is propagated, a regular mock class is returned as that new attribute. This
         regular class then won't have the same overrides, and will therefore propagate itself, like
         any other mock class would.
 
-        If you wish to counteract this, you can set the :attr:`.child_mock_type` to a mock class
+        If you wish to counteract this, you can set the [`child_mock_type`][.] to a mock class
         that also inherits from this mixin class, perhaps to your class itself, overriding any
         propagation recursively.
     """
@@ -142,11 +142,11 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
     _extract_mock_name: Callable[[], str]
 
     def _get_child_mock(self, **kwargs) -> T_Mock:
-        """Make :attr:`.child_mock_type`` instances instead of instances of the same class.
+        """Make [`child_mock_type`][..] instances instead of instances of the same class.
 
         By default, this method creates a new mock instance of the same original class, and passes
         over the same initialization arguments. This overrides that behavior to instead create an
-        instance of :attr:`.child_mock_type` class.
+        instance of `child_mock_type` class.
         """
         # Mocks can be sealed, in which case we wouldn't want to allow propagation of any kind
         # and rather raise an AttributeError, informing that given attr isn't accessible
@@ -163,9 +163,9 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
 class CustomMockMixin(UnpropagatingMockMixin[T_Mock], Generic[T_Mock]):
     """Provides common functionality for our custom mock types.
 
-    * Stops propagation of same ``spec_set`` restricted mock in child mocks
-      (see :class:`.UnpropagatingMockMixin` for more info)
-    * Allows using the ``spec_set`` attribute as class attribute
+    * Stops propagation of same `spec_set` restricted mock in child mocks
+      (see [`UnpropagatingMockMixin`][(m).] for more info)
+    * Allows using the `spec_set` attribute as class attribute
     """
 
     spec_set = None
@@ -184,13 +184,15 @@ def isexception(obj: object) -> TypeIs[type[Exception] | TestExc]:
 class TestExc(NamedTuple):
     """Named tuple to check if an exception is raised with a specific message.
 
-    :param exception: The exception type.
-    :param match: If specified, a string containing a regular expression, or a regular expression object, that is
-    tested against the string representation of the exception using :func:`re.search`.
+    Args:
+        exception: The exception type.
+        match:
+            If specified, a string containing a regular expression, or a regular expression object, that is
+            tested against the string representation of the exception using [`re.search`][re.search].
 
-    :param kwargs: The keyword arguments passed to the exception.
+        kwargs: The keyword arguments passed to the exception.
 
-    If :attr:`kwargs` is not None, the exception instance will need to have the same attributes with the same values.
+    If [`kwargs`][.] is not `None`, the exception instance will need to have the same attributes with the same values.
     """
 
     exception: type[Exception] | tuple[type[Exception], ...]
@@ -199,7 +201,7 @@ class TestExc(NamedTuple):
 
     @classmethod
     def from_exception(cls, exception: type[Exception] | tuple[type[Exception], ...] | TestExc) -> TestExc:
-        """Create a :class:`TestExc` from an exception, does nothing if the object is already a :class:`TestExc`."""
+        """Create a [`TestExc`][(m).] from an exception, does nothing if the object is already a `TestExc`."""
         if isinstance(exception, TestExc):
             return exception
         return cls(exception)
@@ -218,31 +220,32 @@ def gen_serializable_test(
     This function generates tests for the serialization, deserialization, validation, and deserialization error
     handling
 
-    :param context: The context to add the test functions to. This is usually `globals()`.
-    :param cls: The serializable class to test.
-    :param fields: A list of tuples containing the field names and types of the serializable class.
-    :param serialize_deserialize: A list of tuples containing:
-        - The tuple representing the arguments to pass to the :class:`mcproto.utils.abc.Serializable` class
-        - The expected bytes
-    :param validation_fail: A list of tuples containing the arguments to pass to the
-        :class:`mcproto.utils.abc.Serializable` class and the expected exception, either as is or wrapped in a
-        :class:`TestExc` object.
-    :param deserialization_fail: A list of tuples containing the bytes to pass to the :meth:`deserialize` method of the
-        class and the expected exception, either as is or wrapped in a :class:`TestExc` object.
+    Args:
+        context: The context to add the test functions to. This is usually `globals()`.
+        cls: The serializable class to test.
+        fields: A list of tuples containing the field names and types of the serializable class.
+        serialize_deserialize:
+            A list of tuples containing:
+
+            - The tuple representing the arguments to pass to the [`Serializable`][mcproto.utils.abc.] class
+            - The expected bytes
+        validation_fail:
+            A list of tuples containing the arguments to pass to the [`Serializable`][mcproto.utils.abc.] class
+            and the expected exception, either as is or wrapped in a [`TestExc`][(m).] object.
+        deserialization_fail:
+            A list of tuples containing the bytes to pass to the
+            [`deserialize`][mcproto.utils.abc.Serializable.deserialize] method of the class and the expected exception,
+            either as is or wrapped in a [`TestExc`][(m).] object.
 
     Example usage:
+        See `tests.mcproto.utils.test_serializable.py` (specifically the `ToyClass`)
 
-    .. literalinclude:: /../tests/mcproto/utils/test_serializable.py
-        :start-after: # region ToyClass
-        :linenos:
-        :language: python
+        This will add 1 class test with 4 test functions containing the tests for serialization, deserialization,
+        validation, and deserialization error handling
 
-    This will add 1 class test with 4 test functions containing the tests for serialization, deserialization,
-    validation, and deserialization error handling
-
-    .. note::
-        The test cases will use :meth:`__eq__` to compare the objects, so make sure to implement it in the class if
-        you are not using the autogenerated method from :func:`attrs.define`.
+    Note:
+        The test cases will use `__eq__` to compare the objects, so make sure to implement it in the class if
+        you are not using the autogenerated method from [`attrs.define`][?attrs.define].
 
     """
     # This holds the parameters for the serialization and deserialization tests

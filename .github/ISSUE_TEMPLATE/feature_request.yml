@@ -4,14 +4,6 @@ labels: ["t: feature"]
 
 body:
   - type: textarea
-    id: summary
-    attributes:
-      label: Summary
-      description: Small summary of the feature.
-    validations:
-      required: true
-
-  - type: textarea
     id: problem
     attributes:
       label: Why is this needed?
@@ -22,8 +14,8 @@ body:
   - type: textarea
     id: ideal-implementation
     attributes:
-      label: Ideal implementation
-      description: How should this feature be implemented?
+      label: Ideal implementation / solution
+      description: How do you think the problem above should be solved?
       value: To be decided.
 
   - type: checkboxes

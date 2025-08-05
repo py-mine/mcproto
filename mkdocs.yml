@@ -1,0 +1,171 @@
+site_name: MCPROTO
+site_url: https://py-mine.github.io/mcproto
+copyright: Mcproto Documentation &copy; 2024 by <a href="mailto:itsdrike@protonmail.com">ItsDrike</a>
+
+repo_url: https://github.com/py-mine/mcproto
+repo_name: py-mine/mcproto
+
+watch:
+  [
+    LICENSE.txt,
+    LICENSE-THIRD-PARTY.txt,
+    ATTRIBUTION.md,
+    SECURITY.md,
+    CHANGELOG.md,
+    changes,
+    mcproto,
+  ]
+
+exclude_docs: |
+  LICENSE.md
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage:
+      - usage/index.md
+      - First steps: usage/first-steps.md
+      - Packet Communication: usage/packet-communication.md
+      - Authentication: usage/authentication.md
+  - FAQ: faq.md
+  - Meta:
+      - Getting help: meta/support.md
+      - Versioning Model: meta/versioning.md
+      - Changelog: meta/changelog.md
+      - Code of Conduct: meta/code-of-conduct.md
+      - Attributions: meta/attribution.md
+      - License: meta/license.md
+  - Contributing:
+      - Bugs & Feature requests: contributing/issue-guide.md
+      - Making a pull request: contributing/making-a-pr.md
+      - Security Policy: contributing/security-policy.md
+      - Guides:
+          - contributing/guides/index.md
+          - Setting things up: contributing/guides/setup.md
+          - Style Guide: contributing/guides/style-guide.md
+          - Type hinting: contributing/guides/type-hints.md
+          - Slotscheck: contributing/guides/slotscheck.md
+          - Pre-commit: contributing/guides/precommit.md
+          - Changelog: contributing/guides/changelog.md
+          - Breaking Changes: contributing/guides/breaking-changes.md
+          - Unit Tests: contributing/guides/unit-tests.md
+          - Documentation: contributing/guides/documentation.md
+          - API Reference: contributing/guides/api-reference.md
+          - Great commits: contributing/guides/great-commits.md
+  - API Reference:
+      - Protocol: reference/protocol.md
+      - Authentication: reference/authentication.md
+      - Encryption: reference/encryption.md
+      - Multiplayer: reference/multiplayer.md
+      - Types: reference/types.md
+      - Packets: reference/packets.md
+      - ABC: reference/abc.md
+
+theme:
+  name: material
+  logo: assets/py-mine_logo.png
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: black
+      accent: black
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: black
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - content.tabs.link
+    - content.code.copy
+    - content.action.edit
+    - search.highlight
+    - search.share
+    - search.suggest
+    - navigation.footer
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - toc.follow
+
+extra_css:
+  - css/mkdocstrings.css
+  - css/material.css
+  - css/admoditions.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+  - markdown-exec:
+      ansi: required
+  - mike:
+      canonical_version: "latest"
+      version_selector: true
+  - mkdocstrings:
+      enable_inventory: true
+      default_handler: python_betterrefs
+      handlers:
+        python_betterrefs:
+          options:
+            docstring_options:
+              ignore_init_summary: true
+            show_root_heading: false
+            show_root_toc_entry: false
+            show_source: false
+            docstring_style: google
+            show_signature_annotations: true
+            better_crossrefs: true
+            check_crossrefs: true
+            signature_crossrefs: true
+            separate_signature: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            parameter_headings: true
+            show_object_full_path: true
+            docstring_section_style: table
+          import:
+            - url: https://docs.python.org/3.13/objects.inv
+              domains: [std, py]
+            - https://typing-extensions.readthedocs.io/en/latest/objects.inv
+            - https://cryptography.io/en/stable/objects.inv
+            - https://python-semanticversion.readthedocs.io/en/stable/objects.inv
+            - https://www.attrs.org/en/stable/objects.inv
+
+extra:
+  version:
+    provider: mike
+    default: latest
+    alias: true
