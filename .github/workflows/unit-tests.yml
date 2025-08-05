@@ -21,17 +21,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup poetry
-        id: poetry_setup
-        uses: ItsDrike/setup-poetry@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
+          version: "latest"
           python-version: ${{ matrix.python-version }}
-          install-args: "--without lint --without release"
+          enable-cache: true
+          cache-suffix: "tests"
+
+      - name: Install dependencies
+        run: |
+          uv sync --no-default-groups --group test
 
       - name: Run pytest
         shell: bash
-        run: |
-          poetry run task test
+        run: pytest -vvv
 
   tests-done:
     needs: [unit-tests]

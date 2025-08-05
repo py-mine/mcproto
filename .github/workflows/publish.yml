@@ -9,6 +9,9 @@ on:
 permissions:
   contents: read
 
+env:
+  PYTHON_VERSION: "3.13"
+
 jobs:
   build:
     name: "Build the project"
@@ -21,17 +24,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup poetry
-        uses: ItsDrike/setup-poetry@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: 3.13
-          install-args: "--only release-ci"
+          version: "latest"
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-suffix: "build"
 
-      - name: Set version with dynamic versioning
-        run: poetry run poetry-dynamic-versioning
+      - name: Install dependencies
+        run: |
+          uv sync --no-default-groups --group release
 
       - name: Build project for distribution
-        run: poetry build
+        run: uv build
 
       - name: Upload build files
         uses: actions/upload-artifact@v4
@@ -44,8 +50,8 @@ jobs:
       - name: Check pre-release status
         id: check-version
         run: |
-          if [[ "$(poetry version --short)" =~ "^[0-9]+\.[0-9]+\.[0-9]+$" ]]
-          then
+          version="$(uv pip list --format json | jq -r '.[] | select(.name == "mcproto") | .version')"
+          if [[ "$version" =~ "^[0-9]+\.[0-9]+\.[0-9]+$" ]]; then
             echo prerelease=true >> $GITHUB_OUTPUT
           else
             echo prerelease=false >> $GITHUB_OUTPUT
@@ -165,18 +171,22 @@ jobs:
           git config --global user.name "py-mine-ci-bot"
           git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
 
-      - name: Setup poetry
-        id: poetry_setup
-        uses: ItsDrike/setup-poetry@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: 3.12
-          install-args: "--only main,docs,release-ci"
+          version: "latest"
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-suffix: "docs" # matches mkdocs.yml suffix
 
-      - name: Set version with dynamic versioning
-        run: poetry run poetry-dynamic-versioning
+      - name: Install dependencies
+        run: |
+          uv sync --no-default-groups --group docs
 
       - name: Build the documentation (mike)
-        run: poetry run mike deploy  --update-aliases "$(poetry version --short)" release
+        run: |
+          version="$(uv pip list --format json | jq -r '.[] | select(.name == "mcproto") | .version')"
+          mike deploy --update-aliases "$version" release
 
       - name: Deploy docs - release
         run: git push origin gh-pages

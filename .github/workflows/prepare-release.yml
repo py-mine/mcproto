@@ -8,6 +8,9 @@ on:
         description: "The version to prepare the release for"
         required: true
 
+env:
+  PYTHON_VERSION: "3.13"
+
 jobs:
   prepare-release:
     if: github.ref == 'refs/heads/main'
@@ -33,11 +36,17 @@ jobs:
           git config --global user.name "py-mine-ci-bot"
           git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
 
-      - name: Setup poetry
-        uses: ItsDrike/setup-poetry@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: 3.13
-          install-args: "--no-root --only release"
+          version: "latest"
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-suffix: "prepare-release"
+
+      - name: Install dependencies
+        run: |
+          uv sync --no-default-groups --no-install-project --group release
 
       - name: Checkout new branch
         run: git checkout -b "prepare-release-${{ github.event.inputs.version }}"

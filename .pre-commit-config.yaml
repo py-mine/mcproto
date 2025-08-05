@@ -19,7 +19,7 @@ repos:
       - id: ruff-linter
         name: Ruff Linter
         description: Run ruff checks on the code
-        entry: poetry run ruff check --force-exclude
+        entry: ruff check --force-exclude
         language: system
         types: [python]
         require_serial: true
@@ -30,7 +30,7 @@ repos:
       - id: ruff-formatter
         name: Ruff Formatter
         description: Ruf ruff auto-formatter
-        entry: poetry run ruff format
+        entry: ruff format
         language: system
         types: [python]
         require_serial: true
@@ -40,7 +40,7 @@ repos:
       - id: slotscheck
         name: Slotscheck
         description: "Slotscheck: Ensure your __slots__ are working properly"
-        entry: poetry run slotscheck -m mcproto
+        entry: slotscheck -m mcproto
         language: system
         pass_filenames: false # running slotscheck for single files doesn't respect ignored files, run for entire project
         types: [python]
@@ -50,7 +50,17 @@ repos:
       - id: basedpyright
         name: Based Pyright
         description: Run basedpyright type checker
-        entry: poetry run basedpyright --warnings
+        entry: basedpyright --warnings
         language: system
         types: [python]
         pass_filenames: false # pyright runs for the entire project, it can't run for single files
+
+  - repo: local
+    hooks:
+      - id: uv-lockfile
+        name: UV Lockfile
+        description: Check if the UV lockfile is up to date with pyproject.toml
+        entry: uv lock --check
+        language: system
+        files: '^pyproject\.toml$|^uv\.lock$'
+        pass_filenames: false
