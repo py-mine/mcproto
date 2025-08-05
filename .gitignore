@@ -23,7 +23,7 @@ coverage.xml
 # Mkdocs documentation
 site/
 
-# Pyenv local version information
+# Pyenv/uv local version information
 .python-version
 
 # Editor generated files
