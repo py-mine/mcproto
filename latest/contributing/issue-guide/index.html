@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/guides/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/issue-guide/">
       
       
-        <link rel="prev" href="../security-policy/">
+        <link rel="prev" href="../../meta/license/">
       
       
-        <link rel="next" href="setup/">
+        <link rel="next" href="../making-a-pr/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Contributing guides & guidelines - MCPROTO</title>
+        <title>Bugs & Feature requests - MCPROTO</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing-guides-guidelines" class="md-skip">
+        <a href="#bug-reports-feature-requests" class="md-skip">
           Skip to content
         </a>
       
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Contributing guides &amp; guidelines
+              Bugs & Feature requests
             
           </span>
         </div>
@@ -352,7 +352,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../issue-guide/" class="md-tabs__link">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -908,10 +908,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../issue-guide/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Bugs & Feature requests
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -922,6 +944,206 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-creating-an-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before creating an issue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Before creating an issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upgrade-to-latest-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrade to latest version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-for-existing-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Search for existing issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-new-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a new issue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a new issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issue-title" class="md-nav__link">
+    <span class="md-ellipsis">
+      Issue Title
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Issue Title">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-titles-for-bug-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example titles for bug reports
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-titles-for-feature-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example titles for feature requests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#body" class="md-nav__link">
+    <span class="md-ellipsis">
+      Body
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-good-bug-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing good bug reports
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing good bug reports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bug description
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reproduction
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-good-feature-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing good feature requests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing good feature requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feature-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      Feature description
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wait-for-us-to-address-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wait for us to address it
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attempt-to-solve-it-yourself" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attempt to solve it yourself
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -977,8 +1199,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1022,15 +1242,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../guides/" class="md-nav__link ">
               
   
   
@@ -1043,13 +1263,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_6_4" id="__nav_6_4_label" tabindex="">
+              <label class="md-nav__link " for="__nav_6_4" id="__nav_6_4_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6_4">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -1065,7 +1285,7 @@
   
   
     <li class="md-nav__item">
-      <a href="setup/" class="md-nav__link">
+      <a href="../guides/setup/" class="md-nav__link">
         
   
   
@@ -1088,7 +1308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="style-guide/" class="md-nav__link">
+      <a href="../guides/style-guide/" class="md-nav__link">
         
   
   
@@ -1111,7 +1331,7 @@
   
   
     <li class="md-nav__item">
-      <a href="type-hints/" class="md-nav__link">
+      <a href="../guides/type-hints/" class="md-nav__link">
         
   
   
@@ -1134,7 +1354,7 @@
   
   
     <li class="md-nav__item">
-      <a href="slotscheck/" class="md-nav__link">
+      <a href="../guides/slotscheck/" class="md-nav__link">
         
   
   
@@ -1157,7 +1377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="precommit/" class="md-nav__link">
+      <a href="../guides/precommit/" class="md-nav__link">
         
   
   
@@ -1180,7 +1400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="changelog/" class="md-nav__link">
+      <a href="../guides/changelog/" class="md-nav__link">
         
   
   
@@ -1203,7 +1423,7 @@
   
   
     <li class="md-nav__item">
-      <a href="breaking-changes/" class="md-nav__link">
+      <a href="../guides/breaking-changes/" class="md-nav__link">
         
   
   
@@ -1226,7 +1446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="unit-tests/" class="md-nav__link">
+      <a href="../guides/unit-tests/" class="md-nav__link">
         
   
   
@@ -1249,7 +1469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="documentation/" class="md-nav__link">
+      <a href="../guides/documentation/" class="md-nav__link">
         
   
   
@@ -1272,7 +1492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-reference/" class="md-nav__link">
+      <a href="../guides/api-reference/" class="md-nav__link">
         
   
   
@@ -1295,7 +1515,7 @@
   
   
     <li class="md-nav__item">
-      <a href="great-commits/" class="md-nav__link">
+      <a href="../guides/great-commits/" class="md-nav__link">
         
   
   
@@ -1580,38 +1800,182 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-golden-rules-of-contributing" class="md-nav__link">
+  <a href="#before-creating-an-issue" class="md-nav__link">
     <span class="md-ellipsis">
-      The Golden Rules of Contributing
+      Before creating an issue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Before creating an issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upgrade-to-latest-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrade to latest version
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#changes-to-these-guidelines" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#search-for-existing-issues" class="md-nav__link">
     <span class="md-ellipsis">
-      Changes to these guidelines
+      Search for existing issues
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#footnotes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Footnotes
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#disclaimer" class="md-nav__link">
+  <a href="#creating-a-new-issue" class="md-nav__link">
     <span class="md-ellipsis">
-      Disclaimer
+      Creating a new issue
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Creating a new issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issue-title" class="md-nav__link">
+    <span class="md-ellipsis">
+      Issue Title
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Issue Title">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-titles-for-bug-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example titles for bug reports
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-titles-for-feature-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example titles for feature requests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#body" class="md-nav__link">
+    <span class="md-ellipsis">
+      Body
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-good-bug-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing good bug reports
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing good bug reports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bug description
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reproduction
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-good-feature-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing good feature requests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing good feature requests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feature-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      Feature description
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wait-for-us-to-address-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wait for us to address it
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attempt-to-solve-it-yourself" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attempt to solve it yourself
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1631,7 +1995,7 @@
 
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/issue-guide.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1639,66 +2003,243 @@
   
 
 
-<h1 id="contributing-guides-guidelines">Contributing guides &amp; guidelines<a class="headerlink" href="#contributing-guides-guidelines" title="Permanent link">&para;</a></h1>
-<p>Welcome to the contributing guides &amp; guidelines for mcproto. This documentation is intended for our contributors,
-interested in writing or modifying mcproto itself. If you just wish to use mcproto in your project, you can safely skip
-this section.</p>
-<p>Mcproto is a relatively large project and maintaining it is no easy task. With a project like that, consistency and
-good code quality become very important to keep the code-base readable and bug-free. To achieve this, we have put
-together these guidelines that will explain the code style and coding practices that we expect our contributors to
-follow.</p>
-<p>This documentation will also include various guides that tell you how to set up our project for development and explain
-the automated tools that we use to improve our coding experience and enforce a bunch of the code style rules quickly
-and without the need for human review.</p>
-<h2 id="the-golden-rules-of-contributing">The Golden Rules of Contributing<a class="headerlink" href="#the-golden-rules-of-contributing" title="Permanent link">&para;</a></h2>
-<p>These are the general rules which you should follow when contributing. You can glance over these and then go over the
-individual guides one by one, or use the references in these rules to get to the specific guide page explaining the
-rule.</p>
+<h1 id="bug-reports-feature-requests">Bug Reports &amp; Feature Requests<a class="headerlink" href="#bug-reports-feature-requests" title="Permanent link">&para;</a></h1>
+<p>Mcproto is an actively maintained project, and we welcome contributions in the form of both bug reports and feature
+requests. This guide will help you understand how to effectively submit an issue, whether it's reporting a bug or
+proposing a new feature.</p>
+<h2 id="before-creating-an-issue">Before creating an issue<a class="headerlink" href="#before-creating-an-issue" title="Permanent link">&para;</a></h2>
+<p>Before opening a new issue, please do the following things:</p>
+<h3 id="upgrade-to-latest-version">Upgrade to latest version<a class="headerlink" href="#upgrade-to-latest-version" title="Permanent link">&para;</a></h3>
+<ul>
+<li>For <strong>feature requests</strong>: Verify your proposal isn't already implemented</li>
+<li>For <strong>bug reports</strong>: Confirm the issue still exists in the latest version</li>
+</ul>
+<p>Thus, before reporting an issue, ensure that you're running the <a href="../../meta/changelog/">latest version</a> of mcproto.</p>
+<div class="admonition warning">
+<p class="admonition-title">Bug fixes are not backported</p>
+<p>Please understand that only bugs that occur in the latest version of mcproto will be addressed. Also, to reduce
+duplicate efforts, fixes cannot be backported to earlier versions.</p>
+<p>Please understand that only bugs that occur in the latest version will be addressed. Also, to reduce duplicate
+efforts, fixes cannot be backported to earlier versions, except as a hotfix to the latest version, diverging from
+the not yet finished features, even if already in the <code>main</code> branch.</p>
+<p>Due to the nature of our <a href="../../meta/versioning/">versioning</a>, that might mean that if you require an older version of minecraft protocol,
+you might be stuck with an older, buggy version of this library.</p>
+</div>
+<h3 id="search-for-existing-issues">Search for existing issues<a class="headerlink" href="#search-for-existing-issues" title="Permanent link">&para;</a></h3>
+<p>It's possible that the issue you're having was already reported. Please take some time and search the <a href="https://github.com/py-mine/mcproto/issues">existing
+issues</a> in the GitHub repository for your problem. If you do find an existing issue that matches the
+problem you're having, simply leave a <img alt="👍" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f44d.svg" title=":thumbsup:" /> reaction instead (avoid commenting "I have this issue too" or similar,
+as that ultimately just clutters the discussion in that issue, but if you do think that you have something meaningful to
+add, please do).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This list serves as a quick-reference rather than a full guide. Some of our guidelines aren't directly linked in
-these references at all and we heavily encourage you to go over each of the guide pages in the order they're listed
-in the docs.</p>
+<p>Make sure to also check the closed issues. By default, github issue search will start with: <code>is:issue is:open</code>,
+remove the <code>is:open</code> part to search all issues, not just the opened ones. It's possible that we seen this issue
+before, but closed the issue as something that we're unable to fix.</p>
 </div>
+<p>In case you found a relevant issue, however, it has already been closed as implemented (not as declined / not planned),
+but the bug / proposed feature is still somehow relevant, don't be worried to drop a comment on this older issue, we
+will get notifications for those too. That said, if you think there is sufficient new context now, it might also make
+sense to open a new issue instead, but make sure to at least mention the old issue if you choose this route.</p>
+<h2 id="creating-a-new-issue">Creating a new issue<a class="headerlink" href="#creating-a-new-issue" title="Permanent link">&para;</a></h2>
+<p>At this point, when you still haven't found a solution to your problem, we encourage you to create an issue.</p>
+<p>We have some issue-templates ready, to make sure that you include all of the necessary things we need to know:</p>
+<ul>
+<li>For a <strong>bug report</strong>, you can click <a href="https://github.com/py-mine/mcproto/issues/new?labels=type%3A+bug&amp;template=bug_report.yml">here</a>.</li>
+<li>For a <strong>feature request</strong>, you can instead click <a href="https://github.com/py-mine/mcproto/issues/new?labels">here</a>.</li>
+</ul>
+<p>If you prefer, you can also <a href="https://github.com/py-mine/mcproto/issues/new?template=Blank+issue">open a blank issue</a>. This will allow you to avoid having to follow the
+issue templates above. This might be useful if your issue doesn't cleanly fit into either of these two, or if you prefer
+to use your own categories and structure for the issue. That said, make please still make sure to include all of the
+relevant details when you do so.</p>
+<h3 id="issue-title">Issue Title<a class="headerlink" href="#issue-title" title="Permanent link">&para;</a></h3>
+<p>First thing you will do after opening a new issue is choosing a title. A good title is short and descriptive. It should
+be a one-sentence executive summary of the issue, so the impact and severity of the bug or relevance of the feature can
+be inferred right from the title.</p>
+<h4 id="example-titles-for-bug-reports">Example titles for bug reports<a class="headerlink" href="#example-titles-for-bug-reports" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th><!----></th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>Clear</strong></td>
+<td>Ping packet has incorrect ID</td>
+</tr>
+<tr>
+<td><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Wordy</strong></td>
+<td>The Ping packet has an incorrect packet ID of 0, when it should be 1</td>
+</tr>
+<tr>
+<td><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Unclear</strong></td>
+<td>Ping packet is incorrect</td>
+</tr>
+<tr>
+<td><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Non-english</strong></td>
+<td>El paquete ping tiene una identificación incorrecta</td>
+</tr>
+<tr>
+<td><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Useless</strong></td>
+<td>Help</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-titles-for-feature-requests">Example titles for feature requests<a class="headerlink" href="#example-titles-for-feature-requests" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th><!----></th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>Clear</strong></td>
+<td>Add support for Minecraft 1.20.5 protocol</td>
+</tr>
+<tr>
+<td><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Wordy</strong></td>
+<td>I think it would be great if we could add the new Minecraft 1.20.5 protocol</td>
+</tr>
+<tr>
+<td><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Unclear</strong></td>
+<td>New Minecraft version</td>
+</tr>
+<tr>
+<td><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Non-english</strong></td>
+<td>Agregar compatibilidad con Minecraft 1.20.5</td>
+</tr>
+<tr>
+<td><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Useless</strong></td>
+<td>Feature idea</td>
+</tr>
+</tbody>
+</table>
+<h3 id="body">Body<a class="headerlink" href="#body" title="Permanent link">&para;</a></h3>
+<p>Generally, the GitHub issue template should guide you towards telling us everything that we need to know. However, for
+the best results, keep reading through this section. In here, we'll explain how a well formatted issue should look like
+in general and what it should contain.</p>
+<p>For more information on what to include though, check out the chapters below:</p>
+<ul>
+<li><a href="#writing-good-bug-reports">Writing good bug reports</a></li>
+<li><a href="#writing-good-feature-requests">Writing good feature requests</a></li>
+</ul>
+<h2 id="writing-good-bug-reports">Writing good bug reports<a class="headerlink" href="#writing-good-bug-reports" title="Permanent link">&para;</a></h2>
+<h3 id="bug-description">Bug description<a class="headerlink" href="#bug-description" title="Permanent link">&para;</a></h3>
+<p>Now, to the bug you want to report. Provide a clear, focused, specific and concise summary of the bug you encountered.
+Explain why you think this is a bug that should be reported to us. Adhere to the following principles:</p>
 <ol>
-<li><strong>Lint before you push.</strong> We have multiple code linting rules, which define our general style of the code-base.
-   These are often enforced through certain tools, which you are expected to run before every push and ideally even
-   before every commit. The specifics of our linting rules are mentioned in our <a href="style-guide/">style guide</a>. Running all of these
-   tools manually before every commit would however be quite annoying, so we use <a href="precommit/">pre-commit</a>.</li>
-<li><strong>Make great commits.</strong> Great commits should be atomic (do one thing only and do it well), with a commit message
-   that explaining what was done, and why. More on this <a href="great-commits/">here</a>.</li>
-<li><strong>Make an issue before the PR.</strong> Before you start working on your PR, open an issue and let us know what you're
-   planning. We described this further in our <a href="../making-a-pr/#get-assigned-to-the-issue">making a PR guide</a>.</li>
-<li><strong>Use assets licensed for public use.</strong> Whenever you're adding a static asset (e.g. images/video files/audio or
-   even code) that isn't owned/written by you, make sure it has a compatible license with our projects.</li>
-<li><strong>Follow our <a href="../../meta/code-of-conduct/">Code of Conduct</a></strong></li>
+<li><strong>Explain the <u>what</u>, not the <u>how</u></strong> – don't explain <a href="#reproduction">how to reproduce the bug</a> here,
+   we're getting there. Focus on articulating the problem and its impact as clearly as possible.</li>
+<li><strong>Keep it short and concise</strong> - if the bug can be precisely explained in one or two sentences, perfect. Don't
+   inflate it - maintainers and future users will be grateful for having to read less.</li>
+<li><strong>Don't under-explain</strong> - don't leave out important details just to keep things short. While keeping things short is
+   important, if something is relevant, mention it. It is more important for us to have enough information to be able
+   to understand the bug, even if it means slightly longer bug report.</li>
+<li><strong>One bug at a time</strong> - if you encounter several unrelated bugs, please create separate issues for them. Don't
+   report them in the same issue, as this makes it difficult for others when they're searching for existing issues and
+   also for us, since we can't mark such an issue as complete if only one of the bugs was fixed.</li>
 </ol>
-<h2 id="changes-to-these-guidelines">Changes to these guidelines<a class="headerlink" href="#changes-to-these-guidelines" title="Permanent link">&para;</a></h2>
-<p>While we're confident and happy with the current code style and tooling, we acknowledge that change is inevitable. New
-tools are constantly being developed, and we have already made significant updates to our code style in the past.</p>
-<p>Every project evolves over time, and these guidelines are no exception. This documentation is open to pull requests and
-changes from contributors. Just ensure that any updates to this document are in sync with the codebase. If you propose
-a code style change, you must apply that change throughout the codebase to maintain internal consistency.</p>
-<p>If you believe you have something valuable to add or change, please submit a pull request. For major style changes, we
-strongly encourage you to open an issue first, as we may not always agree with significant alterations. For minor
-clarity improvements or typo fixes, opening an issue isn't necessary.</p>
-<p>We tried to design our specifications to be straightforward and comprehensive, but we might not always succeed, as
-we're doing so from our perspective of already having extensive background knowledge. Therefore, we welcome any clarity
-improvements to the documentation. If you think you can explain something better, please contribute.</p>
-<h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
-<p>We understand that going through all of these guidelines can be time-consuming and a lot to remember. However, we
-strongly encourage you to review them, especially if you haven't worked with these tools or followed such best
-practices before.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Every page in this contributing guides category has an abstract at the top, summarizing its content. This allows
-you to quickly determine if you are already familiar with the topic or, if you're re-reading, to quickly recall
-what the page covers. Feel free to skip any guide pages if you're already familiar with what they cover.</p>
+<hr />
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 5.5a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2zM4 9a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3v2zm1-4a1 1 0 0 1-1-1 1 1 0 0 1 1-1h5v2zm-2 8a1 1 0 0 1-1-1 1 1 0 0 1 1-1h4v2z"/></svg></span> <strong>Stretch goal</strong> – if you have a link to an existing page that describes the issue, or otherwise
+explains some of your claims, include it. Usually, this will be a <a href="https://minecraft.wiki">https://minecraft.wiki</a> link leading to the
+Minecraft protocol documentation for something.</p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 5.5a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2zM4 9a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3v2zm1-4a1 1 0 0 1-1-1 1 1 0 0 1 1-1h5v2zm-2 8a1 1 0 0 1-1-1 1 1 0 0 1 1-1h4v2z"/></svg></span> <strong>Stretch goal #2</strong> – if you found a workaround or a way to fix
+the bug, you can help other users temporarily mitigate the problem before
+we maintainers can fix the bug in our code base.</p>
+<h3 id="reproduction">Reproduction<a class="headerlink" href="#reproduction" title="Permanent link">&para;</a></h3>
+<p>A minimal reproducible example is at the heart of every well-written bug report, as it allows us maintainers to
+instantly recreate the necessary conditions to inspect the bug and quickly find its root cause from there. It's a
+proven fact that issues with concise and small reproductions can be fixed much faster.</p>
+<p>Focus on creating a simple and small code snippet that we can run to see the bug. Do your best to avoid giving us large
+snippets or whole files just for the purpose of the reproducible example, do your best to reduce the amount of code as
+much as you can and try to avoid using external dependencies in the snippet (except for mcproto of course).</p>
+<details class="tip">
+<summary>How to include code-snippets (markdown)</summary>
+<p>In case you're not yet familiar with the syntax, GitHub issues use <code>markdown</code> format, which means you can use some
+nice custom formatting to make the text appear distinct. One of these formatting options is a source-code block /
+code snippet. To include one, you will want to use the following syntax:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="sb">```language</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="s">your code</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="s">it can be multiline</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="sb">```</span>
+</code></pre></div>
+<p>Note that the symbols used here aren't single quotes (<code>'</code>), they're backticks: <code>`</code>.
+On an english keyboard, you can type these using the key right below escape (also used for tildes: <code>~</code>).</p>
+<p>The <code>language</code> controls how the code will be highlighted. For python, you can use <code>python</code>, for yaml, <code>yaml</code>, etc.</p>
+</details>
+<p>Sometimes, the bug can't be described in terms of code snippets, such as when reporting a mistake in the documentation.
+In that case, provide a link to the documentation or whatever other relevant things that will allows us to see the bug
+with minimal effort. In certain cases, it might even be fine to leave the reproduction steps section empty.</p>
+<h2 id="writing-good-feature-requests">Writing good feature requests<a class="headerlink" href="#writing-good-feature-requests" title="Permanent link">&para;</a></h2>
+<h3 id="feature-description">Feature description<a class="headerlink" href="#feature-description" title="Permanent link">&para;</a></h3>
+<p>Clearly describe the feature you would like to see. Explain why this feature would be useful and how it would benefit
+the project and its users. Consider the following:</p>
+<ol>
+<li><strong>Problem first</strong> - Explain the problem you are facing (if any) that this feature would solve.</li>
+<li><strong>Proposed solution</strong> - Then, explain your proposed solution.</li>
+<li><strong>Alternatives considered</strong> - If you've considered alternative approaches, mention them and explain why you prefer
+   your proposal.</li>
+<li><strong>Relation to existing features</strong> - If the feature is an enhancement to an existing feature, mention that and
+   explain how it extends or improves the current functionality.</li>
+<li><strong>Scope</strong> - Try to keep the feature request focused on one specific feature. If you have multiple feature ideas,
+   open separate issues.</li>
+</ol>
+<hr />
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 5.5a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2zM4 9a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3v2zm1-4a1 1 0 0 1-1-1 1 1 0 0 1 1-1h5v2zm-2 8a1 1 0 0 1-1-1 1 1 0 0 1 1-1h4v2z"/></svg></span> <strong>Stretch goal</strong> - If you have a link to the Minecraft protocol documentation or a related resource
+that supports your feature request, include it.</p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 5.5a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2zM4 9a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3v2zm1-4a1 1 0 0 1-1-1 1 1 0 0 1 1-1h5v2zm-2 8a1 1 0 0 1-1-1 1 1 0 0 1 1-1h4v2z"/></svg></span> <strong>Stretch goal #2</strong> - If you are willing to implement the feature yourself, mention that. Even if
+you don't plan to implement it, you might suggest a high-level approach to the implementation, or a temporary workaround
+to achieve this before we implement the feature natively into the library.</p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p>Once the issue is submitted, you have 2 options:</p>
+<h3 id="wait-for-us-to-address-it">Wait for us to address it<a class="headerlink" href="#wait-for-us-to-address-it" title="Permanent link">&para;</a></h3>
+<p>We will try to review your issue as soon as possible. Please be patient though, as this is an open-source project
+maintained by volunteers, who work on it simply for the fun of it. This means that we may sometimes have other
+priorities in life or we just want to work on some more interesting tasks first. It might therefore take a while for us
+to get to your issue, but we try and do our best to respond reasonably quickly, when we can. Even when things are
+slower, we kindly ask you to avoid posting comments like "Any progress on this?" as they are not helpful and only create
+unnecessary clutter in the discussion.</p>
+<p>When we do address your issue, we might need further information from you. GitHub has a notification system, so once we
+respond, you will be notified there. Note that, by default, these notifications might not be forwarded to your email or
+elsewhere, so please check GitHub periodically for updates.</p>
+<p>Finally, when we address your issue, we will mark the issue as closed (GitHub will notify you of this too). Once that
+happens, your bug should be fixed / feature implemented, but we appreciate it if you take the time to verify that
+everything is working correctly. If something is still wrong, you can reopen the issue and let us know.</p>
+<div class="admonition warning">
+<p class="admonition-title">Issues are fixed on the main branch</p>
+<p>Do note that when we close an issue, it means that we have fixed your bug in the <code>main</code> branch of the repository.
+  That doesn't necessarily mean the fix has been released on PyPI yet, so you might still need to wait for the next
+  release. Alternatively, you can also try the <a href="../../installation/#latest-git-version">git installation</a> to get the project right from that latest <code>main</code>
+  branch.</p>
 </div>
-<p>We believe these guides will be beneficial to you beyond our codebase, as they promote good coding practices and help
-make your code cleaner. You will likely be able to apply much of the knowledge you gain here to your own projects.</p>
-<h2 id="disclaimer">Disclaimer<a class="headerlink" href="#disclaimer" title="Permanent link">&para;</a></h2>
-<p>These documents were inspired by <a href="https://github.com/python-discord/bot/blob/master/CONTRIBUTING.md">Python Discord's CONTRIBUTING agreement.</a></p>
+<h3 id="attempt-to-solve-it-yourself">Attempt to solve it yourself<a class="headerlink" href="#attempt-to-solve-it-yourself" title="Permanent link">&para;</a></h3>
+<div class="admonition quote">
+<p class="admonition-title">Quote</p>
+<p>The fastest way to get something done is to avoid waiting on others.</p>
+</div>
+<p>If you wish to try and tackle the bug yourself, let us know by commenting on the issue with something like "I'd like to
+work on this". This helps us avoid duplicate efforts and ensures that we don't work on something you're already
+addressing.</p>
+<p>Once a maintainer sees your comment, they will assign the issue to you. Being assigned is a soft approval from us,
+giving you the green light to start working.</p>
+<p>Of course, you are welcome to start working on the issue even before being officially assigned. However, please be
+aware that sometimes we choose not to fix certain bugs for specific reasons. In such cases, your work might not end up
+being used.</p>
+<div class="admonition important">
+<p class="admonition-title">Discuss major changes before coding</p>
+<p>If proposing <strong>significant new functionality or architectural changes</strong>:</p>
+<ol>
+<li>Outline your approach in the issue comments</li>
+<li>Wait for design approval before implementation</li>
+</ol>
+<p>This applies to both feature requests and complex bug fixes. We want to prevent situations where implementations
+can't be merged due to unforeseen design constraints, leading to wasted time.</p>
+</div>
+<p>Before starting your work though, make sure to also read our <a href="../making-a-pr/">pull request guide</a>.</p>
 
 
 
@@ -1736,7 +2277,7 @@ make your code cleaner. You will likely be able to apply much of the knowledge y
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../security-policy/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Security Policy">
+          <a href="../../meta/license/" class="md-footer__link md-footer__link--prev" aria-label="Previous: License">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1746,20 +2287,20 @@ make your code cleaner. You will likely be able to apply much of the knowledge y
                 Previous
               </span>
               <div class="md-ellipsis">
-                Security Policy
+                License
               </div>
             </div>
           </a>
         
         
           
-          <a href="setup/" class="md-footer__link md-footer__link--next" aria-label="Next: Setting things up">
+          <a href="../making-a-pr/" class="md-footer__link md-footer__link--next" aria-label="Next: Making a pull request">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Setting things up
+                Making a pull request
               </div>
             </div>
             <div class="md-footer__button md-icon">

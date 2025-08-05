@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/guides/changelog/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/guides/breaking-changes/">
       
       
-        <link rel="prev" href="../precommit/">
+        <link rel="prev" href="../changelog/">
       
       
-        <link rel="next" href="../breaking-changes/">
+        <link rel="next" href="../unit-tests/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Changelog - MCPROTO</title>
+        <title>Breaking Changes - MCPROTO</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#changelog-fragments" class="md-skip">
+        <a href="#breaking-changes-deprecations" class="md-skip">
           Skip to content
         </a>
       
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Changelog
+              Breaking Changes
             
           </span>
         </div>
@@ -1177,6 +1177,29 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1194,7 +1217,7 @@
   
   
   <span class="md-ellipsis">
-    Changelog
+    Breaking Changes
     
   </span>
   
@@ -1207,7 +1230,7 @@
   
   
   <span class="md-ellipsis">
-    Changelog
+    Breaking Changes
     
   </span>
   
@@ -1230,64 +1253,74 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#structure-of-a-fragment-file" class="md-nav__link">
+  <a href="#what-is-a-breaking-change" class="md-nav__link">
     <span class="md-ellipsis">
-      Structure of a fragment file
+      What is a breaking change
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-fragments-with-commands" class="md-nav__link">
+  <a href="#what-is-a-deprecation" class="md-nav__link">
     <span class="md-ellipsis">
-      Create fragments with commands
+      What is a deprecation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#multiple-fragments-in-a-single-pr" class="md-nav__link">
+  <a href="#how-to-deprecate" class="md-nav__link">
     <span class="md-ellipsis">
-      Multiple fragments in a single PR
+      How to deprecate
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#preview-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      Preview changelog
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-good-changelog-fragments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Writing good changelog fragments
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Writing good changelog fragments">
+    <nav class="md-nav" aria-label="How to deprecate">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#examples-of-good-changlog-fragment-files" class="md-nav__link">
+  <a href="#removal-version" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples of good changlog fragment files
+      Removal version
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#examples-of-bad-changelog-fragment-files" class="md-nav__link">
+  <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples of bad changelog fragment files
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-rename" class="md-nav__link">
+    <span class="md-ellipsis">
+      Function rename
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-removal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class removal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argument-removal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Argument removal
     </span>
   </a>
   
@@ -1297,11 +1330,25 @@
     </nav>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#footnotes" class="md-nav__link">
+  <a href="#communicating-breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      Footnotes
+      Communicating breaking changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-deprecations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicating deprecations
     </span>
   </a>
   
@@ -1311,29 +1358,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../breaking-changes/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Breaking Changes
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1700,64 +1724,74 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#structure-of-a-fragment-file" class="md-nav__link">
+  <a href="#what-is-a-breaking-change" class="md-nav__link">
     <span class="md-ellipsis">
-      Structure of a fragment file
+      What is a breaking change
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-fragments-with-commands" class="md-nav__link">
+  <a href="#what-is-a-deprecation" class="md-nav__link">
     <span class="md-ellipsis">
-      Create fragments with commands
+      What is a deprecation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#multiple-fragments-in-a-single-pr" class="md-nav__link">
+  <a href="#how-to-deprecate" class="md-nav__link">
     <span class="md-ellipsis">
-      Multiple fragments in a single PR
+      How to deprecate
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#preview-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      Preview changelog
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-good-changelog-fragments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Writing good changelog fragments
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Writing good changelog fragments">
+    <nav class="md-nav" aria-label="How to deprecate">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#examples-of-good-changlog-fragment-files" class="md-nav__link">
+  <a href="#removal-version" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples of good changlog fragment files
+      Removal version
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#examples-of-bad-changelog-fragment-files" class="md-nav__link">
+  <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples of bad changelog fragment files
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-rename" class="md-nav__link">
+    <span class="md-ellipsis">
+      Function rename
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-removal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class removal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argument-removal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Argument removal
     </span>
   </a>
   
@@ -1767,11 +1801,25 @@
     </nav>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#footnotes" class="md-nav__link">
+  <a href="#communicating-breaking-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      Footnotes
+      Communicating breaking changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communicating-deprecations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicating deprecations
     </span>
   </a>
   
@@ -1793,7 +1841,7 @@
 
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/changelog.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/breaking-changes.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1801,199 +1849,228 @@
   
 
 
-<h1 id="changelog-fragments">Changelog fragments<a class="headerlink" href="#changelog-fragments" title="Permanent link">&para;</a></h1>
+<h1 id="breaking-changes-deprecations">Breaking changes &amp; Deprecations<a class="headerlink" href="#breaking-changes-deprecations" title="Permanent link">&para;</a></h1>
 <details class="abstract" open="open">
 <summary>Abstract</summary>
-<p>This page describes our use of <code>towncrier</code> for the project's changelog. It explains the different changelog
-categories, the process of creating changelog fragment files and generating a changelog preview. Additionally, the
-page contains a guide on writing good changelog fragments.</p>
+<p>This page describes how we handle breaking changes and deprecations in the project. It clarifies what is a breaking
+change, what is a deprecation, how to mark something as deprecated and explains when a function should be
+deprecated. Finally, it mentions how to properly communicate breaking chagnges and deprecations to end users.</p>
 </details>
-<p>Our project contains a changelog which tracks all notable changes for easy and quick reference to both users and our
-contributors.</p>
-<p>To maintain our changelog, we're using <a href="https://towncrier.readthedocs.io/en/stable/"><code>towncrier</code></a>, which allows us to create <strong>fragment files</strong>, which
-each contains a single changelog entry. Once a new release is created, all of these fragments will be used to create a
-changelog for that new release.</p>
-<p>We generally require every pull request to to include a new changelog fragment, summarizing what it does.</p>
+<div class="admonition note">
+<p class="admonition-title">Pre-Requisites</p>
+<p>Before reading this page, make sure to familiarize yourself with our <a href="../../../meta/versioning/">versioning model</a></p>
+</div>
+<h2 id="what-is-a-breaking-change">What is a breaking change<a class="headerlink" href="#what-is-a-breaking-change" title="Permanent link">&para;</a></h2>
+<p>A breaking change is a modification that requires developers to adjust their code due to alterations that break
+previously working functionality. This includes changes such as altering method signatures, changing return types, or
+removing classes or functions without prior warning.</p>
+<p>We follow <a href="https://semver.org">semantic versioning</a> to manage breaking changes. That means, <strong>major</strong> version increments (e.g., from <code>3.x.x</code>
+to <code>4.0.0</code>) indicate breaking changes. It’s essential that users can rely on <strong>minor</strong> and <strong>patch</strong> versions (e.g.,
+<code>3.1.0</code> or <code>3.0.1</code>) being backwards-compatible with the first major release (<code>3.0.0</code>).</p>
+<p>When introducing changes, aim to implement them in a non-breaking way. Breaking changes should be <strong>avoided</strong> whenever
+possible. If a breaking change is absolutely necessary, strive to transition gradually through <strong>deprecations</strong>.</p>
+<p>Refer to the <a href="../../../meta/versioning/#examples-of-breaking-changes">versioning model page</a> for some examples of what constitutes a breaking change.</p>
+<h2 id="what-is-a-deprecation">What is a deprecation<a class="headerlink" href="#what-is-a-deprecation" title="Permanent link">&para;</a></h2>
+<p>A deprecation signals that a particular part of the code (commonly a function, class, or argument) should no longer be
+used because it is outdated, inefficient, or replaced by better alternatives. Deprecations are a <strong>temporary</strong> measure
+to guide developers toward <strong>transitioning</strong> to newer practices, while giving them time to adjust their code without
+causing immediate disruptions.</p>
+<p>Deprecations act as a soft warning: they indicate that the deprecated feature will eventually be removed, but for now,
+it remains usable with a runtime deprecation warning. This gives developers enough time to adapt before the removal
+takes place in a future major release.</p>
+<p>It’s essential to understand that deprecations are not permanent — every deprecated feature has a defined removal
+version, beyond which it will no longer exist. Typically, the removal happens in the next major version after the
+deprecation was announced. For example, if a feature is deprecated in version <code>3.x</code>, it will usually be removed in
+version <code>4.0.0</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Recap</p>
+<p>Deprecations help to avoid <strong>immediate breaking changes</strong> by offering a <strong>grace period</strong> for users to update their
+code before the feature is entirely removed in the next major release.</p>
+</div>
+<p>Deprecations are primarily used for:</p>
+<ul>
+<li><strong>Phasing out old functions, classes, or methods</strong> in favor of improved alternatives.</li>
+<li><strong>Renaming functions, arguments, or classes</strong> to align with better conventions.</li>
+<li><strong>Adjusting method signatures</strong>, such as adding required arguments or removing old ones.</li>
+<li><strong>Changing behaviors</strong> that can’t be applied retroactively without introducing errors.</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Deprecating protocol changes</p>
+<p>Deprecations are <strong>not used for protocol-related changes</strong>, as the Minecraft protocol evolves independently of
+mcproto’s internal development. For these types of changes, mcproto will introduce a major version bump and require
+users to update.</p>
+<p><em>That said, these changes are still considered as breaking, and will need to be documented as such.</em></p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you think your change shouldn't require a changelog entry (it's a small / simple change that isn't worth
-noting), ask us to add the <code>skip-fragment-check</code> label to your PR, which will disable the automated check that
-enforces a presence of the changelog fragment.</p>
+<p>Sometimes, it isn't possible/feasible to deprecate something, as the new change is so different from the original
+that a breaking change is the only option. That said, this should be a rare case and you should always first do
+your best to think about how to deprecate something before deciding on just marking your change as breaking.</p>
 </div>
-<h2 id="structure-of-a-fragment-file">Structure of a fragment file<a class="headerlink" href="#structure-of-a-fragment-file" title="Permanent link">&para;</a></h2>
-<p>The fragment files are stored in the <code>changes/</code> directory in our project. These files follow the following naming
-format: <code>{pull_request_number}.{type}.md</code>.</p>
-<p>Possible fragment types are:</p>
+<h2 id="how-to-deprecate">How to deprecate<a class="headerlink" href="#how-to-deprecate" title="Permanent link">&para;</a></h2>
+<p>We have two custom function to mark something as deprecated, both of these live in the <code>mcproto.utils.deprecation</code>
+module:</p>
 <ul>
-<li><strong><code>feature</code></strong>: New feature that affects the public API.</li>
-<li><strong><code>bugfix</code></strong>: A bugfix, which was affecting the public API.</li>
-<li><strong><code>docs</code></strong>: Change to the documentation, or updates to public facing docstrings</li>
-<li><strong><code>breaking</code></strong>: Signifying a breaking change of some part of the project's public API, which could cause issues for
-  end-users updating to this version. (Includes deprecation removals.)</li>
-<li><strong><code>deprecation</code></strong>: Signifying a newly deprecated feature, scheduled for eventual removal.</li>
-<li><strong><code>internal</code></strong> Fully internal change that doesn't affect the public API, but is significant enough to be mentioned,
-  likely because it affects project contributors. (Such as a new linter rule, change in code style, significant change
-  in internal API, ...)</li>
+<li><code>deprecation_warn</code>: This function triggers a deprecation warning immediately after it is called, alerting developers
+  to the pending removal.</li>
+<li><code>deprecated</code>: This decorator function marks a function as deprecated. It triggers a deprecation warning each time the
+  decorated function is called. Internally, this ultimately just calls <code>deprecation_warn</code>.</li>
 </ul>
-<h2 id="create-fragments-with-commands">Create fragments with commands<a class="headerlink" href="#create-fragments-with-commands" title="Permanent link">&para;</a></h2>
-<p>While you can absolutely create these files manually, it's often a lot more convenient to use the <code>towncrier</code> CLI,
-which can create the file for you in the proper place automatically. With it, you can simply run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>towncrier<span class="w"> </span>create<span class="w"> </span><span class="o">{</span>pull_request_number<span class="o">}</span>.<span class="o">{</span>type<span class="o">}</span>.md
-</code></pre></div>
-<p>After you ran the command, a new file will appear in the <code>changes/</code> directory. You can now open it and describe your
-change inside of it.</p>
-<p>If the change is simple enough, you can even use the <code>-c</code> / <code>--content</code> flag to specify it directly, like:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>towncrier<span class="w"> </span>create<span class="w"> </span><span class="m">12</span>.feature.md<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;Add dinosaurs!&quot;</span>
-</code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Terminal editors</p>
-<p>If you're used to terminal editors, there's also an <code>--edit</code> flag, which will open the file with your
-<code>$EDITOR</code>. (I would recommend <code>neovim</code>, but if you find it too complex, <code>nano</code> also works well)</p>
+<h3 id="removal-version">Removal version<a class="headerlink" href="#removal-version" title="Permanent link">&para;</a></h3>
+<p>These functions take a removal version as an argument, which should be specified as a <a href="https://semver.org">semantic version</a> string. Generally, you'll just want to put the next major version of the library here (so if you're
+currently on <code>3.5.2</code> you'll want to specify the removal version as <code>4.0.0</code>; You always want to bump the first / major
+version number.)</p>
+<p>The <code>deprecation_warn</code> function will usually just show a warning, however, if the current version of the library
+surpasses the removal version, it will instead throw a runtime error, making it unusable. In most cases, people
+shouldn't ever face this, as once the new major version is released, all deprecations with that removal version should
+be removed, but it's a nice way to ensure the proper behavior, just in case we'd forget, allowing us to remove them
+later on in a patch version without breaking the semantic versioning model.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The removal version is a <strong>required</strong> argument, as we want to make sure that deprecated code doesn't stay in our
+codebase forever. Deprecations should always be a temporary step toward the eventual removal of a feature.</p>
+<p>If there is a valid reason to extend the deprecation period, you can push back the removal version, keeping the old
+or compatibility code longer and incrementing the major version number in the argument accordingly.</p>
+<p>However, we should <strong>never</strong> shorten the deprecation period, as that would defeat the purpose of giving developers
+enough time to adapt to the change. Reducing the deprecation time could result in unexpected breakage for users
+relying on the deprecated feature.</p>
 </div>
-<h2 id="multiple-fragments-in-a-single-pr">Multiple fragments in a single PR<a class="headerlink" href="#multiple-fragments-in-a-single-pr" title="Permanent link">&para;</a></h2>
-<p>If necessary, multiple fragment files can be created per pull-request, with different change types, if the PR covers
-multiple areas. For example for PR #13 that both introduces a feature, and changes the documentation, can add 2
-fragment files: <code>13.feature.md</code> and <code>13.docs.md</code>.</p>
-<p>Additionally, if a single PR is addressing multiple unrelated topics in the same category, and needs to make multiple
-distinct changelog entries, an optional counter value can be added at the end of the file name (needs to be an
-integer). So for example PR #25 which makes 2 distinct internal changes can add these fragment files:
-<code>25.internal.1.md</code> and <code>25.internal.2.md</code>. (The numbers in this counter position will not be shown in the final
-changelog and are merely here for separation of the individual fragments.)</p>
-<p>However if the changes are related to some bigger overarching goal, you can also just use a single fragment file with
-the following format:</p>
-<div class="highlight"><span class="filename">changes/25.internal.md</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Update towncrier categories
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="function-rename">Function rename<a class="headerlink" href="#function-rename" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">mcproto.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nd">@deprecated</span><span class="p">(</span><span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">,</span> <span class="n">replacement</span><span class="o">=</span><span class="s2">&quot;new_function&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">def</span> <span class="nf">old_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  <span class="o">...</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">def</span> <span class="nf">new_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  <span class="o">...</span>
+</code></pre></div>
+<h4 id="class-removal">Class removal<a class="headerlink" href="#class-removal" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@deprecated</span><span class="p">(</span><span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">,</span> <span class="n">extra_msg</span><span class="o">=</span><span class="s2">&quot;Optional extra message&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  <span class="o">...</span>
+</code></pre></div>
+<h4 id="argument-removal">Argument removal<a class="headerlink" href="#argument-removal" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">mcproto.utils.deprecation</span> <span class="kn">import</span> <span class="n">deprecation_warn</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Rename <span class="sb">`documentation`</span> category to shorter: <span class="sb">`docs`</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Add <span class="sb">`internal`</span> category for changes unrelated to public API, but potentially relevant to contributors
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Add github workflow enforcing presence of a new changelog fragment file for each PR
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="k">-</span><span class="w"> </span>For insignificant PRs which don&#39;t require any changelog entry, a maintainer can add <span class="sb">`skip-fragment-check`</span> label.
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">def</span> <span class="nf">old_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  <span class="o">...</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">def</span> <span class="nf">new_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  <span class="k">if</span> <span class="n">z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">deprecation_warn</span><span class="p">(</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>      <span class="n">obj_name</span><span class="o">=</span><span class="s2">&quot;z (new_function argument)&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>      <span class="n">removal_version</span><span class="o">=</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>      <span class="n">replacement</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>      <span class="n">extra_msg</span><span class="o">=</span><span class="s2">&quot;Optional extra message, like a reason for removal&quot;</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="p">)</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>  <span class="o">...</span>  <span class="c1"># this logic should still support working with z, just like it did in the old impl</span>
 </code></pre></div>
+<h2 id="communicating-breaking-changes">Communicating breaking changes<a class="headerlink" href="#communicating-breaking-changes" title="Permanent link">&para;</a></h2>
+<p><strong>Breaking changes necessitate clear communication</strong>, as they directly impact users by forcing updates to their
+codebases. It’s essential to ensure that users are well-informed about any breaking changes introduced in the project.
+This is achieved through the project’s changelog.</p>
+<p><strong>Every breaking change must be documented using a 'breaking' type changelog fragment.</strong> When writing the fragment,
+adhere to the following guidelines:</p>
+<ul>
+<li>Specify <strong>what</strong> was deprecated with a fully qualified name (e.g. <code>module.submodule.MyClass.deprecated_method</code>).</li>
+<li>Suggest an <strong>alternative</strong>, if applicable, and explain any necessary <strong>migration steps</strong>.</li>
+<li>Briefly document <strong>why</strong> the deprecation was made (without going into excessive detail).</li>
+<li>Prioritize <strong>clarity and good wording</strong></li>
+</ul>
+<p>These entries are critical, as they are likely to be read by end-users of our library (programmers but
+non-contributors). Keep this in mind when crafting breaking change fragments.</p>
 <div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>While possible, if you end up making multiple distinct changelog fragments like this, it's a sign that your PR
-might be too big, and you should split it up into multiple PRs instead. Making huge PRs that address several
-unrelated topics at once is generally a bad practice, and should be avoided. If you go overboard, your PR might
-even end up getting closed for being too big, and you'll be required to split it up.</p>
+<p class="admonition-title">Every breaking change needs its own entry</p>
+<p>If your pull request introduces multiple breaking changes across different components, you must create individual
+changelog entries for each change.</p>
 </div>
-<h2 id="preview-changelog">Preview changelog<a class="headerlink" href="#preview-changelog" title="Permanent link">&para;</a></h2>
-<p>To preview the latest changelog, run <code>towncrier build --draft --version latest</code>.</p>
-<details class="note">
-<summary>Meaning of the version value</summary>
-<p>The <code>--version</code> attribute usually takes the version number of the project, to which these changes apply. However,
-since we just want to preview the changes, it doesn't really matter for us, so we can just pass <code>latest</code> or
-whatever else you wish.</p>
-<p>For actual builds, the version is automatically obtained and this command is executed in our release CI workflow.</p>
-<p>This version will be used in the first line of the changelog (the header).</p>
-</details>
-<details class="note">
-<summary>Meaning of --draft flag</summary>
-<p>The <code>--draft</code> flag will make sure that towncrier will only show you the contents of the next changelog version
-entry, but won't actually add that generated content to our <code>CHANGELOG.md</code> file, while consuming (removing) the
-changelog fragments.</p>
-<p>You will never need to run <code>towncrier</code> without the <code>--draft</code> flag, as our CI workflows for project releasing handle
-that automatically.</p>
-</details>
-<p>To make this a bit easier, there is a taskipy task running the command above, so you can just use <code>poetry run task
-changelog-preview</code> to see the changelog, if you don't like remembering new commands.</p>
-<h2 id="writing-good-changelog-fragments">Writing good changelog fragments<a class="headerlink" href="#writing-good-changelog-fragments" title="Permanent link">&para;</a></h2>
-<p>Fragment files follow the same markdown syntax as our documentation.</p>
-<p>The contents of a fragment file should describe the change that you've made in a quick and general way. That said, the
-change descriptions can be a bit more verbose than just the PR title, but only if it's necessary. Keep in mind that
-these changes will be shown to the end users of the library, so try to explain your change in a way that a
-non-contributor would understand.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>If your change needs some more in-depth explanations, perhaps with code examples and reasoning for why such a
-change was made, use the PR body (description) for this purpose. Each changelog entry will contain a link to the
-corresponding pull request, so if someone is interested in any additional details about a change, they can always
-look there.</p>
-</div>
-<h3 id="examples-of-good-changlog-fragment-files">Examples of good changlog fragment files<a class="headerlink" href="#examples-of-good-changlog-fragment-files" title="Permanent link">&para;</a></h3>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>Clear and descriptive</strong></p>
-<div class="highlight"><span class="filename">changes/171.feature.md</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Add <span class="sb">`Account.check`</span> function, to verify that the access token in use is valid, and the data the Account instance has matches the data minecraft API has.
+<div class="admonition example">
+<p class="admonition-title">Example of a good breaking changelog fragment</p>
+<p>Suppose a library changes the return type of a function from a list to a set. This type change would be difficult
+to deprecate because the change affects existing code that relies on the specific return type.</p>
+<div class="highlight"><span class="filename">changes/521.breaking.md</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Change return type of <span class="sb">`mcproto.utils.get_items`</span> from <span class="sb">`list[str]`</span> to <span class="sb">`set[str]`</span>.
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    This change was made to improve performance and ensure unique item retrieval.
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    The previous behavior of returning duplicates in a list has been removed,
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    which may impact existing code that relies on the previous return type.
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    Users should adjust their code to handle the new return type accordingly.
 </code></pre></div>
-<div class="highlight"><span class="filename">changes/179.docs.md</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Enforce presence of docstrings everywhere with pydocstyle. This also adds docstring to all functions and classes that didn&#39;t already have one. Minor improvements for consistency were also made to some existing docstrings.
-</code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>Slightly on the longer side, but it's justified</strong> (Sometimes, it's
-important to explain the issue that this fixes, so that users know that it was there)</p>
-<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Fix behavior of the <span class="sb">`mcproto.utils.deprecation`</span> module, which was incorrectly always using a fallback version, assuming mcproto is at version 0.0.0. This then could&#39;ve meant that using a deprecated feature that is past the specified deprecation (removal) version still only resulted in a deprecation warning, as opposed to a full runtime error.
-</code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>With an extra note about the breaking change</strong> (Adding some extra
-description isn't always bad, especially for explaining how a breaking change affects existing code)</p>
-<div class="highlight"><span class="filename">changes/130.breaking.md</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    This is a breaking change as <span class="sb">`LoginEncryptionPacket`</span>&#39;s <span class="sb">`__init__`</span> method now uses &quot;shared_secret&quot; keyword only
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    argument, not &quot;shared_key&quot;. Every initialization call to this packet needs to be updated.
-</code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>With a list of subchanges that were made</strong> (Be careful with this one
-though, make sure you don't over-do it)</p>
-<div class="highlight"><span class="filename">changes/129.feature.md</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Added a system for handling Minecraft authentication
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Yggdrasil system for unmigrated i.e. non-Microsoft accounts (supportng Minecraft accounts, and the really old
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>      Mojang accounts)
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Microsoft OAuth2 system (Xbox live) for migrated i.e. Microsoft accounts
-</code></pre></div>
-<h3 id="examples-of-bad-changelog-fragment-files">Examples of bad changelog fragment files<a class="headerlink" href="#examples-of-bad-changelog-fragment-files" title="Permanent link">&para;</a></h3>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Unclear</strong> (But what does this class do?)</p>
-<div class="highlight"><span class="filename">changes/123.feature.md</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Update <span class="sb">`Buffer`</span> class.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Bad category</strong> (This is a feature, not a bugfix)</p>
-<div class="highlight"><span class="filename">changes/161.bugfix.md</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Add support for encryption. Connection classes now have <span class="sb">`enable_encryption`</span> method, and some encryption related functions were added into a new mcproto.encryption module.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Starts with dash</strong> (Sometimes, it can feel natural to start your changelog
-entry with a <code>-</code>, as it is a list item in the final changelog, however, this dash will already be added automatically)</p>
-<div class="highlight"><span class="filename">changes/171.feature.md</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">-</span><span class="w"> </span>Add <span class="sb">`Account.check`</span> function, to verify that the access token in use is valid, and the data the Account instance has matches the data minecraft API has.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Wrapped first line</strong> (Splitting up the first line into multiple lines is
-something we often do in markdown, because it should still be rendered as a single line, however, because of how
-towncrier merges these fragments, using multiple lines will cause issues and the changelog won't be formatter
-correctly! Further blocks can have wrapped lines.)</p>
-<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Fix behavior of the <span class="sb">`mcproto.utils.deprecation`</span> module, which was incorrectly always using a fallback version, assuming
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>mcproto is at version 0.0.0. This then could&#39;ve meant that using a deprecated feature that is past the specified
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>deprecation (removal) version still only resulted in a deprecation warning, as opposed to a full runtime error.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>No indent in description</strong> (Sometimes, we want to add additional
-description to our changelog entry. When doing so, we need to make sure that the description block is indented with 4
-spaces and there is a blank line after the first / title line.)</p>
-<div class="highlight"><span class="filename">changes/330.breaking.md</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>This is a breaking change as <span class="sb">`LoginEncryptionPacket`</span>&#39;s <span class="sb">`__init__`</span> method now uses &quot;shared_secret&quot; keyword only
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>argument, not &quot;shared_key&quot;. Every initialization call to this packet needs to be updated.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Way too long</strong> (This should've been the PR description)</p>
-<div class="highlight"><span class="filename">changes/161.feature.md</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Introduce support for encryption handling.
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    Most servers (even offline ones) usually send an EncryptionRequest packet during the LOGIN state, with a public
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    (RSA) key that the client is expected to use to encrypt a randomly generated shared secret, to send back to the
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    server in EncryptionResponse packet. After that, all further communication is encrypted with this shared secret.
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    The encryption used is a AES/CFB8 stream cipher. That means the encrypted ciphertext will have the same amount
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    of bytes as the original plaintext, allowing us to still trust our reader/writer methods that rely on reading
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    specific amounts of bytes, even if their content don&#39;t make sense.
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    This directly uses the base connection classes and adds enable_encryption method to them, which after getting
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    called will automatically encrypt/decrypt any incomming/outcomming data.
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    This additionally also changes the LoginEncryptionRequest packet class, and makes the public key attribute
-<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>    actually hold an RSA public key (from the cryptography library), instead of just the received bytes. This is
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>    then much more useful to work with later on. This is a breaking change.
-</code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Verify if your changelog works</p>
-<p>Our CI will automatically build the documentation for your PR and post a link to it as a comment in the pull
-request. This documentation will include a preview of the changelog with all unreleased changes in the <a href="../../../meta/changelog/">changelog</a>
-page. You can take a look there to make sure that your change fragment(s) resulted in the proper output.</p>
+<p>Even though it’s technically feasible to implement this as a non-breaking change - such as by creating a new
+function or adding a boolean flag to control the return type, these approaches may not suit our use case. For
+instance, if we were to introduce a boolean flag, we would need to set it to <code>False</code> by default and show
+deprecation warnings to users unless they explicitly set the flag to <code>True</code>.</p>
+<p>Eventually, when the deprecation period is over, the flag becomes pointless, but removing support for it would
+necessitate yet another round of deprecation for the flag itself, forcing users to revert to using the function
+without it. This approach could frustrate users and create unnecessary complexity.</p>
+<p>When considering non-breaking changes, it’s crucial to evaluate potential complications like these. If you opt for
+a breaking change, be sure to include similar reasoning in your pull request description to help convey the
+rationale behind the decision.</p>
 </div>
 <div class="admonition note">
-<p class="admonition-title">Internal changes</p>
-<p>We're a bit more forgiving when it comes to describing your change if your change is in the <code>internal</code> category, as
-end users don't need to read those. Changes in this category can be a bit less descriptive.</p>
+<p class="admonition-title">Removing deprecations</p>
+<p>We consider deprecation removals as a breaking change, which means that these removals also need to be documented.
+That said, it is sufficient for these removals to be documented in a single changelog fragment. These removals
+alongside with writing the fragment will be performed by the project maintainers at the time of the release.</p>
 </div>
-<h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
+<h2 id="communicating-deprecations">Communicating deprecations<a class="headerlink" href="#communicating-deprecations" title="Permanent link">&para;</a></h2>
+<p>Even though a deprecation doesn’t immediately break code, it signals an upcoming change and it's essential to communicate
+this clearly to the users of our project. We achieve this through the project's changelog.</p>
+<details class="tip" open="open">
+<summary>Benefits of tracking deprecations in changelog</summary>
+<p>While runtime deprecation warnings provide immediate feedback upon updating the library, it can often be beneficial
+to give users a chance to plan ahead before updating the library, especially for projects that perform automatic
+dependency updates through CI, which may not check for warnings, leading to deprecation warnings reaching
+production.</p>
+<p>Additionally, it's often easy for people to miss/overlook the warnings if they're not looking for them in the CLI
+output, or if their project already produces some other warnings, making ours blend in.</p>
+<p>By clearly documenting deprecations, we enable users to identify deprecated features before upgrading, allowing
+them to address issues proactively or at least prepare for changes.</p>
+<p>A changelog entry serves as a permanent, versioned record of changes, providing detailed explanations of why a
+feature is deprecated, what the recommended replacements are. It's a place where people may look for clarification
+on why something was removed, or in search of migration steps after seeing the deprecation warning.</p>
+</details>
+<p><strong>Every deprecation must be documented using a 'deprecation' type changelog fragment.</strong> When writing the fragment,
+similar guidelines to writing breaking changelog fragments apply:</p>
+<div class="annotate">
 <ul>
-<li>See <a href="https://keepachangelog.com">https://keepachangelog.com</a> for more info about why and how to properly maintain a changelog</li>
-<li>For more info about <code>towncrier</code>, check out it's <a href="https://towncrier.readthedocs.io/en/stable/tutorial.html">documentation</a></li>
+<li>Provide the <strong>removal version</strong> i.e. version in which the deprecated feature will be removed (e.g. <code>4.0.0</code>). (1)</li>
+<li>Specify <strong>what</strong> was deprecated with a fully qualified name (e.g. <code>module.submodule.MyClass.deprecated_method</code>).</li>
+<li>Suggest an <strong>alternative</strong>, if applicable, and explain any necessary <strong>migration steps</strong>.</li>
+<li>Briefly document <strong>why</strong> the deprecation was made (without going into excessive detail).</li>
+<li>Prioritize <strong>clarity and good wording</strong></li>
 </ul>
+</div>
+<ol>
+<li>This point is specific to deprecations, it's the only additional point in comparison to the breaking changes
+   guidelines.</li>
+</ol>
+<p>These entries form the second most important part of the changelog, likely to be read by end-users. Keep this in mind
+when crafting deprecation fragments.</p>
+<div class="admonition warning">
+<p class="admonition-title">Every deprecated component needs it's own entry</p>
+<p>Just like with breaking changes, if your're deprecating multiple different components, you
+must make multiple changelog entries, one for each deprecation.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example of a good deprecation changelog fragment</p>
+<p>Suppose we used a simple string configuration parameter but introduced a more flexible configuration object to
+allow for future extensions and better validation. This would be a good candidate for deprecation rather than an
+immediate breaking change.</p>
+<div class="highlight"><span class="filename">changes/521.deprecation.md</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Deprecate string-based <span class="sb">`mcproto.utils.connect`</span> configuration attribute in favor of <span class="sb">`mcproto.utils.ConnectionConfig`</span>.
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    The new <span class="sb">`ConnectionConfig`</span> object offers more flexibility by allowing users to specify multiple options (like
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    timeouts, retries, etc.) in a structured way, instead of relying on a string. Users are encouraged to migrate
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    to this object when calling <span class="sb">`mcproto.utils.connect`</span> to take full advantage of future improvements and
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    additional connection parameters.
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>The string-based configuration support will be removed in version <span class="sb">`4.0.0`</span>.
+</code></pre></div>
+</div>
 
 
 
@@ -2031,7 +2108,7 @@ end users don't need to read those. Changes in this category can be a bit less d
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../precommit/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Pre-commit">
+          <a href="../changelog/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Changelog">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2041,20 +2118,20 @@ end users don't need to read those. Changes in this category can be a bit less d
                 Previous
               </span>
               <div class="md-ellipsis">
-                Pre-commit
+                Changelog
               </div>
             </div>
           </a>
         
         
           
-          <a href="../breaking-changes/" class="md-footer__link md-footer__link--next" aria-label="Next: Breaking Changes">
+          <a href="../unit-tests/" class="md-footer__link md-footer__link--next" aria-label="Next: Unit Tests">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Breaking Changes
+                Unit Tests
               </div>
             </div>
             <div class="md-footer__button md-icon">

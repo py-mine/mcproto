@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/guides/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/making-a-pr/">
       
       
-        <link rel="prev" href="../security-policy/">
+        <link rel="prev" href="../issue-guide/">
       
       
-        <link rel="next" href="setup/">
+        <link rel="next" href="../security-policy/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Contributing guides & guidelines - MCPROTO</title>
+        <title>Making a pull request - MCPROTO</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing-guides-guidelines" class="md-skip">
+        <a href="#pull-requests" class="md-skip">
           Skip to content
         </a>
       
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Contributing guides &amp; guidelines
+              Making a pull request
             
           </span>
         </div>
@@ -931,10 +931,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../making-a-pr/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Making a pull request
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -945,6 +967,95 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#get-assigned-to-the-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get assigned to the issue
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-request-body" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull Request Body
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#work-in-progress-prs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Work in Progress PRs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contributing guidelines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automated-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated checks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Review
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#giving-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      Giving Feedback
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -977,8 +1088,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1022,15 +1131,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../guides/" class="md-nav__link ">
               
   
   
@@ -1043,13 +1152,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_6_4" id="__nav_6_4_label" tabindex="">
+              <label class="md-nav__link " for="__nav_6_4" id="__nav_6_4_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6_4">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -1065,7 +1174,7 @@
   
   
     <li class="md-nav__item">
-      <a href="setup/" class="md-nav__link">
+      <a href="../guides/setup/" class="md-nav__link">
         
   
   
@@ -1088,7 +1197,7 @@
   
   
     <li class="md-nav__item">
-      <a href="style-guide/" class="md-nav__link">
+      <a href="../guides/style-guide/" class="md-nav__link">
         
   
   
@@ -1111,7 +1220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="type-hints/" class="md-nav__link">
+      <a href="../guides/type-hints/" class="md-nav__link">
         
   
   
@@ -1134,7 +1243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="slotscheck/" class="md-nav__link">
+      <a href="../guides/slotscheck/" class="md-nav__link">
         
   
   
@@ -1157,7 +1266,7 @@
   
   
     <li class="md-nav__item">
-      <a href="precommit/" class="md-nav__link">
+      <a href="../guides/precommit/" class="md-nav__link">
         
   
   
@@ -1180,7 +1289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="changelog/" class="md-nav__link">
+      <a href="../guides/changelog/" class="md-nav__link">
         
   
   
@@ -1203,7 +1312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="breaking-changes/" class="md-nav__link">
+      <a href="../guides/breaking-changes/" class="md-nav__link">
         
   
   
@@ -1226,7 +1335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="unit-tests/" class="md-nav__link">
+      <a href="../guides/unit-tests/" class="md-nav__link">
         
   
   
@@ -1249,7 +1358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="documentation/" class="md-nav__link">
+      <a href="../guides/documentation/" class="md-nav__link">
         
   
   
@@ -1272,7 +1381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api-reference/" class="md-nav__link">
+      <a href="../guides/api-reference/" class="md-nav__link">
         
   
   
@@ -1295,7 +1404,7 @@
   
   
     <li class="md-nav__item">
-      <a href="great-commits/" class="md-nav__link">
+      <a href="../guides/great-commits/" class="md-nav__link">
         
   
   
@@ -1580,38 +1689,71 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-golden-rules-of-contributing" class="md-nav__link">
+  <a href="#get-assigned-to-the-issue" class="md-nav__link">
     <span class="md-ellipsis">
-      The Golden Rules of Contributing
+      Get assigned to the issue
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#changes-to-these-guidelines" class="md-nav__link">
+  <a href="#pull-request-body" class="md-nav__link">
     <span class="md-ellipsis">
-      Changes to these guidelines
+      Pull Request Body
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#footnotes" class="md-nav__link">
+  <a href="#work-in-progress-prs" class="md-nav__link">
     <span class="md-ellipsis">
-      Footnotes
+      Work in Progress PRs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#disclaimer" class="md-nav__link">
+  <a href="#contributing-guidelines" class="md-nav__link">
     <span class="md-ellipsis">
-      Disclaimer
+      Contributing guidelines
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automated-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated checks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Review
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#giving-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      Giving Feedback
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1631,7 +1773,7 @@
 
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/making-a-pr.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1639,66 +1781,240 @@
   
 
 
-<h1 id="contributing-guides-guidelines">Contributing guides &amp; guidelines<a class="headerlink" href="#contributing-guides-guidelines" title="Permanent link">&para;</a></h1>
-<p>Welcome to the contributing guides &amp; guidelines for mcproto. This documentation is intended for our contributors,
-interested in writing or modifying mcproto itself. If you just wish to use mcproto in your project, you can safely skip
-this section.</p>
-<p>Mcproto is a relatively large project and maintaining it is no easy task. With a project like that, consistency and
-good code quality become very important to keep the code-base readable and bug-free. To achieve this, we have put
-together these guidelines that will explain the code style and coding practices that we expect our contributors to
-follow.</p>
-<p>This documentation will also include various guides that tell you how to set up our project for development and explain
-the automated tools that we use to improve our coding experience and enforce a bunch of the code style rules quickly
-and without the need for human review.</p>
-<h2 id="the-golden-rules-of-contributing">The Golden Rules of Contributing<a class="headerlink" href="#the-golden-rules-of-contributing" title="Permanent link">&para;</a></h2>
-<p>These are the general rules which you should follow when contributing. You can glance over these and then go over the
-individual guides one by one, or use the references in these rules to get to the specific guide page explaining the
-rule.</p>
+<h1 id="pull-requests">Pull Requests<a class="headerlink" href="#pull-requests" title="Permanent link">&para;</a></h1>
+<p>Welcome! If you're interested in contributing to mcproto, you've come to the right place. Mcproto is an open-source
+project, and we welcome contributions from anyone eager to help out.</p>
+<p>To contribute, you can create a <a href="https://docs.github.com/en/pull-requests">pull request</a> on our GitHub repository. Your pull request will then be reviewed by our
+maintainers, and once approved, it will be merged into the main repository. Contributions can include bug fixes,
+documentation updates, or new features.</p>
+<div class="admonition important">
+<p class="admonition-title">Code quality requirements</p>
+<p>While we encourage and appreciate contributions, maintaining high code quality is crucial to us. That means you
+will need to adhere to our code quality standards. Contributions may be rejected if they do not meet these
+guidelines.</p>
+</div>
+<h2 id="get-assigned-to-the-issue">Get assigned to the issue<a class="headerlink" href="#get-assigned-to-the-issue" title="Permanent link">&para;</a></h2>
+<p>The very first thing you will need to do is decide what you actually want to work on. In all likelihood, you already
+have something in mind if you're reading this, however, if you don't, you're always free to check the opened GitHub
+issues, that don't yet have anyone assigned. If you find anything interesting there that you'd wish to work on, leave a
+comment on that issue with something like: "I'd like to work on this".</p>
+<p>Even if you do have an idea already, we heavily recommend (though not require) that you first make an issue, this can be
+a <a href="../issue-guide/">bug report</a>, but also a feature request, or something else. Once you made the issue, leave a: "I'd like to work on
+this" comment on it.</p>
+<p>Eventually, a maintainer will get back to you and you will be assigned to the issue. Being assigned is a soft approval
+from us, giving you the green light to start coding. By getting assigned, you also reserve the right to work on that
+given issue, hence preventing us (or someone else) from potentially working on the same thing, wasting ours or your
+time. This prevention of duplicate efforts is also the primary reason why we recommend creating an issue first.</p>
+<p>Of course, you are welcome to start working on the issue even before being officially assigned. However, please be
+aware that sometimes, we may choose not to pursue a certain feature / bugfix. In such cases, your work might not end up
+being used, which would be a shame.</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This list serves as a quick-reference rather than a full guide. Some of our guidelines aren't directly linked in
-these references at all and we heavily encourage you to go over each of the guide pages in the order they're listed
-in the docs.</p>
+<p class="admonition-title">Minor tasks don't need an issue</p>
+<p>While we generally do encourage contributors to first create an issue and get assigned to it first. If you're
+just fixing a typo, improving the wording, or making some minor optimizations to the code, you can safely skip
+this step.</p>
+<p>The point of encouraging issues is to prevent needlessly wasting people's time. However, with these minor tasks,
+it might actually take you longer to create a full issue about the problem than it would to just submit a fix.</p>
+<p>There's therefore no point in cluttering the issue tracker with a bunch of small issues that can often be
+changed in just a few minutes.</p>
 </div>
-<ol>
-<li><strong>Lint before you push.</strong> We have multiple code linting rules, which define our general style of the code-base.
-   These are often enforced through certain tools, which you are expected to run before every push and ideally even
-   before every commit. The specifics of our linting rules are mentioned in our <a href="style-guide/">style guide</a>. Running all of these
-   tools manually before every commit would however be quite annoying, so we use <a href="precommit/">pre-commit</a>.</li>
-<li><strong>Make great commits.</strong> Great commits should be atomic (do one thing only and do it well), with a commit message
-   that explaining what was done, and why. More on this <a href="great-commits/">here</a>.</li>
-<li><strong>Make an issue before the PR.</strong> Before you start working on your PR, open an issue and let us know what you're
-   planning. We described this further in our <a href="../making-a-pr/#get-assigned-to-the-issue">making a PR guide</a>.</li>
-<li><strong>Use assets licensed for public use.</strong> Whenever you're adding a static asset (e.g. images/video files/audio or
-   even code) that isn't owned/written by you, make sure it has a compatible license with our projects.</li>
-<li><strong>Follow our <a href="../../meta/code-of-conduct/">Code of Conduct</a></strong></li>
-</ol>
-<h2 id="changes-to-these-guidelines">Changes to these guidelines<a class="headerlink" href="#changes-to-these-guidelines" title="Permanent link">&para;</a></h2>
-<p>While we're confident and happy with the current code style and tooling, we acknowledge that change is inevitable. New
-tools are constantly being developed, and we have already made significant updates to our code style in the past.</p>
-<p>Every project evolves over time, and these guidelines are no exception. This documentation is open to pull requests and
-changes from contributors. Just ensure that any updates to this document are in sync with the codebase. If you propose
-a code style change, you must apply that change throughout the codebase to maintain internal consistency.</p>
-<p>If you believe you have something valuable to add or change, please submit a pull request. For major style changes, we
-strongly encourage you to open an issue first, as we may not always agree with significant alterations. For minor
-clarity improvements or typo fixes, opening an issue isn't necessary.</p>
-<p>We tried to design our specifications to be straightforward and comprehensive, but we might not always succeed, as
-we're doing so from our perspective of already having extensive background knowledge. Therefore, we welcome any clarity
-improvements to the documentation. If you think you can explain something better, please contribute.</p>
-<h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
-<p>We understand that going through all of these guidelines can be time-consuming and a lot to remember. However, we
-strongly encourage you to review them, especially if you haven't worked with these tools or followed such best
-practices before.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Every page in this contributing guides category has an abstract at the top, summarizing its content. This allows
-you to quickly determine if you are already familiar with the topic or, if you're re-reading, to quickly recall
-what the page covers. Feel free to skip any guide pages if you're already familiar with what they cover.</p>
+<h2 id="pull-request-body">Pull Request Body<a class="headerlink" href="#pull-request-body" title="Permanent link">&para;</a></h2>
+<p>A well-written PR description is one of the most helpful things you can provide as a contributor. It gives reviewers the
+context they need to understand what you're doing and why. It also serves as a long-form explanation for future readers,
+including users checking the changelog and digging deeper into a change.</p>
+<p>We don’t require any strict format here. You’re free to write your PR description however you like, but good
+descriptions usually do the following:</p>
+<ul>
+<li><strong>Link to related issues.</strong> Use GitHub's <a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword">closing keywords</a> if your PR addresses a specific
+  issue, or if it just touches it, mention it (e.g. <code>See also: #29, #65</code>).</li>
+<li><strong>Describe the change in a self-contained way.</strong> Your PR body should explain the change well enough that someone
+  doesn’t need to read the diff to understand the big picture.</li>
+<li><strong>Don't repeat what's in the issue.</strong> If you're implementing something that was already well discussed within an
+  issue, you don't need to write much, just refer the reader to the issue.</li>
+<li><strong>Note anything that affects usage, behavior, or compatibility.</strong> This includes breaking changes, deprecations, or
+  changes that might not be obvious to downstream users. These should be well described within the PR body to make it
+  clear exactly what changes were made when it comes to these areas. (Even if you'll repeat yourself a little in the PR
+  body and the changelog fragment, this should be noted down.)</li>
+<li><strong>Be concise but complete.</strong> You don’t need to write paragraphs and paragraphs. Just aim for enough clarity that a
+  reasonably informed reader understands what this PR is about and what it changes just from the PR body.</li>
+<li><strong>Explain <em>why</em> the change was made</strong>, not just what changed. This helps the reviewer and future readers understand
+  the motivation.</li>
+<li><strong>Mention non-obvious implementation choices.</strong> Sometimes, we end up implementing a feature in a slightly odd way, to
+  address a specific problem. This problem might be obvious when trying to implement it in the more obvious way, but it
+  might not be so obvious to a reviewer. Mention these choices and your reasoning when this happens.</li>
+<li><strong>Include a summary if your body is long.</strong> Sometimes, you will end up needing more space to explain your thought
+  process and various nuances of the implementation you went with, that's okay, but in these cases, it's helpful to add
+  a TL;DR / summary section.</li>
+</ul>
+<p>Some helpful tips:</p>
+<ul>
+<li>It's usually better to write a few short paragraphs than a giant bullet list.</li>
+<li>Use markdown formatting if it helps readability (e.g., block quotes for warnings or compatibility notes, headings for
+  splitting things up, bullet points, etc.).</li>
+<li>If relevant, add links to documentation or specs.</li>
+<li>Try to avoid using code blocks unless really needed.</li>
+<li>If your PR is exploratory, experimental, or needs discussion before merge, say so.</li>
+</ul>
+<details class="example">
+<summary>Example PR bodies</summary>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">PR 1</label><label for="__tabbed_1_2">PR 2</label><label for="__tabbed_1_3">PR 3</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>Title:</strong> Fix moving desync when crossing chunk boundary</p>
+<p><strong>Body:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Fixes: <span class="ni">#123</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Corrects a critical desync issue occurring when players move across chunk boundaries.
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>This adjusts the <span class="sb">`ClientboundPlayerPosition`</span> packet encoding and adding a velocity compensation threshold. It
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>also includes new tests to cover edge cases at various movement speeds.
+</code></pre></div>
 </div>
-<p>We believe these guides will be beneficial to you beyond our codebase, as they promote good coding practices and help
-make your code cleaner. You will likely be able to apply much of the knowledge you gain here to your own projects.</p>
-<h2 id="disclaimer">Disclaimer<a class="headerlink" href="#disclaimer" title="Permanent link">&para;</a></h2>
-<p>These documents were inspired by <a href="https://github.com/python-discord/bot/blob/master/CONTRIBUTING.md">Python Discord's CONTRIBUTING agreement.</a></p>
+<div class="tabbed-block">
+<p><strong>Title:</strong> Introduce support for encryption handling.</p>
+<p><strong>Body:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Resolves <span class="ni">#456</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>See: &lt;https://minecraft.wiki/w/Java_Edition_protocol/Encryption&gt;
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>This adds <span class="sb">`enable_encryption`</span> method to our connection classes, which once called, will automatically
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>encrypt/decrypt any incoming/outgoing data.
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="gs">**Breaking change:**</span> <span class="sb">`LoginEncryptionRequest`</span> public key attribute is now an instance of an RSA public key (from
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>the <span class="sb">`cryptography`</span> library), instead of just holding the received bytes.
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="gu">## Reasoning</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>Most servers (even offline ones) usually send an <span class="sb">`EncryptionRequest`</span> packet during the LOGIN state, with a
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>public (RSA) key that the client is expected to use to encrypt a randomly generated shared secret, to send back
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>to the server in <span class="sb">`EncryptionResponse`</span> packet. After that, all further communication is encrypted with this
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>shared secret.
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>The encryption used is a <span class="sb">`AES/CFB8`</span> stream cipher. That means the encrypted ciphertext will have the same amount
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>of bytes as the original plaintext, allowing us to still trust our reader/writer methods that rely on reading
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>specific amounts of bytes, even if their content don&#39;t make sense.
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Title:</strong> Restructure the project for new versioning approach</p>
+<p><strong>Body:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>This PR resolves <span class="ni">#45</span>, and restructures the entire project to no longer support multiple minecraft protocol
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>versions, moving to a single (latest) version model.
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Note that <span class="gs">**this is a completely breaking change, and there will NOT be a deprecation period**</span>. This is because
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>of how this change impacts the rest of the project development. As this project is still in pre-release stage,
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>deprecation here would greatly slow down any further development here, forcing contributors to maintain both the
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>temporary deprecation layer, and the new single-version one.
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>For more details on how this change will affect the project going forward, and why it is necessary, I&#39;d suggest
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>checking out <span class="ni">#45</span>, containing a detailed explanation.
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>I have updated the README examples which now use this new version, so I&#39;d suggest checking that out before
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>moving forward with trying out this version, or reviewing the code, as it demonstrates how this new approach
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>will work. Note that when testing this version out, it will almost certainly break any existing code-bases using
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>mcproto, checking the README changes and looking at the changelog fragment message should make it clear on how
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>to update.
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>---
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>Some decisions I made here, which I find potentially worth considering during a review. I&#39;m open to doing these
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>differently:
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="k">-</span><span class="w"> </span>The <span class="sb">`generate_packet_map`</span> function is dynamic - imports the appropriate libraries on function run, depending
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>  on the requested packets. The alternative here would be to simply hard-code packet maps dictionaries as
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>  constants. This could be done either in the new <span class="sb">`packet_map.py`</span> file, but also in the individual game state
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>  folders for the packets, such as <span class="sb">`mcproto.packets.login import CLIENTBOUND_MAP`</span>.
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="k">-</span><span class="w"> </span>The <span class="sb">`generate_packet_map`</span> uses caching, to avoid needlessly re-importing the modules and walking over all of
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>  the packets again. The clear downside of this is the fact that it uses more memory, though that&#39;s almost
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>  irrelevant as packet maps are relatively small.
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="k">-</span><span class="w"> </span>Because of how caching works, since we&#39;re returning a mutable dictionary from <span class="sb">`generate_packet_map`</span>, the cache
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>  would hold the same reference as the returned dict, potentially causing issues if the user modifies that
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>  returned dict. ~~For this reason, I decided to also add another decorator, responsible for copying the result
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>  afterwards, making sure that the cache holds a different instance of the dictionary, and what users see is
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>  simply a copy of this instance, which they can modify or do whatever they wish with, without risking breaking
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>  future calls to this function.~~ For this reason, the function will now only return a mapping proxy, which is
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>  immutable, and holds a strong reference to the dict internally (as suggested by <span class="ni">@Martysh12</span>).
+</code></pre></div>
+</div>
+</div>
+</div>
+</details>
+<h2 id="work-in-progress-prs">Work in Progress PRs<a class="headerlink" href="#work-in-progress-prs" title="Permanent link">&para;</a></h2>
+<p>Whenever you open a pull request that isn't yet ready to be reviewed and merged, you can mark it as a <strong>draft</strong>. This
+provides both visual and functional indicator that the PR isn't yet ready to be merged.</p>
+<p>Methods of marking PR as a draft:</p>
+<table>
+<thead>
+<tr>
+<th><strong>When creating it</strong></th>
+<th><strong>After creation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="image" src="../../assets/draft-pr-creation.png" /></td>
+<td><img alt="image" src="../../assets/draft-pr-conversion.png" /></td>
+</tr>
+</tbody>
+</table>
+<p>Once your work is done and you think the PR is ready to be merged, mark it as <strong>Ready for review</strong></p>
+<p><img alt="image" src="../../assets/draft-pr-unmark.png" width="600" /></p>
+<h2 id="contributing-guidelines">Contributing guidelines<a class="headerlink" href="#contributing-guidelines" title="Permanent link">&para;</a></h2>
+<p>In order to make a successful contribution, it is <strong>required</strong> that you get familiar with our <a href="../guides/">contributing guidelines</a>.</p>
+<h2 id="automated-checks">Automated checks<a class="headerlink" href="#automated-checks" title="Permanent link">&para;</a></h2>
+<p>The project includes various CI workflows that will run automatically for your pull request after every push and check
+your changes with various tools. These tools are here to ensure that our contributing guidelines are met and ensure
+good code quality of your PR.</p>
+<p>That said, you shouldn't rely on these CI workflows to let you know if you made a mistake, instead, you should run
+these tools on your own machine during the development. Many of these tools can fix the violations for you
+automatically and it will generally be a better experience for you. Running these tools locally will also prevent a
+bunch of "Fix the CI" commits, which just clutter the git history.</p>
+<p>Make sure to read our <a href="../guides/">contributing guidelines</a> thoroughly, as they describe how to use these tools and even how to have
+them run automatically before each commit, so you won't forget.</p>
+<p>Passing the CI workflows is a requirement in order to get your pull request merged. If a maintainer sees a PR that's
+marked as ready for review, but isn't passing the CI, we'll often refrain from even reviewing it, as we consider it
+incomplete. If you have a technical reason why your PR can't pass the CI, let us know in the PR description or a
+comment.</p>
+<h2 id="code-review">Code Review<a class="headerlink" href="#code-review" title="Permanent link">&para;</a></h2>
+<p>All pull requests will need to be reviewed by at least one team member before merging. The reviewer will provide
+feedback and suggestions for improvement.</p>
+<p>Once a reviewer approves your pull request, it can be merged into the <code>main</code> branch.</p>
+<details class="question">
+<summary>How do I request a review?</summary>
+<p>Request a review from a team member by <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review">assigning them as a reviewer</a> to your pull request.</p>
+<p>However, you can also just wait until we get to your PR, you don't need to assign a reviewer unless you want
+someone specific to review. Just make sure that your PR is marked as ready for review and not draft.</p>
+</details>
+<h3 id="giving-feedback">Giving Feedback<a class="headerlink" href="#giving-feedback" title="Permanent link">&para;</a></h3>
+<p>If you wish, you can also provide some feedback on other PRs. Doing so is a great way to fill the time while you're
+waiting for your PR to be reviewed by us and you're also speeding up the process, as it reduces the amount of time
+we'd have to spend reviewing those other PRs before getting to yours.</p>
+<p>When reviewing a pull request, aim to be constructive and specific. Highlight areas that need improvement and suggest
+potential solutions. If you have any questions or concerns about something in the code, don't hesitate to ask the author
+for clarification.</p>
+<p>Focus on the following aspects during a code review:</p>
+<ul>
+<li>Correctness and functionality</li>
+<li>Code quality and readability</li>
+<li>Adherence to the project guidelines</li>
+</ul>
+<details class="example">
+<summary>Good Code Review Feedback</summary>
+<p>Here are some examples of a good code review feedback:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>- Great work on the new function! The implementation looks good overall.
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>- The tests cover most of the functionality, but it&#39;s are missing a test case for edge case X. Could you add a test for that?
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>- The logic in the new function is somewhat complex. Consider breaking it into smaller functions for better clarity.
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>- The new feature is well-implemented, but it would be great to add more inline comments to explain the logic, as
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  it isn&#39;t trivial to understand.
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>- There&#39;s a small typo in the docstring. Could you correct it?
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>- The configuration settings are hard-coded. Can you move them to a configuration file to make it easier to manage?
+</code></pre></div>
+</details>
+<p>Always be respectful and considerate when giving feedback. Remember that the goal is to improve the code and help the
+author grow as a developer.</p>
+<div class="admonition success">
+<p class="admonition-title">Be Positive</p>
+<p>Don't forget to acknowledge the positive aspects of the contribution as well!</p>
+</div>
 
 
 
@@ -1736,7 +2052,7 @@ make your code cleaner. You will likely be able to apply much of the knowledge y
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../security-policy/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Security Policy">
+          <a href="../issue-guide/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Bugs &amp; Feature requests">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1746,20 +2062,20 @@ make your code cleaner. You will likely be able to apply much of the knowledge y
                 Previous
               </span>
               <div class="md-ellipsis">
-                Security Policy
+                Bugs & Feature requests
               </div>
             </div>
           </a>
         
         
           
-          <a href="setup/" class="md-footer__link md-footer__link--next" aria-label="Next: Setting things up">
+          <a href="../security-policy/" class="md-footer__link md-footer__link--next" aria-label="Next: Security Policy">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Setting things up
+                Security Policy
               </div>
             </div>
             <div class="md-footer__button md-icon">

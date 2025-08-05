@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/guides/changelog/">
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/latest/contributing/guides/api-reference/">
       
       
-        <link rel="prev" href="../precommit/">
+        <link rel="prev" href="../documentation/">
       
       
-        <link rel="next" href="../breaking-changes/">
+        <link rel="next" href="../great-commits/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Changelog - MCPROTO</title>
+        <title>API Reference - MCPROTO</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#changelog-fragments" class="md-skip">
+        <a href="#writing-api-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Changelog
+              API Reference
             
           </span>
         </div>
@@ -1177,32 +1177,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Changelog
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
@@ -1213,104 +1191,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#structure-of-a-fragment-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      Structure of a fragment file
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-fragments-with-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create fragments with commands
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multiple-fragments-in-a-single-pr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multiple fragments in a single PR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#preview-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      Preview changelog
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-good-changelog-fragments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Writing good changelog fragments
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Writing good changelog fragments">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#examples-of-good-changlog-fragment-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      Examples of good changlog fragment files
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#examples-of-bad-changelog-fragment-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      Examples of bad changelog fragment files
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#footnotes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Footnotes
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1389,10 +1269,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api-reference/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1403,6 +1305,77 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#google-style-docstrings-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google Style docstrings formatting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Google Style docstrings formatting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-References
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relative-cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relative Cross-References
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-api-reference_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing API Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      What to document
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1700,64 +1673,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#structure-of-a-fragment-file" class="md-nav__link">
+  <a href="#google-style-docstrings-formatting" class="md-nav__link">
     <span class="md-ellipsis">
-      Structure of a fragment file
+      Google Style docstrings formatting
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-fragments-with-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create fragments with commands
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multiple-fragments-in-a-single-pr" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multiple fragments in a single PR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#preview-changelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      Preview changelog
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-good-changelog-fragments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Writing good changelog fragments
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Writing good changelog fragments">
+    <nav class="md-nav" aria-label="Google Style docstrings formatting">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#examples-of-good-changlog-fragment-files" class="md-nav__link">
+  <a href="#cross-references" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples of good changlog fragment files
+      Cross-References
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#examples-of-bad-changelog-fragment-files" class="md-nav__link">
+  <a href="#relative-cross-references" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples of bad changelog fragment files
+      Relative Cross-References
     </span>
   </a>
   
@@ -1769,9 +1706,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#footnotes" class="md-nav__link">
+  <a href="#writing-api-reference_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Footnotes
+      Writing API Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      What to document
     </span>
   </a>
   
@@ -1793,7 +1739,7 @@
 
 
   
-    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/changelog.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/api-reference.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1801,199 +1747,165 @@
   
 
 
-<h1 id="changelog-fragments">Changelog fragments<a class="headerlink" href="#changelog-fragments" title="Permanent link">&para;</a></h1>
+<h1 id="writing-api-reference">Writing API reference<a class="headerlink" href="#writing-api-reference" title="Permanent link">&para;</a></h1>
 <details class="abstract" open="open">
 <summary>Abstract</summary>
-<p>This page describes our use of <code>towncrier</code> for the project's changelog. It explains the different changelog
-categories, the process of creating changelog fragment files and generating a changelog preview. Additionally, the
-page contains a guide on writing good changelog fragments.</p>
+<p>This page contains the guide on documenting the code that will appear in the API reference section of this
+documentation. It goes over the technology and libraries that we use to generate this API reference docs, details
+the docstring style we use, mentions how to add something into the API reference (like new modules) and details what
+should and shouldn't be documented here.</p>
 </details>
-<p>Our project contains a changelog which tracks all notable changes for easy and quick reference to both users and our
-contributors.</p>
-<p>To maintain our changelog, we're using <a href="https://towncrier.readthedocs.io/en/stable/"><code>towncrier</code></a>, which allows us to create <strong>fragment files</strong>, which
-each contains a single changelog entry. Once a new release is created, all of these fragments will be used to create a
-changelog for that new release.</p>
-<p>We generally require every pull request to to include a new changelog fragment, summarizing what it does.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you think your change shouldn't require a changelog entry (it's a small / simple change that isn't worth
-noting), ask us to add the <code>skip-fragment-check</code> label to your PR, which will disable the automated check that
-enforces a presence of the changelog fragment.</p>
-</div>
-<h2 id="structure-of-a-fragment-file">Structure of a fragment file<a class="headerlink" href="#structure-of-a-fragment-file" title="Permanent link">&para;</a></h2>
-<p>The fragment files are stored in the <code>changes/</code> directory in our project. These files follow the following naming
-format: <code>{pull_request_number}.{type}.md</code>.</p>
-<p>Possible fragment types are:</p>
+<p>As was already briefly mentioned in the <a href="../documentation/">documentation</a> section, we're using
+<a href="https://mkdocstrings.github.io/">mkdocstrings</a>, which is an extension of <code>mkdocs</code> that is able to automatically
+generate documentation from the source code.</p>
+<p>Well, we're using <code>mkdocstrings</code>, but internally, the python handler for <code>mkdocstrings</code> is using
+<a href="https://mkdocstrings.github.io/griffe/"><code>griffe</code></a>, which is the tool responsible for actually analyzing the source
+code and collecting all the details.</p>
+<p>As you might imagine though, in order to allow <code>griffe</code> to automatically pick up information about our codebase, it's
+necessary to actually include this information into the code, as you're writing it. It's also important to use a
+consistent style, that <code>griffe</code> can understand.</p>
+<p>In our case, we use the <a href="https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings">Google style</a> for
+writing docstrings.</p>
+<h2 id="google-style-docstrings-formatting">Google Style docstrings formatting<a class="headerlink" href="#google-style-docstrings-formatting" title="Permanent link">&para;</a></h2>
+<p>While you should ideally just read over the <a href="https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings">official
+specification</a> (don't worry, it's actually
+quite readable; well, other than the white theme), you can also take a quick glance through some of these examples
+below, that quickly demonstrate the style.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">deal_damage</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span><span class="p">,</span> <span class="n">damage</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Deal damage to specified entity.</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="sd">        entity: The entity to deal damage to</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="sd">        damage: The amount of damage to deal.</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="sd">    Note:</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sd">        This might end up killing the entity. If this does occur</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="sd">        a death message will be logged.</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">entity</span><span class="o">.</span><span class="n">hp</span> <span class="o">-=</span> <span class="n">damage</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="n">hp</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entity </span><span class="si">{</span><span class="n">entity</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> died.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">def</span> <span class="nf">bake_cookie</span><span class="p">(</span><span class="n">flavor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">175</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Bake a delicious cookie.</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="sd">    This function simulates the process of baking a cookie with the given flavor.</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="sd">        flavor: The type of cookie to bake. Must be a valid flavor.</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="sd">        temperature: The baking temperature in Celsius.</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="sd">            Defaults to 175.</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="sd">        A string confirming that the cookie is ready.</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="sd">    Raises:</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="sd">        ValueError: If the flavor is unknown.</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="sd">        RuntimeError: If the oven temperature is too high and the cookie burns.</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    <span class="n">valid_flavors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;chocolate chip&quot;</span><span class="p">,</span> <span class="s2">&quot;oatmeal&quot;</span><span class="p">,</span> <span class="s2">&quot;peanut butter&quot;</span><span class="p">,</span> <span class="s2">&quot;sugar&quot;</span><span class="p">}</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    <span class="k">if</span> <span class="n">flavor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_flavors</span><span class="p">:</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown flavor: </span><span class="si">{</span><span class="n">flavor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    <span class="k">if</span> <span class="n">temperature</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">:</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Oven overheated! Your cookie is now charcoal.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Your </span><span class="si">{</span><span class="n">flavor</span><span class="si">}</span><span class="s2"> cookie is baked at </span><span class="si">{</span><span class="n">temperature</span><span class="si">}</span><span class="s2">°F and ready to eat!&quot;</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a><span class="k">class</span> <span class="nc">Cat</span><span class="p">:</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple representation of a cat.</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="sd">    Attributes:</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="sd">        name: The name of the cat.</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="sd">        age: The age of the cat in years.</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="sd">        is_hungry: Whether the cat is hungry.</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a cat with a name and age.</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a><span class="sd">        Args:</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="sd">            name: The name of the cat.</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="sd">            age: The age of the cat in years.</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">is_hungry</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># a new cat is always hungry (duh!)</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>
+<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>    <span class="k">def</span> <span class="nf">purr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Make the cat purr.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>        <span class="k">return</span> <span class="s2">&quot;Purr... Purr...&quot;</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>
+<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>    <span class="k">def</span> <span class="nf">meow</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Make the cat meow.</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>
+<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a><span class="sd">        Returns:</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a><span class="sd">            A string representing the cat&#39;s meow.</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> says &#39;Meow!&#39;&quot;</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>
+<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>    <span class="k">def</span> <span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Feed the cat.</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>
+<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a><span class="sd">        Once fed, the cat will no longer be hungry.</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">is_hungry</span> <span class="o">=</span> <span class="kc">False</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>
+<a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a><span class="n">DEFAULT_HP</span> <span class="o">=</span> <span class="mi">500</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a><span class="sd">&quot;&quot;&quot;This is the default value for the amount of health points that each entity will have.&quot;&quot;&quot;</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Further reading</p>
 <ul>
-<li><strong><code>feature</code></strong>: New feature that affects the public API.</li>
-<li><strong><code>bugfix</code></strong>: A bugfix, which was affecting the public API.</li>
-<li><strong><code>docs</code></strong>: Change to the documentation, or updates to public facing docstrings</li>
-<li><strong><code>breaking</code></strong>: Signifying a breaking change of some part of the project's public API, which could cause issues for
-  end-users updating to this version. (Includes deprecation removals.)</li>
-<li><strong><code>deprecation</code></strong>: Signifying a newly deprecated feature, scheduled for eventual removal.</li>
-<li><strong><code>internal</code></strong> Fully internal change that doesn't affect the public API, but is significant enough to be mentioned,
-  likely because it affects project contributors. (Such as a new linter rule, change in code style, significant change
-  in internal API, ...)</li>
+<li>Like mentioned above, you can take a look over the <a href="https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings">official Google style guide
+  spec</a></li>
+<li>Griffe also has a <a href="https://mkdocstrings.github.io/griffe/guide/users/recommendations/docstrings/">docstring recommendations
+  page</a>, where you can find a bunch
+  of examples that showcase the various places where you can use docstrings.</li>
+<li>On top of the general docstring recommendations, griffe also has a bit more detailed <a href="https://mkdocstrings.github.io/griffe/reference/docstrings/#google-style">reference
+  page</a> that further demonstrates some of
+  the things that will and won't work.</li>
 </ul>
-<h2 id="create-fragments-with-commands">Create fragments with commands<a class="headerlink" href="#create-fragments-with-commands" title="Permanent link">&para;</a></h2>
-<p>While you can absolutely create these files manually, it's often a lot more convenient to use the <code>towncrier</code> CLI,
-which can create the file for you in the proper place automatically. With it, you can simply run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>towncrier<span class="w"> </span>create<span class="w"> </span><span class="o">{</span>pull_request_number<span class="o">}</span>.<span class="o">{</span>type<span class="o">}</span>.md
-</code></pre></div>
-<p>After you ran the command, a new file will appear in the <code>changes/</code> directory. You can now open it and describe your
-change inside of it.</p>
-<p>If the change is simple enough, you can even use the <code>-c</code> / <code>--content</code> flag to specify it directly, like:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>towncrier<span class="w"> </span>create<span class="w"> </span><span class="m">12</span>.feature.md<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;Add dinosaurs!&quot;</span>
-</code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Terminal editors</p>
-<p>If you're used to terminal editors, there's also an <code>--edit</code> flag, which will open the file with your
-<code>$EDITOR</code>. (I would recommend <code>neovim</code>, but if you find it too complex, <code>nano</code> also works well)</p>
 </div>
-<h2 id="multiple-fragments-in-a-single-pr">Multiple fragments in a single PR<a class="headerlink" href="#multiple-fragments-in-a-single-pr" title="Permanent link">&para;</a></h2>
-<p>If necessary, multiple fragment files can be created per pull-request, with different change types, if the PR covers
-multiple areas. For example for PR #13 that both introduces a feature, and changes the documentation, can add 2
-fragment files: <code>13.feature.md</code> and <code>13.docs.md</code>.</p>
-<p>Additionally, if a single PR is addressing multiple unrelated topics in the same category, and needs to make multiple
-distinct changelog entries, an optional counter value can be added at the end of the file name (needs to be an
-integer). So for example PR #25 which makes 2 distinct internal changes can add these fragment files:
-<code>25.internal.1.md</code> and <code>25.internal.2.md</code>. (The numbers in this counter position will not be shown in the final
-changelog and are merely here for separation of the individual fragments.)</p>
-<p>However if the changes are related to some bigger overarching goal, you can also just use a single fragment file with
-the following format:</p>
-<div class="highlight"><span class="filename">changes/25.internal.md</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Update towncrier categories
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Rename <span class="sb">`documentation`</span> category to shorter: <span class="sb">`docs`</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Add <span class="sb">`internal`</span> category for changes unrelated to public API, but potentially relevant to contributors
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Add github workflow enforcing presence of a new changelog fragment file for each PR
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="k">-</span><span class="w"> </span>For insignificant PRs which don&#39;t require any changelog entry, a maintainer can add <span class="sb">`skip-fragment-check`</span> label.
+<h3 id="cross-references">Cross-References<a class="headerlink" href="#cross-references" title="Permanent link">&para;</a></h3>
+<p>If you need to refer to some object (function/class/attribute/...) from you docstring, you will need to follow the
+<a href="https://mkdocstrings.github.io/usage/#cross-references">mkdocstrings cross-references syntax</a>. Generally, it will look
+something like this:</p>
+<div class="highlight"><span class="filename">mcproto/module_b.py</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">mcproto.module_a</span> <span class="kn">import</span> <span class="n">custom_object</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span> <span class="o">...</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Do the foo.</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="sd">    This function does the foo by utilizing the [`bar`][mcproto.module_b.bar] method,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="sd">    to which the [`custom_object`][mcproto.module_a.custom_object] is passed.</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">bar</span><span class="p">(</span><span class="n">custom_object</span><span class="p">)</span>
 </code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>While possible, if you end up making multiple distinct changelog fragments like this, it's a sign that your PR
-might be too big, and you should split it up into multiple PRs instead. Making huge PRs that address several
-unrelated topics at once is generally a bad practice, and should be avoided. If you go overboard, your PR might
-even end up getting closed for being too big, and you'll be required to split it up.</p>
-</div>
-<h2 id="preview-changelog">Preview changelog<a class="headerlink" href="#preview-changelog" title="Permanent link">&para;</a></h2>
-<p>To preview the latest changelog, run <code>towncrier build --draft --version latest</code>.</p>
-<details class="note">
-<summary>Meaning of the version value</summary>
-<p>The <code>--version</code> attribute usually takes the version number of the project, to which these changes apply. However,
-since we just want to preview the changes, it doesn't really matter for us, so we can just pass <code>latest</code> or
-whatever else you wish.</p>
-<p>For actual builds, the version is automatically obtained and this command is executed in our release CI workflow.</p>
-<p>This version will be used in the first line of the changelog (the header).</p>
-</details>
-<details class="note">
-<summary>Meaning of --draft flag</summary>
-<p>The <code>--draft</code> flag will make sure that towncrier will only show you the contents of the next changelog version
-entry, but won't actually add that generated content to our <code>CHANGELOG.md</code> file, while consuming (removing) the
-changelog fragments.</p>
-<p>You will never need to run <code>towncrier</code> without the <code>--draft</code> flag, as our CI workflows for project releasing handle
-that automatically.</p>
-</details>
-<p>To make this a bit easier, there is a taskipy task running the command above, so you can just use <code>poetry run task
-changelog-preview</code> to see the changelog, if you don't like remembering new commands.</p>
-<h2 id="writing-good-changelog-fragments">Writing good changelog fragments<a class="headerlink" href="#writing-good-changelog-fragments" title="Permanent link">&para;</a></h2>
-<p>Fragment files follow the same markdown syntax as our documentation.</p>
-<p>The contents of a fragment file should describe the change that you've made in a quick and general way. That said, the
-change descriptions can be a bit more verbose than just the PR title, but only if it's necessary. Keep in mind that
-these changes will be shown to the end users of the library, so try to explain your change in a way that a
-non-contributor would understand.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>If your change needs some more in-depth explanations, perhaps with code examples and reasoning for why such a
-change was made, use the PR body (description) for this purpose. Each changelog entry will contain a link to the
-corresponding pull request, so if someone is interested in any additional details about a change, they can always
-look there.</p>
-</div>
-<h3 id="examples-of-good-changlog-fragment-files">Examples of good changlog fragment files<a class="headerlink" href="#examples-of-good-changlog-fragment-files" title="Permanent link">&para;</a></h3>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>Clear and descriptive</strong></p>
-<div class="highlight"><span class="filename">changes/171.feature.md</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Add <span class="sb">`Account.check`</span> function, to verify that the access token in use is valid, and the data the Account instance has matches the data minecraft API has.
-</code></pre></div>
-<div class="highlight"><span class="filename">changes/179.docs.md</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Enforce presence of docstrings everywhere with pydocstyle. This also adds docstring to all functions and classes that didn&#39;t already have one. Minor improvements for consistency were also made to some existing docstrings.
-</code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>Slightly on the longer side, but it's justified</strong> (Sometimes, it's
-important to explain the issue that this fixes, so that users know that it was there)</p>
-<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Fix behavior of the <span class="sb">`mcproto.utils.deprecation`</span> module, which was incorrectly always using a fallback version, assuming mcproto is at version 0.0.0. This then could&#39;ve meant that using a deprecated feature that is past the specified deprecation (removal) version still only resulted in a deprecation warning, as opposed to a full runtime error.
-</code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>With an extra note about the breaking change</strong> (Adding some extra
-description isn't always bad, especially for explaining how a breaking change affects existing code)</p>
-<div class="highlight"><span class="filename">changes/130.breaking.md</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    This is a breaking change as <span class="sb">`LoginEncryptionPacket`</span>&#39;s <span class="sb">`__init__`</span> method now uses &quot;shared_secret&quot; keyword only
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    argument, not &quot;shared_key&quot;. Every initialization call to this packet needs to be updated.
-</code></pre></div>
-<p><span class="twemoji" style="color: #4DB6AC"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg></span> <strong>With a list of subchanges that were made</strong> (Be careful with this one
-though, make sure you don't over-do it)</p>
-<div class="highlight"><span class="filename">changes/129.feature.md</span><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Added a system for handling Minecraft authentication
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Yggdrasil system for unmigrated i.e. non-Microsoft accounts (supportng Minecraft accounts, and the really old
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>      Mojang accounts)
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">-</span><span class="w"> </span>Microsoft OAuth2 system (Xbox live) for migrated i.e. Microsoft accounts
-</code></pre></div>
-<h3 id="examples-of-bad-changelog-fragment-files">Examples of bad changelog fragment files<a class="headerlink" href="#examples-of-bad-changelog-fragment-files" title="Permanent link">&para;</a></h3>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Unclear</strong> (But what does this class do?)</p>
-<div class="highlight"><span class="filename">changes/123.feature.md</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Update <span class="sb">`Buffer`</span> class.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Bad category</strong> (This is a feature, not a bugfix)</p>
-<div class="highlight"><span class="filename">changes/161.bugfix.md</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Add support for encryption. Connection classes now have <span class="sb">`enable_encryption`</span> method, and some encryption related functions were added into a new mcproto.encryption module.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Starts with dash</strong> (Sometimes, it can feel natural to start your changelog
-entry with a <code>-</code>, as it is a list item in the final changelog, however, this dash will already be added automatically)</p>
-<div class="highlight"><span class="filename">changes/171.feature.md</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">-</span><span class="w"> </span>Add <span class="sb">`Account.check`</span> function, to verify that the access token in use is valid, and the data the Account instance has matches the data minecraft API has.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Wrapped first line</strong> (Splitting up the first line into multiple lines is
-something we often do in markdown, because it should still be rendered as a single line, however, because of how
-towncrier merges these fragments, using multiple lines will cause issues and the changelog won't be formatter
-correctly! Further blocks can have wrapped lines.)</p>
-<div class="highlight"><span class="filename">changes/330.bugfix.md</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Fix behavior of the <span class="sb">`mcproto.utils.deprecation`</span> module, which was incorrectly always using a fallback version, assuming
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>mcproto is at version 0.0.0. This then could&#39;ve meant that using a deprecated feature that is past the specified
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>deprecation (removal) version still only resulted in a deprecation warning, as opposed to a full runtime error.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>No indent in description</strong> (Sometimes, we want to add additional
-description to our changelog entry. When doing so, we need to make sure that the description block is indented with 4
-spaces and there is a blank line after the first / title line.)</p>
-<div class="highlight"><span class="filename">changes/330.breaking.md</span><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Renamed &quot;shared_key&quot; field to &quot;shared_secret&quot; in <span class="sb">`LoginEncryptionPacket`</span>, following the official terminology.
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>This is a breaking change as <span class="sb">`LoginEncryptionPacket`</span>&#39;s <span class="sb">`__init__`</span> method now uses &quot;shared_secret&quot; keyword only
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>argument, not &quot;shared_key&quot;. Every initialization call to this packet needs to be updated.
-</code></pre></div>
-<p><span class="twemoji" style="color: #EF5350"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></span> <strong>Way too long</strong> (This should've been the PR description)</p>
-<div class="highlight"><span class="filename">changes/161.feature.md</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Introduce support for encryption handling.
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    Most servers (even offline ones) usually send an EncryptionRequest packet during the LOGIN state, with a public
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    (RSA) key that the client is expected to use to encrypt a randomly generated shared secret, to send back to the
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    server in EncryptionResponse packet. After that, all further communication is encrypted with this shared secret.
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    The encryption used is a AES/CFB8 stream cipher. That means the encrypted ciphertext will have the same amount
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    of bytes as the original plaintext, allowing us to still trust our reader/writer methods that rely on reading
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    specific amounts of bytes, even if their content don&#39;t make sense.
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    This directly uses the base connection classes and adds enable_encryption method to them, which after getting
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    called will automatically encrypt/decrypt any incomming/outcomming data.
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    This additionally also changes the LoginEncryptionRequest packet class, and makes the public key attribute
-<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>    actually hold an RSA public key (from the cryptography library), instead of just the received bytes. This is
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>    then much more useful to work with later on. This is a breaking change.
-</code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Verify if your changelog works</p>
-<p>Our CI will automatically build the documentation for your PR and post a link to it as a comment in the pull
-request. This documentation will include a preview of the changelog with all unreleased changes in the <a href="../../../meta/changelog/">changelog</a>
-page. You can take a look there to make sure that your change fragment(s) resulted in the proper output.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Internal changes</p>
-<p>We're a bit more forgiving when it comes to describing your change if your change is in the <code>internal</code> category, as
-end users don't need to read those. Changes in this category can be a bit less descriptive.</p>
-</div>
-<h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
-<ul>
-<li>See <a href="https://keepachangelog.com">https://keepachangelog.com</a> for more info about why and how to properly maintain a changelog</li>
-<li>For more info about <code>towncrier</code>, check out it's <a href="https://towncrier.readthedocs.io/en/stable/tutorial.html">documentation</a></li>
-</ul>
+<p>The references need to point to an object that is included in the docs (documented in API reference pages).</p>
+<h3 id="relative-cross-references">Relative Cross-References<a class="headerlink" href="#relative-cross-references" title="Permanent link">&para;</a></h3>
+<p>While relative cross-references are supported by mkdocstrings, they are <a href="https://mkdocstrings.github.io/python/usage/configuration/docstrings/#relative_crossrefs">gated for sponsors
+only</a>, at least until a
+funding goal is reached.</p>
+<p>For that reason, we're using an alternative handler to <code>mkdocstrings-python</code>:
+<a href="https://github.com/ItsDrike/mkdocstrings-python-betterrefs"><code>mkdocstrings-python-betterrefs</code></a>. This handler uses
+<code>mkdocstrings-python</code> internally, while extending it to provide support for relative cross-references.</p>
+<p>To use relative cross-references, check the <a href="https://itsdrike.github.io/mkdocstrings-python-betterrefs">mkdocstrings-python-xref
+documentation</a>.</p>
+<h2 id="writing-api-reference_1">Writing API Reference<a class="headerlink" href="#writing-api-reference_1" title="Permanent link">&para;</a></h2>
+<p>On top of just learning about how to write docstrings, you will need to understand how to write the docs for the API
+reference. Currently, most of our API reference docs work by simply recursively including the whole module, so you
+likely won't need to touch it unless you're adding new modules (files). That said, sometimes, it might be useful to
+document something from the docs directly, rather than just from docstrings.</p>
+<p>Rather than rewriting what's already really well explained, we'll instead just point you towards the <a href="https://mkdocstrings.github.io/usage/">mkdocstrings
+documentation</a>.</p>
+<h2 id="what-to-document">What to document<a class="headerlink" href="#what-to-document" title="Permanent link">&para;</a></h2>
+<p>Finally, before including something into the docs, make sure it makes sense as a part of your Public API. When deciding
+this, you might find this <a href="https://mkdocstrings.github.io/griffe/guide/users/recommendations/public-apis/">Griffe
+guide</a> to be helpful.</p>
 
 
 
@@ -2031,7 +1943,7 @@ end users don't need to read those. Changes in this category can be a bit less d
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../precommit/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Pre-commit">
+          <a href="../documentation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Documentation">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2041,20 +1953,20 @@ end users don't need to read those. Changes in this category can be a bit less d
                 Previous
               </span>
               <div class="md-ellipsis">
-                Pre-commit
+                Documentation
               </div>
             </div>
           </a>
         
         
           
-          <a href="../breaking-changes/" class="md-footer__link md-footer__link--next" aria-label="Next: Breaking Changes">
+          <a href="../great-commits/" class="md-footer__link md-footer__link--next" aria-label="Next: Great commits">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Breaking Changes
+                Great commits
               </div>
             </div>
             <div class="md-footer__button md-icon">
