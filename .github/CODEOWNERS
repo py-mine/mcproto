@@ -2,27 +2,30 @@
 # is automatically requested a review from
 
 # GitHub / External CI
-.github/dependabot.yml      @ItsDrike
-.github/workflows/**        @ItsDrike
-.github/scripts/**          @ItsDrike
+.github/dependabot.yml          @ItsDrike
+.github/workflows/**            @ItsDrike
+.github/scripts/**              @ItsDrike
 
 # Local CI / tool configurations
-.editorconfig               @ItsDrike
-.gitignore                  @ItsDrike
-.pre-commit-config.yml      @ItsDrike
+.editorconfig                   @ItsDrike
+.gitignore                      @ItsDrike
+.pre-commit-config.yml          @ItsDrike
 
 # Meta (config files for the repo itself)
-.github/CODEOWNERS          @ItsDrike
-.github/ISSUE_TEMPLATE/**   @ItsDrike
+.github/CODEOWNERS              @ItsDrike
+.github/ISSUE_TEMPLATE/**       @ItsDrike
 
 # Project's README/documents
-README.md                   @ItsDrike
-CODE-OF-CONDUCT.md          @ItsDrike
-docs/code-of-conduct.rst    @ItsDrike
-CONTRIBUTING.md             @ItsDrike
-ATTRIBUTION.md              @ItsDrike
-LICENSE.txt                 @ItsDrike
-LICENSE-THIRD-PARTY.txt     @ItsDrike
-SECURITY.md                 @ItsDrike
-tests/README.md             @ItsDrike
-changes/README.md           @ItsDrike
+README.md                       @ItsDrike
+CODE-OF-CONDUCT.md              @ItsDrike
+CONTRIBUTING.md                 @ItsDrike
+ATTRIBUTION.md                  @ItsDrike
+LICENSE.txt                     @ItsDrike
+LICENSE-THIRD-PARTY.txt         @ItsDrike
+SECURITY.md                     @ItsDrike
+tests/README.md                 @ItsDrike
+changes/README.md               @ItsDrike
+docs/meta/*                     @ItsDrike
+docs/contributing/**            @ItsDrike
+docs/index.md                   @ItsDrike
+docs/installation.md            @ItsDrike
