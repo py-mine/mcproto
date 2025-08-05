@@ -6,7 +6,7 @@ authors = ["ItsDrike <itsdrike@protonmail.com>"]
 license = "LGPL-3.0-or-later"
 readme = "README.md"
 repository = "https://github.com/py-mine/mcproto"
-documentation = "https://mcproto.readthedocs.io/"
+documentation = "https://py-mine.github.io/mcproto"
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "Intended Audience :: Developers",
