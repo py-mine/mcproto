@@ -160,16 +160,11 @@ only](https://mkdocstrings.github.io/python/usage/configuration/docstrings/#rela
 funding goal is reached.
 
 For that reason, we're using an alternative handler to `mkdocstrings-python`:
-[`mkdocstrings-python-xref`](https://github.com/analog-garage/mkdocstrings-python-xref). This handler uses
+[`mkdocstrings-python-betterrefs`](https://github.com/ItsDrike/mkdocstrings-python-betterrefs). This handler uses
 `mkdocstrings-python` internally, while extending it to provide support for relative cross-references.
 
 To use relative cross-references, check the [mkdocstrings-python-xref
-documentation](https://analog-garage.github.io/mkdocstrings-python-xref).
-
-It is expected that once relative cross-refs come to mainline `mkdocstrings-python`, this alternative handler will be
-dropped. Because of this, we should do our best to use compatible syntax when writing the cross-references. As the
-`mkdocstrings-python-xref` handler offers quite a bit more than the official version does, however using it would make
-migrating back much harder.
+documentation](https://itsdrike.github.io/mkdocstrings-python-betterrefs).
 
 ## Writing API Reference
 
