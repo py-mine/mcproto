@@ -69,7 +69,7 @@ ruff check .
 
 !!! note ""
 
-    Don't forget to [activate][activate-venv] the poetry virtual environment before running ruff.
+    Don't forget to [activate][activate-venv] the virtual environment before running ruff.
 
 Ruff is really smart and it can often automatically fix some of the style violations it found. To make ruff do that,
 you can add the `--fix` flag to the command:

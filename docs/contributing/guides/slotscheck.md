@@ -59,7 +59,7 @@ slotscheck -m mcproto
 
 !!! note ""
 
-    Make you have an [activated][activate-venv] poetry virtual environment and you're in the project's root directory.
+    Make you have an [activated][activate-venv] virtual environment and you're in the project's root directory.
 
 ## Configuring slotscheck
 
