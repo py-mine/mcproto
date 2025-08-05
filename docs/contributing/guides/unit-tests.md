@@ -85,11 +85,11 @@ independent test. This then prevents tests for X from failing because of Y, inst
 In other words, don't write tests that check "everything", rather, write multiple smaller tests.
 
 However, independent tests often require similar preparation steps. Since you'll be splitting these tests, to avoid
-repetition, `pytest` provides [fixtures](https://docs.pytest.org/en/6.2.x/fixture.html) that can be executed before and
-after each test is run. In addition to test fixtures, it also provides support for
-[parametrization](https://docs.pytest.org/en/6.2.x/example/parametrize.html), which is a way of re-running the same
-test function with different values. If there's a failure, pytest will then show us the values that were being used
-when this failure occurred, making it a much better solution than just manually using them in the test function.
+repetition, `pytest` provides [fixtures][pytest-fixtures] that can be executed before and after each test is run. In
+addition to test fixtures, it also provides support for [parametrization][pytest-parametrization], which is a way of
+re-running the same test function with different values. If there's a failure, pytest will then show us the values that
+were being used when this failure occurred, making it a much better solution than just manually using them in the test
+function.
 
 ### Using parametrization to repeat the same tests with different values
 
@@ -154,7 +154,7 @@ You can think of mocks as "fake" objects, that behave like the real ones, but gi
 they do, allowing us to focus on testing our code, and not the utilities around it (those deserve their own tests, if
 internal).
 
-In Python, we use the [`unittest.mock`](https://docs.python.org/3/library/unittest.mock.html) module (part of python's
+In Python, we use the [`unittest.mock`][unittest-mock] module (part of python's
 standard library) to create these mock objects.
 
 ### Basic Example: Pizza Delivery
@@ -514,10 +514,9 @@ A good example would be for example the `open` function for reading/writing file
 to be written during our testing, however we might need to test a function that writes some files internally, and
 perhaps check that the content written matches some pattern, ensuring that it works properly.
 
-While there is some built-in support for patching in the [unittest.mock
-library](https://docs.python.org/3/library/unittest.mock.html#the-patchers), we generally use `pytest`'s
-[monkeypatching](https://docs.pytest.org/en/7.1.x/how-to/monkeypatch.html) as it can act as a fixture and integrates
-well with the rest of our test codebase, which is written with pytest in mind.
+There is built-in support for patching in the [unittest.mock library][unittest-mock-patching], or you can also use
+`pytest`'s [monkeypatching][pytest-monkeypatching] which can act as a fixture and integrates well with the rest of our
+test codebase, which is written with pytest in mind. However, either method is acceptable when patching.
 
 ### Faking the time
 
@@ -644,8 +643,7 @@ The problem here is that we have only tested our function with a time that was `
 
 The reason this wasn't reported is because ternary conditions are on a single line, and even if the first branch of the
 if wasn't executed, since it was syntactically touched and the `if time else` ternary got evaluated, coverage report
-shows the line as executed. (See [this github issue](https://github.com/nedbat/coveragepy/issues/509) for more info, if
-you're interested)
+shows the line as executed. (See [this github issue][coveragepy-ternary-issue] for more info, if you're interested)
 
 Adding another test would not increase the test coverage we have, but it does ensure that we'll notice that this
 function can fail with realistic data
@@ -722,3 +720,8 @@ This document was heavily inspired by [python-discord's tests
 README](https://github.com/python-discord/bot/blob/main/tests/README.md)
 
 [pytest-fixtures]: https://docs.pytest.org/en/7.1.x/how-to/fixtures.html
+[pytest-parametrization]: https://docs.pytest.org/en/6.2.x/example/parametrize.html
+[pytest-monkeypatching]: https://docs.pytest.org/en/7.1.x/how-to/monkeypatch.html
+[unittest-mock]: https://docs.python.org/3/library/unittest.mock.html
+[unittest-mock-patching]: https://docs.python.org/3/library/unittest.mock.html#the-patchers
+[coveragepy-ternary-issue]: https://github.com/nedbat/coveragepy/issues/509
