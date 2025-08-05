@@ -18,7 +18,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  deploy-docs:
+  mkdocs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate token
