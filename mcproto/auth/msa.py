@@ -76,7 +76,7 @@ class MSAAccount(Account):
         res = await client.post(f"{MC_SERVICES_API_URL}/authentication/login_with_xbox", json=payload)
 
         try:
-            res.raise_for_status()
+            _ = res.raise_for_status()
         except httpx.HTTPStatusError as exc:
             raise ServicesAPIError(exc) from exc
 
@@ -93,7 +93,7 @@ class MSAAccount(Account):
         res = await client.get(
             f"{MC_SERVICES_API_URL}/minecraft/profile", headers={"Authorization": f"Bearer {access_token}"}
         )
-        res.raise_for_status()
+        _ = res.raise_for_status()
         data = res.json()
 
         return cls(data["name"], McUUID(data["id"]), access_token)

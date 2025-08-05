@@ -117,7 +117,7 @@ async def microsoft_oauth_request(client: httpx.AsyncClient, client_id: str) -> 
     """
     data = {"client_id": client_id, "scope": "XboxLive.signin offline_access"}
     res = await client.post(f"{MICROSOFT_OAUTH_URL}/devicecode", data=data)
-    res.raise_for_status()
+    _ = res.raise_for_status()
 
     return res.json()
 
@@ -141,7 +141,7 @@ async def microsoft_oauth_authenticate(
     res = await client.post(f"{MICROSOFT_OAUTH_URL}/token", data=data)
 
     try:
-        res.raise_for_status()
+        _ = res.raise_for_status()
     except httpx.HTTPStatusError as exc:
         if exc.response.status_code == 400:
             raise MicrosoftOauthResponseError(exc) from exc

@@ -138,7 +138,7 @@ class YggdrasilAccount(Account):
         )
 
         try:
-            res.raise_for_status()
+            _ = res.raise_for_status()
         except httpx.HTTPStatusError as exc:
             raise AuthServerApiError(exc) from exc
 
@@ -180,7 +180,7 @@ class YggdrasilAccount(Account):
             return True
 
         try:
-            res.raise_for_status()
+            _ = res.raise_for_status()
         except httpx.HTTPStatusError as exc:
             raise AuthServerApiError(exc) from exc
 
@@ -210,7 +210,7 @@ class YggdrasilAccount(Account):
         res = await client.post(f"{AUTHSERVER_API_URL}/authenticate", json=payload)
 
         try:
-            res.raise_for_status()
+            _ = res.raise_for_status()
         except httpx.HTTPStatusError as exc:
             raise AuthServerApiError(exc) from exc
 
@@ -239,7 +239,7 @@ class YggdrasilAccount(Account):
         res = await client.post(f"{AUTHSERVER_API_URL}/signout", json=payload)
 
         try:
-            res.raise_for_status()
+            _ = res.raise_for_status()
         except httpx.HTTPStatusError as exc:
             raise AuthServerApiError(exc) from exc
 
