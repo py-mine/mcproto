@@ -58,6 +58,7 @@ jobs:
         with:
           version: "latest"
           python-version: ${{ env.PYTHON_VERSION }}
+          activate-environment: true
           enable-cache: true
           cache-suffix: "docs"
 
