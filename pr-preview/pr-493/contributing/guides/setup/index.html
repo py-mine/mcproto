@@ -1124,9 +1124,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#poetry" class="md-nav__link">
+  <a href="#uv" class="md-nav__link">
     <span class="md-ellipsis">
-      Poetry
+      UV
     </span>
   </a>
   
@@ -1160,18 +1160,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#poetry-dependency-groups" class="md-nav__link">
+  <a href="#dependency-groups" class="md-nav__link">
     <span class="md-ellipsis">
-      Poetry dependency groups
+      Dependency groups
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-dependencies" class="md-nav__link">
+  <a href="#installing-new-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
-      Installing dependencies
+      Installing new dependencies
     </span>
   </a>
   
@@ -1703,9 +1703,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#poetry" class="md-nav__link">
+  <a href="#uv" class="md-nav__link">
     <span class="md-ellipsis">
-      Poetry
+      UV
     </span>
   </a>
   
@@ -1739,18 +1739,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#poetry-dependency-groups" class="md-nav__link">
+  <a href="#dependency-groups" class="md-nav__link">
     <span class="md-ellipsis">
-      Poetry dependency groups
+      Dependency groups
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-dependencies" class="md-nav__link">
+  <a href="#installing-new-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
-      Installing dependencies
+      Installing new dependencies
     </span>
   </a>
   
@@ -1793,9 +1793,9 @@
 <details class="abstract" open="open">
 <summary>Abstract</summary>
 <p>This guide describes the very basics of setting up our project.</p>
-<p>It explains how to use <code>poetry</code> to install the python dependencies for the project. After which it goes over using
-poetry (activating the virtual environment, keeping the dependencies up to date as we update them, adding /
-removing dependencies and poetry dependency group).</p>
+<p>It explains how to use <code>uv</code> to install the python dependencies for the project. After which it goes over using uv
+(activating the virtual environment, keeping the dependencies up to date as we update them, adding / removing
+dependencies and dependency groups).</p>
 </details>
 <h2 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permanent link">&para;</a></h2>
 <p>A basic knowledge of <a href="https://docs.github.com/en/get-started/start-your-journey/about-github-and-git">git and GitHub</a>, alongside working within the terminal and running commands is a
@@ -1804,10 +1804,10 @@ requirement to work on this project.</p>
 computer and created your own <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches">git branch</a> to work on.</p>
 <p>If you wish to work from an already forked repository, make sure to check out the main branch and do a <a href="https://github.com/git-guides/git-pull"><code>git
 pull</code></a> to get your fork up to date. Now create your new branch.</p>
-<h2 id="poetry">Poetry<a class="headerlink" href="#poetry" title="Permanent link">&para;</a></h2>
-<p>This project uses <a href="https://python-poetry.org/docs/"><code>poetry</code></a>. Poetry is a tool for managing python dependencies in a
-reproducible way, ensuring that everyone is using the same versions. It creates virtual environments for each project,
-which ensures that your global dependencies won't clash with the project.</p>
+<h2 id="uv">UV<a class="headerlink" href="#uv" title="Permanent link">&para;</a></h2>
+<p>This project uses <a href="https://docs.astral.sh/uv/"><code>uv</code></a>. Uv is a tool for managing python dependencies in a reproducible way, ensuring that
+everyone is using the same versions. It creates virtual environments for each project, which ensures that your global
+dependencies won't clash with the project.</p>
 <details class="question">
 <summary>More about virtual environments</summary>
 <p>A python virtual environment is essentially a separate mini installation of python used purely for the project
@@ -1819,16 +1819,16 @@ project won't work with a version that old, we're using some of the new features
 project won't work with a newer version though.</p>
 <p>With a virtual environment, both projects will have their own isolated python installation, that only contains the
 dependencies listed for that project, avoiding any conflicts completely.</p>
-<p>You can create virtual environments manually, with the built-in <code>venv</code> python module, but poetry makes this much
+<p>You can create virtual environments manually, with the built-in <code>venv</code> python module, but uv makes this much
 simpler. If you want to find out more about virutal environments, check the <a href="https://docs.python.org/3/library/venv.html">official python
 documentation</a>.</p>
 </details>
-<p>This means you will need to have poetry installed on your system to run our project. To do so, just follow their
-<a href="https://python-poetry.org/docs/#installation">official documentation</a>.</p>
+<p>This means you will need to have uv installed on your system to run our project. To do so, just follow their
+<a href="https://docs.astral.sh/uv/getting-started/installation/">official documentation</a>.</p>
 <h2 id="dependency-installation">Dependency installation<a class="headerlink" href="#dependency-installation" title="Permanent link">&para;</a></h2>
 <p>Once installed, you will want to create a new environment for our project, with all of our dependencies installed. Open
 a terminal in the project's directory and run the following command:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>poetry<span class="w"> </span>install
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>sync
 </code></pre></div>
 <p>After running this command, the virtual environment will be populated with all of the dependencies that you will need
 for running &amp; developing the project.</p>
@@ -1842,22 +1842,23 @@ from this environment, instead of the global ones, you will need to "activate" t
 <p>Some IDEs/editors are capable of doing this automatically when you open the project, if your editor supports that, you
 should configure it to do so.</p>
 <p>If your IDE doesn't have that option, or you just wish to work from the terminal, you can instead run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>poetry<span class="w"> </span>shell
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># On Linux:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>.<span class="w"> </span>.venv/bin/activate
 </code></pre></div>
-<p>Now you can start the IDE from your terminal, which should make it work within the poetry python environment.</p>
+<p>Now you can start the IDE from your terminal, which should make it work within the uv python environment.</p>
 <div class="admonition tip">
 <p class="admonition-title">Execute a single command inside the virtual environment</p>
 <p>If you just want to run a single command from the venv, without necessarily having to activate the environment
-(often useful in scripts), poetry provides a quick and simple way to do so. All you need to do is prefix any such
-command with <code>poetry run</code> (e.g. <code>poetry run ruff</code>).</p>
+(often useful in scripts), uv provides a quick and simple way to do so. All you need to do is prefix any such
+command with <code>uv run</code> (e.g. <code>uv run ruff check</code>).</p>
 </div>
 <h2 id="keeping-your-dependencies-up-to-date">Keeping your dependencies up to date<a class="headerlink" href="#keeping-your-dependencies-up-to-date" title="Permanent link">&para;</a></h2>
 <p>We often update the dependencies of mcproto to keep them up to date. Whenever we make such an update, you will need to
 update your virtual environment to prevent it from going out of date. An out of date environment could mean that you're
 using older versions of some libraries and what will run on your machine might not match what will run on other
 machines with the dependencies updated.</p>
-<p>Thankfully, poetry makes updating the dependencies very easy as all you have to do is re-run the installation command:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>poetry<span class="w"> </span>install
+<p>Thankfully, uv makes updating the dependencies very easy as all you have to do is re-run the installation command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>install
 </code></pre></div>
 <p>It can sometimes be hard to know when you need to run the install command, in most cases, even if we did update
 something and you're still on an older version, nothing significant will actually happen, however, the moment you start
@@ -1867,41 +1868,45 @@ your local runs, it's a good indication that your dependencies are probably out 
 instantly. You should be especially careful when switching git branches, as dependencies might have been changed (most
 likely a new dependency was introduced, or an old one got removed), so consider running this command whenever you
 switch to another branch, unless you know that branch didn't make any changes to the project dependencies.</p>
-<h2 id="poetry-dependency-groups">Poetry dependency groups<a class="headerlink" href="#poetry-dependency-groups" title="Permanent link">&para;</a></h2>
-<p>Poetry has a really cool way of splitting up the dependencies that projects need into multiple groups. For example, you
-can have a group of dependencies for linting &amp; autoformatting, another group for documentation support, unit-testing,
-for releasing the project, etc.</p>
-<p>To see which dependencies belong to which group, you can check the <code>pyproject.toml</code> file for the
-<code>[tool.poetry.group.GROUP_NAME.dependencies]</code> sections.</p>
-<p>By default, <code>poetry install</code> will install all non-optional dependency groups. That means all development
-dependencies you should need will get installed.</p>
+<h2 id="dependency-groups">Dependency groups<a class="headerlink" href="#dependency-groups" title="Permanent link">&para;</a></h2>
+<p>Uv has a really cool way of splitting up the dependencies that projects need into multiple groups. For example, you can
+have a group of dependencies for linting &amp; autoformatting, another group for documentation support, unit-testing, for
+releasing the project, etc.</p>
+<p>To see which dependencies belong to which group, you can check the <code>pyproject.toml</code> file for the <code>[dependency-groups]</code>
+section.</p>
+<p>By default, <code>uv sync</code> will install all default dependency groups and the project's primary dependencies. For us, that
+means all development dependencies you should need will get installed.</p>
 <p>The reason why we use groups is because in some of our automated workflows, we don't always need all of the project
 dependencies and we can save time by only installing the group(s) that we need. It also provides a clean way to quickly
 see which dependencies are being used for what.</p>
-<p>The most important group is the <code>main</code> group. This group contains all runtime dependencies, which means without these
-dependencies, the project wouldn't be runnable at all. It is these libraries that will become the dependencies of our
+<p>The actual runtime dependencies for the project are present directly in <code>[project]</code>, under the <code>dependencies</code> key. These
+are dependencies without which the project wouldn't be runnable at all. These will become the dependencies of our
 library when we make a release on PyPI.</p>
-<h2 id="installing-dependencies">Installing dependencies<a class="headerlink" href="#installing-dependencies" title="Permanent link">&para;</a></h2>
-<p>During the development, you may sometimes want to introduce a new library to the project, to do this, you will first
+<h2 id="installing-new-dependencies">Installing new dependencies<a class="headerlink" href="#installing-new-dependencies" title="Permanent link">&para;</a></h2>
+<p>During the development, you may sometimes want to introduce a new dependency to the project, to do this, you will first
 need to decide which dependency group it should belong to. To do this, identify whether this new dependency will be
 required to run the project, or if it's just some tool / utility that's necessary only during the development.</p>
 <p>If it's a runtime dependency, all you need to do is run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>poetry<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
 </code></pre></div>
-<p>This will add the dependency to the <code>main</code> group.</p>
+<p>This will add the dependency to <code>[project.dependencies]</code>.</p>
 <p>However, if you're working with a development dependency, you will want to go over the dependency groups we have (from
 <code>pyproject.toml</code>) and decide where it should belong. Once you figured that out, you can run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>poetry<span class="w"> </span>add<span class="w"> </span>--group<span class="w"> </span><span class="o">[</span>group-name<span class="o">]</span><span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>uv<span class="w"> </span>add<span class="w"> </span>--group<span class="w"> </span><span class="o">[</span>group-name<span class="o">]</span><span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Sometimes, it might make sense to include the same dependency in multiple groups. (Though this is usually quite
-rare.)</p>
+rare.) If this is the case, you can use the command above, however, make sure to edit the <code>pyproject.toml</code> file
+manually afterwards, removing the version specification from one of those groups (we only want to keep the version
+info around once).</p>
 </div>
 <h2 id="uninstalling-dependencies">Uninstalling dependencies<a class="headerlink" href="#uninstalling-dependencies" title="Permanent link">&para;</a></h2>
 <p>Similarly, we sometimes stop needing a certain dependency. Uninstalling is a very similar process to installation.
 First, find which group you want to remove this dependency from and then run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>poetry<span class="w"> </span>remove<span class="w"> </span>--group<span class="w"> </span><span class="o">[</span>group-name<span class="o">]</span><span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uv<span class="w"> </span>remove<span class="w"> </span>--group<span class="w"> </span><span class="o">[</span>group-name<span class="o">]</span><span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># or, if it&#39;s a runtime dependency, simply:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>uv<span class="w"> </span>remove<span class="w"> </span><span class="o">[</span>name-of-your-dependency<span class="o">]</span>
 </code></pre></div>
 
 

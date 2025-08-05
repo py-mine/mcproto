@@ -2244,22 +2244,20 @@ introduction, you can take a look at the <a href="#additional-resources">Additio
 <p>We decided on using <code>pytest</code> instead of the <code>unittest</code> module from standard library since it's much more beginner
 friendly and it's generally easier to use.</p>
 <h2 id="running-tests">Running tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h2>
-<p>When running the tests, you should always be in an activated virtual environment (or use <code>poetry run</code> to run commands
-for the tests from within the environment).</p>
-<p>To make things simpler, we made a few shortcuts/aliases using taskipy:</p>
+<p>When running the tests, you should always be in an activated virtual environment.</p>
+<p>To make things simpler, we made a few shortcuts/aliases using <code>poe</code>:</p>
 <ul>
-<li><code>poetry run task test-nocov</code> will run all unit-tests using <code>pytest</code>.</li>
-<li><code>poetry run task test</code> will run <code>pytest</code> with <code>pytest-cov</code>, collecting code coverage information</li>
-<li><code>poetry run task test tests/test_foobar.py</code> will run specific test</li>
-<li><code>poetry run task retest</code> will rerun only previously failed tests</li>
+<li><code>poe test</code> will run all unit-tests using <code>pytest</code> and collect code coverage information</li>
+<li><code>poe test tests/test_foobar.py</code> will run specific test</li>
+<li><code>poe retest</code> will rerun only previously failed tests</li>
 </ul>
 <p>When actively developing, you'll most likely only be working on some portion of the code-base, and as the result, you
 won't need to run the entire test suite, instead you can only run tests for a specific file with</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>task<span class="w"> </span><span class="nb">test</span><span class="w"> </span>/path/to/test.py
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>poe<span class="w"> </span><span class="nb">test</span><span class="w"> </span>/path/to/test.py
 </code></pre></div>
 <p>When you are done and are preparing to commit and push your code, it's a good idea to run the entire test suite as a
 sanity check that you haven't accidentally introduced some unexpected bugs:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>task<span class="w"> </span><span class="nb">test</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>poe<span class="w"> </span>task<span class="w"> </span><span class="nb">test</span>
 </code></pre></div>
 <h2 id="writing-tests">Writing tests<a class="headerlink" href="#writing-tests" title="Permanent link">&para;</a></h2>
 <p>Since consistency is an important consideration for collaborative projects, we have written some guidelines on writing
