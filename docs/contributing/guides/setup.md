@@ -1,7 +1,3 @@
-!!! bug "Work In Progress"
-
-    This page is missing a guide on configuring vscode to pick up poetry environment.
-
 # Setting up the project
 
 ???+ abstract
@@ -75,10 +71,6 @@ from this environment, instead of the global ones, you will need to "activate" t
 Some IDEs/editors are capable of doing this automatically when you open the project, if your editor supports that, you
 should configure it to do so.
 
-??? question "Configuring VSCode to use the poetry environment"
-
-    TODO
-
 If your IDE doesn't have that option, or you just wish to work from the terminal, you can instead run:
 
 ```bash
@@ -89,7 +81,7 @@ Now you can start the IDE from your terminal, which should make it work within t
 
 !!! tip "Execute a single command inside the virtual environment"
 
-    If you just want to urn a single command from the venv, without necessarily having to activate the environment
+    If you just want to run a single command from the venv, without necessarily having to activate the environment
     (often useful in scripts), poetry provides a quick and simple way to do so. All you need to do is prefix any such
     command with `poetry run` (e.g. `poetry run ruff`).
 
