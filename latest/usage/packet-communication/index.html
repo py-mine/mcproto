@@ -1750,7 +1750,7 @@ status, handshaking, login, or play). This ID lets us recognize packet types in 
 for correctly receiving packets.</p>
 <p>To make this process easier, mcproto provides a packet map—essentially a dictionary mapping packet IDs to packet
 classes. Here’s how to generate a packet map:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">mcproto.packets</span> <span class="kn">import</span> <span class="n">generate_packet_map</span><span class="p">,</span> <span class="n">GameState</span><span class="p">,</span> <span class="n">PacketDirection</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_packet_map</span><span class="p">,</span> <span class="n">GameState</span><span class="p">,</span> <span class="n">PacketDirection</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">STATUS_CLIENTBOUND_MAP</span> <span class="o">=</span> <span class="n">generate_packet_map</span><span class="p">(</span><span class="n">PacketDirection</span><span class="o">.</span><span class="n">CLIENTBOUND</span><span class="p">,</span> <span class="n">GameState</span><span class="o">.</span><span class="n">STATUS</span><span class="p">)</span>
 </code></pre></div>
@@ -1766,7 +1766,7 @@ and mapping the actual packet classes for every supported packet ID number.</p>
 <p>The first packet we send to the server is always a <strong>Handshake</strong> packet. This is the only packet in the entire
 handshaking state, and it's a "gateway", after which we get moved to a different state, in our case, that will be the
 STATUS state.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">mcproto.packets.handshaking.handshake</span> <span class="kn">import</span> <span class="n">Handshake</span><span class="p">,</span> <span class="n">NextState</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets.handshaking.handshake</span><span class="w"> </span><span class="kn">import</span> <span class="n">Handshake</span><span class="p">,</span> <span class="n">NextState</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">my_handshake</span> <span class="o">=</span> <span class="n">Handshake</span><span class="p">(</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="c1"># Once again, we use an old protocol version so that even older servers will respond</span>
@@ -1783,7 +1783,7 @@ packet and construct it's data as a Buffer with all of these variables.</p>
 in and the data will be constructed for you from these attributes, without constantly cross-checking with the wiki.</p>
 <p>For completion, let's also construct the status request packet that we were sending to instruct the server to send us
 back the status response packet.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">mcproto.packets.status.status</span> <span class="kn">import</span> <span class="n">StatusRequest</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets.status.status</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusRequest</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">my_status_request</span> <span class="o">=</span> <span class="n">StatusRequest</span><span class="p">()</span>
 </code></pre></div>
@@ -1792,10 +1792,10 @@ the server to send us some data back.</p>
 <h2 id="sending-packets">Sending packets<a class="headerlink" href="#sending-packets" title="Permanent link">&para;</a></h2>
 <p>To actually send out a packet to the server, we'll need to create a connection, and use mcproto's <code>async_write_packet</code>
 function, responsible for sending packets. Let's see it:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">mcproto.packets</span> <span class="kn">import</span> <span class="n">async_write_packet</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">mcproto.connection</span> <span class="kn">import</span> <span class="n">TCPAsyncConnection</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets</span><span class="w"> </span><span class="kn">import</span> <span class="n">async_write_packet</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">TCPAsyncConnection</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">ip</span> <span class="o">=</span> <span class="s2">&quot;mc.hypixel.net&quot;</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">port</span> <span class="o">=</span> <span class="mi">25565</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
@@ -1809,16 +1809,16 @@ function, responsible for sending packets. Let's see it:</p>
 <h2 id="receiving-packets">Receiving packets<a class="headerlink" href="#receiving-packets" title="Permanent link">&para;</a></h2>
 <p>Alright, we might now know how to send a packet, but how do we receive one?</p>
 <p>Let's see, but this time, let's also try out using the synchronous connection, just for fun:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">mcproto.connection</span> <span class="kn">import</span> <span class="n">TCPSyncConnection</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">TCPSyncConnection</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># With a synchronous connection, comes synchronous reader/writer functions</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span> <span class="nn">mcproto.packets</span> <span class="kn">import</span> <span class="n">sync_read_packet</span><span class="p">,</span> <span class="n">sync_write_packet</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync_read_packet</span><span class="p">,</span> <span class="n">sync_write_packet</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># We&#39;ll also need the packet classes from the status game-state</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="kn">from</span> <span class="nn">mcproto.packets.status.status</span> <span class="kn">import</span> <span class="n">StatusResponse</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="kn">from</span> <span class="nn">mcproto.packets.status.ping</span> <span class="kn">import</span> <span class="n">PingPong</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets.status.status</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusResponse</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets.status.ping</span><span class="w"> </span><span class="kn">import</span> <span class="n">PingPong</span>
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">ip</span> <span class="o">=</span> <span class="s2">&quot;mc.hypixel.net&quot;</span>
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">port</span> <span class="o">=</span> <span class="mi">25565</span>
 <a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
@@ -1845,16 +1845,16 @@ function, responsible for sending packets. Let's see it:</p>
 <h2 id="requesting-status">Requesting status<a class="headerlink" href="#requesting-status" title="Permanent link">&para;</a></h2>
 <p>Alright, so let's actually try to put all of this knowledge together, and create something meaningful. Let's replicate
 the status obtaining logic from the manual example, but with these new packet classes:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">mcproto.connection</span> <span class="kn">import</span> <span class="n">TCPAsyncConnection</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">mcproto.packets</span> <span class="kn">import</span> <span class="n">async_write_packet</span><span class="p">,</span> <span class="n">async_read_packet</span><span class="p">,</span> <span class="n">generate_packet_map</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">mcproto.packets.packet</span> <span class="kn">import</span> <span class="n">PacketDirection</span><span class="p">,</span> <span class="n">GameState</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">from</span> <span class="nn">mcproto.packets.handshaking.handshake</span> <span class="kn">import</span> <span class="n">Handshake</span><span class="p">,</span> <span class="n">NextState</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kn">from</span> <span class="nn">mcproto.packets.status.status</span> <span class="kn">import</span> <span class="n">StatusRequest</span><span class="p">,</span> <span class="n">StatusResponse</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">TCPAsyncConnection</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets</span><span class="w"> </span><span class="kn">import</span> <span class="n">async_write_packet</span><span class="p">,</span> <span class="n">async_read_packet</span><span class="p">,</span> <span class="n">generate_packet_map</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets.packet</span><span class="w"> </span><span class="kn">import</span> <span class="n">PacketDirection</span><span class="p">,</span> <span class="n">GameState</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets.handshaking.handshake</span><span class="w"> </span><span class="kn">import</span> <span class="n">Handshake</span><span class="p">,</span> <span class="n">NextState</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.packets.status.status</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusRequest</span><span class="p">,</span> <span class="n">StatusResponse</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">STATUS_CLIENTBOUND_MAP</span> <span class="o">=</span> <span class="n">generate_packet_map</span><span class="p">(</span><span class="n">PacketDirection</span><span class="o">.</span><span class="n">CLIENTBOUND</span><span class="p">,</span> <span class="n">GameState</span><span class="o">.</span><span class="n">STATUS</span><span class="p">)</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_status</span><span class="p">(</span><span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">handshake_packet</span> <span class="o">=</span> <span class="n">Handshake</span><span class="p">(</span>
 <a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        <span class="n">protocol_version</span><span class="o">=</span><span class="mi">47</span><span class="p">,</span>
 <a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="n">server_address</span><span class="o">=</span><span class="n">ip</span><span class="p">,</span>

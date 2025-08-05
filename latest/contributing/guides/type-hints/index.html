@@ -1813,7 +1813,7 @@ dynamically typed language, it does actually support specifying "type hints" whi
 tools called "type checkers". With those, we can achieve a (mostly) type safe experience while using Python.</p>
 <h2 id="regular-python">Regular python<a class="headerlink" href="#regular-python" title="Permanent link">&para;</a></h2>
 <p>In regular python, as most people know it, you might end up writing a function like this:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </code></pre></div>
 <p>In this code, you have no idea what the type of <code>x</code> and <code>y</code> arguments should be. So, even though you may have intended
@@ -1831,7 +1831,7 @@ crashed a production app.</p>
 <h2 id="type-hints_1">Type-Hints<a class="headerlink" href="#type-hints_1" title="Permanent link">&para;</a></h2>
 <p>While python doesn't require it, there is in fact a way to add a "<strong>hint</strong>" that indicates what <strong>type</strong> should a given
 variable have. So, when we take the function from above, adding type-hints to it would result in something like this:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </code></pre></div>
 <p>We've now made the types very explicit to the programmer, which means they'll no longer need to spend a bunch of time
@@ -1871,8 +1871,8 @@ official Microsoft owned Pyright.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>basedpyright<span class="w"> </span>.
 </code></pre></div>
 <div class="admonition note">
-<p>You will need to run this from an <a href="../setup/#activating-the-environment">activated</a> poetry environment while
-in the project's root directory.</p>
+<p>You will need to run this from an <a href="../setup/#activating-the-environment">activated</a> vertual environment while in the project's root
+directory.</p>
 </div>
 <h3 id="editor-integration">Editor Integration<a class="headerlink" href="#editor-integration" title="Permanent link">&para;</a></h3>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">VSCode</label><label for="__tabbed_1_2">Neovim</label></div>
