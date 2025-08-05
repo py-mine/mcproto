@@ -1,7 +1,3 @@
-!!! bug "Work In Progress"
-
-    This page is missing a guide on writing a good PR body
-
 # Pull Requests
 
 Welcome! If you're interested in contributing to mcproto, you've come to the right place. Mcproto is an open-source
@@ -19,7 +15,7 @@ documentation updates, or new features.
 
 ## Get assigned to the issue
 
-The very first thing you will need to do is deciding what you actually want to work on. In all likelihood, you already
+The very first thing you will need to do is decide what you actually want to work on. In all likelihood, you already
 have something in mind if you're reading this, however, if you don't, you're always free to check the opened GitHub
 issues, that don't yet have anyone assigned. If you find anything interesting there that you'd wish to work on, leave a
 comment on that issue with something like: "I'd like to work on this".
@@ -51,7 +47,132 @@ being used, which would be a shame.
 
 ## Pull Request Body
 
-TODO
+A well-written PR description is one of the most helpful things you can provide as a contributor. It gives reviewers the
+context they need to understand what you're doing and why. It also serves as a long-form explanation for future readers,
+including users checking the changelog and digging deeper into a change.
+
+We don’t require any strict format here. You’re free to write your PR description however you like, but good
+descriptions usually do the following:
+
+- **Link to related issues.** Use GitHub's [closing keywords][gh pr issue linking] if your PR addresses a specific
+  issue, or if it just touches it, mention it (e.g. `See also: #29, #65`).
+- **Describe the change in a self-contained way.** Your PR body should explain the change well enough that someone
+  doesn’t need to read the diff to understand the big picture.
+- **Don't repeat what's in the issue.** If you're implementing something that was already well discussed within an
+  issue, you don't need to write much, just refer the reader to the issue.
+- **Note anything that affects usage, behavior, or compatibility.** This includes breaking changes, deprecations, or
+  changes that might not be obvious to downstream users. These should be well described within the PR body to make it
+  clear exactly what changes were made when it comes to these areas. (Even if you'll repeat yourself a little in the PR
+  body and the changelog fragment, this should be noted down.)
+- **Be concise but complete.** You don’t need to write paragraphs and paragraphs. Just aim for enough clarity that a
+  reasonably informed reader understands what this PR is about and what it changes just from the PR body.
+- **Explain _why_ the change was made**, not just what changed. This helps the reviewer and future readers understand
+  the motivation.
+- **Mention non-obvious implementation choices.** Sometimes, we end up implementing a feature in a slightly odd way, to
+  address a specific problem. This problem might be obvious when trying to implement it in the more obvious way, but it
+  might not be so obvious to a reviewer. Mention these choices and your reasoning when this happens.
+- **Include a summary if your body is long.** Sometimes, you will end up needing more space to explain your thought
+  process and various nuances of the implementation you went with, that's okay, but in these cases, it's helpful to add
+  a TL;DR / summary section.
+
+Some helpful tips:
+
+- It's usually better to write a few short paragraphs than a giant bullet list.
+- Use markdown formatting if it helps readability (e.g., block quotes for warnings or compatibility notes, headings for
+  splitting things up, bullet points, etc.).
+- If relevant, add links to documentation or specs.
+- Try to avoid using code blocks unless really needed.
+- If your PR is exploratory, experimental, or needs discussion before merge, say so.
+
+??? example "Example PR bodies"
+
+    === "PR 1"
+
+        **Title:** Fix moving desync when crossing chunk boundary
+
+        **Body:**
+
+        ```markdown
+        Fixes: #123
+
+        Corrects a critical desync issue occurring when players move across chunk boundaries.
+
+        This adjusts the `ClientboundPlayerPosition` packet encoding and adding a velocity compensation threshold. It
+        also includes new tests to cover edge cases at various movement speeds.
+        ```
+
+    === "PR 2"
+
+        **Title:** Introduce support for encryption handling.
+
+        **Body:**
+
+        ```markdown
+        Resolves #456
+        See: <https://minecraft.wiki/w/Java_Edition_protocol/Encryption>
+
+        This adds `enable_encryption` method to our connection classes, which once called, will automatically
+        encrypt/decrypt any incoming/outgoing data.
+
+        **Breaking change:** `LoginEncryptionRequest` public key attribute is now an instance of an RSA public key (from
+        the `cryptography` library), instead of just holding the received bytes.
+
+        ## Reasoning
+
+        Most servers (even offline ones) usually send an `EncryptionRequest` packet during the LOGIN state, with a
+        public (RSA) key that the client is expected to use to encrypt a randomly generated shared secret, to send back
+        to the server in `EncryptionResponse` packet. After that, all further communication is encrypted with this
+        shared secret.
+
+        The encryption used is a `AES/CFB8` stream cipher. That means the encrypted ciphertext will have the same amount
+        of bytes as the original plaintext, allowing us to still trust our reader/writer methods that rely on reading
+        specific amounts of bytes, even if their content don't make sense.
+        ```
+
+    === "PR 3"
+
+        **Title:** Restructure the project for new versioning approach
+
+        **Body:**
+
+        ```markdown
+        This PR resolves #45, and restructures the entire project to no longer support multiple minecraft protocol
+        versions, moving to a single (latest) version model.
+
+        Note that **this is a completely breaking change, and there will NOT be a deprecation period**. This is because
+        of how this change impacts the rest of the project development. As this project is still in pre-release stage,
+        deprecation here would greatly slow down any further development here, forcing contributors to maintain both the
+        temporary deprecation layer, and the new single-version one.
+
+        For more details on how this change will affect the project going forward, and why it is necessary, I'd suggest
+        checking out #45, containing a detailed explanation.
+
+        I have updated the README examples which now use this new version, so I'd suggest checking that out before
+        moving forward with trying out this version, or reviewing the code, as it demonstrates how this new approach
+        will work. Note that when testing this version out, it will almost certainly break any existing code-bases using
+        mcproto, checking the README changes and looking at the changelog fragment message should make it clear on how
+        to update.
+
+        ---
+
+        Some decisions I made here, which I find potentially worth considering during a review. I'm open to doing these
+        differently:
+
+        - The `generate_packet_map` function is dynamic - imports the appropriate libraries on function run, depending
+          on the requested packets. The alternative here would be to simply hard-code packet maps dictionaries as
+          constants. This could be done either in the new `packet_map.py` file, but also in the individual game state
+          folders for the packets, such as `mcproto.packets.login import CLIENTBOUND_MAP`.
+        - The `generate_packet_map` uses caching, to avoid needlessly re-importing the modules and walking over all of
+          the packets again. The clear downside of this is the fact that it uses more memory, though that's almost
+          irrelevant as packet maps are relatively small.
+        - Because of how caching works, since we're returning a mutable dictionary from `generate_packet_map`, the cache
+          would hold the same reference as the returned dict, potentially causing issues if the user modifies that
+          returned dict. ~~For this reason, I decided to also add another decorator, responsible for copying the result
+          afterwards, making sure that the cache holds a different instance of the dictionary, and what users see is
+          simply a copy of this instance, which they can modify or do whatever they wish with, without risking breaking
+          future calls to this function.~~ For this reason, the function will now only return a mapping proxy, which is
+          immutable, and holds a strong reference to the dict internally (as suggested by @Martysh12).
+        ```
 
 ## Work in Progress PRs
 
@@ -112,8 +233,8 @@ waiting for your PR to be reviewed by us and you're also speeding up the process
 we'd have to spend reviewing those other PRs before getting to yours.
 
 When reviewing a pull request, aim to be constructive and specific. Highlight areas that need improvement and suggest
-potential solutions. If you have any questions on concerns about something in the code, don't hesitate to ask the
-author for clarification.
+potential solutions. If you have any questions or concerns about something in the code, don't hesitate to ask the author
+for clarification.
 
 Focus on the following aspects during a code review:
 
@@ -146,3 +267,4 @@ author grow as a developer.
 [bug report]: ./issue-guide.md
 [contributing guidelines]: ./guides/index.md
 [assigning pr reviewer]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review
+[gh pr issue linking]: https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword
