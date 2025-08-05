@@ -1,7 +1,3 @@
-!!! bug "Work In Progress"
-
-    This page is missing a guide on ruff editor integration
-
 # Style Guide
 
 ???+ abstract
@@ -118,7 +114,8 @@ ruff format .
 
 ### Editor integration
 
-TODO
+While you can run ruff from the terminal manually, you'll have a much easier time if you integrate it into your editor.
+Ruff supports most of the common code editors, just follow their [docs][ruff-editor-integration].
 
 ## Other style guidelines
 
@@ -135,3 +132,4 @@ apply manually. You will find these guides on the next pages of this documentati
 [activate-venv]: ./setup.md#activating-the-environment
 [glow]: https://github.com/charmbracelet/glow
 [ruff-rules]: https://docs.astral.sh/ruff/rules/
+[ruff-editor-integration]: https://docs.astral.sh/ruff/editors/setup/>
