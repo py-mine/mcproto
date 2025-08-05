@@ -1668,9 +1668,27 @@
     }
 
     /* Hide the h1 title */
-    .md-typeset h1,
-    .md-content__button {
-        display: none;
+    .md-content .md-typeset h1 { display: none; }
+
+    /*
+     * By hiding the h1 title, mkdocs will see it as active (scrolled at it)
+     * which affects the header. This isn't what we want, as it makes the mike
+     * version selector disappear, and it also just isn't what we'd want anyways.
+     * Force the main header to be visible and hide the active one.
+     *
+     * See: https://github.com/squidfunk/mkdocs-material/issues/2163#issuecomment-3156700587
+     */
+    .md-header__title--active .md-header__topic {
+        opacity: unset;
+        pointer-events: unset;
+        transform: unset;
+        z-index: unset;
+    }
+    .md-header__title--active .md-header__topic + .md-header__topic {
+        opacity: 0;
+        pointer-events: unset;
+        transform: unset;
+        z-index: unset;
     }
 </style>
 
