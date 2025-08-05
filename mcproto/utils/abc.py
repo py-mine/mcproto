@@ -66,7 +66,7 @@ class RequiredParamsABCMixin:
 class Serializable(ABC):
     """Base class for any type that should be (de)serializable into/from [`Buffer`][mcproto.buffer.] data.
 
-    Any class that inherits from this class and adds parameters should use the [`attrs.define`][attrs.define]
+    Any class that inherits from this class and adds parameters should use the [`attrs.define`][?attrs.define]
     decorator.
     """
 
