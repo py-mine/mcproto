@@ -6,12 +6,14 @@ proposing a new feature.
 
 ## Before creating an issue
 
-Before opening a new issue with your bug report, please do the following things:
+Before opening a new issue, please do the following things:
 
 ### Upgrade to latest version
 
-Chances are that the bug you discovered was already fixed in a subsequent version. Thus, before reporting an issue,
-ensure that you're running the [latest version][changelog] of mcproto.
+- For **feature requests**: Verify your proposal isn't already implemented
+- For **bug reports**: Confirm the issue still exists in the latest version
+
+Thus, before reporting an issue, ensure that you're running the [latest version][changelog] of mcproto.
 
 !!! warning "Bug fixes are not backported"
 
@@ -58,16 +60,13 @@ issue templates above. This might be useful if your issue doesn't cleanly fit in
 to use your own categories and structure for the issue. That said, make please still make sure to include all of the
 relevant details when you do so.
 
-## Writing good bug reports
-
-Generally, the GitHub issue template should guide you towards telling us everything that we need to know. However, for
-the best results, keep reading through this section. In here, we'll explain how a well formatted issue should look like
-in general and what it should contain.
-
 ### Issue Title
 
-A good title is short and descriptive. It should be a one-sentence executive summary of the issue, so the impact and
-severity of the bug you want to report can be inferred right from the title.
+First thing you will do after opening a new issue is choosing a title. A good title is short and descriptive. It should
+be a one-sentence executive summary of the issue, so the impact and severity of the bug or relevance of the feature can
+be inferred right from the title.
+
+#### Example titles for bug reports
 
 | <!---->                                                    | Example                                                              |
 | ---------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -76,6 +75,29 @@ severity of the bug you want to report can be inferred right from the title.
 | :material-close:{ style="color: #EF5350" } **Unclear**     | Ping packet is incorrect                                             |
 | :material-close:{ style="color: #EF5350" } **Non-english** | El paquete ping tiene una identificación incorrecta                  |
 | :material-close:{ style="color: #EF5350" } **Useless**     | Help                                                                 |
+
+#### Example titles for feature requests
+
+| <!---->                                                    | Example                                                                     |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------- |
+| :material-check:{ style="color: #4DB6AC" } **Clear**       | Add support for Minecraft 1.20.5 protocol                                   |
+| :material-close:{ style="color: #EF5350" } **Wordy**       | I think it would be great if we could add the new Minecraft 1.20.5 protocol |
+| :material-close:{ style="color: #EF5350" } **Unclear**     | New Minecraft version                                                       |
+| :material-close:{ style="color: #EF5350" } **Non-english** | Agregar compatibilidad con Minecraft 1.20.5                                 |
+| :material-close:{ style="color: #EF5350" } **Useless**     | Feature idea                                                                |
+
+### Body
+
+Generally, the GitHub issue template should guide you towards telling us everything that we need to know. However, for
+the best results, keep reading through this section. In here, we'll explain how a well formatted issue should look like
+in general and what it should contain.
+
+For more information on what to include though, check out the chapters below:
+
+- [Writing good bug reports](#writing-good-bug-reports)
+- [Writing good feature requests](#writing-good-feature-requests)
+
+## Writing good bug reports
 
 ### Bug description
 
@@ -135,6 +157,31 @@ Sometimes, the bug can't be described in terms of code snippets, such as when re
 In that case, provide a link to the documentation or whatever other relevant things that will allows us to see the bug
 with minimal effort. In certain cases, it might even be fine to leave the reproduction steps section empty.
 
+## Writing good feature requests
+
+### Feature description
+
+Clearly describe the feature you would like to see. Explain why this feature would be useful and how it would benefit
+the project and its users. Consider the following:
+
+1. **Problem first** - Explain the problem you are facing (if any) that this feature would solve.
+2. **Proposed solution** - Then, explain your proposed solution.
+3. **Alternatives considered** - If you've considered alternative approaches, mention them and explain why you prefer
+   your proposal.
+4. **Relation to existing features** - If the feature is an enhancement to an existing feature, mention that and
+   explain how it extends or improves the current functionality.
+5. **Scope** - Try to keep the feature request focused on one specific feature. If you have multiple feature ideas,
+   open separate issues.
+
+---
+
+:material-run-fast: **Stretch goal** - If you have a link to the Minecraft protocol documentation or a related resource
+that supports your feature request, include it.
+
+:material-run-fast: **Stretch goal #2** - If you are willing to implement the feature yourself, mention that. Even if
+you don't plan to implement it, you might suggest a high-level approach to the implementation, or a temporary workaround
+to achieve this before we implement the feature natively into the library.
+
 ## Next steps
 
 Once the issue is submitted, you have 2 options:
@@ -179,6 +226,16 @@ giving you the green light to start working.
 Of course, you are welcome to start working on the issue even before being officially assigned. However, please be
 aware that sometimes we choose not to fix certain bugs for specific reasons. In such cases, your work might not end up
 being used.
+
+!!! important "Discuss major changes before coding"
+
+    If proposing **significant new functionality or architectural changes**:
+
+    1. Outline your approach in the issue comments
+    2. Wait for design approval before implementation
+
+    This applies to both feature requests and complex bug fixes. We want to prevent situations where implementations
+    can't be merged due to unforeseen design constraints, leading to wasted time.
 
 Before starting your work though, make sure to also read our [pull request guide].
 
