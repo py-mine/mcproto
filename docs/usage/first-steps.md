@@ -26,8 +26,8 @@ sending a "handshake" packet.
     a similar format, so the game’s client and server can read and respond to them easily.
 
 To do this, we first need to understand Minecraft packets structure in general, then focus on the specific handshake
-packet format. To find this out, we recommend using [wiki.vg], which is a fantastic resource,
-detailing all of the Minecraft protocol logic.
+packet format. To find this out, we recommend using [minecraft.wiki], which is a fantastic resource, detailing all of
+the Minecraft protocol logic.
 
 So, according to the [Packet Format][docs-packet-format] page, a Minecraft packet has three fields:
 
@@ -44,7 +44,7 @@ available: the handshake packet. This packet tells the server which state to ent
 In our case, we’ll request to enter the "status" state, used for obtaining server information (in contrast, the "login"
 state would be used to join the server).
 
-Next, let’s look at the specifics of the handshake packet on wiki.vg [here][docs-handshake].
+Next, let’s look at the specifics of the handshake packet on minecraft.wiki [here][docs-handshake].
 
 From here, we can see that the handshake packet has an ID of `0` and should contain the following data (fields):
 
@@ -127,10 +127,10 @@ won't see any meaningful result just yet.
 
 Now comes the interesting part, we'll request a status from the server, and read the response that it sends us. Since
 we're already in the status game state by now, we'll want to take a look at the packets that are available in this
-state. Once again, wiki.vg datails all of this for us [here][docs-status].
+state. Once again, minecraft.wiki details all of this for us [here][docs-status].
 
 We can notice that the packets are split into 2 categories: **client-bound** and **server-bound**. We'll first want to
-look at the server-bound ones (i.e. packets targetted to the server, sent by the client - us). There are 2 packets
+look at the server-bound ones (i.e. packets targeted to the server, sent by the client - us). There are 2 packets
 listed here: Ping Request and Status request. Ping is only here to check if the server is online, and allow us to
 measure how long the response took, getting the latency, we're not that interested in doing this now, we want to see
 some actual useful data from the server, so we'll choose the Status request packet.
@@ -248,7 +248,7 @@ async def main():
     # There's a bunch of other things in this data, try it out, see what you can find!
 ```
 
-[wiki.vg]: https://wiki.vg
-[docs-packet-format]: https://wiki.vg/Protocol#Packet_format
-[docs-handshake]: https://wiki.vg/Protocol#Handshake
-[docs-status]: https://wiki.vg/Protocol#Status
+[minecraft.wiki]: https://minecraft.wiki/w/Java_Edition_protocol
+[docs-packet-format]: https://minecraft.wiki/w/Java_Edition_protocol/Packets#Packet_format
+[docs-handshake]: https://minecraft.wiki/w/Java_Edition_protocol/Packets#Handshake
+[docs-status]: https://minecraft.wiki/w/Java_Edition_protocol/Packets#Status

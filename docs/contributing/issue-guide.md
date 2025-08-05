@@ -96,8 +96,8 @@ Explain why you think this is a bug that should be reported to us. Adhere to the
 ---
 
 :material-run-fast: **Stretch goal** – if you have a link to an existing page that describes the issue, or otherwise
-explains some of your claims, include it. Usually, this will be a <https://wiki.vg> link leading to the Minecraft
-protocol documentation for something.
+explains some of your claims, include it. Usually, this will be a <https://minecraft.wiki> link leading to the
+Minecraft protocol documentation for something.
 
 :material-run-fast: **Stretch goal \#2** – if you found a workaround or a way to fix
 the bug, you can help other users temporarily mitigate the problem before
