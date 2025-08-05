@@ -157,7 +157,7 @@ internal).
 In Python, we use the [`unittest.mock`](https://docs.python.org/3/library/unittest.mock.html) module (part of python's
 standard library) to create these mock objects.
 
-### Basic Example: Mocking a socket
+### Basic Example: Pizza Delivery
 
 Let’s say you’re testing a `PizzaOrder` class that depends on a delivery service. You don’t want to actually call the
 real delivery service in your test - that could cost money (and confuse your local pizzeria).
