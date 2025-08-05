@@ -65,7 +65,7 @@ class Account:
         )
 
         try:
-            res.raise_for_status()
+            _ = res.raise_for_status()
         except httpx.HTTPStatusError as exc:
             if exc.response.status_code == 401:
                 raise InvalidAccountAccessTokenError(self.access_token, exc) from exc

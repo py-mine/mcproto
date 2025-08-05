@@ -106,7 +106,7 @@ async def xbox_auth(client: httpx.AsyncClient, microsoft_access_token: str, bedr
         "TokenType": "JWT",
     }
     res = await client.post(XBOX_LIVE_AUTH_URL, json=payload)
-    res.raise_for_status()
+    _ = res.raise_for_status()
     data = res.json()
 
     xbl_token = data["Token"]
@@ -124,7 +124,7 @@ async def xbox_auth(client: httpx.AsyncClient, microsoft_access_token: str, bedr
     res = await client.post(XBOX_SECURE_TOKEN_SERVER_AUTH_URL, json=payload)
 
     try:
-        res.raise_for_status()
+        _ = res.raise_for_status()
     except httpx.HTTPStatusError as exc:
         if exc.response.status_code == 401:
             raise XSTSRequestError(exc) from exc

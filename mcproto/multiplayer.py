@@ -213,7 +213,7 @@ async def join_request(client: httpx.AsyncClient, account: Account, server_hash:
     res = await client.post(f"{SESSION_SERVER_URL}/session/minecraft/join", json=payload)
 
     try:
-        res.raise_for_status()
+        _ = res.raise_for_status()
     except httpx.HTTPStatusError as exc:
         raise UserJoinRequestFailedError(exc) from exc
 
@@ -263,7 +263,7 @@ async def join_check(
     if client_ip is not None:
         params["ip"] = client_ip
     res = await client.get(f"{SESSION_SERVER_URL}/session/minecraft/hasJoined", params=params)
-    res.raise_for_status()
+    _ = res.raise_for_status()
 
     if res.status_code == 204:
         raise UserJoinCheckFailedError(res, client_username, server_hash, client_ip)
