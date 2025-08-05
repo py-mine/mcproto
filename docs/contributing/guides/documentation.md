@@ -13,10 +13,10 @@ written in classical markdown syntax, just with some additions. If you're famili
 make a simple change easily, without having to look at any docs.
 
 That said, for more complex changes, you will want to familiarize yourself with [mkdocs-material
-documentation][mkdocs-material-guide]. Don't worry, these docs are fairly easy to read and while they do cover a lot,
-they're nicely segmented, so you should be able to find what you're looking for quickly. On top of just that, you may
-want to simply look through the existing pages, as a lot of what you'd probably want to do was already done on one of
-our pages, so you can just copy that.
+documentation][mkdocs-material-reference]. Don't worry, these docs are fairly easy to read and while they do cover a
+lot, they're nicely segmented, so you should be able to find what you're looking for quickly. On top of just that, you
+may want to simply look through the existing pages, as a lot of what you'd probably want to do was already done on one
+of our pages, so you can just copy that.
 
 Other than just mkdocs-material, we also use
 [pymdown-extensions], which add various neat
@@ -29,7 +29,7 @@ that in the [API reference] guide though.
 
 [mkdocs]: https://www.mkdocs.org/
 [mkdocs-material]: https://squidfunk.github.io/mkdocs-material/
-[mkdocs-material-guide]: https://squidfunk.github.io/mkdocs-material/getting-started/
+[mkdocs-material-reference]: https://squidfunk.github.io/mkdocs-material/reference/
 [pymdown-extensions]: https://facelessuser.github.io/pymdown-extensions/extensions/arithmatex/
 [mkdocstrings]: https://mkdocstrings.github.io/
 [API reference]: ./api-reference.md
