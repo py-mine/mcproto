@@ -4,6 +4,8 @@ name: Publish to PyPI / GitHub
 on:
   push:
     tags:
+      # This pattern is not a typical regular expression, see:
+      # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
       - "v*"
 
 permissions:
