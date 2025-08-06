@@ -62,15 +62,19 @@ jobs:
         run: git push origin "prepare-release-${{ github.event.inputs.version }}"
 
       - name: Create pull request
-        uses: repo-sync/pull-request@v2
-        with:
-          # We need to use a bot token to be able to trigger workflows that listen to pull_request calls
-          github_token: ${{ steps.generate_token.outputs.token }}
-          source_branch: prepare-release-${{ github.event.inputs.version }}
-          destination_branch: main
-          pr_assignee: ${{ github.event.sender.login }}
-          pr_title: Prepare for release of ${{ github.event.inputs.version }}
-          pr_label: "a: dependencies,t: release"
-          pr_body: |
-            Release preparation triggered by @${{ github.event.sender.login }}.
-            Once the pull request is merged, you can trigger a PyPI release by pushing a \`v${{ github.event.inputs.version }}\` git tag in the repository.
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          VERSION: ${{ github.event.inputs.version }}
+          SENDER: ${{ github.event.sender.login }}
+        run: |
+          echo "Release preparation triggered by $SENDER." > pr-body.txt
+          echo "Once the pull request is merged, you can trigger a PyPI release by pushing a \`v$VERSION\` git tag in the repository." >> pr-body.txt
+
+          gh pr create \
+            --title "Prepare for release of $VERSION" \
+            --body-file pr-body.txt \
+            --label "t: release" \
+            --assignee "$SENDER"
+
+          PR_NUMBER="$(gh pr view --json number -q .number)"
+          echo "PR #$PR_NUMBER opened"
