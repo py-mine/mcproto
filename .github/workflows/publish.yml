@@ -130,17 +130,19 @@ jobs:
           path: "dist/"
 
       # Upload to Test PyPI first, in case something fails.
-      # This step is currently disabled due to:
-      # https://github.com/pypa/gh-action-pypi-publish/issues/339
-      #- name: Upload to Test PyPI
-      #  uses: pypa/gh-action-pypi-publish@release/v1
-      #  with:
-      #    # the "legacy" in the URL doesn't mean it's deprecated
-      #    repository-url: https://test.pypi.org/legacy/
+      - name: Upload to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # the "legacy" in the URL doesn't mean it's deprecated
+          repository-url: https://test.pypi.org/legacy/
 
       # This uses PyPI's trusted publishing, so no token is required
       - name: Release to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # Attestations were already generated from the Test PyPI run
+          # don't try to generate them again (would cause an error)
+          attestations: false
 
   publish-docs:
     name: "Publish release docs"
