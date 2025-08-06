@@ -863,6 +863,21 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-050-2023-08-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version 0.5.0 (2023-08-10)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Version 0.5.0 (2023-08-10)">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#breaking-changes_1" class="md-nav__link">
     <span class="md-ellipsis">
@@ -1902,6 +1917,21 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-050-2023-08-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version 0.5.0 (2023-08-10)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Version 0.5.0 (2023-08-10)">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#breaking-changes_1" class="md-nav__link">
     <span class="md-ellipsis">
@@ -2119,25 +2149,23 @@
 <h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="https://github.com/py-mine/mcproto/issues/209">#209</a>: Added <code>InvalidPacketContentError</code> exception, raised when deserializing of a specific packet fails. This error inherits from <code>IOError</code>, making it backwards compatible with the original implementation.</li>
-<li>
-<p><a href="https://github.com/py-mine/mcproto/issues/257">#257</a>: Added the <code>NBTag</code> to deal with NBT data</p>
-<ul>
+<li><a href="https://github.com/py-mine/mcproto/issues/257">#257</a>: Added the <code>NBTag</code> to deal with NBT data<ul>
 <li>The <code>NBTag</code> class is the base class for all NBT tags and provides the basic functionality to serialize and deserialize NBT data from and to a <code>Buffer</code> object.</li>
 <li>The classes <code>EndNBT</code>, <code>ByteNBT</code>, <code>ShortNBT</code>, <code>IntNBT</code>, <code>LongNBT</code>, <code>FloatNBT</code>, <code>DoubleNBT</code>, <code>ByteArrayNBT</code>, <code>StringNBT</code>, <code>ListNBT</code>, <code>CompoundNBT</code>, <code>IntArrayNBT</code>and <code>LongArrayNBT</code> were added and correspond to the NBT types described in the <a href="https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/NBT">NBT specification</a>.</li>
 <li>NBT tags can be created using the <code>NBTag.from_object()</code> method and a schema that describes the NBT tag structure.
-    Compound tags are represented as dictionaries, list tags as lists, and primitive tags as their respective Python types.
-    The implementation allows to add custom classes to the schema to handle custom NBT tags if they inherit the <code>:class: NBTagConvertible</code> class.</li>
+  Compound tags are represented as dictionaries, list tags as lists, and primitive tags as their respective Python types.
+  The implementation allows to add custom classes to the schema to handle custom NBT tags if they inherit the <code>:class: NBTagConvertible</code> class.</li>
 <li>The <code>NBTag.to_object()</code> method can be used to convert an NBT tag back to a Python object. Use include_schema=True to include the schema in the output, and <code>include_name=True</code> to include the name of the tag in the output. In that case the output will be a dictionary with a single key that is the name of the tag and the value is the object representation of the tag.</li>
 <li>The <code>NBTag.serialize()</code> can be used to serialize an NBT tag to a new <code>Buffer</code> object.</li>
 <li>The <code>NBTag.deserialize(buffer)</code> can be used to deserialize an NBT tag from a <code>Buffer</code> object.</li>
 <li>If the buffer already exists, the <code>NBTag.write_to(buffer, with_type=True, with_name=True)</code> method can be used to write the NBT tag to the buffer (and in that case with the type and name in the right format).</li>
 <li>The <code>NBTag.read_from(buffer, with_type=True, with_name=True)</code> method can be used to read an NBT tag from the buffer (and in that case with the type and name in the right format).</li>
 <li>The <code>NBTag.value</code> property can be used to get the value of the NBT tag as a Python object.</li>
+</ul>
+</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/476">#476</a>: Added <code>LoginAcknowledged</code> packet implementation</li>
 <li>Added further encryption related fucntions used by servers.</li>
 <li>Update <code>LoginStart</code> packet to latest protocol version (<code>uuid</code> no longer optional)</li>
-</ul>
-</li>
 </ul>
 <h3 id="bugfixes">Bugfixes<a class="headerlink" href="#bugfixes" title="Permanent link">&para;</a></h3>
 <ul>
@@ -2165,19 +2193,21 @@
 <li><a href="https://github.com/py-mine/mcproto/issues/285">#285</a>: Add <code>gen_serializable_test</code> function to generate tests for serializable classes, covering serialization, deserialization, validation, and error handling.</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/285">#285</a>: Rework the <code>Serializable</code> class</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/286">#286</a>: Update the docstring formatting directive in CONTRIBUTING.md to reflect the formatting practices currently in place.</li>
-<li>
-<p><a href="https://github.com/py-mine/mcproto/issues/300">#300</a>: Update CI</p>
-<ul>
+<li><a href="https://github.com/py-mine/mcproto/issues/300">#300</a>: Update CI<ul>
 <li>Fix CI not running unit tests on python 3.8 (only 3.11)</li>
 <li>Update to use python 3.12 (in validation and as one of the matrix versions in unit-tests workflow)</li>
 <li>Trigger and run lint and unit-tests workflows form a single main CI workflow.</li>
 <li>Only send status embed after the main CI workflow finishes (not for both unit-tests and validation)</li>
 <li>Use <code>--output-format=github</code> for <code>ruff check</code> in the validation workflow</li>
 <li>Fix the status-embed workflow</li>
+</ul>
+</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/323">#323</a>: Enable various other ruff rules as a part of switching to blacklist model, where we explicitly disable the rules we don't want, rather than enabling dozens of rule groups individually.</li>
-<li><a href="https://github.com/py-mine/mcproto/issues/329">#329</a>: - Change the type-checker from <code>pyright</code> to <code>basedpyright</code></li>
+<li><a href="https://github.com/py-mine/mcproto/issues/329">#329</a>: - Change the type-checker from <code>pyright</code> to <code>basedpyright</code><ul>
 <li>BasedPyright is a fork of pyright, which provides some additional typing features and re-implements various proprietary features from the closed-source Pylance vscode extension.</li>
 <li>Overall, it is very similar to pyright with some bonus stuff on top. However, it does mean all contributors who want proper editor support for the project will need to update their editor settings and add basedpyright. The instructions on how to do this are described in the updated <code>CONTRIBUTING.md</code>.</li>
+</ul>
+</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/331">#331</a>: Add <code>.editorconfig</code> file, defining some basic configuration for the project, which editors can automatically pick up on (i.e. indent size).</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/332">#332</a>: Enable various other (based)pyright rules (in fact, switch to a black-list, having all rules enabled except those explicitly disabled). This introduces a much stricter type checking behavior into the code-base.</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/347">#347</a>: Fix towncrier after an update (template file isn't ignored by default, so ignore it manually)</li>
@@ -2188,9 +2218,8 @@
 <li><a href="https://github.com/py-mine/mcproto/issues/497">#497</a>: Add changelog-this poe task</li>
 <li><a href="https://github.com/py-mine/mcproto/issues/498">#498</a>: Drop <a href="https://github.com/repo-sync/pull-request">repo-sync/pull-request</a> action in favor of GitHub CLI</li>
 </ul>
-</li>
-</ul>
-<p>---## Version 0.5.0 (2023-08-10)</p>
+<hr />
+<h2 id="version-050-2023-08-10">Version 0.5.0 (2023-08-10)<a class="headerlink" href="#version-050-2023-08-10" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-changes_1">Breaking Changes<a class="headerlink" href="#breaking-changes_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
