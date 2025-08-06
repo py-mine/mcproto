@@ -101,8 +101,8 @@ jobs:
         id: generate_token
         uses: tibdex/github-app-token@v2
         with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.PRIVATE_KEY }}
+          app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
+          private-key: ${{ secrets.PYMINE_BOT_PRIVATE_KEY }}
 
       - name: Create Release
         uses: ncipollo/release-action@v1
@@ -152,8 +152,8 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v2
         with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.PRIVATE_KEY }}
+          app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
+          private-key: ${{ secrets.PYMINE_BOT_PRIVATE_KEY }}
 
       - name: Checkout repository
         uses: actions/checkout@v4

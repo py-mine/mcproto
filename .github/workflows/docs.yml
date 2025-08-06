@@ -29,8 +29,8 @@ jobs:
         if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push'
         uses: actions/create-github-app-token@v2
         with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.PRIVATE_KEY }}
+          app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
+          private-key: ${{ secrets.PYMINE_BOT_PRIVATE_KEY }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
