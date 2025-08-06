@@ -9,6 +9,7 @@ repos:
         # We need this because of mkdocs.yml, which uses some custom tags to perform dynamic imports from python.
         args: ["--unsafe"]
       - id: end-of-file-fixer
+        exclude: ^changes/.template\.rst$
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
       - id: mixed-line-ending
