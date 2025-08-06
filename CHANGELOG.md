@@ -1,3 +1,75 @@
+## Version 0.6.0 (2025-08-06)
+
+### Breaking Changes
+
+- [#421](https://github.com/py-mine/mcproto/issues/421): Drop support for Python 3.8 ([EOL since 2024-09-06](https://peps.python.org/pep-0569/))
+
+### Features
+
+- [#209](https://github.com/py-mine/mcproto/issues/209): Added `InvalidPacketContentError` exception, raised when deserializing of a specific packet fails. This error inherits from `IOError`, making it backwards compatible with the original implementation.
+- [#257](https://github.com/py-mine/mcproto/issues/257): Added the `NBTag` to deal with NBT data
+    - The `NBTag` class is the base class for all NBT tags and provides the basic functionality to serialize and deserialize NBT data from and to a `Buffer` object.
+    - The classes `EndNBT`, `ByteNBT`, `ShortNBT`, `IntNBT`, `LongNBT`, `FloatNBT`, `DoubleNBT`, `ByteArrayNBT`, `StringNBT`, `ListNBT`, `CompoundNBT`, `IntArrayNBT`and `LongArrayNBT` were added and correspond to the NBT types described in the [NBT specification](https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/NBT).
+    - NBT tags can be created using the `NBTag.from_object()` method and a schema that describes the NBT tag structure.
+      Compound tags are represented as dictionaries, list tags as lists, and primitive tags as their respective Python types.
+      The implementation allows to add custom classes to the schema to handle custom NBT tags if they inherit the `:class: NBTagConvertible` class.
+    - The `NBTag.to_object()` method can be used to convert an NBT tag back to a Python object. Use include_schema=True to include the schema in the output, and `include_name=True` to include the name of the tag in the output. In that case the output will be a dictionary with a single key that is the name of the tag and the value is the object representation of the tag.
+    - The `NBTag.serialize()` can be used to serialize an NBT tag to a new `Buffer` object.
+    - The `NBTag.deserialize(buffer)` can be used to deserialize an NBT tag from a `Buffer` object.
+    - If the buffer already exists, the `NBTag.write_to(buffer, with_type=True, with_name=True)` method can be used to write the NBT tag to the buffer (and in that case with the type and name in the right format).
+    - The `NBTag.read_from(buffer, with_type=True, with_name=True)` method can be used to read an NBT tag from the buffer (and in that case with the type and name in the right format).
+    - The `NBTag.value` property can be used to get the value of the NBT tag as a Python object.
+- [#476](https://github.com/py-mine/mcproto/issues/476): Added `LoginAcknowledged` packet implementation
+- Added further encryption related fucntions used by servers.
+- Update `LoginStart` packet to latest protocol version (`uuid` no longer optional)
+
+### Bugfixes
+
+- [#330](https://github.com/py-mine/mcproto/issues/330): Fix behavior of the `mcproto.utils.deprecation` module, which was incorrectly always using a fallback version, assuming mcproto is at version 0.0.0. This then could've meant that using a deprecated feature that is past the specified deprecation (removal) version still only resulted in a deprecation warning, as opposed to a full runtime error.
+- [#427](https://github.com/py-mine/mcproto/issues/427): Fix version comparisons in deprecated functions for PEP440, non-semver compatible versions
+
+### Documentation Improvements
+
+- [#179](https://github.com/py-mine/mcproto/issues/179): Enforce presence of docstrings everywhere with pydocstyle. This also adds docstring to all functions and classes that didn't already have one. Minor improvements for consistency were also made to some existing docstrings.
+- [#346](https://github.com/py-mine/mcproto/issues/346): Complete documentation rewrite
+- Add protocol and protocol pages (API reference docs)
+
+### Internal Changes
+
+- [#131](https://github.com/py-mine/mcproto/issues/131): Any overridden methods in any classes now have to explicitly use the `typing.override` decorator (see [PEP 698](https://peps.python.org/pep-0698/))
+- [#258](https://github.com/py-mine/mcproto/issues/258): Fix readthedocs CI
+- [#259](https://github.com/py-mine/mcproto/issues/259): Merge dependabot PRs automatically, if they pass all CI checks.
+- [#274](https://github.com/py-mine/mcproto/issues/274): Update ruff
+    - Update ruff version (the version we used was very outdated)
+    - Drop isort in favor of ruff's built-in isort module in the linter
+    - Drop black in favor of ruff's new built-in formatter
+    - Update ruff settings, including adding/enabling some new rule-sets
+- [#285](https://github.com/py-mine/mcproto/issues/285): Add `gen_serializable_test` function to generate tests for serializable classes, covering serialization, deserialization, validation, and error handling.
+- [#285](https://github.com/py-mine/mcproto/issues/285): Rework the `Serializable` class
+- [#286](https://github.com/py-mine/mcproto/issues/286): Update the docstring formatting directive in CONTRIBUTING.md to reflect the formatting practices currently in place.
+- [#300](https://github.com/py-mine/mcproto/issues/300): Update CI
+    - Fix CI not running unit tests on python 3.8 (only 3.11)
+    - Update to use python 3.12 (in validation and as one of the matrix versions in unit-tests workflow)
+    - Trigger and run lint and unit-tests workflows form a single main CI workflow.
+    - Only send status embed after the main CI workflow finishes (not for both unit-tests and validation)
+    - Use `--output-format=github` for `ruff check` in the validation workflow
+    - Fix the status-embed workflow
+- [#323](https://github.com/py-mine/mcproto/issues/323): Enable various other ruff rules as a part of switching to blacklist model, where we explicitly disable the rules we don't want, rather than enabling dozens of rule groups individually.
+- [#329](https://github.com/py-mine/mcproto/issues/329): - Change the type-checker from `pyright` to `basedpyright`
+    - BasedPyright is a fork of pyright, which provides some additional typing features and re-implements various proprietary features from the closed-source Pylance vscode extension.
+    - Overall, it is very similar to pyright with some bonus stuff on top. However, it does mean all contributors who want proper editor support for the project will need to update their editor settings and add basedpyright. The instructions on how to do this are described in the updated `CONTRIBUTING.md`.
+- [#331](https://github.com/py-mine/mcproto/issues/331): Add `.editorconfig` file, defining some basic configuration for the project, which editors can automatically pick up on (i.e. indent size).
+- [#332](https://github.com/py-mine/mcproto/issues/332): Enable various other (based)pyright rules (in fact, switch to a black-list, having all rules enabled except those explicitly disabled). This introduces a much stricter type checking behavior into the code-base.
+- [#347](https://github.com/py-mine/mcproto/issues/347): Fix towncrier after an update (template file isn't ignored by default, so ignore it manually)
+- [#379](https://github.com/py-mine/mcproto/issues/379): Remove codeclimate
+- [#395](https://github.com/py-mine/mcproto/issues/395): Add CI workflow for marking inactive issues (>60 days) with the stale label
+- [#421](https://github.com/py-mine/mcproto/issues/421): Add support for python 3.13, moving the CI to test against it.
+- [#493](https://github.com/py-mine/mcproto/issues/493): Change our primary dependency management tool from `poetry` to `uv`
+- [#497](https://github.com/py-mine/mcproto/issues/497): Add changelog-this poe task
+- [#498](https://github.com/py-mine/mcproto/issues/498): Drop [repo-sync/pull-request](https://github.com/repo-sync/pull-request) action in favor of GitHub CLI
+
+---
+
 ## Version 0.5.0 (2023-08-10)
 
 ### Breaking Changes
