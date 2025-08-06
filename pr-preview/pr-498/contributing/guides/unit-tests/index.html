@@ -1,0 +1,2903 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://py-mine.github.io/mcproto/contributing/guides/unit-tests/">
+      
+      
+        <link rel="prev" href="../breaking-changes/">
+      
+      
+        <link rel="next" href="../documentation/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Unit Tests - MCPROTO</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_markdown_exec_pyodide.css">
+    
+      <link rel="stylesheet" href="../../../assets/_markdown_exec_ansi.css">
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/material.css">
+    
+      <link rel="stylesheet" href="../../../css/admoditions.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#testing-the-library" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="MCPROTO" class="md-header__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+      
+  <img src="../../../assets/py-mine_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MCPROTO
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Unit Tests
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/py-mine/mcproto" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    py-mine/mcproto
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../installation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Installation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../usage/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../faq/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  FAQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../meta/support/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Meta
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../issue-guide/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference/protocol/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="MCPROTO" class="md-nav__button md-logo" aria-label="MCPROTO" data-md-component="logo">
+      
+  <img src="../../../assets/py-mine_logo.png" alt="logo">
+
+    </a>
+    MCPROTO
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/py-mine/mcproto" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    py-mine/mcproto
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../usage/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Usage
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Usage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/first-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    First steps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/packet-communication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Packet Communication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../usage/authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Authentication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Meta
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Meta
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../meta/support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting help
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../meta/versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Versioning Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../meta/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../meta/code-of-conduct/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../meta/attribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Attributions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../meta/license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    License
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../issue-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bugs & Feature requests
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../making-a-pr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Making a pull request
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security-policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security Policy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_4" id="__nav_6_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setting things up
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../style-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Style Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-hints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Type hinting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../slotscheck/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Slotscheck
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../precommit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-commit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../breaking-changes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Breaking Changes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Unit Tests
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Unit Tests
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-and-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      File and directory structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-independent-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing independent tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing independent tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-parametrization-to-repeat-the-same-tests-with-different-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using parametrization to repeat the same tests with different values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-fixtures-to-prepare-shared-setup-for-multiple-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using fixtures to prepare shared setup for multiple tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mocking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mocking
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mocking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-example-pizza-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Example: Pizza Delivery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-interactive-example-different-orders-different-confirmations" class="md-nav__link">
+    <span class="md-ellipsis">
+      More interactive example: Different Orders, Different confirmations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-uses-of-side_effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other uses of side_effect
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other uses of side_effect">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#raising-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raising Exceptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequence-of-return-values-andor-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequence of return values (and/or exceptions)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-spec_set" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using spec_set
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mock-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mock types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mock types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#magicmock" class="md-nav__link">
+    <span class="md-ellipsis">
+      MagicMock
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asyncmock" class="md-nav__link">
+    <span class="md-ellipsis">
+      AsyncMock
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-not-to-use-mocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      When NOT to use Mocks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#designing-a-more-involved-example-socket-mocking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Designing a more involved example (socket mocking)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#patching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Patching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#faking-the-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Faking the time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patching-attribute-on-an-imported-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patching attribute on an imported class
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some considerations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Some considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-coverage-is-a-starting-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test coverage is a starting point
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-testing-vs-integration-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit Testing vs Integration Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#footnotes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Footnotes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Documentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../great-commits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Great commits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/protocol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Protocol
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Authentication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/encryption/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encryption
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/multiplayer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Multiplayer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/packets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Packets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/abc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ABC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-and-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      File and directory structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-independent-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing independent tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing independent tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-parametrization-to-repeat-the-same-tests-with-different-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using parametrization to repeat the same tests with different values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-fixtures-to-prepare-shared-setup-for-multiple-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using fixtures to prepare shared setup for multiple tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mocking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mocking
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mocking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-example-pizza-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Example: Pizza Delivery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-interactive-example-different-orders-different-confirmations" class="md-nav__link">
+    <span class="md-ellipsis">
+      More interactive example: Different Orders, Different confirmations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-uses-of-side_effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other uses of side_effect
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other uses of side_effect">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#raising-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raising Exceptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequence-of-return-values-andor-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequence of return values (and/or exceptions)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-spec_set" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using spec_set
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mock-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mock types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mock types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#magicmock" class="md-nav__link">
+    <span class="md-ellipsis">
+      MagicMock
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asyncmock" class="md-nav__link">
+    <span class="md-ellipsis">
+      AsyncMock
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-not-to-use-mocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      When NOT to use Mocks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#designing-a-more-involved-example-socket-mocking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Designing a more involved example (socket mocking)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#patching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Patching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#faking-the-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Faking the time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patching-attribute-on-an-imported-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patching attribute on an imported class
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some considerations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Some considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-coverage-is-a-starting-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test coverage is a starting point
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-testing-vs-integration-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit Testing vs Integration Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#footnotes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Footnotes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/py-mine/mcproto/edit/master/docs/contributing/guides/unit-tests.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="testing-the-library">Testing the library<a class="headerlink" href="#testing-the-library" title="Permanent link">&para;</a></h1>
+<details class="abstract" open="open">
+<summary>Abstract</summary>
+<p>This article explains how to write unit-tests with the pytest framework, showcasing
+the basics of testing, good practices, etc. Additionally, it also explains our testing
+file structure, toolings we use for testing and other guidelines.</p>
+<p>This guide is fairly long as it covers the basics of testing alongside various examples
+to get even the complete beginners comfortable and familiar with how python tests work.
+If you're already familiar with some of these concepts, you may benefit from skipping
+certain chapters.</p>
+</details>
+<p>Since there are many people that rely on this library working properly, and we don't want to accidentally introduce
+some changes which would cause it to break, we're using unit-tests that validate the individual components in our
+code-base work properly.</p>
+<p><em><strong>NOTE:</strong> This is a practical guide to quickly get you started with writing unit-tests, not a full introduction to what
+unit-tests are. That means it will only cover the basics and general concepts. If you're looking for a full
+introduction, you can take a look at the <a href="#additional-resources">Additional Resources</a> section at the bottom.</em></p>
+<h2 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link">&para;</a></h2>
+<p>We are using the following modules and packages for our unit tests:</p>
+<p>We are using the following modules and packages for our unit tests:</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/6.2.x/">pytest</a></li>
+<li><a href="https://pytest-cov.readthedocs.io/en/latest/index.html">pytest-cov</a></li>
+<li><a href="https://coverage.readthedocs.io/en/stable/">coverage.py</a> (as a part of pytest-cov)</li>
+<li><a href="https://docs.python.org/3/library/unittest.mock.html">unittest.mock</a> (standard library)</li>
+</ul>
+<p>We decided on using <code>pytest</code> instead of the <code>unittest</code> module from standard library since it's much more beginner
+friendly and it's generally easier to use.</p>
+<h2 id="running-tests">Running tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h2>
+<p>When running the tests, you should always be in an activated virtual environment.</p>
+<p>To make things simpler, we made a few shortcuts/aliases using <code>poe</code>:</p>
+<ul>
+<li><code>poe test</code> will run all unit-tests using <code>pytest</code> and collect code coverage information</li>
+<li><code>poe test tests/test_foobar.py</code> will run specific test</li>
+<li><code>poe retest</code> will rerun only previously failed tests</li>
+</ul>
+<p>When actively developing, you'll most likely only be working on some portion of the code-base, and as the result, you
+won't need to run the entire test suite, instead you can only run tests for a specific file with</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>poe<span class="w"> </span><span class="nb">test</span><span class="w"> </span>/path/to/test.py
+</code></pre></div>
+<p>When you are done and are preparing to commit and push your code, it's a good idea to run the entire test suite as a
+sanity check that you haven't accidentally introduced some unexpected bugs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>poe<span class="w"> </span>task<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
+<h2 id="writing-tests">Writing tests<a class="headerlink" href="#writing-tests" title="Permanent link">&para;</a></h2>
+<p>Since consistency is an important consideration for collaborative projects, we have written some guidelines on writing
+tests for the project. In addition to these guidelines, it's a good idea to look at the existing code base for examples.</p>
+<h3 id="file-and-directory-structure">File and directory structure<a class="headerlink" href="#file-and-directory-structure" title="Permanent link">&para;</a></h3>
+<p>To organize our test suite, we have chosen to mirror the directory structure of <a href="/mcproto/"><code>mcproto</code></a> in
+<a href="/tests/mcproto"><code>tests/mcproto</code></a> directory. This makes it easy to find the relevant tests by providing a natural
+grouping of files. More general testing files, such as <a href="/tests/helpers.py"><code>helpers.py</code></a> are located directly in the
+<code>tests</code> directory.</p>
+<p>All files containing tests should have a filename starting with <code>test_</code> to make sure <code>pytest</code> will discover them.
+This prefix is typically followed by the name of the file the tests are written for.</p>
+<h2 id="writing-independent-tests">Writing independent tests<a class="headerlink" href="#writing-independent-tests" title="Permanent link">&para;</a></h2>
+<p>When writing unit tests, it's important to make sure that each test that you write runs independently from all of
+the other tests. This both means that the code you write for one test shouldn't influence the result of another test
+and that if one tests fails, the other tests should still run.</p>
+<p>Each of test should only ever cover a single subproblem, and if something else needs testing, it should be in another
+independent test. This then prevents tests for X from failing because of Y, instead Y should be tested in another test.
+In other words, don't write tests that check "everything", rather, write multiple smaller tests.</p>
+<p>However, independent tests often require similar preparation steps. Since you'll be splitting these tests, to avoid
+repetition, <code>pytest</code> provides <a href="https://docs.pytest.org/en/7.1.x/how-to/fixtures.html">fixtures</a> that can be executed before and after each test is run. In
+addition to test fixtures, it also provides support for <a href="https://docs.pytest.org/en/6.2.x/example/parametrize.html">parametrization</a>, which is a way of
+re-running the same test function with different values. If there's a failure, pytest will then show us the values that
+were being used when this failure occurred, making it a much better solution than just manually using them in the test
+function.</p>
+<h3 id="using-parametrization-to-repeat-the-same-tests-with-different-values">Using parametrization to repeat the same tests with different values<a class="headerlink" href="#using-parametrization-to-repeat-the-same-tests-with-different-values" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="p">(</span><span class="s2">&quot;num1&quot;</span><span class="p">,</span> <span class="s2">&quot;num2&quot;</span><span class="p">,</span> <span class="s2">&quot;expected_result&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="p">[</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="p">]</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">)</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_add</span><span class="p">(</span><span class="n">num1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num2</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="k">assert</span> <span class="n">add</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_result</span>
+</code></pre></div>
+<h3 id="using-fixtures-to-prepare-shared-setup-for-multiple-tests">Using fixtures to prepare shared setup for multiple tests<a class="headerlink" href="#using-fixtures-to-prepare-shared-setup-for-multiple-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">:</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_user</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="k">return</span> <span class="n">User</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;John Doe&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_user_name_starts_with_capital</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_user_name_contains_space</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="k">assert</span> <span class="s2">&quot; &quot;</span> <span class="ow">in</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span>
+</code></pre></div>
+<p>Here, both tests get access to the same user instance, created cleanly and consistently before each test. Pytest takes
+care of calling the user() fixture and passing its return value into the test function.</p>
+<p>Fixtures can be very versatile, as you can even perform patching within them, request other fixtures within fixtures,
+etc. You should check out the <a href="https://docs.pytest.org/en/7.1.x/how-to/fixtures.html">pytest documentation on fixtures</a>.</p>
+<h2 id="mocking">Mocking<a class="headerlink" href="#mocking" title="Permanent link">&para;</a></h2>
+<p>As we are trying to test our "units" of code independently, we want to make sure that we don't rely on objects and data
+generated by "external" code (things like database queries, API calls or even our own utility functions). This is
+because when relying on external objects, we might end up observing a failure for reasons unrelated to the specific
+logic we're trying to validate, e.g. a failure in one of the utility methods of that object, rather than the code we're
+actually testing here.</p>
+<p>You can think of mocks as "fake" objects, that behave like the real ones, but give us full control over what exactly
+they do, allowing us to focus on testing our code, and not the utilities around it (those deserve their own tests, if
+internal).</p>
+<p>In Python, we use the <a href="https://docs.python.org/3/library/unittest.mock.html"><code>unittest.mock</code></a> module (part of python's
+standard library) to create these mock objects.</p>
+<h3 id="basic-example-pizza-delivery">Basic Example: Pizza Delivery<a class="headerlink" href="#basic-example-pizza-delivery" title="Permanent link">&para;</a></h3>
+<p>Let’s say you’re testing a <code>PizzaOrder</code> class that depends on a delivery service. You don’t want to actually call the
+real delivery service in your test - that could cost money (and confuse your local pizzeria).</p>
+<p>So instead, you mock it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">DeliveryService</span><span class="p">:</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pizza_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="c1"># Imagine this sends a request to an external delivery API.</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Real delivery not implemented&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">PizzaOrder</span><span class="p">:</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delivery_service</span><span class="p">:</span> <span class="n">DeliveryService</span><span class="p">):</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">delivery_service</span> <span class="o">=</span> <span class="n">delivery_service</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">confirmation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delivery_service</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;Margherita&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_order_triggers_delivery</span><span class="p">():</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="n">mock_service</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">mock_service</span><span class="o">.</span><span class="n">send</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s2">&quot;Order #42 confirmed&quot;</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="n">order</span> <span class="o">=</span> <span class="n">PizzaOrder</span><span class="p">(</span><span class="n">mock_service</span><span class="p">)</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="k">assert</span> <span class="n">order</span><span class="o">.</span><span class="n">confirmation</span> <span class="o">==</span> <span class="s2">&quot;Order #42 confirmed&quot;</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    <span class="n">mock_service</span><span class="o">.</span><span class="n">send</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="s2">&quot;Margherita&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+<p>We created a mock <code>delivery_service</code>, with a fake <code>send</code> function, instructed to return a specific value, and then
+confirmed that it was called with the right arguments. And the best part? No pizzas were ordered in the making of this
+test.</p>
+<h3 id="more-interactive-example-different-orders-different-confirmations">More interactive example: Different Orders, Different confirmations<a class="headerlink" href="#more-interactive-example-different-orders-different-confirmations" title="Permanent link">&para;</a></h3>
+<p>Mocks can do much more than just return the same value every time. If you want your mock to behave differently based on
+how it’s called - like returning different results for different pizza orders - you can use the <code>side_effect</code> argument
+instead of <code>return_value</code>.</p>
+<p>Let’s say we want the delivery service to give us different confirmation messages based on the pizza being ordered. We
+can test that with a mock that changes the behavior based on the input using <code>side_effect</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_dynamic_delivery_confirmations</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">fake_send</span><span class="p">(</span><span class="n">pizza</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>        <span class="k">if</span> <span class="n">pizza</span> <span class="o">==</span> <span class="s2">&quot;Hawaiian&quot;</span><span class="p">:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>            <span class="k">return</span> <span class="s2">&quot;Sorry, we don&#39;t deliver pineapple crimes.&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Confirmed: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">x </span><span class="si">{</span><span class="n">pizza</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">mock_service</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">mock_service</span><span class="o">.</span><span class="n">send</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="n">fake_send</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">order1</span> <span class="o">=</span> <span class="n">PizzaOrder</span><span class="p">(</span><span class="n">mock_service</span><span class="p">,</span> <span class="s2">&quot;Margherita&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">order2</span> <span class="o">=</span> <span class="n">PizzaOrder</span><span class="p">(</span><span class="n">mock_service</span><span class="p">,</span> <span class="s2">&quot;Hawaiian&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="k">assert</span> <span class="n">order1</span><span class="o">.</span><span class="n">confirmation</span> <span class="o">==</span> <span class="s2">&quot;Confirmed: 2x Margherita&quot;</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="k">assert</span> <span class="n">order2</span><span class="o">.</span><span class="n">confirmation</span> <span class="o">==</span> <span class="s2">&quot;Sorry, we don&#39;t deliver pineapple crimes.&quot;</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="k">assert</span> <span class="n">mock_service</span><span class="o">.</span><span class="n">send</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">2</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="n">mock_service</span><span class="o">.</span><span class="n">send</span><span class="o">.</span><span class="n">assert_any_call</span><span class="p">(</span><span class="s2">&quot;Margherita&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="n">mock_service</span><span class="o">.</span><span class="n">send</span><span class="o">.</span><span class="n">assert_any_call</span><span class="p">(</span><span class="s2">&quot;Hawaiian&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p>Now your mock is <strong>dynamic</strong> - it behaves like a miniature fake system, giving you different outputs based on inputs.
+This is incredibly useful when testing code that has to respond to multiple conditions.</p>
+<h3 id="other-uses-of-side_effect">Other uses of <code>side_effect</code><a class="headerlink" href="#other-uses-of-side_effect" title="Permanent link">&para;</a></h3>
+<p>We’ve seen how <code>side_effect</code> can be used to return different results based on the input, by passing it a callable. But
+that’s not the only thing it can do. The <code>side_effect</code> parameter is surprisingly versatile and supports several
+powerful patterns:</p>
+<h4 id="raising-exceptions">Raising Exceptions<a class="headerlink" href="#raising-exceptions" title="Permanent link">&para;</a></h4>
+<p>You can use <code>side_effect</code> to easily simulate errors by assigning it to an exception class or instance. This is useful
+when testing how your code handles failure cases, like a delivery service outage.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_delivery_failure</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">mock_service</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">mock_service</span><span class="o">.</span><span class="n">send</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Delivery system is down&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>        <span class="n">PizzaOrder</span><span class="p">(</span><span class="n">mock_service</span><span class="p">,</span> <span class="s2">&quot;Pepperoni&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p>You could of course also use a full function that would raise internally, but this is a much more convenient way to
+achieve it.</p>
+<h4 id="sequence-of-return-values-andor-exceptions">Sequence of return values (and/or exceptions)<a class="headerlink" href="#sequence-of-return-values-andor-exceptions" title="Permanent link">&para;</a></h4>
+<p>Instead of writing a function, you can also assign <code>side_effect</code> a list (or any iterable). On each call, the mock will
+return the next value in the sequence, or raise an exception if the next item is one.</p>
+<p>This is great when testing retries, fallbacks, or just varied responses:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_multiple_calls_with_varied_outcomes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">mock_service</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">mock_service</span><span class="o">.</span><span class="n">send</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="p">[</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>        <span class="s2">&quot;Confirmed: 1x Margherita&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Out of dough&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="s2">&quot;Confirmed: 1x Pepperoni&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="p">]</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">order1</span> <span class="o">=</span> <span class="n">PizzaOrder</span><span class="p">(</span><span class="n">mock_service</span><span class="p">,</span> <span class="s2">&quot;Margherita&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="k">assert</span> <span class="n">order1</span><span class="o">.</span><span class="n">confirmation</span> <span class="o">==</span> <span class="s2">&quot;Confirmed: 1x Margherita&quot;</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="n">PizzaOrder</span><span class="p">(</span><span class="n">mock_service</span><span class="p">,</span> <span class="s2">&quot;Hawaiian&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>    <span class="n">order3</span> <span class="o">=</span> <span class="n">PizzaOrder</span><span class="p">(</span><span class="n">mock_service</span><span class="p">,</span> <span class="s2">&quot;Pepperoni&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="k">assert</span> <span class="n">order3</span><span class="o">.</span><span class="n">confirmation</span> <span class="o">==</span> <span class="s2">&quot;Confirmed: 1x Pepperoni&quot;</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The mock will raise <code>StopIteration</code> if you call it more times than there are items, so keep the list long enough
+for your test case.</p>
+</div>
+<h3 id="using-spec_set">Using <code>spec_set</code><a class="headerlink" href="#using-spec_set" title="Permanent link">&para;</a></h3>
+<p>By default, mocks are <em>very</em> permissive; You can access any attribute or call any method on them and it’ll “just work”.
+That’s great for flexibility, but not so great for catching typos or invalid method calls.</p>
+<p>As an example, this code would work:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">my_mock</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">()</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">x</span> <span class="o">=</span> <span class="n">my_mock</span><span class="o">.</span><span class="n">made_up_method</span><span class="p">()</span><span class="o">.</span><span class="n">even_more_fake</span><span class="p">()</span><span class="o">.</span><span class="n">foobar</span><span class="p">()</span> <span class="c1"># x will be just another mock object</span>
+</code></pre></div>
+<p>To tighten this up, use the <code>spec_set</code> argument. It tells the mock to only allow access to attributes/methods that exist
+on a given object or type.</p>
+<p>Let's see an example of how this could be useful:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">capatilize</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;, welcome!&quot;</span>  <span class="c1"># Oops!</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_foo</span><span class="p">():</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">mock_str</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">spec_set</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">greet</span><span class="p">(</span><span class="n">mock_str</span><span class="p">)</span>  <span class="c1"># AttributeError: Mock object has no attribute &#39;capitilize&#39;</span>
+</code></pre></div>
+<p>Boom! The typo gets caught immediately. Setting <code>spec_set=str</code> means the mock will only allow attributes that actually
+exist on a real <code>str</code> object.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can also use <code>spec</code> (instead of <code>spec_set</code>) , which will restrict which attributes and methods you can access
+(based on the original object - like with <code>spec_set</code>), but still allows you to set new ones dynamically. E.g.
+allows <code>mock.foobar = 1</code> and later use of <code>mock.foobar</code>. For stricter validation, stick with <code>spec_set</code>.</p>
+</div>
+<p>There is one important thing to keep in mind though. <code>spec_set</code> only applies to the first level. For example, if you
+call <code>mock.removesuffix(";").removeprefx(";")</code>, only the first call (<code>removesuffix</code>) is validated. The return value is
+a regular unrestricted Mock, so the second typo slips through.</p>
+<div class="admonition tip">
+<p class="admonition-title">Multi-level spec-set mocks</p>
+<p>If you need a stricter multi-level mocks, you can manually configure return values, for example like so:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">inner</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">spec_set</span><span class="o">=</span><span class="n">inner_object_spec</span><span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">outer</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">spec_set</span><span class="o">=</span><span class="n">outer_object_spec</span><span class="p">,</span> <span class="n">some_method</span><span class="o">=</span><span class="n">Mock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="n">inner</span><span class="p">))</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">outer</span><span class="o">.</span><span class="n">some_method</span>  <span class="c1"># this will now give you the `inner` mock</span>
+</code></pre></div>
+<p>But honestly, this usually isn't worth the effort, unless the return value is something you're specifically testing.
+Mocks should help you target specific behavior, not recreate every detail of the real world, after all, that's what
+we're actually trying to avoid.</p>
+</div>
+<h3 id="mock-types">Mock types<a class="headerlink" href="#mock-types" title="Permanent link">&para;</a></h3>
+<p>So far, we've only used the <code>Mock</code> class, which is the most common and flexible type of mock object. But depending on
+what you're testing, you might run into situations where <code>Mock</code> is not enough.</p>
+<p>Python’s <code>unittest.mock</code> module gives you a few specialized variants:</p>
+<h4 id="magicmock"><code>MagicMock</code><a class="headerlink" href="#magicmock" title="Permanent link">&para;</a></h4>
+<p><code>MagicMock</code> is just like <code>Mock</code>, but it also supports Python’s magic methods (like <code>__len__</code>, <code>__getitem__</code>,
+<code>__enter__</code>, etc.). Use this if you're mocking an object that behaves like a container, context manager, or something
+else with special behavior.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagicMock</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">mock_list</span> <span class="o">=</span> <span class="n">MagicMock</span><span class="p">()</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="nb">len</span><span class="p">(</span><span class="n">mock_list</span><span class="p">)</span>  <span class="c1"># works, returns another mock</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="n">mock_list</span><span class="o">.</span><span class="fm">__len__</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># also works (regular Mocks don&#39;t let you set __len__)</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">mock_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+</code></pre></div>
+<h4 id="asyncmock"><code>AsyncMock</code><a class="headerlink" href="#asyncmock" title="Permanent link">&para;</a></h4>
+<p><code>AsyncMock</code> is designed for mocking asynchronous code, like async functions, coroutines, and <code>await</code>-able objects. If
+you mock an async function with a regular <code>Mock</code>, it won't actually be awaitable and your test might break (or worse,
+pass silently without actually testing anything).</p>
+<p>This comes up all the time when dealing with I/O: databases, APIs, background tasks, etc.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncMock</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Here&#39;s our async function that relies on some async data fetch</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">praise_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fetch_user</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">User</span><span class="p">]]):</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is doing great!&quot;</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_praise_user</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="c1"># Set up a fake async function that returns a predictable value</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="n">mock_fetch_user</span> <span class="o">=</span> <span class="n">AsyncMock</span><span class="p">(</span><span class="n">return_value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Jake&quot;</span><span class="p">})</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>    <span class="c1"># Inject it just like you would in real code</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    <span class="n">message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">praise_user</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">fetch_user</span><span class="o">=</span><span class="n">mock_fetch_user</span><span class="p">)</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>    <span class="k">assert</span> <span class="n">message</span> <span class="o">==</span> <span class="s2">&quot;Jake is doing great!&quot;</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>    <span class="n">mock_fetch_user</span><span class="o">.</span><span class="n">assert_awaited_once_with</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="when-not-to-use-mocks">When NOT to use Mocks<a class="headerlink" href="#when-not-to-use-mocks" title="Permanent link">&para;</a></h3>
+<p>Mocks are great for isolating code and avoiding unwanted side effects, but don’t reach for them by default. If a
+function calls a simple internal utility that’s tightly coupled to its behavior, it's often fine to let it run as-is.</p>
+<p>Mocking that utility might make your test harder to read, or even force you to replicate its behavior in the mock -
+which defeats the point. In cases like that, it's usually best to treat the utility as part of the logic under test,
+especially when the utility is already well-tested on its own, making using the real thing often safer and more reliable
+than a rough imitation.</p>
+<p><strong>Rule of thumb:</strong> If mocking something makes your test more vague, or you'd have to "rebuild" its logic just to fake
+it, skip the mock and use the real implementation. But if the utility has unwanted side effects (like API calls or disk
+writes), mocking is the right call.</p>
+<h3 id="designing-a-more-involved-example-socket-mocking">Designing a more involved example (socket mocking)<a class="headerlink" href="#designing-a-more-involved-example-socket-mocking" title="Permanent link">&para;</a></h3>
+<p>Now that we know a fair bit about mocks, let's take a look at something closer to what you'll see in our codebase.</p>
+<p>What if we wanted to ensure that our connection can properly read data that were sent to us through a socket?</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">TCPSyncConnection</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_connection_reads_correct_data</span><span class="p">():</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="n">mock_socket</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">spec_set</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">)</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">mock_socket</span><span class="o">.</span><span class="n">recv</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    <span class="n">conn</span> <span class="o">=</span> <span class="n">TCPSyncConnection</span><span class="p">(</span><span class="n">mock_socket</span><span class="p">)</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    <span class="n">received</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># 4 bytes, for 4 characters in the word &quot;data&quot;</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>    <span class="k">assert</span> <span class="n">received</span> <span class="o">==</span> <span class="nb">bytearray</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    <span class="n">mock_socket</span><span class="o">.</span><span class="n">recv</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div>
+<p>Cool! But in real tests, we'll often want to make use of something a bit more complicated, as right now, our <code>recv</code>
+mock method will just naively return 4 byte long data no matter what the passed length attribute was. In the earlier
+example, this isn't a huge problem, but the issue begins to surface when we try to read a more complex custom format,
+like a varint for example, which can involve more reads with differing lengths that together just form a single
+number, encoded in a specific way.</p>
+<p>We could do this with <code>side_effect</code> and specify a list of byte values that would be returned from each read, however,
+we don't want to rely on the specific read sizes, for us, those are an implementation detail, and we don't want our
+tests to test implementation, rather, we just want to test the external behavior.</p>
+<p>It would also be nice to make this a bit more general, so that we can reuse a mock that would behave in this way
+across multiple tests for various connection methods.</p>
+<p>Doing all this is a bit more complex, but it's still doable, let's see it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">mcproto.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">TCPSyncConnection</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReadFunctionMock</span><span class="p">(</span><span class="n">Mock</span><span class="p">):</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="n">combined_data</span><span class="p">:</span> <span class="nb">bytearray</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">combined_data</span> <span class="o">=</span> <span class="n">combined_data</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytearray</span><span class="p">:</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Override mock&#39;s `__call__` to make it return part of our `combined_data` bytearray.</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="sd">        This allows us to make the return value always be the next requested part (length) of</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="sd">        the `combined_data`. It would be difficult to replicate this with regular mocks,</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="sd">        because some functions can end up making multiple read calls, and each time the result</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="sd">        needs to be different (the next part).</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">combined_data</span><span class="p">[:</span><span class="n">length</span><span class="p">]</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">combined_data</span><span class="p">[:</span><span class="n">length</span><span class="p">]</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>        <span class="c1"># Call base Mock&#39;s __call__, this will return the above set return_value</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>        <span class="c1"># while also registering the call</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="k">class</span><span class="w"> </span><span class="nc">MockSocket</span><span class="p">(</span><span class="n">Mock</span><span class="p">):</span>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">read_data</span><span class="p">:</span> <span class="nb">bytearray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">spec_set</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_recv</span> <span class="o">=</span> <span class="n">ReadFunctionMock</span><span class="p">(</span><span class="n">combined_data</span><span class="o">=</span><span class="n">read_data</span><span class="p">)</span>
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">recv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytearray</span><span class="p">:</span>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recv</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_connection_partial_read</span><span class="p">():</span>
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>    <span class="n">mock_socket</span> <span class="o">=</span> <span class="n">MockSocket</span><span class="p">(</span><span class="n">read_data</span><span class="o">=</span><span class="nb">bytearray</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>    <span class="n">conn</span> <span class="o">=</span> <span class="n">TCPSyncConnection</span><span class="p">(</span><span class="n">mock_socket</span><span class="p">)</span>
+<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>
+<a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>    <span class="n">data1</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>    <span class="k">assert</span> <span class="n">data1</span> <span class="o">==</span> <span class="nb">bytearray</span><span class="p">(</span><span class="s2">&quot;da&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a>    <span class="n">data2</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>    <span class="k">assert</span> <span class="n">data2</span> <span class="o">==</span> <span class="nb">bytearray</span><span class="p">(</span><span class="s2">&quot;ta&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a>
+<a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_connection_empty_read_fails</span><span class="p">():</span>
+<a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>    <span class="n">mock_socket</span> <span class="o">=</span> <span class="n">MockSocket</span><span class="p">(</span><span class="n">read_data</span><span class="o">=</span><span class="nb">bytearray</span><span class="p">())</span>
+<a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>    <span class="n">conn</span> <span class="o">=</span> <span class="n">TCPSyncConnection</span><span class="p">(</span><span class="n">mock_socket</span><span class="p">)</span>
+<a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>
+<a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Server did not respond with any information.&quot;</span><span class="p">):</span>
+<a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>        <span class="n">conn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a>
+<a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_connection_read_varint</span><span class="p">():</span>
+<a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a>    <span class="n">varint_bytes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># bytes forming number 16384 in varint encoding</span>
+<a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>    <span class="n">mock_socket</span> <span class="o">=</span> <span class="n">MockSocket</span><span class="p">(</span><span class="n">read_data</span><span class="o">=</span><span class="nb">bytearray</span><span class="p">(</span><span class="n">varint_bytes</span><span class="p">))</span>
+<a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a>    <span class="n">conn</span> <span class="o">=</span> <span class="n">TCPSyncConnection</span><span class="p">(</span><span class="n">mock_socket</span><span class="p">)</span>
+<a id="__codelineno-14-55" name="__codelineno-14-55" href="#__codelineno-14-55"></a>
+<a id="__codelineno-14-56" name="__codelineno-14-56" href="#__codelineno-14-56"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">read_varint</span><span class="p">()</span>  <span class="c1"># will make a bunch of reads</span>
+<a id="__codelineno-14-57" name="__codelineno-14-57" href="#__codelineno-14-57"></a>
+<a id="__codelineno-14-58" name="__codelineno-14-58" href="#__codelineno-14-58"></a>    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">16384</span>
+</code></pre></div>
+<h2 id="patching">Patching<a class="headerlink" href="#patching" title="Permanent link">&para;</a></h2>
+<p>Even though mocking is a great way to let us use fake objects acting as real ones, without patching, we can only use
+mocks as arguments. However that greatly limits us in what we can test, or places restrictions on how we have to
+implement our internal behavior, just to make it testable. In practice, some functions may be calling/referencing the
+external resources that we'd like to mock directly inside of them, without being overridable through arguments.</p>
+<p>Cases like these are when patching comes into the picture. Basically, patching is just about (usually temporarily)
+replacing some built-in / external code object, by a mock, or some other object that we can control from the tests.</p>
+<p>A good example would be for example the <code>open</code> function for reading/writing files. We likely don't want any actual files
+to be written during our testing, however we might need to test a function that writes some files internally, and
+perhaps check that the content written matches some pattern, ensuring that it works properly.</p>
+<p>There is built-in support for patching in the <a href="https://docs.python.org/3/library/unittest.mock.html#the-patchers">unittest.mock library</a>, or you can also use
+<code>pytest</code>'s <a href="https://docs.pytest.org/en/7.1.x/how-to/monkeypatch.html">monkeypatching</a> which can act as a fixture and integrates well with the rest of our
+test codebase, which is written with pytest in mind. However, either method is acceptable when patching.</p>
+<h3 id="faking-the-time">Faking the time<a class="headerlink" href="#faking-the-time" title="Permanent link">&para;</a></h3>
+<p>Let’s start with something small, but oddly satisfying: pretending that the current time is whatever we want. Maybe you
+have a function that behaves differently on weekends, or logs the current date in a specific format.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_greeting</span><span class="p">():</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="k">if</span> <span class="n">now</span><span class="o">.</span><span class="n">hour</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">:</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>        <span class="k">return</span> <span class="s2">&quot;Good morning&quot;</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="k">return</span> <span class="s2">&quot;Good afternoon&quot;</span>
+</code></pre></div>
+<p>Here’s how we can fake time using <code>monkeypatch</code> and control <code>datetime.now()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">yourmodule</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_greeting</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_morning_greeting</span><span class="p">(</span><span class="n">monkeypatch</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">MonkeyPatch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="n">mock_datetime</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">spec_set</span><span class="o">=</span><span class="n">datetime</span><span class="p">)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    <span class="n">mock_datetime</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    <span class="c1"># Patch datetime *where it is used* — e.g., &quot;yourmodule.datetime&quot;</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span><span class="s2">&quot;yourmodule.datetime&quot;</span><span class="p">,</span> <span class="n">mock_datetime</span><span class="p">)</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>    <span class="k">assert</span> <span class="n">get_greeting</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Good morning&quot;</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_afternoon_greeting</span><span class="p">(</span><span class="n">monkeypatch</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">MonkeyPatch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>    <span class="n">mock_datetime</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">(</span><span class="n">spec_set</span><span class="o">=</span><span class="n">datetime</span><span class="p">)</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>    <span class="n">mock_datetime</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    <span class="c1"># Patch datetime *where it is used* — e.g., &quot;yourmodule.datetime&quot;</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span><span class="s2">&quot;yourmodule.datetime&quot;</span><span class="p">,</span> <span class="n">mock_datetime</span><span class="p">)</span>
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>    <span class="k">assert</span> <span class="n">get_greeting</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Good afternoon&quot;</span>
+</code></pre></div>
+<h3 id="patching-attribute-on-an-imported-class">Patching attribute on an imported class<a class="headerlink" href="#patching-attribute-on-an-imported-class" title="Permanent link">&para;</a></h3>
+<p>Let’s say your code needs to fetch some mysterious prophecy from a remote server. But you're a responsible developer and
+don’t want your tests waiting on actual prophecies.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch_prophecy</span><span class="p">():</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://fake.api/prophecy&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;message&quot;</span><span class="p">]</span>
+</code></pre></div>
+<p>We’ll use <code>AsyncMock</code> to fake both the async <code>.get()</code> call and the context manager behavior of <code>AsyncClient</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncMock</span><span class="p">,</span> <span class="n">Mock</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">yourmodule</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_prophecy</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_fetch_prophecy</span><span class="p">(</span><span class="n">monkeypatch</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">MonkeyPatch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="c1"># Fake response object with json() returning our pretend prophecy</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="n">fake_response</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">()</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>    <span class="n">fake_response</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;The bug shall return at dusk.&quot;</span><span class="p">}</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>    <span class="c1"># AsyncMock for the client, get() is awaited</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    <span class="n">fake_client</span> <span class="o">=</span> <span class="n">AsyncMock</span><span class="p">()</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>    <span class="n">fake_client</span><span class="o">.</span><span class="n">get</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">fake_response</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>    <span class="c1"># Make sure AsyncClient works as an async context manager</span>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>    <span class="n">fake_client</span><span class="o">.</span><span class="fm">__aenter__</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">fake_client</span>
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>
+<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>    <span class="c1"># Patch the constructor of AsyncClient to return our fake client</span>
+<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span><span class="s2">&quot;yourmodule.httpx.AsyncClient&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">fake_client</span><span class="p">)</span>
+<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>
+<a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch_prophecy</span><span class="p">()</span>
+<a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>
+<a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a>    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;The bug shall return at dusk.&quot;</span>
+<a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a>    <span class="n">fake_client</span><span class="o">.</span><span class="n">get</span><span class="o">.</span><span class="n">assert_awaited_once_with</span><span class="p">(</span><span class="s2">&quot;https://fake.api/prophecy&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="some-considerations">Some considerations<a class="headerlink" href="#some-considerations" title="Permanent link">&para;</a></h2>
+<p>Finally, there are some considerations to make when writing tests, both for writing tests in general and for writing
+tests for our project in particular.</p>
+<h3 id="test-coverage-is-a-starting-point">Test coverage is a starting point<a class="headerlink" href="#test-coverage-is-a-starting-point" title="Permanent link">&para;</a></h3>
+<p>Having test coverage is a good starting point for unit testing: If a part of your code was not covered by a test, we
+know that we have not tested it properly. The reverse is unfortunately not true: Even if the code we are testing has
+100% branch coverage, it does not mean it's fully tested or guaranteed to work.</p>
+<p>One problem is that 100% branch coverage may be misleading if we haven't tested our code against all the realistic
+input it may get in production. For instance, take a look at the following <code>format_join_time</code> function and the test
+we've written for it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Source file:</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">format_join_time</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="n">str_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strfptime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">time</span> <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> has joined, time: </span><span class="si">{</span><span class="n">str_time</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="c1"># Test file:</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">source_file</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_join_time</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_format_join_time</span><span class="p">():</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    <span class="n">res</span> <span class="o">=</span> <span class="n">format_join_time</span><span class="p">(</span><span class="s2">&quot;ItsDrike&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    <span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="s2">&quot;User &#39;ItsDrike&#39; has joined, time: unknown&quot;</span>
+</code></pre></div>
+<p>If you were to run this test, the function pass the test, and the branch coverage would show 100% coverage for
+this function. Can you spot the bug the test suite did not catch?</p>
+<p>The problem here is that we have only tested our function with a time that was <code>None</code>. That means that
+<code>time.strptime("%d-%m-%Y)</code> was never executed during our test, leading to us missing the spelling mistake in
+<code>strfptime</code> (it should be <code>strftime</code>).</p>
+<p>The reason this wasn't reported is because ternary conditions are on a single line, and even if the first branch of the
+if wasn't executed, since it was syntactically touched and the <code>if time else</code> ternary got evaluated, coverage report
+shows the line as executed. (See <a href="https://github.com/nedbat/coveragepy/issues/509">this github issue</a> for more info, if you're interested)</p>
+<p>Adding another test would not increase the test coverage we have, but it does ensure that we'll notice that this
+function can fail with realistic data</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_format_join_time_with_non_none_time</span><span class="p">():</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    <span class="n">res</span> <span class="o">=</span> <span class="n">format_join_time</span><span class="p">(</span><span class="s2">&quot;ItsDrike&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    <span class="k">assert</span> <span class="s2">&quot;User &#39;ItsDrike&#39; has joined&quot;</span> <span class="ow">in</span> <span class="n">res</span>
+</code></pre></div>
+<p>Leading to the test catching our bug:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>collected 2 items
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>tests/test_foo.py::test_format_join_time_with_non_none_time FAILED                                [ 50%]
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>tests/test_foo.py::test_format_join_time PASSED                                                   [100%]
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>=============================================== FAILURES ===============================================
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>_______________________________ test_format_join_time_with_non_none_time _______________________________
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    def test_format_join_time_with_non_none_time():
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>&gt;       res = format_join_time(&quot;ItsDrike&quot;, datetime(2022, 12, 31))
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>tests/test_foo.py:11:
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>name = &#39;ItsDrike&#39;, time = datetime.datetime(2022, 12, 31, 0, 0)
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>    def format_join_time(name: str, time: Optional[datetime] = None) -&gt; str:
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>&gt;       str_time = time.strfptime(&quot;%d-%m-%Y&quot;) if time else &quot;unknown&quot;
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>E       AttributeError: &#39;datetime.datetime&#39; object has no attribute &#39;strfptime&#39;. Did you mean: &#39;strftime&#39;?
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a>foo.py:5: AttributeError
+<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a>======================================= short test summary info ========================================
+<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a>FAILED tests/test_foo.py::test_format_join_time_with_non_none_time - AttributeError: &#39;datetime.datetime&#39;
+<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a> object has no attribute &#39;strfptime&#39;. Did you mean: &#39;strftime&#39;?
+<a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a>=================-============= 1 failed, 1 passed, 0 warnings in 0.02s ================================
+</code></pre></div>
+<p>What's more, even though the second test was able to spot the second mistake, even if it wasn't there, that test is
+still not good enough. That's because the assertion in it is not actually checking for whether the time format is what
+we'd expect. Perhaps we expect the function to show a format like <code>time: 04/15/25</code>, but this function gives us
+<code>15-04-2025</code>, which is not at all what we want, and yet, coverage-wise, every line of the tested code was ran. We just
+didn't check thoroughly enough.</p>
+<p>Another way coverage can be misleading is with cases like division, where you can get a <code>ZeroDivisionError</code>, which won't
+be counted as one of the branch options when measuring coverage, so you might miss it.</p>
+<p>All in all, it's not only important to consider if all statements or branches were touched at least once with a test,
+but also if they are extensively tested in all situations that may happen in production.</p>
+<h3 id="unit-testing-vs-integration-testing">Unit Testing vs Integration Testing<a class="headerlink" href="#unit-testing-vs-integration-testing" title="Permanent link">&para;</a></h3>
+<p>Another restriction of unit testing is that it tests, well, in units. Even if we can guarantee that the units work as
+they should independently, we have no guarantee that they will actually work well together. Even more, while the mocking
+described above gives us a lot of flexibility in factoring out external code, we are working under the implicit
+assumption that we fully understand those external parts and utilize it correctly. What if our mocked <code>fetch_prophecy</code>
+function returns a response with the <code>message</code> field, but the actual API was changed to now use a <code>prophecy</code> field in a
+recent update? It could mean our tests are passing, but the code it's testing still doesn't work in production.</p>
+<h2 id="additional-resources">Additional resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/unittest.mock.html#quick-guide">Quick guide on using mocks in official python docs</a></li>
+<li><a href="https://docs.pytest.org/en/stable/">Official pytest docs</a></li>
+<li><a href="https://www.youtube.com/watch?v=FxSsnHeWQBY">Ned Batchelder's PyCon talk: Getting Started Testing</a></li>
+<li><a href="https://youtu.be/6tNS--WetLI">Corey Schafer video about unittest</a></li>
+<li><a href="https://realpython.com/python-testing/">RealPython tutorial on unittest testing</a></li>
+<li><a href="https://realpython.com/python-mock-library/">RealPython tutorial on mocking</a></li>
+</ul>
+<h2 id="footnotes">Footnotes<a class="headerlink" href="#footnotes" title="Permanent link">&para;</a></h2>
+<p>This document was heavily inspired by <a href="https://github.com/python-discord/bot/blob/main/tests/README.md">python-discord's tests
+README</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../breaking-changes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Breaking Changes">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Breaking Changes
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../documentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Documentation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Documentation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Mcproto Documentation &copy; 2024 by <a href="mailto:itsdrike@protonmail.com">ItsDrike</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link", "content.code.copy", "content.action.edit", "search.highlight", "search.share", "search.suggest", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+        <script src="../../../assets/_markdown_exec_pyodide.js"></script>
+      
+    
+  </body>
+</html>
