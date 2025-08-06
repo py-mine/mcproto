@@ -61,6 +61,60 @@ towncrier create 12.feature.md -c "Add dinosaurs!"
     If you're used to terminal editors, there's also an `--edit` flag, which will open the file with your
     `$EDITOR`. (I would recommend `neovim`, but if you find it too complex, `nano` also works well)
 
+    Alternatively, you should also be able to set `$EDITOR` to `code` and edit the fragment from vscode, or
+    whatever other GUI editor, that said, a terminal editor is likely going to be more convenient here.
+
+### Knowing the PR number
+
+One problem that you'll very likely face is not knowing the PR number ahead of the time, as it's only assigned once you
+actually open the PR and towncrier does require you to specify it as a part of the file name, which means you can only
+create changelog fragments after opening the PR. (You can sometimes guess the number, as they are sequential, but you
+risk someone opening an issue / another PR and taking it.)
+
+If you're concerned about commit history, good new, we allow force pushing (especially soon after creation, but in
+feature branches, even generally). This means you can simply open the PR, then add your changelog fragment, amend your
+original commit and force-push. E.g.:
+
+```bash
+git checkout -b my-feature-branch
+git add mcproto/file_i_changed.py
+git commit -m "My cool change"
+git push
+gh pr create --title "My cool change" --body "This change will blow your mind"
+gh pr view --json number -q .number  # get the PR number
+towncrier create [number].feature.md -c "Add an incredible change"
+git commit --amend --no-edit
+git push --force
+```
+
+That said, it's also perfectly fine to just include it in a new commit, if you prefer that:
+
+```bash
+git checkout -b my-feature-branch
+git add mcproto/file_i_changed.py
+git commit -m "My cool change"
+git push
+gh pr create --title "My cool change" --body "This change will blow your mind"
+gh pr view --json number -q .number  # get the PR number
+towncrier create [number].feature.md -c "Add an incredible change"
+git commit -m "Add changelog fragment for #[number]"
+git push
+```
+
+!!! tip "Automate getting the PR number with poe task"
+
+    In the example above, we obtained the PR number with an additional command. You could also have just looked at the
+    GitHub interface and searched for your new PR, or extracted it from the link that `gh pr create` shows you. That
+    said, all of these can be a bit too annoying, and for that reason, we actually have a `poe` task for convenience
+    here, with which, you can simply do:
+
+    ```bash
+    poe changelog-this feature -- -c "My incredible change"
+    ```
+
+    This will automatically pick up the PR number (with the same GitHub CLI command used in the example) and run the
+    `towncrier` command with it.
+
 ## Multiple fragments in a single PR
 
 If necessary, multiple fragment files can be created per pull-request, with different change types, if the PR covers
