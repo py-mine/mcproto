@@ -67,7 +67,7 @@ jobs:
           VERSION: ${{ github.event.inputs.version }}
           SENDER: ${{ github.event.sender.login }}
         run: |
-          echo "Release preparation triggered by $SENDER." > pr-body.txt
+          echo "Release preparation triggered by @$SENDER." > pr-body.txt
           echo "Once the pull request is merged, you can trigger a PyPI release by pushing a \`v$VERSION\` git tag in the repository." >> pr-body.txt
 
           gh pr create \
