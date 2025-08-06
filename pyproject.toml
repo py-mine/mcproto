@@ -295,6 +295,19 @@ cmd = "uv publish"
 deps = ["pre-commit", "test", "build"]
 help = "Requires all the checks to pass before building and publishing"
 
+[tool.poe.tasks._pr_number]
+cmd = "gh pr view --json number -q .number"
+help = "Get the number of this PR (for current branch)"
+
+[tool.poe.tasks.changelog-this]
+cmd = "towncrier create ${PR_NUMBER}.${FRAGMENT_TYPE}.md"
+args = [
+  { name = "FRAGMENT_TYPE", positional = true, type = "string", required = true },
+]
+uses = { PR_NUMBER = "_pr_number" }
+help = "Create a changelog fragment for this PR (uses github CLI to get PR number); use like: poe changelog-this feature -- -c \"My cool feature\""
+
+
 [build-system]
 requires = ["hatchling", "uv-dynamic-versioning"]
 build-backend = "hatchling.build"
