@@ -528,6 +528,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#test-pypi-latest-main-commit-builds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test PyPI (latest main commit builds)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#latest-git-version" class="md-nav__link">
     <span class="md-ellipsis">
       Latest (git) version
@@ -1643,6 +1652,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#test-pypi-latest-main-commit-builds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test PyPI (latest main commit builds)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#latest-git-version" class="md-nav__link">
     <span class="md-ellipsis">
       Latest (git) version
@@ -1719,47 +1737,127 @@
 </div>
 </div>
 </div>
-<h2 id="latest-git-version">Latest (git) version<a class="headerlink" href="#latest-git-version" title="Permanent link">&para;</a></h2>
-<p>Alternatively, you may want to install the latest available version, which is what you currently see in the <code>main</code> git
-branch. Although this method will actually work for any branch with a pretty straightforward change.</p>
-<p>This kind of installation should only be done if you wish to test some new unreleased features and it's likely that you
-will encounter bugs.</p>
-<p>That said, since mcproto is still in development, changes can often be made quickly and it can sometimes take a while
-for these changes to carry over to PyPI. So if you really want to try out that latest feature, this is the method
-you'll want.</p>
-<p>To install the latest mcproto version directly from the <code>main</code> git branch, use:</p>
+<h2 id="test-pypi-latest-main-commit-builds">Test PyPI (latest main commit builds)<a class="headerlink" href="#test-pypi-latest-main-commit-builds" title="Permanent link">&para;</a></h2>
+<p>Mcproto publishes a new version to <a href="https://test.pypi.org/project/mcproto/">Test PyPI</a> on <strong>every commit to the <code>main</code> branch</strong>, using a
+version format like <code>0.6.0.postN.devX</code>. This is useful if you want the latest development changes but still prefer
+installing from a trusted package index (e.g. one that provides <a href="https://docs.pypi.org/attestations/">attestations</a> or reproducible builds), instead of
+relying on VCS links.</p>
+<p>Although these builds are technically considered "pre-releases", they are <em>not</em> alpha or beta versions like <code>0.5.0a1</code>
+(which would appear on PyPI too). They're regular post-development builds made continuously for easier testing and
+access.</p>
+<p>These builds are functionally identical to what you'd get from installing directly from Git (see <a href="#latest-git-version">next
+section</a>), but Test PyPI offers advantages like:</p>
+<ul>
+<li>Index-based installation with hashes and attestations</li>
+<li>Easier CI/CD and lockfile compatibility</li>
+<li>No need for Git to be installed</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Mcproto is still in active development, and changes can happen quickly. These builds may contain bugs or unfinished
+features. However, they're useful if you want to try out a fix or feature that hasn't yet been released on the main
+PyPI index, as it can sometimes take us a while to publish stable releases during this stage.</p>
+</div>
+<p>To install the latest version from Test PyPI:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:5"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><input id="__tabbed_2_5" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.25.18.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg></span> pip</label><label for="__tabbed_2_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.604 0a19.14 19.14 0 0 1-5.268 13.213L2.396 0l13.583 13.583a19.15 19.15 0 0 1-13.583 5.624V0zm-1.911 17.297A24.46 24.46 0 0 1 7.189 24l-4.053-4.053a19.9 19.9 0 0 0 13.37-5.838z"/></svg></span> poetry</label><label for="__tabbed_2_3"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0C5.372 0 0 5.372 0 11.999c0 5.422 3.597 10.003 8.536 11.49.011-.186.028-.406.049-.669.026-.316-.142-.784-.382-.963-2.67-1.997-3.534-4.125-2.906-7.394a.197.197 0 0 1 .335-.101c.72.747 1.234 1.218 1.988 2.094 1.121 1.305 1.557 2.839 1.42 4.59.123-.531.3-1.057.358-1.596.242-2.222.775-4.326 2.426-5.958.425-.42.939-.823 1.488-1.033 1.448-.552 2.953-.965 3.931-2.339.08.049-.451 1.869-.541 2.263-.645 2.193-.42 2.3-1.186 4.45-.506 1.417-1.596 2.404-3.125 2.798-1.504.386-2.349 1.4-2.56 2.898-.077.558-.123.947-.149 1.246.75.147 1.525.225 2.318.225 6.628 0 12-5.372 12-11.999S18.629 0 12 0m-1.158 13.463a1.4 1.4 0 0 1-.306.689c-.578.658-1.105 1.844-1.418 3.425-.567-1.75-2.556-3.304-3.273-4.606-.247-.448-.051-1.963.281-3.223.607-1.782.637-2.096.981-3.594 1.689 1.365 2.041 2.267 2.954 3.879.456.804.957 1.904.782 3.43zm4.227-2.272c-1.586.647-2.565 1.018-3.576 1.82.252-1.354-.602-2.944-1.137-4.146-.079-.177.948-1.858 1.13-2.14 1.205-1.498 1.17-1.767 2.83-2.38 1.354-.5 2.719-.97 4.065-1.449-.24 3.291-.805 7.273-3.312 8.295"/></svg></span> rye</label><label for="__tabbed_2_4"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 0C1.338 0 0 1.338 0 3v18c0 1.662 1.338 3 3 3h18c1.662 0 3-1.338 3-3V3c0-1.662-1.338-3-3-3Zm4.2 7.2h8.641c.53 0 .959.43.959.959v3.266a.96.96 0 0 1-.959.959h-.961v.768h1.92V16.8h-4.416v-2.88h-.768v2.88H7.2Zm3.648 3.648v.768h2.304v-.768z"/></svg></span> uv</label><label for="__tabbed_2_5"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.44.418a3.12 3.12 0 0 1 3.12 0l7.69 4.44a3.12 3.12 0 0 1 1.56 2.702v8.88a3.12 3.12 0 0 1-1.56 2.702l-7.69 4.44a3.12 3.12 0 0 1-3.12 0l-7.69-4.44a3.12 3.12 0 0 1-1.56-2.702V7.56a3.12 3.12 0 0 1 1.56-2.702Zm3.87 3.315L12.311 2.58a.62.62 0 0 0-.624 0l-7.69 4.44a.62.62 0 0 0-.312.54v3.774l10.623-6.133Zm2.496 13.643 1.255.725 1.941-1.12a.62.62 0 0 0 .312-.541V7.56a.62.62 0 0 0-.312-.54l-3.196-1.845Zm-2.497-1.441V8.083l-6.8 3.926ZM3.686 14.217v2.223c0 .223.119.429.312.54l7.69 4.44a.62.62 0 0 0 .624 0l3.252-1.878-10.55-6.091Z"/></svg></span> pdm</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;mcproto@git+https://github.com/py-mine/mcproto@main&#39;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span>--index-url<span class="w"> </span>https://test.pypi.org/simple/<span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.org/simple<span class="w"> </span>--pre<span class="w"> </span>mcproto
+</code></pre></div>
+<div class="result" markdown>
+<p><a href="https://pip.pypa.io/en/stable/">pip</a> is the main package installer for Python.</p>
+<hr />
+<p>Tell pip to prefer Test PyPI for new versions while falling back to PyPI for dependencies.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>poetry<span class="w"> </span><span class="nb">source</span><span class="w"> </span>add<span class="w"> </span>--priority<span class="o">=</span>supplemental<span class="w"> </span>testpypi<span class="w"> </span>https://test.pypi.org/simple
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>poetry<span class="w"> </span>add<span class="w"> </span>--source<span class="w"> </span>testpypi<span class="w"> </span>mcproto
+</code></pre></div>
+<div class="result" markdown>
+<p><a href="https://python-poetry.org/">Poetry</a> is an all-in-one solution for Python project management.</p>
+<hr />
+<p>Add the testpypi index as an additional source and install mcproto using that source.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># N/A</span>
+</code></pre></div>
+<div class="result" markdown>
+<p><a href="https://rye.astral.sh/">Rye</a> is an all-in-one solution for Python project management, written in Rust.</p>
+<hr />
+<p>Rye does not have a clean way to specify per-package source, it is possible to add Test PyPI as a source and use it
+globally, however, this would also affect other packages, and even with this approach, Rye handles dependency
+resolution pretty poorly (if a packge is being installed from Test PyPI, all of it's dependencies must be from Test
+PyPI, or they must be installed manually).</p>
+<p>For this reason, we don't recommend using the Test PyPI index with Rye, instead, if you want the latest release,
+follow the git installation method.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uv<span class="w"> </span>add<span class="w"> </span>--index-url<span class="w"> </span>https://test.pypi.org/simple/<span class="w"> </span>--extra-index-url<span class="w"> </span>https://pypi.org/simple<span class="w"> </span>mcproto
+</code></pre></div>
+<div class="result" markdown>
+<p><a href="https://github.com/astral-sh/uv">uv</a> is an ultra fast dependency resolver and package installer, written in Rust.</p>
+<hr />
+<p>Uv supports custom indexes via matching pip flags.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># N/A</span>
+</code></pre></div>
+<div class="result" markdown>
+<p><a href="https://pdm-project.org/en/latest/">PDM</a> is an all-in-one solution for Python project management.</p>
+<hr />
+<p>With PDM, you will want to follow their <a href="https://pdm-project.org/latest/usage/config/#specify-index-for-individual-packages">documentation</a> for this type of installation, as it
+involves editing <code>pyproject.toml</code> manually and a deeper understanding of what you're doing is beneficial.</p>
+<p>Alternatively, you can just use the git installation instead.</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="latest-git-version">Latest (git) version<a class="headerlink" href="#latest-git-version" title="Permanent link">&para;</a></h2>
+<p>Installing directly from Git gives you the exact same version as Test PyPI: the latest commit to <code>main</code>, but also allows
+you to install from <strong>any branch or commit</strong>. This is useful if you're testing experimental branches or need a very
+specific commit not yet published to Test PyPI, or you just don't want to use the Test PyPI index.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This type of installation carries the same risks of bugs occuring as the Test PyPI installation. See the warning
+notice in that section.</p>
+</div>
+<p>To install the latest mcproto version directly from the <code>main</code> git branch, use:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:5"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><input id="__tabbed_3_4" name="__tabbed_3" type="radio" /><input id="__tabbed_3_5" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.25.18.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg></span> pip</label><label for="__tabbed_3_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.604 0a19.14 19.14 0 0 1-5.268 13.213L2.396 0l13.583 13.583a19.15 19.15 0 0 1-13.583 5.624V0zm-1.911 17.297A24.46 24.46 0 0 1 7.189 24l-4.053-4.053a19.9 19.9 0 0 0 13.37-5.838z"/></svg></span> poetry</label><label for="__tabbed_3_3"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0C5.372 0 0 5.372 0 11.999c0 5.422 3.597 10.003 8.536 11.49.011-.186.028-.406.049-.669.026-.316-.142-.784-.382-.963-2.67-1.997-3.534-4.125-2.906-7.394a.197.197 0 0 1 .335-.101c.72.747 1.234 1.218 1.988 2.094 1.121 1.305 1.557 2.839 1.42 4.59.123-.531.3-1.057.358-1.596.242-2.222.775-4.326 2.426-5.958.425-.42.939-.823 1.488-1.033 1.448-.552 2.953-.965 3.931-2.339.08.049-.451 1.869-.541 2.263-.645 2.193-.42 2.3-1.186 4.45-.506 1.417-1.596 2.404-3.125 2.798-1.504.386-2.349 1.4-2.56 2.898-.077.558-.123.947-.149 1.246.75.147 1.525.225 2.318.225 6.628 0 12-5.372 12-11.999S18.629 0 12 0m-1.158 13.463a1.4 1.4 0 0 1-.306.689c-.578.658-1.105 1.844-1.418 3.425-.567-1.75-2.556-3.304-3.273-4.606-.247-.448-.051-1.963.281-3.223.607-1.782.637-2.096.981-3.594 1.689 1.365 2.041 2.267 2.954 3.879.456.804.957 1.904.782 3.43zm4.227-2.272c-1.586.647-2.565 1.018-3.576 1.82.252-1.354-.602-2.944-1.137-4.146-.079-.177.948-1.858 1.13-2.14 1.205-1.498 1.17-1.767 2.83-2.38 1.354-.5 2.719-.97 4.065-1.449-.24 3.291-.805 7.273-3.312 8.295"/></svg></span> rye</label><label for="__tabbed_3_4"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 0C1.338 0 0 1.338 0 3v18c0 1.662 1.338 3 3 3h18c1.662 0 3-1.338 3-3V3c0-1.662-1.338-3-3-3Zm4.2 7.2h8.641c.53 0 .959.43.959.959v3.266a.96.96 0 0 1-.959.959h-.961v.768h1.92V16.8h-4.416v-2.88h-.768v2.88H7.2Zm3.648 3.648v.768h2.304v-.768z"/></svg></span> uv</label><label for="__tabbed_3_5"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.44.418a3.12 3.12 0 0 1 3.12 0l7.69 4.44a3.12 3.12 0 0 1 1.56 2.702v8.88a3.12 3.12 0 0 1-1.56 2.702l-7.69 4.44a3.12 3.12 0 0 1-3.12 0l-7.69-4.44a3.12 3.12 0 0 1-1.56-2.702V7.56a3.12 3.12 0 0 1 1.56-2.702Zm3.87 3.315L12.311 2.58a.62.62 0 0 0-.624 0l-7.69 4.44a.62.62 0 0 0-.312.54v3.774l10.623-6.133Zm2.496 13.643 1.255.725 1.941-1.12a.62.62 0 0 0 .312-.541V7.56a.62.62 0 0 0-.312-.54l-3.196-1.845Zm-2.497-1.441V8.083l-6.8 3.926ZM3.686 14.217v2.223c0 .223.119.429.312.54l7.69 4.44a.62.62 0 0 0 .624 0l3.252-1.878-10.55-6.091Z"/></svg></span> pdm</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;mcproto@git+https://github.com/py-mine/mcproto@main&#39;</span>
 </code></pre></div>
 <div class="result" markdown>
 <p><a href="https://pip.pypa.io/en/stable/">pip</a> is the main package installer for Python.</p>
 </div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>poetry<span class="w"> </span>add<span class="w"> </span><span class="s1">&#39;git+https://github.com/py-mine/mcproto#main&#39;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>poetry<span class="w"> </span>add<span class="w"> </span><span class="s1">&#39;git+https://github.com/py-mine/mcproto#main&#39;</span>
 </code></pre></div>
 <div class="result" markdown>
 <p><a href="https://python-poetry.org/">Poetry</a> is an all-in-one solution for Python project management.</p>
 </div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>rye<span class="w"> </span>add<span class="w"> </span>mcproto<span class="w"> </span>--git<span class="o">=</span><span class="s1">&#39;https://github.com/py-mine/mcproto&#39;</span><span class="w"> </span>--branch<span class="w"> </span>main
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>rye<span class="w"> </span>add<span class="w"> </span>mcproto<span class="w"> </span>--git<span class="o">=</span><span class="s1">&#39;https://github.com/py-mine/mcproto&#39;</span><span class="w"> </span>--branch<span class="w"> </span>main
 </code></pre></div>
 <div class="result" markdown>
 <p><a href="https://rye.astral.sh/">Rye</a> is an all-in-one solution for Python project management, written in Rust.</p>
 </div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;mcproto@git+https://github.com/py-mine/mcproto@main&#39;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;mcproto@git+https://github.com/py-mine/mcproto@main&#39;</span>
 </code></pre></div>
 <div class="result" markdown>
 <p><a href="https://github.com/astral-sh/uv">uv</a> is an ultra fast dependency resolver and package installer, written in Rust.</p>
 </div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pdm<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;git+https://github.com/py-mine/mcproto@main&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>pdm<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;git+https://github.com/py-mine/mcproto@main&quot;</span>
 </code></pre></div>
 <div class="result" markdown>
 <p><a href="https://pdm-project.org/en/latest/">PDM</a> is an all-in-one solution for Python project management.</p>
