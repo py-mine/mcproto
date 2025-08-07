@@ -29,6 +29,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # For uv-dynamic-versioning to pick up the git version
+          fetch-tags: true
 
       - name: Setup uv
         uses: astral-sh/setup-uv@v6
