@@ -48,7 +48,7 @@ jobs:
         run: |
           uv sync --no-default-groups --group release
 
-      - name: Check pre-release status
+      - name: Check version status
         id: check-version
         run: |
           version="$(hatchling version)"
@@ -62,16 +62,20 @@ jobs:
           # the other release steps. If this isn't the case, only a Test PyPI
           # release will be performed.
           if [[ "${GITHUB_REF}" == "refs/tags/v${version}" ]]; then
+            echo "This is a new tagged release"
             echo "tagged_release=true" >> "$GITHUB_OUTPUT"
           else
+            echo "This is an untagged dev release"
             echo "tagged_release=false" >> "$GITHUB_OUTPUT"
           fi
 
           # This is used to mark the version as prerelease on PyPI if it doesn't
           # follow the full release x.y.z format (e.g. if it's 1.2.4a1)
           if [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "This is a stable version release"
             echo "prerelease=false" >> "$GITHUB_OUTPUT"
           else
+            echo "This is a pre-release version"
             echo "prerelease=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -100,7 +104,7 @@ jobs:
             > changelog.txt
 
       - name: Obtain preview changelog
-        if: "!startsWith(github.ref, 'refs/tags/')" # only on proper releases
+        if: "!startsWith(github.ref, 'refs/tags/')" # only on dev/untagged releases
         env:
           VERSION: ${{ steps.check-version.outputs.version }}
         run: |
@@ -121,9 +125,9 @@ jobs:
   publish-github:
     name: "Publish a GitHub release"
     if: needs.build.outputs.tagged_release == 'true' # only publish to GitHub on tagged releases
-    needs: build # requires approval
+    needs: build
     runs-on: ubuntu-latest
-    environment: release
+    environment: release # requires approval
 
     steps:
       - name: Download the distribution files from build artifact
