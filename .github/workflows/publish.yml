@@ -87,7 +87,7 @@ jobs:
           # Generate a draft changelog from the pending unreleased change fragments.
           # Similarly to the above, this then gets rid of the separator and version header,
           # leaving a clean changelog
-          towncrier build --draft --version "$VERSION" | tail -n +3 | hean -n -4 \
+          towncrier build --draft --version "$VERSION" | tail -n +3 | head -n -4 \
             > changelog.txt
 
       - name: Upload release changelog
