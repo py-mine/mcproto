@@ -317,3 +317,4 @@ source = "uv-dynamic-versioning"
 
 [tool.uv-dynamic-versioning]
 fallback-version = "0.0.0"
+metadata = false
