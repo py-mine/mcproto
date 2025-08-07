@@ -80,7 +80,7 @@ jobs:
             > changelog.txt
 
       - name: Obtain preview changelog
-        if: "!startsWith(github.ref, 'refs/tags/') # only on proper releases"
+        if: "!startsWith(github.ref, 'refs/tags/')" # only on proper releases
         env:
           VERSION: ${{ steps.check-version.outputs.version }}
         run: |
