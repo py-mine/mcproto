@@ -7,7 +7,7 @@ hide:
 
 ## PyPI (stable) version
 
-Mcproto is available on [PyPI][mcproto-pypi] and can be installed like any other python library with:
+Mcproto is available on [PyPI][mcproto-pypi] and can be installed like any other Python library with:
 
 === ":simple-python: pip"
 
@@ -71,7 +71,7 @@ Mcproto is available on [PyPI][mcproto-pypi] and can be installed like any other
 
 ## Test PyPI (latest main commit builds)
 
-Mcproto publishes a new version to [Test PyPI][mcproto-testpypi] on **every commit to the `main` branch**, using a
+A new version of mcproto is published to [Test PyPI][mcproto-testpypi] on **every commit to the `main` branch**, using a
 version format like `0.6.0.postN.devX`. This is useful if you want the latest development changes but still prefer
 installing from a trusted package index (e.g. one that provides [attestations] or reproducible builds), instead of
 relying on VCS links.
@@ -85,6 +85,7 @@ section](#latest-git-version)), but Test PyPI offers advantages like:
 
 - Index-based installation with hashes and attestations
 - Easier CI/CD and lockfile compatibility
+- Skips the need to build the package locally, pre-built wheels are downloaded directly
 - No need for Git to be installed
 
 !!! warning
