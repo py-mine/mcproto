@@ -24,7 +24,9 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
+      version: ${{ steps.check-version.outputs.version }}
       prerelease: ${{ steps.check-version.outputs.prerelease }}
+      tagged_release: ${{ steps.check-version.outputs.tagged_release }}
 
     steps:
       - name: Checkout repository
@@ -55,10 +57,23 @@ jobs:
           echo "Project version: $version"
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
-          if [[ "$version" =~ "^[0-9]+\.[0-9]+\.[0-9]+$" ]]; then
-            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          # Determine whether we're doing a tagged release e.g. this workflow
+          # was triggered by a git tag ref that matches the project's current
+          # version, so a full PyPI release should be made, alongside all of
+          # the other release steps. If this isn't the case, only a Test PyPI
+          # release will be performed.
+          if [[ "${GITHUB_REF}" == "refs/tags/v${version}" ]]; then
+            echo "tagged_release=true" >> "$GITHUB_OUTPUT"
           else
+            echo "tagged_release=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # This is used to mark the version as prerelease on PyPI if it doesn't
+          # follow the full release x.y.z format (e.g. if it's 1.2.4a1)
+          if [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Build project for distribution
@@ -106,19 +121,19 @@ jobs:
 
   publish-github:
     name: "Publish a GitHub release"
-    if: startsWith(github.ref, 'refs/tags/') # only publish to GitHub on tag pushes
-    needs: build
+    if: needs.build.outputs.tagged_release == 'true' # only publish to GitHub on tagged releases
+    needs: build # requires approval
     runs-on: ubuntu-latest
     environment: release
 
     steps:
-      - name: Download the distribution files from PR artifact
+      - name: Download the distribution files from build artifact
         uses: actions/download-artifact@v5
         with:
           name: "dist"
           path: "dist/"
 
-      - name: Download the changelog from PR artifact
+      - name: Download the changelog from build artifact
         uses: actions/download-artifact@v5
         with:
           name: "changelog"
@@ -141,22 +156,21 @@ jobs:
 
   publish-test-pypi:
     name: "Publish to Test PyPI"
-    if: "!startsWith(github.ref, 'refs/tags/')" # publish to Test PyPI index on every commit to main
+    # No if condition here, publish both tagged and untagged releases to Test PyPI.
     needs: build
     runs-on: ubuntu-latest
-    environment: test-pypi
+    environment: test-pypi # no approval
     permissions:
       # Used to authenticate to Test PyPI via OIDC.
       id-token: write
 
     steps:
-      - name: Download the distribution files from PR artifact
+      - name: Download the distribution files from build artifact
         uses: actions/download-artifact@v5
         with:
           name: "dist"
           path: "dist/"
 
-      # Upload to Test PyPI first, in case something fails.
       - name: Upload to Test PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -167,27 +181,20 @@ jobs:
 
   publish-pypi:
     name: "Publish to PyPI"
-    if: startsWith(github.ref, 'refs/tags/') # only publish to primary PyPI index on tag pushes
+    if: needs.build.outputs.tagged_release == 'true' # only publish to PyPI on tagged releases
     needs: build
     runs-on: ubuntu-latest
-    environment: release
+    environment: release # requires approval
     permissions:
       # Used to authenticate to PyPI via OIDC.
       id-token: write
 
     steps:
-      - name: Download the distribution files from PR artifact
+      - name: Download the distribution files from build artifact
         uses: actions/download-artifact@v5
         with:
           name: "dist"
           path: "dist/"
-
-      # Upload to Test PyPI first, in case something fails.
-      - name: Upload to Test PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          # the "legacy" in the URL doesn't mean it's deprecated
-          repository-url: https://test.pypi.org/legacy/
 
       # This uses PyPI's trusted publishing, so no token is required
       - name: Release to PyPI
@@ -195,10 +202,10 @@ jobs:
 
   publish-docs:
     name: "Publish release docs"
-    if: startsWith(github.ref, 'refs/tags/') # only publish release docs on tag pushes
+    if: needs.build.outputs.tagged_release == 'true' # only publish release docs on tagged releases
     needs: build
     runs-on: ubuntu-latest
-    environment: release
+    environment: release # requires approval
     permissions:
       contents: write
 
@@ -241,8 +248,9 @@ jobs:
           uv sync --no-default-groups --group docs
 
       - name: Build the documentation (mike)
+        env:
+          version: ${{ needs.build.outputs.version }}
         run: |
-          version="$(uv pip list --format json | jq -r '.[] | select(.name == "mcproto") | .version')"
           mike deploy --update-aliases "$version" release
 
       - name: Deploy docs - release
