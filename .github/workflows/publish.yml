@@ -51,8 +51,7 @@ jobs:
       - name: Check pre-release status
         id: check-version
         run: |
-          uv tool install --with uv-dynamic-versioning hatchling
-          version="$(uvx hatchling version)"
+          version="$(hatchling version)"
 
           echo "Project version: $version"
           echo "version=$version" >> "$GITHUB_OUTPUT"

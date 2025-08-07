@@ -70,7 +70,11 @@ test = [
   "pytest-cov>=6.2.1",
   "pytest-httpx>=0.35.0",
 ]
-release = ["towncrier>=24.8.0", "uv-dynamic-versioning>=0.8.2"]
+release = [
+  "hatchling>=1.27.0",
+  "towncrier>=24.8.0",
+  "uv-dynamic-versioning>=0.8.2",
+]
 
 [tool.basedpyright]
 pythonPlatform = "All"

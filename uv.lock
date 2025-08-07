@@ -775,6 +775,7 @@ lint = [
     { name = "slotscheck" },
 ]
 release = [
+    { name = "hatchling" },
     { name = "towncrier" },
     { name = "uv-dynamic-versioning" },
 ]
@@ -828,6 +829,7 @@ lint = [
     { name = "slotscheck", specifier = ">=0.19.1" },
 ]
 release = [
+    { name = "hatchling", specifier = ">=1.27.0" },
     { name = "towncrier", specifier = ">=24.8.0" },
     { name = "uv-dynamic-versioning", specifier = ">=0.8.2" },
 ]
