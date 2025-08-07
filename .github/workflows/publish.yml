@@ -156,6 +156,8 @@ jobs:
         with:
           # the "legacy" in the URL doesn't mean it's deprecated
           repository-url: https://test.pypi.org/legacy/
+          # Enable verbose mode for easy debugging
+          verbose: true
 
   publish-pypi:
     name: "Publish to PyPI"
