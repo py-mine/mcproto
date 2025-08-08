@@ -20,6 +20,22 @@ jobs:
   unit-tests:
     uses: ./.github/workflows/unit-tests.yml
 
+  mkdocs:
+    uses: ./.github/workflows/docs.yml
+    with:
+      # On a push to main: "latest"
+      # On a 1st party (non-fork) PR: "preview" (needs secrets access)
+      # On a 3rd party (fork) PR: "build-only"
+      # On a manual dispatch on main branch ref: "latest"
+      # On a manual dispatch on another ref: "build-only"
+      release_type: ${{
+        github.event_name == 'push' && github.ref_name == 'main' && 'latest' ||
+        github.event_name == 'pull_request' && (github.event.pull_request.head.repo.full_name == github.repository && 'preview' || 'build-only') ||
+        github.event_name == 'workflow_dispatch' && (github.ref_name == 'main' && 'latest' || 'build-only') ||
+        'build-only'
+        }}
+    secrets: inherit
+
   # Produce a pull request payload artifact with various data about the
   # pull-request event (such as the PR number, title, author, ...).
   # This data is then be picked up by status-embed.yml action.

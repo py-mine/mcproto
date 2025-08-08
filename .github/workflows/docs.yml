@@ -2,21 +2,23 @@
 name: MkDocs
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  # The requested write permissions will only be followed on 1st party triggers
-  # on 3rd party PRs (from forks), github will drop these permissions to read.
-  contents: write
-  pull-requests: write
-
+  workflow_call:
+    inputs:
+      version:
+        description: "Project version (for releases)"
+        required: false
+        type: string
+      release_type:
+        description: "Type of release"
+        required: true
+        type: string
+        default: "latest"
+        # The choice type isn't available for workflow_call, but we
+        # generally expect the following values here:
+        # - "latest"
+        # - "release"
+        # - "preview"
+        # - "build-only" # no publish, doesn't require secrets / write access
 env:
   PYTHON_VERSION: "3.13"
 
@@ -24,9 +26,21 @@ jobs:
   mkdocs:
     runs-on: ubuntu-latest
     steps:
+      - name: Validate relese type input
+        if: inputs.release_type != 'latest' && inputs.release_type != 'release' && inputs.release_type != 'preview' && inputs.release_type != 'build-only'
+        run: |
+          echo "ERROR: release_type must be one of: 'latest', 'release', 'preview' or 'build-only'"
+          exit 1
+
+      - name: Validate version input
+        if: inputs.release_type == 'release' && inputs.version == ''
+        run: |
+          echo "ERROR: version must be set for release builds"
+          exit 1
+
       - name: Generate token
         id: app-token
-        if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push'
+        if: inputs.release_type != 'build-only'
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
@@ -35,9 +49,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # We should get a token that allows us to push to the repo when the workflow ran
-          # as 1st party (not from a forked PR). From 3rd parties, the token will be an
-          # empty string (as the token generation step was skipped), so pushing won't work.
+          # Clone with the token generated above, as it will allow push access to the repo
+          # If the above step was skipped, the token string will be empty, this is fine,
+          # it will just perform an unauthenticated anonymous public clone.
           token: "${{ steps.app-token.outputs.token }}"
           # Fetch the entire git history (all branches + tags)
           # We do this because the docs use git describe, which requires having all
@@ -48,7 +62,7 @@ jobs:
       # Make the github application be the committer
       # (see: https://stackoverflow.com/a/74071223 on how to obtain the committer email)
       - name: Setup git config
-        if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push'
+        if: inputs.release_type != 'build-only'
         run: |
           git config --global user.name "py-mine-ci-bot"
           git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
@@ -63,19 +77,26 @@ jobs:
           cache-suffix: "docs"
 
       - name: Install dependencies
-        run: |
-          uv sync --no-default-groups --group docs
+        run: uv sync --no-default-groups --group docs
 
-      # PRs (both 1st and 3rd party)
       - name: Build the documentation (mkdocs)
-        if: github.event_name == 'pull_request'
+        # Only build with mkdocs if we won't be using mike to deploy
+        # (since mike also performs building - it adjust the build to add versions)
+        if: inputs.release_type == 'build-only' || inputs.release_type == 'preview'
         run: mkdocs build
 
-      # 1st party PRs
+      - name: Build & Publish release docs (mike)
+        if: inputs.release_type == 'release'
+        env:
+          version: ${{ inputs.version }}
+        run: mike deploy --update-aliases "$version" release
+
+      - name: Build & Publish latest docs (mike)
+        if: inputs.release_type == 'latest'
+        run: mike deploy latest
+
       - name: Deploy docs - PR preview
-        if: >
-          github.event_name == 'pull_request' &&
-          github.event.pull_request.head.repo.full_name == github.repository
+        if: inputs.release_type == 'preview'
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./site
@@ -83,12 +104,6 @@ jobs:
           umbrella-dir: pr-preview
           token: ${{ steps.app-token.outputs.token }}
 
-      # Push to main (1st party)
-      - name: Build the documentation (mike)
-        if: github.event_name == 'push'
-        run: mike deploy latest
-
-      # Push to main (1st party)
-      - name: Deploy docs - latest
-        if: github.event_name == 'push'
+      - name: Push Documentation
+        if: inputs.release_type == 'latest' || inputs.release_type == 'release'
         run: git push origin gh-pages

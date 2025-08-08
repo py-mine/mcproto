@@ -206,55 +206,11 @@ jobs:
   publish-docs:
     name: "Publish release docs"
     if: needs.build.outputs.tagged_release == 'true' # only publish release docs on tagged releases
-    needs: build
-    runs-on: ubuntu-latest
-    environment: release # requires approval
-    permissions:
-      contents: write
-
-    steps:
-      - name: Generate token
-        id: app-token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
-          private-key: ${{ secrets.PYMINE_BOT_PRIVATE_KEY }}
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: "${{ steps.app-token.outputs.token }}"
-          # Fetch the entire git history (all branches + tags)
-          # We do this because the docs use git describe, which requires having all
-          # the commits up to the latest version tag.
-          # We also need the gh-pages branch to push the docs to.
-          fetch-depth: 0
-
-      # Make the github application be the committer
-      # (see: https://stackoverflow.com/a/74071223 on how to obtain the committer email)
-      - name: Setup git config
-        run: |
-          git config --global user.name "py-mine-ci-bot"
-          git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
-
-      - name: Setup uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          version: "latest"
-          python-version: ${{ env.PYTHON_VERSION }}
-          activate-environment: true
-          enable-cache: true
-          cache-suffix: "docs" # matches mkdocs.yml suffix
-
-      - name: Install dependencies
-        run: |
-          uv sync --no-default-groups --group docs
-
-      - name: Build the documentation (mike)
-        env:
-          version: ${{ needs.build.outputs.version }}
-        run: |
-          mike deploy --update-aliases "$version" release
-
-      - name: Deploy docs - release
-        run: git push origin gh-pages
+    # To prevent unapproved runs (outside of the release github environment), this job depends
+    # on the publish-pypi job succeeding. This works around not being able to specify environment: release
+    # for this job (since it's a dispatch job)
+    needs: publish-pypi
+    uses: ./.github/workflows/mkdocs.yml
+    with:
+      release_type: release
+      version: ${{ needs.build.outputs.version }}
