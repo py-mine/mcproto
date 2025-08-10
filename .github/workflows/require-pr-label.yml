@@ -24,7 +24,7 @@ jobs:
           labels: |
             m: do-not-merge
 
-      - name: Check there's no unreloved review
+      - name: Check there's no unresolved review
         uses: mheap/github-action-required-labels@v5
         with:
           mode: exactly
