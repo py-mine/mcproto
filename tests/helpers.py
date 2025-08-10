@@ -141,7 +141,7 @@ class UnpropagatingMockMixin(Generic[T_Mock]):
     _mock_sealed: bool
     _extract_mock_name: Callable[[], str]
 
-    def _get_child_mock(self, **kwargs) -> T_Mock:
+    def _get_child_mock(self, **kwargs: object) -> T_Mock:
         """Make [`child_mock_type`][..] instances instead of instances of the same class.
 
         By default, this method creates a new mock instance of the same original class, and passes
