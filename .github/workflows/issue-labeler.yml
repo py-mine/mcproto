@@ -4,10 +4,6 @@ on:
   issues:
     types: [opened]
 
-permissions:
-  issues: write
-  contents: read
-
 jobs:
   issue-labeler:
     # Don't run in forks, they probably don't have the same labels set up
@@ -15,9 +11,28 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - name: Label issue ${{ github.event.issue.number }}
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
+          private-key: ${{ secrets.PYMINE_BOT_PRIVATE_KEY }}
+
+      - name: Check issue author repo triage permissions
+        id: check-perms
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.actor }}
+          REPO: ${{ github.repository }}
+        run: |
+          PERMS=$(gh api "repos/$REPO/collaborators/$ACTOR/permission" --jq .user.permissions.triage)
+          echo "has_triage=$PERMS" >> $GITHUB_OUTPUT
+
+      - name: Add triage label to ${{ github.event.issue.number }}
+        # Only add the pending label to issues made by people without triage access (or higher)
+        if: steps.check-perms.outputs.has_triage == 'false'
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
         run: |
