@@ -4,11 +4,15 @@ on:
     types: [opened]
 
 jobs:
-  labeler:
+  pr-labeler:
+    # Don't run in forks, they probably don't have the same labels set up
+    if: github.repository_owner == 'py-mine'
+
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-    runs-on: ubuntu-latest
+
     steps:
       - id: label-the-PR
         uses: actions/labeler@v5
