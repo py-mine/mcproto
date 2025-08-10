@@ -1,7 +1,9 @@
 name: "Pull Request Labeler"
 on:
   pull_request_target:
-    types: [opened]
+
+permissions:
+  contents: read
 
 jobs:
   pr-labeler:
@@ -14,5 +16,16 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
+          private-key: ${{ secrets.PYMINE_BOT_PRIVATE_KEY }}
+          permission-contents: read
+          permission-pull-requests: write
+
       - id: label-the-PR
         uses: actions/labeler@v5
+        with:
+          repo-token: ${{ steps.generate_tokens.outputs.token }}
