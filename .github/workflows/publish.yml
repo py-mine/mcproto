@@ -210,7 +210,7 @@ jobs:
     # on the publish-pypi job succeeding. This works around not being able to specify environment: release
     # for this job (since it's a dispatch job)
     needs: publish-pypi
-    uses: ./.github/workflows/mkdocs.yml
+    uses: ./.github/workflows/docs.yml
     with:
       release_type: release
       version: ${{ needs.build.outputs.version }}
