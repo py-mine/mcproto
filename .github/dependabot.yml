@@ -20,6 +20,6 @@ updates:
       interval: "daily"
     labels:
       - "a: dependencies"
-      - "a: CI"
+      - "a: devops"
       - "p: 3 - low"
       - "t: project"
