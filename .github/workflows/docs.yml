@@ -45,6 +45,8 @@ jobs:
         with:
           app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
           private-key: ${{ secrets.PYMINE_BOT_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
 
       - name: Checkout repository
         uses: actions/checkout@v4
