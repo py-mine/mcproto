@@ -12,16 +12,12 @@ Applies to:
       All rights reserved.
         - .github/ISSUE_TEMPLATE/bug_report.yml: Template heavily inspired by original
         - .github/ISSUE_TEMPLATE/feature_request.yml: Template heavily inspired by original
-        - .github/workflows/fragment-check.yml: Entire file
+        - .github/workflows/changelog-fragment.yml: Workflow heavily inspired by original
         - .github/workflows/prepare-release.yml: Workflow heavily inspired by original
-        - .github/scripts/normalize_coverage.py: Entire file
-    - Copyright (c) 2015-present Rapptz
-      All rights reserved.
-        - docs/installation/version-guarantees.rst: Entire file
     - Copyright (c) 2016-2024 Martin Donath
       All rights reserved
-         - docs/contributing/reporting-a-bug.md: Majority of the file
----------------------------------------------------------------------------------------------------
+         - docs/contributing/issue-guide.md: Significant portions of the file
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
