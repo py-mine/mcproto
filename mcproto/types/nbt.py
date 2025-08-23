@@ -344,6 +344,13 @@ class NBTag(MCType, NBTagConvertible, ABC):
         Returns:
             The NBT tag created from the python object.
         """
+        # TODO: There are a lot of isinstance checks for dict/list, however, the FromObjectType/FromObjectSchema
+        # type alias declares a Sequence/Mapping type for these collections. The isinstance checks here should
+        # probably be replaced with these types (they should support runtime comparison).
+
+        # TODO: Consider splitting this function up into smaller functions, that each parse a specific type of schema
+        # i.e. _from_object_dict, _from_object_list, _from_object_tag, ...
+
         # Case 0 : schema is an object with a `to_nbt` method (could be a subclass of NBTag for all we know, as long
         # as the data is an instance of the schema it will work)
         if isinstance(schema, type) and hasattr(schema, "to_nbt") and isinstance(data, schema):
@@ -353,6 +360,7 @@ class NBTag(MCType, NBTagConvertible, ABC):
         if isinstance(schema, type) and issubclass(schema, NBTag):
             if schema in (CompoundNBT, ListNBT):
                 raise ValueError("Use a list or a dictionary in the schema to create a CompoundNBT or a ListNBT.")
+
             # Check if the data contains the name (if it is a dictionary)
             if isinstance(data, dict):
                 if len(data) != 1:
@@ -360,16 +368,19 @@ class NBTag(MCType, NBTagConvertible, ABC):
                 # We also check if the name isn't already set
                 if name:
                     raise ValueError("The name is already set.")
+
                 key, value = next(iter(data.items()))
                 # Recursive call to go to the next part
                 return NBTag.from_object(value, schema, name=key)
+
             # Else we check if the data can be a payload for the tag
             if not isinstance(data, (bytes, str, int, float, list)):
                 raise TypeError(f"Expected one of (bytes, str, int, float, list), but found {type(data).__name__}.")
+
             # Check if the data is a list of integers
             if isinstance(data, list) and not all(isinstance(item, int) for item in data):
                 raise TypeError("Expected a list of integers, but a non-integer element was found.")
-            data = cast("Union[bytes, str, int, float, list[int]]", data)
+            data = cast("bytes | str | int | float | list[int]", data)
             # Create the tag with the data and the name
             return schema(data, name=name)  # pyright: ignore[reportCallIssue] # The schema is a subclass of NBTag
 
@@ -399,6 +410,7 @@ class NBTag(MCType, NBTagConvertible, ABC):
         # as there are only dicts, or only lists in the schema
         if not isinstance(data, list):
             raise TypeError(f"Expected a list, but found {type(data).__name__}.")
+
         if len(schema) == 1:
             # We have two cases here, either the schema supports an unknown number of elements of a single type ...
             children_schema = schema[0]
