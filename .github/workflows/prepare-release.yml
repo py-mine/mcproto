@@ -37,7 +37,7 @@ jobs:
           git config --global user.email "121461646+py-mine-ci-bot[bot]@users.noreply.github.com"
 
       - name: Setup uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
           python-version: ${{ env.PYTHON_VERSION }}
