@@ -99,12 +99,28 @@ jobs:
 
       - name: Deploy docs - PR preview
         if: inputs.release_type == 'preview'
+        id: pr-preview
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./site
           preview-branch: gh-pages
           umbrella-dir: pr-preview
           token: ${{ steps.app-token.outputs.token }}
+          comment: false # see: https://github.com/rossjrw/pr-preview-action/issues/118
+
+      # This just mimics comment: true behavior, except with the correct token
+      # as rossjrw/pr-preview-action@v1 isn't respecting token for sending the comment
+      # (https://github.com/rossjrw/pr-preview-action/issues/118)
+      - name: Leave a sticky PR comment after preview deployment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview
+          message: |
+            [PR Preview Action](https://github.com/${{ env.action_repository }}) ${{ env.action_version }}
+            :---:
+            | <p></p> :rocket: View preview at <br> ${{ steps.pr-preview.outputs.preview-url }} <br><br>
+            | <h6>Built to branch [`gh-pages`](${{ github.server_url }}/${{ github.repository }}/tree/gh-pages) at ${{ steps.pr-preview.outputs.action-start-timestamp }}. <br> Preview will be ready when the [GitHub Pages deployment](${{ github.server_url }}/${{ github.repository }}/deployments) is complete. <br><br> </h6>
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Push Documentation
         if: inputs.release_type == 'latest' || inputs.release_type == 'release'
