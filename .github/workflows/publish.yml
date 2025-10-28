@@ -83,7 +83,7 @@ jobs:
         run: uv build --all-packages
 
       - name: Upload build files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "dist"
           path: "dist/"
@@ -115,7 +115,7 @@ jobs:
             > changelog.txt
 
       - name: Upload release changelog
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "changelog"
           path: "changelog.txt"
