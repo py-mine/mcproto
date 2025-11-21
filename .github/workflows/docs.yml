@@ -49,7 +49,7 @@ jobs:
           permission-pull-requests: write
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Clone with the token generated above, as it will allow push access to the repo
           # If the above step was skipped, the token string will be empty, this is fine,
