@@ -99,11 +99,6 @@ reportImplicitStringConcatenation = false
 reportUnreachable = "hint"
 reportUnusedParameter = "hint"
 reportUnannotatedClassAttribute = false
-reportUnknownArgumentType = false             # consider enabling
-reportUnknownVariableType = false             # consider enabling
-reportUnknownMemberType = false               # consider enabling
-reportUnknownParameterType = false            # consider enabling
-reportUnknownLambdaType = false               # consider enabling
 reportMissingTypeStubs = "information"        # consider bumping to warning/error
 reportUninitializedInstanceVariable = false   # until https://github.com/DetachHead/basedpyright/issues/491
 reportIncompatibleUnannotatedOverride = false # until https://github.com/DetachHead/basedpyright/issues/1349
@@ -135,8 +130,6 @@ ignore = [
   "D301", # Use r""" if any backslashes in a docstring
   "D417", # Missing argument descrition in the docstring
 
-  "ANN002", # Missing type annotation for *args
-  "ANN003", # Missing type annotation for **kwargs
   "ANN204", # Missing return type annotation for special method
   "ANN401", # Dynamically typed expressions (typing.Any) disallowed
 
