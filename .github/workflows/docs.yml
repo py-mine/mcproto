@@ -112,7 +112,7 @@ jobs:
       # as rossjrw/pr-preview-action@v1 isn't respecting token for sending the comment
       # (https://github.com/rossjrw/pr-preview-action/issues/118)
       - name: Leave a sticky PR comment after preview deployment
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: pr-preview
           message: |
