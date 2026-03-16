@@ -1,0 +1,4 @@
+/* Don't uppercase H5 headings. */
+.md-typeset h5 {
+  text-transform: none;
+}
