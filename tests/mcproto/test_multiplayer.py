@@ -82,7 +82,7 @@ async def test_join_request_invalid(
         ("172.17.0.1"),
     ],
 )
-async def test_join_check_valid(client_ip, httpx_mock: HTTPXMock):
+async def test_join_check_valid(client_ip: str | None, httpx_mock: HTTPXMock):
     """Test making a join check, getting back a valid response."""
     client_username = "ItsDrike"
     server_hash = "-745fc7fdb2d6ae7c4b20e2987770def8f3dd1105"
