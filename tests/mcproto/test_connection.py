@@ -22,7 +22,7 @@ class MockSocket(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignore[repo
 
     spec_set = socket.socket
 
-    def __init__(self, *args, read_data: bytearray | None = None, **kwargs) -> None:
+    def __init__(self, *args: object, read_data: bytearray | None = None, **kwargs: object) -> None:
         super().__init__(*args, **kwargs)
         self.mock_add_spec(["_recv", "_send", "_closed"])
         self._recv = ReadFunctionMock(combined_data=read_data)
@@ -60,7 +60,7 @@ class MockStreamWriter(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignor
 
     spec_set = asyncio.StreamWriter
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: object, **kwargs: object):
         super().__init__(*args, **kwargs)
         self.mock_add_spec(["_white", "_closed"])
         self._write = WriteFunctionMock()
@@ -86,7 +86,7 @@ class MockStreamReader(CustomMockMixin[MagicMock], MagicMock):  # pyright: ignor
 
     spec_set = asyncio.StreamReader
 
-    def __init__(self, *args, read_data: bytearray | None = None, **kwargs) -> None:
+    def __init__(self, *args: object, read_data: bytearray | None = None, **kwargs: object) -> None:
         super().__init__(*args, **kwargs)
         self.mock_add_spec(["_read"])
         self._read = ReadFunctionAsyncMock(combined_data=read_data)
