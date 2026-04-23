@@ -5,7 +5,7 @@ from enum import Enum
 from uuid import uuid4
 
 import httpx
-from typing_extensions import Self, override
+from typing_extensions import Any, Self, override
 
 from mcproto.auth.account import Account
 from mcproto.types.uuid import UUID as McUUID  # noqa: N811
@@ -89,7 +89,7 @@ class AuthServerApiError(Exception):
     @property
     def msg(self) -> str:
         """Produce a message for this error."""
-        msg_parts = []
+        msg_parts: list[str] = []
         msg_parts.append(f"HTTP {self.code} from {self.url}:")
         msg_parts.append(f"type={self.err_type.name!r}")
 
@@ -126,7 +126,7 @@ class YggdrasilAccount(Account):
         having to go through a complete re-login. This can happen after some time period, or
         for example when someone else logs in to this minecraft account elsewhere.
         """
-        payload = {
+        payload: dict[str, Any] = {
             "accessToken": self.access_token,
             "clientToken": self.client_token,
             "selectedProfile": {"id": str(self.uuid), "name": self.username},
@@ -197,7 +197,7 @@ class YggdrasilAccount(Account):
         # Any random string, we use a random v4 uuid, needs to remain same in further communications
         client_token = str(uuid4())
 
-        payload = {
+        payload: dict[str, Any] = {
             "agent": {
                 "name": "Minecraft",
                 "version": 1,
