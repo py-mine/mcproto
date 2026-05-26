@@ -8,7 +8,7 @@ from typing_extensions import override
 class WriteFunctionMock(Mock):
     """Mock write function, storing the written data."""
 
-    def __init__(self, *a, **kw):
+    def __init__(self, *a: object, **kw: object):
         super().__init__(*a, **kw)
         self.combined_data = bytearray()
 
@@ -41,7 +41,7 @@ class WriteFunctionAsyncMock(WriteFunctionMock, AsyncMock):  # pyright: ignore[r
 class ReadFunctionMock(Mock):
     """Mock read function, giving pre-defined data."""
 
-    def __init__(self, *a, combined_data: bytearray | None = None, **kw):
+    def __init__(self, *a: object, combined_data: bytearray | None = None, **kw: object):
         super().__init__(*a, **kw)
         if combined_data is None:
             combined_data = bytearray()

@@ -12,7 +12,7 @@ class Buffer(BaseSyncWriter, BaseSyncReader, bytearray):
 
     __slots__ = ("pos",)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: object, **kwargs: object):
         super().__init__(*args, **kwargs)
         self.pos = 0
 
