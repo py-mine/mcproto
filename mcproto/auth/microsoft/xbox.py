@@ -4,7 +4,7 @@ from enum import Enum
 from typing import NamedTuple
 
 import httpx
-from typing_extensions import override
+from typing_extensions import Any, override
 
 __all__ = [
     "XSTSErrorType",
@@ -67,7 +67,7 @@ class XSTSRequestError(Exception):
     @property
     def msg(self) -> str:
         """Produce a message for this error."""
-        msg_parts = []
+        msg_parts: list[str] = []
         if self.err_type is not XSTSErrorType.UNKNOWN:
             msg_parts.append(f"{self.err_type.name}: {self.err_type.value!r}")
         else:
@@ -96,7 +96,7 @@ async def xbox_auth(client: httpx.AsyncClient, microsoft_access_token: str, bedr
     See [`full_microsoft_oauth`][mcproto.auth.microsoft.oauth.] for info on `microsoft_access_token`.
     """
     # Obtain XBL token
-    payload = {
+    payload: dict[str, Any] = {
         "Properties": {
             "AuthMethod": "RPS",
             "SiteName": "user.auth.xboxlive.com",

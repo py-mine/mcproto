@@ -129,7 +129,7 @@ class InvalidPacketContentError(IOError):
     @property
     def msg(self) -> str:
         """Produce a message for this error."""
-        msg_parts = []
+        msg_parts: list[str] = []
 
         if self.direction is PacketDirection.CLIENTBOUND:
             msg_parts.append("Clientbound")

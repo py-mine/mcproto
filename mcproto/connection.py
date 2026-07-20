@@ -149,7 +149,7 @@ class SyncConnection(BaseSyncReader, BaseSyncWriter, ABC):
             raise IOError("Connection already closed.")
         return self
 
-    def __exit__(self, *a, **kw) -> None:
+    def __exit__(self, *a: object, **kw: object) -> None:
         self.close()
 
 
@@ -272,7 +272,7 @@ class AsyncConnection(BaseAsyncReader, BaseAsyncWriter, ABC):
             raise IOError("Connection already closed.")
         return self
 
-    async def __aexit__(self, *a, **kw) -> None:
+    async def __aexit__(self, *a: object, **kw: object) -> None:
         await self.close()
 
 
@@ -379,7 +379,7 @@ class TCPAsyncConnection(AsyncConnection, Generic[T_STREAMREADER, T_STREAMWRITER
         """Obtain the underlying socket behind the [`Transport`][?asyncio.]."""
         # TODO: This should also have pyright: ignore[reportPrivateUsage]
         # See: https://github.com/DetachHead/basedpyright/issues/494
-        return self.writer.transport._sock  # pyright: ignore[reportAttributeAccessIssue]
+        return self.writer.transport._sock  # pyright: ignore[reportAttributeAccessIssue,reportUnknownMemberType,reportUnknownVariableType]
 
 
 class UDPSyncConnection(SyncConnection, Generic[T_SOCK]):
