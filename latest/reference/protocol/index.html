@@ -3975,7 +3975,7 @@
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncReader._read_varuint" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_read_varuint</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader._read_varuint(max_bits)">max_bits</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_read_varuint</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader._read_varuint(max_bits)">max_bits</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -3983,7 +3983,7 @@
         <p>Read an arbitrarily big unsigned integer in a variable length format.</p>
 <p>This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.</p>
 <p>Reading will be limited up to integer values of <code>max_bits</code> bits, and trying to read bigger values will raise
-an <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a>. Note that setting <code>max_bits</code> to for example 32 bits doesn't mean that at most 4 bytes
+an <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a>. Note that setting <code>max_bits</code> to for example 32 bits doesn't mean that at most 4 bytes
 will be read, in this case we would actually read at most 5 bytes, due to the variable encoding overhead.</p>
 <p>Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
 flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
@@ -4007,7 +4007,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncReader.read" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read(length)">length</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read(length)">length</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4031,7 +4031,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncReader.read_ascii" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_ascii</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_ascii</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4054,7 +4054,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncReader.read_bytearray" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_bytearray</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_bytearray</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4104,7 +4104,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncReader.read_utf" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_utf</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_utf</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4127,13 +4127,13 @@ the varint encoding overhead.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError">IOError</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError">IOError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <ul>
 <li>If the prefix varint is bigger than the maximum (131068) bytes, the string will not be read at all,
-  and <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a> will be raised immediately.</li>
+  and <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a> will be raised immediately.</li>
 <li>If the received string has more than the maximum amount of characters (32767). Note that in this
   case, the string will still get read in it's entirety, since it fits into the maximum bytes limit
   (131068), which was simply read at once. This limitation is here only to replicate the behavior of
@@ -4162,10 +4162,10 @@ the varint encoding overhead.</p>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncReader.read_value" class="headerlink" title="Permanent link">&para;</a></h3>
           <div class="doc-overloads">
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.INT_FORMATS_TYPE">INT_FORMATS_TYPE</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.FLOAT_FORMATS_TYPE">FLOAT_FORMATS_TYPE</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#float">float</a></span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.BOOL">BOOL</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#bool">bool</a></span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.CHAR">CHAR</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.INT_FORMATS_TYPE">INT_FORMATS_TYPE</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.FLOAT_FORMATS_TYPE">FLOAT_FORMATS_TYPE</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#float">float</a></span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.BOOL">BOOL</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#bool">bool</a></span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.CHAR">CHAR</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span>
 </code></pre></div>          </div>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            mcproto.protocol.base_io.StructFormat" href="#mcproto.protocol.base_io.StructFormat">StructFormat</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/glossary.html#term-object">object</a></span>
 </code></pre></div>
@@ -4191,7 +4191,7 @@ the varint encoding overhead.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncReader.read_varint" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_varint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_varint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4220,7 +4220,7 @@ the varint encoding overhead.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncReader.read_varlong" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_varlong</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_varlong</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4293,7 +4293,7 @@ the varint encoding overhead.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncWriter._write_varuint" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_write_varuint</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter._write_varuint(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter._write_varuint(max_bits)">max_bits</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_write_varuint</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter._write_varuint(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter._write_varuint(max_bits)">max_bits</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4301,7 +4301,7 @@ the varint encoding overhead.</p>
         <p>Write an arbitrarily big unsigned integer in a variable length format.</p>
 <p>This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.</p>
 <p>Writing will be limited up to integer values of <code>max_bits</code> bits, and trying to write bigger values will raise
-a <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#ValueError"><code>ValueError</code></a>. Note that setting <code>max_bits</code> to for example 32 bits doesn't mean that at most 4
+a <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#ValueError"><code>ValueError</code></a>. Note that setting <code>max_bits</code> to for example 32 bits doesn't mean that at most 4
 bytes will be sent, in this case it would actually take at most 5 bytes, due to the variable encoding overhead.</p>
 <p>Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
 flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
@@ -4325,7 +4325,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncWriter.write" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4349,7 +4349,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncWriter.write_ascii" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_ascii</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_ascii(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_ascii</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_ascii(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4372,7 +4372,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncWriter.write_bytearray" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_bytearray</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_bytearray(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_bytearray</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_bytearray(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4423,7 +4423,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncWriter.write_utf" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_utf</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_utf(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_utf</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_utf(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4446,7 +4446,7 @@ the varint encoding overhead.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#ValueError">ValueError</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#ValueError">ValueError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4474,10 +4474,10 @@ the varint encoding overhead.</p>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncWriter.write_value" class="headerlink" title="Permanent link">&para;</a></h3>
           <div class="doc-overloads">
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.INT_FORMATS_TYPE">INT_FORMATS_TYPE</span></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.FLOAT_FORMATS_TYPE">FLOAT_FORMATS_TYPE</span></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#float">float</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.BOOL">BOOL</span></span><span class="p">],</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#bool">bool</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.CHAR">CHAR</span></span><span class="p">],</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.INT_FORMATS_TYPE">INT_FORMATS_TYPE</span></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.FLOAT_FORMATS_TYPE">FLOAT_FORMATS_TYPE</span></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#float">float</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.BOOL">BOOL</span></span><span class="p">],</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#bool">bool</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.CHAR">CHAR</span></span><span class="p">],</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>          </div>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            mcproto.protocol.base_io.StructFormat" href="#mcproto.protocol.base_io.StructFormat">StructFormat</a></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/glossary.html#term-object">object</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
@@ -4502,7 +4502,7 @@ the varint encoding overhead.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncWriter.write_varint" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_varint</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_varint(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_varint</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_varint(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4531,7 +4531,7 @@ the varint encoding overhead.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseAsyncWriter.write_varlong" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_varlong</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_varlong(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_varlong</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseAsyncWriter.write_varlong(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4600,7 +4600,7 @@ the varint encoding overhead.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncReader._read_varuint" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_read_varuint</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader._read_varuint(max_bits)">max_bits</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_read_varuint</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader._read_varuint(max_bits)">max_bits</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4608,7 +4608,7 @@ the varint encoding overhead.</p>
         <p>Read an arbitrarily big unsigned integer in a variable length format.</p>
 <p>This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.</p>
 <p>Reading will be limited up to integer values of <code>max_bits</code> bits, and trying to read bigger values will raise
-an <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a>. Note that setting <code>max_bits</code> to for example 32 bits doesn't mean that at most 4 bytes
+an <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a>. Note that setting <code>max_bits</code> to for example 32 bits doesn't mean that at most 4 bytes
 will be read, in this case we would actually read at most 5 bytes, due to the variable encoding overhead.</p>
 <p>Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
 flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
@@ -4631,7 +4631,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseSyncReader.read" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read(length)">length</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read(length)">length</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4651,7 +4651,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncReader.read_ascii" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_ascii</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_ascii</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4670,7 +4670,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncReader.read_bytearray" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_bytearray</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_bytearray</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4712,7 +4712,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncReader.read_utf" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_utf</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_utf</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4735,13 +4735,13 @@ the varint encoding overhead.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError">IOError</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError">IOError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <ul>
 <li>If the prefix varint is bigger than the maximum (131068) bytes, the string will not be read at all,
-  and <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a> will be raised immediately.</li>
+  and <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a> will be raised immediately.</li>
 <li>If the received string has more than the maximum amount of characters (32767). Note that in this
   case, the string will still get read in it's entirety, since it fits into the maximum bytes limit
   (131068), which was simply read at once. This limitation is here only to replicate the behavior of
@@ -4766,10 +4766,10 @@ the varint encoding overhead.</p>
 
 <a href="#mcproto.protocol.base_io.BaseSyncReader.read_value" class="headerlink" title="Permanent link">&para;</a></h3>
           <div class="doc-overloads">
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.INT_FORMATS_TYPE">INT_FORMATS_TYPE</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.FLOAT_FORMATS_TYPE">FLOAT_FORMATS_TYPE</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#float">float</a></span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.BOOL">BOOL</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#bool">bool</a></span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.CHAR">CHAR</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.INT_FORMATS_TYPE">INT_FORMATS_TYPE</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.FLOAT_FORMATS_TYPE">FLOAT_FORMATS_TYPE</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#float">float</a></span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.BOOL">BOOL</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#bool">bool</a></span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.CHAR">CHAR</span></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span>
 </code></pre></div>          </div>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncReader.read_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            mcproto.protocol.base_io.StructFormat" href="#mcproto.protocol.base_io.StructFormat">StructFormat</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/glossary.html#term-object">object</a></span>
 </code></pre></div>
@@ -4791,7 +4791,7 @@ the varint encoding overhead.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncReader.read_varint" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_varint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_varint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4811,7 +4811,7 @@ the varint encoding overhead.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncReader.read_varlong" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_varlong</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_varlong</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4875,7 +4875,7 @@ the varint encoding overhead.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncWriter._write_varuint" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_write_varuint</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter._write_varuint(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter._write_varuint(max_bits)">max_bits</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_write_varuint</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter._write_varuint(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter._write_varuint(max_bits)">max_bits</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4883,7 +4883,7 @@ the varint encoding overhead.</p>
         <p>Write an arbitrarily big unsigned integer in a variable length format.</p>
 <p>This is a standard way of transmitting ints, and it allows smaller numbers to take less bytes.</p>
 <p>Writing will be limited up to integer values of <code>max_bits</code> bits, and trying to write bigger values will raise
-a <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#ValueError"><code>ValueError</code></a>. Note that setting <code>max_bits</code> to for example 32 bits doesn't mean that at most 4
+a <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#ValueError"><code>ValueError</code></a>. Note that setting <code>max_bits</code> to for example 32 bits doesn't mean that at most 4
 bytes will be sent, in this case it would actually take at most 5 bytes, due to the variable encoding overhead.</p>
 <p>Varints send bytes where 7 least significant bits are value bits, and the most significant bit is continuation
 flag bit. If this continuation bit is set (1), it indicates that there will be another varint byte sent after
@@ -4906,7 +4906,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
   </span>
 
 <a href="#mcproto.protocol.base_io.BaseSyncWriter.write" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4926,7 +4926,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncWriter.write_ascii" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_ascii</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_ascii(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_ascii</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_ascii(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4945,7 +4945,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncWriter.write_bytearray" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_bytearray</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_bytearray(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_bytearray</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_bytearray(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4988,7 +4988,7 @@ varints little-endian, however in groups of 7 bits, not 8.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncWriter.write_utf" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_utf</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_utf(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_utf</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_utf(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5011,7 +5011,7 @@ the varint encoding overhead.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#ValueError">ValueError</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#ValueError">ValueError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5035,10 +5035,10 @@ the varint encoding overhead.</p>
 
 <a href="#mcproto.protocol.base_io.BaseSyncWriter.write_value" class="headerlink" title="Permanent link">&para;</a></h3>
           <div class="doc-overloads">
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.INT_FORMATS_TYPE">INT_FORMATS_TYPE</span></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.FLOAT_FORMATS_TYPE">FLOAT_FORMATS_TYPE</span></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#float">float</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.BOOL">BOOL</span></span><span class="p">],</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#bool">bool</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.CHAR">CHAR</span></span><span class="p">],</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.INT_FORMATS_TYPE">INT_FORMATS_TYPE</span></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><span title="mcproto.protocol.base_io.FLOAT_FORMATS_TYPE">FLOAT_FORMATS_TYPE</span></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#float">float</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.BOOL">BOOL</span></span><span class="p">],</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#bool">bool</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div><div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3.13/library/typing.html#typing.Literal">Literal</a></span><span class="p">[</span><span class="n"><span title="mcproto.protocol.base_io.StructFormat.CHAR">CHAR</span></span><span class="p">],</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>          </div>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_value</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(fmt)">fmt</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            mcproto.protocol.base_io.StructFormat" href="#mcproto.protocol.base_io.StructFormat">StructFormat</a></span><span class="p">,</span> <span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_value(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/glossary.html#term-object">object</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
@@ -5059,7 +5059,7 @@ the varint encoding overhead.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncWriter.write_varint" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_varint</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_varint(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_varint</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_varint(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5079,7 +5079,7 @@ the varint encoding overhead.</p>
 
 
 <a href="#mcproto.protocol.base_io.BaseSyncWriter.write_varlong" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_varlong</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_varlong(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write_varlong</span><span class="p">(</span><span class="n"><span title="mcproto.protocol.base_io.BaseSyncWriter.write_varlong(value)">value</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5112,7 +5112,7 @@ the varint encoding overhead.</p>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></code>, <code><a class="autorefs autorefs-external" title="enum.Enum" href="https://docs.python.org/3.13/library/enum.html#enum.Enum">Enum</a></code></p>
+              Bases: <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></code>, <code><a class="autorefs autorefs-external" title="enum.Enum" href="https://docs.python.org/3.13/library/enum.html#enum.Enum">Enum</a></code></p>
 
 
         <p>All possible write/read struct types.</p>
@@ -5170,7 +5170,7 @@ the varint encoding overhead.</p>
 
     <div class="doc doc-contents first">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="            mcproto.protocol.base_io.BaseSyncWriter" href="#mcproto.protocol.base_io.BaseSyncWriter">BaseSyncWriter</a></code>, <code><a class="autorefs autorefs-internal" title="            mcproto.protocol.base_io.BaseSyncReader" href="#mcproto.protocol.base_io.BaseSyncReader">BaseSyncReader</a></code>, <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytearray">bytearray</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="            mcproto.protocol.base_io.BaseSyncWriter" href="#mcproto.protocol.base_io.BaseSyncWriter">BaseSyncWriter</a></code>, <code><a class="autorefs autorefs-internal" title="            mcproto.protocol.base_io.BaseSyncReader" href="#mcproto.protocol.base_io.BaseSyncReader">BaseSyncReader</a></code>, <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytearray">bytearray</a></code></p>
 
 
         <p>In-memory bytearray-like buffer supporting the common read/write operations.</p>
@@ -5204,7 +5204,7 @@ the varint encoding overhead.</p>
   </span>
 
 <a href="#mcproto.buffer.Buffer.remaining" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">remaining</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">remaining</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5224,7 +5224,7 @@ the varint encoding overhead.</p>
 
 
 <a href="#mcproto.buffer.Buffer.clear" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">clear</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="only_already_read (mcproto.buffer.Buffer.clear(only_already_read))" href="#mcproto.buffer.Buffer.clear(only_already_read)">only_already_read</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">clear</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="only_already_read (mcproto.buffer.Buffer.clear(only_already_read))" href="#mcproto.buffer.Buffer.clear(only_already_read)">only_already_read</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5248,7 +5248,7 @@ the varint encoding overhead.</p>
 <h4 id="mcproto.buffer.Buffer.clear(only_already_read)" class="doc doc-heading doc-heading-parameter">                  <code>only_already_read</code>
 <a href="#mcproto.buffer.Buffer.clear(only_already_read)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#bool">bool</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#bool">bool</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5279,7 +5279,7 @@ essentially resulting in a blank buffer.</p>
 
 
 <a href="#mcproto.buffer.Buffer.flush" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">flush</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">flush</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5298,7 +5298,7 @@ essentially resulting in a blank buffer.</p>
 
 
 <a href="#mcproto.buffer.Buffer.read" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.buffer.Buffer.read(length))" href="#mcproto.buffer.Buffer.read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.buffer.Buffer.read(length))" href="#mcproto.buffer.Buffer.read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5325,16 +5325,16 @@ the <a class="autorefs autorefs-internal" title="            mcproto.buffer.Buff
 <h4 id="mcproto.buffer.Buffer.read(length)" class="doc doc-heading doc-heading-parameter">                  <code>length</code>
 <a href="#mcproto.buffer.Buffer.read(length)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>Amount of bytes to be read.</p>
 <p>If the requested amount can't be read (buffer doesn't contain that much data/buffer
-doesn't contain any data), an <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a> will be reaised.</p>
+doesn't contain any data), an <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a> will be reaised.</p>
 <p>If there were some data in the buffer, but it was less than requested, this remaining
 data will still be depleted and the partial data that was read will be a part of the
-error message in the <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a>. This behavior is here to mimic reading from a real
+error message in the <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a>. This behavior is here to mimic reading from a real
 socket connection.</p>
               </div>
             </td>
@@ -5378,7 +5378,7 @@ reset the position and read the data it contains again.</p>
 
 
 <a href="#mcproto.buffer.Buffer.write" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.buffer.Buffer.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.buffer.Buffer.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5493,7 +5493,7 @@ reset the position and read the data it contains again.</p>
   </span>
 
 <a href="#mcproto.connection.AsyncConnection._read" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.connection.AsyncConnection._read(length))" href="#mcproto.connection.AsyncConnection._read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.connection.AsyncConnection._read(length))" href="#mcproto.connection.AsyncConnection._read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5517,13 +5517,13 @@ reset the position and read the data it contains again.</p>
 <h4 id="mcproto.connection.AsyncConnection._read(length)" class="doc doc-heading doc-heading-parameter">                  <code>length</code>
 <a href="#mcproto.connection.AsyncConnection._read(length)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>Amount of bytes to be received. If the requested amount can't be received
 (server didn't send that much data/server didn't send any data), an
-<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a> will be raised.</p>
+<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a> will be raised.</p>
               </div>
             </td>
             <td>
@@ -5550,7 +5550,7 @@ reset the position and read the data it contains again.</p>
   </span>
 
 <a href="#mcproto.connection.AsyncConnection._write" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_write</span><span class="p">(</span><span class="n"><span title="mcproto.connection.AsyncConnection._write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_write</span><span class="p">(</span><span class="n"><span title="mcproto.connection.AsyncConnection._write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5592,7 +5592,7 @@ reset the position and read the data it contains again.</p>
 
 
 <a href="#mcproto.connection.AsyncConnection.enable_encryption" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">enable_encryption</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="shared_secret (mcproto.connection.AsyncConnection.enable_encryption(shared_secret))" href="#mcproto.connection.AsyncConnection.enable_encryption(shared_secret)">shared_secret</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">enable_encryption</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="shared_secret (mcproto.connection.AsyncConnection.enable_encryption(shared_secret))" href="#mcproto.connection.AsyncConnection.enable_encryption(shared_secret)">shared_secret</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5620,7 +5620,7 @@ will be altered, and any future communication will be encrypted/decrypted there.
 <h4 id="mcproto.connection.AsyncConnection.enable_encryption(shared_secret)" class="doc doc-heading doc-heading-parameter">                  <code>shared_secret</code>
 <a href="#mcproto.connection.AsyncConnection.enable_encryption(shared_secret)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5653,7 +5653,7 @@ will be altered, and any future communication will be encrypted/decrypted there.
   </span>
 
 <a href="#mcproto.connection.AsyncConnection.make_client" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">make_client</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="address (mcproto.connection.AsyncConnection.make_client(address))" href="#mcproto.connection.AsyncConnection.make_client(address)">address</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-internal" title="timeout (mcproto.connection.AsyncConnection.make_client(timeout))" href="#mcproto.connection.AsyncConnection.make_client(timeout)">timeout</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#float">float</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="typing_extensions.Self" href="https://typing-extensions.readthedocs.io/en/latest/index.html#typing_extensions.Self">Self</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">make_client</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="address (mcproto.connection.AsyncConnection.make_client(address))" href="#mcproto.connection.AsyncConnection.make_client(address)">address</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-internal" title="timeout (mcproto.connection.AsyncConnection.make_client(timeout))" href="#mcproto.connection.AsyncConnection.make_client(timeout)">timeout</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#float">float</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="typing_extensions.Self" href="https://typing-extensions.readthedocs.io/en/latest/index.html#typing_extensions.Self">Self</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5677,7 +5677,7 @@ will be altered, and any future communication will be encrypted/decrypted there.
 <h4 id="mcproto.connection.AsyncConnection.make_client(address)" class="doc doc-heading doc-heading-parameter">                  <code>address</code>
 <a href="#mcproto.connection.AsyncConnection.make_client(address)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a>]</code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5693,12 +5693,12 @@ will be altered, and any future communication will be encrypted/decrypted there.
 <h4 id="mcproto.connection.AsyncConnection.make_client(timeout)" class="doc doc-heading doc-heading-parameter">                  <code>timeout</code>
 <a href="#mcproto.connection.AsyncConnection.make_client(timeout)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#float">float</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#float">float</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>Amount of seconds to wait for the connection to be established.</p>
-<p>If a connection can't be established within this time, <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#TimeoutError"><code>TimeoutError</code></a> will be raised.</p>
+<p>If a connection can't be established within this time, <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#TimeoutError"><code>TimeoutError</code></a> will be raised.</p>
 <p>This timeout is then also used for any further data receiving.</p>
               </div>
             </td>
@@ -5725,7 +5725,7 @@ will be altered, and any future communication will be encrypted/decrypted there.
   </span>
 
 <a href="#mcproto.connection.AsyncConnection.read" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.connection.AsyncConnection.read(length))" href="#mcproto.connection.AsyncConnection.read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.connection.AsyncConnection.read(length))" href="#mcproto.connection.AsyncConnection.read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5751,13 +5751,13 @@ this might also perform a decryption of the received data.</p>
 <h4 id="mcproto.connection.AsyncConnection.read(length)" class="doc doc-heading doc-heading-parameter">                  <code>length</code>
 <a href="#mcproto.connection.AsyncConnection.read(length)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>Amount of bytes to be received. If the requested amount can't be received
 (server didn't send that much data/server didn't send any data), an
-<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a> will be raised.</p>
+<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a> will be raised.</p>
               </div>
             </td>
             <td>
@@ -5783,7 +5783,7 @@ this might also perform a decryption of the received data.</p>
   </span>
 
 <a href="#mcproto.connection.AsyncConnection.write" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.connection.AsyncConnection.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.connection.AsyncConnection.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5875,7 +5875,7 @@ this might also perform an encryption of the input data.</p>
   </span>
 
 <a href="#mcproto.connection.SyncConnection._read" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.connection.SyncConnection._read(length))" href="#mcproto.connection.SyncConnection._read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.connection.SyncConnection._read(length))" href="#mcproto.connection.SyncConnection._read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5899,13 +5899,13 @@ this might also perform an encryption of the input data.</p>
 <h4 id="mcproto.connection.SyncConnection._read(length)" class="doc doc-heading doc-heading-parameter">                  <code>length</code>
 <a href="#mcproto.connection.SyncConnection._read(length)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>Amount of bytes to be received. If the requested amount can't be received
 (server didn't send that much data/server didn't send any data), an
-<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a> will be raised.</p>
+<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a> will be raised.</p>
               </div>
             </td>
             <td>
@@ -5931,7 +5931,7 @@ this might also perform an encryption of the input data.</p>
   </span>
 
 <a href="#mcproto.connection.SyncConnection._write" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_write</span><span class="p">(</span><span class="n"><span title="mcproto.connection.SyncConnection._write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">_write</span><span class="p">(</span><span class="n"><span title="mcproto.connection.SyncConnection._write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5969,7 +5969,7 @@ this might also perform an encryption of the input data.</p>
 
 
 <a href="#mcproto.connection.SyncConnection.enable_encryption" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">enable_encryption</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="shared_secret (mcproto.connection.SyncConnection.enable_encryption(shared_secret))" href="#mcproto.connection.SyncConnection.enable_encryption(shared_secret)">shared_secret</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">enable_encryption</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="shared_secret (mcproto.connection.SyncConnection.enable_encryption(shared_secret))" href="#mcproto.connection.SyncConnection.enable_encryption(shared_secret)">shared_secret</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5997,7 +5997,7 @@ will be altered, and any future communication will be encrypted/decrypted there.
 <h4 id="mcproto.connection.SyncConnection.enable_encryption(shared_secret)" class="doc doc-heading doc-heading-parameter">                  <code>shared_secret</code>
 <a href="#mcproto.connection.SyncConnection.enable_encryption(shared_secret)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6029,7 +6029,7 @@ will be altered, and any future communication will be encrypted/decrypted there.
   </span>
 
 <a href="#mcproto.connection.SyncConnection.make_client" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">make_client</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="address (mcproto.connection.SyncConnection.make_client(address))" href="#mcproto.connection.SyncConnection.make_client(address)">address</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-internal" title="timeout (mcproto.connection.SyncConnection.make_client(timeout))" href="#mcproto.connection.SyncConnection.make_client(timeout)">timeout</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#float">float</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="typing_extensions.Self" href="https://typing-extensions.readthedocs.io/en/latest/index.html#typing_extensions.Self">Self</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">make_client</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="address (mcproto.connection.SyncConnection.make_client(address))" href="#mcproto.connection.SyncConnection.make_client(address)">address</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-internal" title="timeout (mcproto.connection.SyncConnection.make_client(timeout))" href="#mcproto.connection.SyncConnection.make_client(timeout)">timeout</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#float">float</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="typing_extensions.Self" href="https://typing-extensions.readthedocs.io/en/latest/index.html#typing_extensions.Self">Self</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6053,7 +6053,7 @@ will be altered, and any future communication will be encrypted/decrypted there.
 <h4 id="mcproto.connection.SyncConnection.make_client(address)" class="doc doc-heading doc-heading-parameter">                  <code>address</code>
 <a href="#mcproto.connection.SyncConnection.make_client(address)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a>]</code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -6069,12 +6069,12 @@ will be altered, and any future communication will be encrypted/decrypted there.
 <h4 id="mcproto.connection.SyncConnection.make_client(timeout)" class="doc doc-heading doc-heading-parameter">                  <code>timeout</code>
 <a href="#mcproto.connection.SyncConnection.make_client(timeout)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#float">float</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#float">float</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>Amount of seconds to wait for the connection to be established.</p>
-<p>If a connection can't be established within this time, <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#TimeoutError"><code>TimeoutError</code></a> will be raised.</p>
+<p>If a connection can't be established within this time, <a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#TimeoutError"><code>TimeoutError</code></a> will be raised.</p>
 <p>This timeout is then also used for any further data receiving.</p>
               </div>
             </td>
@@ -6097,7 +6097,7 @@ will be altered, and any future communication will be encrypted/decrypted there.
 
 
 <a href="#mcproto.connection.SyncConnection.read" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.connection.SyncConnection.read(length))" href="#mcproto.connection.SyncConnection.read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="length (mcproto.connection.SyncConnection.read(length))" href="#mcproto.connection.SyncConnection.read(length)">length</a></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6123,13 +6123,13 @@ this might also perform a decryption of the received data.</p>
 <h4 id="mcproto.connection.SyncConnection.read(length)" class="doc doc-heading doc-heading-parameter">                  <code>length</code>
 <a href="#mcproto.connection.SyncConnection.read(length)" class="headerlink" title="Permanent link">&para;</a></h4>            </td>
             <td>
-                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/functions.html#int">int</a></code>
+                  <code><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/functions.html#int">int</a></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>Amount of bytes to be received. If the requested amount can't be received
 (server didn't send that much data/server didn't send any data), an
-<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/exceptions.html#IOError"><code>IOError</code></a> will be raised.</p>
+<a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/exceptions.html#IOError"><code>IOError</code></a> will be raised.</p>
               </div>
             </td>
             <td>
@@ -6151,7 +6151,7 @@ this might also perform a decryption of the received data.</p>
 
 
 <a href="#mcproto.connection.SyncConnection.write" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.connection.SyncConnection.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/library/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n"><span title="mcproto.connection.SyncConnection.write(data)">data</span></span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytes">bytes</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3.13/builtins/stdtypes.html#bytearray">bytearray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
