@@ -45,6 +45,10 @@ class Account:
 
     __slots__ = ("access_token", "username", "uuid")
 
+    username: str
+    uuid: McUUID
+    access_token: str
+
     def __init__(self, username: str, uuid: McUUID, access_token: str) -> None:
         self.username = username
         self.uuid = uuid

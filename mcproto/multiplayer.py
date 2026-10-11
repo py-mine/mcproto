@@ -65,7 +65,7 @@ class UserJoinRequestFailedError(Exception):
     @property
     def msg(self) -> str:
         """Produce a message for this error."""
-        msg_parts = []
+        msg_parts: list[str] = []
         msg_parts.append(f"HTTP {self.code} from {self.url}:")
         msg_parts.append(f"type={self.err_type.name!r}")
 
