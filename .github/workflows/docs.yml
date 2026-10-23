@@ -41,7 +41,7 @@ jobs:
       - name: Generate token
         id: app-token
         if: inputs.release_type != 'build-only'
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.PYMINE_BOT_APP_ID }}
           private-key: ${{ secrets.PYMINE_BOT_PRIVATE_KEY }}
