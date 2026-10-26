@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import platform
+import re
 import struct
 from abc import ABC, abstractmethod
 from typing import Any, Generic, TypeVar, Union, cast
@@ -360,7 +361,10 @@ class WriterTests(ABC, Generic[T_WRITER]):
     @pytest.mark.skipif(platform.system() == "Windows", reason="environment variable limit on Windows")
     def test_write_utf_limit(self, write_mock: WriteFunctionMock):
         """Test writing a UTF string too big raises a `ValueError`."""
-        with pytest.raises(ValueError, match="Maximum character limit for writing strings is 32767 characters."):
+        with pytest.raises(
+            ValueError,
+            match=re.escape("Maximum character limit for writing strings is 32767 characters."),
+        ):
             self.writer.write_utf("a" * (32768))
 
     def test_write_optional_true(self, method_mock: Mock | AsyncMock, write_mock: WriteFunctionMock):

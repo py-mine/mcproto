@@ -369,7 +369,7 @@ class NBTag(MCType, NBTagConvertible, ABC):
             # Check if the data is a list of integers
             if isinstance(data, list) and not all(isinstance(item, int) for item in data):
                 raise TypeError("Expected a list of integers, but a non-integer element was found.")
-            data = cast("Union[bytes, str, int, float, list[int]]", data)
+            data = cast("bytes | str | int | float | list[int]", data)
             # Create the tag with the data and the name
             return schema(data, name=name)  # pyright: ignore[reportCallIssue] # The schema is a subclass of NBTag
 
